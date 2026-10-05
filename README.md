@@ -23,7 +23,7 @@ Der bevorzugte Spielplan ist bewusst simpel:
 5. Angreifen.
 6. Mit einem eindeutigen Finisher gewinnen.
 
-Kern des Decks bleiben möglichst effiziente grüne Kreaturen **ohne Fähigkeiten**. Fähigkeitskreaturen, Game Changer, Token, Anthems und andere Abweichungen müssen ihren Slot durch einen klaren Leistungsgewinn rechtfertigen.
+Kern des Decks bleiben möglichst effiziente Kreaturen **ohne Fähigkeiten**. Fähigkeitskreaturen, Game Changer, Token, Anthems und andere Abweichungen müssen ihren Slot durch einen klaren Leistungsgewinn rechtfertigen.
 
 ## Verbindliche Designregeln
 
@@ -58,9 +58,10 @@ Kurzfassung der finalen Einordnung:
 - **Bracket:** oberes Bracket 3 / Upgraded
 - **Pilotenkomplexität:** 3/10
 - **Länder:** 36
-- **Kreaturen:** 26 inklusive Ruxa
-- **echte Vanilla-Kreaturen:** 17
-- **Game Changer:** 1 — Gaea's Cradle
+- **Kreaturen:** 29 inklusive Ruxa
+- **Kreaturen ohne Fähigkeiten:** 21
+- **Game Changer:** 3 — Gaea's Cradle, Ancient Tomb, Natural Order
+- **Aktuell verifiziert:** 0 Legalitäts-/Farbidentitätsfehler, exakt 100 Karten
 
 ## Erfolgskriterium
 
