@@ -184,7 +184,7 @@ Die Suche wurde nicht auf die alte Liste beschränkt, sondern über die aktuelle
 
 **Memnite** ist normalerweise keine relevante Commander-Bedrohung. In genau diesem Deck ist 0 Mana aber außergewöhnlich: Es erhöht ohne Manaaufwand Kreaturenzahl, Cradle-Mana und Craterhoof-Skalierung und wird unter Ruxa zu einem 2/2-Angreifer, dessen Schaden am Blocker vorbeigehen kann.
 
-**Icehide Golem** ist 2/2 für ein Snow-Mana. Scryfall führt ihn trotz des Snow-Remindertexts als Vanilla. Mit 30 Snow-Covered Forests ist die Kostenbedingung praktisch automatisch erfüllt. Unter Ruxa ist er ein 3/3 für ein Mana.
+**Icehide Golem** ist 2/2 für ein Snow-Mana. Scryfall führt ihn trotz des Snow-Remindertexts als Vanilla. Mit 29 Snow-Covered Forests ist die Kostenbedingung praktisch automatisch erfüllt. Unter Ruxa ist er ein 3/3 für ein Mana.
 
 **Norwood Ranger** ist der einzige bewusst schwache Einzelkörper: 1/2 für ein Mana. Der Slot bleibt, weil genau ein grüner Ein-Mana-Vanilla für Natural Order, frühe Boarddichte, Gaea's Cradle und Craterhoof deutlich mehr leistet als sein nackter Text vermuten lässt.
 
