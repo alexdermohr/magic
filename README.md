@@ -6,64 +6,57 @@ Commander-Projekt für **Ruxa, Patient Professor**.
 
 Ein reguläres Commander-Deck am oberen Rand von **Bracket 3**, optimiert auf:
 
-> maximale tatsächliche Gewinnstärke bei minimalem Denk- und Verwaltungsaufwand beim Spielen.
+> **maximale tatsächliche Gewinnstärke bei minimalem Denk- und Verwaltungsaufwand**
 
-Primärer Einsatz: unkompliziertes 1v1 gegen Tom, auch nebenbei im Unterricht.
+Primärer Einsatz: unkompliziertes **1v1 gegen Tom**, auch nebenbei im Unterricht. Das Deck soll trotzdem regulär Commander-legal bleiben und auch am normalen Commander-Tisch funktionieren.
 
-## Designprinzipien
+## Kernidee
 
-- Kern: Ruxa + möglichst effiziente grüne Kreaturen **ohne Fähigkeiten**.
-- Keine Bindung an die bestehende Liste; jeder Slot darf ersetzt werden.
-- Aktuelle Commander-Regeln, Brackets, Game-Changer-Liste und Kartenlegalität vor Optimierungen prüfen.
-- Kartenwerte und Fähigkeiten nur aus aktuellen verlässlichen Kartendaten übernehmen.
-- Vanilla-Kreaturen systematisch nach Manaeffizienz auswählen; keine schwachen Slots nur aus Flavorgründen.
-- Utility-Kreaturen nur, wenn der Leistungsgewinn klar und die Bedienung einfach ist.
-- Bevorzugt: **eine Karte = eine offensichtliche Aufgabe**.
-- Ramp, Draw, Removal, Schutz, Länder und Finisher konsequent optimieren.
-- Keine komplizierten Infinite Combos, Tutor-Ketten, Stack-Tricks oder Engine-Puzzles.
-- Möglichst keine Mechaniken, die Ruxas Synergie mit Kreaturen ohne Fähigkeiten abschalten.
-- Token nur bei geringem Verwaltungsaufwand und klarem Leistungsgewinn.
-- Preis ist zunächst kein Optimierungskriterium; sehr teure Karten sollen markiert und durch sinnvolle Budget-Alternativen ergänzt werden.
-- Oberes Bracket 3, nicht unnötig Richtung Bracket 4.
-- Game Changer nur bei deutlichem konkretem Nutzen.
-- 1v1-Tauglichkeit priorisieren, Commander-Legalität beibehalten.
-- Bei ähnlicher Stärke immer die einfacher zu spielende Karte wählen.
+Nicht maximale theoretische Power, sondern **Power pro Denkaufwand**.
 
-## Zu prüfen
+Der bevorzugte Spielplan ist bewusst simpel:
 
-- Kreaturen
-- Ramp
-- Card Draw
-- Removal
-- Schutz
-- Finisher
-- Länder
-- Mana-Kurve
-- Länderanzahl
-- Kreaturenanzahl
-- Ruxa-Synergie
-- 1v1-Tauglichkeit
-- Bracket-3-Grenzen
-- Pilotenkomplexität
-- Vanilla-Slots nach tatsächlicher Manaeffizienz
-- Token-Paket
-- Anthem-Effekte
-- Craterhoof Behemoth / Ghalta / andere Kreaturen mit Fähigkeiten
-- Mono-Green-Mana-Basis
-- 36-Länder-Annahme
-- redundanter oder zu langsamer Ramp
-- einfache bessere Interaktion
-- Draw-Resilienz, falls Ruxa mehrfach entfernt wird
+1. Mana machen.
+2. Effiziente Kreaturen legen.
+3. Ruxa als Verstärker nutzen.
+4. Karten nachziehen.
+5. Angreifen.
+6. Mit einem eindeutigen Finisher gewinnen.
+
+Kern des Decks bleiben möglichst effiziente grüne Kreaturen **ohne Fähigkeiten**. Fähigkeitskreaturen, Game Changer, Token, Anthems und andere Abweichungen müssen ihren Slot durch einen klaren Leistungsgewinn rechtfertigen.
+
+## Verbindliche Designregeln
+
+Die vollständigen und verbindlichen Regeln stehen in:
+
+**[DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md)**
+
+Wichtigste Leitplanken:
+
+- exakt 100 Karten inklusive Ruxa
+- oberes Bracket 3, nicht unnötig Bracket 4
+- Ziel-Pilotenkomplexität höchstens 3/10, ideal etwa 2/10
+- bei annähernd gleicher Stärke gewinnt immer die einfachere Karte
+- Ruxa soll das Deck verstärken, aber nicht dessen einzige funktionierende Engine sein
+- Vanilla-Slots werden systematisch anhand aktuellen Oracle-Texts und Manaeffizienz geprüft
+- keine komplizierten Combos, Tutor-Ketten, Stack-Puzzles oder Buchhaltungs-Engines
+- 1v1-Effizienz wird höher gewichtet als multiplayer-spezifische Skalierung
+- Game Changer nur bei klarem konkretem Mehrwert
+- Regeln, Bannliste, Brackets, Game Changer und Kartendaten werden vor jeder finalen Version frisch geprüft
+
+## Ausgangsdeck
+
+Der aktuelle Ausgangsstand liegt in [deck/current.txt](deck/current.txt).
 
 ## Erfolgskriterium
 
-Am Ende soll das Repository enthalten:
+Die finale Optimierung liefert:
 
-1. eine final optimierte Liste mit exakt 100 Karten,
-2. eine kurze Liste **RAUS → REIN** gegenüber dem Ausgangsstand,
-3. die aktuelle Bracket-Einschätzung mit Begründung,
-4. eine Einschätzung der Pilotenkomplexität von 1–10,
-5. die wichtigsten 5–10 Spielregeln,
-6. die teuersten Karten mit günstigeren Ersatzoptionen.
+1. eine geprüfte Liste mit exakt 100 Karten
+2. **RAUS → REIN** gegenüber dem Ausgangsdeck
+3. aktuelle Bracket-Einschätzung mit Begründung
+4. Pilotenkomplexität von 1–10
+5. die wichtigsten 5–10 Spielregeln
+6. teuerste Karten mit günstigeren Ersatzoptionen
 
-Der aktuelle Ausgangsstand liegt in [`deck/current.txt`](deck/current.txt).
+**Stand dieser Projektdefinition:** 2026-10-05.
