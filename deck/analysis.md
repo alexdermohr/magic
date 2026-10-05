@@ -27,7 +27,7 @@ Am 2026-10-05 wurden frisch geprüft:
 - aktueller Repository-Stand vor jeder Mutation
 - aktuelle Commander- und Bracket-Regeln von Wizards
 - aktuelle Game-Changer-Grenzen
-- Commander-Legalität und Farbidentität aller 71 eindeutigen Kartennamen
+- Commander-Legalität und Farbidentität aller 72 eindeutigen Kartennamen
 - aktueller Oracle-Text der relevanten Karten
 - systematische Suche nach commander-legalen fähigkeitslosen Kreaturen in mono-grüner Farbidentität
 - exakte Kartenzahl
@@ -171,7 +171,8 @@ Beast Whisperer ist der neunte dedizierte Draw-Slot. Ruxas Graveyard-Rückholung
 - Boseiju, Who Endures
 - Castle Garenbrig
 - War Room
-- 30 Snow-Covered Forest
+- Yavimaya, Cradle of Growth
+- 29 Snow-Covered Forest
 
 Die importierbare Liste steht in [final.txt](final.txt).
 
@@ -224,7 +225,7 @@ Der Slot ist deshalb besser in frühe Boardentwicklung investiert.
 
 Zusätzlich:
 
-- **30 Forest → 30 Snow-Covered Forest** — funktional weiterhin Basics/Forests, aber sie bezahlen Icehide Golem.
+- **30 Forest → 29 Snow-Covered Forest + Yavimaya, Cradle of Growth** — 29 Basics bleiben Snow-Quellen für Icehide Golem; Yavimaya verbessert die übrigen Utility-Länder statisch und erhöht im Spiel zugleich die Forest-Zahl für Beacon/Howl.
 - Die Gesamtlandzahl bleibt **36**.
 
 ## 6. Warum The Great Henge, Toski und Guardian Project bewusst fehlen
@@ -307,6 +308,7 @@ Das Deck hat genug Ramp, aber nicht mehr die langsamen redundanten Ramp-Pakete d
 - Ancient Tomb
 - Nykthos, Shrine to Nyx
 - Castle Garenbrig
+- Yavimaya, Cradle of Growth — macht alle Länder zusätzlich zu Forests; dadurch können die farblosen Utility-Länder bei Bedarf grünes Mana liefern.
 
 Cultivate und Kodama's Reach sind nicht schlecht; sie verlieren hier nur gegen Turn-1-Beschleunigung, weil 1v1 priorisiert ist.
 
@@ -413,16 +415,18 @@ Gründe:
 
 - mehrere echte 5–8-Mana-Payoffs
 - Ruxa soll zuverlässig zum normalen Spielplan gehören
-- Gaea's Cradle kann ohne Kreatur kein Mana machen
+- Gaea's Cradle kann ohne Kreatur und ohne Yavimaya kein Mana machen
 - Boseiju wird gelegentlich als Spell verbraucht
-- Ancient Tomb produziert kein Grün
+- Ancient Tomb produziert ohne Yavimaya kein Grün
 - weniger Mulligan-/Mana-Screw-Entscheidungen sind Teil des Komplexitätsziels
 
 36 ist deshalb bewusst eher robust als maximal gierig.
 
-### Warum Snow-Covered Forest
+### Warum Snow-Covered Forest und Yavimaya
 
-30 Basics werden zu Snow-Covered Forests, damit Icehide Golem zuverlässig für ein Mana spielbar ist. Für Nature's Lore, Three Visits, Utopia Sprawl und Beacon/Howl bleiben sie Forests.
+29 Basics bleiben Snow-Covered Forests, damit Icehide Golem praktisch immer für ein Mana spielbar ist. Für Nature's Lore, Three Visits, Utopia Sprawl und Beacon/Howl bleiben sie Forests.
+
+**Yavimaya, Cradle of Growth** ersetzt genau einen Basic-Slot. Ihr statischer Effekt macht jedes Land zusätzlich zu einem Forest. Damit können insbesondere Ancient Tomb, War Room, Nykthos und eine ansonsten leere Gaea's Cradle bei Bedarf über den Forest-Landtyp grünes Mana erzeugen. Zugleich zählt im Spiel mit Yavimaya jedes eigene Land für Beacon of Creation und Howl of the Night Pack als Forest. Der Nachteil ist klein, aber real: Yavimaya hilft auch gegnerischen Ländern mit dem Forest-Typ und reduziert die Zahl echter Snow-Basics von 30 auf 29.
 
 ## 15. Mana-Kurve
 
@@ -512,6 +516,7 @@ Preis-Snapshot: Scryfall-EUR-Daten am 2026-10-05; Preise hängen stark von Print
 | Last March of the Ents | €19 | Soul's Majesty, ca. €1,39 | Viel weniger explosiv, dafür sehr einfacher Draw |
 | Fanatic of Rhonas | €15 | Llanowar Tribe, ca. €0,70 | Langsamer, aber sehr einfach: tappen für GGG |
 | Heroic Intervention | €14 | Blossoming Defense, ca. €0,13 | Kein Board-Schutz mehr, nur eine Kreatur |
+| Yavimaya, Cradle of Growth | €13 | Snow-Covered Forest | Verliert die Grün-Fixierung der Utility-Länder und den zusätzlichen Forest-Count |
 
 Diese Ersatzkarten wurden ebenfalls aktuell auf Commander-Legalität geprüft.
 
