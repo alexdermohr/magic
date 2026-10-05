@@ -68,4 +68,5 @@
 1 Boseiju, Who Endures
 1 Castle Garenbrig
 1 War Room
-30 Snow-Covered Forest
+1 Yavimaya, Cradle of Growth
+29 Snow-Covered Forest
