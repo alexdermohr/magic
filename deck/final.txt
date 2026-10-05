@@ -2,11 +2,11 @@
 1 Memnite
 1 Icehide Golem
 1 Norwood Ranger
-1 Trained Jackal
 1 Jibbirik Omnivore
 1 Terrain Elemental
 1 Kalonian Tusker
 1 Swordwise Centaur
+1 Elvish Warrior
 1 Leatherback Baloth
 1 Orazca Frillback
 1 Alpine Grizzly
