@@ -46,7 +46,21 @@ Wichtigste Leitplanken:
 
 ## Ausgangsdeck
 
-Der aktuelle Ausgangsstand liegt in [deck/current.txt](deck/current.txt).
+Der Ausgangsstand liegt in [deck/current.txt](deck/current.txt).
+
+## Finale Fassung
+
+- **[deck/final.txt](deck/final.txt)** — importierbare Endliste mit exakt 100 Karten
+- **[deck/analysis.md](deck/analysis.md)** — vollständige Prüfung mit RAUS → REIN, Bracket, Mana-Kurve, Spielregeln und Budget-Ersatz
+
+Kurzfassung der finalen Einordnung:
+
+- **Bracket:** oberes Bracket 3 / Upgraded
+- **Pilotenkomplexität:** 3/10
+- **Länder:** 36
+- **Kreaturen:** 26 inklusive Ruxa
+- **echte Vanilla-Kreaturen:** 17
+- **Game Changer:** 1 — Gaea's Cradle
 
 ## Erfolgskriterium
 
@@ -59,4 +73,4 @@ Die finale Optimierung liefert:
 5. die wichtigsten 5–10 Spielregeln
 6. teuerste Karten mit günstigeren Ersatzoptionen
 
-**Stand dieser Projektdefinition:** 2026-10-05.
+**Stand der finalen Fassung:** 2026-10-05.
