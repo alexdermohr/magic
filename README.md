@@ -58,10 +58,10 @@ Kurzfassung der finalen Einordnung:
 - **Bracket:** oberes Bracket 3 / Upgraded
 - **Pilotenkomplexität:** 3/10
 - **Länder:** 36
-- **Kreaturen:** 27 inklusive Ruxa
-- **Vanilla-Kreaturenkarten:** 19
+- **Kreaturen:** 25 inklusive Ruxa
+- **Vanilla-Kreaturenkarten:** 17
 - **Game Changer:** 3 — Gaea's Cradle, Ancient Tomb, Natural Order
-- **Ruxa-kompatible Token-Spells:** 4
+- **Ruxa-kompatible Token-Spells:** 6
 - **Aktuell verifiziert:** 0 Legalitäts-/Farbidentitätsfehler, exakt 100 Karten
 
 ## Erfolgskriterium
