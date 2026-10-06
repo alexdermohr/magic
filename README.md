@@ -59,7 +59,7 @@ Kurzfassung der finalen Einordnung:
 - **Pilotenkomplexität:** 3/10
 - **Länder:** 36
 - **Kreaturen:** 29 inklusive Ruxa
-- **Kreaturen ohne Fähigkeiten:** 20
+- **Kreaturen ohne Fähigkeiten:** 21
 - **Game Changer:** 3 — Gaea's Cradle, Ancient Tomb, Natural Order
 - **Aktuell verifiziert:** 0 Legalitäts-/Farbidentitätsfehler, exakt 100 Karten
 
