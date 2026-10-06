@@ -8,8 +8,8 @@
 
 - **100 Karten exakt**
 - **36 Länder**
-- **29 Kreaturen inklusive Ruxa**
-- **21 Kreaturen ohne Fähigkeiten**
+- **27 Kreaturen inklusive Ruxa**
+- **19 Kreaturenkarten ohne Fähigkeiten**
 - **3 Game Changer:** Gaea's Cradle, Ancient Tomb, Natural Order
 - keine Infinite Combo
 - keine Tutor-Kette
@@ -22,7 +22,7 @@ Die Liste wurde nicht auf maximale theoretische Mono-Green-Power gebaut. Sie ist
 
 ## 1. Verifikationsstand
 
-Am 2026-10-05 wurden frisch geprüft:
+Am 2026-10-06 wurden frisch geprüft:
 
 - aktueller Repository-Stand vor jeder Mutation
 - aktuelle Commander- und Bracket-Regeln von Wizards
@@ -42,7 +42,7 @@ Die maschinelle Kartenprüfung ergab:
 - **0 Legalitätsprobleme**
 - **0 Farbidentitätsprobleme**
 - genau **3** als Game Changer markierte Karten
-- **21** Karten der finalen Kreaturenauswahl werden in den aktuellen Kartendaten als Vanilla / ohne Fähigkeiten geführt
+- **19** Kreaturenkarten der finalen Liste werden in den aktuellen Kartendaten als Vanilla / ohne Fähigkeiten geführt
 
 Kartendatenquelle für die Batch-Prüfung: Scryfall API.  
 Regel-/Bracket-Primärquelle: Wizards of the Coast.
@@ -68,7 +68,7 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 
 - Ruxa, Patient Professor
 
-### Kreaturen ohne Fähigkeiten — 21
+### Kreaturen ohne Fähigkeiten — 19
 
 - Memnite — 1/1 für 0 Mana
 - Icehide Golem — 2/2 für 1 Snow-Mana
@@ -78,7 +78,6 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 - Kalonian Tusker — 3/3 für GG
 - Swordwise Centaur — 3/2 für GG
 - Elvish Warrior — 2/3 für GG
-- Trained Jackal — 1/2 für G
 - Leatherback Baloth — 4/5 für GGG
 - Orazca Frillback — 4/2 für 2G
 - Alpine Grizzly — 4/2 für 2G
@@ -90,7 +89,6 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 - Vorstclaw — 7/7 für 4GG
 - Primordial Wurm — 7/6 für 4GG
 - Quakestrider Ceratops — 12/8 für 3GGG
-- Quilled Slagwurm — 8/8 für 4GGG
 
 ### Utility-Kreaturen — 7
 
@@ -146,17 +144,19 @@ Beast Whisperer ist der neunte dedizierte Draw-Slot. Ruxas Graveyard-Rückholung
 - Tyvar's Stand
 - Tamiyo's Safekeeping
 
-### Token — 3
+### Token — 4
 
+- Saproling Migration
 - Beacon of Creation
 - Fungal Sprouting
 - Howl of the Night Pack
 
-### Ruxa-Synergie / Finisher — 4
+### Ruxa-Synergie / Finisher — 5
 
 - Muraganda Petroglyphs
 - Unnatural Growth
 - Overwhelming Stampede
+- Klothys's Design
 - Natural Order
 
 ### Recursion — 1
@@ -192,7 +192,7 @@ Die Suche wurde nicht auf die alte Liste beschränkt, sondern über die aktuelle
 
 **Elvish Ranger** ist 4/1 für 2G ohne Fähigkeiten. In diesem Deck ist die geringe Widerstandskraft weniger problematisch als üblich, weil Ruxa seinen Kampfschaden am Blocker vorbeileiten kann. Damit liefert er dieselbe Grund-Power wie die früheren 4-Mana-4/4-Vanillas für ein Mana weniger.
 
-**Trained Jackal** ist 1/2 für G ohne Fähigkeiten. Unter Ruxa wird er 2/3 und kann seinen Kampfschaden am Blocker vorbei zuweisen. Zusätzlich verbessert er frühe Boarddichte, Gaea's Cradle, Craterhoof und Natural Order. Gegen den gleich großen Woodland Druid ist er hier vorzuziehen, weil er kein Human ist und daher auch vom Pump-Modus von Return of the Wildspeaker profitiert.
+**Wichtig:** Die Optimierung maximiert nicht die bloße Zahl an Vanilla-Kreaturenkarten. 19 echte Vanilla-Kreaturenkarten reichen als Ruxa-Kern; zusätzliche fähigkeitslose Bodies entstehen über Token-Spells. Ein Slot bleibt nur dann eine Vanilla-Kreatur, wenn er gegenüber einem einfachen Ruxa-kompatiblen Spell tatsächlich mehr Gewinnstärke bringt.
 
 ### Warum mittelmäßige 5-Mana-Vanillas raus sind
 
@@ -227,7 +227,8 @@ Der Slot ist deshalb besser in frühe Boardentwicklung investiert.
 19. **Caged Sun → Arcane Signet** — sechs Mana Win-more-Ramp wird zu verlässlicher Zwei-Mana-Beschleunigung.
 20. **Roiling Canopy → Ancient Tomb** — getapptes Land plus Landfall-Trigger wird zu sofortiger Beschleunigung.
 21. **Rumbling Baloth → Elvish Ranger** — gleiche relevante Power für den Ruxa-Angriffsplan, aber ein Mana günstiger.
-22. **Ferocious Zheng → Trained Jackal** — statt eines mittelmäßigen 4/4 für vier Mana kommt ein echter 1-Mana-Vanilla ins Deck; unter Ruxa effektiv 2/3 mit Schadenszuweisung am Blocker vorbei und zusätzlichem Wert für Cradle, Hoof und Natural Order.
+22. **Ferocious Zheng → Saproling Migration** — statt eines mittelmäßigen 4/4 für vier Mana erzeugt eine Karte früh zwei oder später vier fähigkeitslose grüne Bodies; diese arbeiten direkt mit Ruxa, Cradle, Hoof und Natural Order und teilen den Saproling-Tokentyp mit Fungal Sprouting.
+23. **Quilled Slagwurm → Klothys's Design** — der schwächste teure Vanilla-Body (8/8 für sieben) wird zu einem sechs Mana Finisher, der nur P/T verändert und deshalb Ruxas +1/+1 sowie die Schadenszuweisung am Blocker vorbei vollständig aktiv lässt.
 
 Zusätzlich:
 
@@ -383,11 +384,12 @@ Pilotregel: Schutz nicht für einen beliebigen Vanilla-Body verschwenden. Priori
 
 Token bleiben nur als One-shot-Pakete:
 
+- Saproling Migration
 - Beacon of Creation
 - Fungal Sprouting
 - Howl of the Night Pack
 
-Alle erzeugen jeweils nur eine Sorte Token. Keine dauerhafte Token-Engine, keine Counter, keine mehreren Token-Klassen.
+Saproling Migration und Fungal Sprouting erzeugen sogar denselben Tokentyp. Es gibt keine dauerhafte Token-Engine und keine Counter-Verwaltung. Migration ist früh zwei Bodies für zwei Mana und spät optional vier Bodies für sechs Mana.
 
 Die Token haben keine Fähigkeiten und arbeiten deshalb direkt mit Ruxa und Muraganda Petroglyphs.
 
@@ -404,6 +406,10 @@ Sehr viel Druck ohne den Kreaturen Fähigkeiten zu geben. Der Combat-Trigger mus
 ### Overwhelming Stampede
 
 Ein klarer Kill-Button. Trample schaltet für den Zug zwar Ruxas „keine Fähigkeiten“-Bonus bei den betroffenen Kreaturen aus, der massive Pump und Trample sind auf dem Kill-Turn stärker.
+
+### Klothys's Design
+
+Der Ruxa-spezifische Finisher: Alle eigenen Kreaturen bekommen +X/+X entsprechend der grünen Devotion. Es werden **keine Fähigkeiten verliehen**. Vanillas behalten daher Ruxas +1/+1 und dürfen ihren Kampfschaden weiterhin so zuweisen, als wären sie ungeblockt. Die Karte ergänzt Stampede: Stampede ist auf kleinen/tall Boards oft stärker, Klothys skaliert auf breiten, grünen Boards besser.
 
 ### Craterhoof Behemoth
 
@@ -441,13 +447,13 @@ Face-value Mana Values der 64 Nichtländer:
 | Mana Value | Karten |
 |---:|---:|
 | 0 | 1 |
-| 1 | 14 |
-| 2 | 17 |
+| 1 | 13 |
+| 2 | 18 |
 | 3 | 7 |
 | 4 | 9 |
 | 5 | 7 |
-| 6 | 4 |
-| 7 | 2 |
+| 6 | 5 |
+| 7 | 1 |
 | 8 | 2 |
 | 12 | 1 |
 
@@ -499,13 +505,13 @@ Entfernt wurden dagegen die dauerhaften +1/+1-Counter von The Great Henge, Toski
 
 1. **Mulligan:** Behalte bevorzugt 2–3 grüne Manaquellen plus einen billigen Ramp-Play. Ancient Tomb allein zählt nicht als grüner Start.
 2. **Früh Mana vor mittelgroßem Body:** Turn-1-Elf/Wild Growth/Utopia Sprawl ist normalerweise der beste Start.
-3. **Kostenlose/Ein-Mana-Bodies früh raus:** Memnite und Icehide/Norwood machen Cradle, Hoof und Ruxa später besser.
+3. **Frühe Bodies aufs Feld:** Memnite und Icehide/Norwood machen Cradle, Hoof und Ruxa später besser; Saproling Migration ist auf zwei Mana meist einfach zwei zusätzliche fähigkeitslose Bodies.
 4. **Ruxa nicht erzwingen:** Wenn du entwickeln oder Karten ziehen musst, mach das. Ruxa ist Verstärker, nicht Lebensversicherung.
 5. **Mit Vanilla-Kreaturen unter Ruxa aggressiv angreifen:** Bei einem Block ist die Standardentscheidung Schaden zum Gegner; nur einen wirklich wichtigen Blocker töten.
 6. **Removal nicht an normale Blocker verschwenden:** Zuerst Commander, Combo-/Draw-Engine, Flieger oder echte Kill-Bedrohung entfernen.
 7. **Natural Order simpel spielen:** Standardziel Craterhoof. Nicht minutenlang die Bibliothek optimieren.
 8. **Schutz für Schlüsselzüge halten:** Heroic Intervention gegen Boardwipe; die Einzelschützer für Ruxa, Draw-Engine oder Finisher.
-9. **Kill-Button erkennen:** Mehrere Bodies plus Natural Order, Craterhoof, Stampede oder Unnatural Growth bedeutet zuerst grob Schaden zählen und dann meist angreifen.
+9. **Kill-Button erkennen:** Mehrere Bodies plus Natural Order, Craterhoof, Stampede, Klothys's Design oder Unnatural Growth bedeutet zuerst grob Schaden zählen und dann meist angreifen.
 
 ## 19. Teuerste Karten und günstigere Ersatzoptionen
 
@@ -543,6 +549,7 @@ Die Endfassung kauft Stärke bevorzugt dort ein, wo die Bedienkosten niedrig ble
 
 - bessere Manaeffizienz
 - bessere frühe Kurve
+- genug, aber nicht maximal viele Vanilla-Kreaturenkarten
 - starke einzelne One-shot-Spells
 - drei klar begründete Game Changer
 - wenig Buchhaltung
