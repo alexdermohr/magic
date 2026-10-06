@@ -8,8 +8,8 @@
 
 - **100 Karten exakt**
 - **36 Länder**
-- **27 Kreaturen inklusive Ruxa**
-- **19 Kreaturenkarten ohne Fähigkeiten**
+- **25 Kreaturen inklusive Ruxa**
+- **17 Kreaturenkarten ohne Fähigkeiten**
 - **3 Game Changer:** Gaea's Cradle, Ancient Tomb, Natural Order
 - keine Infinite Combo
 - keine Tutor-Kette
@@ -42,7 +42,7 @@ Die maschinelle Kartenprüfung ergab:
 - **0 Legalitätsprobleme**
 - **0 Farbidentitätsprobleme**
 - genau **3** als Game Changer markierte Karten
-- **19** Kreaturenkarten der finalen Liste werden in den aktuellen Kartendaten als Vanilla / ohne Fähigkeiten geführt
+- **17** Kreaturenkarten der finalen Liste werden in den aktuellen Kartendaten als Vanilla / ohne Fähigkeiten geführt
 
 Kartendatenquelle für die Batch-Prüfung: Scryfall API.  
 Regel-/Bracket-Primärquelle: Wizards of the Coast.
@@ -68,7 +68,7 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 
 - Ruxa, Patient Professor
 
-### Kreaturen ohne Fähigkeiten — 19
+### Kreaturen ohne Fähigkeiten — 17
 
 - Memnite — 1/1 für 0 Mana
 - Icehide Golem — 2/2 für 1 Snow-Mana
@@ -82,12 +82,10 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 - Orazca Frillback — 4/2 für 2G
 - Alpine Grizzly — 4/2 für 2G
 - Elvish Ranger — 4/1 für 2G
-- Ordinary Bear — 4/5 für 3G
 - Terrian, World Tyrant — 9/7 für 2GGG
 - Garruk's Gorehorn — 7/3 für 4G
 - Gigantosaurus — 10/10 für GGGGG
 - Vorstclaw — 7/7 für 4GG
-- Primordial Wurm — 7/6 für 4GG
 - Quakestrider Ceratops — 12/8 für 3GGG
 
 ### Utility-Kreaturen — 7
@@ -144,11 +142,13 @@ Beast Whisperer ist der neunte dedizierte Draw-Slot. Ruxas Graveyard-Rückholung
 - Tyvar's Stand
 - Tamiyo's Safekeeping
 
-### Token — 4
+### Token — 6
 
 - Saproling Migration
+- Spore Swarm
 - Beacon of Creation
 - Fungal Sprouting
+- One Dozen Eyes
 - Howl of the Night Pack
 
 ### Ruxa-Synergie / Finisher — 5
@@ -192,7 +192,7 @@ Die Suche wurde nicht auf die alte Liste beschränkt, sondern über die aktuelle
 
 **Elvish Ranger** ist 4/1 für 2G ohne Fähigkeiten. In diesem Deck ist die geringe Widerstandskraft weniger problematisch als üblich, weil Ruxa seinen Kampfschaden am Blocker vorbeileiten kann. Damit liefert er dieselbe Grund-Power wie die früheren 4-Mana-4/4-Vanillas für ein Mana weniger.
 
-**Wichtig:** Die Optimierung maximiert nicht die bloße Zahl an Vanilla-Kreaturenkarten. 19 echte Vanilla-Kreaturenkarten reichen als Ruxa-Kern; zusätzliche fähigkeitslose Bodies entstehen über Token-Spells. Ein Slot bleibt nur dann eine Vanilla-Kreatur, wenn er gegenüber einem einfachen Ruxa-kompatiblen Spell tatsächlich mehr Gewinnstärke bringt.
+**Wichtig:** Die Optimierung maximiert nicht die bloße Zahl an Vanilla-Kreaturenkarten. **17 echte Vanilla-Kreaturenkarten** bleiben als rekursiver Ruxa-Kern; zusätzliche fähigkeitslose Bodies entstehen effizienter über sechs einfache Token-Spells. Ein Slot bleibt nur dann eine Vanilla-Kreatur, wenn er gegenüber einem einfachen Ruxa-kompatiblen Spell tatsächlich mehr Gewinnstärke bringt.
 
 ### Warum mittelmäßige 5-Mana-Vanillas raus sind
 
@@ -229,6 +229,8 @@ Der Slot ist deshalb besser in frühe Boardentwicklung investiert.
 21. **Rumbling Baloth → Elvish Ranger** — gleiche relevante Power für den Ruxa-Angriffsplan, aber ein Mana günstiger.
 22. **Ferocious Zheng → Saproling Migration** — statt eines mittelmäßigen 4/4 für vier Mana erzeugt eine Karte früh zwei oder später vier fähigkeitslose grüne Bodies; diese arbeiten direkt mit Ruxa, Cradle, Hoof und Natural Order und teilen den Saproling-Tokentyp mit Fungal Sprouting.
 23. **Quilled Slagwurm → Klothys's Design** — der schwächste teure Vanilla-Body (8/8 für sieben) wird zu einem sechs Mana Finisher, der nur P/T verändert und deshalb Ruxas +1/+1 sowie die Schadenszuweisung am Blocker vorbei vollständig aktiv lässt.
+24. **Ordinary Bear → Spore Swarm** — vier Mana wechseln von einem einzelnen 4/5-Body zu drei identischen fähigkeitslosen 1/1-Saprolingen. Unter Ruxa sind das insgesamt sechs statt fünf relevante Power, dazu drei Bodies für Cradle, Hoof, Revelation und Natural Order.
+25. **Primordial Wurm → One Dozen Eyes** — beide kosten sechs Mana. Der Standardmodus erzeugt fünf fähigkeitslose 1/1-Insekten statt eines 7/6-Bodys; unter Ruxa sind das zehn Gesamtpower und fünf Bodies. Anders als boardabhängige Token-Spells funktioniert die Karte auch direkt nach einem Wipe. Bei neun Mana kann optional entwined werden.
 
 Zusätzlich:
 
@@ -389,9 +391,9 @@ Token bleiben nur als One-shot-Pakete:
 - Fungal Sprouting
 - Howl of the Night Pack
 
-Saproling Migration und Fungal Sprouting erzeugen sogar denselben Tokentyp. Es gibt keine dauerhafte Token-Engine und keine Counter-Verwaltung. Migration ist früh zwei Bodies für zwei Mana und spät optional vier Bodies für sechs Mana.
+Saproling Migration, Spore Swarm und Fungal Sprouting erzeugen denselben Tokentyp; Beacon of Creation und der Standardmodus von One Dozen Eyes teilen sich ebenfalls den Insekten-Tokentyp. Es gibt keine dauerhafte Token-Engine und keine Counter-Verwaltung. Migration ist früh zwei Bodies für zwei Mana und spät optional vier Bodies für sechs Mana; Spore Swarm ist deterministisch drei Saprolinge für vier Mana; One Dozen Eyes ist standardmäßig fünf Insekten für sechs Mana und funktioniert auch auf leerem Board.
 
-Die Token haben keine Fähigkeiten und arbeiten deshalb direkt mit Ruxa und Muraganda Petroglyphs.
+Die erzeugten Kreaturentoken haben keine Fähigkeiten und arbeiten deshalb direkt mit Ruxa und Muraganda Petroglyphs.
 
 ## 13. Anthems und Finisher
 
@@ -469,6 +471,7 @@ Die Änderungen für 1v1 sind bewusst:
 
 - drei Ein-Mana-Manaelfen
 - Memnite und Icehide Golem als extrem frühe Boardentwicklung
+- sechs One-shot-Token-Spells, die mehrere Ruxa-kompatible Bodies aus jeweils einer Karte erzeugen
 - Ancient Tomb als zusätzlicher Tempoboost
 - billiges Kreaturenremoval
 - Lignify/Kenrith gegen einen zentralen gegnerischen Commander
@@ -505,7 +508,7 @@ Entfernt wurden dagegen die dauerhaften +1/+1-Counter von The Great Henge, Toski
 
 1. **Mulligan:** Behalte bevorzugt 2–3 grüne Manaquellen plus einen billigen Ramp-Play. Ancient Tomb allein zählt nicht als grüner Start.
 2. **Früh Mana vor mittelgroßem Body:** Turn-1-Elf/Wild Growth/Utopia Sprawl ist normalerweise der beste Start.
-3. **Frühe Bodies aufs Feld:** Memnite und Icehide/Norwood machen Cradle, Hoof und Ruxa später besser; Saproling Migration ist auf zwei Mana meist einfach zwei zusätzliche fähigkeitslose Bodies.
+3. **Frühe Bodies aufs Feld:** Memnite und Icehide/Norwood machen Cradle, Hoof und Ruxa später besser; Saproling Migration ist auf zwei Mana meist einfach zwei zusätzliche fähigkeitslose Bodies. Spore Swarm ist später schlicht drei weitere Saprolinge.
 4. **Ruxa nicht erzwingen:** Wenn du entwickeln oder Karten ziehen musst, mach das. Ruxa ist Verstärker, nicht Lebensversicherung.
 5. **Mit Vanilla-Kreaturen unter Ruxa aggressiv angreifen:** Bei einem Block ist die Standardentscheidung Schaden zum Gegner; nur einen wirklich wichtigen Blocker töten.
 6. **Removal nicht an normale Blocker verschwenden:** Zuerst Commander, Combo-/Draw-Engine, Flieger oder echte Kill-Bedrohung entfernen.
@@ -550,6 +553,7 @@ Die Endfassung kauft Stärke bevorzugt dort ein, wo die Bedienkosten niedrig ble
 - bessere Manaeffizienz
 - bessere frühe Kurve
 - genug, aber nicht maximal viele Vanilla-Kreaturenkarten
+- mehr Bodies pro Karte über einfache, wiederholungsfreie Token-Spells
 - starke einzelne One-shot-Spells
 - drei klar begründete Game Changer
 - wenig Buchhaltung
