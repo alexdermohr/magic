@@ -1,6 +1,6 @@
 # Ruxa – geprüfte Upper-Bracket-3-Endfassung
 
-**Stand:** 2026-10-05  
+**Stand:** 2026-10-06  
 **Commander:** Ruxa, Patient Professor  
 **Ziel:** möglichst hohe reale Gewinnstärke bei möglichst wenig Denk- und Verwaltungsaufwand, mit Priorität auf 1v1 gegen Tom und regulärer Commander-Legalität.
 
@@ -9,7 +9,7 @@
 - **100 Karten exakt**
 - **36 Länder**
 - **29 Kreaturen inklusive Ruxa**
-- **21 Kreaturen ohne Fähigkeiten**
+- **20 Kreaturen ohne Fähigkeiten**
 - **3 Game Changer:** Gaea's Cradle, Ancient Tomb, Natural Order
 - keine Infinite Combo
 - keine Tutor-Kette
@@ -42,7 +42,7 @@ Die maschinelle Kartenprüfung ergab:
 - **0 Legalitätsprobleme**
 - **0 Farbidentitätsprobleme**
 - genau **3** als Game Changer markierte Karten
-- **21** Karten der finalen Kreaturenauswahl werden in den aktuellen Kartendaten als Vanilla / ohne Fähigkeiten geführt
+- **20** Karten der finalen Kreaturenauswahl werden in den aktuellen Kartendaten als Vanilla / ohne Fähigkeiten geführt
 
 Kartendatenquelle für die Batch-Prüfung: Scryfall API.  
 Regel-/Bracket-Primärquelle: Wizards of the Coast.
@@ -68,7 +68,7 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 
 - Ruxa, Patient Professor
 
-### Kreaturen ohne Fähigkeiten — 21
+### Kreaturen ohne Fähigkeiten — 20
 
 - Memnite — 1/1 für 0 Mana
 - Icehide Golem — 2/2 für 1 Snow-Mana
@@ -81,9 +81,8 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 - Leatherback Baloth — 4/5 für GGG
 - Orazca Frillback — 4/2 für 2G
 - Alpine Grizzly — 4/2 für 2G
-- Ferocious Zheng — 4/4 für 2GG
+- Elvish Ranger — 4/1 für 2G
 - Ordinary Bear — 4/5 für 3G
-- Rumbling Baloth — 4/4 für 2GG
 - Terrian, World Tyrant — 9/7 für 2GGG
 - Garruk's Gorehorn — 7/3 für 4G
 - Gigantosaurus — 10/10 für GGGGG
@@ -92,13 +91,14 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 - Quakestrider Ceratops — 12/8 für 3GGG
 - Quilled Slagwurm — 8/8 für 4GGG
 
-### Utility-Kreaturen — 7
+### Utility-Kreaturen — 8
 
 - Fanatic of Rhonas
 - Llanowar Elves
 - Elvish Mystic
 - Fyndhorn Elves
 - Beast Whisperer
+- Regal Imperiosaur
 - Ghalta, Primal Hunger
 - Craterhoof Behemoth
 
@@ -190,6 +190,10 @@ Die Suche wurde nicht auf die alte Liste beschränkt, sondern über die aktuelle
 
 **Elvish Warrior** ersetzt einen zweiten 1/2-Ein-Mana-Kandidaten. 2/3 für zwei Mana ist als späterer Draw besser; mit Ruxa wird er 3/4 und erreicht damit auch die Elemental-Bond-Schwelle.
 
+**Elvish Ranger** ist 4/1 für 2G ohne Fähigkeiten. In diesem Deck ist die geringe Widerstandskraft weniger problematisch als üblich, weil Ruxa seinen Kampfschaden am Blocker vorbeileiten kann. Damit liefert er dieselbe Grund-Power wie die früheren 4-Mana-4/4-Vanillas für ein Mana weniger.
+
+**Regal Imperiosaur** ist die bewusst akzeptierte Utility-Ausnahme: 5/4 für 1GG mit nur einer statischen Fähigkeit — andere Dinosaurier bekommen +1/+1. Er verliert selbst Ruxas Vanilla-Bonus, ist aber ein Mana billiger und stärker als Ferocious Zheng und verstärkt zusätzlich Orazca Frillback, Terrian, Gigantosaurus, Quakestrider Ceratops und Ghalta.
+
 ### Warum mittelmäßige 5-Mana-Vanillas raus sind
 
 Colossapede und Grizzled Outrider sind 5/5 für fünf Mana. Auf fünf Mana besitzt die verfügbare Vanilla-Menge wesentlich bessere Druckkarten:
@@ -222,6 +226,8 @@ Der Slot ist deshalb besser in frühe Boardentwicklung investiert.
 18. **Dancing from Dark to Dawn → Regrowth** — wiederkehrende Trigger/Counter/Token-Engine raus; ein klarer Recursion-Spell rein.
 19. **Caged Sun → Arcane Signet** — sechs Mana Win-more-Ramp wird zu verlässlicher Zwei-Mana-Beschleunigung.
 20. **Roiling Canopy → Ancient Tomb** — getapptes Land plus Landfall-Trigger wird zu sofortiger Beschleunigung.
+21. **Rumbling Baloth → Elvish Ranger** — gleiche relevante Power für den Ruxa-Angriffsplan, aber ein Mana günstiger.
+22. **Ferocious Zheng → Regal Imperiosaur** — 4/4 für vier Mana wird zu 5/4 für drei Mana plus statischem Dino-Buff; deutlich mehr Leistung pro Mana bei sehr niedriger Zusatzkomplexität.
 
 Zusätzlich:
 
@@ -437,15 +443,15 @@ Face-value Mana Values der 64 Nichtländer:
 | 0 | 1 |
 | 1 | 13 |
 | 2 | 17 |
-| 3 | 6 |
-| 4 | 11 |
+| 3 | 8 |
+| 4 | 9 |
 | 5 | 7 |
 | 6 | 4 |
 | 7 | 2 |
 | 8 | 2 |
 | 12 | 1 |
 
-Durchschnittlicher nomineller Mana Value: **3,28**.
+Durchschnittlicher nomineller Mana Value: **3,25**.
 
 Der reale Cast-Aufwand liegt darunter, weil Ghalta stark verbilligt wird und die Liste viele frühe Manaquellen besitzt.
 
