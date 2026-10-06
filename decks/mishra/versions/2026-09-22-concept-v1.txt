@@ -1,0 +1,97 @@
+1 Mishra, Eminent One
+1 Emry, Lurker of the Loch
+1 Goblin Engineer
+1 Goblin Welder
+1 Jhoira, Weatherlight Captain
+1 Padeem, Consul of Innovation
+1 Sai, Master Thopterist
+1 Baleful Strix
+1 Etherium Sculptor
+1 Ashnod the Uncaring
+1 Brudiclad, Telchor Engineer
+1 Marionette Master
+1 Reckless Fireweaver
+1 Cyberdrive Awakener
+1 Phyrexian Metamorph
+1 Master Transmuter
+1 Sol Ring
+1 Arcane Signet
+1 Dimir Signet
+1 Izzet Signet
+1 Rakdos Signet
+1 Talisman of Dominance
+1 Talisman of Creativity
+1 Talisman of Indulgence
+1 Fellwar Stone
+1 Mind Stone
+1 Lightning Greaves
+1 Ichor Wellspring
+1 Mycosynth Wellspring
+1 Prized Statue
+1 Servo Schematic
+1 Aether Spellbomb
+1 Nihil Spellbomb
+1 Executioner's Capsule
+1 Idol of Oblivion
+1 Strionic Resonator
+1 Panharmonicon
+1 Lithoform Engine
+1 Trading Post
+1 Skysovereign, Consul Flagship
+1 Spine of Ish Sah
+1 The Mightstone and Weakstone
+1 Wondrous Crucible
+1 Determined Iteration
+1 Efficient Construction
+1 Thopter Spy Network
+1 Mirrodin Besieged
+1 Thoughtcast
+1 Faithless Looting
+1 Thirst for Knowledge
+1 Fact or Fiction
+1 Deadly Dispute
+1 Trash for Treasure
+1 Counterspell
+1 Arcane Denial
+1 An Offer You Can't Refuse
+1 Reality Shift
+1 Resculpt
+1 Chaos Warp
+1 Bedevil
+1 Feed the Swarm
+1 Abrade
+1 Vandalblast
+1 Blasphemous Act
+1 Command Tower
+1 Xander's Lounge
+1 Reflecting Pool
+1 Spire of Industry
+1 Darksteel Citadel
+1 Seat of the Synod
+1 Vault of Whispers
+1 Great Furnace
+1 Drossforge Bridge
+1 Mistvault Bridge
+1 Silverbluff Bridge
+1 Treasure Vault
+1 Spirebluff Canal
+1 Darkslick Shores
+1 Blackcleave Cliffs
+1 Shivan Reef
+1 Underground River
+1 Sulfurous Springs
+1 Stormcarved Coast
+1 Shipwreck Marsh
+1 Haunted Ridge
+1 Sulfur Falls
+1 Clearwater Pathway // Murkwater Pathway
+1 Riverglide Pathway // Lavaglide Pathway
+1 Blightstep Pathway // Searstep Pathway
+1 Academy Ruins
+1 Buried Ruin
+1 Otawara, Soaring City
+1 Takenuma, Abandoned Mire
+1 Sokenzan, Crucible of Defiance
+3 Island
+2 Swamp
+1 Mountain

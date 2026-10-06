@@ -1,78 +1,41 @@
 # magic
 
-Commander-Projekt für **Ruxa, Patient Professor**.
+Commander-Decklabor für Alexander.
 
-## Ziel
+Dieses Repository pflegt mehrere Commander als getrennte Bereiche. Jede aktive Linie hat eine aktuelle Empfehlung und unveränderliche, datierte Versionen.
 
-Ein reguläres Commander-Deck am oberen Rand von **Bracket 3**, optimiert auf:
+## Aktive Decks
 
-> **maximale tatsächliche Gewinnstärke bei minimalem Denk- und Verwaltungsaufwand**
+### Ruxa, Patient Professor
 
-Primärer Einsatz: unkompliziertes **1v1 gegen Tom**, auch nebenbei im Unterricht. Das Deck soll trotzdem regulär Commander-legal bleiben und auch am normalen Commander-Tisch funktionieren.
+**Ziel:** oberes Bracket 3 bei möglichst geringer Pilotenkomplexität.
 
-## Kernidee
+- Aktuell: [decks/ruxa/current.txt](decks/ruxa/current.txt)
+- Analyse: [decks/ruxa/analysis.md](decks/ruxa/analysis.md)
+- Designregeln: [decks/ruxa/DESIGN_PRINCIPLES.md](decks/ruxa/DESIGN_PRINCIPLES.md)
+- Versionen: [decks/ruxa/versions/](decks/ruxa/versions/)
 
-Nicht maximale theoretische Power, sondern **Power pro Denkaufwand**.
+### Mishra, Eminent One
 
-Der bevorzugte Spielplan ist bewusst simpel:
+**Ziel:** oberes Bracket 3 als modularer Artefakt-Commander mit hoher Varianz und klar sichtbaren Synergien, ohne absichtliche frühe Infinite-Combos oder Extra-Turn-Ketten.
 
-1. Mana machen.
-2. Effiziente Kreaturen legen.
-3. Ruxa als Verstärker nutzen.
-4. Karten nachziehen.
-5. Angreifen.
-6. Mit einem eindeutigen Finisher gewinnen.
+- Aktuell: [decks/mishra/current.txt](decks/mishra/current.txt)
+- Analyse: [decks/mishra/analysis.md](decks/mishra/analysis.md)
+- Versionen: [decks/mishra/versions/](decks/mishra/versions/)
 
-Kern des Decks bleiben effiziente Kreaturen **ohne Fähigkeiten** und einfache Spells, die fähigkeitslose Bodies erzeugen oder verstärken. Die bloße Zahl der Vanilla-Kreaturenkarten ist kein Selbstzweck.
+## Versionierung
 
-## Verbindliche Designregeln
+Die Konvention steht in [decks/README.md](decks/README.md).
 
-Die vollständigen und verbindlichen Regeln stehen in:
+Kurz:
+- `current.txt` ist die aktuell empfohlene Liste und darf sich ändern.
+- `versions/*.txt` sind datierte Snapshots und werden nicht überschrieben.
+- Eine relevante Neuoptimierung erhält einen neuen Snapshot und wird anschließend, wenn sie gewinnt, nach `current.txt` übernommen.
 
-**[DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md)**
+## Aktueller Stand
 
-Wichtigste Leitplanken:
+- **Ruxa current:** 2026-10-06 Upper Bracket 3 v2
+- **Mishra current:** 2026-10-06 Upper Bracket 3 v2
+- Beide aktiven Listen enthalten exakt 100 Karten.
 
-- exakt 100 Karten inklusive Ruxa
-- oberes Bracket 3, nicht unnötig Bracket 4
-- Ziel-Pilotenkomplexität höchstens 3/10, ideal etwa 2/10
-- bei annähernd gleicher Stärke gewinnt immer die einfachere Karte
-- Ruxa soll das Deck verstärken, aber nicht dessen einzige funktionierende Engine sein
-- Vanilla-Slots werden systematisch anhand aktuellen Oracle-Texts und Manaeffizienz geprüft
-- keine komplizierten Combos, Tutor-Ketten, Stack-Puzzles oder Buchhaltungs-Engines
-- 1v1-Effizienz wird höher gewichtet als multiplayer-spezifische Skalierung
-- Game Changer nur bei klarem konkretem Mehrwert
-- Regeln, Bannliste, Brackets, Game Changer und Kartendaten werden vor jeder finalen Version frisch geprüft
-
-## Ausgangsdeck
-
-Der Ausgangsstand liegt in [deck/current.txt](deck/current.txt).
-
-## Finale Fassung
-
-- **[deck/final.txt](deck/final.txt)** — importierbare Endliste mit exakt 100 Karten
-- **[deck/analysis.md](deck/analysis.md)** — vollständige Prüfung mit RAUS → REIN, Bracket, Mana-Kurve, Spielregeln und Budget-Ersatz
-
-Kurzfassung der finalen Einordnung:
-
-- **Bracket:** oberes Bracket 3 / Upgraded
-- **Pilotenkomplexität:** 3/10
-- **Länder:** 36
-- **Kreaturen:** 25 inklusive Ruxa
-- **Vanilla-Kreaturenkarten:** 17
-- **Game Changer:** 3 — Gaea's Cradle, Ancient Tomb, Natural Order
-- **Ruxa-kompatible Token-Spells:** 6
-- **Aktuell verifiziert:** 0 Legalitäts-/Farbidentitätsfehler, exakt 100 Karten
-
-## Erfolgskriterium
-
-Die finale Optimierung liefert:
-
-1. eine geprüfte Liste mit exakt 100 Karten
-2. **RAUS → REIN** gegenüber dem Ausgangsdeck
-3. aktuelle Bracket-Einschätzung mit Begründung
-4. Pilotenkomplexität von 1–10
-5. die wichtigsten 5–10 Spielregeln
-6. teuerste Karten mit günstigeren Ersatzoptionen
-
-**Stand der finalen Fassung:** 2026-10-06.
+Bracket-, Bannlisten- und Game-Changer-Aussagen werden bei neuen finalen Versionen frisch gegen die offiziellen Commander-Regeln geprüft.

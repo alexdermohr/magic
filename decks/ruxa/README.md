@@ -1,0 +1,18 @@
+# Ruxa, Patient Professor
+
+## Ziel
+
+Oberes Bracket 3 mit möglichst hoher realer Gewinnstärke bei möglichst geringer Pilotenkomplexität.
+
+Primärer Praxisfall: unkompliziertes 1v1, ohne das Deck aus regulärem Commander herauszuoptimieren.
+
+## Aktuell
+
+`current.txt` entspricht **2026-10-06-upper-b3-v2.txt**.
+
+## Versionen
+
+- `versions/2026-10-05-baseline-v1.txt` — früherer Vanilla-Stompy-Ausgangspunkt
+- `versions/2026-10-06-upper-b3-v2.txt` — strukturell optimierte Upper-B3-Fassung; aktueller Stand
+
+Die detaillierten Regeln und Begründungen liegen in `DESIGN_PRINCIPLES.md` und `analysis.md`.
