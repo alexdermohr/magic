@@ -11,7 +11,7 @@
 1 Orazca Frillback
 1 Alpine Grizzly
 1 Elvish Ranger
-1 Trained Jackal
+1 Saproling Migration
 1 Ordinary Bear
 1 Terrian, World Tyrant
 1 Garruk's Gorehorn
@@ -19,7 +19,7 @@
 1 Vorstclaw
 1 Primordial Wurm
 1 Quakestrider Ceratops
-1 Quilled Slagwurm
+1 Klothys's Design
 1 Fanatic of Rhonas
 1 Llanowar Elves
 1 Elvish Mystic
