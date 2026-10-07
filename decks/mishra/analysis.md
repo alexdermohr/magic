@@ -1,115 +1,109 @@
-# Mishra, Eminent One — Upper Bracket 3
+# Mishra, Eminent One — Bracket 3 v3 + separate Bracket-4-Linie
 
-**Stand:** 2026-10-06  
+**Stand:** 2026-10-07  
 **Aktuelle Liste:** `current.txt`  
-**Snapshot:** `versions/2026-10-06-upper-b3-v2.txt`
+**B3-Snapshot:** `versions/2026-10-07-upper-b3-v3.txt`  
+**B4-Snapshot:** `versions/2026-10-07-optimized-b4-v1.txt`
 
-## Zielbild
+## Ergebnis
 
-Mishra soll als Artefakt-Systemdeck funktionieren:
+Die bisherige B3-v2 bleibt als unveränderlicher Snapshot erhalten. v3 verbessert Tempo, Interaktion und Konsistenz, ohne den eigentlichen Deckplan auf schnelle Kills oder regelmäßig auftauchende Combos umzubauen.
 
-1. früh Mana und günstige Artefakte entwickeln,
-2. Mishra legen,
-3. pro Kampf den gerade wertvollsten Nichtkreatur-Artefakt-Effekt als Warform duplizieren,
-4. Kopien über ETB-, Death- und Sacrifice-Wert ausnutzen,
-5. aus den erzeugten Artefakten und Tokens einen klaren Endgame-Plan bauen.
+Die Bracket-4-Fassung ist bewusst ein eigener Track und wird nicht nach `current.txt` übernommen.
 
-Die Liste ist absichtlich stärker und konsistenter als die ursprüngliche Konzeptfassung, bleibt aber innerhalb des aktuellen Bracket-3-Rahmens.
+## Bracket-3-Rahmen
 
-## Warum diese drei Game Changer?
+Die aktuelle offizielle Commander-Seite ordnet Bracket 3 als **Upgraded** ein und erlaubt bis zu drei Game Changer. Das Commander Format Panel beschreibt B3 als Decks mit starker Synergie, hoher Kartenqualität und wirksamer Interaktion; als Zeitrahmen soll man im Allgemeinen mindestens sechs eigene Züge spielen können, bevor man gewinnt oder verliert.
 
-### Ancient Tomb
+Für v3 heißt das:
 
-Beschleunigt Mishra und die teuren Artefakte ohne zusätzliche Entscheidungsbäume.
+- genau 3 aktuelle Game Changer: **Ancient Tomb, The One Ring, Cyclonic Rift**
+- keine auf frühe Siege ausgelegte Infinite-Combo
+- keine Extra-Turn-Kette
+- kein Mass Land Denial
+- keine Bracket-4-Fast-Mana-Suite
+- die zusätzliche Stärke kommt primär aus besseren Einzelkarten, effizienterer Interaktion und weniger Tempoverlust
 
-### The One Ring
+**Urza, Lord High Artificer** und **Deflecting Swat** wurden im Oktober 2025 ausdrücklich von der Game-Changer-Liste entfernt. Sie sind deshalb starke, aber derzeit nicht als Game Changer gezählte Upgrades.
 
-Sehr starker, universeller Kartennachschub. Als Mishra-Ziel kann die Warform dank Haste sofort die Tap-Fähigkeit nutzen; die Warform selbst wird am Ende des Zuges wieder geopfert.
+## Änderungen B3 v2 → v3
 
-### Cyclonic Rift
+| Raus | Rein | Grund |
+|---|---|---|
+| Marionette Master | Urza, Lord High Artificer | früherer, universeller Artefakt-Engine-Slot; erzeugt Mana und Material |
+| Thran Dynamo | Liquimetal Torque | ein Mana früher; stabilisiert Farben und kann Permanents zu Mishra-Zielen machen |
+| Sundial of the Infinite | Sensei's Divining Top | weniger Regeltrick, mehr konstante Kartenqualität |
+| Counterspell | Mana Drain | effizientere Interaktion ohne zusätzlichen Game-Changer-Slot |
+| Bedevil | Deflecting Swat | schützt Mishra/Board auch ohne offenes Mana; aktuell kein Game Changer |
+| Abrade | Deadly Rollick | kostenlose, exilierende Kreatureninteraktion bei liegendem Commander |
+| Thirst for Knowledge | Whir of Invention | findet gezielt das passende Artefakt, bleibt aber ein manaintensiverer Tutor |
+| Darkslick Shores | Underground Sea | kein Tempoverlust im späteren Spiel |
+| Spirebluff Canal | Volcanic Island | kein Tempoverlust im späteren Spiel |
+| Blackcleave Cliffs | Badlands | kein Tempoverlust im späteren Spiel |
 
-Breite, leicht verständliche Interaktion und ein starker Weg, ein aufgebautes eigenes Board in einen entscheidenden Angriff umzuwandeln.
+## Warum v3 noch Bracket 3 ist
 
-Das erlaubte Maximum wird damit ausgeschöpft, ohne einen Tutor- oder Combo-Game-Changer einzubauen.
+Die Gegenprobe ist die B4-Definition: B4 soll lethal, konsistent und schnell sein und nutzt typischerweise Fast-Mana-Game-Changer, freie Disruption und Tutoren, um effiziente sofortige Win Conditions früh verfügbar zu machen.
 
-## Bewusst nicht enthalten
+v3 verbessert zwar einzelne Interaktions- und Tutor-Slots, besitzt aber keinen dafür optimierten frühen Kill. Seine Siege entstehen weiterhin aus aufgebautem Artefaktmaterial, Warform-Value und einem späteren Combat-/Board-Swing. Genau diese Trennung ist der Grund, warum **Gonti's Aether Heart** und die B4-Fast-Mana-/Tutor-Suite nicht in v3 wandern.
 
-- **Gonti's Aether Heart** — starke Mishra-Synergie, würde das Deck aber unnötig in wiederholte Extra-Turn-Linien ziehen.
-- **Time Sieve / Krark-Clan Ironworks** — erhöhen Combo-Dichte und Sequencing-Komplexität.
-- **Demonic Tutor** — wäre zwar effizient, kostet aber einen Game-Changer-Slot und macht den Spielplan deterministischer.
-- Mass Land Denial und Extra-Turn-Ketten sind kein Teil des Plans.
-
-## Beste Mishra-Ziele
+## Wichtigste Mishra-Ziele in v3
 
 ### Kartenwert
 
-- **Ichor Wellspring** — Karte beim Eintritt und beim Sterben
-- **Cryogen Relic** — Karte beim Eintritt und beim Verlassen
-- **Mephitic Draught** — Karte beim Eintritt und beim Sterben, jeweils gegen 1 Leben
-- **Mycosynth Wellspring** — Basic beim Eintritt und beim Gang in den Friedhof
+- **Ichor Wellspring**
+- **Cryogen Relic**
+- **Mephitic Draught**
+- **Mycosynth Wellspring**
+- **The One Ring**
+- **Coveted Jewel**
 
-### Material
+### Material und Skalierung
 
-- **Prized Statue** — Treasure beim Eintritt und beim Verlassen
-- **Servo Schematic** — Servo beim Eintritt und beim Gang in den Friedhof
+- **Prized Statue**
+- **Servo Schematic**
+- **Simulacrum Synthesizer**
+- **Idol of Oblivion**
 
 ### Kontrolle
 
-- **Tithing Blade** — wiederholbarer Edict-Effekt
-- **Skysovereign, Consul Flagship** — direkter Schaden beim Eintritt/Angriff
-- **The Mightstone and Weakstone** — Karten oder -5/-5
-- **Spine of Ish Sah** — beliebiges Permanent zerstören
-- **Demonic Junker** — Kreaturen entfernen
-- **Portal to Phyrexia** — gegnerische Kreaturen massiv reduzieren
+- **Tithing Blade**
+- **Skysovereign, Consul Flagship**
+- **The Mightstone and Weakstone**
+- **Demonic Junker**
+- **Spine of Ish Sah**
+- **Portal to Phyrexia**
 
-### Skalierung
+## Spielheuristik B3 v3
 
-- **Coveted Jewel** — großer Kartenschub
-- **The One Ring** — wiederholbarer Draw
-- **Simulacrum Synthesizer** — eigener konstruktiver Token-Plan neben Mishra
+1. Eine Hand mit drei Ländern oder zwei Ländern plus zwei günstigen Manaquellen ist der Normalfall.
+2. Erst Mana entwickeln, dann ein gutes Nichtkreatur-Artefakt legen, dann Mishra.
+3. Ohne akuten Druck zuerst Draw-/Value-Artefakte kopieren.
+4. Gegen Kreaturenbretter auf Tithing Blade, Junker, Skysovereign oder Portal wechseln.
+5. **Roaming Throne** nennt normalerweise `Human`, damit Mishras Trigger verdoppelt wird.
+6. **Whir of Invention** sucht das beste sichtbare Problem-/Value-Werkzeug, nicht eine versteckte frühe Combo.
+7. **Cyberdrive Awakener**, **Kappa Cannoneer**, **Brudiclad** und **Simulacrum Synthesizer** sind die normalen Abschlusspläne.
+8. **Cyclonic Rift** ist bevorzugt der eine große Tempozug vor einem entscheidenden Angriff.
 
-## Trigger-Verstärker
+## Bracket 4: eigener Plan
 
-- **Strionic Resonator**
-- **Lithoform Engine**
-- **Roaming Throne** — normalerweise `Human` wählen, damit Mishras Kampfbeginn-Trigger ein zweites Mal auslöst
-- **Determined Iteration**
-- **Panharmonicon** — verstärkt die ETB-Effekte der passenden Warforms
+Die B4-Fassung ist kein bloßes Kartenqualitäts-Upgrade. Sie wechselt bewusst den Modus:
 
-## Sundial of the Infinite
+- Fast Mana: Mana Vault, Grim Monolith, Chrome Mox, Mox Diamond, Mox Opal, Lotus Petal, Ancient Tomb, Mishra's Workshop
+- starke Game-Changer-Tutoren und Engines: Vampiric Tutor, Demonic Tutor, Imperial Seal, Gamble, Rhystic Study, Necropotence
+- freie/nahezu freie Interaktion: Force of Will, Force of Negation, Fierce Guardianship, Deflecting Swat, Pact of Negation, Deadly Rollick
+- zentraler Kill: **Gonti's Aether Heart** plus Mishra und ein redundanter Trigger-/Token-Kopierer
 
-Das Sundial ist der bewusst etwas regeltechnischere Slot. Wenn der verzögerte Mishra-Sacrifice-Trigger im End Step auf dem Stack liegt, kann das Sundial den Zug beenden und den Trigger entfernen. So kann eine Warform dauerhaft liegen bleiben.
+Mit Mishra erzeugen **Strionic Resonator**, **Lithoform Engine**, **Roaming Throne**, **Panharmonicon** oder **Determined Iteration** genügend zusätzliche Heart-Warform-/ETB-Trigger, um wiederholt 8 Energie zu erreichen, die jeweilige Warform zu exilieren und einen weiteren Zug zu nehmen. Diese wiederholbare Extra-Turn-Linie ist absichtlich B4 und bleibt aus B3 heraus.
 
-Das ist stark, aber keine notwendige Grundfunktion des Decks.
+Die generische Thassa's-Oracle/Consultation-Linie ist nicht enthalten. Ziel ist ein optimiertes **Mishra**-Deck, kein beliebiges Grixis-cEDH-Shell.
 
-## Gewinnwege
+## Legalitätsgrenze
 
-1. **Cyberdrive Awakener** — aus der Artefaktbreite wird ein Flieger-Angriff.
-2. **Brudiclad, Telchor Engineer** — verwandelt vorhandene Tokens in die wertvollste Tokenform.
-3. **Kappa Cannoneer** — wächst schnell zu einer schwer blockbaren Einzelbedrohung.
-4. **Simulacrum Synthesizer** — erzeugt große Construct-Bodies aus dem normalen Artefaktplan.
-5. **Marionette Master** — bestraft das Sterben/Opfern von Artefakten.
-6. **Portal / Spine / Junker** — kontrollieren das Board so stark, dass der normale Combat-Plan reicht.
+Die B4-Liste enthält bewusst **kein Mana Crypt, kein Jeweled Lotus und kein Dockside Extortionist**; diese Karten stehen auf der aktuellen Commander-Bannliste.
 
-## Pilotenkomplexität
+## Offizielle Referenzen
 
-**ca. 5/10.**
-
-Damit ist Mishra deutlich anspruchsvoller als Ruxa, aber die Komplexität kommt überwiegend aus der Frage „welches meiner sichtbaren Artefakte kopiere ich jetzt?“ und nicht aus versteckten Combo-Linien.
-
-## Einfache Spielheuristik
-
-1. Frühe Hand: 3 Länder oder 2 Länder + mehrere Rocks ist meist gut.
-2. Zuerst Mana entwickeln, dann Value-Artefakt.
-3. Mishra idealerweise erst spielen, wenn bereits ein gutes Kopierziel liegt.
-4. Wenn keine Speziallage vorliegt: zuerst Draw-/Removal-Warforms kopieren.
-5. Roaming Throne nennt normalerweise `Human`.
-6. Gegen Kreaturenbretter sind Tithing Blade, Junker und Portal die besten Copy-Ziele.
-7. Bei viel eigenem Material auf Cyberdrive/Brudiclad als Abschluss wechseln.
-8. Sundial nur benutzen, wenn der Sacrifice-Trigger bereits auf dem Stack liegt.
-
-## Aktueller Bracket-Rahmen
-
-Zum Stand 2026-10-06 ist Bracket 3 = **Upgraded** und erlaubt bis zu drei Game Changer. Die aktuelle Fassung nutzt genau drei und vermeidet die typischen Bracket-4-Signale wie absichtliche frühe Zwei-Karten-Infinite-Combos, Extra-Turn-Ketten oder Mass Land Denial.
-
-Primärreferenz: https://magic.wizards.com/en/formats/commander
+- https://magic.wizards.com/en/formats/commander
+- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
+- https://magic.wizards.com/en/banned-restricted-list

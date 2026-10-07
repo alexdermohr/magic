@@ -17,11 +17,17 @@ Dieses Repository pflegt mehrere Commander als getrennte Bereiche. Jede aktive L
 
 ### Mishra, Eminent One
 
-**Ziel:** oberes Bracket 3 als modularer Artefakt-Commander mit hoher Varianz und klar sichtbaren Synergien, ohne absichtliche frühe Infinite-Combos oder Extra-Turn-Ketten.
+Mishra wird in zwei getrennten Linien gepflegt:
 
-- Aktuell: [decks/mishra/current.txt](decks/mishra/current.txt)
+- **Bracket 3 / Upgraded:** aktuelle Hauptfassung, stark optimiert ohne auf frühe/regelmäßige Game-Win-Combos zu bauen
+- **Bracket 4 / Optimized:** separate schnelle Combo-Fassung mit Fast Mana, starken Tutoren und freier Interaktion
+
+Links:
+
+- Aktuell (B3 v3): [decks/mishra/current.txt](decks/mishra/current.txt)
 - Analyse: [decks/mishra/analysis.md](decks/mishra/analysis.md)
-- Versionen: [decks/mishra/versions/](decks/mishra/versions/)
+- B4 v1: [decks/mishra/versions/2026-10-07-optimized-b4-v1.txt](decks/mishra/versions/2026-10-07-optimized-b4-v1.txt)
+- Alle Versionen: [decks/mishra/versions/](decks/mishra/versions/)
 
 ## Versionierung
 
@@ -31,11 +37,13 @@ Kurz:
 - `current.txt` ist die aktuell empfohlene Liste und darf sich ändern.
 - `versions/*.txt` sind datierte Snapshots und werden nicht überschrieben.
 - Eine relevante Neuoptimierung erhält einen neuen Snapshot und wird anschließend, wenn sie gewinnt, nach `current.txt` übernommen.
+- Alternative Leistungsstufen können als eigene Snapshots bestehen bleiben, ohne `current.txt` zu ersetzen.
 
 ## Aktueller Stand
 
 - **Ruxa current:** 2026-10-06 Upper Bracket 3 v2
-- **Mishra current:** 2026-10-06 Upper Bracket 3 v2
-- Beide aktiven Listen enthalten exakt 100 Karten.
+- **Mishra current:** 2026-10-07 Upper Bracket 3 v3
+- **Mishra alternative:** 2026-10-07 Optimized Bracket 4 v1
+- Ruxa current, Mishra current und Mishra B4 enthalten jeweils exakt 100 Karten.
 
 Bracket-, Bannlisten- und Game-Changer-Aussagen werden bei neuen finalen Versionen frisch gegen die offiziellen Commander-Regeln geprüft.
