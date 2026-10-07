@@ -19,12 +19,12 @@ Dieses Repository pflegt mehrere Commander als getrennte Bereiche. Jede aktive L
 
 Mishra wird in zwei getrennten Linien gepflegt:
 
-- **Bracket 3 / Upgraded:** aktuelle Hauptfassung, stark optimiert ohne auf frühe/regelmäßige Game-Win-Combos zu bauen
+- **Bracket 3 / Upgraded:** aktuelle Hauptfassung, stark und Mishra-spezifisch optimiert, ohne auf frühe/regelmäßige Game-Win-Combos zu bauen
 - **Bracket 4 / Optimized:** separate schnelle Combo-Fassung mit Fast Mana, starken Tutoren und freier Interaktion
 
 Links:
 
-- Aktuell (B3 v3): [decks/mishra/current.txt](decks/mishra/current.txt)
+- Aktuell (B3 v4): [decks/mishra/current.txt](decks/mishra/current.txt)
 - Analyse: [decks/mishra/analysis.md](decks/mishra/analysis.md)
 - B4 v1: [decks/mishra/versions/2026-10-07-optimized-b4-v1.txt](decks/mishra/versions/2026-10-07-optimized-b4-v1.txt)
 - Alle Versionen: [decks/mishra/versions/](decks/mishra/versions/)
@@ -42,7 +42,7 @@ Kurz:
 ## Aktueller Stand
 
 - **Ruxa current:** 2026-10-06 Upper Bracket 3 v2
-- **Mishra current:** 2026-10-07 Upper Bracket 3 v3
+- **Mishra current:** 2026-10-07 Upper Bracket 3 v4
 - **Mishra alternative:** 2026-10-07 Optimized Bracket 4 v1
 - Ruxa current, Mishra current und Mishra B4 enthalten jeweils exakt 100 Karten.
 

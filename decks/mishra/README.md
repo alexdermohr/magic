@@ -1,40 +1,40 @@
 # Mishra, Eminent One
 
-## Linien
+## Versionen und Ausrichtung
 
-Mishra wird in zwei getrennten Leistungsstufen gepflegt:
+Mishra bleibt in **zwei getrennten Leistungsstufen**:
 
-- **Bracket 3 / Upgraded:** starke, soziale High-Power-Linie mit hoher Kartenqualität und Interaktion, aber ohne einen auf frühe oder regelmäßig auftauchende Game-Win-Combos optimierten Plan.
-- **Bracket 4 / Optimized:** schnelle und konsistente Mishra-Combo-Linie mit Fast Mana, starken Tutoren und freier Interaktion.
+- **Bracket 3 (Upgraded):** starkes Artefakt-Midrange mit bewusster Mishra-Synergie, ohne auf frühe oder regelmäßig auftretende Infinite-/Game-Win-Combos optimiert zu sein.
+- **Bracket 4 (Optimized):** separate schnelle Gonti's-Aether-Heart-Combo-Fassung mit Fast Mana, Tutoren und freier Interaktion.
 
-## Aktuell
+## Aktuelle Empfehlung
 
-`current.txt` entspricht **2026-10-07-upper-b3-v3.txt** und bleibt bewusst die Bracket-3-Linie.
+`current.txt` entspricht jetzt **`versions/2026-10-07-upper-b3-v4.txt`**.
 
-Die Bracket-4-Liste liegt separat als `versions/2026-10-07-optimized-b4-v1.txt`.
+Die bisherige v3 wird **nicht überschrieben**, weil `versions/` im Repository unveränderliche Snapshots enthält. Die gewünschte Korrektur von v3 heißt daher formal v4.
 
-### Bracket-3-Leitplanken
+### Bracket-3-Grenzen
 
 - exakt 100 Karten
-- 3 Game Changer: **Ancient Tomb, The One Ring, Cyclonic Rift**
-- keine absichtlich eingebaute, regelmäßig frühe Game-Win-Combo
-- keine Extra-Turn-Kette
-- kein Mass Land Denial
-- Ziel bleibt: starke Synergien, hoher Kartenwert und wirksame Interaktion, ohne auf Bracket-4-Geschwindigkeit zu bauen
+- drei Game Changer: **Ancient Tomb**, **The One Ring**, **Cyclonic Rift**
+- keine absichtlich eingebaute frühe Zwei-Karten-Game-Win-Combo
+- keine Extra-Turn-Kette und kein Mass Land Denial
+- kein Gonti's Aether Heart; das Combo-Paket bleibt Bracket 4
 
-### Bracket 4
+### Versionen
 
-Die B4-Fassung ist ebenfalls exakt 100 Karten und baut gezielt auf **Gonti's Aether Heart** plus redundante Mishra-Trigger-/Token-Kopierer. Fast Mana, starke Tutoren und freie Interaktion sind hier absichtlich Teil des Plans. Generische Thassa's-Oracle/Consultation-Linien bleiben draußen, damit das Deck Mishra-zentriert bleibt.
+- `versions/2026-09-22-concept-v1.txt`: ursprüngliche Konzeptfassung
+- `versions/2026-10-06-upper-b3-v2.txt`: ursprüngliche Upper-B3-Liste
+- `versions/2026-10-07-upper-b3-v3.txt`: erste Optimierung, historisch unverändert
+- `versions/2026-10-07-upper-b3-v4.txt`: korrigierte, jetzt empfohlene Upper-B3-Liste
+- `versions/2026-10-07-optimized-b4-v1.txt`: separate Bracket-4-Combo-Fassung
 
-## Versionen
+### Dokumentation
 
-- `versions/2026-09-22-concept-v1.txt` — ursprüngliche psychologisch motivierte Konzeptfassung
-- `versions/2026-10-06-upper-b3-v2.txt` — erste Upper-B3-Fassung; bleibt unverändert
-- `versions/2026-10-07-upper-b3-v3.txt` — zweite, weiter optimierte Upper-B3-Fassung; aktueller Stand
-- `versions/2026-10-07-optimized-b4-v1.txt` — separate Optimized-/Bracket-4-Fassung
+Die Begründungen, konkreten Tausche, Vor- und Nachteile und Spielhinweise stehen in [analysis.md](analysis.md).
 
-## Offizielle Referenzen
-
-- Commander und aktuelle Brackets: https://magic.wizards.com/en/formats/commander
-- Bracket-Erwartungen / Oktober-2025-Update: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
-- Commander-Bannliste: https://magic.wizards.com/en/banned-restricted-list
+Offizielle Referenzen:
+- https://magic.wizards.com/en/formats/commander
+- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
+- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026
+- https://magic.wizards.com/en/banned-restricted-list
