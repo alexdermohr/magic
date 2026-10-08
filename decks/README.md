@@ -17,3 +17,10 @@ Jeder Commander besitzt einen eigenen Ordner unter `decks/`.
 - Historische B3-Fassungen sind aus dem aktuellen Baum gelöscht, über Git-Historie aber weiterhin verfügbar.
 
 Damit liegt für jeden der beiden Mishra-Brackets exakt **eine importierbare 100-Karten-Liste** vor.
+
+## Ian Malcolm (Bracket 3)
+
+- `decks/ian-malcolm/current.txt`: aktive 100-Karten-Liste.
+- `decks/ian-malcolm/analysis.md`: Spielplan und Bracket-Begründung.
+- `decks/ian-malcolm/versions/`: datierte Snapshots ab 2026-10-08.
+- Die Mishra-Regel (nur eine B3-Liste) gilt nicht für Ian.

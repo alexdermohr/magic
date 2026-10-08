@@ -1,0 +1,87 @@
+1 Ian Malcolm, Chaotician
+1 Kami of the Crescent Moon
+1 Faerie Mastermind
+1 Humble Defector
+1 Magus of the Wheel
+1 Jace's Archivist
+1 Scrawling Crawler
+1 Psychosis Crawler
+1 Niv-Mizzet, Parun
+1 Brallin, Skyshark Rider
+1 Glint-Horn Buccaneer
+1 Kessig Flamebreather
+1 Guttersnipe
+1 Firebrand Archer
+1 Archmage Emeritus
+1 The Locust God
+1 Solphim, Mayhem Dominus
+1 Storm-Kiln Artist
+1 Howling Golem
+1 Sol Ring
+1 Arcane Signet
+1 Izzet Signet
+1 Talisman of Creativity
+1 Fellwar Stone
+1 Mind Stone
+1 Thought Vessel
+1 Sapphire Medallion
+1 Ruby Medallion
+1 Howling Mine
+1 Font of Mythos
+1 Temple Bell
+1 Dictate of Kruphix
+1 Fevered Visions
+1 Vision Skeins
+1 Jace Beleren
+1 Forced Fruition
+1 Wheel of Fortune
+1 Windfall
+1 Reforge the Soul
+1 Echo of Eons
+1 Molten Psyche
+1 Winds of Change
+1 Time Reversal
+1 Faithless Looting
+1 Frantic Search
+1 Big Score
+1 Unexpected Windfall
+1 Preordain
+1 Impulse
+1 Cyclonic Rift
+1 Fierce Guardianship
+1 Chaos Warp
+1 Pongify
+1 Rapid Hybridization
+1 Reality Shift
+1 Resculpt
+1 Counterspell
+1 Arcane Denial
+1 Vandalblast
+1 Blasphemous Act
+1 Runeflare Trap
+1 Sudden Impact
+1 Cerebral Vortex
+1 Impact Tremors
+1 Teferi's Ageless Insight
+1 Command Tower
+1 Volcanic Island
+1 Steam Vents
+1 Sulfur Falls
+1 Stormcarved Coast
+1 Spirebluff Canal
+1 Shivan Reef
+1 Riverpyre Verge
+1 Fiery Islet
+1 Riverglide Pathway
+1 Mana Confluence
+1 City of Brass
+1 Otawara, Soaring City
+1 Sokenzan, Crucible of Defiance
+1 Mikokoro, Center of the Sea
+1 Geier Reach Sanitarium
+1 Ancient Tomb
+1 Reliquary Tower
+1 War Room
+1 Thundering Falls
+9 Island
+6 Mountain
