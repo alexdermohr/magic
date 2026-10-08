@@ -1,6 +1,6 @@
-# Ruxa – geprüfte Upper-Bracket-3-Endfassung
+# Ruxa – geprüfte Upper-Bracket-3-Fassung v3
 
-**Stand:** 2026-10-06  
+**Stand:** 2026-10-08  
 **Commander:** Ruxa, Patient Professor  
 **Ziel:** möglichst hohe reale Gewinnstärke bei möglichst wenig Denk- und Verwaltungsaufwand, mit Priorität auf 1v1 gegen Tom und regulärer Commander-Legalität.
 
@@ -8,7 +8,7 @@
 
 - **100 Karten exakt**
 - **36 Länder**
-- **25 Kreaturen inklusive Ruxa**
+- **26 Kreaturen inklusive Ruxa**
 - **17 Kreaturenkarten ohne Fähigkeiten**
 - **3 Game Changer:** Gaea's Cradle, Ancient Tomb, Natural Order
 - keine Infinite Combo
@@ -22,7 +22,9 @@ Die Liste wurde nicht auf maximale theoretische Mono-Green-Power gebaut. Sie ist
 
 ## 1. Verifikationsstand
 
-Am 2026-10-06 wurden frisch geprüft:
+Die v2-Basis wurde am 2026-10-06 geprüft. Am 2026-10-08 wurden Bracket-/Bannlistenrahmen und die beiden neu aufgenommenen Karten hinsichtlich Oracle-Text und Commander-Legalität erneut geprüft. Die vollständige v3-Zählung wurde neu validiert.
+
+Am 2026-10-06 wurden geprüft:
 
 - aktueller Repository-Stand vor jeder Mutation
 - aktuelle Commander- und Bracket-Regeln von Wizards
@@ -88,17 +90,18 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 - Vorstclaw — 7/7 für 4GG
 - Quakestrider Ceratops — 12/8 für 3GGG
 
-### Utility-Kreaturen — 7
+### Utility-Kreaturen — 8
 
 - Fanatic of Rhonas
 - Llanowar Elves
 - Elvish Mystic
 - Fyndhorn Elves
+- Arbor Elf
 - Beast Whisperer
 - Ghalta, Primal Hunger
 - Craterhoof Behemoth
 
-### Ramp — 9 Nichtkreatur-Slots
+### Ramp — 8 Nichtkreatur-Slots
 
 - Sol Ring
 - Wild Growth
@@ -106,11 +109,10 @@ Die Kategorien sind nach Hauptaufgabe gezählt, damit nichts doppelt gezählt wi
 - Nature's Lore
 - Three Visits
 - Rampant Growth
-- Arcane Signet
 - Emerald Medallion
 - Skyshroud Claim
 
-Mit Fanatic of Rhonas und den drei Ein-Mana-Elfen sind das **13 dedizierte Ramp-Slots**, bevor Gaea's Cradle, Ancient Tomb, Nykthos und Castle Garenbrig mitgerechnet werden.
+Mit Fanatic of Rhonas und vier Ein-Mana-Elfen sind das **13 dedizierte Ramp-Slots**, bevor Gaea's Cradle, Ancient Tomb, Nykthos und Castle Garenbrig mitgerechnet werden.
 
 ### Card Draw — 8 Nichtkreatur-Slots
 
@@ -156,7 +158,7 @@ Beast Whisperer ist der neunte dedizierte Draw-Slot. Ruxas Graveyard-Rückholung
 - Muraganda Petroglyphs
 - Unnatural Growth
 - Overwhelming Stampede
-- Klothys's Design
+- Triumph of the Hordes
 - Natural Order
 
 ### Recursion — 1
@@ -174,7 +176,7 @@ Beast Whisperer ist der neunte dedizierte Draw-Slot. Ruxas Graveyard-Rückholung
 - Yavimaya, Cradle of Growth
 - 29 Snow-Covered Forest
 
-Die importierbare Liste steht in [final.txt](final.txt).
+Die importierbare Liste steht in [current.txt](current.txt); die ältere v2 ist in [versions/2026-10-06-upper-b3-v2.txt](versions/2026-10-06-upper-b3-v2.txt) archiviert.
 
 ## 4. Warum diese Vanilla-Auswahl besser ist
 
@@ -204,7 +206,14 @@ Colossapede und Grizzled Outrider sind 5/5 für fünf Mana. Auf fünf Mana besit
 
 Der Slot ist deshalb besser in frühe Boardentwicklung investiert.
 
-## 5. RAUS → REIN gegenüber deck/current.txt
+## 5. Änderungen v2 → v3 (2026-10-08)
+
+1. **Arcane Signet → Arbor Elf.** Ein grünes Mana statt zwei generischen Mana ermöglicht Ramp schon im ersten Zug. Die 29 Snow-Covered Forest und Yavimaya machen das Enttappen zuverlässig; mit Wild Growth/Utopia Sprawl verstärkt Arbor Elf die frühe Beschleunigung zusätzlich. Arbor Elf hat eine Fähigkeit und profitiert nicht unmittelbar von Ruxa, erhöht aber Kreaturenzahl, Cradle-Mana und Hoof-Skalierung.
+2. **Klothys's Design → Triumph of the Hordes.** Vier statt sechs Mana; im 1v1 reichen zehn Poison-Counter für den Sieg statt 40 Lebenspunkte Schaden. Dieser Finisher ist ohne grüne Devotion zu zählen oft stärker. **Achtung:** Triumph verleiht Trample und Infect, sodass Vanilla-Kreaturen für diesen Zug Ruxas +1/+1 und die Blocker-Umgehung verlieren. Trample übernimmt den Schadenstransport durch Blocker; gegen sehr große Blocker oder bei ablehnender Infect-Spielgruppe kann Klothys's Design besser passen.
+
+Unverändert sind 36 Länder, 17 Vanilla-Kreaturenkarten und exakt drei Game Changer. Die Liste hat jetzt 26 Kreaturen einschließlich Commander; es bleiben 13 dedizierte Ramp-Slots mit etwas höherem Tempo. Die durchschnittliche nominelle Manakurve sinkt von 3,22 auf rund 3,17. Der prognostizierte Gewinnvorteil ist nicht empirisch gemessen.
+
+## 5a. Historische Änderungen: Baseline v1 → v2 (2026-10-06)
 
 1. **Colossapede → Alpine Grizzly** — fünf Mana 5/5 wird zu drei Mana 4/2; klar bessere Tempoeffizienz.
 2. **Grizzled Outrider → Norwood Ranger** — zweiter mittelmäßiger Fünfer raus; ein grüner Turn-1-Ruxa-Body und Natural-Order-Futter rein.
@@ -297,13 +306,13 @@ Das Deck hat genug Ramp, aber nicht mehr die langsamen redundanten Ramp-Pakete d
 - Llanowar Elves
 - Elvish Mystic
 - Fyndhorn Elves
+- Arbor Elf
 
 ### Zwei-Mana-Ramp
 
 - Nature's Lore
 - Three Visits
 - Rampant Growth
-- Arcane Signet
 - Emerald Medallion
 
 ### Größerer Ramp
@@ -387,8 +396,10 @@ Pilotregel: Schutz nicht für einen beliebigen Vanilla-Body verschwenden. Priori
 Token bleiben nur als One-shot-Pakete:
 
 - Saproling Migration
+- Spore Swarm
 - Beacon of Creation
 - Fungal Sprouting
+- One Dozen Eyes
 - Howl of the Night Pack
 
 Saproling Migration, Spore Swarm und Fungal Sprouting erzeugen denselben Tokentyp; Beacon of Creation und der Standardmodus von One Dozen Eyes teilen sich ebenfalls den Insekten-Tokentyp. Es gibt keine dauerhafte Token-Engine und keine Counter-Verwaltung. Migration ist früh zwei Bodies für zwei Mana und spät optional vier Bodies für sechs Mana; Spore Swarm ist deterministisch drei Saprolinge für vier Mana; One Dozen Eyes ist standardmäßig fünf Insekten für sechs Mana und funktioniert auch auf leerem Board.
@@ -409,9 +420,13 @@ Sehr viel Druck ohne den Kreaturen Fähigkeiten zu geben. Der Combat-Trigger mus
 
 Ein klarer Kill-Button. Trample schaltet für den Zug zwar Ruxas „keine Fähigkeiten“-Bonus bei den betroffenen Kreaturen aus, der massive Pump und Trample sind auf dem Kill-Turn stärker.
 
-### Klothys's Design
+### Triumph of the Hordes
 
-Der Ruxa-spezifische Finisher: Alle eigenen Kreaturen bekommen +X/+X entsprechend der grünen Devotion. Es werden **keine Fähigkeiten verliehen**. Vanillas behalten daher Ruxas +1/+1 und dürfen ihren Kampfschaden weiterhin so zuweisen, als wären sie ungeblockt. Die Karte ergänzt Stampede: Stampede ist auf kleinen/tall Boards oft stärker, Klothys skaliert auf breiten, grünen Boards besser.
+Ein günstiger, sehr starker Finisher im 1v1: Für {2}{G}{G} bekommen alle Kreaturen +1/+1, Trample und Infect bis zum Ende des Zuges. Zehn Poison-Counter auf einen Spieler reichen zum Sieg. Mit einem aufgebauten Board ist das meist effizienter als Klothys's Design für sechs Mana.
+
+**Regelhinweis:** Weil die Vanillas durch Triumph Fähigkeiten **erhalten**, profitieren sie in diesem Zug weder von Ruxas +1/+1 noch von der Schadenszuweisung, als wären sie ungeblockt. Ein Angreifer muss dann über Trample Schaden durch einen Blocker bringen. Außerhalb dieses Zugs bleibt der normale Ruxa-Plan unverändert.
+
+**Soziale Grenze:** Infect kann in einer Spielgruppe trotz fehlendem Game-Changer-Status unerwünscht sein. Die offizielle Bracket-3-Decke wird dadurch nicht formal überschritten; ob die Spiele gefühlt passend sind, bleibt von realen Partien abhängig.
 
 ### Craterhoof Behemoth
 
@@ -449,17 +464,17 @@ Face-value Mana Values der 64 Nichtländer:
 | Mana Value | Karten |
 |---:|---:|
 | 0 | 1 |
-| 1 | 13 |
-| 2 | 18 |
+| 1 | 14 |
+| 2 | 17 |
 | 3 | 7 |
-| 4 | 9 |
+| 4 | 10 |
 | 5 | 7 |
-| 6 | 5 |
+| 6 | 4 |
 | 7 | 1 |
 | 8 | 2 |
 | 12 | 1 |
 
-Durchschnittlicher nomineller Mana Value: **3,22**.
+Durchschnittlicher nomineller Mana Value: **3,17**.
 
 Der reale Cast-Aufwand liegt darunter, weil Ghalta stark verbilligt wird und die Liste viele frühe Manaquellen besitzt.
 
@@ -469,13 +484,14 @@ Die Kurve ist gegenüber dem Ausgangsdeck deutlich nach unten verschoben. Das is
 
 Die Änderungen für 1v1 sind bewusst:
 
-- drei Ein-Mana-Manaelfen
+- vier Ein-Mana-Manaelfen
 - Memnite und Icehide Golem als extrem frühe Boardentwicklung
 - sechs One-shot-Token-Spells, die mehrere Ruxa-kompatible Bodies aus jeweils einer Karte erzeugen
 - Ancient Tomb als zusätzlicher Tempoboost
 - billiges Kreaturenremoval
 - Lignify/Kenrith gegen einen zentralen gegnerischen Commander
 - Natural Order als klarer Abschluss
+- Triumph of the Hordes als günstigerer, klarer 1v1-Finisher (mit Infect/Trample-Ausnahme)
 - weniger multiplayer-spezifische Engines
 - weniger langsame Ramp-Spells
 
@@ -500,6 +516,7 @@ Bewusste Komplexitätsausnahmen:
 - Ghalta: Kostenreduktion aus Gesamtpower
 - Natural Order: genau eine Suchentscheidung
 - Craterhoof / Stampede: einmalig Kreaturen bzw. höchste Power zählen
+- Triumph: einmalig Poison-10-Siegschwelle rechnen; Trample ersetzt für diesen Zug Ruxas Blocker-Umgehung
 - Life's Legacy: eine Kreatur als zusätzliche Kosten opfern
 
 Entfernt wurden dagegen die dauerhaften +1/+1-Counter von The Great Henge, Toskis mehrfachen Combat-Draw und zusätzliche permanente Draw-Trigger.
@@ -514,7 +531,7 @@ Entfernt wurden dagegen die dauerhaften +1/+1-Counter von The Great Henge, Toski
 6. **Removal nicht an normale Blocker verschwenden:** Zuerst Commander, Combo-/Draw-Engine, Flieger oder echte Kill-Bedrohung entfernen.
 7. **Natural Order simpel spielen:** Standardziel Craterhoof. Nicht minutenlang die Bibliothek optimieren.
 8. **Schutz für Schlüsselzüge halten:** Heroic Intervention gegen Boardwipe; die Einzelschützer für Ruxa, Draw-Engine oder Finisher.
-9. **Kill-Button erkennen:** Mehrere Bodies plus Natural Order, Craterhoof, Stampede, Klothys's Design oder Unnatural Growth bedeutet zuerst grob Schaden zählen und dann meist angreifen.
+9. **Kill-Button erkennen:** Mehrere Bodies plus Natural Order, Craterhoof, Stampede, Triumph oder Unnatural Growth bedeutet zuerst grob Schaden zählen und dann meist angreifen.
 
 ## 19. Teuerste Karten und günstigere Ersatzoptionen
 

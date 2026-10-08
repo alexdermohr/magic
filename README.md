@@ -35,7 +35,7 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 
 ## Aktueller Stand (2026-10-08)
 
-- Ruxa: Bracket 3, unverändert.
+- Ruxa: **Bracket 3 v3**, 36 Länder / 26 Kreaturen inkl. Commander / 17 Vanilla-Kreaturen / 3 Game Changer.
 - Mishra: Bracket 3, **35 Länder / 11 Mana-Artefakte / genau 100 Karten**.
 - Mishra: Bracket 4, separate Liste unverändert.
 
