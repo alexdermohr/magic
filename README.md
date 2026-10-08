@@ -2,7 +2,7 @@
 
 Commander-Decklabor für Alexander.
 
-Die zwei Commander werden getrennt gepflegt. **Mishra hat genau eine Bracket-3-Liste und eine separate Bracket-4-Liste**.
+Die Commander werden getrennt gepflegt. **Mishra hat genau eine Bracket-3-Liste und eine separate Bracket-4-Liste**.
 
 ## Ruxa, Patient Professor
 
@@ -25,6 +25,14 @@ Die zwei Commander werden getrennt gepflegt. **Mishra hat genau eine Bracket-3-L
 - [decks/mishra/versions/2026-10-07-optimized-b4-v1.txt](decks/mishra/versions/2026-10-07-optimized-b4-v1.txt)
 
 Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfernt. Die historischen Commits bleiben erhalten.
+
+## Ian Malcolm, Chaotician
+
+**Bracket 3 / Upgraded:** kontrolliertes Chaos mit gemeinsamem Draw und klaren Wheel-/Damage-Finishern.
+
+- Liste: [decks/ian-malcolm/current.txt](decks/ian-malcolm/current.txt)
+- Analyse: [decks/ian-malcolm/analysis.md](decks/ian-malcolm/analysis.md)
+- Versionen: [decks/ian-malcolm/versions/](decks/ian-malcolm/versions/)
 
 ## Versionspflege
 
