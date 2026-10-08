@@ -1,82 +1,66 @@
-# Mishra, Eminent One — Upper Bracket 3 (v4)
+# Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-07  
-**Aktuell:** `current.txt` = `versions/2026-10-07-upper-b3-v4.txt`  
-**Vorher:** `versions/2026-10-07-upper-b3-v3.txt` (unveränderter Snapshot)  
-**Separate Combo-Linie:** `versions/2026-10-07-optimized-b4-v1.txt`
+**Stand:** 2026-10-08  
+**Verbindliche B3-Liste:** [current.txt](current.txt)  
+**Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
-## Ergebnis und Ziel
+## Ziel und Ergebnis
 
-v4 ist die überarbeitete Fassung der zuvor als zu eindeutig „besser“ bezeichneten v3. Sie behält deren objektive Qualitätsgewinne — **Urza, Lord High Artificer**, **Mana Drain**, **Liquimetal Torque**, **Whir of Invention**, **Deflecting Swat**, **Deadly Rollick** und die drei Original-Duals — bei.
+Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck behält seinen bestehenden Artefakt-Value-/Token-Plan bei. Eine weitere B3-Version wird nicht gepflegt.
 
-Neu ist eine engere Ausrichtung auf Mishras besondere Fähigkeit: **temporäre Artefakt-Warforms kopieren, behalten und in Kartenvorteil oder Schaden umwandeln**.
+Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-Die drei Änderungen erhöhen die Synergie. Ein durch Spieltests nachgewiesener Gewinnratenanstieg liegt nicht vor; „optimal“ bezeichnet hier eine begründete Deckbauempfehlung am oberen Rand von Bracket 3, keinen empirischen Beweis.
+## Mana: drei gezielte Verbesserungen
 
-## Änderungen v3 → v4
-
-| Raus | Rein | Begründung und Gegenargument |
+| Raus | Rein | Grund und Trade-off |
 |---|---|---|
-| **Padeem, Consul of Innovation** | **Worldwalker Helm** | Für nur drei Mana erhöht der Helm die Artefakttokenproduktion und kann für {1}{U}, {T} eine **dauerhafte Kopie einer Warform** erzeugen. Nachteil: Padeems Artefakt-Hexproof und gelegentlicher Kartenbonus fallen weg. Die eigene Value-Engine wird hier höher gewichtet als dieser reaktive Schutz. |
-| **Mycosynth Wellspring** | **Marionette Master** | Nur drei Standardländer begrenzen das Suchziel des Wellspring stark. Master ist ein direkter Gewinnweg: mit Fabricate 3 als vierstarke Kreatur entzieht er einem Gegner **vier Leben pro geopfertem Artefakt**. Nachteil: sechs Mana statt zwei; frühes Mana-Fixing ist schwächer. |
-| **Sensei's Divining Top** | **Sundial of the Infinite** | Top glättet Kartenziehfolgen, aber der Sundial kann **Mishras eigene Warforms dauerhaft bewahren**. Das ist für dieses Deck spezifischer. Nachteil: weniger allgemeine Kartenauswahl und ein regeltechnischer End-Step-Handgriff. |
+| **Glimmervoid** | **City of Brass** | Sofort jede benötigte Farbe, ohne Artefakt auf dem Spielfeld halten zu müssen. Beim Tappen 1 Lebenspunkt Schaden. |
+| **Exotic Orchard** | **Misty Rainforest** | In 1v1 unabhängig von den gegnerischen Farben; sucht hier vor allem passende Länder mit Insel-Typ (u.a. Underground Sea, Volcanic Island, Watery Grave, Steam Vents, Xander's Lounge). Kostet 1 Leben beim Aktivieren. |
+| **Treasure Vault** | **Flooded Strand** | Tauscht eine farblose Artefakt-Land-Manaquelle gegen zuverlässigen Zugriff auf Insel-Duals und damit U/B/R je nach Ziel. Verliert die späte X-Treasure-Aktivierung und einen Artefaktland-Synergieslot. |
 
-**Netto:** Bessere Mishra-spezifische Engine und klarerer Abschluss, aber etwas weniger allgemeine Defensive, Kartenauswahl und niedriges Mana-Fixing. Die bereits verbesserten Interaktions-/Mana-Slots aus v3 werden nicht rückgängig gemacht.
+### Bewusst **nicht** geändert
 
-## Präzise Regeln — keine erfundenen Combos
+- **Buried Ruin** bleibt: wichtiges Artefakt direkt aus dem Friedhof auf die Hand zurückholen; als redundante Wiederherstellung wertvoll.
+- **Academy Ruins**, **Inventors' Fair**, **Urza's Saga** bleiben als zentrale Artefakt-Nutzländer.
+- **Seat of the Synod**, **Vault of Whispers**, **Great Furnace**, **Darksteel Citadel** bleiben wegen direkter Artefakt-Synergie.
+- **Ancient Tomb** bleibt für frühe Beschleunigung und als einer der drei zulässigen Game Changer.
+- Alle **11 vorhandenen Mana-Artefakte** bleiben unverändert, insbesondere Sol Ring, die drei Signets und drei Talismane.
 
-### Worldwalker Helm
+### Struktur
 
-- Mishra erzeugt zu Kampfbeginn eine Warform. Worldwalker Helm erzeugt durch seinen **Ersatzeffekt** auch eine Map. Beide in *diesem* Erzeugungsereignis entstandenen Spielsteine unterliegen dem von Mishras Fähigkeit vorgegebenen End-Step-Opfer; die Map ist nicht kostenlos dauerhaft.
-- Im Kampf oder später, solange die Warform liegt, kann der Helm für **{1}{U} und Tappen** eine Kopie dieses Artefakt-Spielsteins erzeugen. **Die vom Helm erzeugte Kopie** unterliegt **nicht** Mishras verzögertem Opfer-Trigger und bleibt erhalten. Sie übernimmt nicht die bis zum Ende des Zuges gewährte Haste-Eigenschaft.
-- Vom Helm bei diesem zweiten Erzeugungsereignis erzeugte Map-Spielsteine sind ebenfalls dauerhaft und können später für Explores genutzt werden.
-- Mit **Brudiclad** können langfristig gesammelte Artefakt-Spielsteine im Kampf in starke Kopien verwandelt werden.
+- **35 Länder**
+- **11 Mana-Artefakte** (Sol Ring; Arcane Signet; Fellwar Stone; drei Signets; drei Talismane; Mind Stone; Liquimetal Torque)
+- **6 rein farblos produzierende Länder**, statt zuvor 7
+- Die beiden neuen Fetchländer schaffen flexible Farbzugänge und machen die bereits vorhandenen Original-Duals, Schockländer und das Triom konsistenter nutzbar.
 
-### Sundial of the Infinite
+**Warum nicht 36 Länder?** Ein weiteres Land würde angesichts des Decks mit 11 Mana-Artefakten nur einen kleinen statistischen Stabilitätsgewinn liefern, aber einen funktionierenden Artefakt-, Value- oder Finisher-Slot kosten. Ohne Daten aus realen Starthänden und Spielen ist ein viertes Swap nicht eindeutig besser. **35 bleibt die begründete Standardannahme**, keine empirisch bewiesene optimale Quote.
 
-- Zuerst **den Beginn des End-Steps erreichen** und den verzögerten Mishra-Opfer-Trigger auf den Stack legen.
-- **In Reaktion darauf** {1} bezahlen und Sundial tappen: Der Zug wird beendet, der Trigger vom Stack entfernt; er wird nicht erneut ausgelöst.
-- Wer den Zug **vor** dem End-Step beendet, bewahrt die Warform **nicht dauerhaft**: Der Trigger wartet dann bis zum nächsten End-Step (gegebenenfalls beim Gegner).
+**Wichtige Einschränkung:** Fetchländer sind keine unmittelbar tappbaren farbigen Länder; sie kosten Aktivierung/Leben und benötigen noch passende Ziele in der Bibliothek. Xander's Lounge kommt getappt. Glimmervoid ist in artefaktreichen Spielen gut, kann aber beim frühen Land-Drop ausfallen. City of Brass schadet beim Tappen. Die Änderungen verbessern deshalb primär die Zuverlässigkeit der Farbwahl und reduzieren die Zahl riskanter Anfangsländer, nicht die absolute Produktion von Mana pro Karte.
 
-### Marionette Master
+## Spielplan
 
-- Üblicherweise mit **Fabricate 3 → drei +1/+1-Marken** spielen, sodass die Stärke **4** beträgt.
-- Stirbt eine eigene Warform oder ein anderer Artefakt-Spielstein durch Opferung, wird Marionette Masters Fähigkeit ausgelöst. Zielgegner verliert bei unveränderter Stärke **4 Leben** pro Artefakt.
-- **Helm und Mishra** können zwei gleichzeitig später geopferte Artefakt-Spielsteine erzeugen (Warform + Map): das wären ohne weitere Modifikatoren zwei getrennte Trigger, zusammen **8 Lebensverlust** gegen denselben Gegner, wenn Master Stärke 4 hat.
-- **Sundial** und Master bieten **alternative** Verwendungen desselben Warforms: Behalten bringt Langzeitwert, opfern bringt Schadensauslösung; beides geht mit demselben Warform nicht gleichzeitig.
+1. Starthand: drei Länder oder zwei Länder mit mehreren billigen Mana-Artefakten sind meist ein guter Ausgangspunkt; nötige U/B/R-Verfügbarkeit prüfen.
+2. Fetchländer früh für die fehlende Farbe verwenden. Eine sofort ungetappte Manaquelle ist oft wichtiger als maximales späteres Value.
+3. Mana-Artefakte, danach gute Nichtkreatur-Artefakte, dann Mishra.
+4. Ichor Wellspring, Cryogen Relic, Mephitic Draught, Idol of Oblivion und The One Ring dienen als Warform-Wertziele.
+5. Tithing Blade, Skysovereign, Demonic Junker, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle.
+6. Mit Worldwalker Helm können zusätzliche dauerhafte Kopien von Mishras Warform entstehen; die vom Helm aktivierte Fähigkeit erzeugten Kopien besitzen **nicht** Mishras verzögerten Opfer-Trigger.
+7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt.
+8. Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) verwandelt Artefakt-Opfer in direkten Lebensverlust. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
 
-Referenzen mit Kartentext und offiziellen Rulings:
-- https://mtg.wtf/card/brc/1/Mishra-Eminent-One
-- https://mtg.wtf/card/big/37/Worldwalker-Helm
-- https://mtg.wtf/card/m12/218/Sundial-of-the-Infinite
-- https://mtg.wtf/card/kld/90/Marionette-Master
+## Bracket-Prüfung
 
-## Schnelle Spielentscheidungen
+Die offiziellen Brackets sehen in **Bracket 3 (Upgraded)** bis zu drei Game Changer vor; zusätzlich sollen frühe Zwei-Karten-Endlos-Combos, regelmäßige Extra-Turn-Ketten und Mass Land Denial vermieden werden.
 
-1. Gute Starthand: 3 Länder oder 2 Länder plus 2 günstige Manaquellen; mindestens ein frühes Artefakt-Ziel ist hilfreich.
-2. Frühe Manaquellen und kopierbare Artefakte zuerst; Mishra bevorzugt spielen, wenn schon ein gutes Warform-Ziel liegt.
-3. **Ohne konkrete Bedrohung**: Ichor Wellspring, Cryogen Relic, Mephitic Draught oder Idol of Oblivion für Karten kopieren.
-4. **Gegen gegnerische Kreaturen**: Tithing Blade, Skysovereign, Demonic Junker oder Portal to Phyrexia nutzen.
-5. **Mit Helm**: Wertvolles Warform nach dem Mishra-Trigger mit Helm permanent nachbauen; die Map aus dem Mischra-Trigger wird normalerweise zusammen mit dem Warform geopfert.
-6. **Mit Sundial**: Nur wertvolle Warforms im End-Step absichern, nicht jedes 4/4 um jeden Preis.
-7. **Mit Marionette Master**: Bei vielen Artefakt-Opfern den Gegner durch Lebensverlust abschließen.
-8. **Mit vielen Artefakten/Tokens**: Cyberdrive Awakener, Brudiclad, Kappa Cannoneer oder Simulacrum Synthesizer für direkten Combat-Schaden.
-9. **Roaming Throne** nennt normalerweise `Human`; damit wird Mishras Fähigkeit nochmals ausgelöst.
+**Game Changer in dieser Liste:** Ancient Tomb, The One Ring, Cyclonic Rift. Die zusätzlichen Fetchländer und City of Brass sind keine Game Changer.
 
-## B3 vs. B4
+- 100 Karten einschließlich Mishra, Singleton
+- drei Game Changer; keine offensichtliche Commander-Bannkarte
+- keine Gonti's-Aether-Heart-Extra-Turn-Combo und keine entsprechende B4-Tutoren-/Fast-Mana-Dichte
 
-- **B3 v4**: Value-/Token-/Combat-Plan, besonders starke Karten, aber kein gezielt eingebautes Gonti-Extra-Turn-Setup und keine Fast-Mana-/Tutor-Dichte für regelmäßig frühe Siege.
-- **B4 v1**: gesonderte, schnellere Gonti's-Aether-Heart-Combo-Strategie; bleibt unverändert.
+Es wurden die veränderten Länder, Deckanzahl und relevante Bann-/Bracket-Vorgaben geprüft. Ein vollständiges Re-Scannen jedes Oracle-Texts, aller theoretischen Kartenkombinationen und reale Gewinnraten wurden nicht durchgeführt. Der Begriff „optimiert“ beschreibt eine begründete Entscheidung über den konkreten Mana-Engpass, nicht einen mathematischen Beweis absoluter Maximalleistung.
 
-## Bracket- und Listenprüfung
-
-Die aktuell offizielle Commander-Einteilung erlaubt **bis zu drei Game Changer** in Bracket 3. Oktober 2025 wurden **Urza, Lord High Artificer** und **Deflecting Swat** von dieser Liste entfernt; im Februar 2026 wurden u. a. **Farewell** und **Biorhythm** hinzugefügt, die nicht in dieser Liste stehen.
-
-Die drei verwendeten Game Changer bleiben: **Ancient Tomb**, **The One Ring** und **Cyclonic Rift**.
-
-Die Liste umfasst **100 Karten inklusive Commander**, alle nur einmal. Die neu eingefügten Karten sind schwarz bzw. blau/farblos und innerhalb von Mishras Farbidentität. Es sind keine bekannten Commander-Bannkarten enthalten. Ein vollständiger automatisierter Oracle-Abgleich aller 100 Kartennamen und sämtlicher denkbarer unendlicher Kombos wurde in diesem Lauf **nicht** durchgeführt; deshalb bleibt die Bracket-Einstufung eine überprüfbare Designbewertung, keine formale Turnier-/Metagame-Zertifizierung.
-
-## Quellen
+## Offizielle Referenzen
 
 - https://magic.wizards.com/en/formats/commander
 - https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025

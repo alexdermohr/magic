@@ -2,48 +2,41 @@
 
 Commander-Decklabor für Alexander.
 
-Dieses Repository pflegt mehrere Commander als getrennte Bereiche. Jede aktive Linie hat eine aktuelle Empfehlung und unveränderliche, datierte Versionen.
+Die zwei Commander werden getrennt gepflegt. **Mishra hat genau eine Bracket-3-Liste und eine separate Bracket-4-Liste**.
 
-## Aktive Decks
-
-### Ruxa, Patient Professor
+## Ruxa, Patient Professor
 
 **Ziel:** oberes Bracket 3 bei möglichst geringer Pilotenkomplexität.
 
 - Aktuell: [decks/ruxa/current.txt](decks/ruxa/current.txt)
 - Analyse: [decks/ruxa/analysis.md](decks/ruxa/analysis.md)
 - Designregeln: [decks/ruxa/DESIGN_PRINCIPLES.md](decks/ruxa/DESIGN_PRINCIPLES.md)
-- Versionen: [decks/ruxa/versions/](decks/ruxa/versions/)
+- Historische Versionen: [decks/ruxa/versions/](decks/ruxa/versions/)
 
-### Mishra, Eminent One
+## Mishra, Eminent One
 
-Mishra wird in zwei getrennten Linien gepflegt:
+**Bracket 3 / Upgraded:** farbstabile Artefakt-Value-/Token-Linie ohne auf frühe Endlos-Kombos optimierten Kill.
 
-- **Bracket 3 / Upgraded:** aktuelle Hauptfassung, stark und Mishra-spezifisch optimiert, ohne auf frühe/regelmäßige Game-Win-Combos zu bauen
-- **Bracket 4 / Optimized:** separate schnelle Combo-Fassung mit Fast Mana, starken Tutoren und freier Interaktion
+- **Einzige gepflegte B3-Liste:** [decks/mishra/current.txt](decks/mishra/current.txt)
+- Mana- und Deckanalyse: [decks/mishra/analysis.md](decks/mishra/analysis.md)
 
-Links:
+**Bracket 4 / Optimized:** separate schnelle Mishra-Kombovariante mit Gonti's Aether Heart.
 
-- Aktuell (B3 v4): [decks/mishra/current.txt](decks/mishra/current.txt)
-- Analyse: [decks/mishra/analysis.md](decks/mishra/analysis.md)
-- B4 v1: [decks/mishra/versions/2026-10-07-optimized-b4-v1.txt](decks/mishra/versions/2026-10-07-optimized-b4-v1.txt)
-- Alle Versionen: [decks/mishra/versions/](decks/mishra/versions/)
+- [decks/mishra/versions/2026-10-07-optimized-b4-v1.txt](decks/mishra/versions/2026-10-07-optimized-b4-v1.txt)
 
-## Versionierung
+Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfernt. Die historischen Commits bleiben erhalten.
 
-Die Konvention steht in [decks/README.md](decks/README.md).
+## Versionspflege
 
-Kurz:
-- `current.txt` ist die aktuell empfohlene Liste und darf sich ändern.
-- `versions/*.txt` sind datierte Snapshots und werden nicht überschrieben.
-- Eine relevante Neuoptimierung erhält einen neuen Snapshot und wird anschließend, wenn sie gewinnt, nach `current.txt` übernommen.
-- Alternative Leistungsstufen können als eigene Snapshots bestehen bleiben, ohne `current.txt` zu ersetzen.
+Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks/README.md).
 
-## Aktueller Stand
+- Ruxa: datierte Versionen und `current.txt`.
+- Mishra: nur ein einziges `current.txt` für B3; ein separates B4-Deck. Bei neuen B3-Optimierungen wird `current.txt` geändert, **keine weitere B3-Version** angelegt.
 
-- **Ruxa current:** 2026-10-06 Upper Bracket 3 v2
-- **Mishra current:** 2026-10-07 Upper Bracket 3 v4
-- **Mishra alternative:** 2026-10-07 Optimized Bracket 4 v1
-- Ruxa current, Mishra current und Mishra B4 enthalten jeweils exakt 100 Karten.
+## Aktueller Stand (2026-10-08)
 
-Bracket-, Bannlisten- und Game-Changer-Aussagen werden bei neuen finalen Versionen frisch gegen die offiziellen Commander-Regeln geprüft.
+- Ruxa: Bracket 3, unverändert.
+- Mishra: Bracket 3, **35 Länder / 11 Mana-Artefakte / genau 100 Karten**.
+- Mishra: Bracket 4, separate Liste unverändert.
+
+Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander

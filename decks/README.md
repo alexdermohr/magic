@@ -2,19 +2,18 @@
 
 Jeder Commander besitzt einen eigenen Ordner unter `decks/`.
 
-## Dateien pro Commander
+## Ruxa
 
-- `current.txt` — aktuell empfohlene, importierbare 100-Karten-Liste
-- `analysis.md` — aktueller Designstand, Bracket-Einordnung und Spielplan
-- `versions/` — unveränderliche Snapshots wichtiger Entwicklungsstände
-- zusätzliche commander-spezifische Designregeln bei Bedarf
+- `decks/ruxa/current.txt`: aktuelle 100-Karten-Liste.
+- `decks/ruxa/versions/`: datierte historische Snapshots.
+- `analysis.md` / `DESIGN_PRINCIPLES.md`: Analyse und Regeln.
 
-## Versionsregel
+## Mishra (bewusste Ausnahme: eine B3-Version)
 
-Dateinamen folgen:
+- **Einzige gepflegte B3-Liste:** `decks/mishra/current.txt`.
+- **Separate B4-Liste:** `decks/mishra/versions/2026-10-07-optimized-b4-v1.txt`.
+- `decks/mishra/analysis.md`: Mana- und Synergiebegründung.
+- Keine zusätzliche Mishra-B3-Datei, keine datierten B3-Snapshots. Verbesserungen werden in `current.txt` übernommen.
+- Historische B3-Fassungen sind aus dem aktuellen Baum gelöscht, über Git-Historie aber weiterhin verfügbar.
 
-`YYYY-MM-DD-kurzbeschreibung-vN.txt`
-
-Ein Versions-Snapshot wird nach seiner Ablage nicht still verändert. Eine neue relevante Optimierung erhält eine neue Versionsdatei. Erst danach wird `current.txt` auf denselben Inhalt gesetzt.
-
-Damit bleiben historische Stände vergleichbar, während `current.txt` immer die gegenwärtige Empfehlung bezeichnet.
+Damit liegt für jeden der beiden Mishra-Brackets exakt **eine importierbare 100-Karten-Liste** vor.

@@ -65,16 +65,16 @@
 1 Scrap Mastery
 1 Command Tower
 1 Xander's Lounge
-1 Exotic Orchard
+1 Misty Rainforest
 1 Reflecting Pool
 1 Spire of Industry
-1 Glimmervoid
+1 City of Brass
 1 Ancient Tomb
 1 Seat of the Synod
 1 Vault of Whispers
 1 Great Furnace
 1 Darksteel Citadel
-1 Treasure Vault
+1 Flooded Strand
 1 Academy Ruins
 1 Buried Ruin
 1 Inventors' Fair
