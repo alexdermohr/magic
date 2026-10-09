@@ -15,11 +15,11 @@ Mishra-typischer Midrange-Artefaktplan: früh die Farben und ein kopierbares Art
 
 - 100 Karten inklusive Commander
 - 35 Länder und 11 Mana-Artefakte
-- Game Changer: **Ancient Tomb**, **Rhystic Study**, **Cyclonic Rift**
+- Game Changer: **Demonic Tutor**, **Rhystic Study**, **Cyclonic Rift**
 - keine absichtlich eingebaute frühe Endlos-Combo, keine Extra-Turn-Kette, keine Mass-Land-Denial-Strategie
 - auf konsistentes farbiges Mana ausgelegt, auch im 1v1 ohne Unterstützung gegnerischer Farben
 
-Am 2026-10-09 wurde **The One Ring durch Rhystic Study** ersetzt: kein wachsender Lebenspunktverlust, dafür gegnerabhängiger Kartennachschub und keine Mishra-Kopierbarkeit. Die Auswahl, Manaanalyse, Risiken und wichtigsten Spielhinweise stehen in [analysis.md](analysis.md).
+Am 2026-10-09 wurde zunächst **The One Ring durch Rhystic Study** ersetzt. In der weiteren Optimierung desselben Tages wurde **Ancient Tomb durch Marsh Flats**, **Baleful Strix durch Demonic Tutor** und **Aether Spellbomb durch Marionette Apprentice** ersetzt. Der aktuelle Spielplan gewinnt damit konsistenten Zugriff auf Finisher und eine frühe Opfer-Synergie, verliert aber einen schnellen Zwei-Mana-Landdrop und zwei flexible Artefakte. Details, Trade-offs und Bracket-Prüfung: [analysis.md](analysis.md).
 
 ## Bracket 4
 
