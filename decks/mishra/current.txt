@@ -4,6 +4,7 @@
 1 Etherium Sculptor
 1 Enthusiastic Mechanaut
 1 Marionette Master
+1 Marionette Apprentice
 1 Sai, Master Thopterist
 1 Goblin Welder
 1 Goblin Engineer
@@ -12,7 +13,6 @@
 1 Thought Monitor
 1 Roaming Throne
 1 Kappa Cannoneer
-1 Baleful Strix
 1 Urza, Lord High Artificer
 1 Sol Ring
 1 Arcane Signet
@@ -31,15 +31,14 @@
 1 Worldwalker Helm
 1 Prized Statue
 1 Servo Schematic
-1 Aether Spellbomb
 1 Nihil Spellbomb
 1 Tithing Blade
 1 Idol of Oblivion
 1 Strionic Resonator
-1 Lithoform Engine
+1 Mox Opal
 1 Panharmonicon
 1 Sundial of the Infinite
-1 The One Ring
+1 Rhystic Study
 1 The Mightstone and Weakstone
 1 Coveted Jewel
 1 Spine of Ish Sah
@@ -58,9 +57,10 @@
 1 Feed the Swarm
 1 Vandalblast
 1 Blasphemous Act
-1 Thoughtcast
+1 Mystic Remora
 1 Whir of Invention
 1 Fabricate
+1 Demonic Tutor
 1 Trash for Treasure
 1 Scrap Mastery
 1 Command Tower
@@ -69,12 +69,12 @@
 1 Reflecting Pool
 1 Spire of Industry
 1 City of Brass
-1 Ancient Tomb
 1 Seat of the Synod
 1 Vault of Whispers
 1 Great Furnace
 1 Darksteel Citadel
 1 Flooded Strand
+1 Marsh Flats
 1 Academy Ruins
 1 Buried Ruin
 1 Inventors' Fair

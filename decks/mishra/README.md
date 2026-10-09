@@ -14,12 +14,14 @@ Es gibt **keine zweite aktive Bracket-3-Version** und keine weiteren B3-Snapshot
 Mishra-typischer Midrange-Artefaktplan: früh die Farben und ein kopierbares Artefakt entwickeln, Mishra spielen, Warforms für Karten, Kontrolle oder dauerhafte Kopien nutzen und schließlich mit Artefakt-Tokens, Cyberdrive Awakener, Brudiclad oder Marionette Master gewinnen.
 
 - 100 Karten inklusive Commander
-- 35 Länder und 11 Mana-Artefakte
-- Game Changer: **Ancient Tomb**, **The One Ring**, **Cyclonic Rift**
+- 35 Länder und 12 Mana-Artefakte (Mox Opal benötigt Metalcraft)
+- Game Changer: **Demonic Tutor**, **Rhystic Study**, **Cyclonic Rift**
 - keine absichtlich eingebaute frühe Endlos-Combo, keine Extra-Turn-Kette, keine Mass-Land-Denial-Strategie
 - auf konsistentes farbiges Mana ausgelegt, auch im 1v1 ohne Unterstützung gegnerischer Farben
 
-Die Auswahl, Manaanalyse, Risiken und wichtigsten Spielhinweise stehen in [analysis.md](analysis.md).
+Die neueste B3-Revision vom **2026-10-09** tauscht **Thoughtcast gegen Mystic Remora** und **Lithoform Engine gegen Mox Opal**. Bessere Kartenengine im nichtkreaturenlastigen Multiplayer und zusätzliche frühe Farbquelle bei Metalcraft; dafür weniger garantierter Kartennachschub und eine flexible Kopier-Engine weniger. Die vorherige Version bleibt im Git-Verlauf; es wird nur eine aktive Bracket-3-Datei gepflegt.
+
+Zuvor wurde am 2026-10-09 zunächst **The One Ring durch Rhystic Study** ersetzt. In der weiteren Optimierung desselben Tages wurde **Ancient Tomb durch Marsh Flats**, **Baleful Strix durch Demonic Tutor** und **Aether Spellbomb durch Marionette Apprentice** ersetzt. Der aktuelle Spielplan gewinnt damit konsistenten Zugriff auf Finisher und eine frühe Opfer-Synergie, verliert aber einen schnellen Zwei-Mana-Landdrop und zwei flexible Artefakte. Details, Trade-offs und Bracket-Prüfung: [analysis.md](analysis.md).
 
 ## Bracket 4
 

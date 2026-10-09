@@ -1,0 +1,99 @@
+Commander
+1 Kinnan, Bonder Prodigy
+
+Deck
+1 Birds of Paradise
+1 Llanowar Elves
+1 Elvish Mystic
+1 Fyndhorn Elves
+1 Delighted Halfling
+1 Bloom Tender
+1 Fanatic of Rhonas
+1 Badgermole Cub
+1 Priest of Titania
+1 Selvala, Heart of the Wilds
+1 Incubation Druid
+1 Kiora's Follower
+1 Armored Scrapgorger
+1 Enduring Vitality
+1 Elvish Archdruid
+1 Ilysian Caryatid
+1 Thrasios, Triton Hero
+1 Faerie Mastermind
+1 Reclamation Sage
+1 Endurance
+1 Phyrexian Metamorph
+1 Biomancer's Familiar
+1 Spellskite
+1 Murkfiend Liege
+1 Seedborn Muse
+1 Craterhoof Behemoth
+1 Koma, Cosmos Serpent
+1 Nyxbloom Ancient
+1 Ghalta, Stampede Tyrant
+1 Avenger of Zendikar
+1 Nezahal, Primal Tide
+1 Old Gnawbone
+1 Elder Gargaroth
+1 Thorn Mammoth
+1 Sol Ring
+1 Mox Amber
+1 Arcane Signet
+1 Talisman of Curiosity
+1 Fellwar Stone
+1 Simic Signet
+1 Springleaf Drum
+1 Paradise Mantle
+1 The Great Henge
+1 Lightning Greaves
+1 Rhystic Study
+1 Mystic Remora
+1 Training Grounds
+1 Guardian Project
+1 Garruk's Uprising
+1 Tribute to the World Tree
+1 Cyclonic Rift
+1 Mana Drain
+1 Swan Song
+1 An Offer You Can't Refuse
+1 Pact of Negation
+1 Heroic Intervention
+1 Beast Within
+1 Pongify
+1 Veil of Summer
+1 Chord of Calling
+1 Finale of Devastation
+1 Green Sun's Zenith
+1 Eldritch Evolution
+1 Nature's Lore
+1 Three Visits
+1 Command Tower
+1 Tropical Island
+1 Breeding Pool
+1 Rejuvenating Springs
+1 Yavimaya Coast
+1 Waterlogged Grove
+1 Botanical Sanctum
+1 Barkchannel Pathway // Tidechannel Pathway
+1 Willowrush Verge
+1 Hinterland Harbor
+1 Flooded Grove
+1 Mana Confluence
+1 City of Brass
+1 Exotic Orchard
+1 Urza's Saga
+1 Misty Rainforest
+1 Polluted Delta
+1 Flooded Strand
+1 Windswept Heath
+1 Wooded Foothills
+1 Verdant Catacombs
+1 Prismatic Vista
+1 Boseiju, Who Endures
+1 Otawara, Soaring City
+1 Yavimaya, Cradle of Growth
+1 Nykthos, Shrine to Nyx
+1 Gemstone Caverns
+1 Mistrise Village
+4 Forest
+2 Island

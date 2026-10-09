@@ -1,0 +1,95 @@
+1 Teysa, Opulent Oligarch
+1 Academy Manufactor
+1 Orcish Bowmasters
+1 Kambal, Profiteering Mayor
+1 Kambal, Consul of Allocation
+1 Creeping Bloodsucker
+1 Corpse Knight
+1 Mirkwood Bats
+1 Nadier's Nightblade
+1 Marionette Apprentice
+1 Marionette Master
+1 Blood Artist
+1 Zulaport Cutthroat
+1 Cruel Celebrant
+1 Lotho, Corrupt Shirriff
+1 Braids, Arisen Nightmare
+1 Elenda, the Dusk Rose
+1 Bartolomé del Presidio
+1 Teysa Karlov
+1 Teysa, Orzhov Scion
+1 Thalisse, Reverent Medium
+1 Pitiless Plunderer
+1 Mondrak, Glory Dominus
+1 Welcoming Vampire
+1 Bennie Bracks, Zoologist
+1 Jadar, Ghoulcaller of Nephalia
+1 Crypt Ghast
+1 Delney, Streetwise Lookout
+1 Sol Ring
+1 Arcane Signet
+1 Orzhov Signet
+1 Talisman of Hierarchy
+1 Fellwar Stone
+1 Skullclamp
+1 Inspiring Statuary
+1 Idol of Oblivion
+1 Thran Turbine
+1 Victory Chimes
+1 Krark-Clan Ironworks
+1 Smothering Tithe
+1 Anointed Procession
+1 Black Market Connections
+1 Blind Obedience
+1 Bastion of Remembrance
+1 Court of Ambition
+1 Palace Siege
+1 Revel in Riches
+1 Tocasia's Welcome
+1 Teferi's Protection
+1 Deadly Dispute
+1 Swords to Plowshares
+1 Path to Exile
+1 Anguished Unmaking
+1 Despark
+1 Generous Gift
+1 Stroke of Midnight
+1 Inkshield
+1 Malakir Rebirth
+1 Rite of Oblivion
+1 Damn
+1 Toxic Deluge
+1 Austere Command
+1 Exsanguinate
+1 Debt to the Deathless
+1 Command Tower
+1 Godless Shrine
+1 Marsh Flats
+1 Polluted Delta
+1 Flooded Strand
+1 Bloodstained Mire
+1 Arid Mesa
+1 Vault of Champions
+1 Concealed Courtyard
+1 Silent Clearing
+1 Brightclimb Pathway
+1 Caves of Koilos
+1 Isolated Chapel
+1 Shattered Sanctum
+1 Shadowy Backstreet
+1 Restless Fortress
+1 Tainted Field
+1 Fetid Heath
+1 Bojuka Bog
+1 Exotic Orchard
+1 Reflecting Pool
+1 Fabled Passage
+1 Prismatic Vista
+1 Castle Locthwain
+1 Urborg, Tomb of Yawgmoth
+1 Takenuma, Abandoned Mire
+1 Eiganjo, Seat of the Empire
+1 High Market
+1 Phyrexian Tower
+3 Plains
+4 Swamp
