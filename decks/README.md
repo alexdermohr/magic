@@ -24,3 +24,11 @@ Damit liegt für jeden der beiden Mishra-Brackets exakt **eine importierbare 100
 - `decks/ian-malcolm/analysis.md`: Spielplan und Bracket-Begründung.
 - `decks/ian-malcolm/versions/`: datierte Snapshots ab 2026-10-08.
 - Die Mishra-Regel (nur eine B3-Liste) gilt nicht für Ian.
+
+## Marchesa, the Black Rose (Bracket 3)
+
+- `decks/marchesa/current.txt`: aktuelle 100-Karten-Liste (v2).
+- `decks/marchesa/analysis.md`: Spielplan, Änderungen und Bracket-Einordnung.
+- `decks/marchesa/versions/`: datierter Snapshot der optimierten v2-Liste.
+
+Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
