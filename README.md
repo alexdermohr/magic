@@ -68,11 +68,20 @@ Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfe
 - Liste: [decks/kynaios-and-tiro/current.txt](decks/kynaios-and-tiro/current.txt)
 - Analyse: [decks/kynaios-and-tiro/analysis.md](decks/kynaios-and-tiro/analysis.md)
 
+## Marchesa, the Black Rose
+
+**Bracket 3 / Upgraded:** Grixis-Aristocrats mit +1/+1-Marken, Opfer-Synergien und ETB-Recursion.
+
+- Liste: [decks/marchesa/current.txt](decks/marchesa/current.txt)
+- Analyse: [decks/marchesa/analysis.md](decks/marchesa/analysis.md)
+- Versionen: [decks/marchesa/versions/](decks/marchesa/versions/)
+
 ## Versionspflege
 
 Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks/README.md).
 
 - Ruxa: datierte Versionen und `current.txt`.
+- Marchesa: aktuelle Bracket-3-Liste und datierte Snapshots.
 - Mishra: nur ein einziges `current.txt` für B3; ein separates B4-Deck. Bei neuen B3-Optimierungen wird `current.txt` geändert, **keine weitere B3-Version** angelegt.
 
 ## Aktueller Stand (2026-10-09)
@@ -80,5 +89,6 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Ruxa: **Bracket 3 v3**, 36 Länder / 26 Kreaturen inkl. Commander / 17 Vanilla-Kreaturen / 3 Game Changer.
 - Mishra: Bracket 3, **35 Länder / 12 Mana-Artefakte einschließlich Mox Opal / genau 100 Karten** (Revision 2026-10-09 mit Mystic Remora und Mox Opal).
 - Mishra: Bracket 4, separate Liste unverändert.
+- Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers.
 
 Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
