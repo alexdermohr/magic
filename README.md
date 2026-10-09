@@ -75,6 +75,6 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Ruxa: **Bracket 3 v3**, 36 Länder / 26 Kreaturen inkl. Commander / 17 Vanilla-Kreaturen / 3 Game Changer.
 - Mishra: Bracket 3, **35 Länder / 11 Mana-Artefakte / genau 100 Karten**.
 - Mishra: Bracket 4, separate Liste unverändert.
-- Marchesa: **Bracket 3 v2**, 37 Länder / 31 Kreaturen plus Commander / 3 eingeplante Game Changers.
+- Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 eingeplante Game Changers.
 
 Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
