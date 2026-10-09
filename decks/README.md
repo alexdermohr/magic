@@ -25,6 +25,22 @@ Damit liegt für jeden der beiden Mishra-Brackets exakt **eine importierbare 100
 - `decks/ian-malcolm/versions/`: datierte Snapshots ab 2026-10-08.
 - Die Mishra-Regel (nur eine B3-Liste) gilt nicht für Ian.
 
+## Kinnan (Bracket 3)
+
+- `decks/kinnan/current.txt`: aktuelle 100-Karten-Liste; keine getrennten Versionen vorhanden.
+
+## Yuriko (Bracket 3)
+
+- `decks/yuriko/current.txt`: V3, aktuelle importierbare 100-Karten-Liste.
+- `decks/yuriko/versions/2026-10-08-b3-v1.txt` bis `2026-10-08-b3-v3.txt`: historische Decklisten.
+
+## Winota (Bracket 3)
+
+- `decks/winota/current.txt`: V3, aktuelle importierbare 100-Karten-Liste.
+- `decks/winota/versions/2026-10-08-b3-v1.txt` bis `2026-10-08-b3-v3.txt`: historische Decklisten.
+
+Die angegebene Bracket-Stufe ist ein Deckbauziel; tatsächliche Spielgeschwindigkeit wurde nicht durch Partietests verifiziert.
+
 ## Marchesa, the Black Rose (Bracket 3)
 
 - `decks/marchesa/current.txt`: aktuelle 100-Karten-Liste (v2).
