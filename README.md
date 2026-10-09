@@ -34,6 +34,26 @@ Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfe
 - Analyse: [decks/ian-malcolm/analysis.md](decks/ian-malcolm/analysis.md)
 - Versionen: [decks/ian-malcolm/versions/](decks/ian-malcolm/versions/)
 
+## Kinnan, Bonder Prodigy
+
+**Bracket 3 / Upgraded:** Simic-Big-Mana mit Kinnan-Aktivierungen und Kreaturen-Finishern.
+
+- Aktuelle Liste: [decks/kinnan/current.txt](decks/kinnan/current.txt)
+
+## Yuriko, the Tiger's Shadow
+
+**Bracket 3 / Upgraded:** Dimir-Ninja-Tempo und Bibliothekskontrolle.
+
+- Aktuell: [decks/yuriko/current.txt](decks/yuriko/current.txt) (**V3**)
+- Historische Versionen: [decks/yuriko/versions/](decks/yuriko/versions/) (V1–V3)
+
+## Winota, Joiner of Forces
+
+**Bracket 3 / Upgraded:** Boros-Kreaturenstrategie mit Nichtmenschen-Auslösern und Menschen-Treffern.
+
+- Aktuell: [decks/winota/current.txt](decks/winota/current.txt) (**V3**)
+- Historische Versionen: [decks/winota/versions/](decks/winota/versions/) (V1–V3)
+
 ## Versionspflege
 
 Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks/README.md).
