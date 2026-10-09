@@ -10,16 +10,32 @@ Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck beh�
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-## Game-Changer-Tausch vom 2026-10-09
+## Erneute Game-Changer-Optimierung (2026-10-09, aktueller Stand)
+
+**Änderungen an der einzigen gepflegten Bracket-3-Liste:**
+
+| Raus | Rein | Begründung und Nachteil |
+|---|---|---|
+| Ancient Tomb | Marsh Flats | Die Fetchland-Manaquelle findet früh einen passenden Sumpf-Dual (u. a. Underground Sea, Watery Grave, Badlands, Blood Crypt) und ermöglicht den GC-Slot für Demonic Tutor. Dafür entfällt Ancient Tombs Beschleunigung mit zwei farblosen Mana; die Land-Nutzung kostet nun einmalig 1 Lebenspunkt zum Suchen statt potenziell wiederholt 2 Schaden beim Tappen. |
+| Baleful Strix | Demonic Tutor | Die universelle Suche für {1}{B} findet je nach Spielsituation ein bestes Kopierziel (z. B. Portal to Phyrexia), Schutz, Interaction oder Finisher. Dafür entfallen Strix' sofortige Karte und ein früher fliegender Deathtouch-Blocker. Die Suche macht die Spielzüge auch weniger abwechslungsreich und verlangt mehr Entscheidungen. |
+| Aether Spellbomb | Marionette Apprentice | Die günstige Kreatur mit Fabricate 1 schafft selbst einen Servo-Spielstein und lässt bei jedem geopferten Warform alle Gegner je 1 Leben verlieren. Sie ergänzt Marionette Master als früher Schadensmotor. Dafür entfällt ein flexibles, kopierbares Artefakt mit Bounce-/Zieh-Option. |
+
+**Game Changer jetzt:** Rhystic Study, Cyclonic Rift, Demonic Tutor (**3/3**). Ancient Tomb und The One Ring sind nicht mehr in der aktuellen B3-Liste. Mystic Remora, Bolas's Citadel, Jeska's Will, Necropotence, Mana Vault und Mishra's Workshop wurden als mögliche Alternativen diskutiert, aber nicht übernommen: Die ersten sind entweder spielplanabhängig, lebensintensiv, schwer in die Farben zu bekommen oder opfern andere wichtige Funktionen. Besonders **Bolas's Citadel** hat als kopierbares Artefakt die höchste Obergrenze, verlangt aber viel Mana und Lebenspunkte, und ein Top-of-Library-/Storm-Paket würde den derzeitigen Bracket-3-Value-Plan deutlich verändern.
+
+**Warum dieser Tausch?** Das Deck hatte bereits 11 Mana-Artefakte und mehrere farblose Nutzländer, aber keinen universellen Tutor und nur wenige günstige Möglichkeiten, gegnerische Lebenspunkte ohne erfolgreichen Angriff zu reduzieren. Demonic Tutor erhöht die Verfügbarkeit der situativ besten Karte; Marionette Apprentice nutzt die ohnehin geplanten Artefakt-Opfer. Die Verbesserung der Konsistenz wird hier höher gewichtet als Ancient Tombs Tempo. **Nicht bewiesen:** Dass diese Wahl in realen Vierer-Partien die höchste Gewinnrate ergibt, ist ohne Spieltests und Metagame-Daten nicht belegt.
+
+**Unverändert:** 35 Länder, 11 Mana-Artefakte, genau 100 Singleton-Karten einschließlich Commander, Rhystic Study und Cyclonic Rift. Die separate Bracket-4-Liste wurde nicht bearbeitet. Keine absichtliche frühe Zwei-Karten-Endlos-Kombination und kein Extra-Turn-Loop im B3-Plan.
+
+## Vorheriger Game-Changer-Tausch vom 2026-10-09
 
 **Raus: The One Ring. Rein: Rhystic Study.** Genau ein Kartenslot wird getauscht, die übrige Deckstruktur bleibt unverändert.
 
 - **Grund:** Rhystic Study kann insbesondere in Multiplayer-Partien wiederholt Karten nachziehen, ohne durch Bürdemarken wachsenden Lebenspunktverlust zu erzeugen. Das ist eine bewusste Abwägung, keine garantierte Verbesserung jeder Starthand und jeder Partie.
 - **Nachteil:** Die Verzauberung kann von Mishra nicht zu einer Warform kopiert werden; Gegner können zusätzlich {1} bezahlen und damit den Kartennachschub verhindern. Der einmalige Schutz von The One Ring beim Wirken entfällt ebenfalls.
-- **Bracket:** Rhystic Study ist selbst ein Game Changer und ersetzt genau den Game-Changer-Slot von The One Ring. Die anderen beiden Game Changer bleiben Ancient Tomb und Cyclonic Rift; damit weiterhin drei.
-- **Keine Änderungen** an B4, Ramp, Ländern oder sonstigen B3-Karten.
+- **Bracket:** Rhystic Study ist selbst ein Game Changer und ersetzt genau den Game-Changer-Slot von The One Ring. Damals waren Ancient Tomb und Cyclonic Rift die anderen beiden Game Changer. Nach der oben beschriebenen Folgeänderung ersetzt Demonic Tutor den Ancient-Tomb-Slot; es bleiben drei.
+- **In diesem damaligen Einzelschritt** keine weiteren Änderungen an B4, Ramp, Ländern oder sonstigen B3-Karten. Der anschließende Optimierungsschritt ist oben dokumentiert.
 
-## Mana: drei gezielte Verbesserungen
+## Vorherige Mana-Optimierung: drei gezielte Verbesserungen
 
 | Raus | Rein | Grund und Trade-off |
 |---|---|---|
@@ -32,15 +48,15 @@ Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsc
 - **Buried Ruin** bleibt: wichtiges Artefakt direkt aus dem Friedhof auf die Hand zurückholen; als redundante Wiederherstellung wertvoll.
 - **Academy Ruins**, **Inventors' Fair**, **Urza's Saga** bleiben als zentrale Artefakt-Nutzländer.
 - **Seat of the Synod**, **Vault of Whispers**, **Great Furnace**, **Darksteel Citadel** bleiben wegen direkter Artefakt-Synergie.
-- **Ancient Tomb** bleibt für frühe Beschleunigung und als einer der drei zulässigen Game Changer.
+- **Ancient Tomb** wurde später durch Marsh Flats ersetzt, um farbige Quellen zu stärken und einen Game-Changer-Slot für Demonic Tutor zu öffnen; der frühere Tempo-Vorteil entfällt.
 - Alle **11 vorhandenen Mana-Artefakte** bleiben unverändert, insbesondere Sol Ring, die drei Signets und drei Talismane.
 
 ### Struktur
 
 - **35 Länder**
 - **11 Mana-Artefakte** (Sol Ring; Arcane Signet; Fellwar Stone; drei Signets; drei Talismane; Mind Stone; Liquimetal Torque)
-- **6 rein farblos produzierende Länder**, statt zuvor 7
-- Die beiden neuen Fetchländer schaffen flexible Farbzugänge und machen die bereits vorhandenen Original-Duals, Schockländer und das Triom konsistenter nutzbar.
+- **5 rein farblos produzierende Länder**, statt der ursprünglich 7
+- Misty Rainforest und Flooded Strand schufen flexible Farbzugänge; das später hinzugefügte Marsh Flats erweitert diese und machen die bereits vorhandenen Original-Duals, Schockländer und das Triom konsistenter nutzbar.
 
 **Warum nicht 36 Länder?** Ein weiteres Land würde angesichts des Decks mit 11 Mana-Artefakten nur einen kleinen statistischen Stabilitätsgewinn liefern, aber einen funktionierenden Artefakt-, Value- oder Finisher-Slot kosten. Ohne Daten aus realen Starthänden und Spielen ist ein viertes Swap nicht eindeutig besser. **35 bleibt die begründete Standardannahme**, keine empirisch bewiesene optimale Quote.
 
@@ -55,13 +71,13 @@ Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsc
 5. Tithing Blade, Skysovereign, Demonic Junker, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle.
 6. Mit Worldwalker Helm können zusätzliche dauerhafte Kopien von Mishras Warform entstehen; die vom Helm aktivierte Fähigkeit erzeugten Kopien besitzen **nicht** Mishras verzögerten Opfer-Trigger.
 7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt.
-8. Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) verwandelt Artefakt-Opfer in direkten Lebensverlust. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
+8. Marionette Apprentice lässt beim Sterben jeder eigenen Warform alle Gegner 1 Leben verlieren; Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) richtet mit Artefakt-Opfern erheblichen Einzelziel-Lebensverlust an. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
 
 ## Bracket-Prüfung
 
 Die offiziellen Brackets sehen in **Bracket 3 (Upgraded)** bis zu drei Game Changer vor; zusätzlich sollen frühe Zwei-Karten-Endlos-Combos, regelmäßige Extra-Turn-Ketten und Mass Land Denial vermieden werden.
 
-**Game Changer in dieser Liste:** Ancient Tomb, Rhystic Study, Cyclonic Rift. Die zusätzlichen Fetchländer und City of Brass sind keine Game Changer.
+**Game Changer in der aktuellen Liste:** Demonic Tutor, Rhystic Study, Cyclonic Rift. Die Fetchländer und City of Brass sind keine Game Changer.
 
 - 100 Karten einschließlich Mishra, Singleton
 - drei Game Changer; keine offensichtliche Commander-Bannkarte
