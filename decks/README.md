@@ -39,4 +39,10 @@ Damit liegt für jeden der beiden Mishra-Brackets exakt **eine importierbare 100
 - `decks/winota/current.txt`: V3, aktuelle importierbare 100-Karten-Liste.
 - `decks/winota/versions/2026-10-08-b3-v1.txt` bis `2026-10-08-b3-v3.txt`: historische Decklisten.
 
+## Themendecks (Bracket 3)
+
+- **Teysa, Opulent Oligarch – Die Oligarchie:** decks/teysa-opulent-oligarch/current.txt und analysis.md.
+- **Kynaios and Tiro – commonThing: Die Allmende:** decks/kynaios-and-tiro/current.txt und analysis.md.
+- Jeweils genau eine aktuelle 100-Karten-Liste; spätere Versionen bei Bedarf unter versions/ archivieren.
+
 Die angegebene Bracket-Stufe ist ein Deckbauziel; tatsächliche Spielgeschwindigkeit wurde nicht durch Partietests verifiziert.

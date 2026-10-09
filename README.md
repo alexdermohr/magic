@@ -54,6 +54,20 @@ Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfe
 - Aktuell: [decks/winota/current.txt](decks/winota/current.txt) (**V3**)
 - Historische Versionen: [decks/winota/versions/](decks/winota/versions/) (V1–V3)
 
+## Teysa, Opulent Oligarch — Die Oligarchie
+
+**Bracket 3 / Upgraded:** Orzhov-Clue-/Aristocrats-Deck über Steuern, Kontrolle und Machtakkumulation.
+
+- Liste: [decks/teysa-opulent-oligarch/current.txt](decks/teysa-opulent-oligarch/current.txt)
+- Analyse: [decks/teysa-opulent-oligarch/analysis.md](decks/teysa-opulent-oligarch/analysis.md)
+
+## Kynaios and Tiro of Meletis — commonThing: Die Allmende
+
+**Bracket 3 / Upgraded:** Politische Kooperation, Commons und Landfall mit eigenem Kampffinish.
+
+- Liste: [decks/kynaios-and-tiro/current.txt](decks/kynaios-and-tiro/current.txt)
+- Analyse: [decks/kynaios-and-tiro/analysis.md](decks/kynaios-and-tiro/analysis.md)
+
 ## Versionspflege
 
 Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks/README.md).
