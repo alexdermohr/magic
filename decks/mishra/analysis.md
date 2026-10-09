@@ -1,6 +1,6 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-08  
+**Stand:** 2026-10-09  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
@@ -9,6 +9,15 @@
 Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck behält seinen bestehenden Artefakt-Value-/Token-Plan bei. Eine weitere B3-Version wird nicht gepflegt.
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
+
+## Game-Changer-Tausch vom 2026-10-09
+
+**Raus: The One Ring. Rein: Rhystic Study.** Genau ein Kartenslot wird getauscht, die übrige Deckstruktur bleibt unverändert.
+
+- **Grund:** Rhystic Study kann insbesondere in Multiplayer-Partien wiederholt Karten nachziehen, ohne durch Bürdemarken wachsenden Lebenspunktverlust zu erzeugen. Das ist eine bewusste Abwägung, keine garantierte Verbesserung jeder Starthand und jeder Partie.
+- **Nachteil:** Die Verzauberung kann von Mishra nicht zu einer Warform kopiert werden; Gegner können zusätzlich {1} bezahlen und damit den Kartennachschub verhindern. Der einmalige Schutz von The One Ring beim Wirken entfällt ebenfalls.
+- **Bracket:** Rhystic Study ist selbst ein Game Changer und ersetzt genau den Game-Changer-Slot von The One Ring. Die anderen beiden Game Changer bleiben Ancient Tomb und Cyclonic Rift; damit weiterhin drei.
+- **Keine Änderungen** an B4, Ramp, Ländern oder sonstigen B3-Karten.
 
 ## Mana: drei gezielte Verbesserungen
 
@@ -42,7 +51,7 @@ Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsc
 1. Starthand: drei Länder oder zwei Länder mit mehreren billigen Mana-Artefakten sind meist ein guter Ausgangspunkt; nötige U/B/R-Verfügbarkeit prüfen.
 2. Fetchländer früh für die fehlende Farbe verwenden. Eine sofort ungetappte Manaquelle ist oft wichtiger als maximales späteres Value.
 3. Mana-Artefakte, danach gute Nichtkreatur-Artefakte, dann Mishra.
-4. Ichor Wellspring, Cryogen Relic, Mephitic Draught, Idol of Oblivion und The One Ring dienen als Warform-Wertziele.
+4. Ichor Wellspring, Cryogen Relic, Mephitic Draught und Idol of Oblivion dienen als Warform-Wertziele. Rhystic Study ist eine separate Kartenengine, aber als Verzauberung kein reguläres Mishra-Kopierziel.
 5. Tithing Blade, Skysovereign, Demonic Junker, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle.
 6. Mit Worldwalker Helm können zusätzliche dauerhafte Kopien von Mishras Warform entstehen; die vom Helm aktivierte Fähigkeit erzeugten Kopien besitzen **nicht** Mishras verzögerten Opfer-Trigger.
 7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt.
@@ -52,7 +61,7 @@ Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsc
 
 Die offiziellen Brackets sehen in **Bracket 3 (Upgraded)** bis zu drei Game Changer vor; zusätzlich sollen frühe Zwei-Karten-Endlos-Combos, regelmäßige Extra-Turn-Ketten und Mass Land Denial vermieden werden.
 
-**Game Changer in dieser Liste:** Ancient Tomb, The One Ring, Cyclonic Rift. Die zusätzlichen Fetchländer und City of Brass sind keine Game Changer.
+**Game Changer in dieser Liste:** Ancient Tomb, Rhystic Study, Cyclonic Rift. Die zusätzlichen Fetchländer und City of Brass sind keine Game Changer.
 
 - 100 Karten einschließlich Mishra, Singleton
 - drei Game Changer; keine offensichtliche Commander-Bannkarte
