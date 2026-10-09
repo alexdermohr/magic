@@ -44,8 +44,8 @@ Oberes Bracket 3 ohne bewusst integrierte frühe Endloskombo: +1/+1-Marken auf e
 |---|---:|
 | Commander | 1 |
 | Weitere Kreaturen | 31 |
-| Artefakte | 10 |
-| Verzauberungen | 8 |
+| Artefakte | 11 |
+| Verzauberungen | 7 |
 | Spontanzauber | 8 |
 | Hexereien | 5 |
 | Länder | 37 |
