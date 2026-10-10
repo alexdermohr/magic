@@ -10,7 +10,17 @@ Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck beh�
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-## Aktuelle Revision: Whir of Invention zurück im Deck (2026-10-10)
+## Aktuelle Revision: Fabricate und Whir gemeinsam (2026-10-10)
+
+**Einziger Kartenwechsel gegenüber dem vorherigen Stand: Trash for Treasure raus, Fabricate rein.** Whir of Invention und Basalt Monolith bleiben im Deck; ebenso die vollständigen 13 Mana-Artefakte, alle 35 Länder und die bestehende Anzahl an Artefaktkarten.
+
+- **Warum Fabricate wieder drin ist:** Für {2}{U} sucht Fabricate jedes Artefakt unabhängig vom Manawert auf die Hand. Das erleichtert vor allem den Zugriff auf Portal to Phyrexia, Coveted Jewel, Worldwalker Helm oder das passende Warform-Ziel. Whir of Invention bleibt die komplementäre Instant-Option, die ein Artefakt für {X}{U}{U}{U} dank Improvise direkt ins Spiel bringt; Improvise kann nur generische Manakosten, nicht die drei blauen Mana, reduzieren.
+- **Warum Trash for Treasure weicht:** Der Drei-Mana-Zauber ist eine einmalige Opfer- und Reanimationslinie, deren Funktion teilweise durch Goblin Welder und Scrap Mastery aufgefangen wird. Emry, Academy Ruins und Buried Ruin bieten zusätzlich andere Arten der Wiederverwendung. Fabricate ist unabhängiger vom Friedhof, setzt keine Opferkarte voraus und findet früh benötigte Artefakt-Engines verlässlich.
+- **Stärkstes Gegenargument:** Trash for Treasure kann in Verbindung mit Goblin Engineer ein teures Artefakt wie Portal to Phyrexia schon für {2}{R} direkt aus dem Friedhof ins Spiel bringen. Das ist schneller als Fabricate, das Portal nur auf die Hand sucht. Der neue Stand verliert bewusst genau diese zusätzliche günstige Cheat-Linie. Falls frühe Portal-Reanimation häufig spielentscheidend war, wäre dieser Slot erneut zu prüfen.
+- **Erhalten:** Mind Stone, Mox Opal, Basalt Monolith, Whir of Invention, Marionette Master, Marionette Apprentice, Scrap Mastery, Blasphemous Act, alle anderen ursprünglichen Artefakte und Manaquellen. Genau **100 Singleton-Karten inklusive Mishra**, **35 Länder**, **13 Mana-Artefakte im Ramp-Kern** und weiterhin die drei offiziellen Game Changer **Demonic Tutor, Rhystic Study, Cyclonic Rift**. Fabricate ist selbst kein Game Changer, zusätzliche Artefaktdichte entsteht bei diesem Schritt nicht.
+- **Grenze der Aussage:** Kartenzahl, Eingriffsumfang und die Bracket-3-Liste werden gegen den gespeicherten Stand geprüft; der angenommene Spielstärkegewinn ist nicht durch Partien oder Starthand-Simulationen bewiesen.
+
+## Vorherige Revision: Whir of Invention zurück im Deck (2026-10-10)
 
 **Raus: Fabricate. Rein: Whir of Invention.** Basalt Monolith bleibt dabei erhalten. Damit ist der zuvor entfernte Sofortzauber-Tutor wieder verfügbar, ohne die gewonnenen Mana-Artefakte oder die höhere Artefaktdichte aufzugeben.
 
