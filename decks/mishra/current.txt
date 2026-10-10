@@ -36,6 +36,7 @@
 1 Idol of Oblivion
 1 Strionic Resonator
 1 Mox Opal
+1 Basalt Monolith
 1 Panharmonicon
 1 Sundial of the Infinite
 1 Rhystic Study
@@ -58,7 +59,6 @@
 1 Vandalblast
 1 Blasphemous Act
 1 Mystic Remora
-1 Whir of Invention
 1 Fabricate
 1 Demonic Tutor
 1 Trash for Treasure
