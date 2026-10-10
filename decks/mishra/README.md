@@ -19,7 +19,9 @@ Mishra-typischer Midrange-Artefaktplan: früh die Farben und ein kopierbares Art
 - keine absichtlich eingebaute frühe Endlos-Combo, keine Extra-Turn-Kette, keine Mass-Land-Denial-Strategie
 - auf konsistentes farbiges Mana ausgelegt, auch im 1v1 ohne Unterstützung gegnerischer Farben
 
-Die neueste B3-Revision vom **2026-10-10** tauscht **Whir of Invention gegen Basalt Monolith**. Damit steigen die Artefakt- und Mana-Artefaktzahl jeweils um eins. Der Spontanzauber-Tutor entfällt; Scrap Mastery und Marionette Master bleiben ausdrücklich erhalten. Der Monolith gibt drei farblose Mana auf einmal, enttappt aber nicht automatisch und ersetzt keine farbige Quelle.
+Die **aktuellste B3-Revision (2026-10-10)** nimmt **Whir of Invention statt Fabricate** zurück ins Deck. Der Sofortzauber-Tutor findet Artefakte per Improvise direkt ins Spiel, benötigt aber weiterhin drei blaue Mana und ist für sehr teure Ziele kostspielig. Fabricate konnte solche Ziele für {2}{U} auf die Hand suchen.
+
+Zuvor wurde am selben Tag **Whir of Invention gegen Basalt Monolith** getauscht. Basalt Monolith **bleibt** im Deck; dadurch stehen nun 13 Mana-Artefakte im Ramp-Kern. Der Monolith liefert drei farblose Mana auf einmal, enttappt aber nicht automatisch. Scrap Mastery und Marionette Master bleiben ebenfalls erhalten.
 
 Die vorherige B3-Revision vom **2026-10-09** tauschte **Thoughtcast gegen Mystic Remora** und **Lithoform Engine gegen Mox Opal**. Bessere Kartenengine im nichtkreaturenlastigen Multiplayer und zusätzliche frühe Farbquelle bei Metalcraft; dafür weniger garantierter Kartennachschub und eine flexible Kopier-Engine weniger. Die vorherige Version bleibt im Git-Verlauf; es wird nur eine aktive Bracket-3-Datei gepflegt.
 
