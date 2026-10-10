@@ -2,11 +2,23 @@
 
 **Stand:** 2026-10-10  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
-**Aktuelle Ersetzbarkeitsmatrix (100 Einzelkarten, Stufen 1–5, 22 Ersatzvorschläge):** [replaceability.md](replaceability.md)  
+**Ersetzbarkeitsmatrix ohne Schutzkarten (100 Einzelurteile, 14 Vergleichsoptionen):** [replaceability.md](replaceability.md)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Neubewertung: Kopierbarer Finisher statt Marionette Master (2026-10-10)
+## Aktuelle Revision: freie Neubewertung sämtlicher Karten (10.10.2026)
+
+**Deck-Commit:** [41db0ae](https://github.com/alexdermohr/magic/commit/41db0aec5dc14401b22ca5d4f96ab83dc036ea8f) · **Neue Ersetzbarkeitsmatrix:** [replaceability.md](replaceability.md), commit [addefa9](https://github.com/alexdermohr/magic/commit/addefa9535e34892d54ffcb5b5a5d090ac3a8bba).
+
+**Zwei tatsächlich veröffentlichte Kartenwechsel:** `Basalt Monolith → Chromatic Lantern` (dauerhaftes U/B/R-Fixing statt einmaligem farblosem Burst), `Cyberdrive Awakener → Master Transmuter` (billigerer Artefakt-ETB-Cheat aus der Hand statt einmaligem Flieger-Alpha-Schlag). Beide Artefakt-gegen-Artefakt; nach frischer Oracle-Prüfung weiterhin **100 Singleton-Karten, 35 Länder, 46 Artefakte, 13 reguläre Mana-Artefakte**, genau drei Game Changer (**Rhystic Study**, **Cyclonic Rift**, **Demonic Tutor**), Commander-legal, Grixis-identisch. Bracket-4-Datei unverändert.
+
+**Bewertung ohne alte Präferenzen:** Auch Jhoira, Kappa, Demonic Junker, Fabricate, Whir of Invention, Mind Stone, Mox Opal und Tithing Blade sind frei eingestuft. Die aktuelle Matrix enthält **100 Einzelbegründungen**, acht Stufe-4-Cut-Kandidaten und 14 konkrete alternative Tauschhypothesen, jeweils mit Gegenargument und Strukturauswirkung. Die sechs speziell geprüften Karten **Master Transmuter**, **Mishra, Tamer of Mak Fawa**, **The Master, Multiplied**, **Reckless Fireweaver**, **Repurposing Bay** und **Fateful Discovery** stehen dort im direkten Kontext. **Fateful Discovery wurde bereits am 14.08.2026 in The Hobbit veröffentlicht**; die frühere Zuordnung zu Reality Fracture war falsch.
+
+**Evidenzgrenze:** Regeldaten und GitHub-Struktur sind nachprüfbar, mehr Siege und die besondere Manabrew-Umsetzung von The Master wurden noch nicht durch vergleichbare Spieltests nachgewiesen. Alle folgenden älteren Abschnitte dokumentieren **historische Zwischenstände** und frühere Beurteilungen, nicht die gegenwärtige Rangfolge.
+
+---
+
+## Frühere Neubewertung: Knight Paladin statt Marionette Master (2026-10-10)
 
 **Aktiver Deck-Commit:** [3ee616d](https://github.com/alexdermohr/magic/commit/3ee616dd8e05ef0e966ac8d146af4740dd2a20b9). **Nur eine aktive B3-Liste:** [current.txt](current.txt). Die separate B4-Datei bleibt unverändert.
 
@@ -25,7 +37,7 @@
 | **Hoch, erst Manabrew testen** | **The Master, Multiplied**, {4}{B}{R}: Trigger können dich nicht zum Opfern oder Exilieren eigener Kreaturenspielsteine zwingen. Damit können **Mishras Warforms ohne Sundial** liegen bleiben; zusätzlich gilt die Legendenregel nicht für deine Kreaturenspielsteine. | Sechs Mana, Nichtartefakt; ersetzt mit gleicher Stärke kein einfaches Ramp-/Draw-Stück. Diese ungewöhnliche statische Fähigkeit ist in **manabrew.app** nicht für die konkrete Mishra-Warform bestätigt. |
 | **Mittel bis hoch** | **Reckless Fireweaver**, {1}{R}: pro Artefakt-ETB **1 Schaden an jeden Gegner**. Zählt nicht nur Warforms, sondern Maps durch Worldwalker Helm, Treasures durch Prized Statue und andere Artefakt-Tokens; ergänzt Marionette Apprentice bei gleichzeitigem Opfer- und ETB-Plan. | Verzicht auf eine vorhandene Karte noch nicht klar. Fireweaver ist eine Nichtartefaktkreatur und nach einem gegnerischen Boardwipe ohne weiteren Token-/Artefaktaufbau schwach. |
 | **Situativ** | **Repurposing Bay**, {2}{U}: opfert gegen {2}, Tappen und Sorcery-Timing ein Artefakt und legt ein beliebiges anderes Artefakt mit **genau einem höheren Manawert** direkt aus der Bibliothek ins Spiel. Besonders Warforms mit 2–4 Mana Value sind nützlich. | Bereits Demonic Tutor, Fabricate, Whir, Goblin Engineer und Inventors' Fair vorhanden. Für **Idol of Oblivion** verliert man verlässlichen Draw; zusätzliche Tutors statt unabhängiger Payoffs müssen ihren Slot erst beweisen. |
-| **Beobachten** | **Fateful Discovery**, {3}{U}{U} (Reality Fracture 2026): **Karte ziehen für jedes eigene eintretende Artefakt**, einschließlich Mishra-Warforms und Map-/Treasure-Tokens. Potenziell gewaltige Kartenmaschine. | Fünf Mana und doppeltes Blau, kein Artefakt; hoher Deckbaupreis bei bereits vielen Drawquellen. Im tatsächlichen Manabrew-Spiel noch nicht belegt. |
+| **Beobachten** | **Fateful Discovery**, {3}{U}{U} (The Hobbit, August 2026): **Karte ziehen für jedes eigene eintretende Artefakt**, einschließlich Mishra-Warforms und Map-/Treasure-Tokens. Potenziell gewaltige Kartenmaschine. | Fünf Mana und doppeltes Blau, kein Artefakt; hoher Deckbaupreis bei bereits vielen Drawquellen. Im tatsächlichen Manabrew-Spiel noch nicht belegt. |
 
 **Nicht empfohlen:** Ein automatischer Wechsel zu Rings of Brighthearth neben Basalt Monolith würde eine Zweikarten-Endlosmana-Kombination erzeugen und kann Bracket 3 verletzen. Zusätzliche Kopierer allein sind kein Ziel; wichtiger sind kopierbare Artefakte mit **eigenem ETB-Wert** und unabhängige Wege, aus einem stabilen Board eine Partie zu gewinnen.
 
