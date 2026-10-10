@@ -1,6 +1,6 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-09  
+**Stand:** 2026-10-10  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
@@ -10,7 +10,17 @@ Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck beh�
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-## Neueste Optimierung: Mystic Remora und Mox Opal (2026-10-09)
+## Aktuelle Revision: Artefaktbeschleunigung statt zusätzlichem Tutor (2026-10-10)
+
+**Raus: Whir of Invention. Rein: Basalt Monolith.** Die einzige aktive Bracket-3-Liste in `current.txt` wird mit einem zusätzlichen Mana-Artefakt gestärkt. Alle bisherigen Länder und Mana-Artefakte bleiben vorhanden, insbesondere Mind Stone und Mox Opal. Die separate Bracket-4-Version und historische Git-Commits bleiben erhalten.
+
+- **Mana und Artefaktdichte:** 35 Länder, **13 Mana-Artefakte im günstigen/mittleren Ramp-Kern** (zuvor 12) und genau 100 Singleton-Karten inklusive Commander. Die absolute Anzahl an Artefaktkarten im Deck steigt um **eins**, da ein Nichtartefakt-Spontanzauber durch ein Artefakt ersetzt wurde. The Mightstone and Weakstone liefert darüber hinaus eingeschränktes Mana für Artefaktzauber und wird wie zuvor nicht in der 13er-Ramp-Kernzahl mitgezählt.
+- **Vorteil:** Basalt Monolith kostet {3} und kann durch Tappen {C}{C}{C} produzieren. Für {3} lässt er sich enttappen, aber nicht automatisch in der Enttapp-Phase. Das Artefakt fördert frühe generische Manaentwicklung und hilft insbesondere bei größeren Artefaktzaubern. Mishras Warform-Kopie eines Monoliths kommt ungetappt ins Spiel und kann dank Eile nach dem Kampf, sofern sie nicht angegriffen hat, im zweiten Hauptsegment drei farblose Mana erzeugen.
+- **Nachteil:** Whir of Invention war ein flexibler Sofortzauber-Tutor für Artefakte und legte die gefundene Karte direkt ins Spiel. Seine Kosten {X}{U}{U}{U} sind allerdings farbintensiv. Nach dem Tausch verbleiben u. a. Demonic Tutor, Fabricate, Goblin Engineer, Inventors' Fair und Urza's Saga als Suchmöglichkeiten mit unterschiedlichen Einschränkungen. Basalt Monolith erzeugt **kein farbiges Mana** und kann bei langsamen Händen oder nach dem einmaligen Manaschub weniger leisten als ein dauerhaft enttappendes Mana-Artefakt.
+- **Bewusst nicht gestrichen:** Scrap Mastery bleibt als einzigartige Massenrekursion nach Boardwipes, Marionette Master als direkter Schadensabschluss, Sundial of the Infinite und Skysovereign wegen ihrer Mishra-Interaktionen. Es wurden keine weiteren Slots verändert.
+- **Bracket-3-Grenze:** Die drei offiziellen Game Changer bleiben **Rhystic Study, Cyclonic Rift und Demonic Tutor**; Basalt Monolith ist auf der offiziellen Liste vom Oktober 2025 einschließlich der Februar-2026-Ergänzung nicht genannt. Keine absichtlich hinzugefügte frühe Zwei-Karten-Endlos-Combo (z. B. Rings of Brighthearth wird nicht gespielt). Die reale Gewinnrate und der Einfluss von zusätzlicher Manaflut sind ungetestet.
+
+## Vorherige Optimierung: Mystic Remora und Mox Opal (2026-10-09)
 
 Der aktuelle Bracket-3-Stand ersetzt zwei Karten, ohne den Artefakt-Value-Plan zu verlassen:
 
@@ -21,7 +31,7 @@ Der aktuelle Bracket-3-Stand ersetzt zwei Karten, ohne den Artefakt-Value-Plan z
 
 Mox Opal **zählt selbst** zu den für Metalcraft benötigten drei Artefakten; zwei weitere eigene Artefakte genügen. Artefaktländer und günstige Mana-Artefakte helfen beim frühen Aktivieren. Die Lithoform-Engine-Funktion wird teilweise durch Strionic Resonator und Roaming Throne aufgefangen, aber deren Einsatzmöglichkeiten sind nicht deckungsgleich. Mystic Remora ist gegen Decks mit vielen Nichtkreatur-Zaubern besonders stark; bei kreaturenlastigen Gegnern ist der Tausch nicht zwingend besser.
 
-**Aktuelle Kennzahlen:** 100 Einzelkarten inklusive Commander; **35 Länder**, **12 Mana-Artefakte** einschließlich des bedingten Metalcraft-Mana-Artefakts Mox Opal. Weiterhin **genau drei Game Changer:** Rhystic Study, Cyclonic Rift und Demonic Tutor. Mystic Remora und Mox Opal sind nach der offiziellen Game-Changer-Liste (Stand Oktober 2025 einschließlich Februar-2026-Ergänzungen) keine Game Changer. Bracket 4 bleibt separat und unverändert. Die ältere B3-Fassung ist über den Git-Verlauf rekonstruierbar; es wird keine zweite aktive B3-Datei angelegt.
+**Kennzahlen nach dieser früheren Revision:** 100 Einzelkarten inklusive Commander; **35 Länder**, **12 Mana-Artefakte** einschließlich des bedingten Metalcraft-Mana-Artefakts Mox Opal (mit dem neueren Monolith-Tausch nun 13). Weiterhin **genau drei Game Changer:** Rhystic Study, Cyclonic Rift und Demonic Tutor. Mystic Remora und Mox Opal sind nach der offiziellen Game-Changer-Liste (Stand Oktober 2025 einschließlich Februar-2026-Ergänzungen) keine Game Changer. Bracket 4 bleibt separat und unverändert. Die ältere B3-Fassung ist über den Git-Verlauf rekonstruierbar; es wird keine zweite aktive B3-Datei angelegt.
 
 Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests sind höhere Ramp-Geschwindigkeit und Kartenzufuhr plausible Vorteile, aber keine Garantie.
 
@@ -37,7 +47,7 @@ Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests si
 
 **Game Changer nach diesem früheren Schritt:** Rhystic Study, Cyclonic Rift, Demonic Tutor (**3/3**). Ancient Tomb und The One Ring sind nicht mehr in B3. Mystic Remora, Bolas's Citadel, Jeska's Will, Necropotence, Mana Vault und Mishra's Workshop waren damals weitere Überlegungen; Mystic Remora wurde erst mit der oben dokumentierten neuesten Revision aufgenommen. Besonders **Bolas's Citadel** hat als kopierbares Artefakt die höchste Obergrenze, verlangt aber viel Mana und Lebenspunkte, und ein Top-of-Library-/Storm-Paket würde den derzeitigen Bracket-3-Value-Plan deutlich verändern.
 
-**Warum dieser Tausch.�ן�w�** Das Deck hatte bereits 11 Mana-Artefakte und mehrere farblose Nutzländer, aber keinen universellen Tutor und nur wenige günstige Möglichkeiten, gegnerische Lebenspunkte ohne erfolgreichen Angriff zu reduzieren. Demonic Tutor erhöht die Verfügbarkeit der situativ besten Karte; Marionette Apprentice nutzt die ohnehin geplanten Artefakt-Opfer. Die Verbesserung der Konsistenz wird hier höher gewichtet als Ancient Tombs Tempo. **Nicht bewiesen:** Dass diese Wahl in realen Vierer-Partien die höchste Gewinnrate ergibt, ist ohne Spieltests und Metagame-Daten nicht belegt.
+**Warum dieser Tausch?** Dass diese Wahl in realen Vierer-Partien die höchste Gewinnrate ergibt, ist ohne Spieltests und Metagame-Daten nicht belegt.
 
 **Bei jenem früheren Schritt unverändert:** 35 Länder, 11 Mana-Artefakte, genau 100 Singleton-Karten einschließlich Commander, Rhystic Study und Cyclonic Rift. Das neuere Mox-Opal-Update erhöht die aktuelle Zahl der Mana-Artefakte auf 12. Die separate Bracket-4-Liste wurde nicht bearbeitet. Keine absichtliche frühe Zwei-Karten-Endlos-Kombination und kein Extra-Turn-Loop im B3-Plan.
 
@@ -81,7 +91,7 @@ Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests si
 
 1. Starthand: drei Länder oder zwei Länder mit mehreren billigen Mana-Artefakten sind meist ein guter Ausgangspunkt; nötige U/B/R-Verfügbarkeit prüfen.
 2. Fetchländer früh für die fehlende Farbe verwenden. Eine sofort ungetappte Manaquelle ist oft wichtiger als maximales späteres Value.
-3. Mana-Artefakte ausspielen, dann gute Nichtkreatur-Artefakte und Mishra. Mox Opal liefert erst Mana, wenn einschließlich Mox Opal drei eigene Artefakte im Spiel sind.
+3. Mana-Artefakte ausspielen, dann gute Nichtkreatur-Artefakte und Mishra. Mox Opal liefert erst Mana, wenn einschließlich Mox Opal drei eigene Artefakte im Spiel sind. Basalt Monolith liefert drei farblose Mana auf einmal, enttappt aber nicht von selbst; er ersetzt kein erforderliches blaues, schwarzes oder rotes Mana für Mishra.
 4. Ichor Wellspring, Cryogen Relic, Mephitic Draught und Idol of Oblivion dienen als Warform-Wertziele. Rhystic Study und Mystic Remora sind getrennte Kartenengines, aber als Verzauberungen keine regulären Mishra-Kopierziele. Bei Mystic Remora die steigenden Unterhaltskosten und das Nichtkreatur-Profil des gegnerischen Tischs beachten.
 5. Tithing Blade, Skysovereign, Demonic Junker, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle.
 6. Mit Worldwalker Helm können zusätzliche dauerhafte Kopien von Mishras Warform entstehen; die vom Helm aktivierte Fähigkeit erzeugten Kopien besitzen **nicht** Mishras verzögerten Opfer-Trigger.
