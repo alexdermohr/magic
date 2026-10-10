@@ -143,7 +143,7 @@
 | Swamp | Standardland | Basics für Fetch, Nichtbasisland-Hate und stabile einzelne Farbe. |
 | Mountain | Standardland | Basics für Fetch, Nichtbasisland-Hate und stabile einzelne Farbe. |
 
-**Validierungsgrenze:** Kein vollständiger Match-/Goldfish-Test und keine individuelle Live-Kartendatenbank-Abfrage aller 100 Oracle-Records. Die strukturelle Deckprüfung, die spezifischen Regelfragen und die Bracket-/Bannlisten-Kontrolle sind davon zu unterscheiden. Für einen nachweisbaren Gewinnratenvorteil braucht es reproduzierbare Spiele mit vergleichbaren Gegnerdecks.
+**Frisch geprüfter GitHub- und Oracle-Stand (2026-10-10):** Alle 100 Einträge aus der veröffentlichten `current.txt` in zwei aktuellen Scryfall-Collection-Abfragen gefunden, **100/100 in Commander legal**, bei **100/100 die Farbidentität innerhalb Blau/Schwarz/Rot**, **35 Länder**, **45 Artefakte** nach Scryfall-Kartentypen, **13 vereinbarte Mana-Artefakte**. Die **drei Game Changer** wurden gegen die Wizards-B3-Liste geprüft. Der Blob-SHA der B4-Datei `versions/2026-10-07-optimized-b4-v1.txt` blieb **`bab5a7b03416b77112c0ccaeec7aa3297fbd9a4d`**. Der Deck-Commit änderte nur `decks/mishra/current.txt`, der Audit-Commit nur `decks/mishra/analysis.md`. **Grenze:** Kein vollständiger Match-/Goldfish-Test und keine reproduzierte Manabrew-Sitzung; ein Siegquotenvorteil gegenüber Sundial ist nicht nachgewiesen. Quelle der strukturierten Kartenverifikation: [Scryfall Cards Collection API](https://scryfall.com/docs/api/cards/collection); für Bannliste, Brackets und Regelfragen sind die oben verlinkten Wizards-Primärquellen maßgeblich.
 
 ---
 
