@@ -10,7 +10,31 @@ Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck beh�
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-## Aktuelle Revision: Fabricate und Whir gemeinsam (2026-10-10)
+## Aktuelle Revision: effizienteres Warform-Removal und dauerhafte Kopien (2026-10-10)
+
+**Zwei gezielte Artefakt-gegen-Artefakt-Tausche in der einzigen aktiven Bracket-3-Liste:**
+
+| Raus | Rein | Grund | Wichtigstes Gegenargument |
+|---|---|---|---|
+| **Demonic Junker** | **Lich's Relic** (*Relikt des Lichs*, Reality Fracture, 2026-10-02) | Kopierbares Ein-Mana-Equipment mit wiederholtem ETB-Effekt: beim Eintritt {2} bezahlen, um bei jedem Gegner bis zu eine Kreatur oder einen Planeswalker zu zerstören; benötigt beim Ausspielen keine Artefaktdichte. | Junker profitiert stark von Affinity und zerstört beim Eintritt bis zu eine Kreatur **je Spieler** ohne zusätzliche Zahlung. Relic braucht pro ETB-Aktivierung {2} und scheitert an Unzerstörbarkeit oder nicht zielbaren Permanents. |
+| **Mephitic Draught** | **Esoteric Duplicator** | Für {2} beim Opfern einer Mishra-Warform entsteht zu Beginn des **nächsten** Endsegments eine neue Kopie mit kopierbaren Warform-Eigenschaften, aber ohne Mishras ursprünglichen verzögerten Opfer-Trigger. Mehr dauerhafte Spielfeldpräsenz, insbesondere mit starken ETB-Artefakten. | Draught zieht beim ETB und Sterben jeweils eine Karte, kostet aber jeweils einen Lebenspunkt. Duplicator kostet {2}{U} plus {2} pro erzeugter Kopie, ist langsamer und verlangt Mana, bis die Warform geopfert wurde. |
+
+**Gewählte Cuts gegenüber den zuvor erwogenen Alternativen:** Jhoira, Weatherlight Captain und Kappa Cannoneer bleiben ausdrücklich. Kein Mirkwood Bats. **Skysovereign, Consul Flagship** bleibt als fliegende Druck-/Removal-Option, **Servo Schematic** bleibt als frühe Tokenquelle für Artefaktsynergien und einen möglichen späteren Skullclamp-Plan. Für Lich's Relic weicht stattdessen das im Removal-Zweck ähnliche Demonic Junker, für Duplicator der durch Ichor Wellspring, Cryogen Relic, Rhystic Study, Mystic Remora, Jhoira, Idol of Oblivion und andere Effekte teilweise aufgefangene Draw-Slot Mephitic Draught.
+
+**Regel- und Timingdetails:** Mishra kann weiterhin nur ein *Nichtkreatur-Artefakt* kontrollieren und kopieren. Duplicators spätere Kopie einer geopferten Warform ist selbst eine 4/4-Artefaktkreatur und kein weiteres Mishra-Ziel; die durch Mishra verliehene Eile ist nicht Teil der kopierbaren Eigenschaften. Wird die Warform in unserem Endsegment geopfert, ist das **nächste Endsegment** normalerweise das des nächsten Spielers. Sundial of the Infinite kann den Warform-Opfer-Trigger entfernen, aber verhindert damit auch die Opferauslösung, die Duplicator verwerten würde: pro Warform eine bewusste Entscheidung. Lich's Relic benötigt das zusätzliche {2} bei jedem ETB, auch wenn eine Warform das Relikt kopiert; es ist kein kostenloser Wiederholungs-Boardwipe.
+
+**Bewahrte Deckstruktur:** 100 Singleton-Karten inklusive Commander, **35 Länder, 13 Mana-Artefakte des bisherigen Ramp-Kerns und 44 Artefaktkarten** (inklusive Artefaktkreaturen und -ländern). Beide Artefakt-Tutoren **Fabricate und Whir of Invention**, sämtliche bisherigen Mana-Artefakte, Jhoira, Kappa Cannoneer und die separate B4-Datei bleiben erhalten. Nach der offiziellen Bracket-3-Game-Changer-Liste weiterhin genau **Demonic Tutor, Rhystic Study, Cyclonic Rift (3/3)**. Keine neue absichtliche frühe Zwei-Karten-Endloskombo oder Extra-Turn-Schleife.
+
+**Offen:** Die höhere Gewinnrate gegenüber der vorigen Version ist nicht empirisch nachgewiesen. Gegen viele breite Boardwipes ohne einzelne relevante gegnerische Ziele kann Demonic Junker beziehungsweise der zusätzliche sofortige Kartennachschub durch Mephitic Draught vermisst werden. Ein nächster Slot für Skullclamp oder Repurposing Bay sollte erst mit einem begründeten Austausch geprüft werden und weder Artefaktdichte noch frühen Manazugang blind verschlechtern.
+
+**Karten- und Regelquellen:**
+- https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes
+- https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes
+- https://mtg.wtf/card/fra/57/Lichs-Relic
+- https://www.mtgnexus.com/cards/aetherdrift/109013-demonic-junker
+- https://magic.wizards.com/en/formats/commander
+
+## Vorherige Revision: Fabricate und Whir gemeinsam (2026-10-10)
 
 **Einziger Kartenwechsel gegenüber dem vorherigen Stand: Trash for Treasure raus, Fabricate rein.** Whir of Invention und Basalt Monolith bleiben im Deck; ebenso die vollständigen 13 Mana-Artefakte, alle 35 Länder und die bestehende Anzahl an Artefaktkarten.
 
@@ -111,10 +135,10 @@ Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests si
 1. Starthand: drei Länder oder zwei Länder mit mehreren billigen Mana-Artefakten sind meist ein guter Ausgangspunkt; nötige U/B/R-Verfügbarkeit prüfen.
 2. Fetchländer früh für die fehlende Farbe verwenden. Eine sofort ungetappte Manaquelle ist oft wichtiger als maximales späteres Value.
 3. Mana-Artefakte ausspielen, dann gute Nichtkreatur-Artefakte und Mishra. Mox Opal liefert erst Mana, wenn einschließlich Mox Opal drei eigene Artefakte im Spiel sind. Basalt Monolith liefert drei farblose Mana auf einmal, enttappt aber nicht von selbst; er ersetzt kein erforderliches blaues, schwarzes oder rotes Mana für Mishra.
-4. Ichor Wellspring, Cryogen Relic, Mephitic Draught und Idol of Oblivion dienen als Warform-Wertziele. Rhystic Study und Mystic Remora sind getrennte Kartenengines, aber als Verzauberungen keine regulären Mishra-Kopierziele. Bei Mystic Remora die steigenden Unterhaltskosten und das Nichtkreatur-Profil des gegnerischen Tischs beachten.
-5. Tithing Blade, Skysovereign, Demonic Junker, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle.
+4. Ichor Wellspring, Cryogen Relic und Idol of Oblivion liefern wiederholbaren Wert, während Esoteric Duplicator aus geopferten Warforms nach {2}-Zahlung neue dauerhafte Kopien schaffen kann. Rhystic Study und Mystic Remora sind separate Kartenengines, als Verzauberungen aber keine regulären Mishra-Kopierziele; bei Remora die steigenden Unterhaltskosten beachten.
+5. Tithing Blade, Skysovereign, Lich's Relic, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle. Beim Relikt muss für den ETB-Effekt jeweils {2} bezahlt werden; es trifft gezielt Kreaturen/Planeswalker der Gegner, keine anderen permanenten Typen.
 6. Mit Worldwalker Helm können zusätzliche dauerhafte Kopien von Mishras Warform entstehen; die vom Helm aktivierte Fähigkeit erzeugten Kopien besitzen **nicht** Mishras verzögerten Opfer-Trigger.
-7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt.
+7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt. Dabei wird sie nicht geopfert und löst Esoteric Duplicator nicht aus; stattdessen je nach Ziel den Duplicator für eine spätere Kopie nutzen.
 8. Marionette Apprentice lässt beim Sterben jeder eigenen Warform alle Gegner 1 Leben verlieren; Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) richtet mit Artefakt-Opfern erheblichen Einzelziel-Lebensverlust an. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
 
 ## Bracket-Prüfung
