@@ -19,7 +19,9 @@ Mishra-typischer Midrange-Artefaktplan: früh die Farben und ein kopierbares Art
 - keine absichtlich eingebaute frühe Endlos-Combo, keine Extra-Turn-Kette, keine Mass-Land-Denial-Strategie
 - auf konsistentes farbiges Mana ausgelegt, auch im 1v1 ohne Unterstützung gegnerischer Farben
 
-Die **aktuellste B3-Revision (2026-10-10)** nimmt **Whir of Invention statt Fabricate** zurück ins Deck. Der Sofortzauber-Tutor findet Artefakte per Improvise direkt ins Spiel, benötigt aber weiterhin drei blaue Mana und ist für sehr teure Ziele kostspielig. Fabricate konnte solche Ziele für {2}{U} auf die Hand suchen.
+Die **aktuelle B3-Revision (2026-10-10)** spielt **Whir of Invention und Fabricate zusammen**. Dafür wurde der redundantere Nichtartefakt-Zauber **Trash for Treasure** gestrichen. Die günstige Portal-to-Phyrexia-Reanimation mittels Trash for Treasure fällt damit weg; Goblin Welder und Scrap Mastery bleiben als Rückholwege erhalten. Die 35 Länder, 13 Mana-Artefakte und die Artefaktkartenzahl bleiben unverändert. Details stehen in [analysis.md](analysis.md).
+
+Die **vorherige B3-Revision (2026-10-10)** nahm **Whir of Invention statt Fabricate** zurück ins Deck. Der Sofortzauber-Tutor findet Artefakte per Improvise direkt ins Spiel, benötigt aber weiterhin drei blaue Mana und ist für sehr teure Ziele kostspielig. Fabricate konnte solche Ziele für {2}{U} auf die Hand suchen.
 
 Zuvor wurde am selben Tag **Whir of Invention gegen Basalt Monolith** getauscht. Basalt Monolith **bleibt** im Deck; dadurch stehen nun 13 Mana-Artefakte im Ramp-Kern. Der Monolith liefert drei farblose Mana auf einmal, enttappt aber nicht automatisch. Scrap Mastery und Marionette Master bleiben ebenfalls erhalten.
 
