@@ -87,7 +87,7 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 ## Aktueller Stand (2026-10-10)
 
 - Ruxa: **Bracket 3 v3**, 36 Länder / 26 Kreaturen inkl. Commander / 17 Vanilla-Kreaturen / 3 Game Changer.
-- Mishra: Bracket 3, **35 Länder / 13 Mana-Artefakte einschließlich Mox Opal und Basalt Monolith / genau 100 Karten** (Revision 2026-10-10 mit Lich's Relic und Esoteric Duplicator; Jhoira und Kappa bleiben, Basalt Monolith und beide Artefakt-Tutoren ebenfalls).
+- Mishra: Bracket 3, **35 Länder / 13 Mana-Artefakte einschließlich Mox Opal und Basalt Monolith / genau 100 Karten** (Revision 2026-10-10 mit Skullclamp und zurückgekehrtem Demonic Junker statt Servo Schematic und Skysovereign; Jhoira/Kappa, Basalt Monolith und beide Tutoren bleiben).
 - Mishra: Bracket 4, separate Liste unverändert.
 - Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers.
 
