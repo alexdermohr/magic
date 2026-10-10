@@ -5,7 +5,24 @@
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Revision: Tithing Blade zurück (2026-10-10)
+## Aktuelle Revision: Sundial und Coveted Jewel entfernt (2026-10-10)
+
+**Aktive Bracket-3-Deckliste:** [current.txt](current.txt). **Karten-Commit:** [27e93b1](https://github.com/alexdermohr/magic/commit/27e93b1d58bd0a04ee68292b85552a4eee7aae27).
+
+| Raus | Rein | Konkreter Vorteil | Stärkstes Gegenargument |
+|---|---|---|---|
+| **Sundial of the Infinite** | **Ashnod's Altar** | Für {3} eine kopierbare Nichtkreatur-Artefakt-Opferquelle. Eine Mishra-Warform kann im zweiten Hauptsegment für {C}{C} geopfert werden. Der Opferprozess unterstützt **Scrap Trawler**, **Marionette Apprentice/Master** und **Esoteric Duplicator**. Die zwei Mana können dessen {2}-Auslösezahlung finanzieren, sodass im nächsten Endsegment eine dauerhafte Warform-Kopie entsteht. | Sundial ist nach den Papierregeln ein außergewöhnlicher Warform-Persistenz-Effekt für alle eigenen Warforms zugleich; Ashnod benötigt Kreaturen, bietet keine farbigen Mana und ersetzt die automatische Persistenz nicht. Die Sundial-Aktivierung funktioniert jedoch laut Spielbeobachtung derzeit in **manabrew.app** nicht zuverlässig. Ein reproduzierter Engine-Bug ist weiterhin nicht bewiesen. |
+| **Coveted Jewel** | **Sculpting Steel** | Für nur {3} ein Nichtkreatur-Artefakt, das beim Eintritt **beliebiges Artefakt auf dem Spielfeld** kopieren kann, z. B. **Tithing Blade**, **Ichor Wellspring**, **Prized Statue** oder **Portal to Phyrexia**. Geeignete Kopien besitzen die Eintrittsfähigkeiten des Vorbildes und können selbst spätere Mishra-Ziele sein, falls Nichtkreatur-Artefakte. Ohne Jewel kein Risiko, die eigene Karte samt Kartenziehen und Manaquelle an einen ungebremsten Angreifer zu verlieren. | Jewel zog sofort drei Karten und konnte drei Mana einer Farbe erzeugen; eine Warform konnte denselben mächtigen ETB-Zug liefern. Sculpting Steel hat **keinen eigenständigen Kartenzieheffekt** und hängt von lohnenden bereits liegenden Artefakten ab. Die flexible Kopie kompensiert diesen Verlust nicht in jeder Spielsituation. |
+
+**Regel-/Timinghinweise:** Ashnod's Altar ist eine manafähige, *nicht auf Tappen beschränkte* Opferquelle. Wenn Mishras Warform zuvor im Kampf angreifen soll, kann sie **nach dem Kampf vor dem eigenen Endsegment** geopfert werden; die Ashnod-Mana können den auf das Opfer folgenden Trigger des Esoteric Duplicator bezahlen. Dessen neuer Token erscheint zu Beginn des nächsten Endsegments und erbt **nicht** den separat von Mishra erzeugten verzögerten Opfer-Trigger. Ashnod's Altar produziert ohne Opferkreatur kein Mana: Es wird **nicht** als vierzehntes verlässliches Ramp-Artefakt des bisherigen 13er-Ramp-Kerns gezählt. Sculpting Steels Eintritt-als-Kopie ist eine **Ersatzwirkung**, kein ETB-Auslöser der Steel selbst; die kopierte Artefakt-Fähigkeit kann beim Eintritt auslösen. Beim Warform-Kopieren einer Sculpting-Steel-Kopie zählen deren zu diesem Zeitpunkt kopierbare Werte, nicht automatisch Sculpting Steels ursprüngliche Manakosten.
+
+**Strukturelle Live-Prüfung nach Veröffentlichung:** 100 Karten, 100 verschieden; **35 Länder**, **45 Artefakte**, **13 bisherige Mana-Artefakte**, genau drei Game Changer (**Rhystic Study, Cyclonic Rift, Demonic Tutor**); alle 100 Namen wurden nach der Änderung in Scryfall gefunden und als **Commander-legal** mit Grixis-Farbidentität bestätigt. Die B4-Datei blieb unverändert (Blob `bab5a7b03416b77112c0ccaeec7aa3297fbd9a4d`). Tithing Blade, Scrap Trawler, Worldwalker Helm, Esoteric Duplicator, die fixen Ramp-Karten und beide Artefakt-Tutoren bleiben. **Nicht getestet:** reale Spielsitzungen mit den beiden neuen Karten auf manabrew.app; mögliche unvollständige Engine-Unterstützung oder tatsächliche Winrate-Unterschiede sind offen.
+
+**Regel- und Kartengrundlagen:** [Wizards zu Mishra](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes), [Wizards zu Esoteric Duplicator](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes), [Wizards zu Coveted Jewel](https://magic.wizards.com/en/news/feature/commander-2018-edition-release-notes-2018-07-27), [Ashnod's Altar – Oracle](https://scryfall.com/card/2xm/240/ashnods-altar), [Sculpting Steel – Oracle](https://scryfall.com/card/brr/50/sculpting-steel), [Wizards Commander-Brackets](https://magic.wizards.com/en/formats/commander).
+
+---
+
+## Frühere Revision: Tithing Blade zurück (2026-10-10)
 
 **GitHub-Commit:** [d97257f](https://github.com/alexdermohr/magic/commit/d97257fd20b2b60e0eda80a2d0a8444b2833d85c)
 
@@ -77,7 +94,7 @@ Quellen: [Offizielle Wizards-Regelhinweise zu Sundial](https://media.wizards.com
 
 **Externe Prüfquellen:** [Wizards: Commander und Brackets](https://magic.wizards.com/en/formats/commander), [Commander-Game-Changer-Update 21.10.2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025), [Update 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Commander-Bannliste](https://magic.wizards.com/en/banned-restricted-list), [Mishra-Regeln](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes), [Sundial-Regeln](https://magic.wizards.com/en/news/feature/avatar-the-last-airbender-release-notes), [Esoteric-Duplicator-Regeln](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes), [Manabrew/Forge-2026](https://manabrew.app/blog/graalvm/), [Manabrew Rust EndTurnEffect](https://github.com/witchesofthehill/manabrew/blob/main/manabrew-rs/crates/manabrew-engine/src/ability/effects/end_turn_effect.rs), [Scrap Trawler Oracle und Rulings](https://scryfall.com/card/aer/175/scrap-trawler).
 
-### Einzelprüfung aller 100 Karten (aktueller Bestand mit Tithing Blade)
+### Einzelprüfung aller 100 Karten (aktuelle Fassung nach zwei Artefakt-Tauschen)
 
 *Urteile sind qualitative Rollen- und Risikoeinschätzungen, keine gemessenen Winrate-Beiträge. „Fix“ heißt vorgegeben oder strukturell essenziell, nicht unfehlbar.*
 
@@ -117,7 +134,7 @@ Quellen: [Offizielle Wizards-Regelhinweise zu Sundial](https://media.wizards.com
 | Prized Statue | Stark | Treasure beim Eintritt und Tod; Warform sehr effizient für Ramp und Marionette. |
 | Skullclamp | Situativ stark | Zwei Karten für 1/1-Futter; ohne passende Token schwächer, kein gutes Warform-Ziel. |
 | Nihil Spellbomb | Stark | Günstiger Friedhofshate plus bedingter Draw; Urza's Saga-findbar. |
-| Sundial of the Infinite | Stark | Warform-Opfer-Trigger im eigenen Endsegment bei liegendem Trigger vom Stapel entfernen; bewahrt mehrere Tokens, verlangt korrektes Timing und Zugende. |
+| Ashnod's Altar | Stark / aktuell | Kopierbares Nichtkreatur-Artefakt mit freiem Kreaturen-Opfer für {C}{C}; finanziert Duplicator und triggert Trawler/Marionette, braucht Kreaturen und liefert nur farbloses Mana. |
 | Idol of Oblivion | Stark | Fast jede Mishra-Runde mit Token erlaubt zusätzliche Karte; früh kopierbares Mana-2-Artefakt. |
 | Strionic Resonator | Stark | Verdoppelt Mishra-Kampfauslöser für zwei Mana und Tap; zusätzliches Aktivierungsfenster nötig. |
 | Mox Opal | Fix | Farbige Beschleunigung bei Metalcraft; vor drei Artefakten inaktiv, dennoch behalten. |
@@ -126,7 +143,7 @@ Quellen: [Offizielle Wizards-Regelhinweise zu Sundial](https://media.wizards.com
 | Scrap Trawler | Neu/Kern | Rekursion beim Opfer/Tod höherwertiger Warforms und bei Boardwipes; braucht passendes kleineres Artefakt im Friedhof. |
 | Rhystic Study | Fix | Game Changer 1: kontinuierlicher, oft hoher Kartennachschub. |
 | The Mightstone and Weakstone | Stark | Warform-ETB: zwei Karten oder Kreaturenreduktion; Original unterstützt Artefaktmana. |
-| Coveted Jewel | Situativ stark | Warform-ETB zieht drei, nutzbar für drei Mana; Original kann durch Angriffe gestohlen werden. |
+| Sculpting Steel | Stark / aktuell | Kopiert bei Eintritt ein bereits liegendes Artefakt einschließlich ETB-Werten; flexibel als zweites Blade/Wellspring/Portal, aber ohne geeignete Vorlage kein eigenständiger Ertrag. |
 | Spine of Ish Sah | Stark | Flexibles permanentes ETB-Removal auf Warform; sieben Mana beim regulären Cast. |
 | Portal to Phyrexia | Stark | Warform räumt bis zu drei Kreaturen pro Gegner; neun Mana ohne Kopie/Welder, auf Kreaturmeta fokussiert. |
 | Simulacrum Synthesizer | Stark | MV≥3-Artefakte, die eintreten (auch Warforms), erzeugen skalierende Construct-Token; behalten. |
