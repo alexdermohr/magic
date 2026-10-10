@@ -27,7 +27,7 @@
 1 Liquimetal Torque
 1 Ichor Wellspring
 1 Cryogen Relic
-1 Mephitic Draught
+1 Esoteric Duplicator
 1 Worldwalker Helm
 1 Prized Statue
 1 Servo Schematic
@@ -45,7 +45,7 @@
 1 Spine of Ish Sah
 1 Portal to Phyrexia
 1 Simulacrum Synthesizer
-1 Demonic Junker
+1 Lich's Relic
 1 Skysovereign, Consul Flagship
 1 Lightning Greaves
 1 Determined Iteration
