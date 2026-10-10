@@ -4,13 +4,156 @@
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
+## Aktueller Audit: 10. Oktober 2026 (maßgeblich für `current.txt`)
+
+**Entscheidung:** **Sundial of the Infinite raus → Scrap Trawler rein**; veröffentlicht unter [Commit c97482d](https://github.com/alexdermohr/magic/commit/c97482da11d4d92d7c2c2b15cc67e471e97f9de9). Keine weiteren Kartenänderungen: alle vorgegebenen Keep-/Out-Karten, 35 Länder und 13 Ramp-Artefakte bleiben unverändert. **45 Artefakte einschließlich Kreaturen und Artefaktländern**, 100 verschiedene Karten einschließlich Commander, 3 Game Changer (Rhystic Study, Cyclonic Rift, Demonic Tutor), keine bewusste frühe Zwei-Karten-Endloskombo. Die Bracket-4-Datei bleibt unverändert.
+
+**Wichtigste verbleibende Schwächen:** (1) Mishra muss oft bis zum Kampfbeginn überleben; (2) eine relevante Anzahl günstiger Artefakte nach Boardwipe wiederaufbauen, speziell nach Exil statt Zerstörung; (3) `Whir of Invention` verlangt trotz Improvise **UUU**; (4) mehrfach sieben- bis neunmana-teure Payoffs können ohne Mishra/Welder im Opening Hand verklumpen; (5) einige Value-Engines sind Nicht-Artefaktkreaturen und werden nicht von Mishra kopiert. Nach der gezielten Änderung sind **13 Mana-Artefakte und alle 35 Länder erhalten**.
+
+**Starthände (reine Kombinatorik, keine Mulligans oder Kartenauswahl):** Aus den **99 Karten der Bibliothek ohne Commander** mit 35 Ländern enthalten zufällige sieben Karten etwa **21,8 %** der Fälle null oder ein Land, und **73,1 %** zwei bis vier Länder. Die 13 Mana-Artefakte machen etliche niedrige Landzahlen spielbar, ersetzen aber nicht zwingend farbiges Mana. Diese Rechnung ist kein Siegquotentest und berücksichtigt auch keine Entscheidung zum Mulligan.
+
+### Priorisierte Tauschprüfung
+
+| Priorität | Raus → Rein | Belegbarer Nutzen | Stärkstes Gegenargument | Entscheidung |
+|---|---|---|---|---|
+| 1 | **Sundial of the Infinite → Scrap Trawler** | Warform-Tode mit hoher kopierter Mana Value können niedrigere Artefaktkarten zurückholen; mehrere Trigger bei Boardwipe; keine verlorene Artefakt- oder Manaquelle. | Sundial kann bei korrektem Endsegment-Timing Warforms dauerhaft bewahren, was Trawler nicht kann; Trawler ist ein nicht kopierbares Kreatur-Artefakt und braucht Friedhofsziel. | **Umgesetzt.** Eine Nichtkreatur-Kopieroption weniger, eine Artefaktkreatur mehr. |
+| 2 | **Coveted Jewel → Sculpting Steel** | Niedrigere Manakosten, kopiert bestes vorhandenes Artefakt ohne Kontrollübernahme-Risiko. | Jewel liefert sofort drei Karten und drei Mana, die Warform ist extrem stark; Steel braucht lohnendes Vorbild. | **Nicht umgesetzt.** Verlust des explosiven Card-Draw-/Mana-Topends nicht gerechtfertigt. |
+| 3 | **Marionette Master → Mirkwood Bats** | Günstigerer Schaden an allen Gegnern auch beim Erzeugen von Tokens, einschließlich Karten wie Worldwalker Helm. | Master kann mit hoher Stärke einzelne Gegner erheblich härter treffen; Bats sind kein Artefakt und das Deck spielt bereits Apprentice/Anvil. | **Nicht umgesetzt.** Redundanz und unbewiesene Verbesserung. |
+| 4 | **Tithing Blade → Sculpting Steel** | Kopiert flexibel auch wertvolle gegnerische Artefakte; kann höhere ETB-Qualität liefern. | Weniger niedrigkostige wiederholbare Edikt-Effekte gegen große Einzelkreaturen. | **Nicht umgesetzt.** Abhängig vom gegnerischen Feld. |
+| 5 | **Blasphemous Act → Toxic Deluge** | Bessere Dosierbarkeit, -X/-X gegen Unzerstörbarkeit. | Lebenspunktkosten, eigene Kreaturen sterben weiter; Act kostet in Kreaturenspielen oft nur ein Mana. | **Nicht umgesetzt.** Metagameabhängig. |
+
+### Warform-Interaktionen und präzise Regeln
+
+- **Mishra** kopiert nur ein eigenes *Nichtkreatur-Artefakt*. `Roaming Throne`, `Scrap Trawler`, `Thought Monitor` und `Demonic Junker` als echte Karten sind deshalb keine direkten Kopierziele. Ein **Warform-Token** bleibt eine kopierbare Vorlage für Effekte, die Artefakt-/Tokenkopien allgemein erlauben.
+- **Roaming Throne**: Human oder Artificer wählen, um Mishras Kampfbeginn-Trigger zu verdoppeln. **Panharmonicon** hingegen verdoppelt passende ETB-Trigger, nicht Mishras Kampfbeginn-Trigger.
+- **Worldwalker Helm** hat eine *Ersatzwirkung* für Artefakt-Token-Erzeugung, keinen normalen ETB-Trigger. Für ein Ereignis mit einem oder mehreren Artefakt-Tokens kommt zusätzlich **eine Map** hinzu. Sein aktivierter Effekt kann ein Warform-Token kopieren; die zusätzliche Kopie hat **nicht** Mishras verzögerten Opfertrigger.
+- **Esoteric Duplicator** verlangt ein echtes Opfer und zusätzlich {2}. Die dadurch ausgelöste Kopie erscheint zu Beginn des *nächsten* Endsegments, bei normalem Mishra-Opfer im eigenen Endsegment meist beim nächsten Gegner. Die Kopie behält kopierbare Warform-Eigenschaften, aber nicht Mishras ursprünglichen, separat erzeugten Opfertrigger.
+- **Determined Iteration**: Mishras Trigger im Combat-Beginn so anordnen, dass zunächst die Warform entsteht und **danach Populate** sie kopieren kann. Iterations eigene Kopie wird im nächsten Endsegment geopfert.
+- **Simulacrum Synthesizer** reagiert auf ein eintretendes Artefakt mit Mana Value ≥3, nicht nur auf gewirkte Artefaktzauber; Mishras passende Warforms reichen. **Oni-Cult Anvil** sieht dagegen Artefakte, die während **deines Zuges** das Spielfeld verlassen, und triggert höchstens einmal je Zug und Anvil. **Marionette Master** trifft einen gewählten Gegner, **Marionette Apprentice** jeweils alle Gegner bei passenden Todesereignissen.
+- **Scrap Trawler**: Geht eine Portal-Warform mit kopiertem Mana Value neun in den Friedhof, kann Trawler eine Artefaktkarte mit geringerem Mana Value zurückholen. Der Token selbst ist keine zurückholbare Artefaktkarte und verschwindet. Bei einem gemeinsamen Zerstörungsereignis werden Trawler-Trigger für die anderen Artefakte ebenfalls ausgelöst.
+- **Sundial of the Infinite** (nun *nicht* im Deck): während des Kampfes stoppt die verrechnete Fähigkeit sofort den Zug, aber Mishras bisher nicht ausgelöster Opfertrigger verschiebt sich auf das nächste Endsegment. Reagiert man erst **auf den bereits auf dem Stack liegenden eigenen Endsegment-Opfertrigger**, wird dieser entfernt und die Warform bleibt. Beim Aktivieren sofort nach Kampfbeginn kann die Funktion nicht dauerhaft retten. Wenn die App den Zug nach **Verrechnung** von Sundial nicht beendet, ist das ein Engine-/UI-Verdacht, kein regulärer Regelausgang; ohne Log, Spielmodus und Engine nicht reproduziert.
+- Die Rust-Implementierung von Manabrew hat einen `EndTurnEffect`, der den Stack leert und `end_turn_requested` setzt; der Game-Loop soll danach direkt zum Cleanup springen. Für Commander/Play-vs-AI gibt es seit August 2026 zusätzlich eine experimentelle browserbasierte Forge-Engine. **Kein** durchgespielter Reproduktionstest in der Nutzerumgebung wurde ausgeführt.
+
+**Externe Prüfquellen:** [Wizards: Commander und Brackets](https://magic.wizards.com/en/formats/commander), [Commander-Game-Changer-Update 21.10.2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025), [Update 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Commander-Bannliste](https://magic.wizards.com/en/banned-restricted-list), [Mishra-Regeln](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes), [Sundial-Regeln](https://magic.wizards.com/en/news/feature/avatar-the-last-airbender-release-notes), [Esoteric-Duplicator-Regeln](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes), [Manabrew/Forge-2026](https://manabrew.app/blog/graalvm/), [Manabrew Rust EndTurnEffect](https://github.com/witchesofthehill/manabrew/blob/main/manabrew-rs/crates/manabrew-engine/src/ability/effects/end_turn_effect.rs), [Scrap Trawler Oracle und Rulings](https://scryfall.com/card/aer/175/scrap-trawler).
+
+### Einzelprüfung aller 100 aktuellen Karten
+
+*Urteile sind qualitative Rollen- und Risikoeinschätzungen, keine gemessenen Winrate-Beiträge. „Fix“ heißt vorgegeben oder strukturell essenziell, nicht unfehlbar.*
+
+| Karte | Urteil | Rolle, Synergie und wesentliche Schwäche |
+|---|---|---|
+| Mishra, Eminent One | Kern | Kommandeur: Kampf-Beginn kopiert ein eigenes Nichtkreatur-Artefakt; Kopierziel und Überleben sind Kernrisiko. |
+| Emry, Lurker of the Loch | Stark | Wiederholbarer Artefakt-Cast aus dem Friedhof; Friedhofs- und Tap-Abhängigkeit. |
+| Jhoira, Weatherlight Captain | Fix | Kartenziehen bei gewirkten historischen Sprüchen, nicht beim Erzeugen von Warform-Spielsteinen; nützlich bei billigen Artefakten. |
+| Etherium Sculptor | Stark | Verbessert Artefaktzauber-Taktung; selbst anfällige Kreatur, reduziert keine Warform-Kopierkosten. |
+| Enthusiastic Mechanaut | Stark | Zweiter günstiger Artefakt-Kostenreduzierer mit evasivem Körper; benötigt Artefaktzauber. |
+| Marionette Master | Situativ stark | Hohe Schadensskalierung bei Artefakt-Toden; sechs Mana, zielt jeweils nur auf einen Gegner. |
+| Marionette Apprentice | Stark | Günstiger verlustrelevanter Schaden gegen alle Gegner; begünstigt Opfer- und Token-Ketten. |
+| Sai, Master Thopterist | Stark | Thopter-Futter und Karten bei Opferung; erzeugt Tokens aus gewirkten Artefakten, nicht jeder Warform. |
+| Goblin Welder | Stark | Tauscht Feld-Artefakt gegen Friedhofs-Artefakt; enormer Portal-Cheat, aber fragil und braucht Setup. |
+| Goblin Engineer | Stark | Sucht Artefakt in den Friedhof und holt nur kleine Artefakte unmittelbar zurück; unterstützt Welder. |
+| Brudiclad, Telchor Engineer | Situativ stark | Tokenmasse wird zu Warform-/anderen Tokenkopien; sechs Mana, ohne Tokenfeld langsam. |
+| Cyberdrive Awakener | Stark | Beendet Spiele durch fliegende 4/4-Artefakte; sechs Mana und benötigt ein vorhandenes Board. |
+| Thought Monitor | Stark | Artefaktkreatur mit Affinity und ETB-Draw 2; nicht selbst Mishra-Ziel. |
+| Roaming Throne | Stark | Human oder Artificer wählen, um Mishras Kampfauslöser zu verdoppeln; als Artefaktkreatur kein Mishra-Ziel. |
+| Kappa Cannoneer | Fix | Ward, Affinity und unblockbarer wachsender Druck; direkte Siegeslinie neben Schadens-Engines. |
+| Urza, Lord High Artificer | Stark | Erzeugt großen Construct und macht Artefakte zu blauen Manaquellen; starker Whir-Farbhelfer. |
+| Sol Ring | Fix | Unverzichtbare frühe farblose Beschleunigung, aber keine farbigen Mana. |
+| Arcane Signet | Fix | Günstiger verlässlicher UBR-Fix; ein Artefakt-Mana-Rock. |
+| Fellwar Stone | Fix | Frühe Beschleunigung, Farben hängen von gegnerischen Ländern ab. |
+| Dimir Signet | Fix | UB-Fix; braucht vor der Aktivierung ein Mana. |
+| Izzet Signet | Fix | UR-Fix; braucht vor der Aktivierung ein Mana. |
+| Rakdos Signet | Fix | BR-Fix; braucht vor der Aktivierung ein Mana. |
+| Talisman of Dominance | Fix | Unmittelbar nutzbarer UB-Fix mit möglichem Lebenspunktpreis. |
+| Talisman of Creativity | Fix | Unmittelbar nutzbarer UR-Fix mit möglichem Lebenspunktpreis. |
+| Talisman of Indulgence | Fix | Unmittelbar nutzbarer BR-Fix mit möglichem Lebenspunktpreis. |
+| Mind Stone | Fix | Farblose Beschleunigung und spätere Kartenumwandlung; nicht streichen. |
+| Liquimetal Torque | Fix | Farblose Beschleunigung, zusätzliche Artefakt-Typisierung eines Permanents bei Bedarf. |
+| Ichor Wellspring | Stark | Warform erzeugt ETB-Karte und beim Opfern Todes-Karte; sehr effizientes Ziel. |
+| Cryogen Relic | Stark | Warform triggert Kartenziehen beim Eintritt und Verlassen, sofern Feldwechsel entsprechend erfolgt. |
+| Esoteric Duplicator | Stark | Für zwei Mana kann geopferte Warform als Kopie zum nächsten Endsegment zurückkommen, ohne Mishras eigenen Opfertrigger. |
+| Worldwalker Helm | Stark | Ergänzt Map bei Artefakt-Token-Ereignissen und kopiert später eigene Artefakt-Tokens; Mana- und Tap-Kosten. |
+| Prized Statue | Stark | Treasure beim Eintritt und Tod; Warform sehr effizient für Ramp und Marionette. |
+| Skullclamp | Situativ stark | Zwei Karten für 1/1-Futter; ohne passende Token schwächer, kein gutes Warform-Ziel. |
+| Nihil Spellbomb | Stark | Günstiger Friedhofshate plus bedingter Draw; Urza's Saga-findbar. |
+| Tithing Blade | Situativ | Wiederholte edict-ETBs durch Warform; gegen gegnerische Kleintoken schwach. |
+| Idol of Oblivion | Stark | Fast jede Mishra-Runde mit Token erlaubt zusätzliche Karte; früh kopierbares Mana-2-Artefakt. |
+| Strionic Resonator | Stark | Verdoppelt Mishra-Kampfauslöser für zwei Mana und Tap; zusätzliches Aktivierungsfenster nötig. |
+| Mox Opal | Fix | Farbige Beschleunigung bei Metalcraft; vor drei Artefakten inaktiv, dennoch behalten. |
+| Basalt Monolith | Fix | Großer farbloser Burst; kein Farbfix und untappt nicht natürlich. |
+| Panharmonicon | Stark | Verdoppelt ETB-Trigger geeigneter Warforms; verdoppelt nicht Mishras Kampfauslöser. |
+| Scrap Trawler | Neu/Kern | Rekursion beim Opfer/Tod höherwertiger Warforms und bei Boardwipes; braucht passendes kleineres Artefakt im Friedhof. |
+| Rhystic Study | Fix | Game Changer 1: kontinuierlicher, oft hoher Kartennachschub. |
+| The Mightstone and Weakstone | Stark | Warform-ETB: zwei Karten oder Kreaturenreduktion; Original unterstützt Artefaktmana. |
+| Coveted Jewel | Situativ stark | Warform-ETB zieht drei, nutzbar für drei Mana; Original kann durch Angriffe gestohlen werden. |
+| Spine of Ish Sah | Stark | Flexibles permanentes ETB-Removal auf Warform; sieben Mana beim regulären Cast. |
+| Portal to Phyrexia | Stark | Warform räumt bis zu drei Kreaturen pro Gegner; neun Mana ohne Kopie/Welder, auf Kreaturmeta fokussiert. |
+| Simulacrum Synthesizer | Stark | MV≥3-Artefakte, die eintreten (auch Warforms), erzeugen skalierende Construct-Token; behalten. |
+| Lich's Relic | Stark | Billiges kopierbares Equipment: ETB kann gegen zwei Extramana gegnerische Kreatur/Planeswalker je Gegner entfernen. |
+| Demonic Junker | Fix | Kopierbares Ziel mit Kreaturenzerstörungs-ETB; Affinity hilft beim tatsächlichen Wirken. |
+| Lightning Greaves | Stark | Haste und Shroud schützen Mishra; Shroud verhindert auch eigene direkte Ziel-Effekte. |
+| Determined Iteration | Stark | Populate kann die soeben erzeugte Warform duplizieren bei richtigem Trigger-Stack; Kopie wird ebenfalls geopfert. |
+| Cyclonic Rift | Fix | Game Changer 2: Überladen räumt asymmetrisch und eröffnet Siegzug. |
+| Mana Drain | Stark | Effizienter Counter mit späterem Mana, aber UU-Farbanforderung. |
+| An Offer You Can't Refuse | Stark | Ein-Mana-Protection/Counter; geschenkte gegnerische Treasures sind echter Preis. |
+| Chaos Warp | Stark | Flexibles permanentes Removal einschließlich Verzauberungen; möglicher zufälliger Rückschlag. |
+| Deflecting Swat | Stark | Oft kostenlose Umlenkung mit Mishra; erfordert ein geeignetes Ziel und den Commander. |
+| Deadly Rollick | Stark | Mit Mishra kostenloses Kreaturen-Exil, sonst vier Mana. |
+| Feed the Swarm | Stark | Wichtiger schwarzer Verzauberungs- und Kreaturen-Hate; Sorcery und Lebenspunktkosten. |
+| Vandalblast | Stark | Einseitiger Artefakt-Reset als Overload, eigene Artefakte bleiben unberührt. |
+| Blasphemous Act | Situativ | Oft billiger flächiger Reset; trifft Mishra, Trawler und alle eigenen Kreaturen. |
+| Mystic Remora | Stark | Früh exzellenter Draw, aber Upkeep-Zahlungen wachsen und Kreatur-Meta senkt Ertrag. |
+| Fabricate | Fix | Universeller Artefakt-Tutor zur Hand, auch für teure Win-Objekte; kein eigener Boardswing. |
+| Whir of Invention | Fix | Instant-Artefaktzugang direkt ins Spiel; UUU bleibt trotz Improvise zu bezahlen. |
+| Demonic Tutor | Fix | Game Changer 3: sucht fehlendes Boardteil oder Antwort, reduziert Varianz. |
+| Oni-Cult Anvil | Stark | Kopierbares Opfer-/Token-Werkzeug; Token beim Verlassen von Artefakten nur einmal je eigenem Zug und Anvil. |
+| Command Tower | Rainbow/Fix | Farbfix für Mishra; bedingte Farben bei Reflecting Pool/Spire, Lebensverlust bei Brass/Confluence. |
+| Xander's Lounge | Triom | Fetchbares UBR-Land; kommt getappt ins Spiel, Cycling gegen Flood. |
+| Misty Rainforest | Fetchland | Findet typisierte Shock-/Dual-Länder, mit je nach Namen eingeschränktem Suchspektrum; 1 Lebenspunkt. |
+| Reflecting Pool | Rainbow/Fix | Farbfix für Mishra; bedingte Farben bei Reflecting Pool/Spire, Lebensverlust bei Brass/Confluence. |
+| Spire of Industry | Rainbow/Fix | Farbfix für Mishra; bedingte Farben bei Reflecting Pool/Spire, Lebensverlust bei Brass/Confluence. |
+| City of Brass | Rainbow/Fix | Farbfix für Mishra; bedingte Farben bei Reflecting Pool/Spire, Lebensverlust bei Brass/Confluence. |
+| Seat of the Synod | Artefaktland | Farbige Artefaktquelle und Metalcraft; besonders anfällig gegen Artefakt-Hate. |
+| Vault of Whispers | Artefaktland | Farbige Artefaktquelle und Metalcraft; besonders anfällig gegen Artefakt-Hate. |
+| Great Furnace | Artefaktland | Farbige Artefaktquelle und Metalcraft; besonders anfällig gegen Artefakt-Hate. |
+| Darksteel Citadel | Artefaktland | Unzerstörbare Artefakt-Manaquelle; nur farblos und erhöht Farbengpass. |
+| Flooded Strand | Fetchland | Findet typisierte Shock-/Dual-Länder, mit je nach Namen eingeschränktem Suchspektrum; 1 Lebenspunkt. |
+| Marsh Flats | Fetchland | Findet typisierte Shock-/Dual-Länder, mit je nach Namen eingeschränktem Suchspektrum; 1 Lebenspunkt. |
+| Academy Ruins | Utility farblos | Legt Artefakt zurück oben auf die Bibliothek für 1U und Tap; nur farbloses Landmana. |
+| Buried Ruin | Utility farblos | Opfert sich für einmalige Artefaktkarte aus dem Friedhof auf die Hand; nur farbloses Mana. |
+| Inventors' Fair | Utility farblos | Artefaktbasierter Lifegain und langsamer Tutor; kein farbiges Mana. |
+| Urza's Saga | Utility farblos | Sucht Artefakte MV 0/1 und erzeugt Construct-Token; opfert sich planmäßig, kein Farbfix. |
+| Otawara, Soaring City | Channel-Land | Blaue Quelle plus Channel-Bounce bei Bedarf; selten ohne echte Verwendung. |
+| Takenuma, Abandoned Mire | Channel-Land | Schwarze Quelle plus potenzieller Friedhofs-Kreaturenrückgriff per Channel. |
+| Sokenzan, Crucible of Defiance | Channel-Land | Rote Quelle oder Channel-Token zur Offensive/Skullclamp. |
+| Polluted Delta | Fetchland | Findet typisierte Shock-/Dual-Länder, mit je nach Namen eingeschränktem Suchspektrum; 1 Lebenspunkt. |
+| Scalding Tarn | Fetchland | Findet typisierte Shock-/Dual-Länder, mit je nach Namen eingeschränktem Suchspektrum; 1 Lebenspunkt. |
+| Bloodstained Mire | Fetchland | Findet typisierte Shock-/Dual-Länder, mit je nach Namen eingeschränktem Suchspektrum; 1 Lebenspunkt. |
+| Watery Grave | Shockland | Fetchbare Zweifarben-Länder, für Tempo gegebenenfalls zwei Lebenspunkte. |
+| Steam Vents | Shockland | Fetchbare Zweifarben-Länder, für Tempo gegebenenfalls zwei Lebenspunkte. |
+| Blood Crypt | Shockland | Fetchbare Zweifarben-Länder, für Tempo gegebenenfalls zwei Lebenspunkte. |
+| Underground Sea | Dual-Land | Fetchbares, ungetapptes Zweifarben-Land ohne ETB-Lebensverlust. |
+| Volcanic Island | Dual-Land | Fetchbares, ungetapptes Zweifarben-Land ohne ETB-Lebensverlust. |
+| Badlands | Dual-Land | Fetchbares, ungetapptes Zweifarben-Land ohne ETB-Lebensverlust. |
+| Underground River | Painland | Sofortiges farbiges Mana gegen Lebenspunktpreis; bietet auch farbloses Mana. |
+| Shivan Reef | Painland | Sofortiges farbiges Mana gegen Lebenspunktpreis; bietet auch farbloses Mana. |
+| Sulfurous Springs | Painland | Sofortiges farbiges Mana gegen Lebenspunktpreis; bietet auch farbloses Mana. |
+| Mana Confluence | Rainbow/Fix | Farbfix für Mishra; bedingte Farben bei Reflecting Pool/Spire, Lebensverlust bei Brass/Confluence. |
+| Island | Standardland | Basics für Fetch, Nichtbasisland-Hate und stabile einzelne Farbe. |
+| Swamp | Standardland | Basics für Fetch, Nichtbasisland-Hate und stabile einzelne Farbe. |
+| Mountain | Standardland | Basics für Fetch, Nichtbasisland-Hate und stabile einzelne Farbe. |
+
+**Validierungsgrenze:** Kein vollständiger Match-/Goldfish-Test und keine individuelle Live-Kartendatenbank-Abfrage aller 100 Oracle-Records. Die strukturelle Deckprüfung, die spezifischen Regelfragen und die Bracket-/Bannlisten-Kontrolle sind davon zu unterscheiden. Für einen nachweisbaren Gewinnratenvorteil braucht es reproduzierbare Spiele mit vergleichbaren Gegnerdecks.
+
+---
+
 ## Ziel und Ergebnis
 
 Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck behält seinen bestehenden Artefakt-Value-/Token-Plan bei. Eine weitere B3-Version wird nicht gepflegt.
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-## Aktuelle Revision: Scrap Mastery durch Oni-Cult Anvil ersetzt (2026-10-10)
+## Frühere Revision: Scrap Mastery durch Oni-Cult Anvil ersetzt (2026-10-10)
 
 **Ein gezielter Kartenwechsel:** Scrap Mastery wurde aus der einzigen aktiven Bracket-3-Liste entfernt. **Oni-Cult Anvil (Oni-Kult-Amboss)** ist jetzt im Deck, um Mishras Opfer- und Token-Spielplan zuverlässiger zu unterstützen.
 
