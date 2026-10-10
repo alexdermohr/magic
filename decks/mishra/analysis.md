@@ -5,7 +5,36 @@
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Revision: Sundial und Coveted Jewel entfernt (2026-10-10)
+## Aktuelle Neubewertung: Kopierbarer Finisher statt Marionette Master (2026-10-10)
+
+**Aktiver Deck-Commit:** [3ee616d](https://github.com/alexdermohr/magic/commit/3ee616dd8e05ef0e966ac8d146af4740dd2a20b9). **Nur eine aktive B3-Liste:** [current.txt](current.txt). Die separate B4-Datei bleibt unverändert.
+
+| Raus | Rein | Eindeutiger Mechanikgewinn | Stärkstes Gegenargument |
+|---|---|---|---|
+| **Marionette Master** ({4}{B}{B}, Nichtartefakt-Kreatur) | **Knight Paladin** ({5}, Nichtkreatur-Artefaktfahrzeug) | Sofortiger ETB-Schaden von **4 an jeden Gegner** schon bei regulärem Ausspielen und mit **jeder Mishra-Warform-Kopie** erneut. **Panharmonicon** verdoppelt diesen ETB; **Roaming Throne** kann durch zwei Mishra-Auslöser zwei Warforms erzeugen. Warforms sind 4/4 mit Eile und Trampelschaden, benötigen keine Bemannung. Ein Mana günstiger, keine Farbanforderung, zusätzliche kopierbare Artefaktkarte. | Marionette Master erzeugte mit Fabricate 3 wahlweise Servo-Futter oder über +1/+1-Marken **4 Lebenspunktverlust gegen einen gewählten Gegner pro Artefakt-Tod**, extrem stark bei großen Opferketten. Diese unmittelbare Opfer-Finisher-Spitze fehlt jetzt. **Marionette Apprentice** bleibt als Schadensausgabe beim Sterben sowie Kappa Cannoneer, Cyberdrive Awakener und Brudiclad als weitere Abschlusswege. |
+
+**Nach aktueller Oracle-Abfrage und verifiziertem GitHub-Bestand:** **100 Singleton-Karten**, **35 Länder**, **46 Artefaktkarten** (vorher 45), **13 bisherige Mana-Artefakte**, **3 Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor), alle Karten legal und innerhalb Mishras Grixis-Farbidentität. Keine absichtliche neue frühe Zwei-Karten-Endloskombo. Sundial und Coveted Jewel bleiben auf Wunsch draußen; Tithing Blade, Scrap Trawler, Ashnod's Altar und Sculpting Steel bleiben drin.
+
+### Kandidaten, bewusst noch nicht eingetauscht
+
+| Priorität | Karte und sinnvoller Einsatz | Mögliches Austauschfenster und Nachteil |
+|---|---|---|
+| **Hoch** | **Master Transmuter**, {3}{U}, **Artefaktkreatur**: für {U}, Tappen und Rückgabe eines eigenen Artefakts aus dem Spiel bringt sie ein Artefakt aus der Hand direkt aufs Feld. Wiederholtes Zurücknehmen und erneutes Einsetzen von **Tithing Blade/Portal to Phyrexia** kann ETB-Effekte massiv vervielfachen. Die Handkarten müssen tatsächlich verfügbar sein. | **Idol of Oblivion** wäre ein möglicher Artefakt-Slot, aber der Verlust einer billigen, oft jede eigene Runde nutzbaren Zieh-Engine ist noch nicht eindeutig gerechtfertigt. Außerdem muss Transmuter normalerweise eine Runde überleben, bevor sie tappen darf. |
+| **Hoch** | **Mishra, Tamer of Mak Fawa**, {3}{B}{R}: **Ward—Sacrifice a permanent** für alle eigenen Permanents, auch Mishra, und Unearth **{1}{B}{R}** für Artefaktkarten im Friedhof (einschließlich teurer Nichtkreatur-Artefakte). Sehr starke Schutz- und Wiederaufbausynergie. | Fünf Mana und keine Artefaktkarte. Ein passender Slot darf weder zwingende Interaktion noch die vorhandenen Token-/Schadenswege unnötig schwächen. Der Unterwelt-Rückgriff ist nur einmalig; das reanimierte Artefakt wird später ins Exil geschickt. |
+| **Hoch, erst Manabrew testen** | **The Master, Multiplied**, {4}{B}{R}: Trigger können dich nicht zum Opfern oder Exilieren eigener Kreaturenspielsteine zwingen. Damit können **Mishras Warforms ohne Sundial** liegen bleiben; zusätzlich gilt die Legendenregel nicht für deine Kreaturenspielsteine. | Sechs Mana, Nichtartefakt; ersetzt mit gleicher Stärke kein einfaches Ramp-/Draw-Stück. Diese ungewöhnliche statische Fähigkeit ist in **manabrew.app** nicht für die konkrete Mishra-Warform bestätigt. |
+| **Mittel bis hoch** | **Reckless Fireweaver**, {1}{R}: pro Artefakt-ETB **1 Schaden an jeden Gegner**. Zählt nicht nur Warforms, sondern Maps durch Worldwalker Helm, Treasures durch Prized Statue und andere Artefakt-Tokens; ergänzt Marionette Apprentice bei gleichzeitigem Opfer- und ETB-Plan. | Verzicht auf eine vorhandene Karte noch nicht klar. Fireweaver ist eine Nichtartefaktkreatur und nach einem gegnerischen Boardwipe ohne weiteren Token-/Artefaktaufbau schwach. |
+| **Situativ** | **Repurposing Bay**, {2}{U}: opfert gegen {2}, Tappen und Sorcery-Timing ein Artefakt und legt ein beliebiges anderes Artefakt mit **genau einem höheren Manawert** direkt aus der Bibliothek ins Spiel. Besonders Warforms mit 2–4 Mana Value sind nützlich. | Bereits Demonic Tutor, Fabricate, Whir, Goblin Engineer und Inventors' Fair vorhanden. Für **Idol of Oblivion** verliert man verlässlichen Draw; zusätzliche Tutors statt unabhängiger Payoffs müssen ihren Slot erst beweisen. |
+| **Beobachten** | **Fateful Discovery**, {3}{U}{U} (Reality Fracture 2026): **Karte ziehen für jedes eigene eintretende Artefakt**, einschließlich Mishra-Warforms und Map-/Treasure-Tokens. Potenziell gewaltige Kartenmaschine. | Fünf Mana und doppeltes Blau, kein Artefakt; hoher Deckbaupreis bei bereits vielen Drawquellen. Im tatsächlichen Manabrew-Spiel noch nicht belegt. |
+
+**Nicht empfohlen:** Ein automatischer Wechsel zu Rings of Brighthearth neben Basalt Monolith würde eine Zweikarten-Endlosmana-Kombination erzeugen und kann Bracket 3 verletzen. Zusätzliche Kopierer allein sind kein Ziel; wichtiger sind kopierbare Artefakte mit **eigenem ETB-Wert** und unabhängige Wege, aus einem stabilen Board eine Partie zu gewinnen.
+
+**Regelhinweis:** Mishras Warforms sind **4/4 Construct-Artefaktkreaturen**, nicht pauschal Phyrexian. Kopien **legendärer** Artefakte behalten die legendäre Eigenschaft, auch wenn sie den Namen *Mishra's Warform* bekommen. Mehrere legendäre Warforms dieses Namens können deshalb der Legendenregel zum Opfer fallen. Das kann bei Mehrfachtriggern von Roaming Throne und Tokenumwandlung durch Brudiclad wichtig sein. Bei Eintritt ausgelöste Fähigkeiten werden dennoch ausgelöst. Die passive Legendenregel-Ausnahme von The Master, Multiplied könnte dies verhindern, erfordert aber Prüfung der Softwareimplementierung.
+
+**Evidenz und Grenzen:** [Wizards: The Brothers' War Release Notes](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes), [Wizards: Brackets Update Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Knight Paladin Oracle](https://scryfall.com/card/40k/160/knight-paladin), [Master Transmuter](https://scryfall.com/card/2xm/58/master-transmuter), [Mishra Tamer](https://scryfall.com/card/bro/217/mishra-tamer-of-mak-fawa), [The Master, Multiplied](https://scryfall.com/card/who/146/the-master-multiplied), [Repurposing Bay](https://scryfall.com/card/dft/56/repurposing-bay), [Fateful Discovery](https://scryfall.com/card/hob/40/fateful-discovery), [EDHREC Mishra Artefakte](https://edhrec.com/commanders/mishra-eminent-one/artifacts). Die Qualität der Alternativen ist aus Regeltext und Deckstruktur abgeleitet; **keine kontrollierten Spiele** oder nachgewiesenen Siegquoten und keine Funktionsgarantie für Manabrew.
+
+---
+
+## Frühere Revision: Sundial und Coveted Jewel entfernt (2026-10-10)
 
 **Aktive Bracket-3-Deckliste:** [current.txt](current.txt). **Karten-Commit:** [27e93b1](https://github.com/alexdermohr/magic/commit/27e93b1d58bd0a04ee68292b85552a4eee7aae27).
 
@@ -105,7 +134,7 @@ Quellen: [Offizielle Wizards-Regelhinweise zu Sundial](https://media.wizards.com
 | Jhoira, Weatherlight Captain | Fix | Kartenziehen bei gewirkten historischen Sprüchen, nicht beim Erzeugen von Warform-Spielsteinen; nützlich bei billigen Artefakten. |
 | Etherium Sculptor | Stark | Verbessert Artefaktzauber-Taktung; selbst anfällige Kreatur, reduziert keine Warform-Kopierkosten. |
 | Enthusiastic Mechanaut | Stark | Zweiter günstiger Artefakt-Kostenreduzierer mit evasivem Körper; benötigt Artefaktzauber. |
-| Marionette Master | Situativ stark | Hohe Schadensskalierung bei Artefakt-Toden; sechs Mana, zielt jeweils nur auf einen Gegner. |
+| Knight Paladin | Stark / neu | Kopierbares Nichtkreatur-Artefaktfahrzeug: ETB verursacht vier Schaden bei jedem Gegner, auch als Warform; für fünf generische Mana castbar, über Panharmonicon/Roaming Throne skalierbar. |
 | Marionette Apprentice | Stark | Günstiger verlustrelevanter Schaden gegen alle Gegner; begünstigt Opfer- und Token-Ketten. |
 | Sai, Master Thopterist | Stark | Thopter-Futter und Karten bei Opferung; erzeugt Tokens aus gewirkten Artefakten, nicht jeder Warform. |
 | Goblin Welder | Stark | Tauscht Feld-Artefakt gegen Friedhofs-Artefakt; enormer Portal-Cheat, aber fragil und braucht Setup. |
