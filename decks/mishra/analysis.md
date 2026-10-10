@@ -10,7 +10,29 @@ Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck beh�
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-## Aktuelle Revision: effizienteres Warform-Removal und dauerhafte Kopien (2026-10-10)
+## Aktuelle Revision: Demonic Junker und Skullclamp statt Skysovereign und Servo Schematic (2026-10-10)
+
+**Zwei Artefakt-gegen-Artefakt-Tausche** gemäß der überarbeiteten Kartenprioritäten. Die einzige aktive Bracket-3-Deckliste ist weiterhin [current.txt](current.txt); ältere Stände bleiben im Git-Verlauf.
+
+| Raus | Rein | Grund | Gegenargument / Trade-off |
+|---|---|---|---|
+| **Skysovereign, Consul Flagship** | **Demonic Junker** | Junker hat Affinity for artifacts und kann beim Eintritt für **jeden Spieler** bis zu eine Zielkreatur dieses Spielers zerstören (eigene Kreatur kann ausgelassen werden). Mishras Warform des Fahrzeugs wiederholt diesen ETB-Effekt ohne normale Manakosten und benötigt keine Crew. | Skysovereign bietet wiederholbaren Angriffs-Schaden, Flugfähigkeit und kann auch gegnerische Planeswalker beschädigen. Junker trifft nur Kreaturen, nicht Planeswalker. Seine echten Manakosten sind {6}{B}, bevor Affinity sie reduziert; Mishras Kopie umgeht sie. |
+| **Servo Schematic** | **Skullclamp** | Für {1} ein günstiges Artefakt; Equip {1} und +1/-1 lassen ein 1/1-Token sofort sterben und ziehen dabei zwei Karten. Nutzbare Tokens liefern Sai, Master Thopterist, Marionette Apprentice oder Sokenzan. Urza's Saga kann Skullclamp mit Kapitel III suchen. | Servo Schematic produziert selbst Servos und eignet sich als eigenständiges günstiges kopierbares Mishra-Wertziel. Skullclamp ist **kein vergleichbar gutes Warform-Kopierziel** und braucht geeignete kleine Kreaturen. In tokenarmen Händen kann es wenig tun. |
+
+**Warum keine Mirkwood Bats?** Die Karte ist legitim und trifft mit Mishras Warforms alle Gegner, reduziert aber beim direkten Tausch gegen ein Artefakt die Artefaktdichte und konkurriert mit der bereits vorhandenen Schadensstrategie (Marionette Master/Apprentice). Nachdem sie nur optional gewünscht wurde, bleibt sie draußen. Repurposing Bay wurde als alternatives Artefakt geprüft, ist aber neben Demonic Tutor, Fabricate und Whir of Invention ein weiterer kostenpflichtiger Tutor und verlangt {2}, Tappen, Opfer sowie Sorcery-Timing; Skullclamp ergänzt eher die entfallenen Mephitic-Draught-Karten.
+
+**Unverändert und überprüfbar:** Jhoira, Weatherlight Captain; Kappa Cannoneer; Lich's Relic; Esoteric Duplicator; Fabricate und Whir of Invention; 35 Länder; 13 Mana-Artefakte einschließlich Mind Stone, Mox Opal und Basalt Monolith; **44 Artefaktkarten insgesamt** inklusive Artefaktkreaturen und -ländern; 100 eindeutige Karten. Offizielle Game Changer weiterhin **Rhystic Study, Cyclonic Rift und Demonic Tutor (3/3)**. Die separate Bracket-4-Datei bleibt unangetastet.
+
+**Nicht nachgewiesen:** Mehr Siege oder eine schnellere Durchschnittspartie sind ohne getestete Partien nicht belegt. Durch die Streichung von Servo Schematic hat das Deck weniger eigene, sichere 1/1-Quellen als zuvor; Skullclamp soll deshalb erst anhand realer Token-Entwicklung bewertet werden.
+
+**Regelquellen:**
+- https://gatherer.wizards.com/DFT/en-us/307/demonic-junker
+- https://scryfall.com/card/dft/83/demonic-junker
+- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
+- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026
+- https://media.wizards.com/2021/downloads/MH2_Release_Notes/EN_MTGMH2_FAQ_06022021.pdf
+
+## Vorangegangene Revision: Lich's Relic und Esoteric Duplicator (2026-10-10)
 
 **Zwei gezielte Artefakt-gegen-Artefakt-Tausche in der einzigen aktiven Bracket-3-Liste:**
 
@@ -136,7 +158,7 @@ Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests si
 2. Fetchländer früh für die fehlende Farbe verwenden. Eine sofort ungetappte Manaquelle ist oft wichtiger als maximales späteres Value.
 3. Mana-Artefakte ausspielen, dann gute Nichtkreatur-Artefakte und Mishra. Mox Opal liefert erst Mana, wenn einschließlich Mox Opal drei eigene Artefakte im Spiel sind. Basalt Monolith liefert drei farblose Mana auf einmal, enttappt aber nicht von selbst; er ersetzt kein erforderliches blaues, schwarzes oder rotes Mana für Mishra.
 4. Ichor Wellspring, Cryogen Relic und Idol of Oblivion liefern wiederholbaren Wert, während Esoteric Duplicator aus geopferten Warforms nach {2}-Zahlung neue dauerhafte Kopien schaffen kann. Rhystic Study und Mystic Remora sind separate Kartenengines, als Verzauberungen aber keine regulären Mishra-Kopierziele; bei Remora die steigenden Unterhaltskosten beachten.
-5. Tithing Blade, Skysovereign, Lich's Relic, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle. Beim Relikt muss für den ETB-Effekt jeweils {2} bezahlt werden; es trifft gezielt Kreaturen/Planeswalker der Gegner, keine anderen permanenten Typen.
+5. Tithing Blade, Demonic Junker, Lich's Relic, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle. Demonic Junker kann bei jedem Spieler bis zu eine Kreatur zerstören, Lich's Relic benötigt jeweils zusätzliche {2} für den ETB-Effekt. Skullclamp sorgt unabhängig von Mishra bei kleinen Kreaturenspielsteinen für Karten.
 6. Mit Worldwalker Helm können zusätzliche dauerhafte Kopien von Mishras Warform entstehen; die vom Helm aktivierte Fähigkeit erzeugten Kopien besitzen **nicht** Mishras verzögerten Opfer-Trigger.
 7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt. Dabei wird sie nicht geopfert und löst Esoteric Duplicator nicht aus; stattdessen je nach Ziel den Duplicator für eine spätere Kopie nutzen.
 8. Marionette Apprentice lässt beim Sterben jeder eigenen Warform alle Gegner 1 Leben verlieren; Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) richtet mit Artefakt-Opfern erheblichen Einzelziel-Lebensverlust an. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
