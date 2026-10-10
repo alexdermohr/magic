@@ -32,7 +32,7 @@
 1 Prized Statue
 1 Skullclamp
 1 Nihil Spellbomb
-1 Sundial of the Infinite
+1 Ashnod's Altar
 1 Idol of Oblivion
 1 Strionic Resonator
 1 Mox Opal
@@ -41,7 +41,7 @@
 1 Scrap Trawler
 1 Rhystic Study
 1 The Mightstone and Weakstone
-1 Coveted Jewel
+1 Sculpting Steel
 1 Spine of Ish Sah
 1 Portal to Phyrexia
 1 Simulacrum Synthesizer
