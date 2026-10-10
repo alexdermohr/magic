@@ -59,9 +59,9 @@
 1 Vandalblast
 1 Blasphemous Act
 1 Mystic Remora
+1 Fabricate
 1 Whir of Invention
 1 Demonic Tutor
-1 Trash for Treasure
 1 Scrap Mastery
 1 Command Tower
 1 Xander's Lounge
