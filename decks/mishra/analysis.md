@@ -4,7 +4,28 @@
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
-## Aktuelle Revision: Sundial zurück; Scrap Trawler bleibt (2026-10-10)
+
+## Aktuelle Revision: Tithing Blade zurück (2026-10-10)
+
+**GitHub-Commit:** [d97257f](https://github.com/alexdermohr/magic/commit/d97257fd20b2b60e0eda80a2d0a8444b2833d85c)
+
+**Raus: Oni-Cult Anvil → Rein: Tithing Blade.** Der bisherige Tausch Sundial gegen Tithing Blade wird damit korrigiert, **ohne Sundial of the Infinite oder Scrap Trawler wieder zu streichen**. Unverändert: 100 Karten, 35 Länder, 13 Mana-Artefakte im Ramp-Kern, 45 Artefaktkarten und drei Game Changer (**Demonic Tutor**, **Rhystic Study**, **Cyclonic Rift**). Alle fest zugesagten Keep-/Out-Karten bleiben unverändert; das separate Bracket-4-Deck wird nicht verändert.
+
+| Alt → Neu | Erwarteter Vorteil | Wichtigstes Gegenargument und Strukturwirkung |
+|---|---|---|
+| Oni-Cult Anvil → **Tithing Blade** | Günstiges, durch Mishra kopierbares Nichtkreatur-Artefakt mit **ETB: jeder Gegner opfert eine Kreatur seiner Wahl**. Als Warform in **jedem eigenen Combat** bei bestehender Blade wiederholbar; Panharmonicon kann die ETB-Opferauslösung verdoppeln. Ignoriert Hexproof, Ward, Schutz vor Zielen und Unzerstörbarkeit, weil nicht gezielt und nicht zerstört wird. | Oni-Cult Anvil war eine **wiederholbare freie Opfermöglichkeit** mit einmal pro eigenem Zug einem 1/1-Konstrukt bei Artefaktverlust sowie {T}+Artefaktopfer für Schaden an alle Gegner. Der Wechsel verschlechtert Token-/Skullclamp-Futter und kontrollierte Opferungen für Esoteric Duplicator, lässt aber alle bestehenden Manaquellen und die Artefaktzahl erhalten. |
+
+**Wichtige Regelklarstellung:** Tithing Blade **verwandelt sich nicht automatisch** bei wenigen gegnerischen Kreaturen. Die Rückseite **Consuming Sepulcher** wird ausschließlich über **Craft with creature {4}{B}** erreicht: Exil der Blade und einer Kreatur oder Kreaturenkarte aus dem Friedhof unter den Craft-Bedingungen. Für das Deck bleibt die Vorderseite im Regelfall wertvoller als regelmäßig kopierbares Edikt. Eine mit Sundial gerettete Tithing-Blade-Warform ist eine bleibende 4/4-Artefaktkreatur; deren ETB-Effekt tritt **nicht jede Runde erneut** ein. Neue Mishra-Kopien dagegen lösen ihn erneut aus.
+
+**Trade-off mit Sundial:** Werden die Tithing-Blade-Warform-Opfer-Trigger im eigenen Endsegment mit Sundial aus dem Stapel entfernt, bleiben die Kopien bestehen; ihre ETBs sind bereits verrechnet. Für Scrap Trawler und Esoteric Duplicator kann es im einzelnen Zug sinnvoller sein, eine andere Warform planmäßig zu opfern. Sundial und Trawler bleiben komplementär, statt gegeneinander konkurrieren zu müssen.
+
+**Reihenfolge und Grenzen:** Zunächst darf die Tithing-Blade-Kopie ihre ETB-Opferauslösung verrechnen. Eine neu erzeugte Warform ist selbst eine Artefaktkreatur und kein zulässiges späteres direktes **Mishra-Ziel**. Bei Gegnern mit breiter Token-Produktion opfert jeder Gegner selbst einen meist schwachen Token; der Edikt-Effekt ist dort wesentlich weniger verlässlich als gezieltes Removal. Für eine höhere Gewinnrate gibt es weiterhin keine Spieltestdaten.
+
+**Oracle-Quellen:** [Tithing Blade // Consuming Sepulcher](https://scryfall.com/card/lci/128/tithing-blade), [Oni-Cult Anvil](https://scryfall.com/card/neo/230/oni-cult-anvil), [Wizards Commander-Regeln](https://magic.wizards.com/en/formats/commander).
+
+---
+
+## Frühere Revision: Sundial zurück; Scrap Trawler bleibt (2026-10-10)
 
 **Deck-Commit:** [4e2a58d](https://github.com/alexdermohr/magic/commit/4e2a58d8a62a9c6663ada0c4aecaba02d0057589)
 
@@ -56,7 +77,7 @@ Quellen: [Offizielle Wizards-Regelhinweise zu Sundial](https://media.wizards.com
 
 **Externe Prüfquellen:** [Wizards: Commander und Brackets](https://magic.wizards.com/en/formats/commander), [Commander-Game-Changer-Update 21.10.2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025), [Update 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Commander-Bannliste](https://magic.wizards.com/en/banned-restricted-list), [Mishra-Regeln](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes), [Sundial-Regeln](https://magic.wizards.com/en/news/feature/avatar-the-last-airbender-release-notes), [Esoteric-Duplicator-Regeln](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes), [Manabrew/Forge-2026](https://manabrew.app/blog/graalvm/), [Manabrew Rust EndTurnEffect](https://github.com/witchesofthehill/manabrew/blob/main/manabrew-rs/crates/manabrew-engine/src/ability/effects/end_turn_effect.rs), [Scrap Trawler Oracle und Rulings](https://scryfall.com/card/aer/175/scrap-trawler).
 
-### Einzelprüfung aller 100 Karten (Sundial aktualisiert)
+### Einzelprüfung aller 100 Karten (aktueller Bestand mit Tithing Blade)
 
 *Urteile sind qualitative Rollen- und Risikoeinschätzungen, keine gemessenen Winrate-Beiträge. „Fix“ heißt vorgegeben oder strukturell essenziell, nicht unfehlbar.*
 
@@ -126,7 +147,7 @@ Quellen: [Offizielle Wizards-Regelhinweise zu Sundial](https://media.wizards.com
 | Fabricate | Fix | Universeller Artefakt-Tutor zur Hand, auch für teure Win-Objekte; kein eigener Boardswing. |
 | Whir of Invention | Fix | Instant-Artefaktzugang direkt ins Spiel; UUU bleibt trotz Improvise zu bezahlen. |
 | Demonic Tutor | Fix | Game Changer 3: sucht fehlendes Boardteil oder Antwort, reduziert Varianz. |
-| Oni-Cult Anvil | Stark | Kopierbares Opfer-/Token-Werkzeug; Token beim Verlassen von Artefakten nur einmal je eigenem Zug und Anvil. |
+| Tithing Blade | Stark | Kopierbares ETB-Edikt für jeden Gegner ohne zusätzliche Kosten; gut mit Mishra/Panharmonicon, schwächer gegen breite Tokenboards. |
 | Command Tower | Rainbow/Fix | Farbfix für Mishra; bedingte Farben bei Reflecting Pool/Spire, Lebensverlust bei Brass/Confluence. |
 | Xander's Lounge | Triom | Fetchbares UBR-Land; kommt getappt ins Spiel, Cycling gegen Flood. |
 | Misty Rainforest | Fetchland | Findet typisierte Shock-/Dual-Länder, mit je nach Namen eingeschränktem Suchspektrum; 1 Lebenspunkt. |
