@@ -9,7 +9,7 @@
 1 Goblin Welder
 1 Goblin Engineer
 1 Brudiclad, Telchor Engineer
-1 Cyberdrive Awakener
+1 Master Transmuter
 1 Thought Monitor
 1 Roaming Throne
 1 Kappa Cannoneer
@@ -36,7 +36,7 @@
 1 Idol of Oblivion
 1 Strionic Resonator
 1 Mox Opal
-1 Basalt Monolith
+1 Chromatic Lantern
 1 Panharmonicon
 1 Scrap Trawler
 1 Rhystic Study
