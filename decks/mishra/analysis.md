@@ -2,6 +2,7 @@
 
 **Stand:** 2026-10-10  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
+**Aktuelle Ersetzbarkeitsmatrix (100 Einzelkarten, Stufen 1–5, 22 Ersatzvorschläge):** [replaceability.md](replaceability.md)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
