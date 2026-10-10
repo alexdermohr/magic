@@ -10,7 +10,23 @@ Eine einzelne, deutlich farbstabilere **Upper-Bracket-3**-Version. Das Deck beh�
 
 Die zuvor vorhandenen Konzept- und B3-Snapshots wurden auf ausdrücklichen Wunsch aus dem aktuellen Verzeichnis entfernt; die Historie bleibt über Git erhalten. Es handelt sich **nicht** um den Wechsel zum separaten Bracket-4-Combo-Deck.
 
-## Aktuelle Revision: Demonic Junker und Skullclamp statt Skysovereign und Servo Schematic (2026-10-10)
+## Aktuelle Revision: Scrap Mastery durch Oni-Cult Anvil ersetzt (2026-10-10)
+
+**Ein gezielter Kartenwechsel:** Scrap Mastery wurde aus der einzigen aktiven Bracket-3-Liste entfernt. **Oni-Cult Anvil (Oni-Kult-Amboss)** ist jetzt im Deck, um Mishras Opfer- und Token-Spielplan zuverlässiger zu unterstützen.
+
+| Raus | Rein | Vorteil | Gegenargument |
+|---|---|---|---|
+| **Scrap Mastery** | **Oni-Cult Anvil** ({B}{R}, Artefakt) | Günstiges, kopierbares Nichtkreatur-Artefakt. Immer wenn ein oder mehrere eigene Artefakte während des eigenen Zuges das Spielfeld verlassen, erzeugt es **einmal je Zug** einen 1/1-Construct-Artefaktkreaturenspielstein. Mit Tappen und Opfern eines Artefakts fügt es jedem Gegner 1 Schaden zu und gewährt 1 Leben. | Scrap Mastery war der einzige Sorcery-Massen-Reanimationszauber im Deck und konnte nach einem Artefakt-Boardwipe viele eigene Artefakte auf einmal zurückbringen (mit symmetrischem Effekt auch für Gegner). Eine Abfolge einzelner Rückhol-Effekte ersetzt diesen Vorteil nicht vollständig. |
+
+**Mishra-Interaktion:** Oni-Cult Anvil ist ein reguläres Mishra-Kopierziel (Nichtkreatur-Artefakt); die Warform-Kopie ist eine Artefaktkreatur und dank Eile sofort für ihre Tapp-Fähigkeit nutzbar. Mishras geplantes Warform-Opfer im Endsegment kann die Construct-Erzeugung des ursprünglichen Anvils auslösen. Die dadurch entstandenen 1/1-Artefaktkreaturen sind wiederum Futter für Skullclamp, Marionette Master und Marionette Apprentice. Als Quelle eigener Tokens und Opfer-Effekte ergänzt Anvil die Schadenspläne, ohne Mirkwood Bats zu benötigen.
+
+**Aktuelle Struktur nach dem Tausch:** genau 100 Singleton-Karten inklusive Commander; **35 Länder**, **13 Mana-Artefakte im Ramp-Kern**, **45 Artefaktkarten** (vorher 44), unverändert die drei Game Changer **Rhystic Study, Cyclonic Rift und Demonic Tutor**. Jhoira, Weatherlight Captain; Kappa Cannoneer; Demonic Junker; Skullclamp; Lich's Relic; Esoteric Duplicator; Fabricate; Whir of Invention und alle Mana-Artefakte bleiben enthalten. Die separate Bracket-4-Version bleibt unverändert.
+
+**Bewusst akzeptierte Schwäche:** Nach massenhaftem Artefakt-Exil oder Zerstörung ist die Wiederherstellung schwieriger. Einzelne Rückholwege sind weiterhin Goblin Welder, Goblin Engineer, Emry, Academy Ruins und Buried Ruin. Ob der frühere Aufbau mit Anvil die geringere Resilienz insgesamt kompensiert, wurde nicht durch Spiele getestet. Ältere Abschnitte weiter unten beschreiben jeweils historische Deckzwischenstände, auch wo Scrap Mastery noch als enthalten bezeichnet wird.
+
+**Kartentext/Regeln:** https://mtg.wtf/card/neo/230/Oni-Cult-Anvil ; https://magic.wizards.com/en/news/card-image-gallery/kamigawa-neon-dynasty-card-image-gallery
+
+## Vorherige Revision: Demonic Junker und Skullclamp statt Skysovereign und Servo Schematic (2026-10-10)
 
 **Zwei Artefakt-gegen-Artefakt-Tausche** gemäß der überarbeiteten Kartenprioritäten. Die einzige aktive Bracket-3-Deckliste ist weiterhin [current.txt](current.txt); ältere Stände bleiben im Git-Verlauf.
 
@@ -161,7 +177,7 @@ Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests si
 5. Tithing Blade, Demonic Junker, Lich's Relic, Spine of Ish Sah und Portal to Phyrexia sind Warform-Kontrolle. Demonic Junker kann bei jedem Spieler bis zu eine Kreatur zerstören, Lich's Relic benötigt jeweils zusätzliche {2} für den ETB-Effekt. Skullclamp sorgt unabhängig von Mishra bei kleinen Kreaturenspielsteinen für Karten.
 6. Mit Worldwalker Helm können zusätzliche dauerhafte Kopien von Mishras Warform entstehen; die vom Helm aktivierte Fähigkeit erzeugten Kopien besitzen **nicht** Mishras verzögerten Opfer-Trigger.
 7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt. Dabei wird sie nicht geopfert und löst Esoteric Duplicator nicht aus; stattdessen je nach Ziel den Duplicator für eine spätere Kopie nutzen.
-8. Marionette Apprentice lässt beim Sterben jeder eigenen Warform alle Gegner 1 Leben verlieren; Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) richtet mit Artefakt-Opfern erheblichen Einzelziel-Lebensverlust an. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
+8. Marionette Apprentice lässt beim Sterben jeder eigenen Warform alle Gegner 1 Leben verlieren; Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) richtet mit Artefakt-Opfern erheblichen Einzelziel-Lebensverlust an. Oni-Cult Anvil erzeugt günstige Construct-Spielsteine und kann eigene Artefakte für 1 Schaden an jedem Gegner opfern. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
 
 ## Bracket-Prüfung
 
