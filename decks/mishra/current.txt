@@ -30,8 +30,8 @@
 1 Esoteric Duplicator
 1 Worldwalker Helm
 1 Prized Statue
-1 Skullclamp
-1 Nihil Spellbomb
+1 Reckless Fireweaver
+1 Mishra, Tamer of Mak Fawa
 1 Ashnod's Altar
 1 Idol of Oblivion
 1 Strionic Resonator
@@ -57,7 +57,7 @@
 1 Deadly Rollick
 1 Feed the Swarm
 1 Vandalblast
-1 Blasphemous Act
+1 The Meathook Massacre
 1 Mystic Remora
 1 Fabricate
 1 Whir of Invention
