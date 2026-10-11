@@ -42,7 +42,7 @@
 1 Rhystic Study
 1 The Mightstone and Weakstone
 1 Sculpting Steel
-1 Spine of Ish Sah
+1 Nautiloid Ship
 1 Portal to Phyrexia
 1 Simulacrum Synthesizer
 1 Lich's Relic
@@ -59,7 +59,7 @@
 1 Vandalblast
 1 Oni-Cult Anvil
 1 Mystic Remora
-1 Fabricate
+1 Arcum Dagsson
 1 Whir of Invention
 1 Demonic Tutor
 1 Tithing Blade
