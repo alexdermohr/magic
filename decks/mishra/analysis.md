@@ -1,12 +1,30 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-10  
+**Stand:** 2026-10-11  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
-**Ersetzbarkeitsmatrix ohne Schutzkarten (100 Einzelurteile, 14 Vergleichsoptionen):** [replaceability.md](replaceability.md)  
+**Ersetzbarkeitsmatrix ohne Schutzkarten (100 aktuelle Einzelurteile, 7 Tauschhypothesen):** [replaceability.md](replaceability.md)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Revision: freie Neubewertung sämtlicher Karten (10.10.2026)
+## Aktuelle Optimierung: drei Pflicht-Cuts und drei Synergie-Karten (11.10.2026)
+
+**Deck-Commit:** [89a09f6](https://github.com/alexdermohr/magic/commit/89a09f6ae34b4ea2e34ad59a9ebda4e221f4efe0) · **Aktuelle Ersetzbarkeit und künftige Kandidaten:** [replaceability.md](replaceability.md).
+
+| Entfernt | Neu im Deck | Begründeter Systemgewinn | Größtes Gegenargument |
+|---|---|---|---|
+| **Skullclamp** (Artefakt) | **Reckless Fireweaver** | Für {1}{R} direkter Gruppenschaden bei jedem Artefakt-ETB; Warform, zusätzliche Worldwalker-Helm-Maps und Treasures zählen. | Verliert einen gelegentlich extrem effizienten 1/1-Zwei-Karten-Motor, eine Artefaktkarte und ein Urza's-Saga-Suchziel. |
+| **Nihil Spellbomb** (Artefakt) | **Mishra, Tamer of Mak Fawa** | Ward—Sacrifice a permanent für **alle eigenen Permanents** und Artefakt-Un­earth {1}{B}{R} aus dem Friedhof, darunter Portal. | Verliert den einzigen unmittelbaren Friedhofshass, eine Artefaktkarte und ein weiteres Saga-Ziel; Tamer kostet fünf und ist kein Artefakt. |
+| **Blasphemous Act** (Sorcery) | **The Meathook Massacre** | Dosierbarer {X}{B}{B}-Boardwipe plus permanenter Drain bei jedem eigenen Kreaturentod, insbesondere Warform + Marionette Apprentice. | Höhere schwarze Manakosten, für großen X teurer als Blasphemous Act bei vollem Feld; auch Mishra kann sterben. |
+
+**Struktur (Oracle- und veröffentlichter Deckstand):** 100 verschiedene Karten einschließlich Commander; 35 Länder, **44 Artefakte** (zuvor 46), **13 Mana-Artefakte des Ramp-Kerns** und unverändert drei Game Changer **Rhystic Study, Cyclonic Rift, Demonic Tutor**. Die drei neuen Karten sind Commander-legal mit passender Farbidentität und sind keine Game Changer. Die separate Bracket-4-Version blieb unverändert. Keine neue bewusst eingeführte frühe Zweikarten-Endloskombo.
+
+**Drei geprüfte, unveränderte Karten:** **The Mightstone and Weakstone** bleibt als fünf-Mana-Artefakt mit wiederholbarem ETB-Draw/−5/−5 und Artefaktmana. **Fabricate** bleibt als gezielter Portal-to-Phyrexia-Zugriff **auf die Hand**, der Master Transmuter direkt nutzen kann. **Darksteel Citadel** bleibt als frühes unzerstörbares Artefaktland für Affinity und Mox Opals Metalcraft, gerade weil sonst zwei Artefaktkarten entfallen.
+
+**Verbleibende Risiken:** Ohne Nihil Spellbomb kein dedizierter Friedhofshass, und zwei zusätzliche Nichtartefaktkarten schwächen leicht frühes Metalcraft. Gegen stark graveyardlastige Tische ist **Soul-Guide Lantern** ein naheliegender späterer Seitentausch. The Meathook Massacre bietet einen Wipe, kann aber das eigene Board beschädigen. Manabrew.app wurde für die drei neuen Interaktionen nicht durchgespielt; ein höherer Sieganteil ist eine **strukturell begründete Erwartung**, keine Messung.
+
+---
+
+## Frühere Revision: freie Neubewertung sämtlicher Karten (10.10.2026)
 
 **Deck-Commit:** [41db0ae](https://github.com/alexdermohr/magic/commit/41db0aec5dc14401b22ca5d4f96ab83dc036ea8f) · **Neue Ersetzbarkeitsmatrix:** [replaceability.md](replaceability.md), commit [addefa9](https://github.com/alexdermohr/magic/commit/addefa9535e34892d54ffcb5b5a5d090ac3a8bba).
 
