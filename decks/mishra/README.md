@@ -1,47 +1,47 @@
 # Mishra, Eminent One
 
-## Gepflegte Decks
+## Verbindliche Dateien
 
-Für Mishra werden **genau zwei Decklisten** gepflegt, je eine pro Bracket:
+Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegte Bracket-4-Liste. Alle vom Deck ausgeschlossenen, aber bekannten Karten bleiben im **Erweiterten Kreis**, nicht in konkurrierenden B3-Versionen.
 
-- **Bracket 3 (Upgraded, aktuelle Empfehlung):** [current.txt](current.txt)
-- **Bracket 4 (Optimized, separate Combo-Linie):** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
+| Zweck | Datei |
+|---|---|
+| **Aktuelles Bracket-3-Deck (100 Karten)** | [current.txt](current.txt) |
+| **Erweiterter Kreis (historisch entfernt oder geprüft, aber nicht eingebaut)** | [erweiterter-kreis.md](erweiterter-kreis.md) |
+| **Aktuelle individuelle Bewertung aller 100 Karten** | [replaceability.md](replaceability.md) |
+| **Entscheidungen, Karteninteraktionen und historische Revisionen** | [analysis.md](analysis.md) |
+| **Separates Bracket-4-Deck (unverändert)** | [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt) |
 
-Es gibt **keine zweite aktive Bracket-3-Version** und keine weiteren B3-Snapshots in diesem Verzeichnis. Alte Fassungen lassen sich bei Bedarf über Git-Historie wiederherstellen.
+## Aktuelle Bracket-3-Fassung
 
-## Bracket-3-Ziel
+**Stand: 11. Oktober 2026** · Deck-Commit [`4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b).
 
-Mishra-typischer Midrange-Artefaktplan: früh die Farben und ein kopierbares Artefakt entwickeln, Mishra spielen, Warforms für Karten, Kontrolle oder dauerhafte Kopien nutzen und schließlich mit Artefakt-Tokens, Cyberdrive Awakener, Brudiclad oder Marionette Master gewinnen.
+- **Commander:** Mishra, Eminent One (Grixis).
+- **100 Karten**, alle Singleton, **35 Länder**, **45 Artefakte** einschließlich Artefaktkreaturen und Artefaktländer, **13 Mana-Artefakte**.
+- **Genau drei Game Changer:** Demonic Tutor, Rhystic Study und Cyclonic Rift.
+- **Keine klassischen Kreaturenwipes**, keine absichtlich frühe Zweikarten-Endloskombo, kein Mass-Land-Denial und keine Extrazug-Kette.
+- Sundial of the Infinite bleibt wegen des berichteten manabrew.app-Problems draußen; Coveted Jewel wegen Kontrollverlust-Risiko. Beide sind im [Erweiterten Kreis](erweiterter-kreis.md) vermerkt.
+- **The Mightstone and Weakstone** und **Demonic Junker** sind weiterhin enthalten.
 
-- 100 Karten inklusive Commander
-- 35 Länder und 13 Mana-Artefakte im Ramp-Kern (Mox Opal benötigt Metalcraft, Basalt Monolith enttappt nicht automatisch)
-- Game Changer: **Demonic Tutor**, **Rhystic Study**, **Cyclonic Rift**
-- keine absichtlich eingebaute frühe Endlos-Combo, keine Extra-Turn-Kette, keine Mass-Land-Denial-Strategie
-- auf konsistentes farbiges Mana ausgelegt, auch im 1v1 ohne Unterstützung gegnerischer Farben
+### Letzte zwei bestätigte Tausche
 
-Die **aktuellste B3-Revision (2026-10-10)** ersetzt **Scrap Mastery durch Oni-Cult Anvil**. Damit sind 45 Artefaktkarten statt 44 im Deck, weiterhin 35 Länder, 13 Mana-Artefakte und dieselben drei Game Changer. Der Amboss erzeugt bei Artefaktverlusten im eigenen Zug Construct-Spielsteine und wandelt Artefakt-Opfer in Schaden gegen alle Gegner um; dafür entfällt der Sorcery-Massen-Reanimationsplan. Jhoira, Kappa Cannoneer, Fabricate, Whir of Invention und alle bisher festgelegten Kernkarten bleiben. Weitere Details: [analysis.md](analysis.md).
+| Raus | Rein | Warum |
+|---|---|---|
+| **Spine of Ish Sah** | **Nautiloid Ship** | Viermana-Flugfahrzeug. Mishras fliegende Warform exiliert beim Eintritt einen Spielerfriedhof; nach Kampfschaden kann sie eine mit sich selbst exilierte Kreatur übernehmen. Verliert Spines universelle Permanent-Zerstörung. |
+| **Fabricate** | **Arcum Dagsson** | Arcum kann eine eigene Warform opfern, um ein beliebiges **Nichtkreatur-Artefakt** direkt aus der Bibliothek ins Spiel zu legen, sogar Portal to Phyrexia. Benötigt eine einsatzbereite Tap-Kreatur und ein Artefaktkreatur-Ziel; Fabricate war sofort einsatzbereit und suchte auf die Hand. |
 
-Die **vorherige B3-Revision (2026-10-10)** ersetzt **Servo Schematic durch Skullclamp** und **Skysovereign, Consul Flagship durch Demonic Junker**. Jhoira und Kappa Cannoneer bleiben gesetzt. Mirkwood Bats wurde bewusst nicht aufgenommen. Die Artefaktzahl (44), alle 13 Mana-Artefakte, beide Artefakt-Tutoren und 35 Länder bleiben erhalten. Skullclamp ist mit Urza's Saga suchbar, benötigt für seine Kartenziehfunktion jedoch kleine Kreaturen; Skysovereigns Flugangriff und Planeswalker-Schaden entfallen. Weitere Details: [analysis.md](analysis.md).
+Das Ziel ist nicht „immer mehr Removal“, sondern **mehr Wert aus jeder Warform**: ETB-Schaden über Knight Paladin/Reckless Fireweaver, Kartenziehen über Wellspring/Cryogen Relic, Gegner-Friedhöfe über Nautiloid kontrollieren, dauerhafte Kopien über Esoteric Duplicator/Worldwalker Helm/Brudiclad und weitere Feldartefakte über Arcum beschaffen. Oni-Cult Anvil unterstützt kontrollierte Opfer und Artefakt-Tokens.
 
-Die **vorangegangene B3-Revision (2026-10-10)** ersetzte **Demonic Junker durch Lich's Relic** und **Mephitic Draught durch Esoteric Duplicator**. Diese beiden Artefakt-gegen-Artefakt-Tausche bewahren 44 Artefaktkarten, alle 13 Mana-Artefakte und beide Artefakt-Tutoren; Jhoira, Weatherlight Captain und Kappa Cannoneer bleiben, Mirkwood Bats wurde bewusst nicht aufgenommen. Das Relikt bietet für {2} pro ETB gezielte Entfernung bei jedem Gegner, der Duplicator kann für {2} geopferte Warforms als dauerhafte 4/4-Kopien wiederbringen. Die Effekte sind mächtig, aber manaintensiv; der Verlust des sofortigen Draught-Kartennachschubs und von Junkers kostenloser ETB-Entfernung ist der Trade-off. Details in [analysis.md](analysis.md).
+**Urza's Saga** kann derzeit genau **Sol Ring** und **Mox Opal** anhand der Manakosten {0}/{1} suchen. Frühere Ziele Skullclamp und Nihil Spellbomb sind entfernt; Lich's Relic mit Manakosten {B} ist kein Saga-Suchziel.
 
-Die **vorherige B3-Revision (2026-10-10)** spielt **Whir of Invention und Fabricate zusammen**. Dafür wurde der redundantere Nichtartefakt-Zauber **Trash for Treasure** gestrichen. Die günstige Portal-to-Phyrexia-Reanimation mittels Trash for Treasure entfiel damit; Goblin Welder und Scrap Mastery waren zu diesem Zeitpunkt noch Rückholwege (Scrap Mastery wurde später ebenfalls gestrichen). Die 35 Länder, 13 Mana-Artefakte und die Artefaktkartenzahl bleiben unverändert. Details stehen in [analysis.md](analysis.md).
+## Pflegevereinbarung: Erweiterter Kreis
 
-Die **vorherige B3-Revision (2026-10-10)** nahm **Whir of Invention statt Fabricate** zurück ins Deck. Der Sofortzauber-Tutor findet Artefakte per Improvise direkt ins Spiel, benötigt aber weiterhin drei blaue Mana und ist für sehr teure Ziele kostspielig. Fabricate konnte solche Ziele für {2}{U} auf die Hand suchen.
+Bei **jeder** künftigen Optimierung gehört jede Karte, die **aus `current.txt` entfernt wird**, mit Grund und Rückkehrbedingung in [erweiterter-kreis.md](erweiterter-kreis.md). Ebenso jede geprüfte Karte, die **nicht hineinkommt**. Wird eine Karte wieder aktiv, darf sie nicht zugleich als „derzeit nicht aufgenommen“ im Erweiterten Kreis stehen; ihre Rückkehr wird in der [Analyse](analysis.md) protokolliert.
 
-Zuvor wurde am selben Tag **Whir of Invention gegen Basalt Monolith** getauscht. Basalt Monolith **bleibt** im Deck; dadurch stehen nun 13 Mana-Artefakte im Ramp-Kern. Der Monolith liefert drei farblose Mana auf einmal, enttappt aber nicht automatisch. Marionette Master blieb erhalten; Scrap Mastery blieb damals ebenfalls enthalten und wurde erst in der aktuellen Revision gestrichen.
+Historische Revisionen müssen nicht als neue B3-Deckdateien gepflegt werden. Die Git-Historie enthält alle früheren Fassungen, die [Analyse](analysis.md) enthält die chronologischen Entscheidungen. Das [Archiv aller 22 ausgewerteten B3-Versionen](https://github.com/alexdermohr/magic/commits/main/decks/mishra/current.txt) bildet die Grundlage des erweiterten Kreises.
 
-Die vorherige B3-Revision vom **2026-10-09** tauschte **Thoughtcast gegen Mystic Remora** und **Lithoform Engine gegen Mox Opal**. Bessere Kartenengine im nichtkreaturenlastigen Multiplayer und zusätzliche frühe Farbquelle bei Metalcraft; dafür weniger garantierter Kartennachschub und eine flexible Kopier-Engine weniger. Die vorherige Version bleibt im Git-Verlauf; es wird nur eine aktive Bracket-3-Datei gepflegt.
+## Quellen und Grenzen
 
-Zuvor wurde am 2026-10-09 zunächst **The One Ring durch Rhystic Study** ersetzt. In der weiteren Optimierung desselben Tages wurde **Ancient Tomb durch Marsh Flats**, **Baleful Strix durch Demonic Tutor** und **Aether Spellbomb durch Marionette Apprentice** ersetzt. Der aktuelle Spielplan gewinnt damit konsistenten Zugriff auf Finisher und eine frühe Opfer-Synergie, verliert aber einen schnellen Zwei-Mana-Landdrop und zwei flexible Artefakte. Details, Trade-offs und Bracket-Prüfung: [analysis.md](analysis.md).
+[Offizielle Commander-Brackets](https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta) · [Wizards Februar-2026-Update](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) · [Mishra-Regelhinweise](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes) · [Scryfall](https://scryfall.com/docs/api/cards/collection).
 
-## Bracket 4
-
-Die Bracket-4-Liste bleibt unverändert und bewusst eigenständig. Hier ist der Gonti's-Aether-Heart-Plan mit Fast Mana und stärkeren Tutoren erlaubt.
-
-## Referenzen
-
-- https://magic.wizards.com/en/formats/commander
-- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
-- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026
-- https://magic.wizards.com/en/banned-restricted-list
+Die publizierte Liste wurde gegen Scryfall auf Commander-Legalität, Grixis-Farbidentität und Game Changer geprüft. Neue Mischmechaniken sind nicht automatisch in manabrew.app auf ihre korrekte Ausführung getestet.
