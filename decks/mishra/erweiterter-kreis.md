@@ -3,6 +3,12 @@
 
 **Stand:** 11. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · **Deck-Revision:** [`4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b9) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md).
 
+## Neubewertung vom 11.10.2026
+
+Der zuletzt veröffentlichte Deckstand [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) enthält bereits Nautiloid Ship und Arcum Dagsson. **Keine Karte wurde bei dieser Prüfung aus `current.txt` entfernt und keine hier geführte Karte aufgenommen.** Die untenstehenden **36 historischen Cuts + 96 extern geprüften Alternativen = 132 einzigartige ausgeschlossene Karten** bleiben gültig. Die sieben Kandidaten mit der höchsten nächsten Prüfpriorität haben unten ausdrücklich **Gegenargumente und Rückkehrbedingungen** erhalten. Testergebnisse und Timingfallen: [manabrew-tests.md](manabrew-tests.md).
+
+**Neue Bewertung ist kein tatsächlicher Gewinnraten-Nachweis.** Die laufende Priorität gilt: Thousand-Year Elixir / The Master, Multiplied vor Soul-Guide Lantern (metagameabhängig), The Mycosynth Gardens, Repurposing Bay, Fateful Discovery und Shuri. Ein Kartentausch wird erst bei positiver **Nettonutzen- und Engine-Gegenprobe** vorgenommen.
+
 ## Zweck und feste Pflege-Regel
 
 Der **Erweiterte Kreis** ist die zentrale Warteliste/Archiv für Mishra-B3-Karten, die **früher im Deck waren und gestrichen wurden** oder **konkret geprüft, aber aktuell nicht aufgenommen** wurden. Er ist **keine zweite Deckliste** und zählt nicht zu den 100 aktiven Karten. Die aktive B3-Version liegt weiterhin ausschließlich in `current.txt`; Bracket 4 bleibt separat.
@@ -62,13 +68,13 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 
 | Karte | Priorität | Grund für Nichtaufnahme / mögliche Rückkehr |
 |---|---|---|
-| **Fateful Discovery** | hoher Testwert | Zieht bei jedem Artefakt-ETB inklusive Warforms/Maps; kostet fünf Mana und UU statt Jhoiras früherem Cast-Draw. |
-| **Repurposing Bay** | hoher Testwert | Wiederverwendbarer Artefakt-Tutor genau eine MV-Stufe höher, braucht Sorcery-Timing und Opfer. |
-| **Shuri, Wakandan Inventor** | hoher Testwert | Zweimana-Artefaktkostenreduktion und eigene Artefaktkopie für Mana/Tap, aber Sorcery-Timing. |
-| **Soul-Guide Lantern** | hoher Testwert | Einmana-Saga-Ziel mit Multi-Gegner-Friedhofsexil oder Draw; Nautiloid deckt schon einen Friedhof. |
-| **The Master, Multiplied** | hoher Testwert | Verhindert Mishras eigene Token-Opfer-Trigger und Legendenregel für Token; Manabrew-Funktion unbewiesen. |
-| **The Mycosynth Gardens** | hoher Testwert | Land kopiert eigenes Nichttoken-Artefakt, dabei sinkt die Artefaktland-Dichte beim Austausch. |
-| **Thousand-Year Elixir** | hoher Testwert | Ermöglicht Arcum, Welder und Master Transmuter früheres Tappen und kann Kreaturen enttappen. |
+| **Fateful Discovery** | hoher Testwert | Zieht bei jedem Artefakt-ETB inklusive Warforms/Maps. **Gegenargument für Aufnahme:** UU und fünf Mana, starke Überschneidung mit Jhoira/Rhystic Study/Remora. **Rückkehr:** wenn viele gleichzeitige Artefakt-ETBs regelmäßig verfügbar sind und Jhoiras Cast-Draw nachweisbar schwächer ist. |
+| **Repurposing Bay** | hoher Testwert | Wiederholbarer Feld-Tutor: benötigt Opfer, Sorcery-Timing und **genau einen um 1 höheren Manawert** (kein beliebiges Ziel). **Gegenargument für Aufnahme:** Arcum, Whir, Demonic Tutor und Engineer decken Tutoring bereits ab. **Rückkehr:** nur bei dokumentierter brauchbarer MV-Kurve und gewinnenden Tutor-Sequenzen. |
+| **Shuri, Wakandan Inventor** | hoher Testwert | Zweimana-Artefaktkostenreduktion und Umkopieren eines liegenden Artefakts für Mana/Tap **nur als Hexerei**; das Umkopieren ist **kein ETB**. **Gegenargument:** Shuri ist selbst kein Artefakt, Etherium Sculptor stärkt Metalcraft/Affinity. **Rückkehr:** wenn ein konkreter permanenter Kopiernutzen einen bestehenden Reducer ersetzt. |
+| **Soul-Guide Lantern** | hoher Testwert | Einmana-Urza's-Saga-Ziel mit gegnerweitem Friedhofsexil oder Draw. **Gegenargument für Aufnahme:** Nautiloid Ship exiliert bereits einen Friedhof und jeder Slot kostet wiederholbaren Wert; Lantern ist nicht dieselbe Warform-Reanimation. **Rückkehr:** graveyardlastiges Umfeld oder Manabrew-Fehler beim Ship. |
+| **The Master, Multiplied** | hoher Testwert | Nach Papierregeln bleiben Mishra-Kreaturenspielsteine trotz eigener verzögerter Opfer-Trigger liegen und legendäre Tokens kollidieren nicht. **Gegenargument für Aufnahme:** sechs Mana, kein Artefakt, statt Brudiclads unmittelbarer Token-Offensive nur Schutz. **Rückkehr:** wenn Manabrew-Test C9 PASS und dauerhafte Warforms Spiele spürbar verbessern. |
+| **The Mycosynth Gardens** | hoher Testwert | Land kann eigenes **Nichttoken**-Artefakt gegen dessen Manawert kopieren, aber **ohne neuen ETB**; bietet farbiges Mana nur mit Zusatzkosten. **Gegenargument:** im Austausch gegen Darksteel Citadel geht ein frühes unzerstörbares Artefaktland für Metalcraft/Affinity verloren. **Rückkehr:** wenn die Kopierfunktion für wiederkehrende Gewinne den Verlust an Artefaktdichte überwiegt. |
+| **Thousand-Year Elixir** | hoher Testwert | Drei-Mana-Artefakt: Arcum, Goblin Welder und Master Transmuter können schon im Ausspielzug tappen; {1},{T} enttappt eine Kreatur. **Gegenargument für Aufnahme:** ersetzt Jhoiras Karten oder Resonators zusätzlichen Mishra-Trigger durch Tap-Setup, das ohne geeignete Kreatur nichts leistet. **Rückkehr:** Manabrew-Tap-Tests bestehen und eine aussagekräftige Vergleichssequenz übertrifft den verlorenen Slot. |
 | **Arcbound Ravager** | weiterer Kandidat | Opfert beliebige Artefakte kostenlos, aber ist eine Artefaktkreatur und kein eigenes Mishra-Ziel. |
 | **Artificer Class** | weiterer Kandidat | Reduziert Artefaktkosten und macht später Kopien; Level-Up braucht spürbares Mana. |
 | **Braids, Arisen Nightmare** | weiterer Kandidat | Zieht durch Endsegment-Opfer Karten und zwingt Gegner zur Wahl; legt weitere Opferprozesse auf den Stapel. |

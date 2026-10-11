@@ -22,6 +22,12 @@
 
 **Spielhinweis:** Nautiloid Ship löst seine Friedhofsexil-Fähigkeit beim Eintritt der Warform aus; die Kampfschaden-Fähigkeit kann nur eine Kreatur zurückbringen, die **das jeweilige Ship-Objekt** exiliert hat. Arcum benötigt ein legales **Artefaktkreatur-Ziel** und opfert diese bei Auflösung; die Bibliothekssuche ist nicht auf einen bestimmten Manawert begrenzt. Andere Artefaktkreaturen wie Kappa sind nicht direkt mit Mishras Commander-Auslöser kopierbar. Die tatsächliche Manabrew-Funktion ist nicht durch eigenständige Testpartien belegt.
 
+## Nachprüfung 11.10.2026: kein unbewiesener Slotwechsel
+
+**Ergebnis:** Alle **100** einzeln bewerteten Namen entsprechen exakt [current.txt](current.txt); die **132** ausgeschlossenen Karten in [erweiterter-kreis.md](erweiterter-kreis.md) überlappen nicht. Die neu ausgeführte Live-Scryfall-Abfrage in [validate.py](validate.py) **bestand für alle 100 Karten**: Commander-legal, Grixis-Farbidentität, 35 Länder, 45 Artefakte, 13 definierte Mana-Artefakte, genau **Demonic Tutor / Rhystic Study / Cyclonic Rift** als Game Changer. Bracket-4-Blob unverändert. Die Matrizenstufen bleiben vorerst **21 × 1, 49 × 2, 28 × 3, 2 × 4**; keine Karte wurde ohne gesicherten Nettogewinn ausgetauscht.
+
+**Vergleich der realistischen Wechsel:** `Jhoira → Thousand-Year Elixir` tauscht Historic-Cast-Draw gegen schnelleres Arcum/Welder/Transmuter-Tappen; `Strionic Resonator → Thousand-Year Elixir` opfert einen unabhängigen Zusatz-Mishra-Trigger für Aktivierungstempo. Beide bleiben **Hypothesen**, solange die tatsächlichen Manabrew-Interaktionen und eine gewinnende Sequenz nicht geprüft sind. Ebenso setzt `Brudiclad → The Master, Multiplied` den Manabrew-Test der statischen Token-Ausnahme voraus. **Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben bewusst aktiv.** Einzelheiten und genaue Prüfschritte: [Analyse](analysis.md) und [Manabrew-Testprotokoll](manabrew-tests.md).
+
 ## Jede einzelne aktuelle Karte
 
 ### Kommandeur und Kreaturen

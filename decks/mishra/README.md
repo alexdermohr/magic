@@ -11,6 +11,16 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Aktuelle individuelle Bewertung aller 100 Karten** | [replaceability.md](replaceability.md) |
 | **Entscheidungen, Karteninteraktionen und historische Revisionen** | [analysis.md](analysis.md) |
 | **Separates Bracket-4-Deck (unverändert)** | [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt) |
+| **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
+| **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
+
+## Nachprüfung vom 11. Oktober 2026 (nach Commit 52899aa)
+
+- **Aktives Deck unverändert:** Kein Kandidat ist unter den noch ungetesteten Manabrew-Interaktionen als eindeutig überlegen belegt. Die zuletzt vorgenommenen Tausche **Spine of Ish Sah → Nautiloid Ship** und **Fabricate → Arcum Dagsson** bleiben bestehen.
+- **Live-Scryfall-Prüfung:** Alle 100 Karten Commander-legal und innerhalb Grixis; die drei offiziellen Game Changer sind bestätigt. 100 unterschiedliche Namen in [current.txt](current.txt); genau diese 100 in [replaceability.md](replaceability.md); 132 ausgeschlossene andere Namen in [erweiterter-kreis.md](erweiterter-kreis.md), keine Überschneidung.
+- **Manabrew:** Die Browser-Startseite wurde erreicht. **Keine** Nautiloid-/Arcum-/Kopiersequenz wurde in einer Partie reproduziert. Papierregeln sind **kein** Manabrew-Funktionsnachweis. [Reproduzierbares Testprotokoll](manabrew-tests.md).
+- **Wichtigste offene Tauschhypothese:** **Thousand-Year Elixir** kann Arcum Dagsson, Goblin Welder und Master Transmuter früher aktivieren, benötigt aber einen Synergieslot. **The Master, Multiplied** verhindert Warform-Opfertrigger nach Papierregeln, kostet jedoch sechs Mana und ist in Manabrew ungetestet.
+- **Bracket 3 bleibt die Grenze:** Drei Game Changer, keine Kreaturenwipes, keine bewusst frühe Zweikarten-Endloskombo. **The Mightstone and Weakstone, Demonic Junker, Whir of Invention** bleiben. Bracket 4 unverändert.
 
 ## Aktuelle Bracket-3-Fassung
 
