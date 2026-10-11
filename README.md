@@ -6,7 +6,7 @@ Die Commander werden getrennt gepflegt. **Mishra hat genau eine Bracket-3-Liste 
 
 ## Ruxa, Patient Professor
 
-**Ziel:** oberes Bracket 3 bei möglichst geringer Pilotenkomplexität.
+**Ziel:** maximale reale Stärke innerhalb Bracket 3, ohne Begrenzung der Pilotenkomplexität.
 
 - Aktuell: [decks/ruxa/current.txt](decks/ruxa/current.txt)
 - Analyse: [decks/ruxa/analysis.md](decks/ruxa/analysis.md)
@@ -84,9 +84,9 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Marchesa: aktuelle Bracket-3-Liste und datierte Snapshots.
 - Mishra: nur ein einziges `current.txt` für B3; ein separates B4-Deck. Bei neuen B3-Optimierungen wird `current.txt` geändert, **keine weitere B3-Version** angelegt.
 
-## Aktueller Stand (2026-10-10)
+## Aktueller Stand (Ruxa 2026-10-11; übrige Decks Stand 2026-10-10)
 
-- Ruxa: **Bracket 3 v3**, 36 Länder / 26 Kreaturen inkl. Commander / 17 Vanilla-Kreaturen / 3 Game Changer.
+- Ruxa: **Bracket 3 v4 / Token-Value (2026-10-11)**, 36 Länder / 19 Kreaturen inkl. Commander / 4 Vanilla-Kreaturen / drei Game Changer.
 - Mishra: Bracket 3, **35 Länder / 13 Mana-Artefakte einschließlich Mox Opal und Basalt Monolith / genau 100 Karten** (Revision 2026-10-10 mit Oni-Cult Anvil statt Scrap Mastery, nun 45 Artefaktkarten; Skullclamp, Demonic Junker, Jhoira/Kappa, Basalt Monolith und beide Tutoren bleiben).
 - Mishra: Bracket 4, separate Liste unverändert.
 - Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers.

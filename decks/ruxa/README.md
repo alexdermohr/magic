@@ -1,19 +1,21 @@
 # Ruxa, Patient Professor
 
-## Ziel
+## Spielplan
 
-Oberes Bracket 3 mit möglichst hoher realer Gewinnstärke bei möglichst geringer Pilotenkomplexität.
+Maximale tatsächliche Stärke innerhalb regulärem **Commander Bracket 3** (insbesondere 1v1), ohne Einschränkung der Pilotenkomplexität. Ruxa verstärkt fähigkeitslose Kreaturentoken; große Vanilla-Kreaturen bleiben für Ruxas Friedhofs-Rückholung.
 
-Primärer Praxisfall: unkompliziertes 1v1, ohne das Deck aus regulärem Commander herauszuoptimieren.
+## Aktive Version
 
-## Aktuell
+- `current.txt` = `versions/2026-10-11-upper-b3-v4.txt`
+- 100 Karten / 36 Länder / 19 Kreaturen einschließlich Ruxa / 4 echte Vanilla-Kreaturenkarten / drei Game Changer
+- Verifizierte Namen, mono-grüne Farbidentität und Commander-Legalität aller Karten (Scryfall: 2026-10-11)
+- Bracket-3-Eignung nach veröffentlichten Wizards-Kriterien geprüft; keine tatsächliche Gewinnrate oder manabrew.app-Umsetzung gemessen.
 
-`current.txt` entspricht **2026-10-08-upper-b3-v3.txt**.
+## Historische Versionen
 
-## Versionen
+- `versions/2026-10-05-baseline-v1.txt`: ursprüngliche Vanilla-Stompy-Fassung
+- `versions/2026-10-06-upper-b3-v2.txt`: optimierte Vanilla-/Token-Mischung
+- `versions/2026-10-08-upper-b3-v3.txt`: vorherige Fassung mit niedriger Pilotenkomplexität
+- `versions/2026-10-11-upper-b3-v4.txt`: aktueller stärkerer Token-Value-Ansatz
 
-- `versions/2026-10-05-baseline-v1.txt` — früherer Vanilla-Stompy-Ausgangspunkt
-- `versions/2026-10-06-upper-b3-v2.txt` — frühere Upper-B3-Fassung (unverändert archiviert)
-- `versions/2026-10-08-upper-b3-v3.txt` — aktueller Upper-B3-Stand: mehr Ein-Mana-Ramp, wirksamerer 1v1-Finisher
-
-Die detaillierten Regeln und Begründungen liegen in `DESIGN_PRINCIPLES.md` und `analysis.md`.
+Siehe [analysis.md](analysis.md) und [DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md).
