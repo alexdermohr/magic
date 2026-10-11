@@ -14,6 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 EXPECTED_GC = {"Demonic Tutor", "Rhystic Study", "Cyclonic Rift"}
+# Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
+EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge"}
 EXPECTED_ROCKS = {
     "Sol Ring", "Arcane Signet", "Fellwar Stone",
     "Dimir Signet", "Izzet Signet", "Rakdos Signet",
@@ -56,8 +58,8 @@ def names_and_docs() -> list[str]:
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
     assert_ok(EXPECTED_GC.issubset(set(names)), "required Game Changer removed")
     assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 13 mana artifacts removed")
-    assert_ok(not ({"Blasphemous Act", "The Meathook Massacre"} & set(names)),
-              "disallowed creature wipe present")
+    assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
+              "explicitly excluded creature/permanent sweeper present")
     print(f"STRUCTURE PASS: 100 singleton / matrix 100 / extended {len(outside)} disjoint / B4 blob unchanged")
     return names
 
