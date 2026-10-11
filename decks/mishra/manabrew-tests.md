@@ -56,6 +56,7 @@
 | C2: Roaming Throne (Artificer) | Als Typ Artificer wählen; Mishra-Kampftrigger auslösen | Mishras **getriggerte Fähigkeit** löst zweimal aus, mit gegebenenfalls zwei getrennten legalen Zielen; Arcums *aktivierte* Tap-Fähigkeit nicht | **Offen** |
 | C3: Roaming Throne (Construct) | Als Typ Construct wählen; Nautiloid-Warform erzeugen | Warform-ETB-/Kampfschaden-Auslöser zusätzlich; **Mishras** Trigger wird nicht allein durch Construct-Wahl verdoppelt | **Offen** |
 | C4: Worldwalker Helm | Warform erzeugen, Helm liegt bereits; später dessen {1}{U},{T}-Kopierfähigkeit nutzen | Bei Artefakttoken-Erzeugung zusätzlicher **Map-Token** durch Ersatzwirkung; die aktivierte Fähigkeit kann einen **dauerhaften** neuen Warform-Kopietoken erzeugen. Nur neu eintretende Tokens lösen ETBs aus; der neue Token erbt **keinen separat erzeugten Mishra-Opfer-Trigger**, auch keine nur bis Zugende verliehene Eile. | **Offen** |
+| **C4b: Helm-Map bei Mishra** | Worldwalker Helm liegt vor Mishras Kampfauslöser: genau eine Warform **plus** eine zusätzliche Map durch Helms Ersatzeffekt erzeugen; im nächsten Endsegment den Opfer-Stack kontrollieren | **Wichtige neue Oracle-Prüfung:** Nach Wizards' offiziellen *Outlaws of Thunder Junction* Release Notes gelten Anweisungen des ursprünglichen Token-Effekts (etwa späteres Opfern/Exilieren) **auch für die zusätzliche Map**. Folglich wird die zusammen mit Mishras Warform erzeugte Map ebenfalls beim nächsten Endsegment geopfert. Map-Spielsteine, die andere Token-Erzeuger oder Helms **eigene Kopieraktivierung** hervorbringen, haben nur deren jeweilige Anweisungen. Gegenprobe mit **The Master, Multiplied:** Er verhindert Opfer von **Kreaturenspielsteinen**, nicht der **nichtkreaturischen Map**. **Vorherige Annahme dauerhaft bleibender Mishra-Maps wäre falsch.** | **Offen – besonders hoch priorisiert** |
 | C5: Brudiclad | Mishra-Trigger vor Brudiclads Kampftrigger verrechnen, anschließend vorhandene Tokens in Warform-Kopie umwandeln | Brudiclad erzeugt zunächst einen Myr, dann wird die **Identität bestehender** Tokens verändert: keine neuen ETBs und keine zusätzlichen „exiled with it“-Gruppen | **Offen** |
 | C6: Esoteric Duplicator | Warform **im zweiten Hauptsegment** über Arcum oder Ashnod's Altar opfern, {2} bezahlen | Zu Beginn des **nächsten Endsegments** entsteht eine neu eintretende Tokenkopie mit ETB, aber **ohne** den separat an der ersten Warform hängenden Opfer-Trigger | **Offen** |
 | C7: Duplicator-Timing | Erste Warform wird **erst beim eigenen Endsegment-Opfer-Trigger** geopfert; {2} bezahlen | Der so erzeugte Duplicator-Trigger legt die Kopie **erst im nächsten Endsegment** an, typischerweise im Endsegment des nächsten Spielers, **nicht rückwirkend** im gerade begonnenen eigenen | **Offen** |
@@ -72,11 +73,11 @@ Die zwei bereits aktiven Karten **Nautiloid Ship** und **Arcum Dagsson** bleiben
 
 - [Mishra – offizielle The Brothers' War Release Notes](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes)
 - [Arcum Dagsson – Oracle und Rulings](https://scryfall.com/card/2xm/41/arcum-dagsson)
-- [Nautiloid Ship – Oracle](https://scryfall.com/card/40k/151/nautiloid-ship)
-- [Worldwalker Helm](https://scryfall.com/card/otj/86/worldwalker-helm)
-- [Esoteric Duplicator](https://scryfall.com/card/big/35/esoteric-duplicator)
+- [Nautiloid Ship – Oracle](https://scryfall.com/card/clb/328/nautiloid-ship)
+- [Worldwalker Helm](https://scryfall.com/card/big/7/worldwalker-helm) · [Wizards' offizielle Helm-Map-Ersatzregel](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes)
+- [Esoteric Duplicator](https://scryfall.com/card/big/5/esoteric-duplicator)
 - [Roaming Throne](https://scryfall.com/card/lci/258/roaming-throne)
-- [Brudiclad, Telchor Engineer](https://scryfall.com/card/c18/42/brudiclad-telchor-engineer)
-- [Panharmonicon](https://scryfall.com/card/kld/226/panharmonicon)
+- [Brudiclad, Telchor Engineer](https://scryfall.com/card/soc/299/brudiclad-telchor-engineer)
+- [Panharmonicon](https://scryfall.com/card/2x2/310/panharmonicon)
 - [The Master, Multiplied](https://scryfall.com/card/who/146/the-master-multiplied)
 - [Manabrew – Deckimport und Unsupported-Hinweise](https://docs.manabrew.app/playing/)
