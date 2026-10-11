@@ -2,11 +2,25 @@
 
 **Stand:** 2026-10-11  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
-**Ersetzbarkeitsmatrix ohne Schutzkarten (100 aktuelle Einzelurteile, 7 Tauschhypothesen):** [replaceability.md](replaceability.md)  
+**Ersetzbarkeitsmatrix ohne Schutzkarten (100 aktuelle Einzelurteile, 6 Tauschhypothesen):** [replaceability.md](replaceability.md)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Optimierung: drei Pflicht-Cuts und drei Synergie-Karten (11.10.2026)
+## Aktueller Deckstand: Meathook raus, Oni-Cult Anvil zurück (11.10.2026)
+
+**Deck-Commit:** [ef8f05f](https://github.com/alexdermohr/magic/commit/ef8f05fe4776f3ee300e9a5cc19bc86ed3f37a7b). **Aktuelle 100-Karten-Rangliste:** [replaceability.md](replaceability.md).
+
+**The Meathook Massacre → Oni-Cult Anvil ({B}{R}, Artefakt).** Es bleibt kein klassischer Kreaturenwipe in der aktiven Bracket-3-Deckliste. Anvil ist selbst ein Mishra-Kopierziel und eröffnet Artefaktopfer, direkten Gruppenschaden und einmal pro eigenem Zug je Anvil einen 1/1-Construct, sobald eines oder mehrere eigene Artefakte das Spielfeld verlassen. Die resultierenden Artefakt-Tokens unterstützen Reckless Fireweaver; Opfer und Todesereignisse unterstützen Marionette Apprentice, Scrap Trawler und Esoteric Duplicator.
+
+**Gegenargument:** Meathooks passiver Lebensverlust bei eigenen Kreaturentoden entfällt. Anvil muss bereits liegen, braucht {B}{R} und Opfermaterial, und seine Construct-Erzeugung triggert höchstens einmal pro eigenem Zug pro Exemplar. Wenn eine Warform-Anvil im Kampf angreift und dabei getappt wird, kann sie nicht anschließend noch ihre Tap-Fähigkeit aktivieren; ein nicht angreifendes Exemplar hat dank Eile hingegen ein Aktivierungsfenster.
+
+**Struktur:** 100 Singleton-Karten, 35 Länder, **45 Artefakte** statt 44 und unverändert 13 Mana-Artefakte. Die drei Game Changer sind Rhystic Study, Cyclonic Rift und Demonic Tutor. Tithing Blade, Lich's Relic, Demonic Junker, Portal to Phyrexia und Deadly Rollick bieten bereits reichlich Kreatureninteraktion. Die separate Bracket-4-Datei bleibt unverändert.
+
+**Offen:** Es fehlt weiterhin dedizierter Friedhofshass, da Nihil Spellbomb auf Wunsch entfernt wurde. Die neue Interaktion wurde anhand des Oracle-Texts geprüft, aber noch nicht in einer realen Manabrew-Partie getestet. [Oni-Cult Anvil – Oracle](https://scryfall.com/card/neo/230/oni-cult-anvil).
+
+---
+
+## Frühere Optimierung: drei Pflicht-Cuts und drei Synergie-Karten (11.10.2026)
 
 **Deck-Commit:** [89a09f6](https://github.com/alexdermohr/magic/commit/89a09f6ae34b4ea2e34ad59a9ebda4e221f4efe0) · **Aktuelle Ersetzbarkeit und künftige Kandidaten:** [replaceability.md](replaceability.md).
 
