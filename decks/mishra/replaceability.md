@@ -68,7 +68,7 @@
 | 4 | Etherium Sculptor | **2** | Beschleunigt fast alle ausgespielten Artefakte; ein fragiler Körper, kein eigener Warform-ETB-Effekt. |
 | 5 | Enthusiastic Mechanaut | **2** | Zweite günstige Artefakt-Kostenreduktion plus Flugfähigkeit; Doppel-Farbanforderung im frühen Spiel. |
 | 6 | Knight Paladin | **1** | Nichtkreatur-Fahrzeug: ETB verursacht vier Schaden bei jedem Gegner, beliebig per Mishra erneut kopierbar. |
-| 7 | Marionette Apprentice | **3** | Bereits für zwei Mana Drain bei Todesfällen eigener Kreaturen/Artefakte. Vergleich mit Fireweaver: Tod/Opfer gegen unmittelbare ETBs. |
+| 7 | Marionette Apprentice | **3** | Bereits für zwei Mana Drain bei Todesfällen eigener Kreaturen/Artefakte. Einziger verbliebener direkter Drain bei eigenen passenden Todesereignissen statt des entfernten Fireweaver-ETB-Schadens. |
 | 8 | Sai, Master Thopterist | **2** | Token beim Wirken von Artefaktzaubern und Opfer-Draw; Token entstehen nicht schon durch jeden Mishra-Auslöser. |
 | 9 | Goblin Welder | **2** | Tauscht kleine Artefakte gegen schwere Friedhofsziele inklusive Portal; summoning-sick, removal-anfällig und zielabhängig. |
 | 10 | Goblin Engineer | **2** | Legt beliebiges Artefakt in den Friedhof; Rückholung direkt ins Feld nur bei Mana Value bis 3. |
@@ -131,7 +131,7 @@
 | 57 | Deadly Rollick | **2** | Mit Commander kostenloses Kreaturen-Exil; ohne Mishra vier Mana und kein Zugriff auf Nichtkreaturen. |
 | 58 | Feed the Swarm | **3** | Wichtige Antwort auf Verzauberungen in Grixis, aber Sorcery und Lebenspunktverlust; bei genügend anderem Removal prüfbar. |
 | 59 | Vandalblast | **3** | Einseitiger Massen-Artefakthass, lässt die eigenen Artefakte stehen; metagameabhängig, aber einzigartig im Slot. |
-| 60 | Oni-Cult Anvil | **2** | {B}{R}-Nichtkreatur-Artefakt und Mishra-Kopierziel: Beim ersten eigenen Artefakt-Verlassen je Zug erzeugt es einen 1/1-Artefakt-Construct; für Tappen und Opfer eines Artefakts verursacht es 1 Schaden an allen Gegnern und gewinnt 1 Leben. Liefert Opfer-/Token-/Fireweaver-/Duplicator-Synergien, benötigt aber Artefakte. |
+| 60 | Oni-Cult Anvil | **2** | {B}{R}-Nichtkreatur-Artefakt und Mishra-Kopierziel: Beim ersten eigenen Artefakt-Verlassen je Zug erzeugt es einen 1/1-Artefakt-Construct; für Tappen und Opfer eines Artefakts verursacht es 1 Schaden an allen Gegnern und gewinnt 1 Leben. Liefert Opfer-/Token-/Duplicator-Synergien sowie zusätzliche Artefaktmasse für Tezzerets +2, benötigt aber Artefakte. |
 | 61 | Mystic Remora | **2** | Früher Multiplayer-Kartennachschub; kumulative Unterhaltskosten und kreaturenlastige Gegner schränken ein. |
 | 62 | Arcum Dagsson | **2** | {3}{U}-Artificer und wiederholbarer Feld-Tutor: Tap, eigene Artefaktkreatur (bevorzugt eine Warform) als Ziel opfern und ein beliebiges Nichtkreatur-Artefakt ohne Manawertgrenze direkt aus der Bibliothek holen. Muss normalerweise erst eine Runde überleben; weniger sofort zuverlässig als Fabricate. |
 | 63 | Whir of Invention | **4** | Spielt Artefakte als Instant direkt aus Bibliothek, Improvise reduziert X, niemals die harten UUU. Besonders teuer für große Zielkarten. |
@@ -146,12 +146,12 @@
 | 67 | Xander's Lounge | **3** | Fetchbare drei Landtypen und alle drei Farben; getappter Eintritt kostet einen Zug Tempo. |
 | 68 | Misty Rainforest | **2** | Findet Insel-Duals wie Watery Grave und Steam Vents, verbessert Farbwahl gegen einen Lebenspunkt. |
 | 69 | Reflecting Pool | **3** | Hervorragend mit bestehendem farbigem Land, in isolierten Starthänden aber keine eigene Farbe. |
-| 70 | Spire of Industry | **2** | Bei 46 Artefakten meist jede Grixis-Farbe für einen Lebenspunkt; ohne Artefakt nur farblos. |
+| 70 | Spire of Industry | **2** | Bei 47 Artefaktkarten meist jede Grixis-Farbe für einen Lebenspunkt; ohne Artefakt nur farblos. |
 | 71 | City of Brass | **2** | Sofort alle drei Farben; jedes Tappen kostet ein Leben auch außerhalb der Mananutzung. |
 | 72 | Seat of the Synod | **2** | Blaues Artefaktland für Affinity, Metalcraft und Urza; gleichzeitig anfällig gegen Artefakt-Hass. |
 | 73 | Vault of Whispers | **2** | Schwarzes Artefaktland für Metalcraft und Opfer-/Artefakt-Synergien; anfällig gegen Artefakt-Hass. |
 | 74 | Great Furnace | **2** | Rotes Artefaktland für Metalcraft und Opfer-/Artefakt-Synergien; anfällig gegen Artefakt-Hass. |
-| 75 | Darksteel Citadel | **3** | Unzerstörbares Artefaktland sichert früh Metalcraft/Mox Opal und unterstützt Affinity nach zwei entfernten Artefakten; produziert nur {C}. Tower/Gardens bieten Utility, senken Artefaktanzahl weiter. |
+| 75 | Darksteel Citadel | **3** | Unzerstörbares Artefaktland sichert früh Metalcraft/Mox Opal und unterstützt Affinity auch nach schnellen Opferspielzügen; produziert nur {C}. Tower/Gardens bieten Utility, senken Artefaktanzahl weiter. |
 | 76 | Flooded Strand | **2** | Findet Insel-Duals trotz fehlender Plains; fetchbare Farbwahl gegen einen Lebenspunkt. |
 | 77 | Marsh Flats | **2** | Findet Swamp-Duals trotz fehlender Plains; fetchbare Farbwahl gegen einen Lebenspunkt. |
 | 78 | Academy Ruins | **2** | Regelmäßige Friedhofsrekursion für Artefaktkarten auf Bibliotheksoberseite; kostet Tempo und farbiges Mana. |
@@ -185,10 +185,10 @@
 
 | Priorität | Möglicher Cut | Potenziell rein | Nutzen | Stärkstes Gegenargument | Struktur |
 |:---:|---|---|---|---|---|
-| A | **Brudiclad, Telchor Engineer** | **The Master, Multiplied** | Mishras kontrollierter Warform-Opfertrigger kann Kreaturenspielsteine nicht opfern; keine Legendenregel für eigene Kreaturentokens. | Sechs Mana, kein Artefakt; Brudiclad kann aus vorhandenen Tokens selbst permanente Warforms machen. Funktionsprüfung in Manabrew offen. | Artefakte 45→44, Land/Ramp unverändert |
-| A | **Strionic Resonator** | **Repurposing Bay** | Für {2}, Tap und Artefaktopfer gezieltes Nichtkreatur-/Kreatur-Artefakt mit MV um exakt eins höher direkt suchen; verwertet Warforms nach Kampf. | Resonator verdoppelt Mishras Kampfauslöser ohne Opfer; Bay braucht Sorcery-Timing, Tap und passende MV-Stufe. | Artefakte 45, Länder/Ramp unverändert |
+| A | **Brudiclad, Telchor Engineer** | **The Master, Multiplied** | Mishras kontrollierter Warform-Opfertrigger kann Kreaturenspielsteine nicht opfern; keine Legendenregel für eigene Kreaturentokens. | Sechs Mana, kein Artefakt; Brudiclad kann aus vorhandenen Tokens selbst permanente Warforms machen. Funktionsprüfung in Manabrew offen. | Artefakte 47→46, Land/Ramp unverändert |
+| A | **Strionic Resonator** | **Repurposing Bay** | Für {2}, Tap und Artefaktopfer gezieltes Nichtkreatur-/Kreatur-Artefakt mit MV um exakt eins höher direkt suchen; verwertet Warforms nach Kampf. | Resonator verdoppelt Mishras Kampfauslöser ohne Opfer; Bay braucht Sorcery-Timing, Tap und passende MV-Stufe. | Artefakte 47, Länder/Ramp unverändert |
 | B | **Jhoira, Weatherlight Captain** | **Fateful Discovery** | Zieht bei jedem Artefakt-ETB inklusive Warform und Worldwalker-Helm-Map; Set *The Hobbit*, 14.08.2026. | Jhoira zieht früher bei Historic-Casts, auch ohne Mishra; Discovery hat MV 5 und UU und ist kein Artefakt. | Kein Artefaktunterschied, schwerere Kurve |
-| B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 45→44 |
+| B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 47→46 |
 | C | **Mishra, Tamer of Mak Fawa** | **Padeem, Consul of Innovation** | Schützt Artefakte mit Hexproof und kann Karten ziehen, billiger. | Schützt Mishra selbst nicht und verliert Unearth für teure Artefakte. | Nichtartefakt gegen Nichtartefakt |
 
 ## Operative Regeln und Nachprüfbarkeit (aktuelle Game Changer)
