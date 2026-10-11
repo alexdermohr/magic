@@ -84,10 +84,10 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Marchesa: aktuelle Bracket-3-Liste und datierte Snapshots.
 - Mishra: nur ein einziges `current.txt` für B3; ein separates B4-Deck. Bei neuen B3-Optimierungen wird `current.txt` geändert, **keine weitere B3-Version** angelegt.
 
-## Aktueller Stand (Ruxa 2026-10-11; übrige Decks Stand 2026-10-10)
+## Aktueller Stand (Ruxa und Mishra: 2026-10-11; andere Decks: frühere Revisionen)
 
 - Ruxa: **Bracket 3 v4 / Token-Value (2026-10-11)**, 36 Länder / 19 Kreaturen inkl. Commander / 4 Vanilla-Kreaturen / drei Game Changer.
-- Mishra: Bracket 3, **35 Länder / 13 Mana-Artefakte einschließlich Mox Opal und Basalt Monolith / genau 100 Karten** (Revision 2026-10-10 mit Oni-Cult Anvil statt Scrap Mastery, nun 45 Artefaktkarten; Skullclamp, Demonic Junker, Jhoira/Kappa, Basalt Monolith und beide Tutoren bleiben).
+- Mishra: **Bracket 3, 100 verschiedene Karten inkl. Commander / 35 Länder / 45 Artefakte / 12 Mana-Artefakte / genau drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Die [aktive Liste](decks/mishra/current.txt) enthält **Thousand-Year Elixir**, **Mephitic Draught** und **Tezzeret, Master of the Bridge** statt Thought Monitor, Chromatic Lantern und Reckless Fireweaver. **Arcum Dagsson, Demonic Junker, The Mightstone and Weakstone und Whir of Invention** bleiben. Die früher dokumentierten Basalt Monolith und Skullclamp sind **nicht** mehr enthalten. [Analyse](decks/mishra/analysis.md) · [133 geprüfte Alternativen](decks/mishra/erweiterter-kreis.md) · [Manabrew-Tests](decks/mishra/manabrew-tests.md).
 - Mishra: Bracket 4, separate Liste unverändert.
 - Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers.
 
