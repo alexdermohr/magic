@@ -1,23 +1,29 @@
-# Mishra, Eminent One – unabhängige Neubewertung aller 100 Karten
+# Mishra, Eminent One – Ersetzbarkeitsprüfung nach drei Pflicht-Cuts
 
-**Bewerteter Live-Deckstand:** 10. Oktober 2026 · [main `41db0ae`](https://github.com/alexdermohr/magic/commit/41db0aec5dc14401b22ca5d4f96ab83dc036ea8f) · [Aktive Bracket-3-Liste](current.txt) · [Analyse/Änderungshistorie](analysis.md).
+**Aktiver Stand:** 11. Oktober 2026 · [Deckrevision `89a09f6`](https://github.com/alexdermohr/magic/commit/89a09f6ae34b4ea2e34ad59a9ebda4e221f4efe0) · [current.txt](current.txt) · [Gesamtanalyse](analysis.md).
 
-**Alle Karten werden ohne Sonderbehandlung früherer Nutzerwünsche beurteilt.** Keine Markierung „geschützt“ oder „unantastbar“: Auch Jhoira, Kappa, Tithing Blade, Mind Stone, Mox Opal, Demonic Junker, Fabricate und Whir wurden gegen ihren tatsächlichen Spielnutzen neu eingestuft. Die zuvor gesetzte Basalt Monolith wurde bereits ersetzt und ist unten gesondert bewertet.
+**Ohne geschützte Karten:** Alle 100 Karten werden nach ihrer Rolle und ihren Opportunitätskosten bewertet, nicht nach früheren Zusagen. Skullclamp, Nihil Spellbomb und Blasphemous Act sind auf ausdrücklichen Wunsch entfernt. Die neuen Karten wurden nach Systemwirkung ausgewählt – nicht als funktionsgleiche Ersatzbeschaffung.
 
-## Bewertungsstufen
-
-| Stufe | Interpretation: Ersetzbarkeit im konkreten Deck | Anzahl |
+| Stufe | Bedeutung | Karten |
 |:---:|---|---:|
-| 1 | Enger Kern oder äußerst schwer zu ersetzende zentrale Funktion | 21 |
-| 2 | Sehr guter systemischer Beitrag, nur bei klarer Rollenverbesserung tauschen | 43 |
-| 3 | Seriöser Vergleichsslot mit Alternativen | 28 |
-| 4 | **Zuerst überprüfen:** hoher Aufwand, Überschneidung oder geringer Grenznutzen | 8 |
-| 5 | Eindeutig schlechte Karte ohne relevanten Einsatzzweck | 0 |
-| Gesamt | **100 individuell geprüfte Karten, keine Ausnahme** | 100 |
+| 1 | Zentrale, schwer ersetzbare Rolle | 21 |
+| 2 | Hoher Deckbeitrag | 48 |
+| 3 | Vergleichsslot; alternative Funktion denkbar | 29 |
+| 4 | Vorrangiger nächster Prüfkandidat | 2 |
+| 5 | Kein noch eindeutig funktionsloser Platz | 0 |
+| **Gesamt** | **100 aktuelle, individuell begründete Bewertungen** | **100** |
 
-**Prüfgrundlage:** Oracle-Abfrage aller 100 Karten erfolgreich; 35 Länder, 46 Artefaktkarten und 13 Mana-Artefakte, Farbidentität Grixis, Commander legal. Game Changer: Rhystic Study, Cyclonic Rift, Demonic Tutor (3/3). Kein absichtlicher früher Zwei-Karten-Infinite hinzugefügt. Das nicht mehr enthaltene **Basalt Monolith** hätte ohne besondere Enttappsynergie Stufe 5: einmaliger C3-Schub statt dauerhafter Farbrampe; für {3} enttappen ist ohne weitere Synergie kein zusätzliches Mana. **Cyberdrive Awakener**, ebenfalls entfernt, hätte Stufe 4–5: starker Flieger-Finisher, kann bei ETB vor Kampf aber Mishras Nichtkreatur-Artefakt-Ziele deaktivieren.
+**Struktur:** 100 Singleton einschließlich Mishra; **35 Länder**, **44 Artefaktkarten** (zuvor 46), **13 reguläre Mana-Artefakte**, drei Game Changer (**Rhystic Study, Cyclonic Rift, Demonic Tutor**). Neu: **Reckless Fireweaver**, **Mishra, Tamer of Mak Fawa** und **The Meathook Massacre**. Sonst keine Änderung an `current.txt`. Nach Scryfall-Oracle alle neuen Karten in Grixis Commander-legal und keine Game Changer. Die separate B4-Liste bleibt unverändert.
 
-**Bereits umgesetzt:** **Basalt Monolith → Chromatic Lantern** und **Cyberdrive Awakener → Master Transmuter** im [Deck-Commit 41db0ae](https://github.com/alexdermohr/magic/commit/41db0aec5dc14401b22ca5d4f96ab83dc036ea8f). Beides Artefakte, also keine verringerte Artefaktzahl oder Mana-Artefaktzahl. Chromatic Lantern verliert den einmaligen C3-Burst, gewinnt nachhaltiges U/B/R-Fixing; Transmuter verliert den Flieger-Alpha-Schlag, gewinnt wiederholte teure Artefakt-ETBs aus der Hand für U nach einem Setup-Zug.
+**Haupttrade-offs:** Durch Skullclamp und Nihil Spellbomb fehlen zwei günstige Artefakte, zwei Urza's-Saga-Ziele sowie der einzige gezielte Friedhofshass. Der frühe Metalcraft-Zugang und die Reaktionsmöglichkeiten auf Graveyard-Combos werden etwas schwächer. Dafür gewinnen wir Schutz, Artefakt-Friedhofs-Reanimation, sofortigen ETB-Gruppenschaden und ein bleibendes Opfer-Schadens-/Boardwipe-Werkzeug. Eine Gewinnratenverbesserung ist nicht empirisch belegt.
+
+## Neu bewertete unveränderte Karten
+
+- **The Mightstone and Weakstone bleibt (Stufe 2):** Ein kopierbares Artefakt-ETB mit Draw zwei oder −5/−5 und ein Artefaktmana-Baustein. Gerade mit Panharmonicon und Master Transmuter weit mehr als nur ein schwerer Fünfmana-Slot. Legendenregel bei gleichnamigen legendären Warforms beachten.
+- **Fabricate bleibt (Stufe 2):** Findet unabhängig von Kosten genau das Artefakt, das Master Transmuter anschließend aus der Hand direkt ins Feld bringt, z. B. Portal to Phyrexia. Repurposing Bay ist hier kein klarer Ersatz, da es für Portal eine passende opferbare Karte mit Mana Value acht verlangen würde.
+- **Darksteel Citadel bleibt (Stufe 3):** Wenn zwei günstige Artefakte entfallen, ist die unzerstörbare frühe Metalcraft-/Affinity-Quelle wertvoller; Phyrexian Tower und Mycosynth Gardens bleiben nur hypothetische Utility-Upgrades. Ashnod's Altar bietet bereits einen wiederholbaren Warform-Opferweg.
+
+**Nicht als Deckänderung eingebaut:** The Master, Multiplied (ungewöhnlicher statischer Effekt in manabrew.app noch ungeprüft), Repurposing Bay (weiterer Tutor mit Sorcery- und Mana-Value-Voraussetzung) und Fateful Discovery (fünf Mana, UU, bereits reichlicher Kartenzugriff).
 
 ## Jede einzelne aktuelle Karte
 
@@ -42,7 +48,7 @@
 | 15 | Kappa Cannoneer | **2** | Wachsender, durch Ward {4} geschützter und bei Artefakt-ETB unblockbarer Einzel-Finisher; kein Mishra-Kopierziel, aber eigener unabhängiger Siegweg. |
 | 16 | Urza, Lord High Artificer | **1** | Macht vorhandene Artefakte zu blauen Manaquellen, erzeugt Construct und nutzt Überschussmana; seit Oktober 2025 kein Game Changer mehr. |
 
-### Rocks und Artefakte
+### Ramp, Artefakte und Synergie-Enabler
 
 | # | Karte | Ersetzbarkeit | Nutzen und Opportunitätskosten |
 |---:|---|:---:|---|
@@ -62,8 +68,8 @@
 | 30 | Esoteric Duplicator | **1** | Macht aus geopferten Warforms gegen zwei Mana bleibende Kopien im nächsten Endsegment; zentrale Altar-Synergie. |
 | 31 | Worldwalker Helm | **2** | Map bei Artefakt-Token-Produktion und später gezielte Kopie eines Artefakt-Tokens; benötigt aktiviertes Mana und Tappen. |
 | 32 | Prized Statue | **2** | Treasure bei Eintritt und Tod, dadurch extrem gutes frühes Mishra-Ziel und Farbfix; geringere Endspielwirkung. |
-| 33 | Skullclamp | **4** | Sehr guter Kartenvorteil mit 1/1s, aber benötigt genug passende Kreaturen-Token und Ausrüstungsfenster. |
-| 34 | Nihil Spellbomb | **4** | Einmana-Einzelfriedhof-Exil und optionales Nachziehen gegen B; Soul-Guide Lantern exiliert alle gegnerischen Friedhöfe. |
+| 33 | Reckless Fireweaver | **2** | Für {1}{R} eine günstige Wincon: JEDES eintretende eigene Artefakt – Warform, Map, Treasure, Construct – verursacht 1 Schaden an jedem Gegner. Kein Artefakt, aber wiederholt sofortiger Ertrag. |
+| 34 | Mishra, Tamer of Mak Fawa | **2** | Fünfmana-Nichtartefakt: Ward—Sacrifice a permanent für alle eigenen Permanents inklusive Mishra. Artefaktkarten im eigenen Friedhof bekommen Unearth {1}{B}{R}, inklusive Portal; Exil bei Endsegment/Verlassen. |
 | 35 | Ashnod's Altar | **2** | Kostenlose Opfermöglichkeit für Warforms und Kreaturen; finanziert Duplicator und Todesauslöser, aber nur farbloses Mana. |
 | 36 | Idol of Oblivion | **2** | Mishra erzeugt regelmäßig Tokens, dadurch günstige wiederkehrende Karte; braucht überlebendes Artefakt und Tap-Fenster. |
 | 37 | Strionic Resonator | **3** | Wiederholbare zusätzliche Mishra-Trigger für {2}, Tap. Repurposing Bay konkurriert als direkter Feld-Tutor. |
@@ -72,7 +78,7 @@
 | 40 | Panharmonicon | **2** | Verdoppelt ETB-Effekte von Wellspring, Blade, Paladin und anderen; ohne ETB-Ziele vier Mana ohne unmittelbaren Effekt. |
 | 41 | Scrap Trawler | **3** | Artefakt-Tode bringen jeweils eine kleinere Artefaktkarte aus dem Friedhof auf die Hand zurück. Starker Boardwipe-Rückgriff, setzt echte Artefaktkarten im GY voraus. |
 | 42 | Rhystic Study | **1** | Game Changer für kontinuierlichen Kartennachschub; beansprucht einen der drei erlaubten Plätze. |
-| 43 | The Mightstone and Weakstone | **4** | Legendärer 5-Mana-Artefakt-ETB mit Draw zwei oder -5/-5 und eingeschränktem Artefaktmana. Bei mehreren legendären Warforms mit gleichem Namen Legendenregel beachten. |
+| 43 | The Mightstone and Weakstone | **2** | Fünf Mana für starkes kopierbares, legendäres Artefakt: ETB zieht zwei Karten oder gibt einer Kreatur −5/−5, Original produziert CC für Artefaktzauber/-fähigkeiten. Legendäre Warform-Duplikate gleichen Namens kollidieren. |
 | 44 | Sculpting Steel | **2** | Flexibler zusätzlicher Blade-, Wellspring-, Paladin- oder Portal-Effekt je nach Spielfeld; ohne hochwertige Vorlage schwach. |
 | 45 | Spine of Ish Sah | **3** | Kopierbarer ETB-Zugriff auf nahezu jedes Permanent plus Rückkehr aus dem Friedhof; sieben Mana auf der Hand schwerfällig. |
 | 46 | Portal to Phyrexia | **2** | Extrem hoher ETB- und Upkeep-Ertrag, gewinnt Kreaturenspiele; neun Mana ohne Welder/Transmuter ein Starthand-Risiko. |
@@ -94,9 +100,9 @@
 | 57 | Deadly Rollick | **2** | Mit Commander kostenloses Kreaturen-Exil; ohne Mishra vier Mana und kein Zugriff auf Nichtkreaturen. |
 | 58 | Feed the Swarm | **3** | Wichtige Antwort auf Verzauberungen in Grixis, aber Sorcery und Lebenspunktverlust; bei genügend anderem Removal prüfbar. |
 | 59 | Vandalblast | **3** | Einseitiger Massen-Artefakthass, lässt die eigenen Artefakte stehen; metagameabhängig, aber einzigartig im Slot. |
-| 60 | Blasphemous Act | **4** | Oft billiger Kreaturenwipe, betrifft aber Mishra und eigene Kreaturen; Toxic Deluge gegen Leben besser dosierbar. |
+| 60 | The Meathook Massacre | **2** | Flexibler XBB-Kreaturenwipe durch −X/−X plus bleibende Engine: jeder eigene Kreaturentod (auch Warform-Token) kostet allen Gegnern 1 Leben und gegnerische Tode geben Leben. Hoher schwarzer Farbbedarf und eigener Commander kann sterben. |
 | 61 | Mystic Remora | **2** | Früher Multiplayer-Kartennachschub; kumulative Unterhaltskosten und kreaturenlastige Gegner schränken ein. |
-| 62 | Fabricate | **4** | Universeller 2U-Artefakttutor zur Hand; kein direkter Boardswing, mit Demonic Tutor, Whir, Engineer, Fair und Transmuter teils redundant. |
+| 62 | Fabricate | **2** | Für {2}{U} jedes Artefakt unabhängig vom Manawert direkt auf die Hand; besonders wichtig, um Portal für Master Transmuters {U}-Hand-Cheat zu finden. Keine direkte Feldwirkung, aber zuverlässige Toolbox. |
 | 63 | Whir of Invention | **4** | Spielt Artefakte als Instant direkt aus Bibliothek, Improvise reduziert X, niemals die harten UUU. Besonders teuer für große Zielkarten. |
 | 64 | Demonic Tutor | **1** | Sehr günstiger universeller Zugriff auf das jeweils fehlende Teil; Game Changer 3/3. |
 | 65 | Tithing Blade | **1** | Zweimana-Artefakt; jede Mishra-Kopie lässt JEDEN Gegner eine Kreatur opfern, ohne zu zielen. Gegen Token-Armeen schwächer. |
@@ -114,7 +120,7 @@
 | 72 | Seat of the Synod | **2** | Blaues Artefaktland für Affinity, Metalcraft und Urza; gleichzeitig anfällig gegen Artefakt-Hass. |
 | 73 | Vault of Whispers | **2** | Schwarzes Artefaktland für Metalcraft und Opfer-/Artefakt-Synergien; anfällig gegen Artefakt-Hass. |
 | 74 | Great Furnace | **2** | Rotes Artefaktland für Metalcraft und Opfer-/Artefakt-Synergien; anfällig gegen Artefakt-Hass. |
-| 75 | Darksteel Citadel | **4** | Unzerstörbares Artefaktland stützt Metalcraft, produziert aber ausschließlich C; Phyrexian Tower/Mycosynth Gardens bieten andere Utility. |
+| 75 | Darksteel Citadel | **3** | Unzerstörbares Artefaktland sichert früh Metalcraft/Mox Opal und unterstützt Affinity nach zwei entfernten Artefakten; produziert nur {C}. Tower/Gardens bieten Utility, senken Artefaktanzahl weiter. |
 | 76 | Flooded Strand | **2** | Findet Insel-Duals trotz fehlender Plains; fetchbare Farbwahl gegen einen Lebenspunkt. |
 | 77 | Marsh Flats | **2** | Findet Swamp-Duals trotz fehlender Plains; fetchbare Farbwahl gegen einen Lebenspunkt. |
 | 78 | Academy Ruins | **2** | Regelmäßige Friedhofsrekursion für Artefaktkarten auf Bibliotheksoberseite; kostet Tempo und farbiges Mana. |
@@ -123,7 +129,7 @@
 | 81 | Urza's Saga | **1** | Sucht Sol Ring, Opal, Clamp oder Spellbomb und stellt Construct-Tokens; trotz planmäßigem Landsacrifice starker Slot. |
 | 82 | Otawara, Soaring City | **2** | Ungetappte blaue Quelle oder schwer konterbares Channel-Bounce; nahezu ohne Deckbaupreis. |
 | 83 | Takenuma, Abandoned Mire | **2** | Ungetappte schwarze Quelle mit möglicher Kreaturen-Rekursion; passt zu Friedhofsplan. |
-| 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Skullclamp oder Opfermechanismen; sonst gewöhnliches Farbland. |
+| 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Ashnod's Altar/Marionette Apprentice; sonst gewöhnliches Farbland. |
 | 85 | Polluted Delta | **1** | Findet schwarze oder blaue Duals und damit alle Grixis-Farben über vorhandene Landtypen. |
 | 86 | Scalding Tarn | **1** | Findet Island-/Mountain-Duals für sehr flexible frühe Farbwahl. |
 | 87 | Bloodstained Mire | **1** | Findet Swamp-/Mountain-Duals für flexible frühe Schwarz/Rot-Versorgung. |
@@ -142,70 +148,31 @@
 | 100 | Mountain | **3** | Fetchbares rotes Basic für verlässlichen Grundzugang trotz Nonbasic-Hate; nicht ersatzlos streichen. |
 
 
-## Priorisierte bisherige Stufe-4-Slots
+## Jetzt noch ernsthafte Tauschoptionen
 
-1. **Skullclamp** – Sehr guter Kartenvorteil mit 1/1s, aber benötigt genug passende Kreaturen-Token und Ausrüstungsfenster.
+Die **aktuell verbleibenden Stufe-4-Kandidaten sind Demonic Junker und Whir of Invention**. Beide sind mächtig, haben aber im Deck überprüfbare Rollenüberschneidungen beziehungsweise eine hohe Farbanforderung. Die folgenden Optionen sind jeweils einzeln zu bewerten; kein Cut ist bereits ausgeführt.
 
-2. **Nihil Spellbomb** – Einmana-Einzelfriedhof-Exil und optionales Nachziehen gegen B; Soul-Guide Lantern exiliert alle gegnerischen Friedhöfe.
+| Priorität | Möglicher Cut | Potenziell rein | Nutzen | Stärkstes Gegenargument | Struktur |
+|:---:|---|---|---|---|---|
+| A | **Brudiclad, Telchor Engineer** | **The Master, Multiplied** | Mishras kontrollierter Warform-Opfertrigger kann Kreaturenspielsteine nicht opfern; keine Legendenregel für eigene Kreaturentokens. | Sechs Mana, kein Artefakt; Brudiclad kann aus vorhandenen Tokens selbst permanente Warforms machen. Funktionsprüfung in Manabrew offen. | Artefakte 44→43, Land/Ramp unverändert |
+| A | **Strionic Resonator** | **Repurposing Bay** | Für {2}, Tap und Artefaktopfer gezieltes Nichtkreatur-/Kreatur-Artefakt mit MV um exakt eins höher direkt suchen; verwertet Warforms nach Kampf. | Resonator verdoppelt Mishras Kampfauslöser ohne Opfer; Bay braucht Sorcery-Timing, Tap und passende MV-Stufe. | Artefakte 44, Länder/Ramp unverändert |
+| B | **Jhoira, Weatherlight Captain** | **Fateful Discovery** | Zieht bei jedem Artefakt-ETB inklusive Warform und Worldwalker-Helm-Map; Set *The Hobbit*, 14.08.2026. | Jhoira zieht früher bei Historic-Casts, auch ohne Mishra; Discovery hat MV 5 und UU und ist kein Artefakt. | Kein Artefaktunterschied, schwerere Kurve |
+| B | **Demonic Junker** | **Repurposing Bay** | Niedrigere Manakurve und wiederholbarer Warform-basierter Feldtutor. | Junker bietet mit Affinity billiges eigenständiges Mehrspieler-Kreaturenremoval ohne extra Aktivierung. | Artefakte 44, Ramp unverändert |
+| B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 44→43 |
+| C | **The Meathook Massacre** | **Toxic Deluge** | Günstigerer voll skalierbarer Kreaturenwipe gegen Lebenspunkte statt hohem XBB-Manabedarf. | Verlust der permanenten Warform-Opfer-Schadensengine und des Lebensgewinns. | Nichtartefakt gegen Nichtartefakt |
+| C | **Mishra, Tamer of Mak Fawa** | **Padeem, Consul of Innovation** | Schützt Artefakte mit Hexproof und kann Karten ziehen, billiger. | Schützt Mishra selbst nicht und verliert Unearth für teure Artefakte. | Nichtartefakt gegen Nichtartefakt |
 
-3. **The Mightstone and Weakstone** – Legendärer 5-Mana-Artefakt-ETB mit Draw zwei oder -5/-5 und eingeschränktem Artefaktmana. Bei mehreren legendären Warforms mit gleichem Namen Legendenregel beachten.
+## Operative Regeln und Nachprüfbarkeit
 
-4. **Demonic Junker** – Affinity-Artefaktfahrzeug mit ETB-Kreaturenzerstörung je Spieler. Sieben Mana ohne Artefaktdichte; stark, aber mit Blade/Relic/Portal funktional redundant.
+- **Reckless Fireweaver** triggert für jeden eigenen Artefakt-Eintritt (auch Warform und Helm-Map); **Marionette Apprentice** und **Meathook** triggern dagegen beim Sterben eigener Kreaturen. Ein geopferter Warform-Spielstein zählt als Tod, auch wenn er danach aufhört zu existieren.
+- **Mishra, Tamer of Mak Fawa** gewährt Ward—Sacrifice a permanent für alle eigenen Permanents; Unearth {1}{B}{R} funktioniert für Artefaktkarten im Friedhof, nicht für verschwundene Warform-Tokens. Das reanimierte Artefakt wird im nächsten Endsegment oder beim Verlassen exiliert. Ward stoppt keine globalen Boardwipes.
+- **The Meathook Massacre** ist eine legendäre **Verzauberung, kein Artefakt**, und damit kein direktes Mishra-Kopierziel. Beim ETB erhalten alle Kreaturen −X/−X bis zum Zugende, auch eigene, wenn X groß genug ist. Danach verstärkt das Enchantment automatisch Warform-Tode als wiederkehrenden Gruppenschaden.
+- **Ohne Nihil Spellbomb** kann ein graveyardbasiertes Metagame einen neuen Hate-Slot erfordern; Soul-Guide Lantern wäre dann der naheliegende günstige Artefakt-Kandidat, aber kein automatischer Ersatz ohne Gegnermeta.
+- **Manabrew-Grenze:** Sundial und Coveted Jewel bleiben wie verlangt draußen. Die Funktionsfähigkeit der neuen Synergien wurde anhand der Oracle-Texte, nicht in nachgespielten Manabrew-Partien, überprüft.
+- **Bracket 3:** Maximal drei Game Changer, keine beabsichtigte frühe Zweikarten-Endloskombo. Die drei neuen Karten sind keine Game Changer und legal in Grixis.
 
-5. **Blasphemous Act** – Oft billiger Kreaturenwipe, betrifft aber Mishra und eigene Kreaturen; Toxic Deluge gegen Leben besser dosierbar.
+### Primärquellen
 
-6. **Fabricate** – Universeller 2U-Artefakttutor zur Hand; kein direkter Boardswing, mit Demonic Tutor, Whir, Engineer, Fair und Transmuter teils redundant.
+[Wizards: Commander](https://magic.wizards.com/en/formats/commander) · [Wizards: Commander-Brackets 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) · [Scryfall-Collection-API](https://scryfall.com/docs/api/cards/collection) · [Reckless Fireweaver](https://scryfall.com/card/kld/126/reckless-fireweaver) · [Mishra, Tamer of Mak Fawa](https://scryfall.com/card/bro/217/mishra-tamer-of-mak-fawa) · [The Meathook Massacre](https://scryfall.com/card/inr/122/the-meathook-massacre).
 
-7. **Whir of Invention** – Spielt Artefakte als Instant direkt aus Bibliothek, Improvise reduziert X, niemals die harten UUU. Besonders teuer für große Zielkarten.
-
-8. **Darksteel Citadel** – Unzerstörbares Artefaktland stützt Metalcraft, produziert aber ausschließlich C; Phyrexian Tower/Mycosynth Gardens bieten andere Utility.
-
-Die Einstufung 4 ist eine Prüfhypothese, keine Anweisung, alle acht zu entfernen. Besonders die Redundanz mehrerer Artefakttutoren kann für einen starken Bracket-3-Toolbox-Plan wertvoll sein.
-
-## Die sechs ausdrücklich verlangten Kandidaten
-
-**Master Transmuter ist bereits enthalten.** Für {U}, Tappen und Zurückgeben eines eigenen Artefakts bringt er eine **Artefaktkarte aus der Hand** unmittelbar aufs Feld. Das zurückgegebene Artefakt darf dabei selbst wieder auf dem Feld landen – dadurch sind Tithing-Blade- und Portal-ETBs wiederholbar. Er braucht aber ein aktives Tap-Fenster und eine solche Karte, kann nicht einfach Portal aus dem Friedhof holen.
-
-**Mishra, Tamer of Mak Fawa:** Fünf Mana, Nichtartefakt. Ward—Sacrifice a permanent für alle eigenen Permanents, einschließlich Commander und Länder; eigene Artefaktkarten im Friedhof bekommen Unearth {1}{B}{R}, auch Portal, das danach ins Exil geht. **Demonic Junker** wäre der primäre Cut, aber der Schaden ist der Verlust von ETB-Removal und einer Artefaktkarte.
-
-**The Master, Multiplied:** Laut offiziellen *Doctor Who*-Regelhinweisen können kontrollierte Trigger deine Kreaturen-Tokens nicht zum Opfern/Exilieren bringen; Mishras verzögerter Warform-Opfer-Trigger ist ein solcher kontrollierter Trigger. Außerdem keine Legendenregel für eigene Kreaturen-Tokens. Gegen **Brudiclad** tauscht man Token-Umwandlung und ein Artefakt gegen direkte Persistenz. Die besondere **manabrew.app-Implementierung ist nicht in einer echten Spielsitzung bestätigt**.
-
-**Reckless Fireweaver:** Für {1}{R} ETB-Schaden an alle Gegner pro Artefakt; Mishras Warform plus Helm-Map verursachen dann zwei separate Auslösungen. **Marionette Apprentice** triggert dagegen auf Opfer-/Todesereignisse, unter Ashnod oft ebenfalls. Beide Funktionen gegeneinander testen, statt pauschal eine als besser zu behaupten.
-
-**Repurposing Bay:** Wiederholter Tutor für genau Mana Value X+1 gegen {2}, Tap, Opfer eines anderen Artefakts und Sorcery-Timing. Mishras Warform des Bay kann im zweiten Hauptsegment aktivieren, wenn nicht angegriffen; im Kampfschritt selbst ist die Aktivierung unzulässig. Die passenden Cuts sind **Strionic Resonator** oder **Fabricate** mit verschiedenen Opportunitätskosten.
-
-**Fateful Discovery:** **The Hobbit, 14. August 2026, nicht Reality Fracture.** Ein Artefakt-ETB unter eigener Kontrolle lässt eine Karte ziehen, auch Warform, Treasure und Helm-Map. Für {3}{U}{U} langsamer und farbintensiver als **Jhoira**, die stattdessen beim Cast historischer Sprüche zieht. Gerade nach einem Mishra-Removal kann Jhoira daher robuster sein.
-
-## Konkrete 14 Tauschhypothesen, gegeneinander geprüft
-
-Jede Zeile ist ein **einzelner Alternativtausch**, nicht kumulativ. Identische Cuts in mehreren Zeilen bezeichnen konkurrierende Versuche.
-
-| Rang | Raus | Rein | Nutzen | Stärkstes Gegenargument | Strukturfolge | Entscheidung |
-|:---:|---|---|---|---|---|---|
-| **A** | Demonic Junker | Mishra, Tamer of Mak Fawa | Ward—Opfer eines Permanents schützt selbst Mishra und alle eigenen Permanents; Unearth {1}{B}{R} bringt Artefakte aus dem Friedhof ins Spiel, auch Portal. | Verliert Junker-Affinity und dessen ETB-Removal, sowie eine Artefaktkarte. | Artefakte 46→45, keine Manaquellen verloren | sehr hoch, aber nicht getestet |
-| **A** | Brudiclad, Telchor Engineer | The Master, Multiplied | Mishras eigene verzögerte Trigger dürfen Kreaturenspielsteine nicht opfern; Legendenregel gilt nicht für die eigenen Kreaturen-Tokens. | Sechs Mana und kein Artefakt, Brudiclad erzeugt dagegen dauerhafte Kopien aus anderen Tokens. Die statische Fähigkeit in Manabrew ist ungetestet. | Artefakte 46→45, 35 Länder und 13 Rocks | zuerst Manabrew-Test |
-| **A** | Marionette Apprentice | Reckless Fireweaver | Schaden an jeden Gegner bei allen Artefakt-Eintritten, auch Warform, Map, Treasure und Constructs; Mana Value 2. | Apprentice triggert bei Tod/Opfer auch von nichtartefaktischen Kreaturen und synergiert mit Ashnod. | Weder Artefaktzahl noch Mana verändert | direkter Gameplay-Vergleich |
-| **A** | Strionic Resonator | Repurposing Bay | Für {2}, Tap, ein anderes Artefakt opfern: Artefakt mit Mana Value exakt um eins höher ins Spiel. Bay-Warform kann in der zweiten Hauptphase aktiviert werden, sofern sie nicht angegriffen hat. | Strionic Resonator verdoppelt Mishras Auslöser ohne Opfer, Bay braucht Sorcery-Speed und richtige Mana-Value-Stufen. | Artefaktanzahl gleich; Kurve +1 | starker Testkandidat |
-| **B** | Jhoira, Weatherlight Captain | Fateful Discovery | Verzauberung {3}{U}{U} zieht bei jedem eigenen Artefakt-ETB, Warform und Helm-Map jeweils separat. Belegtes Set: The Hobbit, 14.08.2026. | Ein Mana mehr und doppelt blau; Jhoira zieht bereits früh bei gewirkten legendären oder Artefaktzaubern, auch ohne Mishra. | Beide Nichtartefakte; höhere Kurve | testwürdig, nicht bewiesen |
-| **B** | Nihil Spellbomb | Soul-Guide Lantern | Exiliert mehrere gegnerische Friedhöfe, Draw ohne schwarzes Mana, kostet ebenfalls ein Mana. | Spellbomb zieht auch, wenn sie aus anderem Grund stirbt, für B. | Artefakte gleich | metagameabhängig |
-| **B** | Darksteel Citadel | The Mycosynth Gardens | Land kann ein eigenes Nichttoken-Artefakt kopieren oder gegen zusätzliches Mana Farbfix bieten. | Frühe Metalcraft-/Affinity-Quelle geht verloren, keine Artefaktkarte mehr. | 35 Länder, Artefakte 46→45 | erst bei ausreichend Metalcraft |
-| **B** | Darksteel Citadel | Phyrexian Tower | Landslot opfert Kreaturen-Warforms und kann BB erzeugen. | Verlust des unzerstörbaren Artefaktlands, Ashnod bereits Sac-Outlet. | 35 Länder, Artefakte 46→45 | Alternative, nicht kumulativ |
-| **B** | Blasphemous Act | Toxic Deluge | Für drei Mana plus Leben flexibles -X/-X, auch gegen Unzerstörbarkeit. | Act ist an vollen Kreaturentischen häufig nur R und belastet keine Lebenspunkte. | Struktur unverändert | Tischabhängig |
-| **B** | Fabricate | Repurposing Bay | Wiederholte Feld-Tutoraktivierungen statt einmal Artefakt zur Hand. | Fabricate findet jede MV unabhängig von Artefaktopfer; Bay fordert +1 MV-Stufe. | Artefakte 46→47 | Alternative zum Resonator-Cut |
-| **B** | The Mightstone and Weakstone | Fateful Discovery | Mehrfacher Draw pro Mishra-Kampf und Artefakt-Token statt eines einmaligen legendären ETB. | Verliert kopierbares Artefakt sowie eingeschränktes Mana und gezielte -5/-5-Option. | Artefakte 46→45 | nur nach realem Test |
-| **C** | Chromatic Lantern | Cursed Mirror | Mana-Rock mit rotem Mana und gelegentlicher Kreaturenkopie samt Eile. | Lantern fixt alle Länder und jede Farbe, Mirror nur Rot. | Artefaktanzahl/Rocks gleich | bei bestätigter Farbkonstanz |
-| **C** | Brudiclad, Telchor Engineer | Arcum Dagsson | Opfert eine Mishra-Warform und sucht sofort ein Nichtkreatur-Artefakt, inklusive Portal. | Brudiclad hat einzigartigen dauerhaften Token-Umbau, Arcum braucht eigene Tap-Runde. | Artefakte 46→45 | bei wenig Token-Setup |
-| **C** | Skullclamp | Trading Post | Flexible Opfer-/Rückhol-/Drawfunktionen ohne zwingend passende 1/1. | Vier Mana plus Aktivierungen, Clamp ist drastisch effizienter mit Tokenfutter. | Artefakte gleich | nur bei ungenutzter Clamp |
-
-## Strategische Grenzen und Gegenargumente
-
-- **Keine Pflicht-Cuts aus altem Geschmack:** Basalt, Whir, Jhoira, Kappa oder Demonic Junker wurden frei bewertet. Dass Tithing Blade und Knight Paladin hoch abschneiden, liegt an verlässlichen wiederholbaren Warform-ETBs, nicht an Wünschen.
-- **Sundial:** Starker Papierregel-Effekt, aber wiederholte konkrete Nutzerbeobachtung unzuverlässiger Manabrew-Ausführung. Erst bei bestätigter App-Funktion sinnvoller Re-Einbau, kein Dogma.
-- **Coveted Jewel:** Sofortiger Kartenvorteil und Mana, doch gegnerische Treffer können Kontrolle und Ressourcen gefährden. Sculpting Steel hat weniger eigene Rohwerte, kopiert dafür gezielter.
-- **Kein Rings-of-Brighthearth-Basalt-Infinite** als scheinbare Bracket-3-Verbesserung; nicht unbeabsichtigt Richtung Bracket 4 optimieren.
-- **Urteil ≠ getestete Winrate:** Keine kontrollierten Spiele oder verifizierten Sonderregeltests in Manabrew. Insbesondere The Master, Multiplied zuerst in einer kurzen konkreten Spielsituation prüfen.
-- **Änderungsdisziplin:** Vor künftigen Tauschen Mana, 100/Singleton, Scryfall-Legalität, die drei Game Changer, Kopierzielzahl und reale GitHub-HEAD-Version überprüfen. Bracket-4-Datei bleibt isoliert.
-
-## Belege
-
-[Wizards Commander/Brackets](https://magic.wizards.com/en/formats/commander), [Wizards The Brothers' War Release Notes (Mishra)](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes), [Wizards Doctor Who Release Notes (The Master)](https://magic.wizards.com/en/news/feature/magic-the-gathering-doctor-who-release-notes), [Wizards Brackets Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Scryfall-API, Live-Prüfung](https://scryfall.com/docs/api/cards/collection), [Fateful Discovery (The Hobbit)](https://scryfall.com/card/hob/40/fateful-discovery), [Repurposing Bay](https://scryfall.com/card/dft/56/repurposing-bay), [EDHREC Mishra (Verwendung, keine empirische Siegquote)](https://edhrec.com/commanders/mishra-eminent-one).
+**Evidenzgrenze:** Spielstärke, Meta und Manabrew-Implementierung wurden nicht durch kontrollierte Partien nachgewiesen; die Bewertung ist ein nachvollziehbares aktuelles Struktururteil.
