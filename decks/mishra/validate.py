@@ -37,6 +37,13 @@ def names_and_docs() -> list[str]:
     names = [line.split(" ", 1)[1].strip() for line in deck]
     assert_ok(len(names) == 100 and len(set(names)) == 100, "not 100 distinct cards")
     assert_ok(names[0] == "Mishra, Eminent One", "unexpected commander")
+    root_readme = ROOT.parent.parent.joinpath("README.md").read_text(encoding="utf-8")
+    mishra_summaries = re.findall(r"^- Mishra: \*\*Bracket 3[^\n]+$", root_readme, re.MULTILINE)
+    assert_ok(len(mishra_summaries) == 1, "root README must contain exactly one current Mishra B3 summary")
+    for required in ("100 verschiedene Karten", "35 Länder", "45 Artefakte",
+                     f"{len(EXPECTED_ROCKS)} Mana-Artefakte", "drei Game Changer"):
+        assert_ok(required in mishra_summaries[0],
+                  f"root README Mishra summary stale or incomplete: {required}")
     matrix = ROOT.joinpath("replaceability.md").read_text(encoding="utf-8").splitlines()
     rated = [
         m.group(1).strip()
