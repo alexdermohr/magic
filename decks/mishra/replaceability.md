@@ -1,29 +1,26 @@
-# Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung ohne Kreaturenwipes
+# Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung (optimiertes Bracket 3)
 
-**Aktive Version:** 11. Oktober 2026 · [Deck-Commit `ef8f05f`](https://github.com/alexdermohr/magic/commit/ef8f05fe4776f3ee300e9a5cc19bc86ed3f37a7b) · [current.txt](current.txt) · [Gesamtanalyse](analysis.md).
+**Aktive Version:** 11. Oktober 2026 · [Deck-Commit `4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b) · [current.txt](current.txt) · [Erweiterter Kreis – 132 aktuell nicht enthaltene Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md).
 
-**Stand und Prioritäten:** Exakt 100 Singleton-Karten, 35 Länder, **45 Artefaktkarten** (vorher 44), 13 Mana-Artefakte im Ramp-Kern und 3 Game Changer (Rhystic Study, Cyclonic Rift, Demonic Tutor). **The Meathook Massacre wurde auf ausdrücklichen Wunsch entfernt und durch Oni-Cult Anvil ersetzt.** Keine breitflächigen Kreaturenwipes im aktuellen Deck; vorhandenes Kreaturen-Removal über Tithing Blade, Lich's Relic, Demonic Junker, Portal to Phyrexia und Deadly Rollick bleibt. Die getrennte B4-Datei bleibt unberührt.
+**Struktur nach den zwei bestätigten Tauschen:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **45 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
 
-**Wichtigster Spielnutzen:** Oni-Cult Anvil kostet {B}{R}, ist ein Nichtkreatur-Artefakt als direktes Mishra-Kopierziel und ermöglicht Artefaktopfer, Gruppenschaden sowie einmal je Anvil pro eigenem Zug ein 1/1-Artefakt-Construct bei Artefakt-Verlassen. Damit unterstützt es Reckless Fireweaver, Marionette Apprentice, Scrap Trawler und Esoteric Duplicator. Gegenargument: Es benötigt Opfermaterial, {B}{R} und die Construct-Erzeugung ist nur einmal je Anvil und eigenem Zug möglich. Gegenüber Meathook entfällt der passive Todes-Drain und der Wipe; eine Artefaktkarte kommt hinzu.
+| Raus | Rein | Erwarteter Mehrwert | Risiko |
+|---|---|---|---|
+| Spine of Ish Sah | **Nautiloid Ship** | Vier statt sieben Mana; Friedhof eines Spielers beim ETB exilieren, fliegende Warform angreifen lassen, bei Kampfschaden eine dadurch exilierte Kreatur übernehmen | Verliert universelle Permanent-Zerstörung; Schiffs-Exil ist objektgebunden |
+| Fabricate | **Arcum Dagsson** | Opfert Warforms, um beliebige Nichtkreatur-Artefakte, insbesondere Portal to Phyrexia, wiederholt direkt aus Bibliothek ins Spiel zu holen | Vier statt drei Mana; Tap-Kreatur und Opferziel erforderlich, kein sofortiger Tutor auf die Hand |
 
-**Weiterhin offen:** Ohne Nihil Spellbomb fehlt dedizierter Friedhofshass. Skullclamp ist draußen. Die niedrigere Basis an günstigen Artefakten gegenüber früheren Versionen bleibt bei Starthänden und Mox Opal zu beachten. Kartenbewertungen sind strukturelle Hypothesen, kein gemessener Winrate-Vorteil; keine Manabrew-Partien mit dem neuen Anvil-Stand durchgespielt.
+**Bewertungskriterien:** Nur die 100 aktuell enthaltenen Karten erhalten unten eine Stufe; **alle historischen Cuts und nicht aufgenommenen Kandidaten** sind im [Erweiterten Kreis](erweiterter-kreis.md). Alte Vorlieben sind kein Ausschluss von Neubewertungen; bei tatsächlichen Änderungen bleiben alle Kartenlisten und Dokumentationen synchron.
 
 | Stufe | Bedeutung | Karten |
 |:---:|---|---:|
 | 1 | Zentrale, schwer ersetzbare Rolle | 21 |
-| 2 | Hoher Deckbeitrag | 48 |
-| 3 | Vergleichsslot; alternative Funktion denkbar | 29 |
-| 4 | Vorrangiger nächster Prüfkandidat | 2 |
+| 2 | Hoher Deckbeitrag | 49 |
+| 3 | Vergleichsslot, alternative Funktion denkbar | 28 |
+| 4 | Theoretisch zuerst auf dem Prüfstand | 2 |
 | 5 | Kein eindeutig funktionsloser Platz | 0 |
 | **Gesamt** | **100 aktuelle Einzelbewertungen** | **100** |
 
-## Neu bewertete unveränderte Karten
-
-- **The Mightstone and Weakstone bleibt (Stufe 2):** Ein kopierbares Artefakt-ETB mit Draw zwei oder −5/−5 und ein Artefaktmana-Baustein. Gerade mit Panharmonicon und Master Transmuter weit mehr als nur ein schwerer Fünfmana-Slot. Legendenregel bei gleichnamigen legendären Warforms beachten.
-- **Fabricate bleibt (Stufe 2):** Findet unabhängig von Kosten genau das Artefakt, das Master Transmuter anschließend aus der Hand direkt ins Feld bringt, z. B. Portal to Phyrexia. Repurposing Bay ist hier kein klarer Ersatz, da es für Portal eine passende opferbare Karte mit Mana Value acht verlangen würde.
-- **Darksteel Citadel bleibt (Stufe 3):** Wenn zwei günstige Artefakte entfallen, ist die unzerstörbare frühe Metalcraft-/Affinity-Quelle wertvoller; Phyrexian Tower und Mycosynth Gardens bleiben nur hypothetische Utility-Upgrades. Ashnod's Altar bietet bereits einen wiederholbaren Warform-Opferweg.
-
-**Nicht als Deckänderung eingebaut:** The Master, Multiplied (ungewöhnlicher statischer Effekt in manabrew.app noch ungeprüft), Repurposing Bay (weiterer Tutor mit Sorcery- und Mana-Value-Voraussetzung) und Fateful Discovery (fünf Mana, UU, bereits reichlicher Kartenzugriff).
+**Spielhinweis:** Nautiloid Ship löst seine Friedhofsexil-Fähigkeit beim Eintritt der Warform aus; die Kampfschaden-Fähigkeit kann nur eine Kreatur zurückbringen, die **das jeweilige Ship-Objekt** exiliert hat. Arcum benötigt ein legales **Artefaktkreatur-Ziel** und opfert diese bei Auflösung; die Bibliothekssuche ist nicht auf einen bestimmten Manawert begrenzt. Andere Artefaktkreaturen wie Kappa sind nicht direkt mit Mishras Commander-Auslöser kopierbar. Die tatsächliche Manabrew-Funktion ist nicht durch eigenständige Testpartien belegt.
 
 ## Jede einzelne aktuelle Karte
 
@@ -80,7 +77,7 @@
 | 42 | Rhystic Study | **1** | Game Changer für kontinuierlichen Kartennachschub; beansprucht einen der drei erlaubten Plätze. |
 | 43 | The Mightstone and Weakstone | **2** | Fünf Mana für starkes kopierbares, legendäres Artefakt: ETB zieht zwei Karten oder gibt einer Kreatur −5/−5, Original produziert CC für Artefaktzauber/-fähigkeiten. Legendäre Warform-Duplikate gleichen Namens kollidieren. |
 | 44 | Sculpting Steel | **2** | Flexibler zusätzlicher Blade-, Wellspring-, Paladin- oder Portal-Effekt je nach Spielfeld; ohne hochwertige Vorlage schwach. |
-| 45 | Spine of Ish Sah | **3** | Kopierbarer ETB-Zugriff auf nahezu jedes Permanent plus Rückkehr aus dem Friedhof; sieben Mana auf der Hand schwerfällig. |
+| 45 | Nautiloid Ship | **2** | Vier-Mana-Flugfahrzeug als Mishra-Ziel: Die 4/4-Warform exiliert beim ETB einen Spielerfriedhof und kann mit Flugfähigkeit/Eile direkt angreifen. Nach Kampfschaden bringt sie eine Kreatur zurück, die **dieses Exemplar** exiliert hat. Der ursprüngliche Friedhofshass war zuvor nicht vorhanden; gegen Blocker keine garantierte Reanimation. |
 | 46 | Portal to Phyrexia | **2** | Extrem hoher ETB- und Upkeep-Ertrag, gewinnt Kreaturenspiele; neun Mana ohne Welder/Transmuter ein Starthand-Risiko. |
 | 47 | Simulacrum Synthesizer | **1** | Mishras eintretende Artefakte mit Mana Value ab 3 erzeugen massiv skalierende Constructs; zentrale Boardengine. |
 | 48 | Lich's Relic | **3** | Ein-Mana-Kopierziel mit optionalem Removal bei jedem ETB gegen weitere zwei Mana; im Manamangel schwächer. |
@@ -102,7 +99,7 @@
 | 59 | Vandalblast | **3** | Einseitiger Massen-Artefakthass, lässt die eigenen Artefakte stehen; metagameabhängig, aber einzigartig im Slot. |
 | 60 | Oni-Cult Anvil | **2** | {B}{R}-Nichtkreatur-Artefakt und Mishra-Kopierziel: Beim ersten eigenen Artefakt-Verlassen je Zug erzeugt es einen 1/1-Artefakt-Construct; für Tappen und Opfer eines Artefakts verursacht es 1 Schaden an allen Gegnern und gewinnt 1 Leben. Liefert Opfer-/Token-/Fireweaver-/Duplicator-Synergien, benötigt aber Artefakte. |
 | 61 | Mystic Remora | **2** | Früher Multiplayer-Kartennachschub; kumulative Unterhaltskosten und kreaturenlastige Gegner schränken ein. |
-| 62 | Fabricate | **2** | Für {2}{U} jedes Artefakt unabhängig vom Manawert direkt auf die Hand; besonders wichtig, um Portal für Master Transmuters {U}-Hand-Cheat zu finden. Keine direkte Feldwirkung, aber zuverlässige Toolbox. |
+| 62 | Arcum Dagsson | **2** | {3}{U}-Artificer und wiederholbarer Feld-Tutor: Tap, eigene Artefaktkreatur (bevorzugt eine Warform) als Ziel opfern und ein beliebiges Nichtkreatur-Artefakt ohne Manawertgrenze direkt aus der Bibliothek holen. Muss normalerweise erst eine Runde überleben; weniger sofort zuverlässig als Fabricate. |
 | 63 | Whir of Invention | **4** | Spielt Artefakte als Instant direkt aus Bibliothek, Improvise reduziert X, niemals die harten UUU. Besonders teuer für große Zielkarten. |
 | 64 | Demonic Tutor | **1** | Sehr günstiger universeller Zugriff auf das jeweils fehlende Teil; Game Changer 3/3. |
 | 65 | Tithing Blade | **1** | Zweimana-Artefakt; jede Mishra-Kopie lässt JEDEN Gegner eine Kreatur opfern, ohne zu zielen. Gegen Token-Armeen schwächer. |
@@ -126,7 +123,7 @@
 | 78 | Academy Ruins | **2** | Regelmäßige Friedhofsrekursion für Artefaktkarten auf Bibliotheksoberseite; kostet Tempo und farbiges Mana. |
 | 79 | Buried Ruin | **3** | Einmalige Artefakt-Rekursion auf die Hand durch Landopfer; farbloses Land, teilweise durch Trawler/Academy abgedeckt. |
 | 80 | Inventors' Fair | **3** | Tutor für beliebiges Artefakt bei Metalcraft und gelegentlich Lebensgewinn; farbloses Land und teure Aktivierung. |
-| 81 | Urza's Saga | **1** | Sucht Sol Ring, Opal, Clamp oder Spellbomb und stellt Construct-Tokens; trotz planmäßigem Landsacrifice starker Slot. |
+| 81 | Urza's Saga | **1** | Sucht in der aktuellen Liste **Sol Ring** (Manakosten {1}) oder **Mox Opal** ({0}); Skullclamp und die Spellbomb sind nicht mehr enthalten, `{B}` von Lich's Relic ist kein gültiges Suchziel. Produziert auch Constructs und opfert sich planmäßig als Land. |
 | 82 | Otawara, Soaring City | **2** | Ungetappte blaue Quelle oder schwer konterbares Channel-Bounce; nahezu ohne Deckbaupreis. |
 | 83 | Takenuma, Abandoned Mire | **2** | Ungetappte schwarze Quelle mit möglicher Kreaturen-Rekursion; passt zu Friedhofsplan. |
 | 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Ashnod's Altar/Marionette Apprentice; sonst gewöhnliches Farbland. |
@@ -150,14 +147,13 @@
 
 ## Jetzt noch ernsthafte Tauschoptionen
 
-Die **aktuell verbleibenden Stufe-4-Kandidaten sind Demonic Junker und Whir of Invention**. Beide sind mächtig, haben aber im Deck überprüfbare Rollenüberschneidungen beziehungsweise eine hohe Farbanforderung. Die folgenden Optionen sind jeweils einzeln zu bewerten; kein Cut ist bereits ausgeführt.
+**Theoretische Stufe-4-Slots:** Demonic Junker und Whir of Invention. **Demonic Junker bleibt nach aktueller Nutzerentscheidung gesetzt**; seine Konkurrenz ist nicht als sofortiger Tauschplan zu verstehen. Whir kostet UUU plus X und darf erneut geprüft werden. Alle neuen, noch nicht enthaltenen Kandidaten stehen im [Erweiterten Kreis](erweiterter-kreis.md).
 
 | Priorität | Möglicher Cut | Potenziell rein | Nutzen | Stärkstes Gegenargument | Struktur |
 |:---:|---|---|---|---|---|
 | A | **Brudiclad, Telchor Engineer** | **The Master, Multiplied** | Mishras kontrollierter Warform-Opfertrigger kann Kreaturenspielsteine nicht opfern; keine Legendenregel für eigene Kreaturentokens. | Sechs Mana, kein Artefakt; Brudiclad kann aus vorhandenen Tokens selbst permanente Warforms machen. Funktionsprüfung in Manabrew offen. | Artefakte 45→44, Land/Ramp unverändert |
 | A | **Strionic Resonator** | **Repurposing Bay** | Für {2}, Tap und Artefaktopfer gezieltes Nichtkreatur-/Kreatur-Artefakt mit MV um exakt eins höher direkt suchen; verwertet Warforms nach Kampf. | Resonator verdoppelt Mishras Kampfauslöser ohne Opfer; Bay braucht Sorcery-Timing, Tap und passende MV-Stufe. | Artefakte 45, Länder/Ramp unverändert |
 | B | **Jhoira, Weatherlight Captain** | **Fateful Discovery** | Zieht bei jedem Artefakt-ETB inklusive Warform und Worldwalker-Helm-Map; Set *The Hobbit*, 14.08.2026. | Jhoira zieht früher bei Historic-Casts, auch ohne Mishra; Discovery hat MV 5 und UU und ist kein Artefakt. | Kein Artefaktunterschied, schwerere Kurve |
-| B | **Demonic Junker** | **Repurposing Bay** | Niedrigere Manakurve und wiederholbarer Warform-basierter Feldtutor. | Junker bietet mit Affinity billiges eigenständiges Mehrspieler-Kreaturenremoval ohne extra Aktivierung. | Artefakte 45, Ramp unverändert |
 | B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 45→44 |
 | C | **Mishra, Tamer of Mak Fawa** | **Padeem, Consul of Innovation** | Schützt Artefakte mit Hexproof und kann Karten ziehen, billiger. | Schützt Mishra selbst nicht und verliert Unearth für teure Artefakte. | Nichtartefakt gegen Nichtartefakt |
 
