@@ -1,7 +1,7 @@
 
 # Erweiterter Kreis – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 11. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · **Deck-Revision:** [`4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b9) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md).
+**Stand:** 11. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
 
 ## Aktueller Tausch: Thought Monitor → Thousand-Year Elixir (11.10.2026)
 

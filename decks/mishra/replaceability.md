@@ -1,6 +1,6 @@
 # Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung (optimiertes Bracket 3)
 
-**Aktive Version:** 11. Oktober 2026 · [Deck-Commit `4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b) · [current.txt](current.txt) · [Erweiterter Kreis – 132 aktuell nicht enthaltene Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md).
+**Aktive Version:** 11. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 132 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
 
 **Struktur nach dem neuesten Tausch Thought Monitor → Thousand-Year Elixir:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **45 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
 

@@ -30,7 +30,7 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 
 ## Aktuelle Bracket-3-Fassung
 
-**Stand: 11. Oktober 2026** · Deck-Commit [`4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b).
+**Stand: 11. Oktober 2026** · einzig verbindlich ist die [aktive Bracket-3-Deckliste](current.txt); frühere Commit-Verweise stehen ausschließlich in der chronologischen Analyse.
 
 - **Commander:** Mishra, Eminent One (Grixis).
 - **100 Karten**, alle Singleton, **35 Länder**, **45 Artefakte** einschließlich Artefaktkreaturen und Artefaktländer, **13 Mana-Artefakte**.
