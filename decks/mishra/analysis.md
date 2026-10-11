@@ -2,11 +2,33 @@
 
 **Stand:** 2026-10-11  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
-**Ersetzbarkeitsmatrix ohne Schutzkarten (100 aktuelle Einzelurteile, 6 Tauschhypothesen):** [replaceability.md](replaceability.md)  
+**Ersetzbarkeitsmatrix ohne Schutzkarten (100 aktuelle Einzelurteile, 5 Tauschhypothesen):** [replaceability.md](replaceability.md)  
+**Erweiterter Kreis (36 historische Cuts, 96 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)  
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktueller Deckstand: Meathook raus, Oni-Cult Anvil zurück (11.10.2026)
+## Aktuelle Revision: Arcum Dagsson und Nautiloid Ship im Deck (11.10.2026)
+
+**Verifizierte aktive Liste:** [current.txt](current.txt) · [Deck-Commit `4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b9) · [Erweiterter Kreis](erweiterter-kreis.md) · [100-Karten-Ersetzbarkeitsmatrix](replaceability.md).
+
+| Entfernt | Hinzugefügt | Wesentliche Verbesserung | Größtes Gegenargument |
+|---|---|---|---|
+| **Spine of Ish Sah** | **Nautiloid Ship** | Vier statt sieben Mana; kopierbares fliegendes Fahrzeug exiliert beim ETB den Friedhof eines Spielers. Eine fliegende 4/4-Warform mit Eile kann bei Kampfschaden eine mit **diesem Exemplar** exilierte Kreatur unter eigener Kontrolle ins Spiel bringen. | Spine zerstörte jedes beliebige Permanent und kam nach eigenem Tod auf die Hand zurück; Nautiloid reagiert stattdessen auf Friedhöfe und benötigt Kampfschaden für Reanimation. |
+| **Fabricate** | **Arcum Dagsson** | Wiederholbar eigene Artefaktkreaturen, insbesondere Warforms, opfern, um jedes **Nichtkreatur-Artefakt unabhängig vom Manawert** direkt aus der Bibliothek aufs Feld zu bringen. Portal to Phyrexia ist ein hochwertiges Beispiel. | Arcum benötigt vier Mana statt drei, muss normalerweise eine Runde überleben und ein Artefaktkreatur-Ziel haben. Fabricate war sofort einsetzbar und suchte auch Artefaktkreaturen auf die **Hand**, besonders nützlich mit Master Transmuter. |
+
+**Sequenz:** Falls Arcum bereits tappen darf, erzeugt Mishra aus Nautiloid Ship zu Kampfbeginn eine fliegende, eilende 4/4-Warform. Deren ETB exiliert einen Friedhof; nach einem erfolgreichen Angriff kann sie eine selbst exilierte Kreatur dauerhaft übernehmen. Arcum kann die Warform nach dem Kampf opfern, um Portal to Phyrexia oder ein anderes Nichtkreatur-Artefakt direkt ins Spiel zu suchen.
+
+**Weiterhin im Deck:** **The Mightstone and Weakstone**, **Demonic Junker**, **Whir of Invention**, Master Transmuter, Tithing Blade und die 13 vereinbarten Mana-Artefakte. Kein klassischer Kreaturenwipe, Sundial/Coveted Jewel weiterhin draußen.
+
+**Bestätigte Struktur:** 100 verschiedene Karten inklusive Commander, 35 Länder, 45 Artefaktkarten, 13 Mana-Artefakte und exakt drei Game Changer (Rhystic Study, Cyclonic Rift, Demonic Tutor). Alle 100 Namen bei Scryfall aufgelöst, Commander-legal und mit Grixis-Farbidentität; B4-Deckdatei nicht verändert.
+
+**Erweiterter Kreis als verbindliche Pflege:** Aus allen 22 früheren B3-Revisionen stammen **36 derzeit gestrichene Karten**. Weitere **96 geprüfte, nicht aufgenommene Karten** ergeben zusammen **132 aktuell ausgeschlossene Kandidaten** in [erweiterter-kreis.md](erweiterter-kreis.md). Darunter Spine, Fabricate, The Master, Multiplied, Fateful Discovery, Repurposing Bay, Sundial und Coveted Jewel. Neue Cuts und abgelehnte Kandidaten gehören künftig in diese Datei; wieder aufgenommene Karten verschwinden aus der Ausgeschlossenen-Tabelle.
+
+**Grenze:** Regelfunktion aus Oracle nachvollzogen, Manabrew-Unterstützung der neuen Interaktionen nicht praktisch reproduziert. Die bessere Gewinnrate ist nicht gemessen. [Nautiloid Ship](https://scryfall.com/card/clb/328/nautiloid-ship) · [Arcum Dagsson](https://scryfall.com/card/2xm/41/arcum-dagsson) · [Wizards Mishra Release Notes](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes).
+
+---
+
+## Frühere Revision: Meathook raus, Oni-Cult Anvil zurück (11.10.2026)
 
 **Deck-Commit:** [ef8f05f](https://github.com/alexdermohr/magic/commit/ef8f05fe4776f3ee300e9a5cc19bc86ed3f37a7b). **Aktuelle 100-Karten-Rangliste:** [replaceability.md](replaceability.md).
 
