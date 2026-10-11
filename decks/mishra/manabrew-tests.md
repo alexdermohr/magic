@@ -43,7 +43,7 @@
 2. Arcum **aktivieren**, eigene Warform als **Artefaktkreatur-Ziel** wählen. Erwartung bei Auflösung: der Beherrscher der gezielten Warform opfert sie, sucht ein **Nichtkreatur-Artefakt ohne Manawertgrenze** in seiner Bibliothek und legt es direkt ins Spiel.
 3. **Portal to Phyrexia** auswählen: das Portal tritt ins Spiel und sein ETB lässt die gegnerischen Spieler jeweils drei Kreaturen opfern (soweit vorhanden). Ein Artefakt-**Kreatur**-Ziel darf Arcum nicht holen.
 4. Testvariante B2: Warform vorher **angreifen und die Schadensphase überleben lassen**, Arcum erst **in der zweiten Hauptphase** einsetzen. Auch eine vom Angriff **getappte** Warform ist legales Ziel: **Arcum** muss tappen, **nicht** das Ziel. Ohne überlebende Warform ist diese Variante nicht durchführbar.
-5. Testvariante B3: Arcum ohne Eile im selben Zug wirken. Erwartung: Tap-Fähigkeit wegen Einsatzverzögerung nicht aktivierbar; **Thousand-Year Elixir** wäre ein eigener späterer Test dafür.
+5. Testvariante B3: Arcum ohne Eile und **ohne Thousand-Year Elixir** im selben Zug wirken. Erwartung: Tap-Fähigkeit wegen Einsatzverzögerung nicht aktivierbar. Mit dem inzwischen aktiven Elixier den separaten **Test D** ausführen.
 6. Negativfall B4: Arcum zielt eine **gegnerische** Artefaktkreatur. Dann sucht **deren Beherrscher** aus seiner Bibliothek, nicht der Arcum-Spieler – kein sinnvoller Standard-Tutorzug.
 
 **Ergebnis:** **BLOCKED / nicht ausgeführt**. Papierregel: Arcums Fähigkeit verlangt keinen maximalen Manawert.
@@ -65,9 +65,22 @@
 
 **Wichtig:** Transformieren von bestehenden Tokens durch Brudiclad ist **kein Eintritt**. Der von Mishra beim Erzeugen einer Warform festgelegte verzögerte Opfer-Trigger ist **keine kopierbare Karteneigenschaft**; auch die Helm- oder Duplicator-Kopie übernimmt ihn nicht. Im Gegenzug verschwindet er von einer originalen Warform **nicht**, nur weil deren Charakteristika später durch Brudiclad verändert werden.
 
+## D – Thousand-Year Elixir: sofortige Tap-Fähigkeiten (neu im aktiven B3-Deck)
+
+**Vorzustand D0:** Aktive [current.txt](current.txt) mit **Thousand-Year Elixir statt Thought Monitor** importieren; die fünf relevanten Kreaturen (**Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry, Master Transmuter**) einzeln prüfen. Ohne ausreichend Mana, legales Ziel, Friedhofskarte oder Artefakt in der Hand ist eine ausbleibende Aktivierung **kein** Enginefehler.
+
+1. **D1 – Negativkontrolle:** Arcum in deiner Hauptphase **ohne** Elixier neu ausspielen. Solange Arcum nicht auf andere Weise Eile hat und nicht seit Zugbeginn kontrolliert wird, ist seine {T}-Fähigkeit noch nicht legal.
+2. **D2 – Elixier ermöglicht das Tappen:** Das Elixier vorher im Spiel behalten; Arcum nun in derselben Hauptphase neu wirken, und eine bereits eigene Artefaktkreatur als legal verfügbares Opferziel kontrollieren. Arcum unmittelbar tappen und auflösen: die eigene Artefaktkreatur wird geopfert, du suchst ein Nichtkreatur-Artefakt ohne MV-Grenze ins Spielfeld. **Erwartung: möglich auch ohne Eile des Arcum**; das Elixier gibt keine Angriffseile.
+3. **D3 – Zweite Arcum-Aktivierung:** Nach erfolgreicher D2-Auflösung {1} bezahlen, Elixier tappen, Arcum enttappen. Eine **zweite** eigene Artefaktkreatur muss vor der erneuten Aktivierung bereitstehen. Anschließend Arcums {T}-Fähigkeit erneut verwenden; zweimaliges Suchen ist nur bei ausreichenden Zielen und Mana legal. Reihenfolge der Auslöser loggen.
+4. **D4 – Die vier anderen Tap-Kreaturen:** Goblin Welder braucht je ein legales eigenes Artefakt auf dem Spielfeld und im Friedhof, Goblin Engineer eine zu seiner Mana-Value-Grenze passende Artefaktkarte, Emry ein legales Artefaktkarten-Ziel im Friedhof und Master Transmuter {U}, Rückgabe eines Artefakts sowie eine Artefaktkarte auf der Hand. Für jede frisch gespielte Kreatur erst **ohne**, dann **mit** Elixier die Tap-Aktivierung im Ausspielzug versuchen. Nicht über einen Fehler urteilen, wenn andere Kosten oder Ziele fehlen.
+5. **D5 – Mishra kopiert Elixir:** Eigenes ursprüngliches Elixier als **Nichtkreatur-Artefakt** liegen haben und bei Mishras Kampfauslöser eine 4/4-Warform davon erzeugen. Sie besitzt Mishras Eile; mit noch mindestens {1} und einer anderen relevanten Kreatur sollte die Warform-Kopie selbst {1},{T} zum Enttappen anbieten. Die **originale** Elixier-Karte bleibt ungetappt und unabhängig. Beachten: Eine getappte Warform kann danach nicht ohne weitere Hilfe angreifen; ihr Opfertrigger bleibt bestehen.
+6. **D6 – Keine garantierte Synergie:** Wenn Elixier liegt, aber weder eine passende Kreatur noch ausreichend Mana/Ziele vorhanden sind, entsteht **kein** automatischer ETB-Draw, keine zusätzliche Manaquelle und kein unabhängiger Tutor.
+
+**Ergebnis:** **NICHT GETESTET** (Oracle-Rollout erwartet, keine bestätigte Manabrew-Spielsequenz). Video, Stack-Log und verwendete Engine-Version für D1–D5 sind als PASS/FAIL/BLOCKED zu notieren.
+
 ## Entscheidung bis zum Engine-Nachweis
 
-Die zwei bereits aktiven Karten **Nautiloid Ship** und **Arcum Dagsson** bleiben im Deck. Fehlende Testbelege werden **nicht** als Funktionsnachweis behandelt. Kein zusätzlicher Slot wird auf bloßer Synergievermutung ersetzt. Höchste Priorität haben A1/A2 und B1/B2, danach C4/C6/C9 – sie können die Deckentscheidung tatsächlich ändern.
+Die bereits aktiven Karten **Nautiloid Ship** und **Arcum Dagsson** bleiben. Zusätzlich ist **Thousand-Year Elixir nach expliziter Nutzerentscheidung für Thought Monitor** aufgenommen. Fehlende Testbelege werden **nicht** als Funktionsnachweis behandelt. Kein zusätzlicher Slot wird auf bloßer Synergievermutung ersetzt. Höchste Priorität haben nun **D1–D5**, A1/A2 und B1/B2, danach C4/C6/C9 – sie können die Deckentscheidung tatsächlich ändern.
 
 ## Quellen (Regelreferenz; keine Manabrew-Spielbelege)
 
@@ -80,4 +93,5 @@ Die zwei bereits aktiven Karten **Nautiloid Ship** und **Arcum Dagsson** bleiben
 - [Brudiclad, Telchor Engineer](https://scryfall.com/card/soc/299/brudiclad-telchor-engineer)
 - [Panharmonicon](https://scryfall.com/card/2x2/310/panharmonicon)
 - [The Master, Multiplied](https://scryfall.com/card/who/146/the-master-multiplied)
+- [Thousand-Year Elixir](https://scryfall.com/search?q=%21%22Thousand-Year+Elixir%22)
 - [Manabrew – Deckimport und Unsupported-Hinweise](https://docs.manabrew.app/playing/)

@@ -2,7 +2,7 @@
 
 **Aktive Version:** 11. Oktober 2026 · [Deck-Commit `4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b) · [current.txt](current.txt) · [Erweiterter Kreis – 132 aktuell nicht enthaltene Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md).
 
-**Struktur nach den zwei bestätigten Tauschen:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **45 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
+**Struktur nach dem neuesten Tausch Thought Monitor → Thousand-Year Elixir:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **45 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
 
 | Raus | Rein | Erwarteter Mehrwert | Risiko |
 |---|---|---|---|
@@ -14,21 +14,29 @@
 | Stufe | Bedeutung | Karten |
 |:---:|---|---:|
 | 1 | Zentrale, schwer ersetzbare Rolle | 21 |
-| 2 | Hoher Deckbeitrag | 49 |
-| 3 | Vergleichsslot, alternative Funktion denkbar | 28 |
+| 2 | Hoher Deckbeitrag | 50 |
+| 3 | Vergleichsslot, alternative Funktion denkbar | 27 |
 | 4 | Theoretisch zuerst auf dem Prüfstand | 2 |
 | 5 | Kein eindeutig funktionsloser Platz | 0 |
 | **Gesamt** | **100 aktuelle Einzelbewertungen** | **100** |
 
 **Spielhinweis:** Nautiloid Ship löst seine Friedhofsexil-Fähigkeit beim Eintritt der Warform aus; die Kampfschaden-Fähigkeit kann nur eine Kreatur zurückbringen, die **das jeweilige Ship-Objekt** exiliert hat. Arcum benötigt ein legales **Artefaktkreatur-Ziel** und opfert diese bei Auflösung; die Bibliothekssuche ist nicht auf einen bestimmten Manawert begrenzt. Andere Artefaktkreaturen wie Kappa sind nicht direkt mit Mishras Commander-Auslöser kopierbar. Die tatsächliche Manabrew-Funktion ist nicht durch eigenständige Testpartien belegt.
 
-## Nachprüfung 11.10.2026: kein unbewiesener Slotwechsel
+## Vorherige Nachprüfung 11.10.2026: damals kein unbewiesener Slotwechsel
 
 **Ergebnis:** Alle **100** einzeln bewerteten Namen entsprechen exakt [current.txt](current.txt); die **132** ausgeschlossenen Karten in [erweiterter-kreis.md](erweiterter-kreis.md) überlappen nicht. Die neu ausgeführte Live-Scryfall-Abfrage in [validate.py](validate.py) **bestand für alle 100 Karten**: Commander-legal, Grixis-Farbidentität, 35 Länder, 45 Artefakte, 13 definierte Mana-Artefakte, genau **Demonic Tutor / Rhystic Study / Cyclonic Rift** als Game Changer. Bracket-4-Blob unverändert. Die Matrizenstufen bleiben vorerst **21 × 1, 49 × 2, 28 × 3, 2 × 4**; keine Karte wurde ohne gesicherten Nettogewinn ausgetauscht.
 
 **Worldwalker Helm – aktuelle Regelpräzisierung:** Die zusätzliche **Map** aus Mishras ursprünglichem Token-Erzeugungseffekt übernimmt nach [Wizards' offiziellen Outlaws-of-Thunder-Junction-Release-Notes](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes) auch dessen spätere Opferanweisung; sie ist **nicht automatisch dauerhaft**. Eine separate Helm-Aktivierung schafft dagegen eine neue Kopie ohne Mishra-Verzögerung. Die Karte bleibt wertvoll, doch ihre aus Mishra entstandenen Maps sind eher ETB-/Opfer-Futter als dauerhaft gespeicherte Token. [Reproduktionstest C4b](manabrew-tests.md) ist noch offen.
 
-**Vergleich der realistischen Wechsel:** `Jhoira → Thousand-Year Elixir` tauscht Historic-Cast-Draw gegen schnelleres Arcum/Welder/Transmuter-Tappen; `Strionic Resonator → Thousand-Year Elixir` opfert einen unabhängigen Zusatz-Mishra-Trigger für Aktivierungstempo. Beide bleiben **Hypothesen**, solange die tatsächlichen Manabrew-Interaktionen und eine gewinnende Sequenz nicht geprüft sind. Ebenso setzt `Brudiclad → The Master, Multiplied` den Manabrew-Test der statischen Token-Ausnahme voraus. **Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben bewusst aktiv.** Einzelheiten und genaue Prüfschritte: [Analyse](analysis.md) und [Manabrew-Testprotokoll](manabrew-tests.md).
+**Historischer Vergleich vor Aufnahme des Elixiers:** `Jhoira → Thousand-Year Elixir` tauscht Historic-Cast-Draw gegen schnelleres Arcum/Welder/Transmuter-Tappen; `Strionic Resonator → Thousand-Year Elixir` opfert einen unabhängigen Zusatz-Mishra-Trigger für Aktivierungstempo. Beide bleiben **Hypothesen**, solange die tatsächlichen Manabrew-Interaktionen und eine gewinnende Sequenz nicht geprüft sind. Ebenso setzt `Brudiclad → The Master, Multiplied` den Manabrew-Test der statischen Token-Ausnahme voraus. **Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben bewusst aktiv.** Einzelheiten und genaue Prüfschritte: [Analyse](analysis.md) und [Manabrew-Testprotokoll](manabrew-tests.md).
+
+## Aktueller Tausch: Thousand-Year Elixir (11.10.2026)
+
+| Entfernt | Aufgenommen | Nutzen | Hauptrisiko |
+|---|---|---|---|
+| **Thought Monitor** | **Thousand-Year Elixir** | Fünf vorhandene Kreaturen können ihre Tap-Fähigkeiten ohne Wartezug einsetzen; Arcum kann eine Warform opfern und mit {1} unter Umständen ein zweites Mal aktiviert werden. Nichtkreatur-Artefakt ist zudem legales Mishra-Kopierziel. | Thought Monitor konnte mit Affinity billig sofort zwei Karten ziehen und war eine fliegende Artefaktkreatur. Elixir erfordert geeignete Tap-Kreaturen und Mana; seine Manabrew-Funktion ist **noch nicht praktisch verifiziert**. |
+
+**Aktuelle Einzelstufen: 21 × 1, 50 × 2, 27 × 3, 2 × 4.** Genau 100 aktive Bewertungen. Artefakte 45, Mana-Artefakte 13, Länder 35, Game Changer 3. Thought Monitor steht jetzt ausschließlich im [Erweiterten Kreis](erweiterter-kreis.md); Thousand-Year Elixir ist dort nicht länger ausgeschlossen. [Manabrew-Testprotokoll](manabrew-tests.md).
 
 ## Jede einzelne aktuelle Karte
 
@@ -48,36 +56,36 @@
 | 10 | Goblin Engineer | **2** | Legt beliebiges Artefakt in den Friedhof; Rückholung direkt ins Feld nur bei Mana Value bis 3. |
 | 11 | Brudiclad, Telchor Engineer | **3** | Mit nach Mishra verrechnetem Kampfauslöser wandelt es bereits vorhandene Tokens in bleibende Warform-Kopien; keine neuen ETB-Auslöser, sechs Mana und Setup. |
 | 12 | Master Transmuter | **2** | Vier Mana als Artefaktkreatur: für {U}, Tap und Rückgabe eines eigenen Artefakts ins eigene Handfeld bringt sie ein Artefakt aus der Hand sofort ins Spiel. Portal/Blade-ETB wird wiederholbar; braucht Tap-Fenster und Handkarte. |
-| 13 | Thought Monitor | **3** | Mit Affinity oft günstig plus zwei echte Karten beim Eintritt; selbst Artefaktkreatur und deshalb kein direktes Mishra-Kopierziel. |
-| 14 | Roaming Throne | **1** | Human/Artificer verdoppelt Mishras Kampfbeginn-Trigger und skaliert alle Kopierziele; kein direkter Mishra-Zieltyp. |
-| 15 | Kappa Cannoneer | **2** | Wachsender, durch Ward {4} geschützter und bei Artefakt-ETB unblockbarer Einzel-Finisher; kein Mishra-Kopierziel, aber eigener unabhängiger Siegweg. |
-| 16 | Urza, Lord High Artificer | **1** | Macht vorhandene Artefakte zu blauen Manaquellen, erzeugt Construct und nutzt Überschussmana; seit Oktober 2025 kein Game Changer mehr. |
+| 13 | Roaming Throne | **1** | Human/Artificer verdoppelt Mishras Kampfbeginn-Trigger und skaliert alle Kopierziele; kein direkter Mishra-Zieltyp. |
+| 14 | Kappa Cannoneer | **2** | Wachsender, durch Ward {4} geschützter und bei Artefakt-ETB unblockbarer Einzel-Finisher; kein Mishra-Kopierziel, aber eigener unabhängiger Siegweg. |
+| 15 | Urza, Lord High Artificer | **1** | Macht vorhandene Artefakte zu blauen Manaquellen, erzeugt Construct und nutzt Überschussmana; seit Oktober 2025 kein Game Changer mehr. |
 
 ### Ramp, Artefakte und Synergie-Enabler
 
 | # | Karte | Ersetzbarkeit | Nutzen und Opportunitätskosten |
 |---:|---|:---:|---|
-| 17 | Sol Ring | **1** | Ein-Mana-Ramp mit zwei farblosen Mana; eines der stärksten Tempoelemente. |
-| 18 | Arcane Signet | **1** | Zuverlässige U/B/R-Versorgung für den Dreifarben-Kommandeur bei zwei Mana. |
-| 19 | Fellwar Stone | **3** | Günstige Farbenbeschleunigung; verfügbare Farben hängen von gegnerischen Ländern ab. |
-| 20 | Dimir Signet | **2** | Günstiger U/B-Fix für Mishra und Whir; braucht anderes Mana zum Aktivieren. |
-| 21 | Izzet Signet | **2** | Günstiger U/R-Fix; braucht ein vorgelagertes Mana zur Aktivierung. |
-| 22 | Rakdos Signet | **3** | Günstiger B/R-Fix; braucht ein vorgelagertes Mana zur Aktivierung. |
-| 23 | Talisman of Dominance | **2** | U/B sofort verfügbar und unterstützt blaue Doppel-/Dreifach-Anforderungen; farbige Nutzung kostet Leben. |
-| 24 | Talisman of Creativity | **2** | U/R sofort verfügbar; farbige Nutzung kostet Leben. |
-| 25 | Talisman of Indulgence | **3** | B/R sofort verfügbar; farbige Nutzung kostet Leben. |
-| 26 | Mind Stone | **3** | Zweimana-Rock mit spätem einmaligem Draw; dauerhaft nur farblos. Gegen einen echten U/B/R-Rock offen vergleichbar. |
-| 27 | Liquimetal Torque | **3** | Ramp plus Möglichkeit, ein eigenes Nichtland-Permanent für Mishra zum Artefakt zu machen; farblos und Tap-Konflikt. |
-| 28 | Ichor Wellspring | **1** | Eines der effizientesten Warform-Ziele: ETB-Draw und beim Opfer erneut Draw; leichter Artefaktaufbau. |
-| 29 | Cryogen Relic | **2** | Zeichnet beim Ein- und Verlassen des Spielfelds unabhängig vom Friedhof; niedrige Kosten, aber relativ wenig Board-Interaktion. |
-| 30 | Esoteric Duplicator | **1** | Macht aus geopferten Warforms gegen zwei Mana bleibende Kopien im nächsten Endsegment; zentrale Altar-Synergie. |
-| 31 | Worldwalker Helm | **2** | Map bei Artefakt-Token-Produktion und später gezielte Kopie eines Artefakt-Tokens; benötigt aktiviertes Mana und Tappen. |
-| 32 | Prized Statue | **2** | Treasure bei Eintritt und Tod, dadurch extrem gutes frühes Mishra-Ziel und Farbfix; geringere Endspielwirkung. |
-| 33 | Reckless Fireweaver | **2** | Für {1}{R} eine günstige Wincon: JEDES eintretende eigene Artefakt – Warform, Map, Treasure, Construct – verursacht 1 Schaden an jedem Gegner. Kein Artefakt, aber wiederholt sofortiger Ertrag. |
-| 34 | Mishra, Tamer of Mak Fawa | **2** | Fünfmana-Nichtartefakt: Ward—Sacrifice a permanent für alle eigenen Permanents inklusive Mishra. Artefaktkarten im eigenen Friedhof bekommen Unearth {1}{B}{R}, inklusive Portal; Exil bei Endsegment/Verlassen. |
-| 35 | Ashnod's Altar | **2** | Kostenlose Opfermöglichkeit für Warforms und Kreaturen; finanziert Duplicator und Todesauslöser, aber nur farbloses Mana. |
-| 36 | Idol of Oblivion | **2** | Mishra erzeugt regelmäßig Tokens, dadurch günstige wiederkehrende Karte; braucht überlebendes Artefakt und Tap-Fenster. |
-| 37 | Strionic Resonator | **3** | Wiederholbare zusätzliche Mishra-Trigger für {2}, Tap. Repurposing Bay konkurriert als direkter Feld-Tutor. |
+| 16 | Sol Ring | **1** | Ein-Mana-Ramp mit zwei farblosen Mana; eines der stärksten Tempoelemente. |
+| 17 | Arcane Signet | **1** | Zuverlässige U/B/R-Versorgung für den Dreifarben-Kommandeur bei zwei Mana. |
+| 18 | Fellwar Stone | **3** | Günstige Farbenbeschleunigung; verfügbare Farben hängen von gegnerischen Ländern ab. |
+| 19 | Dimir Signet | **2** | Günstiger U/B-Fix für Mishra und Whir; braucht anderes Mana zum Aktivieren. |
+| 20 | Izzet Signet | **2** | Günstiger U/R-Fix; braucht ein vorgelagertes Mana zur Aktivierung. |
+| 21 | Rakdos Signet | **3** | Günstiger B/R-Fix; braucht ein vorgelagertes Mana zur Aktivierung. |
+| 22 | Talisman of Dominance | **2** | U/B sofort verfügbar und unterstützt blaue Doppel-/Dreifach-Anforderungen; farbige Nutzung kostet Leben. |
+| 23 | Talisman of Creativity | **2** | U/R sofort verfügbar; farbige Nutzung kostet Leben. |
+| 24 | Talisman of Indulgence | **3** | B/R sofort verfügbar; farbige Nutzung kostet Leben. |
+| 25 | Mind Stone | **3** | Zweimana-Rock mit spätem einmaligem Draw; dauerhaft nur farblos. Gegen einen echten U/B/R-Rock offen vergleichbar. |
+| 26 | Liquimetal Torque | **3** | Ramp plus Möglichkeit, ein eigenes Nichtland-Permanent für Mishra zum Artefakt zu machen; farblos und Tap-Konflikt. |
+| 27 | Ichor Wellspring | **1** | Eines der effizientesten Warform-Ziele: ETB-Draw und beim Opfer erneut Draw; leichter Artefaktaufbau. |
+| 28 | Cryogen Relic | **2** | Zeichnet beim Ein- und Verlassen des Spielfelds unabhängig vom Friedhof; niedrige Kosten, aber relativ wenig Board-Interaktion. |
+| 29 | Esoteric Duplicator | **1** | Macht aus geopferten Warforms gegen zwei Mana bleibende Kopien im nächsten Endsegment; zentrale Altar-Synergie. |
+| 30 | Worldwalker Helm | **2** | Map bei Artefakt-Token-Produktion und später gezielte Kopie eines Artefakt-Tokens; benötigt aktiviertes Mana und Tappen. |
+| 31 | Prized Statue | **2** | Treasure bei Eintritt und Tod, dadurch extrem gutes frühes Mishra-Ziel und Farbfix; geringere Endspielwirkung. |
+| 32 | Reckless Fireweaver | **2** | Für {1}{R} eine günstige Wincon: JEDES eintretende eigene Artefakt – Warform, Map, Treasure, Construct – verursacht 1 Schaden an jedem Gegner. Kein Artefakt, aber wiederholt sofortiger Ertrag. |
+| 33 | Mishra, Tamer of Mak Fawa | **2** | Fünfmana-Nichtartefakt: Ward—Sacrifice a permanent für alle eigenen Permanents inklusive Mishra. Artefaktkarten im eigenen Friedhof bekommen Unearth {1}{B}{R}, inklusive Portal; Exil bei Endsegment/Verlassen. |
+| 34 | Ashnod's Altar | **2** | Kostenlose Opfermöglichkeit für Warforms und Kreaturen; finanziert Duplicator und Todesauslöser, aber nur farbloses Mana. |
+| 35 | Idol of Oblivion | **2** | Mishra erzeugt regelmäßig Tokens, dadurch günstige wiederkehrende Karte; braucht überlebendes Artefakt und Tap-Fenster. |
+| 36 | Strionic Resonator | **3** | Wiederholbare zusätzliche Mishra-Trigger für {2}, Tap. Repurposing Bay konkurriert als direkter Feld-Tutor. |
+| 37 | Thousand-Year Elixir | **2** | Für {3} ermöglicht sofortige Tap-Aktivierungen von Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter (auch frisch ausgespielt). Für {1},{T} enttappt es eine Kreatur. Kein echter Angriffs-Haste und ohne passende Kreatur oder Mana kein sofortiger Kartenvorteil. |
 | 38 | Mox Opal | **2** | Kostenloser Artefakt-Rock und mit Metalcraft farbiges Mana, vor zwei weiteren Artefakten im Frühspiel noch funktionslos. |
 | 39 | Chromatic Lantern | **3** | Dreimana-Rock, der beliebige Farben produziert und allen eigenen Ländern dieselbe Fähigkeit gibt. Bessere Farbkonstanz als Basalts Einzelburst; kein eigener Warform-ETB. |
 | 40 | Panharmonicon | **2** | Verdoppelt ETB-Effekte von Wellspring, Blade, Paladin und anderen; ohne ETB-Ziele vier Mana ohne unmittelbaren Effekt. |

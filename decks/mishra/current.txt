@@ -10,7 +10,6 @@
 1 Goblin Engineer
 1 Brudiclad, Telchor Engineer
 1 Master Transmuter
-1 Thought Monitor
 1 Roaming Throne
 1 Kappa Cannoneer
 1 Urza, Lord High Artificer
@@ -35,6 +34,7 @@
 1 Ashnod's Altar
 1 Idol of Oblivion
 1 Strionic Resonator
+1 Thousand-Year Elixir
 1 Mox Opal
 1 Chromatic Lantern
 1 Panharmonicon

@@ -3,11 +3,32 @@
 **Stand:** 2026-10-11  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
 **Ersetzbarkeitsmatrix ohne Schutzkarten (100 aktuelle Einzelurteile, 5 Tauschhypothesen):** [replaceability.md](replaceability.md)  
-**Erweiterter Kreis (36 historische Cuts, 96 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)  
+**Erweiterter Kreis (37 historische Cuts, 95 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Neubewertung und Manabrew-Testgrenze (11.10.2026, nach `52899aa`)
+## Aktueller Bracket-3-Tausch: Thought Monitor → Thousand-Year Elixir (11.10.2026)
+
+**Benutzerentscheid und Umsetzung:** Thought Monitor ist aus der einzigen aktiven [current.txt](current.txt) entfernt; **Thousand-Year Elixir** wurde als neues Artefakt aufgenommen. Die Begründung ist eine höhere Verfügbarkeit der bereits vorhandenen aktivierten Artefakt-/Friedhof-Engines statt zusätzlichen einmaligen Draws.
+
+| Aspekt | Wirkung |
+|---|---|
+| **Neue Synergie** | Für {3} können **Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry** und **Master Transmuter** ihre Tap-Fähigkeiten sofort nach dem eigenen Ausspielen aktivieren; für {1},{T} enttappt das Elixier außerdem eine Kreatur. Es verleiht **keine Angriffs-Eile**. |
+| **Arcum als Hauptgewinner** | Kann ohne einen Wartezug eine eigene **Artefaktkreatur** (insbesondere Mishras Warform) opfern und direkt ein Nichtkreatur-Artefakt beliebigen Manawerts suchen. Sind Elixier, Mana und mindestens zwei geeignete Opferziele verfügbar, kann das Enttappen eine zweite Arcum-Aktivierung ermöglichen. Das bleibt von der Manabrew-Implementierung abhängig. |
+| **Mishra-Ziel** | Thousand-Year Elixir ist ein **Nichtkreatur-Artefakt** und damit ein legales Warform-Ziel. Seine Warform-Kopie hat Eile und kann ihre Tap-Enttappfähigkeit bis zum Endsegment benutzen, benötigt dafür allerdings eine andere relevante Kreatur und Mana; die eigene Eile wird durch Mishra erzeugt. |
+| **Verlust** | Thought Monitor brachte dank Affinity häufig schon beim Wirken für wenig Mana **zwei Karten**, außerdem einen fliegenden Artefaktkreatur-Blocker und ein Artefaktkreatur-Opferziel für Arcum. Gerade ohne geeignete Tap-Kreatur ist der Elixir-Slot langsamer und ohne direkte Kartenzufuhr. |
+| **Warum kein anderer Cut?** | Reckless Fireweaver verwandelt Artefakt-ETBs direkt in Schaden an jeden Gegner, also einen Siegweg. Strionic Resonator kopiert Mishras Kampfauslöser; Whir of Invention ist auch ohne überlebenden Arcum ein unabhängiger Sofortzugriff. Der Monitor ist bei bereits vorhandenen Ziehquellen der am ehesten verzichtbare einzelne Draw-ETB. |
+| **Struktur** | 100 Singleton, **35 Länder**, **45 Artefakte**, **13 Mana-Artefakte**. Drei Game Changer (**Demonic Tutor, Rhystic Study, Cyclonic Rift**), **keine absichtliche frühe Zweikarten-Endloskombo**, keine Kreaturenwipes, Bracket 4 unverändert. |
+
+**Erweiterter Kreis:** Thought Monitor wechselte mit **Streichgrund, Gegenargument und Rückkehrbedingung** in die historischen Cuts; Thousand-Year Elixir wurde aus den geprüften, nicht aktiven Kandidaten herausgenommen. Aktuelle Summen: **37 historische + 95 weitere = 132 nicht aktive** Karten. Die Ersetzbarkeitsmatrix listet weiterhin **nur die aktuellen 100**.
+
+**Teststatus:** Das Verhalten der fünf Tap-Fähigkeiten, die sofortige Arcum-Aktivierung, das Enttappen und die Kompatibilität mit Manabrew sind **nicht** als erfolgreiche Partietests bestätigt. [Reproduzierbares Testprotokoll](manabrew-tests.md). Die Regeltexte erlauben die beschriebenen Interaktionen, sofern Ziele und Kosten erfüllt sind.
+
+**Zeitliche Einordnung:** Sämtliche nachfolgenden älteren Abschnitte sind **historische Bewertungen ihrer damaligen aktiven Listen**. Insbesondere ihre Formulierungen „kein Slotwechsel“, „aktueller Stand“ und alte 36/96-Kandidatenzahlen gelten **nicht** mehr für die oben bezeichnete Fassung.
+
+---
+
+## Vorherige Neubewertung und Manabrew-Testgrenze (11.10.2026, nach `52899aa`)
 
 **Eingangsstand:** GitHub-`main` `52899aa979e11b8365fff0a90af5e297a0061f31`. Ausgangszahl **100 Singleton-Karten, 35 Länder, 45 Artefaktkarten, 13 klassische Mana-Artefakte**; drei Game Changer: **Demonic Tutor, Rhystic Study, Cyclonic Rift**. Die letzten Tausche **Spine of Ish Sah → Nautiloid Ship** und **Fabricate → Arcum Dagsson** waren **bereits enthalten**, keine Dopplung. Vollständiges Prüfprotokoll: [manabrew-tests.md](manabrew-tests.md).
 
@@ -22,7 +43,7 @@
 - **Roaming Throne** wählt standardmäßig für die Commander-Verdopplung **Artificer** (Mishra). Mit **Construct** kann er Warform-ETB-/Schadenstrigger verdoppeln, **nicht** Mishras Commander-Trigger. Panharmonicon verdoppelt passende ETB-Trigger, aber keine Activated Abilities und kein Brudiclad-Umformen. Legendenregel bei mehrfachen kopierten **The Mightstone and Weakstone** beachten.
 - **Manabrew-Unsicherheit:** The Master, Multiplied verhindert gemäß statischem Oracle-Text die von eigenen getriggerten Fähigkeiten verlangte Opferung von eigenen Kreaturenspielsteinen, solange er im relevanten Moment im Spiel ist. Ob Manabrew dies korrekt ausführt, ist **offen**. Frühere Probleme mit Sundial werden dadurch weder gelöst noch widerlegt.
 
-### Priorisierte, ausdrücklich noch nicht umgesetzte Tauschhypothesen
+### Damals priorisierte, noch nicht umgesetzte Tauschhypothesen (historisch)
 
 | Priorität | Kandidat / fairer Vergleich mit aktiven Slots | Erwarteter Mehrwert | Stärkstes Gegenargument / konkrete Rückkehrbedingung |
 |---|---|---|---|
@@ -40,7 +61,7 @@
 
 ---
 
-## Aktuelle Revision: Arcum Dagsson und Nautiloid Ship im Deck (11.10.2026)
+## Vorherige Revision: Arcum Dagsson und Nautiloid Ship im Deck (11.10.2026)
 
 **Verifizierte aktive Liste:** [current.txt](current.txt) · [Deck-Commit `4f12397`](https://github.com/alexdermohr/magic/commit/4f12397b262d3d7b0fcd32dc6d05de5d41d340b9) · [Erweiterter Kreis](erweiterter-kreis.md) · [100-Karten-Ersetzbarkeitsmatrix](replaceability.md).
 
@@ -223,7 +244,7 @@ Quellen: [Offizielle Wizards-Regelhinweise zu Sundial](https://media.wizards.com
 
 **Externe Prüfquellen:** [Wizards: Commander und Brackets](https://magic.wizards.com/en/formats/commander), [Commander-Game-Changer-Update 21.10.2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025), [Update 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Commander-Bannliste](https://magic.wizards.com/en/banned-restricted-list), [Mishra-Regeln](https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes), [Sundial-Regeln](https://magic.wizards.com/en/news/feature/avatar-the-last-airbender-release-notes), [Esoteric-Duplicator-Regeln](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes), [Manabrew/Forge-2026](https://manabrew.app/blog/graalvm/), [Manabrew Rust EndTurnEffect](https://github.com/witchesofthehill/manabrew/blob/main/manabrew-rs/crates/manabrew-engine/src/ability/effects/end_turn_effect.rs), [Scrap Trawler Oracle und Rulings](https://scryfall.com/card/aer/175/scrap-trawler).
 
-### Einzelprüfung aller 100 Karten (aktuelle Fassung nach zwei Artefakt-Tauschen)
+### Historische Einzelprüfung der vorherigen 100 Karten (Fassung vor Elixir)
 
 *Urteile sind qualitative Rollen- und Risikoeinschätzungen, keine gemessenen Winrate-Beiträge. „Fix“ heißt vorgegeben oder strukturell essenziell, nicht unfehlbar.*
 

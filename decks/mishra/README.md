@@ -14,12 +14,18 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Nachprüfung vom 11. Oktober 2026 (nach Commit 52899aa)
+## Aktueller Deckstand – Thousand-Year Elixir (11.10.2026)
 
-- **Aktives Deck unverändert:** Kein Kandidat ist unter den noch ungetesteten Manabrew-Interaktionen als eindeutig überlegen belegt. Die zuletzt vorgenommenen Tausche **Spine of Ish Sah → Nautiloid Ship** und **Fabricate → Arcum Dagsson** bleiben bestehen.
+**Neuester bestätigter Tausch:** **Thought Monitor raus → Thousand-Year Elixir rein.** Das Elixier ermöglicht Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter, Tap-Fähigkeiten bereits im Ausspielzug einzusetzen, und kann für {1},{T} eine Kreatur enttappen. Es ist nun ein **Nichtkreatur-Artefakt** und kann selbst als Mishra-Warform kopiert werden; die Kopie hat nur die bis zum Endsegment zur Verfügung stehenden Aktivierungen. Es gibt **keinen sofortigen Kartenzieh-ETB** wie Thought Monitor. Die Software-Interaktionen sind noch nicht in Manabrew nachgespielt.
+
+**Unverändert:** 100 Singleton-Karten, 35 Länder, 45 Artefakte, 13 Mana-Artefakte, drei Game Changer (**Demonic Tutor, Rhystic Study, Cyclonic Rift**); kein Kreaturenwipe oder absichtlich frühe Zweikarten-Endloskombo. Der Erweiterte Kreis enthält nun **37 historische Cuts und 95 weitere Alternativen**, insgesamt 132. Thought Monitor ist mit Gegenargument und Rückkehrbedingung eingetragen, Elixir nicht mehr als ausgeschlossen geführt. **Bracket 4 bleibt separat unverändert.**
+
+## Vorherige Nachprüfung vom 11. Oktober 2026 (historisch, vor Elixir)
+
+- **Damals noch unverändertes Deck:** Zum Zeitpunkt dieser Prüfung war kein Kandidat ist unter den noch ungetesteten Manabrew-Interaktionen als eindeutig überlegen belegt. Die zuletzt vorgenommenen Tausche **Spine of Ish Sah → Nautiloid Ship** und **Fabricate → Arcum Dagsson** bleiben bestehen.
 - **Live-Scryfall-Prüfung:** Alle 100 Karten Commander-legal und innerhalb Grixis; die drei offiziellen Game Changer sind bestätigt. 100 unterschiedliche Namen in [current.txt](current.txt); genau diese 100 in [replaceability.md](replaceability.md); 132 ausgeschlossene andere Namen in [erweiterter-kreis.md](erweiterter-kreis.md), keine Überschneidung.
 - **Manabrew:** Die Browser-Startseite wurde erreicht. **Keine** Nautiloid-/Arcum-/Kopiersequenz wurde in einer Partie reproduziert. Papierregeln sind **kein** Manabrew-Funktionsnachweis. [Reproduzierbares Testprotokoll](manabrew-tests.md).
-- **Wichtigste offene Tauschhypothese:** **Thousand-Year Elixir** kann Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter früher aktivieren, benötigt aber einen Synergieslot. **The Master, Multiplied** verhindert Warform-Opfertrigger nach Papierregeln, kostet jedoch sechs Mana und ist in Manabrew ungetestet.
+- **Damals offene Tauschhypothese:** **Thousand-Year Elixir** kann Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter früher aktivieren, benötigt aber einen Synergieslot. **The Master, Multiplied** verhindert Warform-Opfertrigger nach Papierregeln, kostet jedoch sechs Mana und ist in Manabrew ungetestet.
 - **Bracket 3 bleibt die Grenze:** Drei Game Changer, keine Kreaturenwipes, keine bewusst frühe Zweikarten-Endloskombo. Der Validator prüft namentlich ausdrücklich ausgeschlossene Wipes (u. a. Toxic Deluge, Karn's Sylex), aber nicht jede mögliche Massenentfernung semantisch; bei neuen Karten ist zusätzlich die fachliche Prüfung nötig. **The Mightstone and Weakstone, Demonic Junker, Whir of Invention** bleiben. Bracket 4 unverändert.
 
 ## Aktuelle Bracket-3-Fassung
@@ -33,14 +39,14 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 - Sundial of the Infinite bleibt wegen des berichteten manabrew.app-Problems draußen; Coveted Jewel wegen Kontrollverlust-Risiko. Beide sind im [Erweiterten Kreis](erweiterter-kreis.md) vermerkt.
 - **The Mightstone and Weakstone** und **Demonic Junker** sind weiterhin enthalten.
 
-### Letzte zwei bestätigte Tausche
+### Zwei vorausgegangene bestätigte Tausche
 
 | Raus | Rein | Warum |
 |---|---|---|
 | **Spine of Ish Sah** | **Nautiloid Ship** | Viermana-Flugfahrzeug. Mishras fliegende Warform exiliert beim Eintritt einen Spielerfriedhof; nach Kampfschaden kann sie eine mit sich selbst exilierte Kreatur übernehmen. Verliert Spines universelle Permanent-Zerstörung. |
 | **Fabricate** | **Arcum Dagsson** | Arcum kann eine eigene Warform opfern, um ein beliebiges **Nichtkreatur-Artefakt** direkt aus der Bibliothek ins Spiel zu legen, sogar Portal to Phyrexia. Benötigt eine einsatzbereite Tap-Kreatur und ein Artefaktkreatur-Ziel; Fabricate war sofort einsatzbereit und suchte auf die Hand. |
 
-Das Ziel ist nicht „immer mehr Removal“, sondern **mehr Wert aus jeder Warform**: ETB-Schaden über Knight Paladin/Reckless Fireweaver, Kartenziehen über Wellspring/Cryogen Relic, Gegner-Friedhöfe über Nautiloid kontrollieren, dauerhafte Kopien über Esoteric Duplicator/Worldwalker Helm/Brudiclad und weitere Feldartefakte über Arcum beschaffen. Oni-Cult Anvil unterstützt kontrollierte Opfer und Artefakt-Tokens.
+Nach dem jüngsten Tausch mit Thousand-Year Elixir bleiben diese grundsätzlichen Ziele: Das Ziel ist nicht „immer mehr Removal“, sondern **mehr Wert aus jeder Warform**: ETB-Schaden über Knight Paladin/Reckless Fireweaver, Kartenziehen über Wellspring/Cryogen Relic, Gegner-Friedhöfe über Nautiloid kontrollieren, dauerhafte Kopien über Esoteric Duplicator/Worldwalker Helm/Brudiclad und weitere Feldartefakte über Arcum beschaffen. Oni-Cult Anvil unterstützt kontrollierte Opfer und Artefakt-Tokens.
 
 **Urza's Saga** kann derzeit genau **Sol Ring** und **Mox Opal** anhand der Manakosten {0}/{1} suchen. Frühere Ziele Skullclamp und Nihil Spellbomb sind entfernt; Lich's Relic mit Manakosten {B} ist kein Saga-Suchziel.
 
@@ -48,7 +54,7 @@ Das Ziel ist nicht „immer mehr Removal“, sondern **mehr Wert aus jeder Warfo
 
 Bei **jeder** künftigen Optimierung gehört jede Karte, die **aus `current.txt` entfernt wird**, mit Grund und Rückkehrbedingung in [erweiterter-kreis.md](erweiterter-kreis.md). Ebenso jede geprüfte Karte, die **nicht hineinkommt**. Wird eine Karte wieder aktiv, darf sie nicht zugleich als „derzeit nicht aufgenommen“ im Erweiterten Kreis stehen; ihre Rückkehr wird in der [Analyse](analysis.md) protokolliert.
 
-Historische Revisionen müssen nicht als neue B3-Deckdateien gepflegt werden. Die Git-Historie enthält alle früheren Fassungen, die [Analyse](analysis.md) enthält die chronologischen Entscheidungen. Das [Archiv aller 22 ausgewerteten B3-Versionen](https://github.com/alexdermohr/magic/commits/main/decks/mishra/current.txt) bildet die Grundlage des erweiterten Kreises.
+Historische Revisionen müssen nicht als neue B3-Deckdateien gepflegt werden. Die Git-Historie enthält alle früheren Fassungen, die [Analyse](analysis.md) enthält die chronologischen Entscheidungen. Das [Archiv der früher ausgewerteten B3-Versionen](https://github.com/alexdermohr/magic/commits/main/decks/mishra/current.txt) bildet die Grundlage des erweiterten Kreises.
 
 ## Quellen und Grenzen
 
