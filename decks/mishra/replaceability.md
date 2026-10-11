@@ -1,8 +1,8 @@
 # Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung (optimiertes Bracket 3)
 
-**Aktive Version:** 11. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 132 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
+**Aktive Version:** 11. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 133 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
 
-**Struktur nach dem neuesten Tausch Thought Monitor → Thousand-Year Elixir:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **45 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
+**Struktur nach den neuesten Tauschen Chromatic Lantern → Mephitic Draught und Reckless Fireweaver → Tezzeret, Master of the Bridge:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **45 Artefaktkarten**, **12 reguläre Mana-Artefakte**, **drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
 
 | Raus | Rein | Erwarteter Mehrwert | Risiko |
 |---|---|---|---|
@@ -14,29 +14,38 @@
 | Stufe | Bedeutung | Karten |
 |:---:|---|---:|
 | 1 | Zentrale, schwer ersetzbare Rolle | 21 |
-| 2 | Hoher Deckbeitrag | 50 |
-| 3 | Vergleichsslot, alternative Funktion denkbar | 27 |
+| 2 | Hoher Deckbeitrag | 51 |
+| 3 | Vergleichsslot, alternative Funktion denkbar | 26 |
 | 4 | Theoretisch zuerst auf dem Prüfstand | 2 |
 | 5 | Kein eindeutig funktionsloser Platz | 0 |
 | **Gesamt** | **100 aktuelle Einzelbewertungen** | **100** |
 
 **Spielhinweis:** Nautiloid Ship löst seine Friedhofsexil-Fähigkeit beim Eintritt der Warform aus; die Kampfschaden-Fähigkeit kann nur eine Kreatur zurückbringen, die **das jeweilige Ship-Objekt** exiliert hat. Arcum benötigt ein legales **Artefaktkreatur-Ziel** und opfert diese bei Auflösung; die Bibliothekssuche ist nicht auf einen bestimmten Manawert begrenzt. Andere Artefaktkreaturen wie Kappa sind nicht direkt mit Mishras Commander-Auslöser kopierbar. Die tatsächliche Manabrew-Funktion ist nicht durch eigenständige Testpartien belegt.
 
-## Vorherige Nachprüfung 11.10.2026: damals kein unbewiesener Slotwechsel
+## Historische Nachprüfung 11.10.2026 vor den späteren Tauschen
 
-**Ergebnis:** Alle **100** einzeln bewerteten Namen entsprechen exakt [current.txt](current.txt); die **132** ausgeschlossenen Karten in [erweiterter-kreis.md](erweiterter-kreis.md) überlappen nicht. Die neu ausgeführte Live-Scryfall-Abfrage in [validate.py](validate.py) **bestand für alle 100 Karten**: Commander-legal, Grixis-Farbidentität, 35 Länder, 45 Artefakte, 13 definierte Mana-Artefakte, genau **Demonic Tutor / Rhystic Study / Cyclonic Rift** als Game Changer. Bracket-4-Blob unverändert. Die Matrizenstufen bleiben vorerst **21 × 1, 49 × 2, 28 × 3, 2 × 4**; keine Karte wurde ohne gesicherten Nettogewinn ausgetauscht.
+**Damals gültig:** Alle **100** seinerzeit bewerteten Namen entsprachen der damaligen [current.txt](current.txt); der Erweiterte Kreis umfasste damals **132** ausgeschlossene Karten. Die neu ausgeführte Live-Scryfall-Abfrage in [validate.py](validate.py) **bestand für alle 100 Karten**: Commander-legal, Grixis-Farbidentität, 35 Länder, 45 Artefakte, 13 definierte Mana-Artefakte, genau **Demonic Tutor / Rhystic Study / Cyclonic Rift** als Game Changer. Bracket-4-Blob unverändert. Die Matrizenstufen bleiben vorerst **21 × 1, 49 × 2, 28 × 3, 2 × 4**; keine Karte wurde ohne gesicherten Nettogewinn ausgetauscht.
 
 **Worldwalker Helm – aktuelle Regelpräzisierung:** Die zusätzliche **Map** aus Mishras ursprünglichem Token-Erzeugungseffekt übernimmt nach [Wizards' offiziellen Outlaws-of-Thunder-Junction-Release-Notes](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes) auch dessen spätere Opferanweisung; sie ist **nicht automatisch dauerhaft**. Eine separate Helm-Aktivierung schafft dagegen eine neue Kopie ohne Mishra-Verzögerung. Die Karte bleibt wertvoll, doch ihre aus Mishra entstandenen Maps sind eher ETB-/Opfer-Futter als dauerhaft gespeicherte Token. [Reproduktionstest C4b](manabrew-tests.md) ist noch offen.
 
 **Historischer Vergleich vor Aufnahme des Elixiers:** `Jhoira → Thousand-Year Elixir` tauscht Historic-Cast-Draw gegen schnelleres Arcum/Welder/Transmuter-Tappen; `Strionic Resonator → Thousand-Year Elixir` opfert einen unabhängigen Zusatz-Mishra-Trigger für Aktivierungstempo. Beide bleiben **Hypothesen**, solange die tatsächlichen Manabrew-Interaktionen und eine gewinnende Sequenz nicht geprüft sind. Ebenso setzt `Brudiclad → The Master, Multiplied` den Manabrew-Test der statischen Token-Ausnahme voraus. **Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben bewusst aktiv.** Einzelheiten und genaue Prüfschritte: [Analyse](analysis.md) und [Manabrew-Testprotokoll](manabrew-tests.md).
 
-## Aktueller Tausch: Thousand-Year Elixir (11.10.2026)
+## Aktuelle Optimierung: Chromatic Lantern und Reckless Fireweaver entfernt (11.10.2026)
+
+| Entfernt | Hinzugefügt | Systemnutzen | Risiko |
+|---|---|---|---|
+| **Chromatic Lantern** | **Mephitic Draught** | Bessere frühe kopierbare Karte: Draw beim ETB und Tod, günstiges Artefakt für Metalcraft, Affinity, Welder/Engineer und wiederholte Warforms. | Verzicht auf einen von 13 Mana-Artefakten und universelle Farbfixierung; Draw kostet jeweils 1 Lebenspunkt. |
+| **Reckless Fireweaver** | **Tezzeret, Master of the Bridge** | Der Artefaktbestand wird zum **direkten Gruppenschaden**, der nicht von Artefakt-ETB-Triggern oder lebendem Mishra abhängt. Zusätzlich Lebensgewinn, Artefaktrückholung und Kreaturen-/Planeswalker-Affinity. | Statt eines billigen {1}{R}-Schadensmotors kostet Tezzeret {4}{U}{B}, ist nicht durch Arcum suchbar und kann als Planeswalker angegriffen werden. |
+
+**Struktur der aktuellen Liste:** 100 Singleton, **35 Länder**, **45 Artefakte**, **12 Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Rhystic Study, Cyclonic Rift), keine unerwünschten Kreaturenwipes. Die vorher eingebaute **Thousand-Year Elixir**-Engine, Arcum Dagsson, Demonic Junker, The Mightstone and Weakstone und Whir of Invention bleiben vollständig erhalten. **Stufen nun: 21 × 1, 51 × 2, 26 × 3, 2 × 4.** Entfernte Karten mit Gegenargument und Rückkehrbedingung im [Erweiterten Kreis](erweiterter-kreis.md), Manabrew-Testfälle in [manabrew-tests.md](manabrew-tests.md). Die Gewinnwirkung von Tezzeret und die kostspielige Draught-Wiederholung sind ohne praktische Partien nur regeltechnisch abgeleitet.
+
+## Vorangegangener Tausch: Thousand-Year Elixir (11.10.2026)
 
 | Entfernt | Aufgenommen | Nutzen | Hauptrisiko |
 |---|---|---|---|
 | **Thought Monitor** | **Thousand-Year Elixir** | Fünf vorhandene Kreaturen können ihre Tap-Fähigkeiten ohne Wartezug einsetzen; Arcum kann eine Warform opfern und mit {1} unter Umständen ein zweites Mal aktiviert werden. Nichtkreatur-Artefakt ist zudem legales Mishra-Kopierziel. | Thought Monitor konnte mit Affinity billig sofort zwei Karten ziehen und war eine fliegende Artefaktkreatur. Elixir erfordert geeignete Tap-Kreaturen und Mana; seine Manabrew-Funktion ist **noch nicht praktisch verifiziert**. |
 
-**Aktuelle Einzelstufen: 21 × 1, 50 × 2, 27 × 3, 2 × 4.** Genau 100 aktive Bewertungen. Artefakte 45, Mana-Artefakte 13, Länder 35, Game Changer 3. Thought Monitor steht jetzt ausschließlich im [Erweiterten Kreis](erweiterter-kreis.md); Thousand-Year Elixir ist dort nicht länger ausgeschlossen. [Manabrew-Testprotokoll](manabrew-tests.md).
+**Damals nach dem Elixir-Tausch: 21 × 1, 50 × 2, 27 × 3, 2 × 4;** die neueren aktuellen Stufen stehen darüber. Damals ebenfalls 100 aktive Bewertungen. Artefakte 45, Mana-Artefakte 13, Länder 35, Game Changer 3. Thought Monitor steht jetzt ausschließlich im [Erweiterten Kreis](erweiterter-kreis.md); Thousand-Year Elixir ist dort nicht länger ausgeschlossen. [Manabrew-Testprotokoll](manabrew-tests.md).
 
 ## Jede einzelne aktuelle Karte
 
@@ -80,14 +89,14 @@
 | 29 | Esoteric Duplicator | **1** | Macht aus geopferten Warforms gegen zwei Mana bleibende Kopien im nächsten Endsegment; zentrale Altar-Synergie. |
 | 30 | Worldwalker Helm | **2** | Map bei Artefakt-Token-Produktion und später gezielte Kopie eines Artefakt-Tokens; benötigt aktiviertes Mana und Tappen. |
 | 31 | Prized Statue | **2** | Treasure bei Eintritt und Tod, dadurch extrem gutes frühes Mishra-Ziel und Farbfix; geringere Endspielwirkung. |
-| 32 | Reckless Fireweaver | **2** | Für {1}{R} eine günstige Wincon: JEDES eintretende eigene Artefakt – Warform, Map, Treasure, Construct – verursacht 1 Schaden an jedem Gegner. Kein Artefakt, aber wiederholt sofortiger Ertrag. |
+| 32 | Tezzeret, Master of the Bridge | **2** | Sechs Mana ({4}{U}{B}) für einen eigenständigen Spielabschluss: +2 verursacht jedem Gegner Schaden entsprechend der Anzahl eigener Artefakte und gibt einmal X Leben. -3 holt eine Artefaktkarte zurück; Affinity für eigene Kreatur- und Planeswalker-Zauber. Kein direktes Mishra-Kopierziel und kein Artefakt, braucht stabilen Boardstate und kann angegriffen werden. |
 | 33 | Mishra, Tamer of Mak Fawa | **2** | Fünfmana-Nichtartefakt: Ward—Sacrifice a permanent für alle eigenen Permanents inklusive Mishra. Artefaktkarten im eigenen Friedhof bekommen Unearth {1}{B}{R}, inklusive Portal; Exil bei Endsegment/Verlassen. |
 | 34 | Ashnod's Altar | **2** | Kostenlose Opfermöglichkeit für Warforms und Kreaturen; finanziert Duplicator und Todesauslöser, aber nur farbloses Mana. |
 | 35 | Idol of Oblivion | **2** | Mishra erzeugt regelmäßig Tokens, dadurch günstige wiederkehrende Karte; braucht überlebendes Artefakt und Tap-Fenster. |
 | 36 | Strionic Resonator | **3** | Wiederholbare zusätzliche Mishra-Trigger für {2}, Tap. Repurposing Bay konkurriert als direkter Feld-Tutor. |
 | 37 | Thousand-Year Elixir | **2** | Für {3} ermöglicht sofortige Tap-Aktivierungen von Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter (auch frisch ausgespielt). Für {1},{T} enttappt es eine Kreatur. Kein echter Angriffs-Haste und ohne passende Kreatur oder Mana kein sofortiger Kartenvorteil. |
 | 38 | Mox Opal | **2** | Kostenloser Artefakt-Rock und mit Metalcraft farbiges Mana, vor zwei weiteren Artefakten im Frühspiel noch funktionslos. |
-| 39 | Chromatic Lantern | **3** | Dreimana-Rock, der beliebige Farben produziert und allen eigenen Ländern dieselbe Fähigkeit gibt. Bessere Farbkonstanz als Basalts Einzelburst; kein eigener Warform-ETB. |
+| 39 | Mephitic Draught | **2** | {1}{B}-Artefakt mit Draw 1/Leben −1 beim ETB und erneut beim Gang in den Friedhof. Eine regulär geopferte Mishra-Warform liefert so zwei Karten für insgesamt 2 Leben; Panharmonicon verdoppelt nur den ETB. Billiges Nichtkreatur-Kopierziel und Welder-Futter, aber wiederholter Lebensverlust ist ein echter Preis. |
 | 40 | Panharmonicon | **2** | Verdoppelt ETB-Effekte von Wellspring, Blade, Paladin und anderen; ohne ETB-Ziele vier Mana ohne unmittelbaren Effekt. |
 | 41 | Scrap Trawler | **3** | Artefakt-Tode bringen jeweils eine kleinere Artefaktkarte aus dem Friedhof auf die Hand zurück. Starker Boardwipe-Rückgriff, setzt echte Artefaktkarten im GY voraus. |
 | 42 | Rhystic Study | **1** | Game Changer für kontinuierlichen Kartennachschub; beansprucht einen der drei erlaubten Plätze. |

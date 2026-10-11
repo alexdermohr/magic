@@ -1,12 +1,12 @@
 # Manabrew-Funktionsprüfung – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 11.10.2026 · **Eingangsrevision:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **aktive Liste:** [current.txt](current.txt).
+**Stand:** 11.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught und Tezzeret, Master of the Bridge. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver.
 
 ## Evidenzstatus – ausdrücklich keine bestandenen Kartentests
 
 | Ebene | Status | Beobachtung / Grenze |
 |---|---|---|
-| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: 132 andere Namen, keine Überschneidung (11.10.2026). |
+| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: 133 andere Namen, keine Überschneidung (11.10.2026). |
 | Manabrew-Webclient | **Oberfläche erreichbar** | `https://play.manabrew.app` wurde in einer isolierten Chrome-Sitzung geladen; Startseite bot `Build / Import` und `Play Offline` an. |
 | Import des konkreten Decks | **Nicht durchgeführt** | Der eingesetzte semantische Browserzugriff gestattete keinen belastbaren Eingabe-/Import- und Spielablauf. Navigations-/Aktivierungsversuche an dynamischen Elementen scheiterten an Snapshot-/Element-Vertragsgrenzen. |
 | Nautiloid Ship, Arcum Dagsson, Crossover-Karten | **Keine erfolgreiche Spielsitzung; ungetestet** | Kein konkreter Boardstate wurde in Manabrew erzeugt. Insbesondere keine Exil-Objektzuordnung und keine Tutor-Auflösung praktisch verifiziert. |
@@ -78,9 +78,22 @@
 
 **Ergebnis:** **NICHT GETESTET** (Oracle-Rollout erwartet, keine bestätigte Manabrew-Spielsequenz). Video, Stack-Log und verwendete Engine-Version für D1–D5 sind als PASS/FAIL/BLOCKED zu notieren.
 
+## E – Neue Karten: Mephitic Draught und Tezzeret, Master of the Bridge
+
+**Vorzustand:** Aktuelle 100-Karten-Liste mit Mephitic Draught und Tezzeret statt Chromatic Lantern und Reckless Fireweaver; **diese beiden ehemaligen Karten dürfen in der Testliste nicht mehr vorkommen**. Deck-Engine/Version dokumentieren.
+
+1. **E1 – Original-Draught:** Mephitic Draught für {1}{B} ausspielen. Erwartung: genau eine gezogene Karte und Verlust von 1 eigenem Leben bei ETB. Durch freiwilliges Opfern über einen legalen Opfereffekt (z. B. Oni-Cult Anvil) muss beim Übergang vom Feld **in den Friedhof** genau eine weitere Karte gezogen und ein weiteres Leben verloren werden.
+2. **E2 – Mishras Warform-Draught:** Mephitic Draught als **Nichtkreatur-Artefakt** im Spielfeld behalten. Mishra erzeugt zu Beginn des eigenen Kampfes eine 4/4-Warform davon. Deren ETB zieht sofort 1 Karte und verliert 1 Leben. Wird dieselbe Warform am Ende des Zuges geopfert und kurz in den Friedhof gelegt, löst der weitere Draw/Life-Loss-Trigger aus, obwohl ein Token danach aufhört zu existieren. Gesamt pro Warform: **zwei Karten, zwei Leben**; das Original liegt weiterhin.
+3. **E3 – Panharmonicon-Kontrolle:** Zusätzlich Panharmonicon kontrollieren und erneut eine Draught-Warform erzeugen. ETB löst **zweimal** aus, Tod/Opfer **einmal**. Erwartung bei regulärer Opferung: **drei Karten und drei Leben Verlust** für die Warform. Kein zweiter Tod-/Opfer-Trigger durch Panharmonicon.
+4. **E4 – Tezzeret unmittelbar:** Mindestens sechs Mana einschließlich {U}{B} haben und z. B. exakt **acht eigene Artefakte** einschließlich Artefaktkreaturen, Länder und Tokens kontrollieren. Tezzeret, Master of the Bridge für {4}{U}{B} wirken und seine **+2-Loyalitätsfähigkeit** in der Hauptphase aktivieren. Bei Auflösung erwartete Wirkung (sofern Artefaktanzahl unverändert): **8 Schaden an JEDEM Gegner, genau 8 Leben Gewinn für dich insgesamt**, nicht 8 pro Gegner. Tezzerets Loyalitätswert steigt dabei von 5 auf 7. Er ist kein Artefakt für Arcum oder reguläres Mishra-Kopieren.
+5. **E5 – Artefaktanzahl/−3:** Alternativen Boardstate mit anderer Artefaktzahl (z. B. Warform und Worldwalker-Map zusätzlich auf dem Feld) ausprobieren. Die +2-Fähigkeit zählt eigene Artefakte **bei Auflösung**; entfernte Artefakte als Reaktion ändern X. In eigenem nächsten Zug −3 mit legaler Artefaktkarte im eigenen Friedhof aktivieren und prüfen, dass sie **auf die Hand**, nicht direkt ins Spiel, zurückkommt. Tezzeret verschafft eigenen Kreaturen- und Planeswalkerzaubern Affinity, **nicht sich selbst rückwirkend**.
+6. **E6 – Negativfälle:** Mephitic Draught verursacht Lebensverlust (kein Nullkosten-Draw); sein Sterbe-Trigger verlangt einen tatsächlichen Übergang in den Friedhof. Tezzeret stellt kein für Mishra normales Nichtkreatur-Artefakt-Kopierziel und keine einzelne Manaquelle bereit. Ein PLANESWALKER-Symbol ohne funktionierende Aktivierung ist **kein** positiver Test.
+
+**Ergebnis:** **NICHT GETESTET** (Papierregeln/Oracle als erwartetes Verhalten, kein bestätigter manabrew.app-Boardstate). Nach Durchführung zu jedem Fall PASS/FAIL/BLOCKED mit Screenshot/Log und Engine notieren. Erst nach E1–E5 sind Aussagen zur praktischen Spielbarkeit der beiden Neuzugänge gedeckt.
+
 ## Entscheidung bis zum Engine-Nachweis
 
-Die bereits aktiven Karten **Nautiloid Ship** und **Arcum Dagsson** bleiben. Zusätzlich ist **Thousand-Year Elixir nach expliziter Nutzerentscheidung für Thought Monitor** aufgenommen. Fehlende Testbelege werden **nicht** als Funktionsnachweis behandelt. Kein zusätzlicher Slot wird auf bloßer Synergievermutung ersetzt. Höchste Priorität haben nun **D1–D5**, A1/A2 und B1/B2, danach C4/C6/C9 – sie können die Deckentscheidung tatsächlich ändern.
+Die bereits aktiven Karten **Nautiloid Ship**, **Arcum Dagsson** und **Thousand-Year Elixir** bleiben. Nun ergänzen **Mephitic Draught** und **Tezzeret, Master of the Bridge** die Liste, während Thought Monitor, Chromatic Lantern und Reckless Fireweaver draußen bleiben. Die aktuell kritischsten praktischen Tests sind **E1–E5**, **D1–D5**, A1/A2 und B1/B2, danach C4/C6/C9. Keine der genannten Sequenzen gilt ohne tatsächliche Manabrew-Ausführung als PASS.
 
 ## Quellen (Regelreferenz; keine Manabrew-Spielbelege)
 
@@ -94,4 +107,6 @@ Die bereits aktiven Karten **Nautiloid Ship** und **Arcum Dagsson** bleiben. Zus
 - [Panharmonicon](https://scryfall.com/card/2x2/310/panharmonicon)
 - [The Master, Multiplied](https://scryfall.com/card/who/146/the-master-multiplied)
 - [Thousand-Year Elixir](https://scryfall.com/search?q=%21%22Thousand-Year+Elixir%22)
+- [Mephitic Draught – Oracle](https://mtg.wtf/card/lci/112/Mephitic-Draught)
+- [Tezzeret, Master of the Bridge – Oracle](https://mtg.wtf/card/war/275/Tezzeret-Master-of-the-Bridge)
 - [Manabrew – Deckimport und Unsupported-Hinweise](https://docs.manabrew.app/playing/)

@@ -2,12 +2,31 @@
 
 **Stand:** 2026-10-11  
 **Verbindliche B3-Liste:** [current.txt](current.txt)  
-**Ersetzbarkeitsmatrix ohne Schutzkarten (100 aktuelle Einzelurteile, 5 Tauschhypothesen):** [replaceability.md](replaceability.md)  
-**Erweiterter Kreis (37 historische Cuts, 95 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
+**Ersetzbarkeitsmatrix (100 aktuelle Einzelurteile und dokumentierte historische Tauschhypothesen):** [replaceability.md](replaceability.md)
+**Erweiterter Kreis (38 historische Cuts, 95 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktueller Bracket-3-Tausch: Thought Monitor → Thousand-Year Elixir (11.10.2026)
+## Aktuelle Deckrevision: Mephitic Draught und Tezzeret statt Lantern und Fireweaver (11.10.2026)
+
+**Bestätigte Nutzerentscheidungen:** Sowohl **Chromatic Lantern** als auch **Reckless Fireweaver** sollen aus dem B3-Deck verschwinden. Die Farbversorgung wird bewusst mit den verbleibenden **12 Mana-Artefakten** und **35 Ländern** bestritten. Als Deckoptimierung wurden ein günstig kopierbarer Draw-Motor und ein von Mishra unabhängiger Abschluss aufgenommen:
+
+| Raus | Rein | Gewonnene Funktion | Höchste Opportunitätskosten |
+|---|---|---|---|
+| **Chromatic Lantern** ({3}, Artefakt) | **Mephitic Draught** ({1}{B}, Artefakt) | Billiges Nichtkreatur-Artefakt: ETB Draw 1/Lose 1, beim Gang vom Feld in den Friedhof erneut Draw 1/Lose 1. Original + Mishra-Warform unterstützt frühes Metalcraft, Kartenzufuhr, Goblin Welder, Emry und Panharmonicon (nur ETB-Verdopplung). | Lantern produzierte beliebiges Farbmana und gab den Ländern universelle Farbaktivierung. Der Draught-Motor kostet bei jeder erfolgreichen ETB-/Sterbe-Schleife Lebenspunkte; trotz 12 übrigen Rocks können Doppel-/Dreifachfarben gelegentlich fehlen. |
+| **Reckless Fireweaver** ({1}{R}, Nichtartefaktkreatur) | **Tezzeret, Master of the Bridge** ({4}{U}{B}, legendärer Planeswalker) | **+2:** JEDER Gegner erhält X Schaden bei X eigenen Artefakten; du erhältst einmal X Lebenspunkte (nicht pro Gegner!). **−3:** Artefaktkarte aus Friedhof auf Hand. Statisch erhalten eigene Kreaturen- und Planeswalker-Spells Affinity for Artifacts. Der Schaden funktioniert **auch ohne lebenden Mishra** und ohne weitere Artefakt-ETBs. | Sechs statt zwei Mana; Tezzeret selbst kostet {4}{U}{B}, ist kein Nichtkreatur-Artefakt für Mishra und kein Arcum-Suchziel, wird angegriffen und benötigt einen großen Artefaktbestand, um sofort spielentscheidend zu sein. Fireweaver konnte früher schon mit kleinsten Artefakt-Tokens Schaden verteilen. |
+
+**Ergebnis:** **100 Singleton-Karten inkl. Commander, 35 Länder, 45 Artefakte, 12 Mana-Artefakte** (ein Mana-Artefakt weniger), exakt **Demonic Tutor, Rhystic Study, Cyclonic Rift** als Game Changer. Weder Wipes noch bewusste frühe Zweikarten-Endloskombination aufgenommen. Der Erweitere Kreis zählt **38 historische Cuts + 95 weitere = 133** aktuell ausgeschlossene Namen, die Ratingmatrix weiterhin genau 100 aktive Karten. Die separate Bracket-4-Datei ist unverändert.
+
+**Warum nicht stattdessen Mirkwood Bats?** Das {3}{B}-Bat bewirkt bei *Erzeugen oder Opfern* eines Tokens 1 Lebenspunktverlust bei jedem Gegner, also gute wiederholbare Warform-/Helm-Synergien. Nutzerpräferenz und klare Siegbedingung sprechen eher für Tezzerets sofortigen massiven Artefakt-basierten Gruppenschaden, der auch bei ruhender Warform-Engine funktioniert. **Warum nicht Unwinding Clock?** Vier Mana für wiederholte Aktivierungen/Enttappen von Elixir, Helm, Idol und Rocks ist mächtig, aber ohne weiteren Payoff bloß Setup. **Warum nicht Reaver Titan?** Kopierbarer {7}-Warform-Angriffsfinisher mit 5 Schaden an allen Gegnern, aber teurer und stärker von erfolgreichem Angriff/Commander abhängig. **Warum nicht The Everflowing Well?** {2}{U} ETB-Mill zwei/Draw zwei ist stark, transformiert aber bei Descend 8 in ein Artefaktland; die doppelseitige Manabrew-Funktion ist nicht validiert, während Draughts simpler ETB-/Tod-Draw leichter reproduzierbar ist.
+
+**Einordnung:** Unter der Annahme eines bereits vorhandenen Artefaktbestands kann Tezzeret umgehend etwa X = 8–12 Schaden an jeden Gegner erzeugen, dies ist **keine empirisch gemessene Siegquote**. Mephitic Draught erzeugt Kartenzufuhr, aber bei zehn eigenen Warform-Opferschleifen potenziell 20 Leben Verlust; die Lebenspunktkosten sind daher ernst zu nehmen. Neue Testfälle E1–E5 in [manabrew-tests.md](manabrew-tests.md); die Kartentexte sind Oracle-begründet, **kein praktischer Manabrew-PASS**.
+
+**Historische Einordnung:** Die nachfolgenden früheren Abschnitte (auch jene mit damals aktuellen Kartenzahlen, Fireweaver oder Lantern) beziehen sich ausschließlich auf die **jeweils vorherige Fassung**. Der einzige aktive Stand ist [current.txt](current.txt).
+
+---
+
+## Vorangegangener Bracket-3-Tausch: Thought Monitor → Thousand-Year Elixir (historisch, 11.10.2026)
 
 **Benutzerentscheid und Umsetzung:** Thought Monitor ist aus der einzigen aktiven [current.txt](current.txt) entfernt; **Thousand-Year Elixir** wurde als neues Artefakt aufgenommen. Die Begründung ist eine höhere Verfügbarkeit der bereits vorhandenen aktivierten Artefakt-/Friedhof-Engines statt zusätzlichen einmaligen Draws.
 

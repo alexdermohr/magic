@@ -20,7 +20,7 @@ EXPECTED_ROCKS = {
     "Sol Ring", "Arcane Signet", "Fellwar Stone",
     "Dimir Signet", "Izzet Signet", "Rakdos Signet",
     "Talisman of Dominance", "Talisman of Creativity", "Talisman of Indulgence",
-    "Mind Stone", "Liquimetal Torque", "Mox Opal", "Chromatic Lantern",
+    "Mind Stone", "Liquimetal Torque", "Mox Opal",
 }
 BASELINE_B4_BLOB = "bab5a7b03416b77112c0ccaeec7aa3297fbd9a4d"
 USER_AGENT = "MishraB3Validator/1.0 (https://github.com/alexdermohr/magic)"
@@ -57,7 +57,7 @@ def names_and_docs() -> list[str]:
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
     assert_ok(EXPECTED_GC.issubset(set(names)), "required Game Changer removed")
-    assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 13 mana artifacts removed")
+    assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 12 required mana artifacts removed")
     assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
               "explicitly excluded creature/permanent sweeper present")
     print(f"STRUCTURE PASS: 100 singleton / matrix 100 / extended {len(outside)} disjoint / B4 blob unchanged")
@@ -116,9 +116,9 @@ def run_oracle(names: list[str]) -> None:
     assert_ok(gc == EXPECTED_GC, f"Game Changer set differs: {sorted(gc)}")
     assert_ok(len(lands) == 35, f"lands {len(lands)} not 35")
     assert_ok(len(artifacts) == 45, f"artifacts {len(artifacts)} not 45")
-    assert_ok(len(EXPECTED_ROCKS & set(names)) == 13, "mana artifacts not 13")
+    assert_ok(len(EXPECTED_ROCKS & set(names)) == 12, "mana artifacts not 12")
     print("SCRYFALL PASS: 100 names Commander-legal; Grixis color identities")
-    print("COUNTS PASS: 35 lands; 45 artifacts; 13 named mana rocks; 3 Game Changers")
+    print("COUNTS PASS: 35 lands; 45 artifacts; 12 named mana rocks; 3 Game Changers")
     print("GAME CHANGERS:", ", ".join(sorted(gc)))
 
 
