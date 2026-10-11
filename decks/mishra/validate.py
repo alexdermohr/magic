@@ -13,14 +13,14 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-EXPECTED_GC = {"Demonic Tutor", "Rhystic Study", "Cyclonic Rift"}
+EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Bolas's Citadel"}
 # Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
 EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge"}
 EXPECTED_ROCKS = {
     "Sol Ring", "Arcane Signet", "Fellwar Stone",
     "Dimir Signet", "Izzet Signet", "Rakdos Signet",
     "Talisman of Dominance", "Talisman of Creativity", "Talisman of Indulgence",
-    "Mind Stone", "Liquimetal Torque", "Mox Opal",
+    "Mind Stone", "Liquimetal Torque", "Mox Opal", "Mana Vault",
 }
 BASELINE_B4_BLOB = "bab5a7b03416b77112c0ccaeec7aa3297fbd9a4d"
 USER_AGENT = "MishraB3Validator/1.0 (https://github.com/alexdermohr/magic)"
@@ -40,10 +40,14 @@ def names_and_docs() -> list[str]:
     root_readme = ROOT.parent.parent.joinpath("README.md").read_text(encoding="utf-8")
     mishra_summaries = re.findall(r"^- Mishra: \*\*Bracket 3[^\n]+$", root_readme, re.MULTILINE)
     assert_ok(len(mishra_summaries) == 1, "root README must contain exactly one current Mishra B3 summary")
-    for required in ("100 verschiedene Karten", "35 Länder", "45 Artefakte",
+    for required in ("100 verschiedene Karten", "35 Länder", "47 Artefakte",
                      f"{len(EXPECTED_ROCKS)} Mana-Artefakte", "drei Game Changer"):
         assert_ok(required in mishra_summaries[0],
                   f"root README Mishra summary stale or incomplete: {required}")
+    gc_summary = re.search(r"genau drei Game Changer\*\* \(\*\*([^*]+)\*\*\)", mishra_summaries[0])
+    assert_ok(gc_summary is not None, "root README Game Changer summary not found")
+    gc_names = {name.strip() for name in gc_summary.group(1).split(",")}
+    assert_ok(gc_names == EXPECTED_GC, "root README Game Changers do not match current deck")
     matrix = ROOT.joinpath("replaceability.md").read_text(encoding="utf-8").splitlines()
     rated = [
         m.group(1).strip()
@@ -62,17 +66,17 @@ def names_and_docs() -> list[str]:
     pattern = r"^\|\s*\*\*(.*?)\*\*\s*\|"
     historic = re.findall(pattern, section_a, re.MULTILINE)
     alternatives = re.findall(pattern, section_b, re.MULTILINE)
-    assert_ok(len(historic) == 38, f"expected 38 historical cuts, found {len(historic)}")
+    assert_ok(len(historic) == 40, f"expected 40 historical cuts, found {len(historic)}")
     assert_ok(len(alternatives) == 95, f"expected 95 external candidates, found {len(alternatives)}")
     outside = historic + alternatives
-    assert_ok(len(outside) == 133 and len(set(outside)) == 133,
-              "extended circle must contain 133 unique excluded names")
+    assert_ok(len(outside) == 135 and len(set(outside)) == 135,
+              "extended circle must contain 135 unique excluded names")
     assert_ok(not (set(outside) & set(names)), "excluded card still active")
     blob = ROOT.joinpath("versions/2026-10-07-optimized-b4-v1.txt").read_bytes()
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
     assert_ok(EXPECTED_GC.issubset(set(names)), "required Game Changer removed")
-    assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 12 required mana artifacts removed")
+    assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 13 required mana artifacts removed")
     assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
               "explicitly excluded creature/permanent sweeper present")
     print(f"STRUCTURE PASS: 100 singleton / matrix 100 / extended {len(historic)} historical + {len(alternatives)} alternatives = {len(outside)} disjoint / B4 blob unchanged")
@@ -130,10 +134,10 @@ def run_oracle(names: list[str]) -> None:
     assert_ok(not no_gc_flag, f"missing live game_changer flags: {no_gc_flag}")
     assert_ok(gc == EXPECTED_GC, f"Game Changer set differs: {sorted(gc)}")
     assert_ok(len(lands) == 35, f"lands {len(lands)} not 35")
-    assert_ok(len(artifacts) == 45, f"artifacts {len(artifacts)} not 45")
-    assert_ok(len(EXPECTED_ROCKS & set(names)) == 12, "mana artifacts not 12")
+    assert_ok(len(artifacts) == 47, f"artifacts {len(artifacts)} not 47")
+    assert_ok(len(EXPECTED_ROCKS & set(names)) == 13, "mana artifacts not 13")
     print("SCRYFALL PASS: 100 names Commander-legal; Grixis color identities")
-    print("COUNTS PASS: 35 lands; 45 artifacts; 12 named mana rocks; 3 Game Changers")
+    print("COUNTS PASS: 35 lands; 47 artifacts; 13 named mana rocks; 3 Game Changers")
     print("GAME CHANGERS:", ", ".join(sorted(gc)))
 
 

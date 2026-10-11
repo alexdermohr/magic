@@ -39,7 +39,7 @@
 1 Mephitic Draught
 1 Panharmonicon
 1 Scrap Trawler
-1 Rhystic Study
+1 Mana Vault
 1 The Mightstone and Weakstone
 1 Sculpting Steel
 1 Nautiloid Ship
@@ -49,7 +49,7 @@
 1 Demonic Junker
 1 Lightning Greaves
 1 Determined Iteration
-1 Cyclonic Rift
+1 Bolas's Citadel
 1 Mana Drain
 1 An Offer You Can't Refuse
 1 Chaos Warp

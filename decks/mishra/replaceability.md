@@ -1,8 +1,8 @@
 # Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung (optimiertes Bracket 3)
 
-**Aktive Version:** 11. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 133 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
+**Aktive Version:** 11. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 135 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
 
-**Struktur nach den neuesten Tauschen Chromatic Lantern → Mephitic Draught und Reckless Fireweaver → Tezzeret, Master of the Bridge:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **45 Artefaktkarten**, **12 reguläre Mana-Artefakte**, **drei Game Changer** (Rhystic Study, Cyclonic Rift, Demonic Tutor). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
+**Struktur der neuen B3-Fassung nach Rhystic Study → Mana Vault und Cyclonic Rift → Bolas's Citadel:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **47 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Mana Vault, Bolas's Citadel). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
 
 | Raus | Rein | Erwarteter Mehrwert | Risiko |
 |---|---|---|---|
@@ -13,8 +13,8 @@
 
 | Stufe | Bedeutung | Karten |
 |:---:|---|---:|
-| 1 | Zentrale, schwer ersetzbare Rolle | 21 |
-| 2 | Hoher Deckbeitrag | 51 |
+| 1 | Zentrale, schwer ersetzbare Rolle | 20 |
+| 2 | Hoher Deckbeitrag | 52 |
 | 3 | Vergleichsslot, alternative Funktion denkbar | 26 |
 | 4 | Theoretisch zuerst auf dem Prüfstand | 2 |
 | 5 | Kein eindeutig funktionsloser Platz | 0 |
@@ -30,14 +30,23 @@
 
 **Historischer Vergleich vor Aufnahme des Elixiers:** `Jhoira → Thousand-Year Elixir` tauscht Historic-Cast-Draw gegen schnelleres Arcum/Welder/Transmuter-Tappen; `Strionic Resonator → Thousand-Year Elixir` opfert einen unabhängigen Zusatz-Mishra-Trigger für Aktivierungstempo. Beide bleiben **Hypothesen**, solange die tatsächlichen Manabrew-Interaktionen und eine gewinnende Sequenz nicht geprüft sind. Ebenso setzt `Brudiclad → The Master, Multiplied` den Manabrew-Test der statischen Token-Ausnahme voraus. **Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben bewusst aktiv.** Einzelheiten und genaue Prüfschritte: [Analyse](analysis.md) und [Manabrew-Testprotokoll](manabrew-tests.md).
 
-## Aktuelle Optimierung: Chromatic Lantern und Reckless Fireweaver entfernt (11.10.2026)
+## Neuester Tausch: Game-Changer-Slots neu besetzt (11.10.2026)
+
+| Raus (Game Changer) | Rein (Game Changer) | Nutzen | Größter Verlust |
+|---|---|---|---|
+| **Rhystic Study** | **Mana Vault** | Für {1} sofort {C}{C}{C}; kann über Urza's Saga gesucht werden, liefert bei jedem Mishra-Kampfauslöser eine neue Warform als drei zusätzliches farbloses Mana und synergiereiches Ziel für Thousand-Year Elixir. | Rhystic zog wiederkehrend Karten beim Wirken gegnerischer Zauber, besonders im Multiplayer; Mana Vault ist Ramp, kein Kartenziehmotor, kann getappt Lebenspunkte kosten und liefert keine Farbe. |
+| **Cyclonic Rift** | **Bolas's Citadel** | 6-Mana-Nichtkreatur-Artefakt für Arcum/Welder/Transmuter, ermöglicht Topdeck-Zauber gegen Leben und mit zehn Nichtland-Permanents einen wiederholbaren 10-Lebenspunkte-Verlust bei allen Gegnern. Tezzeret unterstützt Lebensgewinn, Mana Vault die Beschleunigung. | Kein flexibles Überladen zum asymmetrischen Sofortreset mehr. BBB ist ohne Artefakt-Cheat anspruchsvoll, Citadel und Mephitic Draught beanspruchen Leben; Citadel ist selbst kein Schutzzauber. |
+
+**Neue Rangverteilung:** 20 × Stufe 1, 52 × Stufe 2, 26 × Stufe 3, 2 × Stufe 4; genau 100 aktuelle Bewertungen. **Struktur:** 35 Länder, 47 Artefakte, 13 Mana-Artefakte, drei Game Changer (Demonic Tutor, Mana Vault, Bolas's Citadel). [Erweiterter Kreis](erweiterter-kreis.md): 40 historische Cuts und 95 weitere = 135 derzeit ausgeschlossene Karten. **Urza's Saga kann nun Sol Ring, Mox Opal oder Mana Vault holen** (printed mana cost {0}/{1}). Kein absichtlicher früher Zweikarten-Loop, Bracket 4 unverändert. Live-Manabrew-Abläufe F1–F6 müssen erst getestet werden.
+
+## Vorangegangene Optimierung: Chromatic Lantern und Reckless Fireweaver entfernt (11.10.2026)
 
 | Entfernt | Hinzugefügt | Systemnutzen | Risiko |
 |---|---|---|---|
 | **Chromatic Lantern** | **Mephitic Draught** | Bessere frühe kopierbare Karte: Draw beim ETB und Tod, günstiges Artefakt für Metalcraft, Affinity, Welder/Engineer und wiederholte Warforms. | Verzicht auf einen von 13 Mana-Artefakten und universelle Farbfixierung; Draw kostet jeweils 1 Lebenspunkt. |
 | **Reckless Fireweaver** | **Tezzeret, Master of the Bridge** | Der Artefaktbestand wird zum **direkten Gruppenschaden**, der nicht von Artefakt-ETB-Triggern oder lebendem Mishra abhängt. Zusätzlich Lebensgewinn, Artefaktrückholung und Kreaturen-/Planeswalker-Affinity. | Statt eines billigen {1}{R}-Schadensmotors kostet Tezzeret {4}{U}{B}, ist nicht durch Arcum suchbar und kann als Planeswalker angegriffen werden. |
 
-**Struktur der aktuellen Liste:** 100 Singleton, **35 Länder**, **45 Artefakte**, **12 Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Rhystic Study, Cyclonic Rift), keine unerwünschten Kreaturenwipes. Die vorher eingebaute **Thousand-Year Elixir**-Engine, Arcum Dagsson, Demonic Junker, The Mightstone and Weakstone und Whir of Invention bleiben vollständig erhalten. **Stufen nun: 21 × 1, 51 × 2, 26 × 3, 2 × 4.** Entfernte Karten mit Gegenargument und Rückkehrbedingung im [Erweiterten Kreis](erweiterter-kreis.md), Manabrew-Testfälle in [manabrew-tests.md](manabrew-tests.md). Die Gewinnwirkung von Tezzeret und die kostspielige Draught-Wiederholung sind ohne praktische Partien nur regeltechnisch abgeleitet.
+**Damals, nach diesem älteren Tausch:** 100 Singleton, **35 Länder**, **45 Artefakte**, **12 Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Rhystic Study, Cyclonic Rift), keine unerwünschten Kreaturenwipes. Die vorher eingebaute **Thousand-Year Elixir**-Engine, Arcum Dagsson, Demonic Junker, The Mightstone and Weakstone und Whir of Invention bleiben vollständig erhalten. **Stufen nun: 21 × 1, 51 × 2, 26 × 3, 2 × 4.** Entfernte Karten mit Gegenargument und Rückkehrbedingung im [Erweiterten Kreis](erweiterter-kreis.md), Manabrew-Testfälle in [manabrew-tests.md](manabrew-tests.md). Die Gewinnwirkung von Tezzeret und die kostspielige Draught-Wiederholung sind ohne praktische Partien nur regeltechnisch abgeleitet.
 
 ## Vorangegangener Tausch: Thousand-Year Elixir (11.10.2026)
 
@@ -99,7 +108,7 @@
 | 39 | Mephitic Draught | **2** | {1}{B}-Artefakt mit Draw 1/Leben −1 beim ETB und erneut beim Gang in den Friedhof. Eine regulär geopferte Mishra-Warform liefert so zwei Karten für insgesamt 2 Leben; Panharmonicon verdoppelt nur den ETB. Billiges Nichtkreatur-Kopierziel und Welder-Futter, aber wiederholter Lebensverlust ist ein echter Preis. |
 | 40 | Panharmonicon | **2** | Verdoppelt ETB-Effekte von Wellspring, Blade, Paladin und anderen; ohne ETB-Ziele vier Mana ohne unmittelbaren Effekt. |
 | 41 | Scrap Trawler | **3** | Artefakt-Tode bringen jeweils eine kleinere Artefaktkarte aus dem Friedhof auf die Hand zurück. Starker Boardwipe-Rückgriff, setzt echte Artefaktkarten im GY voraus. |
-| 42 | Rhystic Study | **1** | Game Changer für kontinuierlichen Kartennachschub; beansprucht einen der drei erlaubten Plätze. |
+| 42 | Mana Vault | **1** | Für {1} produziert das Artefakt durch Tappen {C}{C}{C}; frühe Beschleunigung und zusätzliches Urza's-Saga-Ziel. Als Mishra-Warform liefert es mit Eile ebenfalls drei Mana und kann über Thousand-Year Elixir für {1} enttappt werden (insgesamt bis sechs Mana pro Warform bei geeigneter Aktivierung). Das Original enttappt normalerweise nicht, verlangt {4} zum Enttappen und kostet getappt jedes Ziehsegment 1 Leben; farbiges Mana fehlt. |
 | 43 | The Mightstone and Weakstone | **2** | Fünf Mana für starkes kopierbares, legendäres Artefakt: ETB zieht zwei Karten oder gibt einer Kreatur −5/−5, Original produziert CC für Artefaktzauber/-fähigkeiten. Legendäre Warform-Duplikate gleichen Namens kollidieren. |
 | 44 | Sculpting Steel | **2** | Flexibler zusätzlicher Blade-, Wellspring-, Paladin- oder Portal-Effekt je nach Spielfeld; ohne hochwertige Vorlage schwach. |
 | 45 | Nautiloid Ship | **2** | Vier-Mana-Flugfahrzeug als Mishra-Ziel: Die 4/4-Warform exiliert beim ETB einen Spielerfriedhof und kann mit Flugfähigkeit/Eile direkt angreifen. Nach Kampfschaden bringt sie eine Kreatur zurück, die **dieses Exemplar** exiliert hat. Der ursprüngliche Friedhofshass war zuvor nicht vorhanden; gegen Blocker keine garantierte Reanimation. |
@@ -114,7 +123,7 @@
 | # | Karte | Ersetzbarkeit | Nutzen und Opportunitätskosten |
 |---:|---|:---:|---|
 | 51 | Determined Iteration | **3** | Mit richtiger Combat-Trigger-Reihenfolge populiert es gerade erzeugte Warforms; ebenfalls verzögertes Opfer, kein Artefakt. |
-| 52 | Cyclonic Rift | **1** | Asymmetrischer Reset und hervorragender Siegzugs-Öffner; Game Changer 2/3. |
+| 52 | Bolas's Citadel | **2** | {3}{B}{B}{B} legendäres **Nichtkreatur-Artefakt**: Erlaubt das Spielen der Bibliotheksoberseite und das Wirken dortiger Zauber gegen Lebenspunkte statt Mana. Arcum, Welder und Master Transmuter können die Cast-Kosten umgehen; Tezzeret kann Lebenspunkte zurückgewinnen. Für {T} und Opfer von zehn eigenen Nichtland-Permanents verliert jeder Gegner 10 Leben. Sehr hoher Lebens-/Boardaufwand, schweres BBB beim regulären Wirken; Verlust von Cyclonic Rifts asymmetrischem Sofort-Reset. |
 | 53 | Mana Drain | **2** | Sehr billiger Schutz mit späterem Mana-Burst; verlangt früh doppeltes Blau. |
 | 54 | An Offer You Can't Refuse | **3** | Effizienter Schutz vor Nichtkreatur-Zaubern, schenkt aber zwei gegnerische Treasures und ist gegen Kreaturen unbrauchbar. |
 | 55 | Chaos Warp | **2** | Sehr flexible Antwort auch auf störende Verzauberungen; zufälliges neues gegnerisches Permanent bleibt Risiko. |
@@ -148,7 +157,7 @@
 | 78 | Academy Ruins | **2** | Regelmäßige Friedhofsrekursion für Artefaktkarten auf Bibliotheksoberseite; kostet Tempo und farbiges Mana. |
 | 79 | Buried Ruin | **3** | Einmalige Artefakt-Rekursion auf die Hand durch Landopfer; farbloses Land, teilweise durch Trawler/Academy abgedeckt. |
 | 80 | Inventors' Fair | **3** | Tutor für beliebiges Artefakt bei Metalcraft und gelegentlich Lebensgewinn; farbloses Land und teure Aktivierung. |
-| 81 | Urza's Saga | **1** | Sucht in der aktuellen Liste **Sol Ring** (Manakosten {1}) oder **Mox Opal** ({0}); Skullclamp und die Spellbomb sind nicht mehr enthalten, `{B}` von Lich's Relic ist kein gültiges Suchziel. Produziert auch Constructs und opfert sich planmäßig als Land. |
+| 81 | Urza's Saga | **1** | Sucht **Sol Ring** ({1}), **Mana Vault** ({1}) oder **Mox Opal** ({0}) als Artefakt mit aufgedruckten Manakosten {0}/{1}; Skullclamp und Spellbomb sind nicht mehr enthalten. `{B}` von Lich's Relic ist kein legales Suchziel. Produziert auch Constructs und opfert sich planmäßig als Land. |
 | 82 | Otawara, Soaring City | **2** | Ungetappte blaue Quelle oder schwer konterbares Channel-Bounce; nahezu ohne Deckbaupreis. |
 | 83 | Takenuma, Abandoned Mire | **2** | Ungetappte schwarze Quelle mit möglicher Kreaturen-Rekursion; passt zu Friedhofsplan. |
 | 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Ashnod's Altar/Marionette Apprentice; sonst gewöhnliches Farbland. |
@@ -182,14 +191,14 @@
 | B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 45→44 |
 | C | **Mishra, Tamer of Mak Fawa** | **Padeem, Consul of Innovation** | Schützt Artefakte mit Hexproof und kann Karten ziehen, billiger. | Schützt Mishra selbst nicht und verliert Unearth für teure Artefakte. | Nichtartefakt gegen Nichtartefakt |
 
-## Operative Regeln und Nachprüfbarkeit
+## Operative Regeln und Nachprüfbarkeit (aktuelle Game Changer)
 
 - **Tezzeret, Master of the Bridge** ist der aktuelle eigenständige Finisher: Sein +2 zählt die **bei Auflösung kontrollierten Artefakte** (auch Warforms, Maps, Artefaktländer) und fügt **jedem Gegner X Schaden** zu; der eigene Lebensgewinn beträgt **einmal X**. **Marionette Apprentice** löst weiterhin bei einem anderen eigenen Kreaturen-/Artefakt-Tod aus. Regulär geopferte Warforms zählen als Tod, bleiben als Token aber nicht im Friedhof. **Reckless Fireweaver** ist nicht mehr aktiv.
 - **Mishra, Tamer of Mak Fawa** gewährt Ward—Sacrifice a permanent für alle eigenen Permanents; Unearth {1}{B}{R} funktioniert für Artefaktkarten im Friedhof, nicht für verschwundene Warform-Tokens. Das reanimierte Artefakt wird im nächsten Endsegment oder beim Verlassen exiliert. Ward stoppt keine globalen Boardwipes.
 - **Oni-Cult Anvil** ist ein Nichtkreatur-Artefakt und kann von Mishra kopiert werden. Eine ungetappte Warform davon darf ihre Tap-/Opferfähigkeit dank Mishras Eile selbst aktivieren. Wenn ein oder mehrere Artefakte von deinem Spielfeld **in einen Friedhof** gelegt werden, erzeugt die entsprechende ausgelöste Fähigkeit während deines Zuges einmalig einen 1/1-Construct-Artefaktspielstein; **dessen ETB zählt für Artefaktwert und Tezzerets spätere +2-Artefaktanzahl**, erzeugt aber ohne Fireweaver keinen automatischen Schaden.
 - **Ohne Nihil Spellbomb** kann ein graveyardbasiertes Metagame einen neuen Hate-Slot erfordern; Soul-Guide Lantern wäre dann der naheliegende günstige Artefakt-Kandidat, aber kein automatischer Ersatz ohne Gegnermeta.
 - **Manabrew-Grenze:** Sundial und Coveted Jewel bleiben wie verlangt draußen. Die Funktionsfähigkeit der neuen Synergien wurde anhand der Oracle-Texte, nicht in nachgespielten Manabrew-Partien, überprüft.
-- **Bracket 3:** Maximal drei Game Changer, keine beabsichtigte frühe Zweikarten-Endloskombo. Die drei neuen Karten sind keine Game Changer und legal in Grixis.
+- **Bracket 3:** Genau drei Game Changer: **Demonic Tutor, Mana Vault, Bolas's Citadel**. Rhystic Study und Cyclonic Rift sind entfernt. Keine beabsichtigte frühe Zweikarten-Endloskombo; die beiden neuen Artefakte sind nach Scryfall Commander-legal und in Grixis. Eine Scryfall-Liveprüfung und keine tatsächliche Manabrew-Testpartie belegen den Status.
 
 ### Primärquellen
 

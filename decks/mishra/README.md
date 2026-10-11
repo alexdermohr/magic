@@ -14,14 +14,27 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelles Mishra Bracket 3 – zwei weitere gezielte Optimierungen (11.10.2026)
+## Aktuelles Mishra Bracket 3 – drei neue Game Changer (11.10.2026)
+
+**Die verbindliche [aktuelle Deckliste](current.txt) enthält als einzige drei Game Changer Demonic Tutor, Mana Vault und Bolas's Citadel.** Die bisherigen Game Changer Rhystic Study und Cyclonic Rift wurden nach Nutzerentscheidung entfernt.
+
+| Raus | Rein | Zweck und wichtigste Kosten |
+|---|---|---|
+| **Rhystic Study** | **Mana Vault** | Für {1} sofort {C}{C}{C}, statt zusätzlichem Multiplayer-Draw. Mishras Warform kopiert Mana Vault als {3}-Manaquelle; Thousand-Year Elixir kann für {1} eine solche Kreatur enttappen. Mana Vault ist auch per **Urza's Saga** suchbar. Das Original enttappt nicht im Untap-Segment, lässt sich für {4} enttappen und kostet getappt 1 Leben im Ziehsegment. |
+| **Cyclonic Rift** | **Bolas's Citadel** | Grixis-legales legendäres **Nichtkreatur-Artefakt** ({3}{B}{B}{B}), direkt per Arcum suchbar oder durch Welder/Transmuter nutzbar. Ermöglicht Topdeck-Spielen und Casting gegen Leben; {T} und zehn geopferte Nichtland-Permanents lassen jeden Gegner 10 Leben verlieren. Dafür fehlt nun der asymmetrische Instant-Bounce; Schwarzbedarf und Lebensverbrauch steigen. |
+
+**Aktuelle Struktur:** **100 Einzelkarten, 35 Länder, 47 Artefakte, 13 Mana-Artefakte, exakt drei Game Changer**. Keine Kreaturenwipes, keine bewusst eingebaute frühe Zweikarten-Endloskombo. Demonic Tutor, Arcum Dagsson, Thousand-Year Elixir, Tezzeret, Master of the Bridge, Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben im Deck.
+
+Im [Erweiterten Kreis](erweiterter-kreis.md) stehen nun **40 historische Cuts + 95 weitere geprüfte Alternativen = 135 nicht aktive Karten**, ohne Überschneidung. [Ersetzbarkeitsmatrix](replaceability.md) bewertet genau die 100 aktiven. **B4 unverändert.** Die Regeltexte sind verifizierbar, die neuen Engine-Fälle F1–F6 jedoch **nicht durch Manabrew-Testpartien bestätigt**.
+
+## Vorherige Optimierung – Draught und Tezzeret (historisch, 11.10.2026)
 
 | Entfernt | Aufgenommen | Warum |
 |---|---|---|
 | **Chromatic Lantern** | **Mephitic Draught** | Der Nutzer beurteilt die vorhandene Farbversorgung durch Länder/Manarocks als ausreichend. Das günstige {1}{B}-Artefakt zieht beim ETB eine Karte und eine weitere, sobald es aus dem Spielfeld in den Friedhof geht; durch Mishras Warform regelmäßig zwei Karten, verbunden mit **insgesamt zwei Lebenspunkten Verlust**. |
 | **Reckless Fireweaver** | **Tezzeret, Master of the Bridge** | Statt punktuellem ETB-Schaden ein unabhängiger Abschluss für {4}{U}{B}: Tezzerets **+2 verursacht X Schaden an jedem Gegner**, wobei X die Zahl eigener Artefakte ist, und du gewinnst **einmal X Leben**; die −3-Fähigkeit holt Artefakte zurück. |
 
-**Aktuelle Struktur (verbindlich [current.txt](current.txt)):** 100 unterschiedliche Karten einschließlich Mishra, **35 Länder, 45 Artefakte, 12 Mana-Artefakte**, exakt drei Game Changer (**Demonic Tutor, Rhystic Study, Cyclonic Rift**); kein absichtlicher früher Zweikarten-Loop und keine Kreaturenwipes. **Thousand-Year Elixir**, Arcum Dagsson, Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben enthalten. Der [Erweiterte Kreis](erweiterter-kreis.md) verwaltet **38 frühere Cuts + 95 weitere Alternativen = 133 nicht aktive Karten**. Bracket 4 ist unverändert.
+**Damals gültige Struktur der vorherigen Deckfassung:** 100 unterschiedliche Karten einschließlich Mishra, **35 Länder, 45 Artefakte, 12 Mana-Artefakte**, exakt drei Game Changer (**Demonic Tutor, Rhystic Study, Cyclonic Rift**); kein absichtlicher früher Zweikarten-Loop und keine Kreaturenwipes. **Thousand-Year Elixir**, Arcum Dagsson, Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben enthalten. Der [Erweiterte Kreis](erweiterter-kreis.md) verwaltet **38 frühere Cuts + 95 weitere Alternativen = 133 nicht aktive Karten**. Bracket 4 ist unverändert.
 
 **Echte Opportunitätskosten:** Chromatic Lantern verbesserte alle Farbquellen; ohne sie gibt es weniger verfügbare Manaquellen. Mephitic Draught zieht gegen Lebensverlust, und der neue Sechs-Mana-Finisher ist langsamer als Fireweavers {1}{R}-Druck. Das ist eine begründete Priorisierung von **Kartennachschub und einer von Mishra unabhängigen Gewinnoption**, keine statistisch verifizierte höhere Siegquote. Die aktuellen Spielinteraktionen in Manabrew sind noch nicht durch Partien nachgewiesen; [Testfälle](manabrew-tests.md).
 
@@ -39,13 +52,13 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 - **Damals offene Tauschhypothese:** **Thousand-Year Elixir** kann Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter früher aktivieren, benötigt aber einen Synergieslot. **The Master, Multiplied** verhindert Warform-Opfertrigger nach Papierregeln, kostet jedoch sechs Mana und ist in Manabrew ungetestet.
 - **Bracket 3 bleibt die Grenze:** Drei Game Changer, keine Kreaturenwipes, keine bewusst frühe Zweikarten-Endloskombo. Der Validator prüft namentlich ausdrücklich ausgeschlossene Wipes (u. a. Toxic Deluge, Karn's Sylex), aber nicht jede mögliche Massenentfernung semantisch; bei neuen Karten ist zusätzlich die fachliche Prüfung nötig. **The Mightstone and Weakstone, Demonic Junker, Whir of Invention** bleiben. Bracket 4 unverändert.
 
-## Aktuelle Bracket-3-Fassung
+## Verbindliche aktuelle Bracket-3-Fassung
 
 **Stand: 11. Oktober 2026** · einzig verbindlich ist die [aktive Bracket-3-Deckliste](current.txt); frühere Commit-Verweise stehen ausschließlich in der chronologischen Analyse.
 
 - **Commander:** Mishra, Eminent One (Grixis).
-- **100 Karten**, alle Singleton, **35 Länder**, **45 Artefakte** einschließlich Artefaktkreaturen und Artefaktländer, **12 Mana-Artefakte**.
-- **Genau drei Game Changer:** Demonic Tutor, Rhystic Study und Cyclonic Rift.
+- **100 Karten**, alle Singleton, **35 Länder**, **47 Artefakte** einschließlich Artefaktkreaturen und Artefaktländer, **13 Mana-Artefakte**.
+- **Genau drei Game Changer:** Demonic Tutor, Mana Vault und Bolas's Citadel.
 - **Keine klassischen Kreaturenwipes**, keine absichtlich frühe Zweikarten-Endloskombo, kein Mass-Land-Denial und keine Extrazug-Kette.
 - Sundial of the Infinite bleibt wegen des berichteten manabrew.app-Problems draußen; Coveted Jewel wegen Kontrollverlust-Risiko. Beide sind im [Erweiterten Kreis](erweiterter-kreis.md) vermerkt.
 - **The Mightstone and Weakstone** und **Demonic Junker** sind weiterhin enthalten.
@@ -57,9 +70,9 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Spine of Ish Sah** | **Nautiloid Ship** | Viermana-Flugfahrzeug. Mishras fliegende Warform exiliert beim Eintritt einen Spielerfriedhof; nach Kampfschaden kann sie eine mit sich selbst exilierte Kreatur übernehmen. Verliert Spines universelle Permanent-Zerstörung. |
 | **Fabricate** | **Arcum Dagsson** | Arcum kann eine eigene Warform opfern, um ein beliebiges **Nichtkreatur-Artefakt** direkt aus der Bibliothek ins Spiel zu legen, sogar Portal to Phyrexia. Benötigt eine einsatzbereite Tap-Kreatur und ein Artefaktkreatur-Ziel; Fabricate war sofort einsatzbereit und suchte auf die Hand. |
 
-Der aktuelle Plan verbindet wiederholbare Warform-ETBs von **Knight Paladin, Mephitic Draught, Ichor Wellspring und Cryogen Relic** mit Arcum-Tutoring, Welder/Engineer/Emry-Rekursion und mit **Tezzerets artefaktabhängigem Gruppenschaden** einem eigenen Siegweg. Oni-Cult Anvil, Esoteric Duplicator, Worldwalker Helm und Brudiclad erzeugen zusätzlichen Token- und Opferwert. Die Aufnahme von Tezzeret ersetzt nicht die übrigen Abschlüsse Kappa Cannoneer, Simulacrum Synthesizer oder Knight Paladin.
+Mit **Mana Vault** beschleunigen wir große Artefakt-ETBs und mit **Bolas's Citadel** bekommen wir ein zusätzliches kopierbares Artefakt mit eigenständigem Spielabschluss. Ohne Cyclonic Rift stehen weiterhin gezieltes Removal, Counter und Portal to Phyrexia zur Verfügung; einen gleichwertigen asymmetrischen Reset ersetzen sie nicht. Der aktuelle Plan verbindet wiederholbare Warform-ETBs von **Knight Paladin, Mephitic Draught, Ichor Wellspring und Cryogen Relic** mit Arcum-Tutoring, Welder/Engineer/Emry-Rekursion und mit **Tezzerets artefaktabhängigem Gruppenschaden** einem eigenen Siegweg. Oni-Cult Anvil, Esoteric Duplicator, Worldwalker Helm und Brudiclad erzeugen zusätzlichen Token- und Opferwert. Die Aufnahme von Tezzeret ersetzt nicht die übrigen Abschlüsse Kappa Cannoneer, Simulacrum Synthesizer oder Knight Paladin.
 
-**Urza's Saga** kann derzeit genau **Sol Ring** und **Mox Opal** anhand der Manakosten {0}/{1} suchen. Frühere Ziele Skullclamp und Nihil Spellbomb sind entfernt; Lich's Relic mit Manakosten {B} ist kein Saga-Suchziel.
+**Urza's Saga** kann derzeit **Sol Ring**, **Mana Vault** und **Mox Opal** anhand der aufgedruckten Manakosten {0}/{1} suchen. Frühere Ziele Skullclamp und Nihil Spellbomb sind entfernt; Lich's Relic mit Manakosten {B} ist kein Saga-Suchziel.
 
 ## Pflegevereinbarung: Erweiterter Kreis
 

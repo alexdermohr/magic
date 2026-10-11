@@ -1,13 +1,35 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-11  
-**Verbindliche B3-Liste:** [current.txt](current.txt)  
+**Stand:** 2026-10-11
+
+**Verbindliche B3-Liste:** [current.txt](current.txt)
+
 **Ersetzbarkeitsmatrix (100 aktuelle Einzelurteile und dokumentierte historische Tauschhypothesen):** [replaceability.md](replaceability.md)
-**Erweiterter Kreis (38 historische Cuts, 95 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
+**Erweiterter Kreis (40 historische Cuts, 95 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Deckrevision: Mephitic Draught und Tezzeret statt Lantern und Fireweaver (11.10.2026)
+## Aktuelle B3-Revision: Mana Vault + Bolas's Citadel statt Rhystic Study + Cyclonic Rift (11.10.2026)
+
+**Explizite Nutzerentscheidung:** Die Game-Changer-Slots neu besetzen. **Demonic Tutor bleibt**, **Rhystic Study und Cyclonic Rift werden entfernt**, **Mana Vault und Bolas's Citadel aufgenommen**. Die bisherige Eingangsrevision einschließlich Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge, Arcum Dagsson, Demonic Junker, The Mightstone and Weakstone, Whir of Invention und aller Länder bleibt sonst bestehen. Maßgeblich ist ausschließlich [current.txt](current.txt).
+
+| Karte / Rolle | Neu gewonnener Nutzen und Interaktionen | Wesentlichster Verlust / Risiko |
+|---|---|---|
+| **Mana Vault** ({1}, Artefakt) statt Rhystic Study | Liefert {C}{C}{C} durch Tappen und zählt als günstiges Artefakt für Metalcraft/Tezzeret. Wird von **Urza's Saga** gesucht. Mishra kann jeden Kampf eine neue 4/4-Warform daraus erzeugen, die dank Eile gleich für {C}{C}{C} tappt. **Thousand-Year Elixir** kann für {1},{T} die Warform enttappen und eine weitere Aktivierung ermöglichen. Eröffnet stärkeres Tempo für Mishra, Arcum, teure Artefakte und Citadel. | Verliert fortwährenden Multiplayer-Kartenvorteil von Rhystic Study. Mana Vault zieht keine Karten, gibt kein farbiges Mana, enttappt als Original nicht beim regulären Enttappen, kostet sonst {4} zum Enttappen und verursacht getappt im Ziehsegment 1 Schaden am eigenen Leben. |
+| **Bolas's Citadel** ({3}{B}{B}{B}, legendäres Nichtkreatur-Artefakt) statt Cyclonic Rift | Das **normale Wirken** braucht BBB; **Arcum Dagsson** kann sie als Nichtkreatur-Artefakt aus der Bibliothek ins Spiel legen, **Master Transmuter** aus der Hand und **Goblin Welder** aus dem Friedhof. Du kannst jederzeit die Bibliotheksoberseite ansehen, Länder von oben spielen und von oben Zauber für Lebenspunkte entsprechend ihrem Manawert wirken. Mit {T} und zehn geopferten Nichtland-Permanents verliert jeder Gegner 10 Leben. Tezzerets +2-Lebensgewinn gleicht teilweise Life-Payments aus. | Verliert Cyclonic Rifts instant-speed Interaktion und insbesondere den asymmetrischen 7-Mana-Overload-Reset. Citadel ist alleine keine sofortige Antwort auf eine gegnerische Bedrohung. Gegen mehrfach aufeinanderfolgende Länder oben kann sie stocken; der notwendige Lebenspunkte- und Tokenvorrat kann fehlen. |
+| **Warum Demonic Tutor bleibt** | Universeller Zwei-Mana-Zugriff auf Commander-Schutz, Arcum, Farbmana, Citadel, Mana Vault, Knight Paladin oder andere fehlende Bausteine. Bleibt eine frei einsetzbare Karte statt noch eines zu situativen Engine-Pieces. | Mit Arcum, Whir, Engineer und Inventors' Fair schon hohe Tutor-Dichte; im vorliegenden Deck aber besonders nützlich für **Nichtartefakt**-Karten und gegen gegnerische Unterbrechung. |
+
+**Kopier-/Timing-Caveats:** Mana Vault ist ein Nichtkreatur-Artefakt und legales Mishra-Ziel. Ein Vault-Warform-Token zählt nicht als Ramp-Artefakt der **dauerhaften 13er-Mana-Basis**, produziert aber vor dem Opfer in der Regel sofort drei farblose Mana. Bolas's Citadel lässt sich zwar ebenfalls mit Mishra kopieren; die Kopie ist **legendär**, heißt aber *Mishra's Warform* und unterscheidet sich dadurch im Namen vom ursprünglichen Bolas's Citadel. Mehrere legendäre Warforms desselben Namens können der Legendenregel unterliegen. Mit der Citadel-Warform kannst du ihre statische Spiel-/Zahlfähigkeit noch im Kampfsegment nutzen; für ihren {T}-Opferabschluss benötigt sie dank Mishra Eile und **zehn** legale Nichtland-Permanents als Kosten, sie selbst kann dazugehört werden. Der originale Citadel-Token ist keine zusätzliche Karte im Friedhof nach seinem Verschwinden.
+
+**Verlässlichkeit gegenüber dem bisherigen Build:** Es entfallen die beste passive Multiplayer-Draw-Engine und die asymmetrische Notbremse. Die neuen GC erhöhen den Artefakt- und Rampanteil sowie die Chance auf einen explosiven Siegzug. Dieser Nettowert ist eine **begründete Deckbauannahme**, kein nachgewiesener Gewinnrateneffekt; ohne Kontrollpartien können die stärksten Gegenargumente nicht entkräftet werden. **Mephitic Draught und Citadel kosten Leben, während Tezzeret diese erst bei seiner erfolgreichen Fähigkeit zurückgibt.** Die farbigen BBB-Kosten für Citadel bleiben trotz Mana Vault anspruchsvoll, werden jedoch durch Tutor-/Welder-/Transmuter-Möglichkeiten abgemildert.
+
+**Aktuelle Struktur nach dem Tausch:** 100 verschiedene Karten inkl. Commander, **35 Länder**, **47 Artefakte**, **13 Mana-Artefakte** einschließlich Mana Vault, genau drei Game Changer (**Demonic Tutor, Mana Vault, Bolas's Citadel**). Kein neuer Kreaturenwipe, keine absichtliche frühe Zweikarten-Endloskombo. Der [Erweiterte Kreis](erweiterter-kreis.md) enthält **40 historische Cuts und 95 weitere geprüfte, aktuell nicht aktive Alternativen**, insgesamt **135** und disjunkt zu den 100. [Ersetzbarkeitsmatrix](replaceability.md) enthält die aktuellen 100, [Manabrew-Testfälle F1–F6](manabrew-tests.md) unterscheiden bestätigte Oracle-Regeln von **weiterhin ungetesteten** Engine-Sequenzen. Die separate Bracket-4-Liste bleibt unverändert.
+
+**Historischer Schnitt:** Alle folgenden älteren Deckrevisionen samt früheren 12/13 Mana-Artefakten und Rhystic/Cyclonic-GC-Zuordnungen dokumentieren ausschließlich ihre jeweiligen alten Deckstände, nicht das aktuell veröffentlichte `current.txt`.
+
+---
+
+## Vorangegangene Deckrevision: Mephitic Draught und Tezzeret statt Lantern und Fireweaver (historisch, 11.10.2026)
 
 **Bestätigte Nutzerentscheidungen:** Sowohl **Chromatic Lantern** als auch **Reckless Fireweaver** sollen aus dem B3-Deck verschwinden. Die Farbversorgung wird bewusst mit den verbleibenden **12 Mana-Artefakten** und **35 Ländern** bestritten. Als Deckoptimierung wurden ein günstig kopierbarer Draw-Motor und ein von Mishra unabhängiger Abschluss aufgenommen:
 

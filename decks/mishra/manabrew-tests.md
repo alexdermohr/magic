@@ -1,12 +1,12 @@
 # Manabrew-Funktionsprüfung – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 11.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught und Tezzeret, Master of the Bridge. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver.
+**Stand:** 11.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge sowie Game Changer Mana Vault und Bolas's Citadel. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver, Rhystic Study und Cyclonic Rift.
 
 ## Evidenzstatus – ausdrücklich keine bestandenen Kartentests
 
 | Ebene | Status | Beobachtung / Grenze |
 |---|---|---|
-| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: 133 andere Namen, keine Überschneidung (11.10.2026). |
+| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: 135 andere Namen, keine Überschneidung (11.10.2026). |
 | Manabrew-Webclient | **Oberfläche erreichbar** | `https://play.manabrew.app` wurde in einer isolierten Chrome-Sitzung geladen; Startseite bot `Build / Import` und `Play Offline` an. |
 | Import des konkreten Decks | **Nicht durchgeführt** | Der eingesetzte semantische Browserzugriff gestattete keinen belastbaren Eingabe-/Import- und Spielablauf. Navigations-/Aktivierungsversuche an dynamischen Elementen scheiterten an Snapshot-/Element-Vertragsgrenzen. |
 | Nautiloid Ship, Arcum Dagsson, Crossover-Karten | **Keine erfolgreiche Spielsitzung; ungetestet** | Kein konkreter Boardstate wurde in Manabrew erzeugt. Insbesondere keine Exil-Objektzuordnung und keine Tutor-Auflösung praktisch verifiziert. |
@@ -91,9 +91,22 @@
 
 **Ergebnis:** **NICHT GETESTET** (Papierregeln/Oracle als erwartetes Verhalten, kein bestätigter manabrew.app-Boardstate). Nach Durchführung zu jedem Fall PASS/FAIL/BLOCKED mit Screenshot/Log und Engine notieren. Erst nach E1–E5 sind Aussagen zur praktischen Spielbarkeit der beiden Neuzugänge gedeckt.
 
+## F – Zwei neue Game Changer: Mana Vault und Bolas's Citadel
+
+**Vorzustand F0:** Die [100-Karten-Liste](current.txt) enthält exakt **Demonic Tutor, Mana Vault und Bolas's Citadel** als Game Changer (nicht mehr Rhystic Study/Cyclonic Rift). Testaufbau auf Manabrew mit beobachtbarem Mana, Bibliotheksoberseite, Friedhof und Spiel-Log; keine alten Deckimporte verwenden.
+
+1. **F1 – Mana Vault als Original:** Mana Vault für {1} in eigener Hauptphase ausspielen, anschließend tappen. Erwartung: **{C}{C}{C}**, nicht drei farbige Mana. Der originale Mana Vault **enttappt nicht im eigenen Enttappsegment**, kann aber für {4} wieder enttappt werden. Bleibt er beim eigenen Ziehsegment getappt, verursacht er dort **1 Schaden am Beherrscher**.
+2. **F2 – Mana-Vault-Warform:** Mana Vault liegt als eigenes Nichtkreatur-Artefakt im Spielfeld; Mishra erzeugt zu Kampfbeginn eine **4/4 Construct-Artefaktkreaturen-Warform**. Sie hat Eile und kann sofort drei farblose Mana produzieren. Original und Spielstein haben unabhängige Tap-Zustände. Das Endsegment-Opfer betrifft die Warform, nicht das Original.
+3. **F3 – Elixir-Rampe:** Zusätzlich ein ungetapptes Thousand-Year Elixir und mindestens {1} zur Aktivierung bereithalten. F2-Warform zunächst für {C}{C}{C} tappen, dann für {1},{T} mit Elixir enttappen und erneut für {C}{C}{C} tappen. Erwartung: **sechs farblose Mana aus der Warform**, abzüglich {1} für die Elixir-Aktivierung. Dies ist **kein unendlicher Kreislauf**.
+4. **F4 – Urza's Saga:** III. Kapitel der Urza's Saga auslösen und Mana Vault ({1}) aus der Bibliothek suchen. Erwartung: direkt ins Spiel, weil die aufgedruckten Manakosten {1} die Bedingung erfüllen. Weitere legale Saga-Ziele im Deck: Sol Ring ({1}) und Mox Opal ({0}); eine Karte mit {B} wie Lich's Relic ist kein Saga-Suchziel.
+5. **F5 – Citadel über Arcum:** Bei legal verfügbarem Artefaktkreatur-Token und tappen könnendem Arcum Dagsson eine Warform opfern und **Bolas's Citadel aus der Bibliothek direkt ins Feld** bringen. Arcum ignoriert den Mana Value; reguläres Wirken kostet {3}{B}{B}{B}. Citadel darf die Bibliotheksoberseite ansehen, unter den üblichen Timing-/Landdrop-Regeln von dort Länder spielen und Zauber gegen **Lebenspunkte in Höhe ihres Mana Value** wirken. Teste, ob mehrere Länder oben die Kette abbrechen.
+6. **F6 – Opferabschluss / Legendäres:** Bei **zehn eigenen Nichtland-Permanents** und ungetappter Citadel die Fähigkeit aktivieren ({T}, opfere zehn Nichtland-Permanents). Erwartung: jeder Gegner **verliert je 10 Leben**, kein Schaden und keine Verteilung. Eine Citadel-Warform hat ebenfalls die Tap-Fähigkeit und Mishras Eile, benötigt dieselben Opferressourcen. Die originale Bolas's Citadel und eine legendäre Kopie namens Mishra's Warform kollidieren nicht unter der Legendenregel; zwei gleichnamige legendäre Warforms können kollidieren. Die eingesetzten Permanents und Trigger protokollieren.
+
+**Strategie und Evidenzgrenze:** Mana Vault ist Ramp, nicht Kartenziehen; Citadel ein Artefakt-Topdeckmotor, nicht Cyclonic Rifts asymmetrische Sofortantwort. Mit Mephitic Draught kann der Lebensverlust kumulieren; Tezzerets +2 hilft nur bei erfolgreicher Aktivierung. **F1–F6: NICHT GETESTET** – regelbasiertes Sollprotokoll, keine bestandene Manabrew-Sequenz. Für jede Engine nur nach Beobachtung PASS/FAIL/BLOCKED protokollieren.
+
 ## Entscheidung bis zum Engine-Nachweis
 
-Die bereits aktiven Karten **Nautiloid Ship**, **Arcum Dagsson** und **Thousand-Year Elixir** bleiben. Nun ergänzen **Mephitic Draught** und **Tezzeret, Master of the Bridge** die Liste, während Thought Monitor, Chromatic Lantern und Reckless Fireweaver draußen bleiben. Die aktuell kritischsten praktischen Tests sind **E1–E5**, **D1–D5**, A1/A2 und B1/B2, danach C4/C6/C9. Keine der genannten Sequenzen gilt ohne tatsächliche Manabrew-Ausführung als PASS.
+Die bislang aktiven Karten **Nautiloid Ship, Arcum Dagsson, Thousand-Year Elixir, Mephitic Draught und Tezzeret, Master of the Bridge** bleiben. Als neue Game Changer sind **Mana Vault und Bolas's Citadel** enthalten, während **Rhystic Study und Cyclonic Rift** zusätzlich zu den früheren Cuts draußen sind. Vorrang haben **F1–F6**, danach E1–E5, D1–D5, A1/A2, B1/B2 sowie C4/C6/C9. Keine Sequenz gilt ohne tatsächliche Manabrew-Ausführung als bestanden.
 
 ## Quellen (Regelreferenz; keine Manabrew-Spielbelege)
 
@@ -109,4 +122,6 @@ Die bereits aktiven Karten **Nautiloid Ship**, **Arcum Dagsson** und **Thousand-
 - [Thousand-Year Elixir](https://scryfall.com/search?q=%21%22Thousand-Year+Elixir%22)
 - [Mephitic Draught – Oracle](https://mtg.wtf/card/lci/112/Mephitic-Draught)
 - [Tezzeret, Master of the Bridge – Oracle](https://mtg.wtf/card/war/275/Tezzeret-Master-of-the-Bridge)
+- [Mana Vault – Oracle](https://scryfall.com/card/2x2/308/mana-vault)
+- [Bolas's Citadel – Oracle](https://scryfall.com/card/war/79/bolass-citadel)
 - [Manabrew – Deckimport und Unsupported-Hinweise](https://docs.manabrew.app/playing/)
