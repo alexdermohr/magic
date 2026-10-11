@@ -52,13 +52,21 @@ def names_and_docs() -> list[str]:
     ]
     assert_ok(len(rated) == 100 and Counter(rated) == Counter(names),
               "replaceability matrix does not contain precisely 100 active names")
-    extra = ROOT.joinpath("erweiterter-kreis.md").read_text(encoding="utf-8").splitlines()
-    outside = [
-        m.group(1)
-        for line in extra
-        if (m := re.match(r"^\|\s*\*\*(.*?)\*\*\s*\|", line))
-    ]
-    assert_ok(len(outside) == len(set(outside)), "duplicate name in extended circle")
+    extra = ROOT.joinpath("erweiterter-kreis.md").read_text(encoding="utf-8")
+    assert_ok("## A. Früher in Mishra B3" in extra and
+              "## B. Konkret geprüft" in extra and
+              "## Gegenwärtige Testreihenfolge" in extra,
+              "extended circle section boundaries missing")
+    section_a = extra.split("## A. ", 1)[1].split("## B. ", 1)[0]
+    section_b = extra.split("## B. ", 1)[1].split("## Gegenwärtige Testreihenfolge", 1)[0]
+    pattern = r"^\|\s*\*\*(.*?)\*\*\s*\|"
+    historic = re.findall(pattern, section_a, re.MULTILINE)
+    alternatives = re.findall(pattern, section_b, re.MULTILINE)
+    assert_ok(len(historic) == 38, f"expected 38 historical cuts, found {len(historic)}")
+    assert_ok(len(alternatives) == 95, f"expected 95 external candidates, found {len(alternatives)}")
+    outside = historic + alternatives
+    assert_ok(len(outside) == 133 and len(set(outside)) == 133,
+              "extended circle must contain 133 unique excluded names")
     assert_ok(not (set(outside) & set(names)), "excluded card still active")
     blob = ROOT.joinpath("versions/2026-10-07-optimized-b4-v1.txt").read_bytes()
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
@@ -67,7 +75,7 @@ def names_and_docs() -> list[str]:
     assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 12 required mana artifacts removed")
     assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
               "explicitly excluded creature/permanent sweeper present")
-    print(f"STRUCTURE PASS: 100 singleton / matrix 100 / extended {len(outside)} disjoint / B4 blob unchanged")
+    print(f"STRUCTURE PASS: 100 singleton / matrix 100 / extended {len(historic)} historical + {len(alternatives)} alternatives = {len(outside)} disjoint / B4 blob unchanged")
     return names
 
 
