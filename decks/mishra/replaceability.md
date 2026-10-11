@@ -1,8 +1,12 @@
-# Mishra, Eminent One – Ersetzbarkeitsprüfung nach drei Pflicht-Cuts
+# Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung ohne Kreaturenwipes
 
-**Aktiver Stand:** 11. Oktober 2026 · [Deckrevision `89a09f6`](https://github.com/alexdermohr/magic/commit/89a09f6ae34b4ea2e34ad59a9ebda4e221f4efe0) · [current.txt](current.txt) · [Gesamtanalyse](analysis.md).
+**Aktive Version:** 11. Oktober 2026 · [Deck-Commit `ef8f05f`](https://github.com/alexdermohr/magic/commit/ef8f05fe4776f3ee300e9a5cc19bc86ed3f37a7b) · [current.txt](current.txt) · [Gesamtanalyse](analysis.md).
 
-**Ohne geschützte Karten:** Alle 100 Karten werden nach ihrer Rolle und ihren Opportunitätskosten bewertet, nicht nach früheren Zusagen. Skullclamp, Nihil Spellbomb und Blasphemous Act sind auf ausdrücklichen Wunsch entfernt. Die neuen Karten wurden nach Systemwirkung ausgewählt – nicht als funktionsgleiche Ersatzbeschaffung.
+**Stand und Prioritäten:** Exakt 100 Singleton-Karten, 35 Länder, **45 Artefaktkarten** (vorher 44), 13 Mana-Artefakte im Ramp-Kern und 3 Game Changer (Rhystic Study, Cyclonic Rift, Demonic Tutor). **The Meathook Massacre wurde auf ausdrücklichen Wunsch entfernt und durch Oni-Cult Anvil ersetzt.** Keine breitflächigen Kreaturenwipes im aktuellen Deck; vorhandenes Kreaturen-Removal über Tithing Blade, Lich's Relic, Demonic Junker, Portal to Phyrexia und Deadly Rollick bleibt. Die getrennte B4-Datei bleibt unberührt.
+
+**Wichtigster Spielnutzen:** Oni-Cult Anvil kostet {B}{R}, ist ein Nichtkreatur-Artefakt als direktes Mishra-Kopierziel und ermöglicht Artefaktopfer, Gruppenschaden sowie einmal je Anvil pro eigenem Zug ein 1/1-Artefakt-Construct bei Artefakt-Verlassen. Damit unterstützt es Reckless Fireweaver, Marionette Apprentice, Scrap Trawler und Esoteric Duplicator. Gegenargument: Es benötigt Opfermaterial, {B}{R} und die Construct-Erzeugung ist nur einmal je Anvil und eigenem Zug möglich. Gegenüber Meathook entfällt der passive Todes-Drain und der Wipe; eine Artefaktkarte kommt hinzu.
+
+**Weiterhin offen:** Ohne Nihil Spellbomb fehlt dedizierter Friedhofshass. Skullclamp ist draußen. Die niedrigere Basis an günstigen Artefakten gegenüber früheren Versionen bleibt bei Starthänden und Mox Opal zu beachten. Kartenbewertungen sind strukturelle Hypothesen, kein gemessener Winrate-Vorteil; keine Manabrew-Partien mit dem neuen Anvil-Stand durchgespielt.
 
 | Stufe | Bedeutung | Karten |
 |:---:|---|---:|
@@ -10,12 +14,8 @@
 | 2 | Hoher Deckbeitrag | 48 |
 | 3 | Vergleichsslot; alternative Funktion denkbar | 29 |
 | 4 | Vorrangiger nächster Prüfkandidat | 2 |
-| 5 | Kein noch eindeutig funktionsloser Platz | 0 |
-| **Gesamt** | **100 aktuelle, individuell begründete Bewertungen** | **100** |
-
-**Struktur:** 100 Singleton einschließlich Mishra; **35 Länder**, **44 Artefaktkarten** (zuvor 46), **13 reguläre Mana-Artefakte**, drei Game Changer (**Rhystic Study, Cyclonic Rift, Demonic Tutor**). Neu: **Reckless Fireweaver**, **Mishra, Tamer of Mak Fawa** und **The Meathook Massacre**. Sonst keine Änderung an `current.txt`. Nach Scryfall-Oracle alle neuen Karten in Grixis Commander-legal und keine Game Changer. Die separate B4-Liste bleibt unverändert.
-
-**Haupttrade-offs:** Durch Skullclamp und Nihil Spellbomb fehlen zwei günstige Artefakte, zwei Urza's-Saga-Ziele sowie der einzige gezielte Friedhofshass. Der frühe Metalcraft-Zugang und die Reaktionsmöglichkeiten auf Graveyard-Combos werden etwas schwächer. Dafür gewinnen wir Schutz, Artefakt-Friedhofs-Reanimation, sofortigen ETB-Gruppenschaden und ein bleibendes Opfer-Schadens-/Boardwipe-Werkzeug. Eine Gewinnratenverbesserung ist nicht empirisch belegt.
+| 5 | Kein eindeutig funktionsloser Platz | 0 |
+| **Gesamt** | **100 aktuelle Einzelbewertungen** | **100** |
 
 ## Neu bewertete unveränderte Karten
 
@@ -100,7 +100,7 @@
 | 57 | Deadly Rollick | **2** | Mit Commander kostenloses Kreaturen-Exil; ohne Mishra vier Mana und kein Zugriff auf Nichtkreaturen. |
 | 58 | Feed the Swarm | **3** | Wichtige Antwort auf Verzauberungen in Grixis, aber Sorcery und Lebenspunktverlust; bei genügend anderem Removal prüfbar. |
 | 59 | Vandalblast | **3** | Einseitiger Massen-Artefakthass, lässt die eigenen Artefakte stehen; metagameabhängig, aber einzigartig im Slot. |
-| 60 | The Meathook Massacre | **2** | Flexibler XBB-Kreaturenwipe durch −X/−X plus bleibende Engine: jeder eigene Kreaturentod (auch Warform-Token) kostet allen Gegnern 1 Leben und gegnerische Tode geben Leben. Hoher schwarzer Farbbedarf und eigener Commander kann sterben. |
+| 60 | Oni-Cult Anvil | **2** | {B}{R}-Nichtkreatur-Artefakt und Mishra-Kopierziel: Beim ersten eigenen Artefakt-Verlassen je Zug erzeugt es einen 1/1-Artefakt-Construct; für Tappen und Opfer eines Artefakts verursacht es 1 Schaden an allen Gegnern und gewinnt 1 Leben. Liefert Opfer-/Token-/Fireweaver-/Duplicator-Synergien, benötigt aber Artefakte. |
 | 61 | Mystic Remora | **2** | Früher Multiplayer-Kartennachschub; kumulative Unterhaltskosten und kreaturenlastige Gegner schränken ein. |
 | 62 | Fabricate | **2** | Für {2}{U} jedes Artefakt unabhängig vom Manawert direkt auf die Hand; besonders wichtig, um Portal für Master Transmuters {U}-Hand-Cheat zu finden. Keine direkte Feldwirkung, aber zuverlässige Toolbox. |
 | 63 | Whir of Invention | **4** | Spielt Artefakte als Instant direkt aus Bibliothek, Improvise reduziert X, niemals die harten UUU. Besonders teuer für große Zielkarten. |
@@ -154,25 +154,24 @@ Die **aktuell verbleibenden Stufe-4-Kandidaten sind Demonic Junker und Whir of I
 
 | Priorität | Möglicher Cut | Potenziell rein | Nutzen | Stärkstes Gegenargument | Struktur |
 |:---:|---|---|---|---|---|
-| A | **Brudiclad, Telchor Engineer** | **The Master, Multiplied** | Mishras kontrollierter Warform-Opfertrigger kann Kreaturenspielsteine nicht opfern; keine Legendenregel für eigene Kreaturentokens. | Sechs Mana, kein Artefakt; Brudiclad kann aus vorhandenen Tokens selbst permanente Warforms machen. Funktionsprüfung in Manabrew offen. | Artefakte 44→43, Land/Ramp unverändert |
-| A | **Strionic Resonator** | **Repurposing Bay** | Für {2}, Tap und Artefaktopfer gezieltes Nichtkreatur-/Kreatur-Artefakt mit MV um exakt eins höher direkt suchen; verwertet Warforms nach Kampf. | Resonator verdoppelt Mishras Kampfauslöser ohne Opfer; Bay braucht Sorcery-Timing, Tap und passende MV-Stufe. | Artefakte 44, Länder/Ramp unverändert |
+| A | **Brudiclad, Telchor Engineer** | **The Master, Multiplied** | Mishras kontrollierter Warform-Opfertrigger kann Kreaturenspielsteine nicht opfern; keine Legendenregel für eigene Kreaturentokens. | Sechs Mana, kein Artefakt; Brudiclad kann aus vorhandenen Tokens selbst permanente Warforms machen. Funktionsprüfung in Manabrew offen. | Artefakte 45→44, Land/Ramp unverändert |
+| A | **Strionic Resonator** | **Repurposing Bay** | Für {2}, Tap und Artefaktopfer gezieltes Nichtkreatur-/Kreatur-Artefakt mit MV um exakt eins höher direkt suchen; verwertet Warforms nach Kampf. | Resonator verdoppelt Mishras Kampfauslöser ohne Opfer; Bay braucht Sorcery-Timing, Tap und passende MV-Stufe. | Artefakte 45, Länder/Ramp unverändert |
 | B | **Jhoira, Weatherlight Captain** | **Fateful Discovery** | Zieht bei jedem Artefakt-ETB inklusive Warform und Worldwalker-Helm-Map; Set *The Hobbit*, 14.08.2026. | Jhoira zieht früher bei Historic-Casts, auch ohne Mishra; Discovery hat MV 5 und UU und ist kein Artefakt. | Kein Artefaktunterschied, schwerere Kurve |
-| B | **Demonic Junker** | **Repurposing Bay** | Niedrigere Manakurve und wiederholbarer Warform-basierter Feldtutor. | Junker bietet mit Affinity billiges eigenständiges Mehrspieler-Kreaturenremoval ohne extra Aktivierung. | Artefakte 44, Ramp unverändert |
-| B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 44→43 |
-| C | **The Meathook Massacre** | **Toxic Deluge** | Günstigerer voll skalierbarer Kreaturenwipe gegen Lebenspunkte statt hohem XBB-Manabedarf. | Verlust der permanenten Warform-Opfer-Schadensengine und des Lebensgewinns. | Nichtartefakt gegen Nichtartefakt |
+| B | **Demonic Junker** | **Repurposing Bay** | Niedrigere Manakurve und wiederholbarer Warform-basierter Feldtutor. | Junker bietet mit Affinity billiges eigenständiges Mehrspieler-Kreaturenremoval ohne extra Aktivierung. | Artefakte 45, Ramp unverändert |
+| B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 45→44 |
 | C | **Mishra, Tamer of Mak Fawa** | **Padeem, Consul of Innovation** | Schützt Artefakte mit Hexproof und kann Karten ziehen, billiger. | Schützt Mishra selbst nicht und verliert Unearth für teure Artefakte. | Nichtartefakt gegen Nichtartefakt |
 
 ## Operative Regeln und Nachprüfbarkeit
 
-- **Reckless Fireweaver** triggert für jeden eigenen Artefakt-Eintritt (auch Warform und Helm-Map); **Marionette Apprentice** und **Meathook** triggern dagegen beim Sterben eigener Kreaturen. Ein geopferter Warform-Spielstein zählt als Tod, auch wenn er danach aufhört zu existieren.
+- **Reckless Fireweaver** triggert bei eigenen Artefakt-Eintritten (Warforms, Helm-Maps und Oni-Constructs). **Marionette Apprentice** löst beim Sterben eigener anderer Kreaturen/Artefakte aus. Ein regulär geopferter Warform-Token zählt als Tod; er bleibt danach nicht im Friedhof.
 - **Mishra, Tamer of Mak Fawa** gewährt Ward—Sacrifice a permanent für alle eigenen Permanents; Unearth {1}{B}{R} funktioniert für Artefaktkarten im Friedhof, nicht für verschwundene Warform-Tokens. Das reanimierte Artefakt wird im nächsten Endsegment oder beim Verlassen exiliert. Ward stoppt keine globalen Boardwipes.
-- **The Meathook Massacre** ist eine legendäre **Verzauberung, kein Artefakt**, und damit kein direktes Mishra-Kopierziel. Beim ETB erhalten alle Kreaturen −X/−X bis zum Zugende, auch eigene, wenn X groß genug ist. Danach verstärkt das Enchantment automatisch Warform-Tode als wiederkehrenden Gruppenschaden.
+- **Oni-Cult Anvil** ist ein Nichtkreatur-Artefakt und kann von Mishra kopiert werden. Die Warform besitzt Haste und kann seine Tap-Opferfähigkeit im eigenen Zug nutzen, sofern ungetappt. Das ursprüngliche Anvil kann durch das Opfer einer Warform einen 1/1-Construct erzeugen, einmal im eigenen Zug; dessen Artefakt-ETB löst wiederum Reckless Fireweaver aus.
 - **Ohne Nihil Spellbomb** kann ein graveyardbasiertes Metagame einen neuen Hate-Slot erfordern; Soul-Guide Lantern wäre dann der naheliegende günstige Artefakt-Kandidat, aber kein automatischer Ersatz ohne Gegnermeta.
 - **Manabrew-Grenze:** Sundial und Coveted Jewel bleiben wie verlangt draußen. Die Funktionsfähigkeit der neuen Synergien wurde anhand der Oracle-Texte, nicht in nachgespielten Manabrew-Partien, überprüft.
 - **Bracket 3:** Maximal drei Game Changer, keine beabsichtigte frühe Zweikarten-Endloskombo. Die drei neuen Karten sind keine Game Changer und legal in Grixis.
 
 ### Primärquellen
 
-[Wizards: Commander](https://magic.wizards.com/en/formats/commander) · [Wizards: Commander-Brackets 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) · [Scryfall-Collection-API](https://scryfall.com/docs/api/cards/collection) · [Reckless Fireweaver](https://scryfall.com/card/kld/126/reckless-fireweaver) · [Mishra, Tamer of Mak Fawa](https://scryfall.com/card/bro/217/mishra-tamer-of-mak-fawa) · [The Meathook Massacre](https://scryfall.com/card/inr/122/the-meathook-massacre).
+[Wizards: Commander](https://magic.wizards.com/en/formats/commander) · [Wizards: Commander-Brackets 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) · [Scryfall-Collection-API](https://scryfall.com/docs/api/cards/collection) · [Reckless Fireweaver](https://scryfall.com/card/kld/126/reckless-fireweaver) · [Mishra, Tamer of Mak Fawa](https://scryfall.com/card/bro/217/mishra-tamer-of-mak-fawa) · [Oni-Cult Anvil](https://scryfall.com/card/neo/230/oni-cult-anvil).
 
 **Evidenzgrenze:** Spielstärke, Meta und Manabrew-Implementierung wurden nicht durch kontrollierte Partien nachgewiesen; die Bewertung ist ein nachvollziehbares aktuelles Struktururteil.
