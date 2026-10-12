@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Bolas's Citadel"}
 # Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
-EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge"}
+EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge", "Nevinyrral's Disk"}
 EXPECTED_ROCKS = {
     "Sol Ring", "Arcane Signet", "Fellwar Stone",
     "Dimir Signet", "Izzet Signet", "Rakdos Signet",
@@ -106,7 +106,10 @@ def fetch_oracle(names: list[str]) -> dict[str, dict]:
         page = get_json(req)
         assert_ok(not page.get("not_found"), f"Scryfall unmatched: {page.get('not_found')}")
         for card in page.get("data", []):
-            title = card["name"].split(" // ", 1)[0]
+            title = card["name"]
+            # Match a full canonical multi-face name first; permit front-face-only shorthand too.
+            if title not in names:
+                title = title.split(" // ", 1)[0]
             assert_ok(title not in cards, f"duplicate Oracle result: {title}")
             cards[title] = card
     assert_ok(set(cards) == set(names),
