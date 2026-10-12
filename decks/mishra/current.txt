@@ -10,7 +10,6 @@
 1 Goblin Engineer
 1 Brudiclad, Telchor Engineer
 1 Master Transmuter
-1 Thought Monitor
 1 Roaming Throne
 1 Kappa Cannoneer
 1 Urza, Lord High Artificer
@@ -30,16 +29,17 @@
 1 Esoteric Duplicator
 1 Worldwalker Helm
 1 Prized Statue
-1 Reckless Fireweaver
+1 Tezzeret, Master of the Bridge
 1 Mishra, Tamer of Mak Fawa
 1 Ashnod's Altar
 1 Idol of Oblivion
 1 Strionic Resonator
+1 Thousand-Year Elixir
 1 Mox Opal
-1 Chromatic Lantern
+1 Mephitic Draught
 1 Panharmonicon
 1 Scrap Trawler
-1 Rhystic Study
+1 Mana Vault
 1 The Mightstone and Weakstone
 1 Sculpting Steel
 1 Nautiloid Ship
@@ -49,7 +49,7 @@
 1 Demonic Junker
 1 Lightning Greaves
 1 Determined Iteration
-1 Cyclonic Rift
+1 Bolas's Citadel
 1 Mana Drain
 1 An Offer You Can't Refuse
 1 Chaos Warp
