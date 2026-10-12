@@ -15,7 +15,7 @@ Die Commander werden getrennt gepflegt. **Mishra hat genau eine Bracket-3-Liste 
 
 ## Mishra, Eminent One
 
-**Bracket 3 / Upgraded:** farbstabile Artefakt-Value-/Token-Linie mit Citadel/Top/Reservoir-Dreikartenabschluss, aber ohne beabsichtigte frühe Zweikarten-Endloskombination.
+**Bracket 3 / Upgraded:** Artefakt-Value-/Warform-Token-Linie um Mishra und Brudiclad; Sensei's Divining Top verbessert die Bibliothekskontrolle und Bolas's Citadel ohne Reservoir-Endloskombo.
 
 - **Einzige gepflegte B3-Liste:** [decks/mishra/current.txt](decks/mishra/current.txt)
 - Mana- und Deckanalyse: [decks/mishra/analysis.md](decks/mishra/analysis.md)
@@ -87,7 +87,7 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 ## Aktueller Stand (Ruxa: 2026-10-11; Mishra: 2026-10-12; andere Decks: frühere Revisionen)
 
 - Ruxa: **Bracket 3 v4 / Token-Value (2026-10-11)**, 36 Länder / 19 Kreaturen inkl. Commander / 4 Vanilla-Kreaturen / drei Game Changer.
-- Mishra: **Bracket 3, 100 verschiedene Karten inkl. Commander / 35 Länder / 47 Artefakte / 13 Mana-Artefakte / genau drei Game Changer** (**Demonic Tutor, Mana Vault, Bolas's Citadel**). Die [einzige aktive Liste](decks/mishra/current.txt) behält die Game Changer vom 11.10. und tauscht jetzt **Lich's Relic → Sensei's Divining Top**, **Brudiclad → Aetherflux Reservoir** und **Ashnod's Altar → Krark-Clan Ironworks**. Diese Karten ermöglichen ein stärkeres Citadel-Topdeck- und Opferpaket einschließlich einer **regelkonformen Drei-Karten-Kombination** mit Reservoir; keine beabsichtigte frühe Zweikarten-Kombo. **Arcum Dagsson, Demonic Junker, Whir of Invention, Thousand-Year Elixir, Tezzeret und The Mightstone and Weakstone** bleiben. [Analyse](decks/mishra/analysis.md) · [Erweiterter Kreis (136)](decks/mishra/erweiterter-kreis.md) · [Manabrew-Tests](decks/mishra/manabrew-tests.md).
+- Mishra: **Bracket 3, 100 verschiedene Karten inkl. Commander / 35 Länder / 47 Artefakte / 13 Mana-Artefakte / genau drei Game Changer** (**Demonic Tutor, Mana Vault, Bolas's Citadel**). Die [einzige aktive B3-Liste](decks/mishra/current.txt) enthält wieder **Brudiclad, Telchor Engineer** und **Ashnod's Altar**; die lediglich im nicht gemergten PR-Entwurf getesteten **Aetherflux Reservoir** und **Krark-Clan Ironworks** sind ausgeschlossen. Als einziger aktueller Tausch bleibt **Lich's Relic → Sensei's Divining Top** (Urza's Saga, Fetchlands, Bolas's Citadel; ohne Reservoir kein Endlos-Lifegain). **Arcum Dagsson, Demonic Junker, Whir of Invention, Thousand-Year Elixir, Tezzeret und The Mightstone and Weakstone** bleiben. [Analyse](decks/mishra/analysis.md) · [Erweiterter Kreis (136)](decks/mishra/erweiterter-kreis.md) · [Manabrew-Tests](decks/mishra/manabrew-tests.md).
 - Mishra: Bracket 4, separate Liste unverändert.
 - Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers.
 

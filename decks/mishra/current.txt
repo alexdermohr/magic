@@ -8,7 +8,7 @@
 1 Sai, Master Thopterist
 1 Goblin Welder
 1 Goblin Engineer
-1 Aetherflux Reservoir
+1 Brudiclad, Telchor Engineer
 1 Master Transmuter
 1 Roaming Throne
 1 Kappa Cannoneer
@@ -31,7 +31,7 @@
 1 Prized Statue
 1 Tezzeret, Master of the Bridge
 1 Mishra, Tamer of Mak Fawa
-1 Krark-Clan Ironworks
+1 Ashnod's Altar
 1 Idol of Oblivion
 1 Strionic Resonator
 1 Thousand-Year Elixir

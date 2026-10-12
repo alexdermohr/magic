@@ -14,6 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Bolas's Citadel"}
+REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Sensei's Divining Top"}
+FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic"}
 # Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
 EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge", "Nevinyrral's Disk"}
 EXPECTED_ROCKS = {
@@ -66,8 +68,8 @@ def names_and_docs() -> list[str]:
     pattern = r"^\|\s*\*\*(.*?)\*\*\s*\|"
     historic = re.findall(pattern, section_a, re.MULTILINE)
     alternatives = re.findall(pattern, section_b, re.MULTILINE)
-    assert_ok(len(historic) == 42, f"expected 42 historical cuts, found {len(historic)}")
-    assert_ok(len(alternatives) == 94, f"expected 94 external candidates, found {len(alternatives)}")
+    assert_ok(len(historic) == 40, f"expected 40 historical cuts, found {len(historic)}")
+    assert_ok(len(alternatives) == 96, f"expected 96 external candidates, found {len(alternatives)}")
     outside = historic + alternatives
     assert_ok(len(outside) == 136 and len(set(outside)) == 136,
               "extended circle must contain 136 unique excluded names")
@@ -76,6 +78,8 @@ def names_and_docs() -> list[str]:
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
     assert_ok(EXPECTED_GC.issubset(set(names)), "required Game Changer removed")
+    assert_ok(REQUIRED_CURRENT.issubset(set(names)), "required Brudiclad/Ashnod/Top package missing")
+    assert_ok(not (FORBIDDEN_CURRENT & set(names)), "rejected Reservoir/KCI/Relic card present")
     assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 13 required mana artifacts removed")
     assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
               "explicitly excluded creature/permanent sweeper present")

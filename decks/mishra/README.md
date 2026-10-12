@@ -14,19 +14,19 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelles Bracket 3: stärkere Citadel-Linie (12.10.2026)
+## Aktuelles Bracket 3: Brudiclad-Tokenengine mit Sensei's Divining Top (12.10.2026)
 
-**Maßgeblich ist nur [current.txt](current.txt).** Die drei Game Changer **Demonic Tutor, Mana Vault und Bolas's Citadel** bleiben nach Prüfung gegen Rhystic Study, Cyclonic Rift, The One Ring und Fierce Guardianship besetzt. Der größere Zugewinn liegt in besserer Citadel-Nutzung, nicht im vierten Game Changer.
+**[current.txt](current.txt) ist die einzige verbindliche B3-Liste.** Brudiclad, Telchor Engineer und Ashnod's Altar bleiben nach Nutzerentscheidung im Deck. Aetherflux Reservoir und Krark-Clan Ironworks waren nur vorübergehende Vorschläge auf dem noch offenen PR-Branch und wurden wieder gestrichen.
 
-| Raus | Rein | Warum |
-|---|---|---|
-| Lich's Relic | **Sensei's Divining Top** | Bibliotheksoberseite ordnen, Citadel-Landstau entschärfen, durch Urza's Saga suchbar |
-| Brudiclad, Telchor Engineer | **Aetherflux Reservoir** | Lebensgewinn bei aufeinanderfolgendem Wirken, mit Top + Citadel ein dreiteiliger Siegabschluss |
-| Ashnod's Altar | **Krark-Clan Ironworks** | Opfer beliebiger Artefakte für {C}{C}, besonders gut mit Wellspring, Draught und Trawler; kostet ein Mana mehr |
+| Gegenüber dem bestehenden GitHub-`main` | Nutzen und Risiko |
+|---|---|
+| **Lich's Relic → Sensei's Divining Top** | Die Top ist mit **Urza's Saga** suchbar, verbessert die Qualität der obersten Karten und arbeitet mit Fetchländern sowie **Bolas's Citadel**. Ohne Reservoir dient sie dem kontrollierten Nachziehen statt einer schnellen Siegkombination. Gegenargument: Das kopierbare Kreaturen-Removal von Lich's Relic geht verloren. |
 
-**Bilanz:** 100 Einzelkarten einschließlich Commander, 35 Länder, **47 Artefakte**, 13 definierte Mana-Artefakte, genau drei Game Changer; 42 historische Cuts und 94 weitere Alternativen (136 disjunkt). Die Bracket-4-Datei wird nicht verändert. Der 3-Permanent-Loop ist nach B3-Bauregeln zulässig, sozial aber anzukündigen; keine echten Manabrew-Partien als PASS verzeichnet.
+**Brudiclad** kann nach Mishras Kampfauslöser bestehende Tokens dauerhaft zu Warform-Kopien machen (ohne zusätzliche ETBs). **Ashnod's Altar** liefert für drei Mana eine kostenlose Opferfähigkeit für Warforms und andere Kreaturen. Die Game Changer bleiben **Demonic Tutor, Mana Vault und Bolas's Citadel**; kein vierter Slot.
 
-[Entscheidungsanalyse](analysis.md) · [Erweiterter Kreis](erweiterter-kreis.md) · [100 Einzelbewertungen](replaceability.md) · [Tests G1–G5](manabrew-tests.md)
+**Struktur:** 100 Karten, 35 Länder, 47 Artefakte, 13 benannte Mana-Artefakte, drei Game Changer. [Erweiterter Kreis](erweiterter-kreis.md): **40 historische Cuts + 96 nicht aktive Alternativen = 136 Karten**, disjunkt zur aktiven Liste. Bracket 4 bleibt unverändert. Live-Spieltests der neuen Top-/Brudiclad-Sequenzen stehen aus.
+
+[Entscheidungsanalyse](analysis.md) · [100 Einzelbewertungen](replaceability.md) · [Manabrew-Tests](manabrew-tests.md)
 
 ## Vorangegangene Mishra-Revision – drei neu besetzte Game Changer (11.10.2026)
 

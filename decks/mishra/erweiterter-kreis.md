@@ -4,11 +4,13 @@
 **Stand:** 12. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
 
 
-## Aktuelle Bracket-3-Optimierung – Citadel vervollständigen (12.10.2026)
+## Aktueller Deckentscheid – Brudiclad und Ashnod zurück, Top bleibt (12.10.2026)
 
-**Aktiv:** Genau drei Game Changer **Demonic Tutor, Mana Vault, Bolas's Citadel**; die jüngsten Nutzerentscheidungen werden nicht zurückgedreht. Neue Karten sind **Sensei's Divining Top**, **Aetherflux Reservoir** und **Krark-Clan Ironworks**. Ausgeschieden sind **Lich's Relic**, **Brudiclad, Telchor Engineer** und **Ashnod's Altar**. Stabile Bilanz: **42 historische Cuts + 94 alternative Kandidaten = 136 ausgeschlossene unterschiedliche Karten**; keine Überschneidung mit den aktiven 100. B4 bleibt unverändert.
+**Maßgeblich:** [current.txt](current.txt). Die zuvor nur im offenen PR #7 ausprobierten **Aetherflux Reservoir** und **Krark-Clan Ironworks** wurden auf Nutzerwunsch wieder ausgeschlossen. **Brudiclad, Telchor Engineer** und **Ashnod's Altar** bleiben im Bracket-3-Deck. Von den drei damaligen Vorschlägen bleibt **Sensei's Divining Top anstelle von Lich's Relic**: per Urza's Saga suchbar, nützlich mit Fetchländern und Bibliotheksoberseite; mit Bolas's Citadel kann die gezogene Top wieder für ein Leben gewirkt werden. Das ist **ohne Reservoir kein unbegrenzter Lebensgewinn oder Sofortsieg**.
 
-Die Top-/Citadel-/Reservoir-Linie besteht aus **drei benötigten Permanents**, nicht aus einer frühen Zweikarten-Endloskombination. Sie erlaubt wiederholtes Top-Wirken von der Bibliothek für je ein Leben, Reservoir-Lebensgewinn und später Schüsse für je 50 Leben. Achtung: **Top + Citadel allein** verbraucht Leben und beendet ohne passende weitere Karten nicht garantiert die Partie. Brudiclads unabhängiger Token-Kampfabschluss und das günstigere Ashnod's Altar gehen verloren; das Paket ist ohne Tests ein strategisch begründeter, nicht statistisch bewiesener Nettogewinn.
+**Aktuelle Bilanz:** **40 historische, tatsächlich vor dieser PR-Variante gestrichene Karten** + **96 geprüfte, ausgeschlossene Kandidaten** = **136 unterschiedliche nicht aktive Kartennamen**, ohne Überschneidung mit 100 Deckkarten. Das gesonderte Bracket-4-Deck bleibt unverändert. Die drei Game Changer **Demonic Tutor, Mana Vault, Bolas's Citadel** bleiben unverändert. Keine beabsichtigte frühe Zwei-Karten-Endloskombination; keine Kreaturenwipes.
+
+**Verworfener PR-Zwischenstand:** Reservoir hätte Citadel/Top als dritte Karte zum Lebensgewinn-Kill ergänzt, aber außerhalb des Drei-Permanent-Aufbaus wenig beigetragen. Ironworks kann Nichtkreatur-Artefakte opfern, kostet jedoch ein Mana mehr als Ashnod's Altar. Die bewährte Kampf-/Kopierlinie von Brudiclad und der frühe Warform-Opfermotor erhalten Vorrang. Diese Abwägung ist eine strategische Hypothese, kein gemessener Gewinnratenvergleich.
 
 ## Vorangegangene Bracket-3-Änderung: Rhystic Study und Cyclonic Rift entfernt (11.10.2026)
 
@@ -57,20 +59,18 @@ Der **Erweiterte Kreis** ist die zentrale Warteliste/Archiv für Mishra-B3-Karte
 
 Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestrichen** = bisher kein überzeugender Mehrwert; **metagameabhängig** = nur bei passendem Umfeld; **bewusst draußen** = scheidet unter heutigen Bedingungen aus. Bei Alternativen: **hoher Testwert**, **weiterer Kandidat**, **niedrige Priorität**, **bewusst draußen**.
 
-## A. Früher in Mishra B3, jetzt gestrichen (42)
+## A. Früher in Mishra B3, jetzt gestrichen (40)
 
 | Karte | Aktuelle Einstufung | Grund für Streichung / mögliche Neubewertung |
 |---|---|---|
 | **Abrade** | historisch gestrichen | Situativer Artefakt-/Kreaturenschaden, gegenüber vorhandener Interaktion weniger entscheidend. |
 | **Aether Spellbomb** | Rückkehr möglich | Günstiger Saga-Suchtreffer für Bounce oder Draw, aber im bisherigen Verlauf zugunsten stärkerer Engines gestrichen. |
 | **Ancient Tomb** | Rückkehr möglich | Beschleunigt farblos um zwei Mana, deckt U/B/R-Anforderungen aber nicht ab und kostet Leben. |
-| **Ashnod's Altar** | am 12.10.2026 ersetzt | Für {3} günstiger Opfermotor, kann jedoch nur Kreaturen opfern. **Krark-Clan Ironworks** erschließt auch Wellspring, Draught und weitere Nichtkreatur-Artefakte, kostet dafür ein Mana mehr. Rückkehr bei zu langsamem Starttempo oder Opfer-Komboproblemen. |
 | **Baleful Strix** | historisch gestrichen | Kleiner Artefaktkreatur-ETB mit Draw/Deathtouch, kein direktes Nichtkreatur-Mishra-Kopierziel. |
 | **Basalt Monolith** | historisch gestrichen | Einmaliger Schub von drei farblosen Mana, ohne Untap-Engine langfristig kein zusätzlicher Ertrag. |
 | **Bedevil** | historisch gestrichen | Solides gezieltes Removal, Platz zugunsten wiederholbarer Artefakt-Interaktion verloren. |
 | **Blackcleave Cliffs** | historisch gestrichen | Frühes B/R-Dual, später getappt; vorhandene Fetch-/Dualbasis ist flexibler. |
 | **Blasphemous Act** | bewusst draußen | Kreaturenwipe ausdrücklich unerwünscht; eigenes Mishra-Board wird getroffen. |
-| **Brudiclad, Telchor Engineer** | am 12.10.2026 ersetzt | Erzeugt bei Kampfbeginn Myr und wandelt bestehende Tokens in eine Warform-Vorlage um (ohne erneute ETBs). Sechs Mana, abhängiger Boardstate; **Aetherflux Reservoir** ermöglicht Lebensgewinn und eine kompakte Citadel-Abschlusslinie. Rückkehr bei Übergewicht von Token-Brettspielen gegenüber Topdeck-Kombos. |
 | **Chromatic Lantern** | Rückkehr möglich | **Streichgrund:** Drei-Mana-Artefakt bietet bei bereits 35 flexiblen Ländern und zwölf weiteren Mana-Artefakten primär redundantes Farbmana. **Gegenargument:** Ein universeller Farbrock, der alle Länder stabilisiert, auch für {U}{U}{U} (Whir) und Tezzerets {U}{B}. **Rückkehr:** Wenn Starthand-/Partiedaten vermehrte Farbprobleme oder kritische verpasste frühe Manakurven zeigen. |
 | **Counterspell** | historisch gestrichen | UU-Konter ohne den Manavorteil von Mana Drain oder die Ein-Mana-Effizienz anderer Counter. |
 | **Coveted Jewel** | bewusst draußen | Hoher ETB-Draw und Mana, aber Angriff kann die Kontrolle an den Gegner geben; ausdrücklich ausgeschlossen. |
@@ -104,7 +104,7 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Trash for Treasure** | Rückkehr möglich | Reanimiert teure Artefakte für 2R samt Opfer, hat Konkurrenz durch Welder/Transmuter/Tamer. |
 | **Treasure Vault** | Rückkehr möglich | Artefaktland mit spätem Treasure-Mana-Sink, produziert früh nur farblos. |
 
-## B. Konkret geprüft, aber nie in der aktiven B3-Liste (94)
+## B. Konkret geprüft, aber nicht Teil der aktuellen B3-Liste (96)
 
 | Karte | Priorität | Grund für Nichtaufnahme / mögliche Rückkehr |
 |---|---|---|
@@ -202,6 +202,8 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Time Sieve** | bewusst draußen | Opfert fünf Artefakte für Extrazug; potenzielle Extra-Turn-Schleife außerhalb gewollten B3-Profils. |
 | **Toxic Deluge** | bewusst draußen | Kreaturenwipe ausdrücklich nicht gewünscht, trotz effizienter -X/-X-Wirkung. |
 | **Wishclaw Talisman** | bewusst draußen | Tutor zu günstigen Kosten, Übergabe der Kontrolle an Gegner ähnlich Jewel-Risiko. |
+| **Aetherflux Reservoir** | bewusst draußen (verworfener PR-Entwurf) | Benötigt viele im selben Zug gewirkte Zauber; mit Citadel und Top zwar ein Abschluss, aber außerhalb des Drei-Permanent-Aufbaus wenig aktiver Boardnutzen. Der Nutzer bevorzugt Brudiclads Token-Engine. |
+| **Krark-Clan Ironworks** | bewusst draußen (verworfener PR-Entwurf) | Kann auch Nichtkreatur-Artefakte für {C}{C} opfern, kostet jedoch {4} statt {3}. Das günstigere Ashnod's Altar opfert die ohnehin verfügbaren Warform-/anderen Kreaturentokens; der zusätzliche Opferumfang rechtfertigt hier den höheren Preis nicht. |
 
 ## Gegenwärtige Testreihenfolge (nicht automatisch eingebaut)
 
@@ -212,6 +214,6 @@ Dabei weiterhin beachten: keine zusätzlichen Kreaturenwipes; Sundial erst bei f
 ## Quellen und Nachvollziehbarkeit
 
 - **Historischer Abgleich:** [GitHub-Commitverlauf der aktiven B3-Kartenliste](https://github.com/alexdermohr/magic/commits/main/decks/mishra/current.txt), 22 ausgewertete Dateifassungen einschließlich [ursprünglichem Track](https://github.com/alexdermohr/magic/commit/0b6094cf09566f3c10bb1d78129e3ac3dca4337e).
-- **Weitere Kandidaten:** [Scryfall Cards Collection](https://scryfall.com/docs/api/cards/collection) – 99 insgesamt namentlich geprüfte Alternativen (einschließlich bereits aktiv gewordener Karten), davon **94 gegenwärtig ausgeschlossene**; historische Stände wurden vor dieser Revision gesondert dokumentiert. Commander-Legalität und Farbidentität sind **vor jedem tatsächlichen Einbau** erneut zu prüfen.
+- **Weitere Kandidaten:** [Scryfall Cards Collection](https://scryfall.com/docs/api/cards/collection) – historische Kandidatenübersicht (einschließlich später aktiv gewordener Karten), gegenwärtig **96 als Alternativen ausgeschlossene**; historische Stände wurden vor dieser Revision gesondert dokumentiert. Commander-Legalität und Farbidentität sind **vor jedem tatsächlichen Einbau** erneut zu prüfen.
 - **Bracket:** [Wizards Commander Brackets](https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta) – keine frühe absichtliche Zweikarten-Endloskombo und maximal drei Game Changer in Bracket 3.
 - **Spielumgebung:** Ein Papierregel-Synergiepotenzial beweist noch keine vollständige Unterstützung in manabrew.app; insbesondere ungewöhnliche statische Effekte separat testen.
