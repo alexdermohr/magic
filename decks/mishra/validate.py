@@ -66,11 +66,11 @@ def names_and_docs() -> list[str]:
     pattern = r"^\|\s*\*\*(.*?)\*\*\s*\|"
     historic = re.findall(pattern, section_a, re.MULTILINE)
     alternatives = re.findall(pattern, section_b, re.MULTILINE)
-    assert_ok(len(historic) == 40, f"expected 40 historical cuts, found {len(historic)}")
-    assert_ok(len(alternatives) == 95, f"expected 95 external candidates, found {len(alternatives)}")
+    assert_ok(len(historic) == 42, f"expected 42 historical cuts, found {len(historic)}")
+    assert_ok(len(alternatives) == 94, f"expected 94 external candidates, found {len(alternatives)}")
     outside = historic + alternatives
-    assert_ok(len(outside) == 135 and len(set(outside)) == 135,
-              "extended circle must contain 135 unique excluded names")
+    assert_ok(len(outside) == 136 and len(set(outside)) == 136,
+              "extended circle must contain 136 unique excluded names")
     assert_ok(not (set(outside) & set(names)), "excluded card still active")
     blob = ROOT.joinpath("versions/2026-10-07-optimized-b4-v1.txt").read_bytes()
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()

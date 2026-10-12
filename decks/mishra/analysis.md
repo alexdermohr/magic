@@ -1,15 +1,37 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-11
+**Stand:** 2026-10-12
 
 **Verbindliche B3-Liste:** [current.txt](current.txt)
 
 **Ersetzbarkeitsmatrix (100 aktuelle Einzelurteile und dokumentierte historische Tauschhypothesen):** [replaceability.md](replaceability.md)
-**Erweiterter Kreis (40 historische Cuts, 95 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
+**Erweiterter Kreis (42 historische Cuts, 94 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle B3-Revision: Mana Vault + Bolas's Citadel statt Rhystic Study + Cyclonic Rift (11.10.2026)
+## Aktuelle Optimierung: Citadel-Engine mit Top und Reservoir (12.10.2026)
+
+Die drei Game-Changer-Plätze bleiben **Demonic Tutor, Mana Vault, Bolas's Citadel**. Ihr Ersatzergebnis beruht auf ihrer Funktion in genau diesem Deck, nicht auf einem generischen Ranking:
+
+| Game Changer | Bestes Gegenangebot | Abwägung und Entscheidung |
+|---|---|---|
+| **Demonic Tutor** | Rhystic Study oder The One Ring (langfristiges Nachziehen) | Nur Demonic Tutor greift für {1}{B} gezielt auch nach Top, Reservoir, Antworten, Schutz und fehlender Farbmana-Quelle. **Behalten.** |
+| **Mana Vault** | Rhystic Study (Multiplayer-Draw), Fierce Guardianship (Schutz) | Mana Vault ist anders als beide ein für {1} per Urza's Saga suchbares **Mishra-Kopierziel** und beschleunigt Arcum/Citadel/Reservoir. Die Warform kann sofort {C}{C}{C} erzeugen; mit Thousand-Year Elixir ist eine zweite Aktivierung möglich. Nur farbloses Mana und Selbstschaden bleiben Nachteile. **Behalten.** |
+| **Bolas's Citadel** | Cyclonic Rift (Notbremse), The One Ring (mehr garantierte Karten), Rhystic Study (passive Draw-Engine) | Die Citadel ist in Grixis ein über Arcum, Welder und Transmuter zugängliches **Nichtkreatur-Artefakt**; Top entschärft Bibliotheksblockaden, Reservoir wandelt wiederholtes Wirken in Lebensgewinn/Sieg um. Einseitiger Reset und früher Universal-Draw fehlen weiterhin. **Nach Verbesserung behalten**, nicht aufgrund eines ungetesteten Siegquotenversprechens. |
+
+### Drei gezielte Tausche
+
+1. **Lich's Relic → Sensei's Divining Top.** Top kann bei Citadel-Landstau die obersten drei Karten sortieren und ist durch **Urza's Saga** suchbar. Ihre Tap-Fähigkeit zieht eine Karte und legt Top auf die Bibliothek; Citadel erlaubt, es wieder für genau ein Leben statt {1} zu wirken. Relic lieferte situatives ETB-Removal gegen {2}, dessen Verlust die anderen Antworten teilweise auffangen.
+2. **Brudiclad, Telchor Engineer → Aetherflux Reservoir.** Brudiclad ist ein starker alternativer Token-Kopierabschluss, verlangt aber sechs Mana und vorhandene Tokens. Reservoir kostet vier, gewinnt bei einer Folge gewirkter Zauber zunehmend Leben und kann für **50 bezahlte Leben** einem Ziel **50 Schaden** zufügen. Ohne wiederholbares Casting bleibt das Reservoir vergleichsweise passiv.
+3. **Ashnod's Altar → Krark-Clan Ironworks.** Ironworks kostet vier statt drei Mana, darf aber **jedes Artefakt** für {C}{C} opfern; Ashnod ist auf Kreaturen beschränkt. So werden Ichor Wellspring, Mephitic Draught und Warforms gleichermaßen in Mana und Friedhofsinteraktionen verwandelt. Höhere Anfangskosten und Kombopotenzial sind reale Kosten.
+
+**Komboprüfung:** Mit **Citadel + Top + Reservoir** auf dem Spielfeld: Top für {T} ziehen und auf die Bibliothek legen → für ein Leben über Citadel wirken → Reservoir-Lebensgewinn für die wachsende Zauberzahl erhalten → wiederholen → Reservoir-Fähigkeit einsetzen. Das sind **drei getrennte Permanents**, keine beabsichtigte frühe Zweikarten-Endloskombination. Die Linie ist unterbrechbar (Artefakt-Removal, Counter, Stifle-Effekte), braucht die Komponenten und genügend Leben zum Start; auch wiederholtes Kartenziehen kann bei leerer Bibliothek problematisch werden. Mit Jhoira kann Top-Casting zusätzlich Pflicht-Draw auslösen: diese Reihenfolge rechtzeitig beachten. Regelreferenz: [Wizards, Commander Brackets](https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta) · [EDHREC, Citadel-Top-Reservoir-Kombination](https://edhrec.com/combos/mono-black/2173-4740-5078).
+
+**Aufbaubilanz:** 100 Singleton-Karten inkl. Mishra, **35 Länder, 47 Artefakte, 13 definierte Mana-Artefakte**, drei Game Changer, **42 historische Cuts + 94 zurückgestellte Alternativen** disjunkt. Demonic Junker, The Mightstone and Weakstone, Arcum Dagsson, Jhoira, Whir of Invention, Kappa Cannoneer, Thousand-Year Elixir und Tezzeret bleiben unverändert, die separate B4-Liste ebenfalls. **Keine tatsächlichen Manabrew-Partien**: Leistung, Kombo-Erkennung und Spielstärke sind fundierte Regeln/Deckbauannahmen, nicht experimentell bestätigt. Top/Reservoir/KCI in der Vorabkommunikation mit der Spielgruppe erwähnen.
+
+---
+
+## Vorangegangene B3-Revision: Mana Vault + Bolas's Citadel statt Rhystic Study + Cyclonic Rift (11.10.2026)
 
 **Explizite Nutzerentscheidung:** Die Game-Changer-Slots neu besetzen. **Demonic Tutor bleibt**, **Rhystic Study und Cyclonic Rift werden entfernt**, **Mana Vault und Bolas's Citadel aufgenommen**. Die bisherige Eingangsrevision einschließlich Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge, Arcum Dagsson, Demonic Junker, The Mightstone and Weakstone, Whir of Invention und aller Länder bleibt sonst bestehen. Maßgeblich ist ausschließlich [current.txt](current.txt).
 

@@ -14,7 +14,21 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelles Mishra Bracket 3 – drei neue Game Changer (11.10.2026)
+## Aktuelles Bracket 3: stärkere Citadel-Linie (12.10.2026)
+
+**Maßgeblich ist nur [current.txt](current.txt).** Die drei Game Changer **Demonic Tutor, Mana Vault und Bolas's Citadel** bleiben nach Prüfung gegen Rhystic Study, Cyclonic Rift, The One Ring und Fierce Guardianship besetzt. Der größere Zugewinn liegt in besserer Citadel-Nutzung, nicht im vierten Game Changer.
+
+| Raus | Rein | Warum |
+|---|---|---|
+| Lich's Relic | **Sensei's Divining Top** | Bibliotheksoberseite ordnen, Citadel-Landstau entschärfen, durch Urza's Saga suchbar |
+| Brudiclad, Telchor Engineer | **Aetherflux Reservoir** | Lebensgewinn bei aufeinanderfolgendem Wirken, mit Top + Citadel ein dreiteiliger Siegabschluss |
+| Ashnod's Altar | **Krark-Clan Ironworks** | Opfer beliebiger Artefakte für {C}{C}, besonders gut mit Wellspring, Draught und Trawler; kostet ein Mana mehr |
+
+**Bilanz:** 100 Einzelkarten einschließlich Commander, 35 Länder, **47 Artefakte**, 13 definierte Mana-Artefakte, genau drei Game Changer; 42 historische Cuts und 94 weitere Alternativen (136 disjunkt). Die Bracket-4-Datei wird nicht verändert. Der 3-Permanent-Loop ist nach B3-Bauregeln zulässig, sozial aber anzukündigen; keine echten Manabrew-Partien als PASS verzeichnet.
+
+[Entscheidungsanalyse](analysis.md) · [Erweiterter Kreis](erweiterter-kreis.md) · [100 Einzelbewertungen](replaceability.md) · [Tests G1–G5](manabrew-tests.md)
+
+## Vorangegangene Mishra-Revision – drei neu besetzte Game Changer (11.10.2026)
 
 **Die verbindliche [aktuelle Deckliste](current.txt) enthält als einzige drei Game Changer Demonic Tutor, Mana Vault und Bolas's Citadel.** Die bisherigen Game Changer Rhystic Study und Cyclonic Rift wurden nach Nutzerentscheidung entfernt.
 

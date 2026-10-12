@@ -1,12 +1,24 @@
 # Manabrew-Funktionsprüfung – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 11.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge sowie Game Changer Mana Vault und Bolas's Citadel. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver, Rhystic Study und Cyclonic Rift.
+**Stand:** 12.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge sowie Game Changer Mana Vault und Bolas's Citadel. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver, Rhystic Study und Cyclonic Rift.
+
+## G – Aktuelle Citadel-/Top-/Reservoir-/Ironworks-Sequenzen (12.10.2026)
+
+**Vorzustand:** Die verbindliche [current.txt](current.txt) enthält **Sensei's Divining Top, Aetherflux Reservoir und Krark-Clan Ironworks**, aber **nicht** Lich's Relic, Brudiclad oder Ashnod's Altar. Die drei unveränderten Game Changer sind **Demonic Tutor, Mana Vault, Bolas's Citadel**. Alle folgenden Spieltest-Ergebnisse stehen zunächst auf **NICHT AUSGEFÜHRT**.
+
+1. **G1 – Urza's Saga findet Top.** III. Kapitel auflösen, Sensei's Divining Top aus der Bibliothek als Artefakt mit exakt {1} Manakosten direkt ins Feld legen. Erwartung: reguläre Saga-Suchbedingung erfüllt. Eine bereits im Friedhof liegende Top-Karte wird durch Saga nicht gefunden.
+2. **G2 – Top gegen Citadel-Landstau.** Citadel im Feld, zwei Länder und ein wirkbarer Nichtlandzauber unter den obersten drei Karten: Top für {1} aktivieren, passende Reihenfolge setzen und legalen Zauber oben wirken. Erwartung: Citadel umgeht **nicht** das normale Land-Limit und keine Timing-Beschränkung; Top wird für die Aktivierung nicht geopfert.
+3. **G3 – Top/Citadel/Reservoir.** Drei benötigte Artefakte liegen ungetappt/spielbar, genug Leben, freie Hauptphase: Top tappen, Karte ziehen und Top auf Bibliothek legen. Top von oben **für 1 Leben** über Citadel wirken; Reservoir gewinnt beim ersten gewirkten Spell in diesem Zug ein Leben, bei weiteren entsprechend mehr. Dies wiederholen und 50 Leben für je 50 Schaden an ein Ziel zahlen. **Kontrollen:** Ohne Reservoir folgt kein skalierender Lebensgewinn, ohne Citadel kann die Top nur gegen {1} regulär gewirkt werden, ohne Top fehlt der reproduzierbare Casting-Kreis. Hat **Jhoira** mit im Feld liegender Pflicht-Cast-Draw-Fähigkeit mehrere zusätzliche Ziehereignisse, darf die leere Bibliothek nicht ignoriert werden.
+4. **G4 – Krark-Clan Ironworks versus Ashnod's Altar.** Eine eigene nichtkreaturische Ichor Wellspring opfern: KCI produziert {C}{C} und Wellspring-Draw triggert, während Ashnod es nie opfern könnte. Eine eigene Mishra-Warform wie gewohnt opfern, unabhängige Duplicator-/Todes-Trigger und {C}{C} prüfen. KCI selbst ist ein Nichtkreatur-Artefakt und Mishra-Kopierziel, nicht zwingend ein sinnvoller primärer Warform-Angriffsplan.
+5. **G5 – Negativtest und B3-Evidenz.** Die drei Komponenten einzeln oder paarweise ohne Drittes prüfen; keine Zweikarten-Siegbehauptung. Durch gegnerisches Artefakt-Removal/Counter unterbrochene Schleife nachstellen. Dokumentieren: Deckrevision, Manabrew-Version, Boardstate, Stackfolge und tatsächlich verfügbare Hand-/Lebensressourcen. Erst danach PASS oder FAIL vergeben.
+
+**Status G1–G5: NICHT AUSGEFÜHRT**. Die dokumentierte Loop-Regel ist extern beschrieben, aber kein Nachweis für Manabrew-Kompatibilität oder bessere Gewinnraten. [EDHREC-Komboschritte](https://edhrec.com/combos/mono-black/2173-4740-5078) · [Wizards Commander-Brackets](https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta).
 
 ## Evidenzstatus – ausdrücklich keine bestandenen Kartentests
 
 | Ebene | Status | Beobachtung / Grenze |
 |---|---|---|
-| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: 135 andere Namen, keine Überschneidung (11.10.2026). |
+| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: ehemals 135 andere Namen (11.10.2026); neue Revision 42 + 94 = 136 andere Namen, per Validator zu bestätigen. |
 | Manabrew-Webclient | **Oberfläche erreichbar** | `https://play.manabrew.app` wurde in einer isolierten Chrome-Sitzung geladen; Startseite bot `Build / Import` und `Play Offline` an. |
 | Import des konkreten Decks | **Nicht durchgeführt** | Der eingesetzte semantische Browserzugriff gestattete keinen belastbaren Eingabe-/Import- und Spielablauf. Navigations-/Aktivierungsversuche an dynamischen Elementen scheiterten an Snapshot-/Element-Vertragsgrenzen. |
 | Nautiloid Ship, Arcum Dagsson, Crossover-Karten | **Keine erfolgreiche Spielsitzung; ungetestet** | Kein konkreter Boardstate wurde in Manabrew erzeugt. Insbesondere keine Exil-Objektzuordnung und keine Tutor-Auflösung praktisch verifiziert. |
