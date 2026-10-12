@@ -84,11 +84,11 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Marchesa: aktuelle Bracket-3-Liste und datierte Snapshots.
 - Mishra: nur ein einziges `current.txt` für B3; ein separates B4-Deck. Bei neuen B3-Optimierungen wird `current.txt` geändert, **keine weitere B3-Version** angelegt.
 
-## Aktueller Stand (Ruxa und Mishra: 2026-10-11; andere Decks: frühere Revisionen)
+## Aktueller Stand (Ruxa und Mishra: 2026-10-11; Marchesa: 2026-10-12; andere Decks: frühere Revisionen)
 
 - Ruxa: **Bracket 3 v4 / Token-Value (2026-10-11)**, 36 Länder / 19 Kreaturen inkl. Commander / 4 Vanilla-Kreaturen / drei Game Changer.
 - Mishra: **Bracket 3, 100 verschiedene Karten inkl. Commander / 35 Länder / 47 Artefakte / 13 Mana-Artefakte / genau drei Game Changer** (**Demonic Tutor, Mana Vault, Bolas's Citadel**). Die [einzige aktive Liste](decks/mishra/current.txt) verwendet Mana Vault und Bolas's Citadel **statt Rhystic Study und Cyclonic Rift**. Weitere neuere Karten: **Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge**, anstelle von Thought Monitor, Chromatic Lantern und Reckless Fireweaver. **Arcum Dagsson, Demonic Junker, Whir of Invention und The Mightstone and Weakstone** bleiben. [Analyse](decks/mishra/analysis.md) · [Erweiterter Kreis (135)](decks/mishra/erweiterter-kreis.md) · [Manabrew-Tests](decks/mishra/manabrew-tests.md).
 - Mishra: Bracket 4, separate Liste unverändert.
-- Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers.
+- Marchesa: **Bracket 3 v4 (2026-10-12)**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers. Zusätzliche Schutz-, Zieh- und Opfermechaniken; [Analyse](decks/marchesa/analysis.md).
 
 Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
