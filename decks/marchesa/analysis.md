@@ -1,4 +1,4 @@
-# Marchesa, the Black Rose — Bracket 3 v4.1
+# Marchesa, the Black Rose — Bracket 3 v4.2
 
 **Stand:** 2026-10-12 · **Grixis** (Blau/Schwarz/Rot) · **100 Karten inklusive Commander** · **37 Länder**
 
@@ -22,7 +22,7 @@ Starkes, interaktives **Bracket 3 / Upgraded**. Der Schwerpunkt liegt auf Zuverl
 
 **Kritischer Gegencheck:** Drana und Sneak Attack waren situativ sehr stark. Die Wechsel sind keine bewiesenen Siegquotensteigerungen: Sie ersetzen hohe Spitzenleistung durch besser nutzbare Karten bei wechselnden Spielsituationen. Chupacabra trifft gezielte Einzelbedrohungen zuverlässiger als der Marauder. Diese Alternativen bleiben über die v3-Datei vollständig nachvollziehbar.
 
-## Game-Changer-Entscheidung: v4 zu v4.1
+## Historischer Game-Changer-Wechsel: v4 zu v4.1
 
 | Entfernt (Game Changer) | Neu (Game Changer) | Motivation |
 |---|---|---|
@@ -33,6 +33,18 @@ Starkes, interaktives **Bracket 3 / Upgraded**. Der Schwerpunkt liegt auf Zuverl
 
 **Gegenargument:** Diese Konfiguration ist **nicht nachweislich stärker** als Rhystic Study + Demonic Tutor + Cyclonic Rift. Insbesondere gegen problematische Artefakte, Verzauberungen und breite gegnerische Spielfelder fehlt der flexible asymmetrische Reset. Orcish Bowmasters erzeugt gegen zusätzliche gegnerische Kartenzieheffekte und mit Marchesas ETB-Rekursion den größeren direkten Engine-Nutzen. Rhystic Study zieht Karten für **dich** und löst deshalb deine eigenen Orcish Bowmasters nicht aus. Die tatsächliche Siegquote hängt vom Pod ab und wurde nicht gemessen.
 
+## Aktuelle Game-Changer-Entscheidung: v4.1 zu v4.2
+
+**Raus: Orcish Bowmasters. Rein: Vampiric Tutor.** Rhystic Study und Demonic Tutor bleiben unverändert.
+
+Vampiric Tutor ist ein Instant für {B}, sucht eine beliebige Karte und legt sie nach dem Mischen oben auf die Bibliothek. Er kostet zwei Lebenspunkte und **zieht nicht selbst** die gefundene Karte. Idealerweise wird er am Ende des gegnerischen Zuges gespielt, damit die gesuchte Karte im eigenen nächsten Ziehsegment verfügbar ist. Mit Skullclamp, Yawgmoth, Satoru oder Rhystic Study kann unter passenden Bedingungen früher gezogen werden, dies ist nicht garantiert.
+
+Marchesa braucht zugleich Markenquellen, Opfermöglichkeiten und wiederkehrende ETB-/Death-Effekte. Der Tutor findet die situativ fehlende Komponente (Unspeakable Symbol, Uncivil Unrest, Phyrexian Altar, Goblin Bombardment, Kokusho) oder eine Interaktionskarte. Anders als Bowmasters benötigt er dafür keine aktive Marchesa, keine +1/+1-Marke und keinen Opferausgang.
+
+**Abwägung:** Demonic Tutor und Diabolic Intent sind bereits im Deck, deshalb erhöht Vampiric Tutor die Suchredundanz statt eine neue Achse einzuführen. Er kostet einen Kartenslot und Lebenspunkte; mit Unspeakable Symbol, Reanimate und Plumb the Forbidden ist der Lebenspunktehaushalt relevant. Bowmasters war ein früher Flash-/ETB-Payoff und Interaktion gegen gegnerische zusätzliche Zieheffekte; diese Funktionen gehen verloren. Cyclonic Rift bleibt die stärkere allgemeine Antwort auf problematische Boards, wird aber hier zugunsten eines konsistenten Engine-Aufbaus nicht wieder eingeführt.
+
+**Alternativen geprüft:** The One Ring generiert langfristig Karten, überschneidet sich aber mit Rhystic Study und verursacht zunehmend Lebenspunkteverlust. Tergrid, God of Fright kann Accursed Marauder und Braids belohnen, benötigt bei fünf Mana jedoch mehr Edict-Unterstützung und ein entwickeltes Board. Bolas's Citadel ist explosiv, aber sechs Mana mit drei schwarzen Symbolen und zusätzliche Lebenspunktezahlungen sind anspruchsvoll. Diese Einordnung ist eine strategische Ableitung; empirische Spieltests fehlen.
+
 ## Was ausdrücklich bleibt
 
 - **Scorn-Blade Berserker:** Backup 1 verteilt schon für ein schwarzes Mana eine Marke, unabhängig von Marchesa. Seine zweite Fähigkeit opfert die Kreatur *selbst*, nicht irgendeine andere Kreatur, und zieht gegen {1} eine Karte.
@@ -40,7 +52,7 @@ Starkes, interaktives **Bracket 3 / Upgraded**. Der Schwerpunkt liegt auf Zuverl
 - **Unspeakable Symbol / Uncivil Unrest / Andúril / Inti / Voldaren Thrillseeker / Iron Apprentice:** Redundante Wege, Marken bereitzustellen.
 - **Ophiomancer, Yawgmoth, Warren Soultrader, Goblin Bombardment, Phyrexian Altar, Ashnod's Altar:** Opfer- und Ressourcenmotoren.
 - **Kokusho, Gray Merchant, Syr Konrad, Zulaport Cutthroat, Marionette Apprentice, Mayhem Devil:** Mehrere Wege zum Sieg ohne Endloskombo.
-- **Rhystic Study, Demonic Tutor, Orcish Bowmasters:** Die genau drei eingeplanten Game Changers. Zwei bestehende Game Changers wurden getauscht, kein vierter ergänzt.
+- **Rhystic Study, Demonic Tutor, Vampiric Tutor:** Die genau drei aktuellen Game Changers. Die frühere Bowmasters-Kombination bleibt im v4.1-Snapshot erhalten.
 
 ## Spielplan
 
@@ -49,7 +61,7 @@ Starkes, interaktives **Bracket 3 / Upgraded**. Der Schwerpunkt liegt auf Zuverl
 3. **Marchesa sichern:** Swiftfoot Boots verleiht Hexproof und Eile; Dethrone legt beim Angriff gegen den Spieler mit den meisten Lebenspunkten eine Marke auf die angreifende Kreatur. Unspeakable Symbol kann Marchesa auch ohne Angriff gezielt markieren.
 4. **Value-Schleifen:** Mit markierten Kreaturen vor Beginn eines Endsegments opfern; Baleful Strix, Mulldrifter, Aether Channeler, Ertai Resurrected und Accursed Marauder liefern wiederholte ETB-/Opferwirkungen. Satoru und Grim Haruspex sorgen für Kartennachschub.
 5. **Widerstandsfähigkeit:** Plumb the Forbidden als Reaktion auf Removal/Wipes opfert markierte Kreaturen schon als Zusatzkosten. Marchesas verzögerte Trigger können diese später zurückbringen, wenn Marchesa zum Todeszeitpunkt kontrolliert wurde. Deadly Rollick ist mit kontrolliertem Commander kostenlos.
-6. **Sieg:** Kokusho und Gray Merchant mehrfach auslösen, über Syr Konrad, Zulaport, Marionette Apprentice und Mayhem Devil Lebenspunkte reduzieren oder mithilfe der wiederkehrenden Bowmasters-ETBs und Opfermotoren die Partie beenden.
+6. **Sieg:** Kokusho und Gray Merchant mehrfach auslösen, über Syr Konrad, Zulaport, Marionette Apprentice und Mayhem Devil Lebenspunkte reduzieren oder über wiederkehrende ETB-Effekte und Opfermotoren die Partie beenden.
 
 **Wichtige Triggerdetails:** Wenn Braids eine Kreatur *bei der Verrechnung ihres Endsegment-Triggers* opfert, ist der Beginn dieses Endsegments bereits vorbei; eine dadurch ausgelöste Marchesa-Fähigkeit führt normalerweise erst im Endsegment des nächsten Spielers zur Rückkehr. Fains Opferfähigkeit hat ein Ziel; die geopferte Kreatur wird nicht schon während der Verrechnung der Fähigkeit für die Zielwahl von einem späteren Marchesa-Trigger zurückgebracht.
 
@@ -58,22 +70,22 @@ Starkes, interaktives **Bracket 3 / Upgraded**. Der Schwerpunkt liegt auf Zuverl
 | Typ | Karten |
 |---|---:|
 | Commander | 1 |
-| Weitere Kreaturen | 32 |
+| Weitere Kreaturen | 31 |
 | Artefakte | 12 |
 | Verzauberungen | 4 |
-| Spontanzauber | 7 |
+| Spontanzauber | 8 |
 | Hexereien | 7 |
 | Länder | 37 |
 | **Gesamt** | **100** |
 
 - **Manabasis unverändert:** 37 Länder, darunter 8 Standardländer; sechs klassische Mana-Artefakte und zwei Altäre für Opfer-Mana. Die Farben wurden nicht ohne Grund neu gemischt.
-- **Game Changers:** genau Rhystic Study, Demonic Tutor und Orcish Bowmasters (drei von maximal drei in Bracket 3). **Braids, Arisen Nightmare** ist nicht die als Game Changer gelistete **Braids, Cabal Minion**.
+- **Game Changers:** genau Rhystic Study, Demonic Tutor und Vampiric Tutor (drei von maximal drei in Bracket 3). **Braids, Arisen Nightmare** ist nicht die als Game Changer gelistete **Braids, Cabal Minion**.
 - **Komborisiko:** Bereits vorhandene Synergien mit Uncivil Unrest und Opferausgängen bleiben hoch. Die Version enthält bewusst keine Persist-/Murderous-Redcap-Schleife. Ein vollständiger externer Combo-Audit und empirische Spieltests sind nicht erbracht; daher ist Bracket 3 ein begründetes Deckbauziel, keine gemessene Spielstärke.
 - **Verbleibende Schwächen:** Marchesa kann vor ihrer ersten Marke entfernt werden; Friedhofsexil unterbricht die Rückkehr, und Reanimate, Plumb sowie Unspeakable Symbol beanspruchen Lebenspunkte. Kokusho kann Lebenspunkte zurückgewinnen.
 
 ## Versionen und Quellen
 
-- [Aktuelle Liste](current.txt) · [v4.1-Snapshot](versions/2026-10-12-bracket3-v4-1.txt) · [v4-Snapshot](versions/2026-10-12-bracket3-v4.txt) · [v3-Snapshot](versions/2026-10-09-bracket3-v3.txt) · [v2-Snapshot](versions/2026-10-08-bracket3-v2.txt)
+- [Aktuelle Liste](current.txt) · [v4.2-Snapshot](versions/2026-10-12-bracket3-v4-2.txt) · [v4.1-Snapshot](versions/2026-10-12-bracket3-v4-1.txt) · [v4-Snapshot](versions/2026-10-12-bracket3-v4.txt) · [v3-Snapshot](versions/2026-10-09-bracket3-v3.txt) · [v2-Snapshot](versions/2026-10-08-bracket3-v2.txt)
 - Format, Brackets, Bannliste: https://magic.wizards.com/en/formats/commander
 - Game Changers: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
 - Kartenregeln: https://mtg.wtf
