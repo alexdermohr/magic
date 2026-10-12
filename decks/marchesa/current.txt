@@ -6,6 +6,7 @@
 1 Yahenni, Undying Partisan
 1 Iron Apprentice
 1 Satoru, the Infiltrator
+1 Orcish Bowmasters
 1 Fain, the Broker
 1 Danny Pink
 1 Baleful Strix
@@ -47,8 +48,6 @@
 1 Goblin Bombardment
 1 Rhystic Study
 1 Plumb the Forbidden
-1 Cyclonic Rift
-1 Fierce Guardianship
 1 Mana Drain
 1 Swan Song
 1 Deflecting Swat
@@ -61,6 +60,7 @@
 1 Living Death
 1 Vandalblast
 1 Diabolic Intent
+1 Demonic Tutor
 1 Command Tower
 1 Exotic Orchard
 1 Xander's Lounge

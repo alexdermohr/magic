@@ -49,8 +49,8 @@ Die angegebene Bracket-Stufe ist ein Deckbauziel; tatsächliche Spielgeschwindig
 
 ## Marchesa, the Black Rose (Bracket 3)
 
-- `decks/marchesa/current.txt`: aktuelle 100-Karten-Liste (v4).
+- `decks/marchesa/current.txt`: aktuelle 100-Karten-Liste (v4.1).
 - `decks/marchesa/analysis.md`: Spielplan, Änderungen und Bracket-Einordnung.
-- `decks/marchesa/versions/`: historische Snapshots der v2-, v3- und v4-Liste.
+- `decks/marchesa/versions/`: historische Snapshots der v2-, v3-, v4- und v4.1-Liste.
 
 Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
