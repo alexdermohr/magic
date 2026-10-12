@@ -5,13 +5,49 @@
 **Verbindliche B3-Liste:** [current.txt](current.txt)
 
 **Ersetzbarkeitsmatrix (100 aktuelle Einzelurteile und dokumentierte historische Tauschhypothesen):** [replaceability.md](replaceability.md)
-**Erweiterter Kreis (40 historische Cuts, 96 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
+**Erweiterter Kreis (42 historische Cuts, 99 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktueller Entscheid (12.10.2026): Brudiclad und Ashnod bleiben
+## Aktuelle Entscheidung: Mishra's Workshop + Memory Jar (12.10.2026)
 
-Die im offenen PR #7 zunächst vorgeschlagenen Wechsel **Brudiclad → Aetherflux Reservoir** und **Ashnod's Altar → Krark-Clan Ironworks** werden rückgängig gemacht. Beide neuen Karten bleiben bewusst draußen. **Brudiclad, Telchor Engineer** erzeugt und verwandelt Tokens, **Ashnod's Altar** ist für drei Mana der günstige Opfermotor für Warforms und andere Kreaturen. Nur **Lich's Relic → Sensei's Divining Top** wird als zusätzlicher Tausch beibehalten. Brudiclad und Ashnod sind nach ausdrücklicher Nutzerentscheidung gesetzt.
+**Die veröffentlichte B3-Liste verwendet jetzt als einzigen neuen dritten Game Changer _Mishra's Workshop_ statt Bolas's Citadel; The One Ring wird ausdrücklich nicht aufgenommen.** Da Workshop ein **Land** und kein Artefakt ist, erfolgen dafür genau zwei Kartenwechsel:
+- **Bolas's Citadel → Memory Jar** (Artefakt für Artefakt: regelkonform kein zusätzlicher Game Changer).
+- **Buried Ruin → Mishra's Workshop** (farbloses Land für farbloses Land mit eingeschränkter, aber enormer Beschleunigung).
+
+Die drei Game Changer heißen somit **Demonic Tutor, Mana Vault, Mishra's Workshop**. Brudiclad, Ashnod's Altar, Sensei's Divining Top, Arcum Dagsson, Demonic Junker, Whir of Invention, Kappa Cannoneer und The Mightstone and Weakstone bleiben. Ring, Aetherflux Reservoir, Krark-Clan Ironworks sowie früher entfernte Rhystic Study und Cyclonic Rift bleiben draußen.
+
+### Wieso Workshop der passendste Game Changer ist
+
+| Alternativer GC | Vorteil | Stärkster Gegenpunkt / Entscheidung |
+|---|---|---|
+| **Mishra's Workshop** | Land für {C}{C}{C}, **ausschließlich zum Wirken von Artefaktzaubern**; enttappt jeden Zug normal, verursacht keinen Schaden und beschleunigt Memory Jar, Portal, Synthesizer, Fahrzeuge, Signets und Kopierartefakte. | Kein Mana für **Mishra selbst**, Tamer, Tezzeret, Nichtartefakt-Sprüche, Aktivierungen oder Opfer-/Crew-Kosten; ersetzt einmalige Buried-Ruin-Recursion. Dank hoher Artefaktdichte trotzdem **gewählt**. |
+| **Grim Monolith** | {2}-Nichtkreatur-Artefakt, für {T} drei farblose Mana, kopierbares Mishra-/Brudiclad-Warformziel ohne eigene Lebensschäden. | Original enttappt nicht regulär; {4} zum Enttappen. Doppelung zum vorhandenen **Mana Vault**, während Workshop als Land einen nichtartefaktischen Slot nutzt. Sehr guter **nächster** GC bei stärkerem Token-Mana-Fokus. |
+| **Consecrated Sphinx** | Wiederkehrender Draw 2 pro gegnerischer Draw, keine eigenen Lebenszahlungen. | Sechs Mana, Nichtartefaktkreatur, nicht durch Arcum/Welder such- oder zurückholbar und kein Mishra-Kopierziel. |
+| **Jeska's Will** | Drei Mana, mit Commander potenziell großer Roter-Mana-Schub plus drei temporär nutzbare Exilkarten. | Einmaliger Nichtartefaktzauber; kein Token-/Warform-Multiplikator. |
+| **Rhystic Study** | Stetiger Multiplayer-Kartenvorteil für drei Mana, selbst ohne Commander. | Zuvor auf ausdrücklichen Nutzerwunsch aus dem Deck genommen; ohne neue Freigabe nicht wiedereingesetzt. |
+| **The One Ring / Bolas's Citadel** | Schutz/Draw bzw. explosive Life-Payment-Zauberketten. | Ringbürden bzw. Citadels Mehrfach-Lebenskosten genau die unerwünschten Risiken. Beide raus. |
+
+### Memory Jar als Nicht-Game-Changer-Kartenzieher
+
+Memory Jar kostet **{5}** und ist eine **Nichtkreatur-Artefaktkarte**, also per Arcum Dagsson, Goblin Welder und Master Transmuter zugänglich und für Mishra kopierbar. Wenn sie geopfert und getappt wird, **exilieren alle Spieler zunächst ihre bisherige Hand und ziehen sieben Karten**. Am nächsten Endsegment werfen sie die neue Hand ab und erhalten die ursprüngliche Hand zurück.
+
+- Mishra erzeugt jeden Kampfbeginn eine **4/4 Warform von Memory Jar mit Eile**. Die Kopie kann sofort ihre {T}-Opferaktivierung einsetzen; im **zweiten Hauptsegment** dürfen die sieben temporären Karten unter normalen Regeln genutzt werden. Die Original-Jar bleibt liegen und ist nächste Runde wieder Kopiervorlage.
+- Alle **Gegner ziehen ebenfalls sieben Karten** und können sofort relevante Instants/Flash-Karten einsetzen; temporär nicht genutzte Karten landen bei ihnen am Ende gewöhnlich im Friedhof. Gegen Reanimator/Instant-Combo-Gegner ist das ein reales Risiko. Die Jar ist daher kein garantierter reiner Kartenvorteil und keine unmittelbare Antwort auf gegnerische Bedrohungen.
+- **Brudiclad** kann über eine nichtlegendäre Jar-Warform vorhandene Tokens in weitere dauerhaft bestehende Warforms umwandeln; das erzeugt keine ETBs. Mehrfach-Jar-Aktivierungen in einem Zug überlappen und müssen für Manabrew gesondert untersucht werden. Eine Jar ist pro Zug meist der kalkulierbare Standard.
+- **Mystic Forge** als Nicht-GC wäre eine sparsamere alternative Artefakt-Topdeck-Engine, kostet {4}, kann aber bei Land oder farbigem Nichtartefakt auf der Bibliotheksoberseite stocken; optionaler Exilfilter kostet ein Leben. Memory Jar liefert sofort sieben temporäre Karten, ohne eigene Lebenszahlung und mit starker Warform-Skalierung.
+
+### Bereinigte Konsequenzen
+
+**Sensei's Divining Top** bleibt aus eigenem Nutzen: Urza's Saga findet sie, Fetch-/Tutor-Effekte mischen neu, und eine Top-Warform darf für eine Karte getappt werden. Der alte Citadel/Top-Loop entfällt. **Buried Ruin** ist draußen; Academy Ruins, Goblin Welder, Goblin Engineer, Emry und Scrap Trawler bieten weiterhin Artefaktrückholung. 35 Länder und 47 Artefakte bleiben, 13 benannte Mana-Artefakte ebenfalls.
+
+**Stand:** 100 Singleton-Karten, genau drei Game Changer, 42 historische ausgeschlossene Karten sowie 99 weitere Alternativen (141 disjunkt), keine neuen Kreaturenwipes und keine absichtlich frühe Zwei-Karten-Endloskombination. Die B4-Liste bleibt unverändert. **Oracle-/Bracket-Regeln sind überprüfbar; tatsächliche Manabrew-Jar-/Workshop-Ergebnisse und bessere Siegquoten sind nicht belegt.** Vor Spielbeginn die wiederholte Jar-Wheel-Linie als möglichen starken Effekt ankündigen.
+
+---
+
+## Vorangegangener Entscheid (12.10.2026): Brudiclad und Ashnod bleiben
+
+**Historischer Zwischenstand (vor Workshop/Memory Jar):** Die im offenen PR #7 zunächst vorgeschlagenen Wechsel **Brudiclad → Aetherflux Reservoir** und **Ashnod's Altar → Krark-Clan Ironworks** werden rückgängig gemacht. Beide neuen Karten bleiben bewusst draußen. **Brudiclad, Telchor Engineer** erzeugt und verwandelt Tokens, **Ashnod's Altar** ist für drei Mana der günstige Opfermotor für Warforms und andere Kreaturen. Nur **Lich's Relic → Sensei's Divining Top** wird als zusätzlicher Tausch beibehalten. Brudiclad und Ashnod sind nach ausdrücklicher Nutzerentscheidung gesetzt.
 
 **Sensei's Divining Top ohne Reservoir:** Die Top sortiert für {1} drei Karten und arbeitet mit Fetchlands und Bibliothekssuchen. Urza's Saga kann sie direkt ins Feld bringen. Wird Top für {T} aktiviert, zieht sie eine Karte und geht selbst oben auf die Bibliothek; mit **Bolas's Citadel** kann man sie dort erneut für einen Lebenspunkt wirken. Das ist wiederholbarer Kartenzugriff unter Lebenspunktkosten, aber **kein unendlicher Lebensgewinn und kein automatischer Sieg**. Im Vergleich zu Lich's Relic verlieren wir wiederholbares Kreaturen-Removal als Mishra-ETB-Ziel.
 

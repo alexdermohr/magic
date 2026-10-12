@@ -14,7 +14,24 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelles Bracket 3: Brudiclad-Tokenengine mit Sensei's Divining Top (12.10.2026)
+## Aktuelles Bracket 3: Mishra's Workshop + Memory Jar (12.10.2026)
+
+**Aktiv und verbindlich ist nur [current.txt](current.txt).** Kein The One Ring und keine Bolas's Citadel; keine Aetherflux Reservoir oder Krark-Clan Ironworks. **Brudiclad**, **Ashnod's Altar** und **Sensei's Divining Top** bleiben.
+
+| Raus | Rein | Nutzen und Grenze |
+|---|---|---|
+| **Bolas's Citadel** (Game Changer) | **Memory Jar** (kein Game Changer) | Mishras Warform kann vor dem zweiten Hauptsegment sieben temporäre Karten zugänglich machen, ohne Lebenszahlung. Gegner ziehen ebenfalls sieben und können ihre neuen Instants verwenden. |
+| **Buried Ruin** (farbloses Land) | **Mishra's Workshop** (Game Changer) | Liefert jede Runde {C}{C}{C} nur zum Wirken von Artefaktzaubern; keine Kosten für Mishra selbst oder Aktivierungen, kein eigenes Schadensrisiko. Die einmalige Land-Rekursion entfällt. |
+
+**Drei Game Changer:** **Demonic Tutor, Mana Vault, Mishra's Workshop**. Die bisher aus dem Deck gestrichenen Rhystic Study und Cyclonic Rift bleiben draußen. Die bisherige Sensei's Top bleibt ein Saga-Suchtreffer und arbeitet mit Fetchlands, aber **ohne Citadel existiert kein Top-/Life-Casting-Loop**. Brudiclad kann die nichtlegendäre Memory-Jar-Warform in weitere Tokenkopien verwandeln, ohne dadurch zusätzliche ETBs auszulösen.
+
+**Struktur:** 100 unterschiedliche legale Commander-Karten, **35 Länder, 47 Artefakte und 13 definierte Mana-Artefakte**, maximal drei Game Changer. Der [Erweiterte Kreis](erweiterter-kreis.md) führt **42 historische Cuts und 99 Alternativen = 141 disjunkte Karten**. Die separate Bracket-4-Liste bleibt unverändert. Neue Engine-/Manabrew-Tests noch ohne bestandene Spielsequenzen.
+
+[Analyse und Gegenargumente](analysis.md) · [100 Einzelbewertungen](replaceability.md) · [Manabrew-Prüfprotokoll](manabrew-tests.md)
+
+## Vorangegangener Deckentscheid: Brudiclad/Ashnod erhalten und Top aufgenommen (historisch, 12.10.2026)
+
+
 
 **[current.txt](current.txt) ist die einzige verbindliche B3-Liste.** Brudiclad, Telchor Engineer und Ashnod's Altar bleiben nach Nutzerentscheidung im Deck. Aetherflux Reservoir und Krark-Clan Ironworks waren nur vorübergehende Vorschläge auf dem noch offenen PR-Branch und wurden wieder gestrichen.
 
@@ -28,7 +45,7 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 
 [Entscheidungsanalyse](analysis.md) · [100 Einzelbewertungen](replaceability.md) · [Manabrew-Tests](manabrew-tests.md)
 
-## Vorangegangene Mishra-Revision – drei neu besetzte Game Changer (11.10.2026)
+## Historischer GC-Tausch – Mana Vault und Bolas's Citadel (11.10.2026)
 
 **Die verbindliche [aktuelle Deckliste](current.txt) enthält als einzige drei Game Changer Demonic Tutor, Mana Vault und Bolas's Citadel.** Die bisherigen Game Changer Rhystic Study und Cyclonic Rift wurden nach Nutzerentscheidung entfernt.
 

@@ -1,26 +1,25 @@
 # Manabrew-Funktionsprüfung – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 12.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge sowie Game Changer Mana Vault und Bolas's Citadel. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver, Rhystic Study und Cyclonic Rift.
+**Stand:** 12.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge sowie Game Changer Mana Vault und Mishra's Workshop, plus die nicht-GC Memory Jar. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver, Rhystic Study und Cyclonic Rift.
 
-## G – Aktueller Stand: Sensei's Divining Top, Brudiclad, Ashnod's Altar (12.10.2026)
+## G – Aktuelle Revision: Mishra's Workshop und Memory Jar (12.10.2026)
 
-**Vorzustand:** [current.txt](current.txt) enthält **Sensei's Divining Top, Brudiclad, Telchor Engineer, Ashnod's Altar**, nicht aber Lich's Relic, Aetherflux Reservoir oder Krark-Clan Ironworks. Die drei Game Changer bleiben **Demonic Tutor, Mana Vault, Bolas's Citadel**. Alle folgenden Tests sind **NICHT AUSGEFÜHRT** und ausdrücklich keine PASS-Nachweise.
+**Verbindliche Deckvorbedingung:** [current.txt](current.txt) enthält **Mishra's Workshop, Memory Jar, Mana Vault, Demonic Tutor, Brudiclad, Ashnod's Altar und Sensei's Divining Top**, aber **keine** Bolas's Citadel, The One Ring, Aetherflux Reservoir, Krark-Clan Ironworks, Lich's Relic oder Buried Ruin. **G1–G6 sind NICHT AUSGEFÜHRT**, Papierregel-Erwartungen also keine Engine-PASS-Ergebnisse.
 
-1. **G1 – Top durch Urza's Saga.** Saga III auflösen und Sensei's Divining Top (aufgedruckte Manakosten {1}) direkt aus der Bibliothek ins Spiel holen. Danach für {1} drei Karten ansehen/sortieren. Die Top wird nicht automatisch für Mishra kopiert.
-2. **G2 – Citadel/Top ohne Reservoir.** Citadel und ungetappte Top, mehrere eigene Lebenspunkte, Hauptphase mit leerem Stack: Top tappen, eine Karte ziehen und Top oben auflegen; Top von dort über Citadel für ein Leben wirken. Vorgang wiederholen. Erwartung: wiederholtes Ziehen gegen Lebenspunkte, **kein Life-Gain**, kein automatischer Sieg, herkömmliche Timing-Grenzen gelten.
-3. **G3 – Mishra kopiert Top.** Mit Mishra im Kampfbeginn eine 4/4 Top-Warform erzeugen. Wegen Eile kann die Warform ihre {T}-Fähigkeit sofort aktivieren, eine Karte ziehen und sich selbst oben auf die Bibliothek legen, wo ein Token verschwindet. Das originale Sensei's Divining Top verbleibt im Spiel. Alternativ erst Kampfschaden abwarten, falls die Warform ungetappt überlebt.
-4. **G4 – Mishra mit Brudiclad.** Beide Kampfauslöser so stapeln, dass **Mishra zuerst** eine Warform erzeugt und danach Brudiclad ein Myr anlegt. Danach andere kontrollierte Tokens zu Kopien der Warform machen. Erwartung: die Umwandlung erzeugt **keine neuen ETBs**; der ursprüngliche Mishra-Opferauftrag wird nicht auf zuvor bestehende Tokens oder Brudiclads Myr übertragen, **bereits vorhandene eigene Opferanweisungen** (etwa die aus Worldwalker Helm gleichzeitig erzeugte Map) bleiben jedoch bestehen. Brudiclad verleiht Kreaturentokens Eile. Mit Top-Warform-Kopie als Vorlage kontrollieren, ob kopierte Spielsteine durch die Top-{T}-Fähigkeit je eine Karte ziehen und dann aus der Bibliothek verschwinden.
-5. **G5 – Ashnod's Altar.** Frisch erzeugte oder bestehende eigene Warform opfern; Ashnod erzeugt {C}{C} ohne Tap, und je nach Boardstate lösen Marionette Apprentice oder Esoteric Duplicator aus. Nichtkreaturisches Ichor Wellspring darf Ashnod **nicht** opfern. Altar selbst ist nichtkreaturisch und Mishra-Kopierziel, seine Warform kann als Kreatur für ihre eigene Opferfähigkeit hergegeben werden.
+1. **G1 – Workshop als eingeschränkte Manaquelle.** Das Land ausspielen und tappen: Erwartung drei farblose Mana, die **nur zum Wirken von Artefaktzaubern** eingesetzt werden dürfen. Als Positivfälle Ichor Wellspring, Memory Jar und ein Artefakt-Mana-Rock wirken. Als Negativfälle Mishra, Eminent One (Commander ist **kein Artefakt**), Tezzeret, Master of the Bridge, eine Sorcery sowie Aktivierungskosten von Thousand-Year Elixir/Worldwalker Helm ausprobieren. Werkstatt enttappt normal im nächsten eigenen Untap-Step, verursacht keinen Schaden.
+2. **G2 – Memory Jar als Original:** Memory Jar ({5}) regulär ausspielen, dann per {T} und Opfer aktivieren. Jeder Spieler exiliert seine **aktuelle Hand** verdeckt und zieht sieben neue Karten. In der **zweiten Hauptphase** dürfen normale Kreaturen/Artefaktzauber aus der neuen Hand legal gewirkt werden; gegnerische Instants können schon zuvor Antworten erzeugen. Im **nächsten Endsegment** werden verbleibende neue Karten abgeworfen und die zuvor exilierten Originalhände zurückgegeben. Jar liegt nach ihrem Opfer im Friedhof und kann ohne Rekursion nicht im nächsten Zug erneut aktiviert werden.
+3. **G3 – Memory-Jar-Warform mit Mishra:** Original-Jar im Feld behalten. Zu Beginn des eigenen Kampfes eine 4/4 hasty Warform-Kopie davon erzeugen. Noch während des Kampfes durch {T} und Opfer des **Warform-Tokens** die G2-Handwechsel-Kette auslösen. Die sieben Karten dann in Hauptphase zwei nutzen; am eigenen Endsegment die Rückgabe protokollieren. **Das originale Memory Jar bleibt im Feld**, die Tokenkopie verschwindet nach dem Opfer; im nächsten eigenen Kampf kann Mishra eine neue Warform erzeugen. Kein Lebensverlust durch Memory Jar selbst.
+4. **G4 – Brudiclad und Jar-Token:** Mishras Kopiertrigger vor Brudiclads Kopiertrigger auflösen, sodass die erste Memory-Jar-Warform als Vorlage existiert. Vorhandene, nichtlegendäre Maps, Myr oder Thopter zu Jar-Warform-Kopien umwandeln. Erwartung: die **bereits existierenden** Tokens treten nicht neu ein; nur die von Mishra selbst erzeugte Warform erhält den ursprünglichen verzögerten Opferauftrag (Ausnahme: eine gleichzeitig durch Helm erzeugte Map mit eigener Opferanweisung). Die von Brudiclad kopierten Tokens bleiben normalerweise bestehen und bekommen Brudiclads Kreaturentoken-Eile. Verschiedene Jar-Aktivierungen legen eigene Hand-/Endsegmentvorgänge an; zunächst **nur eine** auslösen und erst später Mehrfachtests.
+5. **G5 – Sensei's Divining Top ohne Citadel:** Top über Urza's Saga III ({1} aufgedruckte Manakosten) suchen. Für {1} Bibliotheksoberseite anordnen, gegebenenfalls danach mit Fetchland neu mischen. Tops {T}-Fähigkeit zieht eine Karte und legt das Original auf die Bibliothek. **Ohne Citadel kann Top nicht allein von oben erneut gewirkt werden**; kein automatischer Life-Payment-Draw-Loop. Mit Mishra eine Top-Warform für ein einmaliges Ziehen prüfen.
+6. **G6 – Opferkonflikt Ashnod/Jar:** Jar-Warform mit Ashnod's Altar als **Mana-Fähigkeitskosten** opfern: Erwartung {C}{C}, aber **keine Jar-Sieben-Karten-Aktivierung**, weil sie nicht aktiviert wurde. Alternativ Warform über eigene Jar-{T}-Opferaktivierung opfern: sieben temporäre Karten, aber **keine Ashnod-Mana**, weil Altar nicht aktiviert wurde. Marionette Apprentice und Esoteric Duplicator je nach eigenen Triggerbedingungen separat prüfen.
 
-**Status G1–G5: NICHT AUSGEFÜHRT.** Kein bestätigter Manabrew-Import/Boardstate und keine reproduzierten Spielsituationen. Bei Umsetzung Engine/Version, genaue Stackfolge, Screenshots/Logs und PASS/FAIL/BLOCKED dokumentieren.
-
-**Historischer, verworfener PR-Entwurf:** Reservoir/Citadel/Top und Krark-Clan Ironworks waren in einer älteren offenen PR-Revision lediglich als Papierregeln geprüft; diese Karten sind nicht in der neuen aktiven Liste, ihre damaligen Testhypothesen gelten nicht mehr als aktuelle Testfälle.
+**Status:** G1–G6 **NICHT AUSGEFÜHRT**. Für jeden Test den tatsächlichen Manabrew-Engine-Stand, einen Screenshot/Log und den resultierenden Boardstate erfassen; erst nach erfolgreichem reproduziertem Ablauf PASS vergeben. Ein Regelfall ist kein Beleg für fehlerfreie Manabrew-Implementierung.
 
 ## Evidenzstatus – ausdrücklich keine bestandenen Kartentests
 
 | Ebene | Status | Beobachtung / Grenze |
 |---|---|---|
-| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: ehemals 135 andere Namen (11.10.2026); neue Revision 40 + 96 = 136 andere Namen, per Validator zu bestätigen. |
+| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: ehemals 135 andere Namen (11.10.2026); neue Revision 42 + 99 = 141 andere Namen, per Validator zu bestätigen. |
 | Manabrew-Webclient | **Oberfläche erreichbar** | `https://play.manabrew.app` wurde in einer isolierten Chrome-Sitzung geladen; Startseite bot `Build / Import` und `Play Offline` an. |
 | Import des konkreten Decks | **Nicht durchgeführt** | Der eingesetzte semantische Browserzugriff gestattete keinen belastbaren Eingabe-/Import- und Spielablauf. Navigations-/Aktivierungsversuche an dynamischen Elementen scheiterten an Snapshot-/Element-Vertragsgrenzen. |
 | Nautiloid Ship, Arcum Dagsson, Crossover-Karten | **Keine erfolgreiche Spielsitzung; ungetestet** | Kein konkreter Boardstate wurde in Manabrew erzeugt. Insbesondere keine Exil-Objektzuordnung und keine Tutor-Auflösung praktisch verifiziert. |
@@ -105,7 +104,7 @@
 
 **Ergebnis:** **NICHT GETESTET** (Papierregeln/Oracle als erwartetes Verhalten, kein bestätigter manabrew.app-Boardstate). Nach Durchführung zu jedem Fall PASS/FAIL/BLOCKED mit Screenshot/Log und Engine notieren. Erst nach E1–E5 sind Aussagen zur praktischen Spielbarkeit der beiden Neuzugänge gedeckt.
 
-## F – Zwei neue Game Changer: Mana Vault und Bolas's Citadel
+## F – Historische GC-Tests: Mana Vault und damals Bolas's Citadel (11.10.2026; Citadel ist nicht mehr aktiv)
 
 **Vorzustand F0:** Die [100-Karten-Liste](current.txt) enthält exakt **Demonic Tutor, Mana Vault und Bolas's Citadel** als Game Changer (nicht mehr Rhystic Study/Cyclonic Rift). Testaufbau auf Manabrew mit beobachtbarem Mana, Bibliotheksoberseite, Friedhof und Spiel-Log; keine alten Deckimporte verwenden.
 
@@ -120,7 +119,7 @@
 
 ## Entscheidung bis zum Engine-Nachweis
 
-Die bislang aktiven Karten **Nautiloid Ship, Arcum Dagsson, Thousand-Year Elixir, Mephitic Draught und Tezzeret, Master of the Bridge** bleiben. Als neue Game Changer sind **Mana Vault und Bolas's Citadel** enthalten, während **Rhystic Study und Cyclonic Rift** zusätzlich zu den früheren Cuts draußen sind. Vorrang haben **F1–F6**, danach E1–E5, D1–D5, A1/A2, B1/B2 sowie C4/C6/C9. Keine Sequenz gilt ohne tatsächliche Manabrew-Ausführung als bestanden.
+Die gültige Deckliste enthält **Demonic Tutor, Mana Vault und Mishra's Workshop** als Game Changer sowie **Memory Jar** als Nicht-GC-Artefakt-Kartenzieher. **Nautiloid Ship, Arcum Dagsson, Thousand-Year Elixir, Mephitic Draught, Brudiclad, Ashnod's Altar und Tezzeret** bleiben. Bolas's Citadel und The One Ring sind ausgeschlossen. **Vorrang haben G1–G6**, danach D/E/A/B/C und die weiterhin relevanten Mana-Vault-Fälle F1–F4. Historische Citadel-Tests F5/F6 gelten nur für alte Deckversionen. Keine Manabrew-Funktion wird ohne echte Sequenz als bestanden markiert.
 
 ## Quellen (Regelreferenz; keine Manabrew-Spielbelege)
 
@@ -137,5 +136,7 @@ Die bislang aktiven Karten **Nautiloid Ship, Arcum Dagsson, Thousand-Year Elixir
 - [Mephitic Draught – Oracle](https://mtg.wtf/card/lci/112/Mephitic-Draught)
 - [Tezzeret, Master of the Bridge – Oracle](https://mtg.wtf/card/war/275/Tezzeret-Master-of-the-Bridge)
 - [Mana Vault – Oracle](https://scryfall.com/card/2x2/308/mana-vault)
-- [Bolas's Citadel – Oracle](https://scryfall.com/card/war/79/bolass-citadel)
+- [Mishra's Workshop – Oracle](https://scryfall.com/card/atq/80/mishras-workshop)
+- [Memory Jar – Oracle](https://scryfall.com/card/ulg/129/memory-jar)
+- [Bolas's Citadel – Oracle, nur historisch](https://scryfall.com/card/war/79/bolass-citadel)
 - [Manabrew – Deckimport und Unsupported-Hinweise](https://docs.manabrew.app/playing/)
