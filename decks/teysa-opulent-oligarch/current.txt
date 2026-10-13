@@ -2,7 +2,6 @@
 1 Academy Manufactor
 1 Orcish Bowmasters
 1 Kambal, Profiteering Mayor
-1 Kambal, Consul of Allocation
 1 Creeping Bloodsucker
 1 Corpse Knight
 1 Mirkwood Bats
@@ -23,9 +22,13 @@
 1 Mondrak, Glory Dominus
 1 Welcoming Vampire
 1 Bennie Bracks, Zoologist
-1 Jadar, Ghoulcaller of Nephalia
-1 Crypt Ghast
 1 Delney, Streetwise Lookout
+1 Crypt Ghast
+1 Dreg Recycler
+1 Elas il-Kor, Sadistic Pilgrim
+1 Umbral Collar Zealot
+1 Drana's Emissary
+1 Wernog, Rider's Chaplain
 1 Sol Ring
 1 Arcane Signet
 1 Orzhov Signet
@@ -35,17 +38,15 @@
 1 Inspiring Statuary
 1 Idol of Oblivion
 1 Thran Turbine
-1 Victory Chimes
 1 Krark-Clan Ironworks
 1 Smothering Tithe
 1 Anointed Procession
 1 Black Market Connections
 1 Blind Obedience
 1 Bastion of Remembrance
-1 Court of Ambition
-1 Palace Siege
 1 Revel in Riches
 1 Tocasia's Welcome
+1 Lunar Convocation
 1 Teferi's Protection
 1 Deadly Dispute
 1 Swords to Plowshares
@@ -59,7 +60,6 @@
 1 Rite of Oblivion
 1 Damn
 1 Toxic Deluge
-1 Austere Command
 1 Exsanguinate
 1 Debt to the Deathless
 1 Command Tower
