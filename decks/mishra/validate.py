@@ -50,6 +50,10 @@ def names_and_docs() -> list[str]:
     assert_ok(gc_summary is not None, "root README Game Changer summary not found")
     gc_names = {name.strip() for name in gc_summary.group(1).split(",")}
     assert_ok(gc_names == EXPECTED_GC, "root README Game Changers do not match current deck")
+    mishra_readme = ROOT.joinpath("README.md").read_text(encoding="utf-8")
+    assert_ok("## Historische B3-Fassung vom 11.10.2026 (nicht aktuell)" in mishra_readme
+              and "## Verbindliche aktuelle Bracket-3-Fassung" not in mishra_readme,
+              "old README deck revision is incorrectly labeled current")
     matrix = ROOT.joinpath("replaceability.md").read_text(encoding="utf-8").splitlines()
     rated = [
         m.group(1).strip()
@@ -58,6 +62,9 @@ def names_and_docs() -> list[str]:
     ]
     assert_ok(len(rated) == 100 and Counter(rated) == Counter(names),
               "replaceability matrix does not contain precisely 100 active names")
+    assert_ok(not any(re.match(r"^\\|\\s*[A-C]\\s*\\|\\s*\\*\\*Brudiclad", line)
+                      for line in matrix),
+              "Brudiclad must not be a proposed current cut")
     extra = ROOT.joinpath("erweiterter-kreis.md").read_text(encoding="utf-8")
     assert_ok("## A. Früher in Mishra B3" in extra and
               "## B. Konkret geprüft" in extra and
@@ -74,6 +81,19 @@ def names_and_docs() -> list[str]:
     assert_ok(len(outside) == 141 and len(set(outside)) == 141,
               "extended circle must contain 141 unique excluded names")
     assert_ok(not (set(outside) & set(names)), "excluded card still active")
+    completeness = next(
+        (line for line in extra.splitlines()
+         if line.startswith("**Vollständigkeit der historisch geführten B3-Karten")),
+        "",
+    )
+    for marker in (f"**{len(historic)} verschiedene", f"**{len(names) + len(historic)} unterschiedliche",
+                   f"**{len(alternatives)} weitere", f"= {len(outside)} eindeutig"):
+        assert_ok(marker in completeness, f"stale inventory completeness audit: {marker}")
+    tests_doc = ROOT.joinpath("manabrew-tests.md").read_text(encoding="utf-8")
+    assert_ok("7717bfab32b028cd5560c92b7d1205b103514546" in tests_doc
+              and "F1–F4 (Mana Vault)" in tests_doc
+              and "F5–F6 (Citadel)" in tests_doc,
+              "historical Citadel tests must link a pinned F5/F6 deck snapshot")
     blob = ROOT.joinpath("versions/2026-10-07-optimized-b4-v1.txt").read_bytes()
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
