@@ -6,11 +6,12 @@
 1 Barbara Wright
 1 Jukai Naturalist
 1 Setessan Champion
+1 Eidolon of Blossoms
 1 Archon of Sun's Grace
 1 Narci, Fable Singer
 1 Weaver of Harmony
 1 Faeburrow Elder
-1 Dryad of the Ilysian Grove
+1 Chong and Lily, Nomads
 1 Anikthea, Hand of Erebos
 1 Yenna, Redtooth Regent
 1 Bloom Tender
@@ -41,7 +42,6 @@
 1 Showdown of the Skalds
 1 Sol Ring
 1 Arcane Signet
-1 Chromatic Lantern
 1 Power Conduit
 1 Wild Growth
 1 Utopia Sprawl
