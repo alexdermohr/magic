@@ -60,8 +60,8 @@
 1 Rite of Oblivion
 1 Damn
 1 Toxic Deluge
-1 Austere Command
 1 Exsanguinate
+1 Debt to the Deathless
 1 Command Tower
 1 Godless Shrine
 1 Marsh Flats
