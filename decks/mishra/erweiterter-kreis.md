@@ -1,16 +1,35 @@
 
 # Erweiterter Kreis – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 11. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
+**Stand:** 12. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
 
-## Neueste Bracket-3-Änderung: Rhystic Study und Cyclonic Rift entfernt (11.10.2026)
+
+## Aktuelle Optimierung: Mana, sieben Karten und Mishra-Tokens (12.10.2026)
+
+**Verbindliche Liste:** [current.txt](current.txt). Die unerwünschte **Bolas's Citadel** wird statt eines lebensintensiven Game Changers durch die nicht als Game Changer eingestufte **Memory Jar** ersetzt. Anstelle des farblosen Landes **Buried Ruin** kommt **Mishra's Workshop** als neuer **dritter Game Changer** hinein. **The One Ring** war nur ein abgebrochener, nie veröffentlichter Zwischenentwurf und wird ausdrücklich nicht eingebaut.
+
+**Memory Jar ({5}, Artefakt):** Mishra kann zu Kampfbeginn eine neue hasty Jar-Warform erzeugen, sie sofort für {T} opfern und in der zweiten Hauptphase sieben vorübergehend gezogene Karten nutzen. Das Original bleibt erhalten; Gegner ziehen ebenfalls sieben Karten und dürfen gegebenenfalls Sofortzauber wirken, werfen ihre temporären Karten normalerweise am nächsten Endsegment aber wieder ab. Die sieben Karten sind daher **keine sieben bleibenden Handkarten**. Ohne Mishra ist die Jar eine einmalige Aktivierung, bis sie rekursiert wird.
+
+**Mishra's Workshop (Land):** {C}{C}{C} **ausschließlich für das Wirken von Artefaktzaubern**, nicht für Mishra selbst, Nichtartefaktzauber, Aktivierungskosten oder Crew. Das Land kostet keine Lebenspunkte und enttappt normal, beschleunigt jedoch viele der teuren Fahrzeuge/Artefakte einschließlich Memory Jar. Mit Buried Ruin entfällt eine landbasierte einmalige Artefakt-Rückholung; Academy Ruins, Welder, Engineer, Emry und Scrap Trawler übernehmen Teile dieser Rolle.
+
+**Bilanz:** 100 Karten, 35 Länder, 47 Artefakte, 13 klassische Mana-Artefakte, drei Game Changer **Demonic Tutor / Mana Vault / Mishra's Workshop**. Im ausgeschlossenen Kreis stehen **42 historische Cuts + 99 weitere geprüfte Alternativen = 141 unterschiedliche Namen**, disjunkt zur Deckliste. Brudiclad, Ashnod's Altar, Sensei's Divining Top, Kappa Cannoneer, Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben aktiv. Kein absichtlicher früher Zweikarten-Endloskreislauf, B4 unverändert. Eine Verbesserung der Siegquote ist ohne kontrollierte Partien nicht belegt.
+
+## Vorangegangener Deckentscheid – Brudiclad und Ashnod zurück, Top bleibt (12.10.2026)
+
+**Maßgeblich:** [current.txt](current.txt). Die zuvor nur im offenen PR #7 ausprobierten **Aetherflux Reservoir** und **Krark-Clan Ironworks** wurden auf Nutzerwunsch wieder ausgeschlossen. **Brudiclad, Telchor Engineer** und **Ashnod's Altar** bleiben im Bracket-3-Deck. Von den drei damaligen Vorschlägen bleibt **Sensei's Divining Top anstelle von Lich's Relic**: per Urza's Saga suchbar, nützlich mit Fetchländern und Bibliotheksoberseite; mit Bolas's Citadel kann die gezogene Top wieder für ein Leben gewirkt werden. Das ist **ohne Reservoir kein unbegrenzter Lebensgewinn oder Sofortsieg**.
+
+**Damals gültige Bilanz:** **40 historische, tatsächlich vor dieser PR-Variante gestrichene Karten** + **96 geprüfte, ausgeschlossene Kandidaten** = **136 unterschiedliche nicht aktive Kartennamen**, ohne Überschneidung mit 100 Deckkarten. Das gesonderte Bracket-4-Deck bleibt unverändert. Die drei Game Changer **Demonic Tutor, Mana Vault, Bolas's Citadel** bleiben unverändert. Keine beabsichtigte frühe Zwei-Karten-Endloskombination; keine Kreaturenwipes.
+
+**Verworfener PR-Zwischenstand:** Reservoir hätte Citadel/Top als dritte Karte zum Lebensgewinn-Kill ergänzt, aber außerhalb des Drei-Permanent-Aufbaus wenig beigetragen. Ironworks kann Nichtkreatur-Artefakte opfern, kostet jedoch ein Mana mehr als Ashnod's Altar. Die bewährte Kampf-/Kopierlinie von Brudiclad und der frühe Warform-Opfermotor erhalten Vorrang. Diese Abwägung ist eine strategische Hypothese, kein gemessener Gewinnratenvergleich.
+
+## Vorangegangene Bracket-3-Änderung: Rhystic Study und Cyclonic Rift entfernt (11.10.2026)
 
 | Aus aktiver Liste gestrichen | Neu ins Deck (Game Changer) | Vorteil | Entscheidendes Gegenargument |
 |---|---|---|---|
 | **Rhystic Study** | **Mana Vault** | {1} → {C}{C}{C}, dadurch mehr Tempo; als Mishra-Warform neuer dreifacher Ramp-Zugriff, Urza's Saga findet Mana Vault. Elixir kann eine ungetappte Warform ein zweites Mal aktivieren. | Rhystic Study war die stärkste kontinuierliche Multiplayer-Draw-Engine; Mana Vault zieht keine Karten, produziert nur farblos und das getappte Original kostet Lebenspunkte. |
 | **Cyclonic Rift** | **Bolas's Citadel** | Legendäres Nichtkreatur-Artefakt für Arcum, Welder und Master Transmuter; Bibliotheksoberseite gegen Lebenspunkte ausspielen, mit zehn geopferten Nichtland-Permanents alle Gegner je zehn Leben verlieren lassen. | Keinen asymmetrischen Sofort-Reset mehr; Citadel braucht regulär {3}{B}{B}{B}, starke Lebensressourcen und ausreichenden Artefakt-/Tokenbestand. |
 
-**Aktueller vollständiger Kreis: 40 früher gespielte, inzwischen gestrichene Karten + 95 weitere geprüfte, nie in der aktiven B3-Liste gespielte Alternativen = 135 eindeutige nicht aktive Kartennamen.** Die Anzahl unterschiedlicher bislang in B3 aktiv verwendeter Karten steigt durch Mana Vault und Bolas's Citadel von 138 auf **140**. Rhystic Study und Cyclonic Rift sind im historischen Teil A aufgeführt mit Streichgrund, stärkstem Gegenargument und möglicher Rückkehrbedingung. **Aktiv bleiben genau drei Game Changer:** Demonic Tutor, Mana Vault, Bolas's Citadel. Bracket 4 bleibt unberührt.
+**Damaliger vollständiger Kreis: 40 früher gespielte, inzwischen gestrichene Karten + 95 weitere geprüfte, nie in der aktiven B3-Liste gespielte Alternativen = 135 eindeutige nicht aktive Kartennamen.** Die Anzahl unterschiedlicher bislang in B3 aktiv verwendeter Karten steigt durch Mana Vault und Bolas's Citadel von 138 auf **140**. Rhystic Study und Cyclonic Rift sind im historischen Teil A aufgeführt mit Streichgrund, stärkstem Gegenargument und möglicher Rückkehrbedingung. **Aktiv bleiben genau drei Game Changer:** Demonic Tutor, Mana Vault, Bolas's Citadel. Bracket 4 bleibt unberührt.
 
 **Bewusst getragene Risiken:** Der Verlust von Rhystics Draw und Rifts sofortigem Reset kann die Widerstandskraft des Decks senken. Die Citadel ist ein mächtiger alternativer Siegweg, verbraucht aber mit Mephitic Draught und gelegentlich Mana Vault dieselbe Lebenspunktressource; Tezzeret gibt diese nur bei erfolgreicher Aktivierung zurück. Die tatsächliche Gewinnrate und Manabrew-Interaktionen sind weiterhin **nicht empirisch getestet**.
 
@@ -46,11 +65,11 @@ Der **Erweiterte Kreis** ist die zentrale Warteliste/Archiv für Mishra-B3-Karte
 3. `replaceability.md` betrifft nur die 100 **aktuellen** Karten; der Erweiterte Kreis verwaltet die Alternativen. Bei neuen Reviews beide Dateien auf die neue aktive `current.txt` synchronisieren.
 4. Historische Ausschlüsse sind **keine ewigen Verbote**, außer wenn sie wie Sundial (Manabrew-Probleme), Coveted Jewel (Kontrollverlust) oder Kreaturenwipes ausdrücklich unerwünscht sind. Auch sie bleiben hier dokumentiert, falls sich Rahmenbedingungen ändern.
 
-**Vollständigkeit der historisch gespielten Karten:** Einschließlich der Aufnahme von Thousand-Year Elixir, Tezzeret, Mana Vault und Bolas's Citadel sind **140 unterschiedliche jemals gespielte B3-Karten** bekannt: **100 aktuell**, **40 historische, derzeit ausgeschlossene Karten**. Weitere **95 geprüfte, nicht in den bisherigen B3-Revisionen aktive Alternativen** führen zu **135 eindeutigen nicht aktiven Kandidaten**. Das ist ein Bestand der geprüften Optionen, kein vollständiger Katalog aller Magic-Karten. Das ist eine nachprüfbare Liste der bisher bekannten und geprüften Optionen, **kein Katalog aller existierenden MTG-Karten**.
+**Vollständigkeit der historisch geführten B3-Karten (aktueller Inventarstand):** Die 100 Karten in [current.txt](current.txt) und **42 verschiedene derzeit gestrichene Karten** aus Abschnitt A ergeben **142 unterschiedliche jemals aktiv geführte B3-Kartennamen**. Abschnitt B enthält **99 weitere derzeit nicht aufgenommene Alternativen**. Damit umfasst der erweiterte Kreis **42 + 99 = 141 eindeutig ausgeschlossene Kartennamen**, ohne Überschneidung zur aktiven Liste; zusammen sind **241 unterschiedliche Kartennamen** in aktueller Liste und erweitertem Kreis dokumentiert. Diese Aussagen folgen aus den untenstehenden eindeutigen Tabellenzeilen und dem Validator, nicht aus einem behaupteten Spieltest; der Katalog ist nicht vollständig für alle Magic-Karten.
 
 Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestrichen** = bisher kein überzeugender Mehrwert; **metagameabhängig** = nur bei passendem Umfeld; **bewusst draußen** = scheidet unter heutigen Bedingungen aus. Bei Alternativen: **hoher Testwert**, **weiterer Kandidat**, **niedrige Priorität**, **bewusst draußen**.
 
-## A. Früher in Mishra B3, jetzt gestrichen (40)
+## A. Früher in Mishra B3, jetzt gestrichen (42)
 
 | Karte | Aktuelle Einstufung | Grund für Streichung / mögliche Neubewertung |
 |---|---|---|
@@ -71,6 +90,7 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Exotic Orchard** | Rückkehr möglich | Oft guter Mehrfarben-Fix, benötigt jedoch passende gegnerische Länder. |
 | **Fabricate** | Rückkehr möglich | Sicherer Artefakttutor auf die Hand für Master Transmuter; wich Arcum Dagsson mit wiederholbarem Feldzugang. |
 | **Glimmervoid** | historisch gestrichen | Alle Farben mit Artefakt, aber Opferrisiko bei Artefaktverlust. |
+| **Lich's Relic** | am 12.10.2026 ersetzt | Einmana-Artefakt mit wiederholbarer ETB-Entfernung gegen Extra-Mana; viele andere Antworten vorhanden. **Sensei's Divining Top** stabilisiert Citadel, wird von Saga gesucht und erlaubt wiederholtes Kartenziehen. Rückkehr bei nachgewiesenem Interaktionsdefizit. |
 | **Lithoform Engine** | Rückkehr möglich | Kopiert Trigger und Zauber flexibel, ist jedoch kostenintensiver als Resonator/Throne. |
 | **Marionette Master** | Rückkehr möglich | Hoher Schaden an einzelne Gegner bei Artefakttod; sechs Mana, nicht selbst ein Artefakt. |
 | **Mycosynth Wellspring** | historisch gestrichen | Sucht Basics, davon gibt es nur wenige; gegenüber Prized Statue/Wellspring zu wenig Tempo. |
@@ -79,7 +99,6 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Reckless Fireweaver** | Rückkehr möglich | **Streichgrund:** Statt kleiner ETB-Schadensschritte wird Tezzerets auf Artefaktbestand skalierender Gruppenschaden mit Lebensgewinn priorisiert. **Gegenargument:** Für {1}{R} schadet Fireweaver jedem Gegner bei JEDEM Artefakt-Eintritt – einschließlich Warforms, Maps und Treasures – sofort, deutlich früher als Tezzeret. **Rückkehr:** Wenn der Sechs-Mana-Planeswalker zu oft unspielbar oder der frühe Gruppendruck nachweislich schlechter ist. |
 | **Rhystic Study** | Rückkehr möglich | **Streichgrund:** Nutzerentscheidung, den Game-Changer-Platz zugunsten von Mana Vault für massive frühe Artefaktbeschleunigung und wiederholtes Warform-Kopieren zu nutzen. **Stärkstes Gegenargument:** Für {2}{U} langfristig herausragender Multiplayer-Kartenvorteil ohne weitere Karte oder Mishra. Mana Vault zieht keine Karten, enttappt nur gegen {4}, kostet getappt jedes Ziehsegment Leben und produziert kein farbiges Mana. **Rückkehr:** Falls Mana Vaults Tempo keine höheren Siegchancen erzeugt oder fehlende Karten im langen Spiel das Hauptproblem werden; nur durch Austausch eines aktuellen Game Changers. |
 | **Scrap Mastery** | bewusst draußen | Massen-Reanimation bewusst gestrichen; bereitet Friedhof und eigene Opferung aufwendig vor. |
-| **Sensei's Divining Top** | metagameabhängig | Gute Topdeck-Manipulation, erfordert zusätzliche Aktivierungen und kann Kombopfade eröffnen. |
 | **Servo Schematic** | bewusst draußen | Niedriger ETB-/Tod-Tokenwert, ausdrücklich gegenüber stärkeren Warform-Zielen zurückgestellt. |
 | **Skullclamp** | bewusst draußen | Sehr hoher Draw mit 1/1, aber zu wenige konsistente Ausrüstungsziele; ausdrücklich gestrichen. |
 | **Skysovereign, Consul Flagship** | bewusst draußen | Wiederholbarer Schaden gegen Kreaturen/Planeswalker, inzwischen durch passenderen Artefakt-Finisher verdrängt. |
@@ -94,8 +113,10 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Thran Dynamo** | historisch gestrichen | Vier Mana für farblosen Ramp, für die Drei-Farben-Konsistenz nicht optimal. |
 | **Trash for Treasure** | Rückkehr möglich | Reanimiert teure Artefakte für 2R samt Opfer, hat Konkurrenz durch Welder/Transmuter/Tamer. |
 | **Treasure Vault** | Rückkehr möglich | Artefaktland mit spätem Treasure-Mana-Sink, produziert früh nur farblos. |
+| **Bolas's Citadel** | am 12.10.2026 ersetzt | {3}{B}{B}{B}-Artefakt und Game Changer, konnte über Arcum oder Welder starke Topdeck-Zauberketten erzeugen. Ohne Reservoir fehlen aber ein zuverlässiger Lebensgewinn und ein sofortiger Abschluss; regulär Triple-Schwarz und hoher Lebensverbrauch. Durch **Memory Jar** ersetzt; erneute Aufnahme nur bei bewiesener höherer Nettoleistung. |
+| **Buried Ruin** | am 12.10.2026 ersetzt | Farbloses Land mit einmaliger Rückholung einer Artefaktkarte aus dem Friedhof gegen {2}, {T} und Selbstopfer. **Mishra's Workshop** gewährt stattdessen wesentlich mehr Tempo beim Wirken von Artefaktzaubern, kann jedoch keinerlei Nichtartefaktzauber und keine Aktivierungen bezahlen. Rückkehr bei fehlender Recursion oder zu starkem Farblos-Landslot. |
 
-## B. Konkret geprüft, aber nie in der aktiven B3-Liste (95)
+## B. Konkret geprüft, aber nicht Teil der aktuellen B3-Liste (99)
 
 | Karte | Priorität | Grund für Nichtaufnahme / mögliche Rückkehr |
 |---|---|---|
@@ -119,9 +140,7 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Fountainport Bell** | weiterer Kandidat | Ein-Mana-Saga-Ziel und Karte beim Opfer, doch sucht nur wenige verfügbare Basics. |
 | **Imposter Mech** | weiterer Kandidat | Zweimana-Fahrzeug kopiert gegnerische Kreatur, hat aber keinen sicheren eigenen ETB-Ertrag. |
 | **Iron Man, Titan of Innovation** | weiterer Kandidat | Attack-Trigger mit Treasure und Artefakt-Tutor nach Opfer, fünf Mana und Kampfrisiko. |
-| **Krark-Clan Ironworks** | weiterer Kandidat | Opfert jedes Artefakt für CC, mächtig, aber vier Mana und zusätzliche Combo-Linien. |
 | **Machine God's Effigy** | weiterer Kandidat | Kopiert Kreatur als nichtkreaturisches Artefakt mit blauem Mana, braucht passende Vorlage. |
-| **Memory Jar** | weiterer Kandidat | Kann als Artefakt gezielt sieben neue Handkarten ermöglichen, gibt Gegnern aber ebenfalls Karten. |
 | **Midnight Clock** | weiterer Kandidat | Blauer Manarock mit spätem Siebenkarten-Refill, teurer als Zweimana-Rocks. |
 | **Mirkwood Bats** | weiterer Kandidat | {3}{B}-Kreatur: Für jeden erzeugten oder geopferten Token verliert jeder Gegner 1 Leben. **Gegenargument:** vier Mana, kein Artefakt und stärker von Token-Ereignissen abhängig als Tezzerets unmittelbarer großer Schaden nach bereits aufgebautem Artefaktbestand. **Rückkehr:** wenn die frühe Token-Drain-Engine bessere Ergebnisse als der Sechs-Mana-Finisher erzielt. |
 | **Phyrexian Altar** | weiterer Kandidat | Opfert eigene Kreaturen für farbiges Mana; zusätzliche Opferquelle zu Ashnod und Anvil. |
@@ -194,16 +213,22 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Time Sieve** | bewusst draußen | Opfert fünf Artefakte für Extrazug; potenzielle Extra-Turn-Schleife außerhalb gewollten B3-Profils. |
 | **Toxic Deluge** | bewusst draußen | Kreaturenwipe ausdrücklich nicht gewünscht, trotz effizienter -X/-X-Wirkung. |
 | **Wishclaw Talisman** | bewusst draußen | Tutor zu günstigen Kosten, Übergabe der Kontrolle an Gegner ähnlich Jewel-Risiko. |
+| **Aetherflux Reservoir** | bewusst draußen (verworfener PR-Entwurf) | Benötigt viele im selben Zug gewirkte Zauber; mit Citadel und Top zwar ein Abschluss, aber außerhalb des Drei-Permanent-Aufbaus wenig aktiver Boardnutzen. Der Nutzer bevorzugt Brudiclads Token-Engine. |
+| **Krark-Clan Ironworks** | bewusst draußen (verworfener PR-Entwurf) | Kann auch Nichtkreatur-Artefakte für {C}{C} opfern, kostet jedoch {4} statt {3}. Das günstigere Ashnod's Altar opfert die ohnehin verfügbaren Warform-/anderen Kreaturentokens; der zusätzliche Opferumfang rechtfertigt hier den höheren Preis nicht. |
+| **Grim Monolith** | zweiter Mana-Kandidat, nicht eingebaut | GC; {2}-Artefakt für {C}{C}{C}, starkes Mishra-/Brudiclad-Warform-Ziel, aber das Original enttappt nicht von selbst und verlangt {4}. Überschneidet sich mit bereits aktiver Mana Vault; Workshop ist dauerhafteres Artefakt-Cast-Tempo. |
+| **Consecrated Sphinx** | Draw-GC nicht eingebaut | Ohne eigenes Leben zu verlieren zieht sie bei jedem Kartenziehen eines Gegners optional zwei Karten. Sechs Mana ({4}{U}{U}), kein Artefakt und kein Mishra-Kopierziel; im Vergleich bietet Memory Jar unabhängig vom Gegner eine Artefakt-/Warform-Ziehengine. |
+| **Jeska's Will** | Mana/Draw-GC nicht eingebaut | Für {2}{R} je nach Commander und gegnerischer Hand starke rote Manaexplosion und drei temporär spielbare Karten. Einmaliger Nichtartefaktzauber, kein Mishra-Kopierziel; Workshop beschleunigt das decktypische Artefaktspielen jede Runde. |
+| **Mystic Forge** | starker Nicht-GC-Nachzugkandidat | Viermana-Nichtkreatur-Artefakt, lässt Artefakte und farblose Zauber von der Bibliotheksoberseite wirken. Manchmal Länder oder farbige Nichtartefakte oben blockieren; {T} plus 1 Leben zum Exilieren. Gegenüber Memory Jar nachhaltiger, aber langsamer und weniger sofortiger Kartendurchsatz mit einer Warform. |
 
 ## Gegenwärtige Testreihenfolge (nicht automatisch eingebaut)
 
-Aus dem erweiterten Kreis verdienen **The Master, Multiplied**, **Repurposing Bay**, **Soul-Guide Lantern**, **Fateful Discovery**, **Shuri, Wakandan Inventor** und **The Mycosynth Gardens** eine spätere gezielte Gegenprobe.
+Für spätere Tests verdienen **The Master, Multiplied**, **Repurposing Bay**, **Soul-Guide Lantern**, **Fateful Discovery**, **Shuri, Wakandan Inventor** und **The Mycosynth Gardens** eine spätere gezielte Gegenprobe.
 
-Dabei weiterhin beachten: keine zusätzlichen Kreaturenwipes; Sundial erst bei funktionierender Manabrew-Implementierung; keine riskanten Kontrollübergaben wie Coveted Jewel/Wishclaw; die drei Game-Changer-Plätze sind derzeit Demonic Tutor, Mana Vault und Bolas's Citadel. Karten mit Game-Changer-Einstufung dürfen nicht einfach als vierter Slot übernommen werden. Nicht-Grixis-Karten wie Dance of the Manse bleiben für Mishra unzulässig.
+Dabei weiterhin beachten: keine zusätzlichen Kreaturenwipes; Sundial erst bei funktionierender Manabrew-Implementierung; keine riskanten Kontrollübergaben wie Coveted Jewel/Wishclaw; die drei Game-Changer-Plätze sind derzeit **Demonic Tutor, Mana Vault und Mishra's Workshop**. Bolas's Citadel und The One Ring bleiben ausgeschlossen. Karten mit Game-Changer-Einstufung dürfen nicht einfach als vierter Slot übernommen werden. Nicht-Grixis-Karten wie Dance of the Manse bleiben für Mishra unzulässig.
 
 ## Quellen und Nachvollziehbarkeit
 
 - **Historischer Abgleich:** [GitHub-Commitverlauf der aktiven B3-Kartenliste](https://github.com/alexdermohr/magic/commits/main/decks/mishra/current.txt), 22 ausgewertete Dateifassungen einschließlich [ursprünglichem Track](https://github.com/alexdermohr/magic/commit/0b6094cf09566f3c10bb1d78129e3ac3dca4337e).
-- **Weitere Kandidaten:** [Scryfall Cards Collection](https://scryfall.com/docs/api/cards/collection) – 99 insgesamt namentlich geprüfte Alternativen (einschließlich bereits aktiv gewordener Karten), davon **95 gegenwärtig ausgeschlossene**; historische Stände wurden vor dieser Revision gesondert dokumentiert. Commander-Legalität und Farbidentität sind **vor jedem tatsächlichen Einbau** erneut zu prüfen.
+- **Weitere Kandidaten:** [Scryfall Cards Collection](https://scryfall.com/docs/api/cards/collection) – historische Kandidatenübersicht (einschließlich später aktiv gewordener Karten), gegenwärtig **99 als Alternativen ausgeschlossene**; historische Stände wurden vor dieser Revision gesondert dokumentiert. Commander-Legalität und Farbidentität sind **vor jedem tatsächlichen Einbau** erneut zu prüfen.
 - **Bracket:** [Wizards Commander Brackets](https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta) – keine frühe absichtliche Zweikarten-Endloskombo und maximal drei Game Changer in Bracket 3.
 - **Spielumgebung:** Ein Papierregel-Synergiepotenzial beweist noch keine vollständige Unterstützung in manabrew.app; insbesondere ungewöhnliche statische Effekte separat testen.

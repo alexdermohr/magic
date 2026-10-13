@@ -13,7 +13,9 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Bolas's Citadel"}
+EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Mishra's Workshop"}
+REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Sensei's Divining Top", "Memory Jar", "Mishra's Workshop"}
+FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic", "Bolas's Citadel", "The One Ring", "Buried Ruin"}
 # Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
 EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge", "Nevinyrral's Disk"}
 EXPECTED_ROCKS = {
@@ -48,6 +50,10 @@ def names_and_docs() -> list[str]:
     assert_ok(gc_summary is not None, "root README Game Changer summary not found")
     gc_names = {name.strip() for name in gc_summary.group(1).split(",")}
     assert_ok(gc_names == EXPECTED_GC, "root README Game Changers do not match current deck")
+    mishra_readme = ROOT.joinpath("README.md").read_text(encoding="utf-8")
+    assert_ok("## Historische B3-Fassung vom 11.10.2026 (nicht aktuell)" in mishra_readme
+              and "## Verbindliche aktuelle Bracket-3-Fassung" not in mishra_readme,
+              "old README deck revision is incorrectly labeled current")
     matrix = ROOT.joinpath("replaceability.md").read_text(encoding="utf-8").splitlines()
     rated = [
         m.group(1).strip()
@@ -56,6 +62,11 @@ def names_and_docs() -> list[str]:
     ]
     assert_ok(len(rated) == 100 and Counter(rated) == Counter(names),
               "replaceability matrix does not contain precisely 100 active names")
+    protected_cut = re.compile(r"^\|\s*[A-C]\s*\|\s*\*\*Brudiclad, Telchor Engineer\*\*")
+    assert_ok(protected_cut.match("| A | **Brudiclad, Telchor Engineer** | example"),
+              "Brudiclad guard must match a representative proposed-cut row")
+    assert_ok(not any(protected_cut.match(line) for line in matrix),
+              "Brudiclad must not be a proposed current cut")
     extra = ROOT.joinpath("erweiterter-kreis.md").read_text(encoding="utf-8")
     assert_ok("## A. Früher in Mishra B3" in extra and
               "## B. Konkret geprüft" in extra and
@@ -66,16 +77,31 @@ def names_and_docs() -> list[str]:
     pattern = r"^\|\s*\*\*(.*?)\*\*\s*\|"
     historic = re.findall(pattern, section_a, re.MULTILINE)
     alternatives = re.findall(pattern, section_b, re.MULTILINE)
-    assert_ok(len(historic) == 40, f"expected 40 historical cuts, found {len(historic)}")
-    assert_ok(len(alternatives) == 95, f"expected 95 external candidates, found {len(alternatives)}")
+    assert_ok(len(historic) == 42, f"expected 42 historical cuts, found {len(historic)}")
+    assert_ok(len(alternatives) == 99, f"expected 99 external candidates, found {len(alternatives)}")
     outside = historic + alternatives
-    assert_ok(len(outside) == 135 and len(set(outside)) == 135,
-              "extended circle must contain 135 unique excluded names")
+    assert_ok(len(outside) == 141 and len(set(outside)) == 141,
+              "extended circle must contain 141 unique excluded names")
     assert_ok(not (set(outside) & set(names)), "excluded card still active")
+    completeness = next(
+        (line for line in extra.splitlines()
+         if line.startswith("**Vollständigkeit der historisch geführten B3-Karten")),
+        "",
+    )
+    for marker in (f"**{len(historic)} verschiedene", f"**{len(names) + len(historic)} unterschiedliche",
+                   f"**{len(alternatives)} weitere", f"= {len(outside)} eindeutig"):
+        assert_ok(marker in completeness, f"stale inventory completeness audit: {marker}")
+    tests_doc = ROOT.joinpath("manabrew-tests.md").read_text(encoding="utf-8")
+    assert_ok("7717bfab32b028cd5560c92b7d1205b103514546" in tests_doc
+              and "F1–F4 (Mana Vault)" in tests_doc
+              and "F5–F6 (Citadel)" in tests_doc,
+              "historical Citadel tests must link a pinned F5/F6 deck snapshot")
     blob = ROOT.joinpath("versions/2026-10-07-optimized-b4-v1.txt").read_bytes()
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
     assert_ok(EXPECTED_GC.issubset(set(names)), "required Game Changer removed")
+    assert_ok(REQUIRED_CURRENT.issubset(set(names)), "required Brudiclad/Ashnod/Top/Jar/Workshop package missing")
+    assert_ok(not (FORBIDDEN_CURRENT & set(names)), "rejected Reservoir/KCI/Relic/Citadel/Ring/Buried Ruin card present")
     assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 13 required mana artifacts removed")
     assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
               "explicitly excluded creature/permanent sweeper present")
