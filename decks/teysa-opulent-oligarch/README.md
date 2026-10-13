@@ -15,6 +15,6 @@ Das Deck zeigt eine **fiktive** Finanzoligarchie aus Ravnicas Orzhov-Milieu: Abg
 
 ## Optimierung vom 13.10.2026
 
-Sieben gezielte Änderungen senken die durchschnittliche Kurve und verdichten die Synergie zwischen Lebensverlust, Clues und Aristocrats. Hinzu kommen wiederholbares Clue-Opfern, zusätzliche Clue-Produktion und günstigerer Drain. **36 Länder und drei Game Changer bleiben unverändert.**
+Nach Gegenprüfung bleiben **fünf von sieben ursprünglichen Tauschen** bestehen. **Crypt Ghast und Thran Turbine sind wieder im Deck**, Umbral Collar Zealot bleibt als kostenloser Opfermotor; dafür weicht Victory Chimes. Der Fokus ist nun eine Balance aus eigenständig auslösbarem Lebensverlust, Clue-Produktion, kostenlosem Opfern, Kartenziehen und schwarzem Mana. **36 Länder und drei Game Changer bleiben unverändert.**
 
-Die Details und Einschränkungen stehen in [analysis.md](analysis.md). Ein Leistungsvorteil ist aus den Kartentexten begründet, aber noch nicht durch gespielte Partien belegt.
+Die Abwägungen, aus dem Deck entfernten Alternativen und eine Korrektur des Kartentexts von Lunar Convocation stehen in [analysis.md](analysis.md). Ein Leistungsvorteil ist anhand der Synergien begründet, aber nicht durch Partien belegt.
