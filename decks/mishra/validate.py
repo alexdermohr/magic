@@ -14,8 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Mishra's Workshop"}
-REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Sensei's Divining Top", "Memory Jar", "Mishra's Workshop"}
-FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic", "Bolas's Citadel", "The One Ring", "Buried Ruin"}
+REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Determined Iteration", "Diabolic Intent", "Sensei's Divining Top", "Memory Jar", "Mishra's Workshop"}
+FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic", "Bolas's Citadel", "The One Ring", "Buried Ruin", "Marionette Apprentice"}
 # Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
 EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge", "Nevinyrral's Disk"}
 EXPECTED_ROCKS = {
@@ -77,11 +77,11 @@ def names_and_docs() -> list[str]:
     pattern = r"^\|\s*\*\*(.*?)\*\*\s*\|"
     historic = re.findall(pattern, section_a, re.MULTILINE)
     alternatives = re.findall(pattern, section_b, re.MULTILINE)
-    assert_ok(len(historic) == 42, f"expected 42 historical cuts, found {len(historic)}")
+    assert_ok(len(historic) == 43, f"expected 43 historical cuts, found {len(historic)}")
     assert_ok(len(alternatives) == 99, f"expected 99 external candidates, found {len(alternatives)}")
     outside = historic + alternatives
-    assert_ok(len(outside) == 141 and len(set(outside)) == 141,
-              "extended circle must contain 141 unique excluded names")
+    assert_ok(len(outside) == 142 and len(set(outside)) == 142,
+              "extended circle must contain 142 unique excluded names")
     assert_ok(not (set(outside) & set(names)), "excluded card still active")
     completeness = next(
         (line for line in extra.splitlines()
@@ -100,8 +100,8 @@ def names_and_docs() -> list[str]:
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
     assert_ok(EXPECTED_GC.issubset(set(names)), "required Game Changer removed")
-    assert_ok(REQUIRED_CURRENT.issubset(set(names)), "required Brudiclad/Ashnod/Top/Jar/Workshop package missing")
-    assert_ok(not (FORBIDDEN_CURRENT & set(names)), "rejected Reservoir/KCI/Relic/Citadel/Ring/Buried Ruin card present")
+    assert_ok(REQUIRED_CURRENT.issubset(set(names)), "required Brudiclad/Ashnod/Iteration/Intent/Top/Jar/Workshop package missing")
+    assert_ok(not (FORBIDDEN_CURRENT & set(names)), "rejected Reservoir/KCI/Relic/Citadel/Ring/Buried Ruin/Apprentice card present")
     assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 13 required mana artifacts removed")
     assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
               "explicitly excluded creature/permanent sweeper present")

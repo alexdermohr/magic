@@ -1,6 +1,6 @@
 # Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung (optimiertes Bracket 3)
 
-**Aktive Version:** 12. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 141 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
+**Aktive Version:** 13. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 142 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
 
 **Struktur der aktuellen B3-Fassung mit Workshop/Memory Jar/Brudiclad/Ashnod/Top:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **47 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
 
@@ -14,15 +14,25 @@
 | Stufe | Bedeutung | Karten |
 |:---:|---|---:|
 | 1 | Zentrale, schwer ersetzbare Rolle | 21 |
-| 2 | Hoher Deckbeitrag | 53 |
-| 3 | Vergleichsslot, alternative Funktion denkbar | 24 |
+| 2 | Hoher Deckbeitrag | 54 |
+| 3 | Vergleichsslot, alternative Funktion denkbar | 23 |
 | 4 | Theoretisch zuerst auf dem Prüfstand | 2 |
 | 5 | Kein eindeutig funktionsloser Platz | 0 |
 | **Gesamt** | **100 aktuelle Einzelbewertungen** | **100** |
 
 **Spielhinweis:** Nautiloid Ship löst seine Friedhofsexil-Fähigkeit beim Eintritt der Warform aus; die Kampfschaden-Fähigkeit kann nur eine Kreatur zurückbringen, die **das jeweilige Ship-Objekt** exiliert hat. Arcum benötigt ein legales **Artefaktkreatur-Ziel** und opfert diese bei Auflösung; die Bibliothekssuche ist nicht auf einen bestimmten Manawert begrenzt. Andere Artefaktkreaturen wie Kappa sind nicht direkt mit Mishras Commander-Auslöser kopierbar. Die tatsächliche Manabrew-Funktion ist nicht durch eigenständige Testpartien belegt.
 
-## Aktueller Beschluss vom 12.10.2026: Mana und temporäre sieben Karten statt Lebenspunkt-Paketen
+## Aktueller Tausch vom 13.10.2026: Marionette Apprentice → Diabolic Intent
+
+**Nutzerentscheidung:** **Marionette Apprentice raus, Diabolic Intent rein.** **Determined Iteration, Brudiclad, Ashnod's Altar, Whir of Invention, Demonic Junker** und die 3 Game Changer bleiben. Der alte Schadensmotor bei Todesfällen wird durch einen **einmaligen universellen {1}{B}-Tutor** ersetzt; bezahle beim Wirken mit einer Kreatur, etwa einer Warform, die den Kampf überlebt und sonst im Endsegment geopfert würde. Vorteil: fehlende Engine-, Interaktions- oder Schutzkarte gezielt finden. Gegenargument: ohne Opferkreatur zunächst nicht spielbar; wenn gecountert, ist das Opfer unwiederbringlich; keine wiederholbaren 1-Schaden-an-alle-Gegner-Trigger mehr.
+
+| Raus | Rein | Kontostand |
+|---|---|---|
+| **Marionette Apprentice** ({1}{B}, Kreatur, Fabricate 1 und wiederholbarer Drain) | **Diabolic Intent** ({1}{B}, Hexerei, universeller Tutor gegen Kreaturenopfer) | 100 Singleton, 35 Länder, **47 Artefakte**, 13 definierte Mana-Artefakte, **3 Game Changer**. Kreaturenzahl −1, Hexereien +1, übrige Slots unverändert. |
+
+**Aktuelle Einstufung:** Diabolic Intent Stufe **2** statt Apprentice Stufe 3. Neue Verteilung **21 × 1, 54 × 2, 23 × 3, 2 × 4**. [Erweiterter Kreis](erweiterter-kreis.md): **43 historische Cuts + 99 zusätzliche Alternativen = 142 disjunkte ausgeschlossene Karten**. Bracket 4 bleibt bytegleich. Scryfall-/Manabrew-Prüfstatus nur nach tatsächlicher Validierung bezeichnen.
+
+## Vorangegangener Beschluss vom 12.10.2026: Mana und temporäre sieben Karten statt Lebenspunkt-Paketen
 
 | Raus (gegenüber vorherigem PR) | Rein | Mehrwert | Stärkstes Gegenargument |
 |---|---|---|---|
@@ -81,7 +91,7 @@
 
 ## Jede einzelne aktuelle Karte
 
-### Kommandeur und Kreaturen
+### Kommandeur, Kreaturen und günstiger Tutor
 
 | # | Karte | Ersetzbarkeit | Nutzen und Opportunitätskosten |
 |---:|---|:---:|---|
@@ -91,7 +101,7 @@
 | 4 | Etherium Sculptor | **2** | Beschleunigt fast alle ausgespielten Artefakte; ein fragiler Körper, kein eigener Warform-ETB-Effekt. |
 | 5 | Enthusiastic Mechanaut | **2** | Zweite günstige Artefakt-Kostenreduktion plus Flugfähigkeit; Doppel-Farbanforderung im frühen Spiel. |
 | 6 | Knight Paladin | **1** | Nichtkreatur-Fahrzeug: ETB verursacht vier Schaden bei jedem Gegner, beliebig per Mishra erneut kopierbar. |
-| 7 | Marionette Apprentice | **3** | Bereits für zwei Mana Drain bei Todesfällen eigener Kreaturen/Artefakte. Einziger verbliebener direkter Drain bei eigenen passenden Todesereignissen statt des entfernten Fireweaver-ETB-Schadens. |
+| 7 | Diabolic Intent | **2** | {1}{B}-Hexerei, opfert als zusätzliche Wirk-Kosten eine Kreatur und sucht dafür **jede beliebige Karte** auf die Hand. Nach dem Kampf kann eine überlebende Mishra-Warform vor ihrem Endsegment-Opfer verwertet werden. Wenn der Zauber neutralisiert wird, bleibt die geopferte Kreatur verloren. Verliert gegenüber Marionette Apprentice den wiederholbaren Gruppendrain und Fabricate-Servo, gewinnt aber universellen günstigen Tutorzugriff. **Kein Game Changer.** |
 | 8 | Sai, Master Thopterist | **2** | Token beim Wirken von Artefaktzaubern und Opfer-Draw; Token entstehen nicht schon durch jeden Mishra-Auslöser. |
 | 9 | Goblin Welder | **2** | Tauscht kleine Artefakte gegen schwere Friedhofsziele inklusive Portal; summoning-sick, removal-anfällig und zielabhängig. |
 | 10 | Goblin Engineer | **2** | Legt beliebiges Artefakt in den Friedhof; Rückholung direkt ins Feld nur bei Mana Value bis 3. |
@@ -123,7 +133,7 @@
 | 31 | Prized Statue | **2** | Treasure bei Eintritt und Tod, dadurch extrem gutes frühes Mishra-Ziel und Farbfix; geringere Endspielwirkung. |
 | 32 | Tezzeret, Master of the Bridge | **2** | Sechs Mana ({4}{U}{B}) für einen eigenständigen Spielabschluss: +2 verursacht jedem Gegner Schaden entsprechend der Anzahl eigener Artefakte und gibt einmal X Leben. -3 holt eine Artefaktkarte zurück; Affinity für eigene Kreatur- und Planeswalker-Zauber. Kein direktes Mishra-Kopierziel und kein Artefakt, braucht stabilen Boardstate und kann angegriffen werden. |
 | 33 | Mishra, Tamer of Mak Fawa | **2** | Fünfmana-Nichtartefakt: Ward—Sacrifice a permanent für alle eigenen Permanents inklusive Mishra. Artefaktkarten im eigenen Friedhof bekommen Unearth {1}{B}{R}, inklusive Portal; Exil bei Endsegment/Verlassen. |
-| 34 | Ashnod's Altar | **2** | {3}-Artefakt mit kostenfreier Opferfähigkeit für **Kreaturen**, besonders Mishra-Warforms sowie Brudiclad-/Sai-Tokens; liefert {C}{C}, triggert Marionette Apprentice und Esoteric Duplicator. Billiger als KCI und als Mishra-Ziel kopierbar; Nichtkreatur-Artefakte kann es nicht opfern. |
+| 34 | Ashnod's Altar | **2** | {3}-Artefakt mit kostenfreier Opferfähigkeit für **Kreaturen**, besonders Mishra-Warforms sowie Brudiclad-/Sai-Tokens; liefert {C}{C}, triggert Esoteric Duplicator und andere Todeseffekte. Billiger als KCI und als Mishra-Ziel kopierbar; Nichtkreatur-Artefakte kann es nicht opfern. |
 | 35 | Idol of Oblivion | **2** | Mishra erzeugt regelmäßig Tokens, dadurch günstige wiederkehrende Karte; braucht überlebendes Artefakt und Tap-Fenster. |
 | 36 | Strionic Resonator | **3** | Wiederholbare zusätzliche Mishra-Trigger für {2}, Tap. Repurposing Bay konkurriert als direkter Feld-Tutor. |
 | 37 | Thousand-Year Elixir | **2** | Für {3} ermöglicht sofortige Tap-Aktivierungen von Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter (auch frisch ausgespielt). Für {1},{T} enttappt es eine Kreatur. Kein echter Angriffs-Haste und ohne passende Kreatur oder Mana kein sofortiger Kartenvorteil. |
@@ -183,7 +193,7 @@
 | 81 | Urza's Saga | **1** | Sucht nun **Sensei's Divining Top** ({1}) sowie **Sol Ring** ({1}), **Mana Vault** ({1}) oder **Mox Opal** ({0}). Das Saga-Suchkriterium gilt nur für aufgedruckte Manakosten exakt {0} oder {1}; erzeugt außerdem Constructs. |
 | 82 | Otawara, Soaring City | **2** | Ungetappte blaue Quelle oder schwer konterbares Channel-Bounce; nahezu ohne Deckbaupreis. |
 | 83 | Takenuma, Abandoned Mire | **2** | Ungetappte schwarze Quelle mit möglicher Kreaturen-Rekursion; passt zu Friedhofsplan. |
-| 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Ashnod's Altar/Marionette Apprentice; sonst gewöhnliches Farbland. |
+| 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Ashnod's Altar/Diabolic Intent; sonst gewöhnliches Farbland. |
 | 85 | Polluted Delta | **1** | Findet schwarze oder blaue Duals und damit alle Grixis-Farben über vorhandene Landtypen. |
 | 86 | Scalding Tarn | **1** | Findet Island-/Mountain-Duals für sehr flexible frühe Farbwahl. |
 | 87 | Bloodstained Mire | **1** | Findet Swamp-/Mountain-Duals für flexible frühe Schwarz/Rot-Versorgung. |
@@ -215,7 +225,7 @@
 
 ## Operative Regeln und Nachprüfbarkeit (aktuelle Game Changer)
 
-- **Tezzeret, Master of the Bridge** ist der aktuelle eigenständige Finisher: Sein +2 zählt die **bei Auflösung kontrollierten Artefakte** (auch Warforms, Maps, Artefaktländer) und fügt **jedem Gegner X Schaden** zu; der eigene Lebensgewinn beträgt **einmal X**. **Marionette Apprentice** löst weiterhin bei einem anderen eigenen Kreaturen-/Artefakt-Tod aus. Regulär geopferte Warforms zählen als Tod, bleiben als Token aber nicht im Friedhof. **Reckless Fireweaver** ist nicht mehr aktiv.
+- **Tezzeret, Master of the Bridge** ist der aktuelle eigenständige Finisher: Sein +2 zählt die **bei Auflösung kontrollierten Artefakte** (auch Warforms, Maps, Artefaktländer) und fügt **jedem Gegner X Schaden** zu; der eigene Lebensgewinn beträgt **einmal X**. **Diabolic Intent** bietet stattdessen einen einmaligen Tutor durch das Opfern einer Kreatur, ohne selbst einen Schadensauslöser zu erzeugen. Regulär geopferte Warforms zählen als Tod, bleiben als Token aber nicht im Friedhof. **Reckless Fireweaver** ist nicht mehr aktiv.
 - **Mishra, Tamer of Mak Fawa** gewährt Ward—Sacrifice a permanent für alle eigenen Permanents; Unearth {1}{B}{R} funktioniert für Artefaktkarten im Friedhof, nicht für verschwundene Warform-Tokens. Das reanimierte Artefakt wird im nächsten Endsegment oder beim Verlassen exiliert. Ward stoppt keine globalen Boardwipes.
 - **Oni-Cult Anvil** ist ein Nichtkreatur-Artefakt und kann von Mishra kopiert werden. Eine ungetappte Warform davon darf ihre Tap-/Opferfähigkeit dank Mishras Eile selbst aktivieren. Wenn während **deines Zuges ein oder mehrere Artefakte, die du kontrollierst, das Spielfeld verlassen** – durch Opferung/Tod, Bounce oder Exil –, erzeugt die entsprechende ausgelöste Fähigkeit **höchstens einmal je Zug und je Anvil** einen 1/1-Construct-Artefaktspielstein; **dessen ETB zählt für Artefaktwert und Tezzerets spätere +2-Artefaktanzahl**, erzeugt aber ohne Fireweaver keinen automatischen Schaden.
 - **Ohne Nihil Spellbomb** kann ein graveyardbasiertes Metagame einen neuen Hate-Slot erfordern; Soul-Guide Lantern wäre dann der naheliegende günstige Artefakt-Kandidat, aber kein automatischer Ersatz ohne Gegnermeta.

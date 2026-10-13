@@ -1,15 +1,31 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-12
+**Stand:** 2026-10-13
 
 **Verbindliche B3-Liste:** [current.txt](current.txt)
 
 **Ersetzbarkeitsmatrix (100 aktuelle Einzelurteile und dokumentierte historische Tauschhypothesen):** [replaceability.md](replaceability.md)
-**Erweiterter Kreis (42 historische Cuts, 99 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
+**Erweiterter Kreis (43 historische Cuts, 99 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Entscheidung: Mishra's Workshop + Memory Jar (12.10.2026)
+## Aktuelle Optimierung: Diabolic Intent statt Marionette Apprentice (13.10.2026)
+
+**Freigegebene Änderung:** In der einzigen [aktuellen B3-Liste](current.txt) wird ausschließlich **Marionette Apprentice ({1}{B}, Kreatur)** durch **Diabolic Intent ({1}{B}, Hexerei)** ersetzt. **Determined Iteration bleibt**, ebenso Brudiclad, Ashnod's Altar, Demonic Junker, Whir of Invention, Mana Vault, Sensei's Divining Top, Memory Jar und alle 35 Länder.
+
+**Warum dieser Tausch sinnvoll ist:** Das Deck kopiert mit Mishra regelmäßig Nichtkreatur-Artefakte in Warforms. Eine Warform kann zuerst angreifen und ihren kopierbaren ETB-/Kampfnutzen liefern. **Nach dem Kampf im zweiten Hauptsegment** kostet Diabolic Intent {1}{B} plus das Opfern einer noch vorhandenen eigenen Kreatur; dafür erhält man **jede beliebige Karte aus der Bibliothek** auf die Hand. Das kann ein fehlendes Token-Werkzeug, Interaktion, Manaquelle, Protection oder ein Artefakt-Cheat-Enabler sein. **Diabolic Intent ist selbst kein Game Changer** und zählt nicht als Artefakt oder weiteres permanentes Kopierziel.
+
+**Der wichtigste Verlust:** Marionette Apprentice war nicht bloß ein beliebiger kleiner Körper. Sie erzeugte über **Fabricate 1** wahlweise einen zusätzlichen Servo oder eine +1/+1-Marke und ließ **bei jedem Tod einer anderen eigenen Kreatur oder eines Artefakts** jeden Gegner einen Lebenspunkt verlieren. In langen Ashnod-/Warform-Schleifen kann dieser wiederholbare Gruppendrain mehr wert sein als ein einmaliger Tutor. Der neue Tutor selbst verursacht **keinen** Schaden und ersetzt keinen eigenen permanenten Wincon. Die vorhandenen unabhängigen Abschlüsse (Knight Paladin, Tezzeret, Kappa Cannoneer, Simulacrum Synthesizer, Brudiclad) bleiben aber bestehen.
+
+**Konkretes Timing/Risiko:** Als Hexerei muss Diabolic Intent grundsätzlich in einer eigenen Hauptphase bei leerem Stack gewirkt werden. **Mishras Kampfbeginn ist dafür zu spät**, um es während des Kampfes einzusetzen: Auf die Warform warten und danach in der zweiten Hauptphase opfern. Das Kreaturenopfer ist **zusätzliche Wirk-Kosten**, keine beim Verrechnen nachzuholende Fähigkeit. Ein Counter verhindert zwar den Tutor, **stellt die geopferte Kreatur aber nicht wieder her**. Ein und dieselbe Warform kann nicht gleichzeitig für Diabolic Intent und Ashnod's Altar geopfert werden. Auch eine Warform, die im Kampf stirbt, steht für die spätere Hexerei nicht mehr bereit.
+
+**Synergien:** Determined Iteration erzeugt weiterhin bei korrekter Triggerreihenfolge eine zusätzliche Warform, sodass man eine für Angriff/ETB und eine andere für Intent oder Ashnod nutzen kann. Mit Esoteric Duplicator sind die Opferfolgen gesondert zu prüfen; das Zusatztutoring ist eigenständig, nicht unbegrenzt. Der Tutor kann auch eine Nichtartefaktkarte wie ein Land finden, die Arcum Dagsson und Whir of Invention nicht direkt suchen.
+
+**Struktur/Evidenz:** Unverändert 100 Singleton-Karten, **35 Länder, 47 Artefakte, 13 Mana-Artefakte, drei Game Changer (Demonic Tutor, Mana Vault, Mishra's Workshop)**. Aktueller [Erweiterter Kreis](erweiterter-kreis.md): **43 historische + 99 andere Kandidaten = 142 disjunkte ausgeschlossene Karten**. Bracket-4-Datei unverändert. **Keine realen Manabrew-Partien mit Diabolic Intent nachgewiesen**; Regel- und Strukturprüfung sind getrennt von tatsächlicher Engine-Funktion.
+
+---
+
+## Vorangegangene Entscheidung: Mishra's Workshop + Memory Jar (12.10.2026; historisch)
 
 **Die veröffentlichte B3-Liste verwendet jetzt als einzigen neuen dritten Game Changer _Mishra's Workshop_ statt Bolas's Citadel; The One Ring wird ausdrücklich nicht aufgenommen.** Da Workshop ein **Land** und kein Artefakt ist, erfolgen dafür genau zwei Kartenwechsel:
 - **Bolas's Citadel → Memory Jar** (Artefakt für Artefakt: regelkonform kein zusätzlicher Game Changer).
@@ -612,7 +628,7 @@ Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests si
 
 **Wichtige Einschränkung:** Fetchländer sind keine unmittelbar tappbaren farbigen Länder; sie kosten Aktivierung/Leben und benötigen noch passende Ziele in der Bibliothek. Xander's Lounge kommt getappt. Glimmervoid ist in artefaktreichen Spielen gut, kann aber beim frühen Land-Drop ausfallen. City of Brass schadet beim Tappen. Die Änderungen verbessern deshalb primär die Zuverlässigkeit der Farbwahl und reduzieren die Zahl riskanter Anfangsländer, nicht die absolute Produktion von Mana pro Karte.
 
-## Spielplan
+## Historischer Spielplan (ältere B3-Fassung, nicht verbindlich)
 
 1. Starthand: drei Länder oder zwei Länder mit mehreren billigen Mana-Artefakten sind meist ein guter Ausgangspunkt; nötige U/B/R-Verfügbarkeit prüfen.
 2. Fetchländer früh für die fehlende Farbe verwenden. Eine sofort ungetappte Manaquelle ist oft wichtiger als maximales späteres Value.
@@ -623,7 +639,7 @@ Eine höhere tatsächliche Gewinnrate ist **nicht gemessen**. Ohne Spieltests si
 7. Sundial of the Infinite kann eine Warform retten, **wenn** der passende End-Step-Opfer-Trigger bereits auf dem Stack liegt. Dabei wird sie nicht geopfert und löst Esoteric Duplicator nicht aus; stattdessen je nach Ziel den Duplicator für eine spätere Kopie nutzen.
 8. Marionette Apprentice lässt beim Sterben jeder eigenen Warform alle Gegner 1 Leben verlieren; Marionette Master (normalerweise Fabricate mit drei +1/+1-Marken) richtet mit Artefakt-Opfern erheblichen Einzelziel-Lebensverlust an. Oni-Cult Anvil erzeugt günstige Construct-Spielsteine und kann eigene Artefakte für 1 Schaden an jedem Gegner opfern. Cyberdrive Awakener, Brudiclad, Kappa Cannoneer und Simulacrum Synthesizer sind weitere Abschlüsse.
 
-## Bracket-Prüfung
+## Historische Bracket-Prüfung (ältere B3-Fassung, nicht verbindlich)
 
 Die offiziellen Brackets sehen in **Bracket 3 (Upgraded)** bis zu drei Game Changer vor; zusätzlich sollen frühe Zwei-Karten-Endlos-Combos, regelmäßige Extra-Turn-Ketten und Mass Land Denial vermieden werden.
 

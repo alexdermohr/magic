@@ -14,7 +14,21 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelles Bracket 3: Mishra's Workshop + Memory Jar (12.10.2026)
+## Aktuelle B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
+
+**Verbindlich ist allein [current.txt](current.txt).** Der vom Nutzer freigegebene **einzige Kartentausch** seit der Fassung vom 12.10.2026:
+
+| Raus | Rein | Was sich ändert |
+|---|---|---|
+| **Marionette Apprentice** ({1}{B}, Kreatur) | **Diabolic Intent** ({1}{B}, Hexerei, kein Game Changer) | Statt Fabricate-1-Servo und wiederholbarem Gruppenschaden bei eigenen Todesfällen: **jede beliebige Karte** aus der Bibliothek suchen, wobei eine Kreatur **als zusätzliche Kosten beim Wirken** geopfert wird. |
+
+Mit **Mishra** im Kampf eine Warform erzeugen, gegebenenfalls angreifen und bei überlebender Warform in der **zweiten Hauptphase** Diabolic Intent wirken. Die Warform wäre sonst im Endsegment geopfert worden; die Opferung ist dennoch ein echter Preis und lässt sich nicht nach einem Counter rückgängig machen. **Determined Iteration bleibt ausdrücklich enthalten** und verdoppelt weiter Warforms mit den richtigen Kampfauslösern. Auch Brudiclad, Ashnod's Altar, Whir of Invention, Demonic Junker, Memory Jar und Sensei's Divining Top bleiben unverändert.
+
+**Struktur:** 100 unterschiedliche Karten, **35 Länder, 47 Artefakte, 13 definierte Mana-Artefakte, genau drei Game Changer (Demonic Tutor, Mana Vault, Mishra's Workshop)**. Der [Erweiterte Kreis](erweiterter-kreis.md) dokumentiert **43 historische Cuts und 99 weitere Alternativen = 142 disjunkte ausgeschlossene Karten**. Bracket 4 bleibt separat und unverändert; keine weitere B3-Parallelversion. Manabrew-Tests sind als offen dokumentiert.
+
+[Analyse](analysis.md) · [100 Einzelbewertungen](replaceability.md) · [Manabrew-Testfälle](manabrew-tests.md)
+
+## Vorangegangene B3-Revision: Mishra's Workshop + Memory Jar (12.10.2026; historisch)
 
 **Aktiv und verbindlich ist nur [current.txt](current.txt).** Kein The One Ring und keine Bolas's Citadel; keine Aetherflux Reservoir oder Krark-Clan Ironworks. **Brudiclad**, **Ashnod's Altar** und **Sensei's Divining Top** bleiben.
 
