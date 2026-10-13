@@ -84,10 +84,10 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Marchesa: aktuelle Bracket-3-Liste und datierte Snapshots.
 - Mishra: nur ein einziges `current.txt` für B3; ein separates B4-Deck. Bei neuen B3-Optimierungen wird `current.txt` geändert, **keine weitere B3-Version** angelegt.
 
-## Aktueller Stand (Ruxa: 2026-10-11; Mishra und Marchesa: 2026-10-12; andere Decks: frühere Revisionen)
+## Aktueller Stand (Ruxa: 2026-10-11; Marchesa: 2026-10-12; Mishra: 2026-10-13; andere Decks: frühere Revisionen)
 
 - Ruxa: **Bracket 3 v4 / Token-Value (2026-10-11)**, 36 Länder / 19 Kreaturen inkl. Commander / 4 Vanilla-Kreaturen / drei Game Changer.
-- Mishra: **Bracket 3, 100 verschiedene Karten inkl. Commander / 35 Länder / 47 Artefakte / 13 Mana-Artefakte / genau drei Game Changer** (**Demonic Tutor, Mana Vault, Mishra's Workshop**). Die [einzige aktive B3-Liste](decks/mishra/current.txt) setzt jetzt auf **Mishra's Workshop statt Buried Ruin** und **Memory Jar statt Bolas's Citadel**: farbloses Artefaktzauber-Tempo sowie jede Runde über Mishras Warform sieben temporäre Karten ohne eigenen Schaden (mit gegnerischem Draw als Risiko). **The One Ring** ist ausgeschlossen. **Brudiclad, Ashnod's Altar, Sensei's Divining Top, Arcum Dagsson, Demonic Junker, Whir of Invention, Thousand-Year Elixir und The Mightstone and Weakstone** bleiben. [Analyse](decks/mishra/analysis.md) · [Erweiterter Kreis (141)](decks/mishra/erweiterter-kreis.md) · [Manabrew-Tests](decks/mishra/manabrew-tests.md).
+- Mishra: **Bracket 3, 100 verschiedene Karten inkl. Commander / 35 Länder / 47 Artefakte / 13 Mana-Artefakte / genau drei Game Changer** (**Demonic Tutor, Mana Vault, Mishra's Workshop**). **Aktueller Tausch 13.10.2026:** **Marionette Apprentice → Diabolic Intent** (2-Mana-Universaltutor gegen Kreaturenopfer, **kein** Game Changer). **Determined Iteration bleibt**, ebenso Brudiclad, Ashnod's Altar, Demonic Junker, Whir of Invention, Arcum Dagsson, Kappa Cannoneer, Memory Jar und Sensei's Divining Top. B3-Version ausschließlich in [decks/mishra/current.txt](decks/mishra/current.txt); B4 separat unverändert. [Analyse](decks/mishra/analysis.md) · [Erweiterter Kreis (142)](decks/mishra/erweiterter-kreis.md) · [Manabrew-Tests](decks/mishra/manabrew-tests.md).
 - Mishra: Bracket 4, separate Liste unverändert.
 - Marchesa: **Bracket 3 v4.2 (2026-10-12)**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers (**Rhystic Study, Demonic Tutor, Vampiric Tutor**). [Analyse](decks/marchesa/analysis.md).
 

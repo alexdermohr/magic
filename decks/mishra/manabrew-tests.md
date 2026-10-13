@@ -1,8 +1,20 @@
 # Manabrew-Funktionsprüfung – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 12.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge sowie Game Changer Mana Vault und Mishra's Workshop, plus die nicht-GC Memory Jar. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver, Rhystic Study und Cyclonic Rift.
+**Stand:** 13.10.2026 · **Eingangsrevision früherer A–C-Tests:** [`52899aa`](https://github.com/alexdermohr/magic/commit/52899aa979e11b8365fff0a90af5e297a0061f31) · **jetzt maßgebliche aktive Liste:** [current.txt](current.txt). Aktive neue Karten: Thousand-Year Elixir, Mephitic Draught, Tezzeret, Master of the Bridge sowie Game Changer Mana Vault und Mishra's Workshop, plus die nicht-GC Memory Jar. Nicht aktive frühere Karten: Thought Monitor, Chromatic Lantern, Reckless Fireweaver, Rhystic Study und Cyclonic Rift.
 
-## G – Aktuelle Revision: Mishra's Workshop und Memory Jar (12.10.2026)
+## H – Neuer Diabolic-Intent-Tausch (13.10.2026; aktuelle Liste)
+
+**Testvoraussetzung:** In [current.txt](current.txt) steht **Diabolic Intent** anstelle von Marionette Apprentice. **Determined Iteration, Mishra, Ashnod's Altar und Brudiclad bleiben aktiv.** Der Austausch ist legal; **H1–H5: NICHT AUSGEFÜHRT** in Manabrew.
+
+1. **H1 – Warform als Opferkosten nach dem Kampf:** Mishra zu Kampfbeginn eine kopierte Warform erzeugen lassen; wenn sie den Kampf überlebt, in eigener **zweiter Hauptphase** Diabolic Intent für {1}{B} wirken und **genau diese Warform als zusätzliche Kosten** opfern. Erwartung: Die Warform ist vor dem Tutor-Verrechnen geopfert, es kann **jede Bibliothekskarte** gesucht und in die Hand gelegt werden; die Warform erreicht nicht mehr ihren eigenen Endsegment-Opfertrigger.
+2. **H2 – Keine Hexerei während des Kampfbeginns:** Diabolic Intent auf der Hand, Mishras Warform-Trigger wartet im Kampf. Ohne eine explizite Flash-Erlaubnis darf Diabolic Intent **nicht** als Reaktion oder im Angriffsspielsegment gewirkt werden. Erst im zweiten Hauptsegment und bei legalem Timing. Hat die Warform den Kampf nicht überlebt, kann sie nicht mehr für Intent geopfert werden.
+3. **H3 – Determined Iteration bleibt aktiv:** Anfang-des-Kampfs-Trigger so ordnen, dass zuerst Mishra eine Warform erzeugt, dann Iteration sie populiert. Die erste und die neue Warform haben getrennte Opferanweisungen. Nach dem Kampf eine verbleibende Warform für Diabolic Intent opfern und mit der anderen ggf. Ashnod's Altar nutzen; **ein Spielstein darf nicht zweimal als Kosten geopfert werden**.
+4. **H4 – Counter/kein Opferziel:** Diabolic Intent nur mit legal verfügbaren Opferkreaturen wirken. Sobald eine Kreatur für die **zusätzlichen Kosten** geopfert ist, kann ein gegnerischer Counter den Tutor vereiteln, **aber nicht die Opferkosten zurückerstatten**. Ohne opferbare Kreatur ist Intent nicht legal zu wirken.
+5. **H5 – Unterschied zu Marionette Apprentice:** Die aus dem Deck entfernte Marionette Apprentice ist in der aktuellen Testliste **nicht** im Spiel und erzeugt daher keine wiederholten Lebenspunktverlust-Trigger bei Warform-Opfern. Zusätzliche Todes-/Artefakt-Folgen nur von tatsächlich liegenden Karten wie Esoteric Duplicator, Scrap Trawler und Oni-Cult Anvil prüfen.
+
+**Status H1–H5: NICHT AUSGEFÜHRT.** Bitte bei jeder tatsächlichen Manabrew-Engine den Stack, bezahlte Kosten, Tutorziel, Kartenhand und ggf. Korrektheit von Mishra/Iteration dokumentieren. Papierregeln/Oracle sind nur **Soll**-Verhalten.
+
+## G – Vorangegangene Tests: Mishra's Workshop und Memory Jar (12.10.2026; weiterhin relevant)
 
 **Verbindliche Deckvorbedingung:** [current.txt](current.txt) enthält **Mishra's Workshop, Memory Jar, Mana Vault, Demonic Tutor, Brudiclad, Ashnod's Altar und Sensei's Divining Top**, aber **keine** Bolas's Citadel, The One Ring, Aetherflux Reservoir, Krark-Clan Ironworks, Lich's Relic oder Buried Ruin. **G1–G6 sind NICHT AUSGEFÜHRT**, Papierregel-Erwartungen also keine Engine-PASS-Ergebnisse.
 
@@ -11,7 +23,7 @@
 3. **G3 – Memory-Jar-Warform mit Mishra:** Original-Jar im Feld behalten. Zu Beginn des eigenen Kampfes eine 4/4 hasty Warform-Kopie davon erzeugen. Noch während des Kampfes durch {T} und Opfer des **Warform-Tokens** die G2-Handwechsel-Kette auslösen. Die sieben Karten dann in Hauptphase zwei nutzen; am eigenen Endsegment die Rückgabe protokollieren. **Das originale Memory Jar bleibt im Feld**, die Tokenkopie verschwindet nach dem Opfer; im nächsten eigenen Kampf kann Mishra eine neue Warform erzeugen. Kein Lebensverlust durch Memory Jar selbst.
 4. **G4 – Brudiclad und Jar-Token:** Mishras Kopiertrigger vor Brudiclads Kopiertrigger auflösen, sodass die erste Memory-Jar-Warform als Vorlage existiert. Vorhandene, nichtlegendäre Maps, Myr oder Thopter zu Jar-Warform-Kopien umwandeln. Erwartung: die **bereits existierenden** Tokens treten nicht neu ein; nur die von Mishra selbst erzeugte Warform erhält den ursprünglichen verzögerten Opferauftrag (Ausnahme: eine gleichzeitig durch Helm erzeugte Map mit eigener Opferanweisung). Die von Brudiclad kopierten Tokens bleiben normalerweise bestehen und bekommen Brudiclads Kreaturentoken-Eile. Verschiedene Jar-Aktivierungen legen eigene Hand-/Endsegmentvorgänge an; zunächst **nur eine** auslösen und erst später Mehrfachtests.
 5. **G5 – Sensei's Divining Top ohne Citadel:** Top über Urza's Saga III ({1} aufgedruckte Manakosten) suchen. Für {1} Bibliotheksoberseite anordnen, gegebenenfalls danach mit Fetchland neu mischen. Tops {T}-Fähigkeit zieht eine Karte und legt das Original auf die Bibliothek. **Ohne Citadel kann Top nicht allein von oben erneut gewirkt werden**; kein automatischer Life-Payment-Draw-Loop. Mit Mishra eine Top-Warform für ein einmaliges Ziehen prüfen.
-6. **G6 – Opferkonflikt Ashnod/Jar:** Jar-Warform mit Ashnod's Altar als **Mana-Fähigkeitskosten** opfern: Erwartung {C}{C}, aber **keine Jar-Sieben-Karten-Aktivierung**, weil sie nicht aktiviert wurde. Alternativ Warform über eigene Jar-{T}-Opferaktivierung opfern: sieben temporäre Karten, aber **keine Ashnod-Mana**, weil Altar nicht aktiviert wurde. Marionette Apprentice und Esoteric Duplicator je nach eigenen Triggerbedingungen separat prüfen.
+6. **G6 – Opferkonflikt Ashnod/Jar:** Jar-Warform mit Ashnod's Altar als **Mana-Fähigkeitskosten** opfern: Erwartung {C}{C}, aber **keine Jar-Sieben-Karten-Aktivierung**, weil sie nicht aktiviert wurde. Alternativ Warform über eigene Jar-{T}-Opferaktivierung opfern: sieben temporäre Karten, aber **keine Ashnod-Mana**, weil Altar nicht aktiviert wurde. Esoteric Duplicator je nach eigenen Triggerbedingungen separat prüfen; **Marionette Apprentice gehört nicht mehr zur aktuellen Deckliste**.
 
 **Status:** G1–G6 **NICHT AUSGEFÜHRT**. Für jeden Test den tatsächlichen Manabrew-Engine-Stand, einen Screenshot/Log und den resultierenden Boardstate erfassen; erst nach erfolgreichem reproduziertem Ablauf PASS vergeben. Ein Regelfall ist kein Beleg für fehlerfreie Manabrew-Implementierung.
 
@@ -19,7 +31,7 @@
 
 | Ebene | Status | Beobachtung / Grenze |
 |---|---|---|
-| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: ehemals 135 andere Namen (11.10.2026); neue Revision 42 + 99 = 141 andere Namen, per Validator zu bestätigen. |
+| GitHub-Liste und Dokumentenkonsistenz | **Geprüft** | `current.txt`: 100 verschiedene Namen; `replaceability.md`: dieselben 100; `erweiterter-kreis.md`: ehemals 135 andere Namen (11.10.2026); neue Revision 43 + 99 = 142 andere Namen, per Validator zu bestätigen. |
 | Manabrew-Webclient | **Oberfläche erreichbar** | `https://play.manabrew.app` wurde in einer isolierten Chrome-Sitzung geladen; Startseite bot `Build / Import` und `Play Offline` an. |
 | Import des konkreten Decks | **Nicht durchgeführt** | Der eingesetzte semantische Browserzugriff gestattete keinen belastbaren Eingabe-/Import- und Spielablauf. Navigations-/Aktivierungsversuche an dynamischen Elementen scheiterten an Snapshot-/Element-Vertragsgrenzen. |
 | Nautiloid Ship, Arcum Dagsson, Crossover-Karten | **Keine erfolgreiche Spielsitzung; ungetestet** | Kein konkreter Boardstate wurde in Manabrew erzeugt. Insbesondere keine Exil-Objektzuordnung und keine Tutor-Auflösung praktisch verifiziert. |
@@ -119,7 +131,7 @@
 
 ## Entscheidung bis zum Engine-Nachweis
 
-Die gültige Deckliste enthält **Demonic Tutor, Mana Vault und Mishra's Workshop** als Game Changer sowie **Memory Jar** als Nicht-GC-Artefakt-Kartenzieher. **Nautiloid Ship, Arcum Dagsson, Thousand-Year Elixir, Mephitic Draught, Brudiclad, Ashnod's Altar und Tezzeret** bleiben. Bolas's Citadel und The One Ring sind ausgeschlossen. **Vorrang haben G1–G6**, danach D/E/A/B/C und die weiterhin relevanten Mana-Vault-Fälle F1–F4. Historische Citadel-Tests F5/F6 gelten nur für alte Deckversionen. Keine Manabrew-Funktion wird ohne echte Sequenz als bestanden markiert.
+Die gültige Deckliste enthält **Demonic Tutor, Mana Vault und Mishra's Workshop** als Game Changer, **Memory Jar** als Nicht-GC-Artefakt-Kartenzieher und **Diabolic Intent** statt Marionette Apprentice als Nicht-GC-Hexerei-Tutor. **Determined Iteration bleibt.** **Nautiloid Ship, Arcum Dagsson, Thousand-Year Elixir, Mephitic Draught, Brudiclad, Ashnod's Altar und Tezzeret** bleiben. Bolas's Citadel und The One Ring sind ausgeschlossen. **Vorrang haben H1–H5 und G1–G6**, danach D/E/A/B/C und die weiterhin relevanten Mana-Vault-Fälle F1–F4. Historische Citadel-Tests F5/F6 gelten nur für alte Deckversionen. Keine Manabrew-Funktion wird ohne echte Sequenz als bestanden markiert.
 
 ## Quellen (Regelreferenz; keine Manabrew-Spielbelege)
 

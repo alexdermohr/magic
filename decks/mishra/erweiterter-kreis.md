@@ -1,10 +1,18 @@
 
 # Erweiterter Kreis – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 12. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
+**Stand:** 13. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
 
 
-## Aktuelle Optimierung: Mana, sieben Karten und Mishra-Tokens (12.10.2026)
+## Aktueller Tausch: Marionette Apprentice → Diabolic Intent (13.10.2026)
+
+**Verbindliche B3-Liste:** [current.txt](current.txt). **Marionette Apprentice** verlässt nach Nutzerfreigabe das Deck; **Diabolic Intent** ({1}{B}, Hexerei) kommt hinzu. Der zusätzliche Wirk-Kostenbestandteil verlangt das Opfern einer eigenen Kreatur. In der **zweiten Hauptphase** kann dafür eine nach dem Kampf noch bestehende Mishra-Warform geopfert werden, die sonst im nächsten Endsegment verschwände. Danach darf eine **beliebige** Karte aus der Bibliothek auf die Hand gesucht werden. Die geopferte Kreatur wird bereits **beim Wirken** bezahlt – wird der Zauber neutralisiert, bleibt das Opfer verloren.
+
+**Strategischer Tausch:** Verlust eines günstigen Fabricate-1-Körpers und eines **wiederholbaren Gruppenschadens bei Artefakt-/Kreaturentod**, dafür mehr Zugriff auf entscheidende Engine-Teile oder Schutz. **Determined Iteration** bleibt ausdrücklich bestehen und erzeugt weiterhin zusätzliche Warforms; ebenso Brudiclad, Ashnod's Altar, Whir of Invention und Demonic Junker. Es wird **kein** zusätzlicher Game Changer aufgenommen.
+
+**Aktuelles Inventar:** 100 aktive Karten; **43 historische Cuts (A)** und **99 weitere geprüfte Alternativen (B)**, zusammen **142 disjunkte nicht aktive Karten**. Jemals aktiv geführt: **143 verschiedene Namen**. Länder 35, Artefakte 47, reguläre Mana-Artefakte 13; Game Changer unverändert **Demonic Tutor / Mana Vault / Mishra's Workshop**. B4 unverändert; keine tatsächlich bestätigten Manabrew-Testspiele.
+
+## Vorangegangene Optimierung: Mana, sieben Karten und Mishra-Tokens (12.10.2026)
 
 **Verbindliche Liste:** [current.txt](current.txt). Die unerwünschte **Bolas's Citadel** wird statt eines lebensintensiven Game Changers durch die nicht als Game Changer eingestufte **Memory Jar** ersetzt. Anstelle des farblosen Landes **Buried Ruin** kommt **Mishra's Workshop** als neuer **dritter Game Changer** hinein. **The One Ring** war nur ein abgebrochener, nie veröffentlichter Zwischenentwurf und wird ausdrücklich nicht eingebaut.
 
@@ -12,7 +20,7 @@
 
 **Mishra's Workshop (Land):** {C}{C}{C} **ausschließlich für das Wirken von Artefaktzaubern**, nicht für Mishra selbst, Nichtartefaktzauber, Aktivierungskosten oder Crew. Das Land kostet keine Lebenspunkte und enttappt normal, beschleunigt jedoch viele der teuren Fahrzeuge/Artefakte einschließlich Memory Jar. Mit Buried Ruin entfällt eine landbasierte einmalige Artefakt-Rückholung; Academy Ruins, Welder, Engineer, Emry und Scrap Trawler übernehmen Teile dieser Rolle.
 
-**Bilanz:** 100 Karten, 35 Länder, 47 Artefakte, 13 klassische Mana-Artefakte, drei Game Changer **Demonic Tutor / Mana Vault / Mishra's Workshop**. Im ausgeschlossenen Kreis stehen **42 historische Cuts + 99 weitere geprüfte Alternativen = 141 unterschiedliche Namen**, disjunkt zur Deckliste. Brudiclad, Ashnod's Altar, Sensei's Divining Top, Kappa Cannoneer, Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben aktiv. Kein absichtlicher früher Zweikarten-Endloskreislauf, B4 unverändert. Eine Verbesserung der Siegquote ist ohne kontrollierte Partien nicht belegt.
+**Bilanz:** 100 Karten, 35 Länder, 47 Artefakte, 13 klassische Mana-Artefakte, drei Game Changer **Demonic Tutor / Mana Vault / Mishra's Workshop**. Im ausgeschlossenen Kreis stehen **damals 42 historische Cuts + 99 weitere geprüfte Alternativen = 141 unterschiedliche Namen**, disjunkt zur Deckliste. Brudiclad, Ashnod's Altar, Sensei's Divining Top, Kappa Cannoneer, Demonic Junker, Whir of Invention und The Mightstone and Weakstone bleiben aktiv. Kein absichtlicher früher Zweikarten-Endloskreislauf, B4 unverändert. Eine Verbesserung der Siegquote ist ohne kontrollierte Partien nicht belegt.
 
 ## Vorangegangener Deckentscheid – Brudiclad und Ashnod zurück, Top bleibt (12.10.2026)
 
@@ -65,11 +73,11 @@ Der **Erweiterte Kreis** ist die zentrale Warteliste/Archiv für Mishra-B3-Karte
 3. `replaceability.md` betrifft nur die 100 **aktuellen** Karten; der Erweiterte Kreis verwaltet die Alternativen. Bei neuen Reviews beide Dateien auf die neue aktive `current.txt` synchronisieren.
 4. Historische Ausschlüsse sind **keine ewigen Verbote**, außer wenn sie wie Sundial (Manabrew-Probleme), Coveted Jewel (Kontrollverlust) oder Kreaturenwipes ausdrücklich unerwünscht sind. Auch sie bleiben hier dokumentiert, falls sich Rahmenbedingungen ändern.
 
-**Vollständigkeit der historisch geführten B3-Karten (aktueller Inventarstand):** Die 100 Karten in [current.txt](current.txt) und **42 verschiedene derzeit gestrichene Karten** aus Abschnitt A ergeben **142 unterschiedliche jemals aktiv geführte B3-Kartennamen**. Abschnitt B enthält **99 weitere derzeit nicht aufgenommene Alternativen**. Damit umfasst der erweiterte Kreis **42 + 99 = 141 eindeutig ausgeschlossene Kartennamen**, ohne Überschneidung zur aktiven Liste; zusammen sind **241 unterschiedliche Kartennamen** in aktueller Liste und erweitertem Kreis dokumentiert. Diese Aussagen folgen aus den untenstehenden eindeutigen Tabellenzeilen und dem Validator, nicht aus einem behaupteten Spieltest; der Katalog ist nicht vollständig für alle Magic-Karten.
+**Vollständigkeit der historisch geführten B3-Karten (aktueller Inventarstand):** Die **100 aktuell aktiven** Karten in [current.txt](current.txt) und **43 verschiedene derzeit gestrichene Karten** aus Abschnitt A ergeben **143 unterschiedliche jemals aktiv geführte B3-Kartennamen**. Abschnitt B enthält **99 weitere derzeit nicht aufgenommene Alternativen**. Damit umfasst der erweiterte Kreis **43 + 99 = 142 eindeutig ausgeschlossene Kartennamen**, ohne Überschneidung zur aktiven Liste; insgesamt sind **242 unterschiedliche Namen** in Deck und erweitertem Kreis dokumentiert. Dies ist eine nachprüfbare Inventur, nicht der gesamte Magic-Kartenkatalog.
 
 Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestrichen** = bisher kein überzeugender Mehrwert; **metagameabhängig** = nur bei passendem Umfeld; **bewusst draußen** = scheidet unter heutigen Bedingungen aus. Bei Alternativen: **hoher Testwert**, **weiterer Kandidat**, **niedrige Priorität**, **bewusst draußen**.
 
-## A. Früher in Mishra B3, jetzt gestrichen (42)
+## A. Früher in Mishra B3, jetzt gestrichen (43)
 
 | Karte | Aktuelle Einstufung | Grund für Streichung / mögliche Neubewertung |
 |---|---|---|
@@ -92,6 +100,7 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Glimmervoid** | historisch gestrichen | Alle Farben mit Artefakt, aber Opferrisiko bei Artefaktverlust. |
 | **Lich's Relic** | am 12.10.2026 ersetzt | Einmana-Artefakt mit wiederholbarer ETB-Entfernung gegen Extra-Mana; viele andere Antworten vorhanden. **Sensei's Divining Top** stabilisiert Citadel, wird von Saga gesucht und erlaubt wiederholtes Kartenziehen. Rückkehr bei nachgewiesenem Interaktionsdefizit. |
 | **Lithoform Engine** | Rückkehr möglich | Kopiert Trigger und Zauber flexibel, ist jedoch kostenintensiver als Resonator/Throne. |
+| **Marionette Apprentice** | am 13.10.2026 zugunsten von Diabolic Intent entfernt | {1}{B}-Kreatur mit Fabricate 1 und wiederkehrendem Verlust von 1 Leben für alle Gegner, sobald eine andere eigene Kreatur oder ein Artefakt aus dem Spiel in einen Friedhof gelegt wird. Stark mit Mishras Warform-Opfern, Ashnod's Altar und Tokens; nicht zu kopieren mit Mishra. **Diabolic Intent** bietet stattdessen einen einmaligen universellen Tutor gegen Kreaturenopfer. Rückkehr erwägen, falls der wiederholbare Gruppenschaden in Partien stärker als die zusätzliche Konsistenz ist. |
 | **Marionette Master** | Rückkehr möglich | Hoher Schaden an einzelne Gegner bei Artefakttod; sechs Mana, nicht selbst ein Artefakt. |
 | **Mycosynth Wellspring** | historisch gestrichen | Sucht Basics, davon gibt es nur wenige; gegenüber Prized Statue/Wellspring zu wenig Tempo. |
 | **Nihil Spellbomb** | metagameabhängig | Ehemaliger Einzelfriedhofshass und optionaler Draw; Nautiloid Ship erfüllt jetzt anderen Friedhofsschutz. |
