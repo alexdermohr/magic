@@ -23,9 +23,9 @@
 1 Welcoming Vampire
 1 Bennie Bracks, Zoologist
 1 Delney, Streetwise Lookout
+1 Crypt Ghast
 1 Dreg Recycler
 1 Elas il-Kor, Sadistic Pilgrim
-1 Wispdrinker Vampire
 1 Umbral Collar Zealot
 1 Drana's Emissary
 1 Wernog, Rider's Chaplain
@@ -37,7 +37,7 @@
 1 Skullclamp
 1 Inspiring Statuary
 1 Idol of Oblivion
-1 Victory Chimes
+1 Thran Turbine
 1 Krark-Clan Ironworks
 1 Smothering Tithe
 1 Anointed Procession
