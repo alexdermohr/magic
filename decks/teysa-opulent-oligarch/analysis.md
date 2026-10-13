@@ -1,36 +1,37 @@
 # Die Oligarchie – Teysa, Opulent Oligarch (Bracket 3)
 
-## Ziel und Motiv
-Ein Orzhov-Deck, das mit Lebenspunktabgaben Hinweise (Clues), Kartenvorteil, Geister und Treasure erzeugt und die Gegner über Aristocrats-Drain besiegt. Die Orzhov-Oligarchie ist Magic-Fiktion, keine Aussage über reale Gruppen.
+## Ziel
+Orzhov-Clue-/Aristocrats-Deck: Lebensverlust aller Gegner auf dem eigenen Zug sicherstellen, mit Teysa Hinweise produzieren, diese für Karten und Opfer-Auslöser einsetzen und über Drain-/Token-Effekte gewinnen. Das Oligarchie-Motiv bezieht sich ausschließlich auf Magic-Fiktion.
 
-## Spielplan
-1. **Früh entwickeln:** 36 Länder und günstige Mana-Artefakte beschleunigen Teysa (1WB). Creeping Bloodsucker und Drana's Emissary verursachen in deinem Upkeep ohne weitere Voraussetzung Lebensverlust bei **allen** Gegnern. Blind Obedience kann mit Extort bei eigenen Zaubern dasselbe erreichen.
-2. **Untersuchen:** Zu Beginn deines Endsegments legt Teysa einen Auslöser auf den Stapel. **Beim Verrechnen** untersuchst du für jeden Gegner, der in diesem Zug Leben verloren hat. Wernog, Rider's Chaplain erzeugt Hinweise beim Betreten und Verlassen; Gegner entscheiden jeweils zwischen eigenem Clue und Lebensverlust. Academy Manufactor verwandelt jedes deiner Investigates in Clue + Food + Treasure.
-3. **Hinweise verwerten:** Clues kosten regulär {2} und ihre Opferung zieht eine Karte. Bartolomé del Presidio oder Umbral Collar Zealot können Clues jederzeit **ohne Mana** für eigene Kosten opfern: einmal pro Zug entsteht dadurch mit Teysa ein fliegender 1/1 Spirit. Umbral Collar Zealot surveilt 1 pro Opferung. Krark-Clan Ironworks verwandelt geopferte Artefakte stattdessen in farbloses Mana; Dreg Recycler opfert einen Clue oder eine Kreatur durch Tappen und lässt jeden Gegner 1 Leben verlieren, so dass der nächste Endstep vorbereitet wird.
-4. **Druck skalieren:** Mirkwood Bats, Nadier's Nightblade und Marionette Apprentice bestrafen Token-Erzeugung beziehungsweise Abgänge; Corpse Knight, Elas il-Kor und Wispdrinker Vampire bestrafen den Kreaturen-/Spirit-Verkehr. Teysa Karlov verdoppelt Kreaturentod-Auslöser, nicht aber Teysas Clue-Auslöser. Delney verdoppelt Teysas eigenen Endstep-Investigate-Auslöser (Power 2), **nicht** die ausdrücklich auf einmal pro Zug begrenzte Spirit-Fähigkeit. Mondrak und Anointed Procession verdoppeln die erzeugten Token.
-5. **Gewinnen:** Wiederholter Aristocrats-Drain, fliegende Token, eine größere Exsanguinate oder Revel in Riches mit zehn Treasures im eigenen Upkeep. Marionette Master ist ein teurer, aber explosiver Artefakt-Opfer-Finisher.
+## Spielplan und Wechselwirkungen
 
-**Wichtige Timing-Regel:** Lunar Convocation löst nur aus, wenn du **bereits vor Beginn des Endsegments** Leben gewonnen hast. Wenn das zutrifft, kannst du Convocation über Teysa auf den Stapel legen, den Lebensverlust für alle Gegner zuerst verrechnen lassen und dann mit Teysa die Hinweise erzeugen. Wernog erzwingt nicht automatisch Lebensverlust: Gegner dürfen stattdessen untersuchen.
+1. **Frühes Mana und Lebensverlust:** 36 Länder, Sol Ring, Signets, Talisman und Fellwar Stone unterstützen Teysa (1WB). Creeping Bloodsucker und Drana's Emissary lösen im eigenen Upkeep unabhängig von gegnerischen Aktionen Lebensverlust aller Gegner aus. Blind Obedience erzeugt diesen mit Extort beim Wirken eigener Zauber. Crypt Ghast liefert Extort und beim Tappen **eigener Sümpfe** zusätzlich {B} (mit Urborg, Tomb of Yawgmoth auch für andere Länder); ohne hinreichend Sümpfe ist sein Ramp-Effekt schwächer.
+2. **Clues erzeugen:** Zu Beginn des eigenen Endsegments löst Teysa aus. Bei der Verrechnung untersucht sie für jeden Gegner, der **in diesem Zug** Leben verloren hat. Wernog, Rider's Chaplain löst beim Betreten oder Verlassen des Spielfelds aus: Gegner dürfen selbst untersuchen oder 1 Leben verlieren; du untersuchst mindestens einmal und zusätzlich für jeden Gegner, der untersucht. Academy Manufactor ersetzt jedes eigene Untersuchen durch Clue, Food und Treasure.
+3. **Clues nutzen:** Einen Clue für {2} zu opfern zieht eine Karte; Teysa erzeugt beim Weg eines eigenen Clues **vom Spielfeld in den Friedhof** einen 1/1 fliegenden Spirit, **höchstens einmal pro Zug**. Thran Turbine erzeugt im **eigenen Upkeep** {C}{C}, das zwar keine Zauber bezahlen kann, wohl aber die volle Clue-Aktivierung. Es erfordert dafür einen vorhandenen Hinweis und funktioniert nicht auf gegnerischen Zügen. Bartolomé del Presidio und Umbral Collar Zealot opfern Clues ohne Mana und ermöglichen damit Teysas Spirit-Auslöser auch im Zug eines Gegners; **diese Opferung zieht keine Karte**. Umbral Collar Zealot surveilt 1. Krark-Clan Ironworks opfert Artefakte für {C}{C}, ohne selbst Karten zu ziehen; Dreg Recycler tappt und opfert ein Artefakt oder eine Kreatur, um jeden Gegner 1 Leben verlieren und dich 1 Leben gewinnen zu lassen.
+4. **Drain und Wincons:** Marionette Apprentice, Mirkwood Bats und Nadier's Nightblade profitieren von Opfern bzw. Tokens; Corpse Knight von Kreaturen-ETBs und Elas il-Kor vom Betreten beziehungsweise Sterben eigener Kreaturen. Teysa Karlov verdoppelt **Kreaturen-Sterbe-Auslöser**, nicht die eigenen Teysa-Clues. Delney kann Teysas Endstep-Untersuchen ein weiteres Mal auslösen, aber die auf einmal je Zug begrenzte Spirit-Fähigkeit nicht häufiger machen. Mondrak und Anointed Procession skalieren die Tokenzahl. Exsanguinate profitiert besonders von zusätzlichem schwarzen Mana; Revel in Riches kann mit genügend Treasures gewinnen.
 
-## Austausch vom 13.10.2026
+**Lunar Convocation – korrekter Kartentext:** Falls du **vor Beginn deines Endsegments** in diesem Zug Leben erhalten hast, verliert jeder Gegner zu Beginn des Endsegments 1 Leben. Falls du außerdem selbst Leben verloren hast, entsteht durch eine *zweite* Fähigkeit ein 1/1 fliegender Bat. Karten ziehen ist eine **separate aktivierte Fähigkeit: {1}{B}, bezahle 2 Lebenspunkte: Ziehe eine Karte**. Es gibt **kein** automatisches Kartenziehen am Endsegment. Haben sowohl Lunar Convocation als auch Teysa ausgelöst, bestimme die Reihenfolge: Lunar zuerst verrechnen lassen, dann kann Teysa den Lebensverlust noch mitzählen. Gaining life erst nach Beginn des Endsegments reicht nicht zum Auslösen von Lunar.
 
-| Raus | Rein | Begründung / Abwägung |
+## Überarbeitete Auswahl vom 13.10.2026
+
+Die erste Optimierung tauschte sieben Karten. Nach erneuter Prüfung bleiben fünf dieser Tausche bestehen; zwei wurden rückgängig gemacht. Um beide wertvollen Effekte unterzubringen, weicht zusätzlich Victory Chimes zugunsten von Umbral Collar Zealot.
+
+| Raus gegenüber der ursprünglichen Liste | Rein | Bewertung |
 | --- | --- | --- |
-| Debt to the Deathless | Wernog, Rider's Chaplain | Debt ist gegenüber Exsanguinate manaintensiver und bei gleichem Gesamtmana ineffizienter; Wernog erzeugt günstig Hinweise oder Lebensverlust und funktioniert auch ohne Commander. |
-| Palace Siege | Drana's Emissary | Von fünf auf drei Mana: verlässlicher Lebensverlust aller Gegner in eigenem Upkeep; dafür weniger dauerhafte Rekursion und geringere Widerstandsfähigkeit gegen Kreaturenremoval. |
-| Court of Ambition | Lunar Convocation | Zwei statt vier Mana: situativer, aber selbst steuerbarer Endstep-Drain und Kartenkauf per Aktivierung; Monarch-Kartenziehen entfällt. |
-| Crypt Ghast | Wispdrinker Vampire | Breiter Spirit- und 1/1-Token-Finisher statt situationsabhängigem Swamp-Ramp; weniger explosiv, wenn Urborg + viele Swamps zusammenliegen. |
-| Thran Turbine | Umbral Collar Zealot | Clues ohne Mana in **jedem** Spielerzug opfern und die Bibliothek surveillen; statt zwei farblosen Upkeep-Mana. |
-| Kambal, Consul of Allocation | Dreg Recycler | Eigene Clues und Kreaturen bei Bedarf in Lebensverlust aller Gegner umwandeln, nicht von gegnerischen Noncreature-Spells abhängig; weniger Steuerdruck auf Spell-Decks. |
-| Jadar, Ghoulcaller of Nephalia | Elas il-Kor, Sadistic Pilgrim | Frühere und breitere Drain-/Lifegain-Synergie mit allen eigenen Kreaturen statt nur eines wiederkehrenden Decayed-Zombies. |
+| Debt to the Deathless | Wernog, Rider's Chaplain | Günstige Clue-Erzeugung; Exsanguinate ist als großer X-Drain effizienter. |
+| Palace Siege | Drana's Emissary | Frühere, selbstständige Lebensverlust-Quelle; fünf Mana für Palace Siege sind langsam. |
+| Court of Ambition | Lunar Convocation | Günstiger und besser mit Lifegain-/Lifeloss-Kleinstauslösern; die Monarch- und Discard-Engine des Court ist stark und bleibt eine Matchup-Alternative. |
+| Kambal, Consul of Allocation | Dreg Recycler | Selbst kontrollierter Lebensverlust auf dem eigenen Zug und Clue-Opferung; Kambal bleibt gegen spelllastige Tische eine starke Alternative. |
+| Jadar, Ghoulcaller of Nephalia | Elas il-Kor, Sadistic Pilgrim | Breiterer Payoff für viele Kreaturen; Jadar liefert nur einen Decayed-Zombie pro Endstep und nur ohne bereits vorhandenen Decayed. |
+| Victory Chimes | Umbral Collar Zealot | Zweiter kostenloser Sacrifice-Outlet neben Bartolomé; auf gegnerischen Zügen Spirit-Auslöser ohne Mana erzeugen. Dafür entfällt wiederholbares farbloses Mana auf gegnerischen Zügen. |
 
-## Schutz und Interaktion
-Teferi's Protection und Malakir Rebirth sichern Schlüsselzüge bzw. Teysa ab. Swords to Plowshares, Path to Exile, Anguished Unmaking, Despark, Generous Gift, Stroke of Midnight und Rite of Oblivion beantworten Einzelbedrohungen; Damn, Toxic Deluge und Austere Command räumen kritische Boards. Kein Stax-Lock, kein Landzerstörungsplan.
+**Nach Prüfung behalten:** Crypt Ghast statt des vorübergehend eingesetzten Wispdrinker Vampire und Thran Turbine statt des zunächst gestrichenen Slots. Umbral Collar Zealot bleibt trotz seiner Überschneidung mit Bartolomé, da ein zweiter kostenloser Sacrifice-Outlet die Verlässlichkeit erhöht. Die ursprünglich geplante Kombination ohne Crypt Ghast und Thran Turbine war zu stark auf Drain statt auf Mana und Kartenverwertung fokussiert.
 
-## Bracket-3-Grenze
-- **100 Karten insgesamt, 36 Länder, genau drei Game Changer:** Smothering Tithe, Orcish Bowmasters, Teferi's Protection; diese Auswahl blieb bewusst erhalten.
-- Keine geplante frühe Zwei-Karten-Endlosschleife, keine Extra-Turn-Schleife, keine Massenlandzerstörung.
-- Bracket 3 ist eine Deckbau- und Spielabsichts-Einordnung. Weder konkrete Matchups noch Spielgeschwindigkeit oder höhere Gewinnrate sind durch Partietests bestätigt.
-- Gegen „Die Allmende“ bestrafen Orcish Bowmasters und Smothering Tithe weiterhin gegnerische Draw-Effekte; deren Aura Shards bleibt eine relevante Gefahr für Clue- und Treasure-Artefakte.
+**Erweiterter Kreis:** Court of Ambition (Kontroll-/Attrition-Meta), Kambal, Consul of Allocation (viele gegnerische Nichtkreatur-Zauber), Wispdrinker Vampire (stärkere Token-/ETB-Ausrichtung), Victory Chimes (Clue-Aktivierungen in allen Zügen), Palace Siege (lange Rekursionsspiele), Jadar, Ghoulcaller of Nephalia (Sterbe-/Opfer-Zyklen), Debt to the Deathless (thematischer zweiter X-Finisher).
 
-Referenz: https://magic.wizards.com/en/formats/commander
+## Schutz und Bracket
+Swords to Plowshares, Path to Exile, Anguished Unmaking, Despark, Generous Gift, Stroke of Midnight und Rite of Oblivion sind gezielte Interaktion. Damn, Toxic Deluge, Austere Command sind flexible Wipes; Teferi's Protection und Malakir Rebirth sichern zentrale Permanents.
+
+**100 Karten, 36 Länder, genau drei Game Changer:** Smothering Tithe, Orcish Bowmasters, Teferi's Protection. Keine geplanten frühen Zwei-Karten-Infinite-Kombinationen, keine Massenlandzerstörung, keine Extra-Turn-Schleifen. Die Deckbauzuordnung Bracket 3 und die erwarteten Synergien wurden anhand der Kartentexte geprüft, aber weder Gewinnraten noch tatsächliche Spielgeschwindigkeit in Partien validiert.
+
+Regel- und Bracketreferenz: https://magic.wizards.com/en/formats/commander
