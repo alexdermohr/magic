@@ -12,6 +12,7 @@
 1 Weaver of Harmony
 1 Faeburrow Elder
 1 Fíli and Kíli, Joyous
+1 Scholar of New Horizons
 1 Anikthea, Hand of Erebos
 1 Yenna, Redtooth Regent
 1 Bloom Tender
@@ -20,7 +21,7 @@
 1 Scroll of Isildur
 1 Song of Eärendil
 1 The Bath Song
-1 One Ring to Rule Them All
+1 Burn, Burn, Tree and Fern
 1 War of the Last Alliance
 1 Tale of Tinúviel
 1 The Misty Mountains Cold
@@ -34,9 +35,8 @@
 1 Kiora Bests the Sea God
 1 Fable of the Mirror-Breaker
 1 Azusa's Many Journeys
-1 Jugan Defends the Temple
-1 The Restoration of Eiganjo
-1 The First Iroan Games
+1 The Weatherseed Treaty
+1 Oath of the Grey Host
 1 Battle for Bretagard
 1 Roar of Endless Song
 1 Showdown of the Skalds

@@ -95,7 +95,7 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## Tom Bombadil — Lieder von Mittelerde
 
-**Bracket 3 / Upgraded:** Fünffarbiges Sagen- und Enchantress-Deck mit 25 Sagen, vielen Mittelerde-Erzählungen, Narci und Historian's Boon als Finishern.
+**Bracket 3 / Upgraded:** Fünffarbiges Sagen- und Enchantress-Deck mit 24 Sagen, vielen Mittelerde- und Hobbit-Erzählungen, Narci und Historian's Boon als Finishern.
 
 - Aktuelle 100-Karten-Liste: [decks/tom-bombadil/current.txt](decks/tom-bombadil/current.txt)
 - Spielplan und Bracket-Analyse: [decks/tom-bombadil/analysis.md](decks/tom-bombadil/analysis.md)
