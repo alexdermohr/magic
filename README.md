@@ -89,6 +89,6 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Ruxa: **Bracket 3 v4 / Token-Value (2026-10-11)**, 36 Länder / 19 Kreaturen inkl. Commander / 4 Vanilla-Kreaturen / drei Game Changer.
 - Mishra: **Bracket 3, 100 verschiedene Karten inkl. Commander / 35 Länder / 47 Artefakte / 13 Mana-Artefakte / genau drei Game Changer** (**Demonic Tutor, Mana Vault, Mishra's Workshop**). Die [einzige aktive B3-Liste](decks/mishra/current.txt) setzt jetzt auf **Mishra's Workshop statt Buried Ruin** und **Memory Jar statt Bolas's Citadel**: farbloses Artefaktzauber-Tempo sowie jede Runde über Mishras Warform sieben temporäre Karten ohne eigenen Schaden (mit gegnerischem Draw als Risiko). **The One Ring** ist ausgeschlossen. **Brudiclad, Ashnod's Altar, Sensei's Divining Top, Arcum Dagsson, Demonic Junker, Whir of Invention, Thousand-Year Elixir und The Mightstone and Weakstone** bleiben. [Analyse](decks/mishra/analysis.md) · [Erweiterter Kreis (141)](decks/mishra/erweiterter-kreis.md) · [Manabrew-Tests](decks/mishra/manabrew-tests.md).
 - Mishra: Bracket 4, separate Liste unverändert.
-- Marchesa: **Bracket 3 v3**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers.
+- Marchesa: **Bracket 3 v4.2 (2026-10-12)**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers (**Rhystic Study, Demonic Tutor, Vampiric Tutor**). [Analyse](decks/marchesa/analysis.md).
 
 Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
