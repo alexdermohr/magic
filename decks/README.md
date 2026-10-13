@@ -54,3 +54,9 @@ Die angegebene Bracket-Stufe ist ein Deckbauziel; tatsächliche Spielgeschwindig
 - `decks/marchesa/versions/`: historische Snapshots der v2-, v3-, v4-, v4.1- und v4.2-Liste.
 
 Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
+
+## Tom Bombadil — Lieder von Mittelerde (Bracket 3)
+
+- `decks/tom-bombadil/current.txt`: aktive importierbare 100-Karten-Liste.
+- `decks/tom-bombadil/analysis.md`: Sagen-Spielplan, Game Changer, Manabasis und Risiken.
+- Eigenständiger Commander-Ordner; nachfolgende Optimierungen ersetzen `current.txt`.

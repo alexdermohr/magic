@@ -1,0 +1,100 @@
+1 Tom Bombadil
+1 Sythis, Harvest's Hand
+1 Sanctum Weaver
+1 Satsuki, the Living Lore
+1 Goldberry, River-Daughter
+1 Barbara Wright
+1 Jukai Naturalist
+1 Setessan Champion
+1 Archon of Sun's Grace
+1 Narci, Fable Singer
+1 Weaver of Harmony
+1 Faeburrow Elder
+1 Dryad of the Ilysian Grove
+1 Anikthea, Hand of Erebos
+1 Yenna, Redtooth Regent
+1 Bloom Tender
+1 There and Back Again
+1 In the Darkness Bind Them
+1 Scroll of Isildur
+1 Song of Eärendil
+1 The Bath Song
+1 One Ring to Rule Them All
+1 War of the Last Alliance
+1 Tale of Tinúviel
+1 The Misty Mountains Cold
+1 Old Fat Spider Can't See Me
+1 The Mountain-king's Return
+1 The Cruelty of Gix
+1 The Eldest Reborn
+1 The Kami War
+1 Binding the Old Gods
+1 Elspeth Conquers Death
+1 Kiora Bests the Sea God
+1 Fable of the Mirror-Breaker
+1 Azusa's Many Journeys
+1 Jugan Defends the Temple
+1 The Restoration of Eiganjo
+1 The First Iroan Games
+1 Battle for Bretagard
+1 Roar of Endless Song
+1 Showdown of the Skalds
+1 Sol Ring
+1 Arcane Signet
+1 Chromatic Lantern
+1 Power Conduit
+1 Wild Growth
+1 Utopia Sprawl
+1 Abundant Growth
+1 Nature's Lore
+1 Three Visits
+1 Farseek
+1 Smothering Tithe
+1 Mirari's Wake
+1 Enchantress's Presence
+1 Historian's Boon
+1 Estrid's Invocation
+1 Enlightened Tutor
+1 Sterling Grove
+1 Heroic Intervention
+1 Swords to Plowshares
+1 Grasp of Fate
+1 Replenish
+1 Clockspinning
+1 Command Tower
+1 City of Brass
+1 Mana Confluence
+1 Exotic Orchard
+1 The World Tree
+1 Serra's Sanctum
+1 Hall of Heliod's Generosity
+1 Karn's Bastion
+1 Boseiju, Who Endures
+1 Otawara, Soaring City
+1 Indatha Triome
+1 Ketria Triome
+1 Temple Garden
+1 Breeding Pool
+1 Overgrown Tomb
+1 Stomping Ground
+1 Hallowed Fountain
+1 Godless Shrine
+1 Watery Grave
+1 Steam Vents
+1 Blood Crypt
+1 Sacred Foundry
+1 Windswept Heath
+1 Misty Rainforest
+1 Verdant Catacombs
+1 Wooded Foothills
+1 Flooded Strand
+1 Polluted Delta
+1 Marsh Flats
+1 Arid Mesa
+1 Scalding Tarn
+1 Bloodstained Mire
+1 Forest
+1 Island
+1 Plains
+1 Swamp
+1 Mountain
