@@ -92,3 +92,10 @@ Die Regeln und die spezielle Mishra-Konvention stehen in [decks/README.md](decks
 - Marchesa: **Bracket 3 v4.2 (2026-10-12)**, 37 Länder / 31 Kreaturen plus Commander / 3 Game Changers (**Rhystic Study, Demonic Tutor, Vampiric Tutor**). [Analyse](decks/marchesa/analysis.md).
 
 Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
+
+## Tom Bombadil — Lieder von Mittelerde
+
+**Bracket 3 / Upgraded:** Fünffarbiges Sagen- und Enchantress-Deck mit 24 Sagen, vielen Mittelerde- und Hobbit-Erzählungen, Narci und Historian's Boon als Finishern.
+
+- Aktuelle 100-Karten-Liste: [decks/tom-bombadil/current.txt](decks/tom-bombadil/current.txt)
+- Spielplan und Bracket-Analyse: [decks/tom-bombadil/analysis.md](decks/tom-bombadil/analysis.md)
