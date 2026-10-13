@@ -62,8 +62,10 @@ def names_and_docs() -> list[str]:
     ]
     assert_ok(len(rated) == 100 and Counter(rated) == Counter(names),
               "replaceability matrix does not contain precisely 100 active names")
-    assert_ok(not any(re.match(r"^\\|\\s*[A-C]\\s*\\|\\s*\\*\\*Brudiclad", line)
-                      for line in matrix),
+    protected_cut = re.compile(r"^\|\s*[A-C]\s*\|\s*\*\*Brudiclad, Telchor Engineer\*\*")
+    assert_ok(protected_cut.match("| A | **Brudiclad, Telchor Engineer** | example"),
+              "Brudiclad guard must match a representative proposed-cut row")
+    assert_ok(not any(protected_cut.match(line) for line in matrix),
               "Brudiclad must not be a proposed current cut")
     extra = ROOT.joinpath("erweiterter-kreis.md").read_text(encoding="utf-8")
     assert_ok("## A. Früher in Mishra B3" in extra and
