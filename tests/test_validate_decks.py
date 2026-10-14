@@ -128,6 +128,42 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
+    def test_protocol_relative_external_link_and_raw_url(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[external](//example.test/decks/guide.md)\n"
+            "//example.test/decks/other.md\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_existing_balanced_parentheses_markdown_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "sample" / "report(1).md").write_text(
+            "# Report\n", encoding="utf-8"
+        )
+        (self.root / "decks" / "README.md").write_text(
+            "[report](sample/report(1).md)\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_missing_balanced_parentheses_markdown_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[report](sample/missing(1).md)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_existing_nested_balanced_parentheses_markdown_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "sample" / "report(a(b)).md").write_text(
+            "# Nested\n", encoding="utf-8"
+        )
+        (self.root / "decks" / "README.md").write_text(
+            '[report](sample/report(a(b)).md "details")\n', encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(

@@ -17,12 +17,97 @@ BASICS = frozenset({
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
-# Inline Markdown destinations may have optional quoted titles.
-MARKDOWN_LINK = re.compile(
-    r"""\[[^\]]+\]\(\s*(?:<([^<>]*)>|([^\s)>]+))(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)"""
+# Recognize simple inline Markdown link labels, then parse destinations rather
+# than stopping at the first closing parenthesis (which may belong to a path).
+INLINE_LINK_OPEN = re.compile(r"(?<!\\)\[[^\]\n]+\]\(\s*")
+# Avoid treating both scheme and protocol-relative URLs as local legacy paths.
+EXTERNAL_URL = re.compile(
+    r"(?:(?:[A-Za-z][A-Za-z0-9+.-]*:)?//|[A-Za-z][A-Za-z0-9+.-]*:)"
+    r"[^\s)\]>]+"
 )
-# Exclude URLs from the legacy literal deck-path scan, including raw prose URLs.
-EXTERNAL_URL = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*://[^\s)\]>]+")
+
+
+def inline_link_destinations(source: str) -> list[str]:
+    """Parse local inline link destinations, including balanced bare parentheses.
+
+    This is deliberately scoped to inline Markdown, not reference-style links
+    or a complete CommonMark parser. Validate references only from well-formed
+    inline link syntax; ignore malformed fragments and external targets.
+    """
+    found: list[str] = []
+    for match in INLINE_LINK_OPEN.finditer(source):
+        index = match.end()
+        angle = index < len(source) and source[index] == "<"
+        if angle:
+            index += 1
+        pieces: list[str] = []
+        depth = 0
+        closed = False
+        while index < len(source):
+            char = source[index]
+            if char in "\r\n":
+                break
+            if char == "\\" and index + 1 < len(source):
+                pieces.append(source[index + 1])
+                index += 2
+                continue
+            if angle and char == ">":
+                closed = True
+                index += 1
+                break
+            if angle and char == "<":
+                break
+            if not angle and char == "(":
+                depth += 1
+            elif not angle and char == ")":
+                if depth == 0:
+                    closed = True
+                    break
+                depth -= 1
+            elif not angle and char.isspace() and depth == 0:
+                closed = True
+                break
+            pieces.append(char)
+            index += 1
+        if not closed or depth or not pieces:
+            continue
+
+        # A destination is followed by ')' or an optional quoted/parenthesized
+        # Markdown title. Reject an unterminated title or unrelated suffix.
+        after = index
+        while after < len(source) and source[after] in " \t":
+            after += 1
+        if after < len(source) and source[after] == ")":
+            found.append("".join(pieces))
+            continue
+        if after == index or after >= len(source) or source[after] not in {chr(34), chr(39), "("}:
+            continue
+        opening = source[after]
+        closing = ")" if opening == "(" else opening
+        after += 1
+        title_depth = 1
+        while after < len(source):
+            char = source[after]
+            if char in "\r\n":
+                break
+            if char == "\\" and after + 1 < len(source):
+                after += 2
+                continue
+            if opening == "(" and char == "(":
+                title_depth += 1
+            if char == closing:
+                title_depth -= 1
+                if title_depth == 0:
+                    after += 1
+                    break
+            after += 1
+        if title_depth:
+            continue
+        while after < len(source) and source[after] in " \t":
+            after += 1
+        if after < len(source) and source[after] == ")":
+            found.append("".join(pieces))
+    return found
 
 
 class DeckValidationError(ValueError):
@@ -85,8 +170,7 @@ def validate_repository(root: Path) -> list[str]:
         # Historical literal paths are rooted at the repository, while Markdown
         # links are relative to the index that actually contains each link.
         references = [(root, ref) for ref in LINK.findall(EXTERNAL_URL.sub("", content))]
-        for angle_target, ordinary_target in MARKDOWN_LINK.findall(content):
-            destination = angle_target or ordinary_target
+        for destination in inline_link_destinations(content):
             if (destination.startswith(("#", "//"))
                     or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)):
                 continue  # anchors and external URLs do not denote repo files
