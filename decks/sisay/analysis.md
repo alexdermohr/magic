@@ -1,54 +1,80 @@
 # Sisay, Weatherlight Captain — Five-Color Legendary Toolbox
 
-**Stand:** 2026-10-14 · **Format:** Commander · **Deckbauziel:** Bracket 3 / Upgraded · **Budget:** offen, keine Preisobergrenze.
+**Version:** B3 v2 · **Stand:** 2026-10-14 · **Format:** Commander · **Deckbauziel:** Bracket 3 / Upgraded · **Budget:** kein Preislimit.
 
-## Deckstruktur und überprüfbare Grenzen
+## Verifizierter Aufbau
 
-100 verschiedene Karten inklusive Commander: **37 Länder**, **30 weitere Kreaturen**, **1 Planeswalker**, **8 Artefakte**, **7 Verzauberungen** und **16 Instants/Sorceries**. Die importierbare Liste steht in [current.txt](current.txt).
+Die importierbare Liste steht in [current.txt](current.txt).
 
-**Genau drei Game Changer:** **Gaea's Cradle**, **Smothering Tithe**, **Seedborn Muse**. Kinnan, Bonder Prodigy wurde am 21.10.2025 ausdrücklich aus der Game-Changers-Liste entfernt. Die Änderungen vom 09.02.2026 (Farewell, Biorhythm hinzugefügt) betreffen die übrigen Deckkarten nicht. Keine absichtlich eingebaute frühe Zwei-Karten-Endloskombination, keine Massenlandzerstörung, keine Extra-Turn-Kette. Die Legendenketten sind bewusst auf Boardentwicklung und Kampf ausgerichtet, nicht auf einen deterministischen Frühgewinn. Trotz der auf drei Game Changer begrenzten Liste sollte die hohe Sisay-Tutorfrequenz in der Pregame-Diskussion genannt werden.
+- **100 unterschiedliche Karten** inklusive 1 Commander.
+- **37 Länder**, **31 weitere Kreaturen**, **3 Planeswalker**, **9 Artefakte**, **7 Verzauberungen**, **12 Spontanzauber/Hexereien**.
+- **39 legendäre Karten** insgesamt, darunter Sisay und Urza's Ruinous Blast (legendäre Hexerei). Daher **37 mit Sisay suchbare legendäre Permanents** in den übrigen 99.
+- **Drei und nur drei Game Changer:** `Gaea's Cradle`, `Smothering Tithe`, `Seedborn Muse`. Die Game-Changer-Eigenschaften, alle 100 Kartennamen, das Papierformat und die Commander-Legalität wurden am 14.10.2026 über Scryfalls Cards-Collection-API abgeglichen, einschließlich der Vorderseite `Esika, God of the Tree` ihrer doppelseitigen Karte.
+- **Keine bewusst eingebaute frühe Zwei-Karten-Endloskombo, keine Massenlandzerstörung und keine Extra-Turn-Kette.** Die hohen Tutor- und Beschleunigungsqualitäten gehören dennoch in die Pregame-Besprechung. Bracket 3 beschreibt die Deckbauabsicht, keine durch Testpartien ermittelte Spielstärke.
 
-Primärquellen: https://magic.wizards.com/en/formats/commander · https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025 · https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 .
+Primärquelle Brackets/Bannliste: https://magic.wizards.com/en/formats/commander · Game-Changer-Update: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025 · https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 . Kartendaten: https://scryfall.com/ .
 
-## Sisay korrekt verstehen
+## Warum v2 stärker und konsistenter ist
 
-- Ihre Stärke ist zunächst **2** und steigt um +1 für **jede unterschiedliche Farbe** unter *anderen* eigenen legendären Permanents, **nicht pro legendärer Karte**. Ohne weitere Verstärkung maximal 7/7 durch diese Fähigkeit. Sie selbst zählt nicht, farblose legendäre Permanents (z. B. Mox Amber und legendäre Länder) erhöhen die Stärke nicht. **Relic of Legends ist nicht legendär** und zählt ebenfalls nicht.
-- Entscheidend ist die tatsächliche **Farbe des Permanents**, nicht seine fünffarbige Commander-Farbidentität: Esika ist vorderseitig grün, Kenrith weiß, Jegantha rot und grün, Jodah fünf Farben.
-- Aktivierung **{W}{U}{B}{R}{G}**: Suche nach einer **legendären Permanentkarte mit Manawert strikt kleiner als Sisays Stärke** und lege sie direkt ins Spiel. Auch legendäre Artefakte, Verzauberungen, Planeswalker und Länder sind erlaubt, aber keine legendären Hexereien wie Urza's Ruinous Blast.
-- Die Aktivierung hat **kein Tap-Symbol** und funktioniert daher auch im Zug, in dem Sisay ins Spiel kommt, sowie mit offenem Mana im gegnerischen Zug.
-- Sisay kann **nur einmal pro Karte** in deiner Bibliothek suchen; wiederholte Aktivierungen erfordern jeweils fünf farbige Mana. Bei einem Einmal-Engpass ist das zuverlässige Fünffarb-Mana wichtiger als bloß viel grünes Mana.
+| Heraus (v1) | Hinein (v2) | Begründung |
+| --- | --- | --- |
+| Aragorn, the Uniter | **Dynaheir, Invoker Adept** | Sisay-Aktivierung für WUBRG kopieren; sofortige Nutzung von Kreaturen-Tapfähigkeiten. Aragorn profitiert vor allem vom *Wirken* mehrfarbiger Zauber, nicht vom direkten Sisay-Tutor. |
+| Jhoira, Weatherlight Captain | **Ioreth of the Healing House** | Gezieltes Enttappen von Jegantha, Bloom Tender oder einem Land; Jhoira zieht bei von Sisay direkt ins Spiel gelegten Legenden **keine** Karten. |
+| Dihada, Binder of Wills | **Tyvar, Jubilant Brawler** | Kostet eins weniger, aktiviert frisch eingetroffene Manakreaturen und enttappt einen Kreaturenmotor. Dihada bietet dafür besseren Burst-Kartenvorteil/Schätze; bewusstes Tempo-Upgrade. |
+| Austere Command | **Loran of the Third Path** | Sofort mit Sisay suchbare Artefakt-/Verzauberungsantwort; Urza's Ruinous Blast bleibt als breiter Sweeper. |
+| Kutzil, Malamet Exemplar | **Linvala, Shield of Sea Gate** | Mit Sisay auf Instant-Geschwindigkeit suchbarer Schutz vor gezielter Entfernung und Destroy-Wipes; Kutzil war ein guter Schutz beim eigenen Zug, aber weniger flexibel. |
+| Guardian Project | **Teferi, Time Raveler** | Legendäre, suchbare Interaktion und Schutz vor gegnerischem Instant-Timing; die einmalige −3-Fähigkeit zieht zusätzlich eine Karte. Kartenziehen über Tymna, Thrasios, Galadriel, Sylvan Library, The Great Henge. |
+| Mirari's Wake | **Leyline of the Guildpact** | Stabilisiert WUBRG und erhöht bei vorhandener anderer Legende Sisays Stärke erheblich; idealerweise bereits aus der Starthand im Spiel. Wake bleibt eine gute grindige Alternative. |
+| Primevals' Glorious Rebirth | **Annie Joins Up** | Statt einer oft gestrandeten Sieben-Mana-Wiederbelebung ein suchbarer Vier-Mana-ETB-Removal und eine Verdopplung legendärer Kreaturen-Trigger. Rebirth bleibt gute Sidegrade-Idee gegen viele Wipes. |
+| Rishkar's Expertise | **Blackblade Reforged** | Legendäres, früh suchbares Equipment zur direkten Sisay-Power-Skalierung. Expertise ist stark bei freiem Sechs-Mana-Fenster, aber ohne großes Board gelegentlich tot. |
+| Skyshroud Claim | **Ashiok, Dream Render** | Drei-Mana-legendäre Abwehr gegnerischer Friedhofsstrategien und Suchtutoren; genug frühe Rampquellen bleiben erhalten. |
 
-## Legendäre Suchleiter (Beispiel)
+Die Anpassungen verlagern Slots von nicht suchbaren Spätspiel-Effekten auf **immer verfügbare Tutorziele**. Einzelne Matchups können Ausnahmen rechtfertigen: Für Gegner mit vielen Kreaturen-Wipes sind Primevals' Glorious Rebirth und Austere Command erneut prüfenswert; gegen kreaturenbasierte Aktivierungen insbesondere Drana and Linvala.
 
-Wenn Sisay 2/2 ist und genügend WUBRG für nacheinander ausgeführte Aktivierungen vorliegt:
+## Sisays Kartentext richtig einsetzen
 
-1. **Oath of Nissa** (Manawert 1, grün): Sisay wird 3/3, die Verzauberung sieht die obersten drei Karten.
-2. **Flowering of the White Tree** (Manawert 2, weiß): Das zusätzliche Weiß macht Sisay 4/4; die Verzauberung gibt allen eigenen legendären Kreaturen +2/+1, daher ist Sisay tatsächlich **6/5** und kann jetzt schon Manawert 5 finden.
-3. **Jodah, the Unifier** (Manawert 5) ist ein möglicher nächster Suchtreffer. Sein fünffarbiges Permanent deckt alle Farben ab und sein Legenden-Anthem verstärkt die Armee. Alternativ **Jegantha, the Wellspring**, die ab ihrer nächsten Aktivierung mit einem Tap exakt das WUBRG für Sisay liefert.
+Sisay erhält **+1/+1 je unterschiedlicher Farbe**, die unter deinen *anderen legendären Permanents* vorkommt — nicht pro Karte und nicht aufgrund ihrer Commander-Farbidentität. Ihre eigene Fähigkeit zählt sie nicht mit. Die Aktivierung kostet exakt **{W}{U}{B}{R}{G}**, hat kein Tap-Symbol und sucht eine **legendäre Permanentkarte mit Manawert strikt kleiner als Sisays aktueller Stärke**. Sie legt die Karte ins Spiel, statt sie zu wirken: Cast-Trigger von Jodah, Jhoira oder Aragorn werden dadurch nicht ausgelöst.
 
-Gegen schnellere Gegner zuerst **Saffi Eriksdotter** / **Hajar, Loyal Bodyguard** / **Sigarda, Font of Blessings** schützen, statt blind die Kette zu forcieren. **Oath of Ajani** bringt eine +1/+1-Marke auf Sisay und mit Grün/Weiß ebenfalls einen frühen Stärkesprung. **Raffine, Scheming Seer** ist ein dreifarbiger Zwischenschritt. **Omnath, Locus of Creation**, **Aragorn, the Uniter** und **Atraxa, Praetors' Voice** sind die vierfarbigen Anschlusstreffer.
+Legendäre Länder haben Manawert 0 und sind suchbar; es sind jedoch keine zusätzlichen Farbquellen von selbst: **Gaea's Cradle** produziert ohne andere Effekte nur grünes Mana und erfordert Kreaturen. Legendäre Hexereien wie **Urza's Ruinous Blast** können *nicht* mit Sisay gesucht werden. **Relic of Legends ist nicht legendär** und ebenfalls kein Ziel. **Blackblade Reforged** ist legendär, zählt als farbloses Permanent nicht für Sisays Farbenzählung, verstärkt die Stärke aber nach dem Anlegen beträchtlich.
 
-## Mana und erste Züge
+### Eine konkrete Suchleiter
 
-Mulligan auf zwei bis vier nutzbare Länder, möglichst **grün und weiß**, plus mindestens eine frühe Mana-/Fixingkarte. T1 Manaelf oder T2 Nature's Lore / Three Visits / Farseek; T3 bis T4 Sisay; anschließend fünf *verschiedene* Farben für eine Aktivierung bereitstellen. Die **37 Länder** enthalten zehn Fetchländer, zehn Schockländer, zwei typisierte Triome, drei Standardländer, fünf starke Regenbogen-/Fixingländer, zwei Battlebond-Dualländer sowie legendäre Utility-Länder und Plaza of Heroes. **Spara's Headquarters** und **Ziatora's Proving Ground** können gemeinsam alle fünf Farben abdecken, kommen aber getappt ins Spiel.
+Diese Linie braucht **für jede Sisay-Aktivierung erneut WUBRG**; die Karten erscheinen nicht kostenlos aus der Bibliothek, sondern werden durch die bezahlte Fähigkeit direkt ins Spiel gelegt:
 
-**Bloom Tender** / **Faeburrow Elder** liefern bei fünf verschiedenfarbigen eigenen Permanents bis zu WUBRG aus einem Tap und sind Schlüsselkarten. **Jegantha** liefert WUBRG, allerdings nicht für generische Kosten. **Esika, God of the Tree** gibt anderen legendären Kreaturen Wachsamkeit und die Möglichkeit, für beliebige Farben zu tappen. **Relic of Legends ist nicht legendär und kann daher nicht mit Sisay gesucht werden.** Liegt es aber im Spiel, darfst du für seine Manafähigkeit eine ungetappte eigene legendäre Kreatur tappen — auch Sisay selbst, ohne ihre Suchaktivierung zu blockieren. **Chromatic Lantern**, Arcane Signet und Schätze von **Smothering Tithe** beheben Farbengpässe.
+1. Ohne andere Legende ist Sisay **2/2**. Suche **Oath of Nissa** (Manawert 1): Grün ist vertreten, Sisay **3/3**. Der ETB-Effekt sieht die obersten drei Karten.
+2. Suche **Flowering of the White Tree** (Manawert 2): Grün und Weiß geben Sisay +2/+2, Flowering zusätzlich +2/+1. Ergebnis: **6/5** mit Ward {1}.
+3. Suche **Dynaheir, Invoker Adept** (Manawert 4, Farben Rot/Weiß/Blau). Unter den anderen legendären Permanents sind jetzt Grün, Weiß, Rot und Blau vertreten. Sisay ist **8/7**. Dynaheir hat Eile und lässt andere eigene Kreaturen ihre Fähigkeiten so aktivieren, als hätten sie Eile.
+4. Tap Dynaheir vor der nächsten Sisay-Aktivierung: **Die nächste für WUBRG bezahlte Sisay-Aktivierung wird kopiert.** Kopie und Original suchen bei ihrer jeweiligen Verrechnung nach zwei *unabhängigen* legendären Permanents mit jeweils passendem Manawert. Mögliche Ziele sind **Jegantha, the Wellspring** und **Derevi, Empyrial Tactician**. Mit Dynaheirs statischem Effekt kann die frisch geholte Jegantha bereits vor Derevis Enttapp-ETB {W}{U}{B}{R}{G} erzeugen. Die Reihenfolge auf dem Stapel ist wichtig: Kopie zuerst Jegantha, in Priorität zwischen Kopie und Original Jegantha tappen, Original anschließend Derevi suchen und Jegantha enttappen.
 
-**Gaea's Cradle** ist durch Sisay als legendäres Land mit Manawert null suchbar, produziert aber **ausschließlich grünes Mana** und ist bei leerem Kreaturenfeld schwach. **Minamo, School at Water's Edge** enttappt eine legendäre Permanentkarte, beispielsweise Jegantha oder Gaea's Cradle; es enttappt nicht automatisch sämtliche fünf Farben. **Seedborn Muse** enttappt auf jedem gegnerischen Zug und erlaubt Sisay-Aktivierungen mit erneut verfügbarer Manabasis; ohne WUBRG bleibt die Fähigkeit trotzdem unbezahlt.
+Das erzeugt **endliche, sehr starke Tutor-Sequenzen**, aber keine eingebaute Endlosschleife. Als alternative Ziele kommen je nach Spielzustand **Loran**, **Linvala**, **Teferi**, **Ashiok**, **Jodah** und **Sigarda** infrage. Nicht blind auf den maximalen Schadensausgang spielen, wenn ein Gegner Removal oder eine Kombo offen hat.
 
-## Interaktion, Schutz und Kartenvorteil
+### Eine weitere wichtige Starthand
 
-- **Auf dem Stack:** Wenn Sisay bereits ausreichend Stärke hat, kann sie **Ertai Resurrected** mit offenem WUBRG suchen, um einen Zauber oder eine Fähigkeit zu neutralisieren. Die gewählte gegnerische Partei zieht dabei eine Karte. Das ist ein Reaktiv-Tutor, kein kostenloser Hardcounter.
-- **Schutz:** Flowering gibt legendären Kreaturen Ward {1}; Sigarda verleiht *anderen eigenen Permanents*, also Sisay, Hexproof. Saffi und Hajar können eine gezielte Entfernung oder einen Destroy-Wipe abfedern. Lightning Greaves, Heroic Intervention und Flawless Maneuver stabilisieren die Schlüssellegenden.
-- **Kartenvorteil:** **Jhoira** zieht beim *Wirken* historischer Zauber, **Guardian Project**, **The Great Henge** und **Galadriel** profitieren auch von direkt durch Sisay ins Spiel gelegten Kreaturen. **Tymna**, **Kutzil**, **Sylvan Library**, **Thrasios** und **Rishkar's Expertise** liefern unabhängige Nachfüllung. Sisay-Eintritte lösen Jhoiras Cast-Trigger ausdrücklich **nicht** aus.
-- **Aufräumen:** **Urza's Ruinous Blast** schont legendäre Permanents und Länder, entfernt aber auch eigene *nichtlegendäre* Permanents wie Smothering Tithe oder Seedborn Muse. Austere Command ist die flexible Alternative. Primevals' Glorious Rebirth holt legendäre Permanents aus dem Friedhof zurück, erfordert als legendäre Hexerei aber eine legendäre Kreatur oder einen legendären Planeswalker auf dem Feld.
+**Leyline of the Guildpact** darf aus der Starthand kostenlos im Spiel beginnen. Sie macht **alle eigenen Nichtland-Permanents fünffarbig**, auch nichtlegendäre, und gibt **allen eigenen Ländern sämtliche Standardlandtypen** mit den damit verbundenen Manafähigkeiten. Allerdings gibt **Leyline selbst keine Sisay-Stärke**, weil sie nicht legendär ist: Sisay erhält den Fünffarben-Bonus erst, sobald mindestens **ein anderes legendäres Permanent** im Spiel ist. Dann genügt dessen durch Leyline gegebene Fünffarbigkeit für Sisay +5/+5; sie braucht keine fünf verschiedenen Legenden.
 
-## So gewinnt das Deck
+**Bloom Tender** und **Faeburrow Elder** zählen Farben unter deinen gesamten Permanents — **ein einziges fünffarbiges Permanent wie Jodah oder Leyline reicht für WUBRG aus einem Tap**. Es sind nicht fünf verschiedenfarbige Karten erforderlich. Ohne solche Fünffarbigkeit prüft man die tatsächlich vertretenen Permanentfarben. Mit **Tyvar** oder **Dynaheir** darf eine neu gelegte Bloom Tender oder Jegantha ihre Tapfähigkeit sofort nutzen. **Ioreth** enttappt wahlweise eine andere Permanentkarte (auch Gaea's Cradle) oder zwei andere legendäre Kreaturen; sie enttappt dabei nicht sich selbst.
 
-Hauptplan: **Jodah, the Unifier** gibt der ganzen legendären Armee einen großen Kampfbonus. Bei weiteren aus der Hand gewirkten legendären Zaubern kann Jodah zusätzliche kleinere Legenden kostenlos wirken lassen; Suchtreffer von Sisay selbst sind **nicht gewirkt** und lösen diesen Trigger daher nicht aus. **Aurelia, the Warleader** erlaubt beim ersten eigenen Angriff des Zugs eine zusätzliche Kampfphase und kann den breit aufgebauten legendären Boardstate abschließen. **Aragorn** belohnt gewirkte mehrfarbige Zauber; **Omnath** erzeugt mit Fetchländern Mana, Karten und Schaden. **Kenrith** gibt Trample/Haste und macht überschüssiges Mana nutzbar. Die großen Züge werden durch permanentes Board und Mana vorbereitet, nicht durch eine frühe unendliche Kombination.
+## Mana, Kurve und Mulligan
 
-## Bewusste Auslassungen / Risiken
+**37 Länder:** zehn Fetchländer, zehn Shocklands, zwei typisierte Triome, drei Standardländer und diverse Regenbogen-/Legendary-Utility-Länder. Farbige Stabilität hat Vorrang vor maximalem farblosen Mana. Die 2-Mana-Landbeschleunigung (**Nature's Lore**, **Three Visits**, **Farseek**) bleibt erhalten; ebenso **Birds of Paradise**, **Delighted Halfling**, **Noble/ Ignoble Hierarch**, **Arcane Signet**, **Fellwar Stone**, **Mox Amber**, **Chromatic Lantern**, **Relic of Legends**, **Bloom Tender**, **Faeburrow Elder**, **Jegantha**, **Esika** und **Lotho**.
 
-Keine Dockside Extortionist, Mana Crypt oder Jeweled Lotus (Commander-Bannliste), keine Thassa's-Oracle-/Underworld-Breach-/Food-Chain-Siegketten; **Najeela, the Blade-Blossom** ist nicht enthalten, um Derevi nicht zur naheliegenden Endloskampf-Engine auszubauen. Keine weiteren Game Changer wie Rhystic Study, Demonic Tutor, Teferi's Protection oder The One Ring.
+Mulligan: zwei bis vier Länder mit sicherem **Grün/Weiß** und Beschleunigung oder verlässlichem Rainbow-Fixing; vorzeitiges WUBRG-Zusammenkommen ist wertvoller als eine nur grüne Manaexplosion. Startzüge 1–3 fixen, Sisay in Zug 3–4; dann zuerst eine verlässliche **fünffarbige** Aktivierung sichern. **Smothering Tithe** ist keine Sisay-Tutoroption, sondern muss gezogen bzw. gewirkt werden; ihre Schatz-Spielsteine helfen aber bei WUBRG. **Seedborn Muse** ist ebenfalls *nicht legendär*, kann nicht von Sisay gesucht werden und wird erst bei stabiler Fünffarbenproduktion besonders stark: Sie enttappt deine Permanents auf jedem gegnerischen Enttappsegment.
 
-Wesentliche Schwächen: (1) Abhängigkeit von Sisay bei wiederholten Removal-Effekten; (2) Farbmana von mehreren Quellen statt bloß Gesamtmana; (3) teure Manabasis ohne Preisgrenze; (4) auf legendäre Kreaturen ausgerichtete Wipes oder Exil-Effekte; (5) mögliche große Spielstärke innerhalb der breiten Bracket-3-Spanne. Die Liste ist strukturell geprüft; **keine eigenen gespielten Partien, Mulligan-Simulation oder unabhängige Scryfall-Gesamtvalidierung** werden als durchgeführt behauptet.
+**Minamo, School at Water's Edge** kann Jegantha, Bloom Tender, Dynaheir oder Gaea's Cradle enttappen, soweit sie legal Ziel des Effekts sind. Für Bloom Tender als nichtlegendäre Kreatur und Gaea's Cradle als legendäres Land ist die Unterscheidung entscheidend: Minamo enttappt nur **legendäre Permanents**, also **nicht Bloom Tender**. Der Haupteinsatz ist **Jegantha**, **Dynaheir** oder **Gaea's Cradle**.
+
+## Antworten und Siegwege
+
+- **Loran of the Third Path** zerstört durch einen Sisay-Suchtreffer unmittelbar ein Artefakt/eine Verzauberung. Liegt **Annie Joins Up** bereits im Spiel, wird Lorans ausgelöste ETB-Fähigkeit zweimal ausgelöst. Annie verdoppelt **nicht** Sisays aktivierte Suchfähigkeit.
+- **Ertai Resurrected** kann auf dem Stapel einen Zauber/eine aktivierte oder ausgelöste Fähigkeit neutralisieren oder eine Kreatur/einen Planeswalker zerstören; dafür zieht der gewählte Gegner eine Karte. **Teferi, Time Raveler** verhindert gegnerische Zauber außerhalb ihrer normalen Hexerei-Zeitfenster, aber keine gegnerischen aktivierten Fähigkeiten.
+- **Linvala, Shield of Sea Gate** kann als Reaktion auf Removal gesucht und danach geopfert werden, um deinen Kreaturen bis zum Zugende Fluchsicherheit *oder* Unzerstörbarkeit zu geben. Die Tutoraktivierung benötigt weiterhin WUBRG und Sisay mit Stärke mindestens 4. Weitere Schutzkarten: **Hajar**, **Saffi**, **Sigarda**, **Lightning Greaves**, **Heroic Intervention** und **Flawless Maneuver**.
+- **Ashiok, Dream Render** lässt gegnerische Suchen durch gegnerische Zauber/Fähigkeiten scheitern und exiliert mit −1 **alle gegnerischen Friedhöfe**; sie bremst auch Fetchländer und ist in manchen Runden eine deutlich spürbare Einschränkung.
+- **Jodah, the Unifier** gibt der Legendenarmee einen skalierenden Pump. Sisay-Tutorziele lösen Jodahs *Wirken*-Trigger nicht aus, selbst wenn Jodah bereits im Spiel ist. **Kenrith** kann allen Kreaturen Eile und Trampelschaden verschaffen; **Aurelia, the Warleader** liefert zusätzliche Kampfphasen. Wenn **Annie** bereits im Spiel ist, wird Aurelias erste Angriffsauslösung zweimal ausgelöst — das gibt **zwei zusätzliche Kampfphasen**, aber keine Endlosschleife.
+- **Urza's Ruinous Blast** ist der verbliebene Sweeper, der legendäre Permanents und Länder verschont. Achtung: Er exiliert **eigene nichtlegendäre** Effekte wie Leyline, Smothering Tithe, Seedborn Muse, Manaelfen und Relic of Legends mit.
+
+## Abgrenzung, Risiken und Tests
+
+**Bracket 3** heißt maximal drei Game Changer, keine früh geplante Zweikarten-Endloskombo, keine Massenlandzerstörung/Extra-Turn-Ketten. Trotz formaler Deckbaukonformität ist Sisay mit Dynaheir, Jegantha und Derevi eine **sehr starke Tutor-Engine**. Die Priorität liegt auf Board-/Combat-Sieg, nicht auf einem deterministischen Turn-3-/4-Sieg. Tischbalance im Vorfeld besprechen.
+
+**Bewusst nicht enthalten:** Dockside Extortionist, Mana Crypt und Jeweled Lotus (Commander-Bannliste), frühe Oracle-/Consultation-Siegketten, Najeela/Derevi-Endloskampf, Rhystic Study oder weitere Game Changer. **Alternative Kandidaten** für bestimmte Metas: Drana and Linvala (kreaturenbasierte aktivierte Fähigkeiten), Boromir, Warden of the Tower (freie Zauber und Destroy-Wipes), Primevals' Glorious Rebirth (lange Graveyard-/Wipe-Partien), Mirari's Wake (mehr Mana im Lategame), Austere Command (zweiter flexibler Sweeper).
+
+**Technisch verifiziert am 14.10.2026:** 100 eindeutige Kartennamen, 100/100 Scryfall-Kartentreffer (inkl. MDFC-Frontseite), Papierverfügbarkeit, Commander-Legalität, Landanzahl und die drei Game-Changer-Flags. **Nicht verifiziert:** echte Spielpartien, Mulligan-Statistik und durchschnittliche Siegquote. Die Änderung ist ein regel- und synergiebasierter Stärkegewinn, keine gemessene Matchperformance.
