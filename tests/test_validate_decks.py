@@ -164,6 +164,25 @@ class DeckValidationTests(unittest.TestCase):
         )
         self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_external_urls_with_balanced_parentheses_do_not_block(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[external](https://example.test/wiki/Foo_(bar)/decks/guide.md)\n"
+            "//example.test/wiki/Bar_(baz)/decks/other.md\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_external_url_does_not_hide_adjacent_missing_local_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[external](https://example.test/wiki/Foo_(bar)/decks/guide.md)"
+            "[missing](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(

@@ -23,7 +23,7 @@ INLINE_LINK_OPEN = re.compile(r"(?<!\\)\[[^\]\n]+\]\(\s*")
 # Avoid treating both scheme and protocol-relative URLs as local legacy paths.
 EXTERNAL_URL = re.compile(
     r"(?:(?:[A-Za-z][A-Za-z0-9+.-]*:)?//|[A-Za-z][A-Za-z0-9+.-]*:)"
-    r"[^\s)\]>]+"
+    r"[^\s\]>]+"
 )
 
 
