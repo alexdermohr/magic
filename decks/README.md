@@ -60,3 +60,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 - `decks/tom-bombadil/current.txt`: aktive importierbare 100-Karten-Liste.
 - `decks/tom-bombadil/analysis.md`: Sagen-Spielplan, Game Changer, Manabasis und Risiken.
 - Eigenständiger Commander-Ordner; nachfolgende Optimierungen ersetzen `current.txt`.
+
+## Kastral, the Windcrested — Vogeldeck (Bracket 3)
+
+- `decks/kastral/current.txt`: aktive importierbare 100-Karten-Liste.
+- `decks/kastral/analysis.md`: Kampfschaden-Strategie, Vogel-Synergien, drei Game Changer und Manabasis.
+- Spätere Verbesserungen aktualisieren `current.txt`; historische Versionen werden bei Bedarf in `versions/` gepflegt.

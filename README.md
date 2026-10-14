@@ -99,3 +99,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle 100-Karten-Liste: [decks/tom-bombadil/current.txt](decks/tom-bombadil/current.txt)
 - Spielplan und Bracket-Analyse: [decks/tom-bombadil/analysis.md](decks/tom-bombadil/analysis.md)
+
+## Kastral, the Windcrested — Herrschaft der Lüfte
+
+**Bracket 3 / Upgraded:** Azorius-Vogel-Tribal mit Kastrals Kampfschaden-Auslösern, Flugsynergien, +1/+1-Marken und Vogel-Reanimation. 36 Länder und genau drei Game Changer.
+
+- Aktuelle 100-Karten-Liste: [decks/kastral/current.txt](decks/kastral/current.txt)
+- Spielplan und Bracket-Analyse: [decks/kastral/analysis.md](decks/kastral/analysis.md)
