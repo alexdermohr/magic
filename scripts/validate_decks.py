@@ -17,9 +17,33 @@ BASICS = frozenset({
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
-# Recognize simple inline Markdown link labels, then parse destinations rather
-# than stopping at the first closing parenthesis (which may belong to a path).
-INLINE_LINK_OPEN = re.compile(r"(?<!\\)\[[^\]\n]+\]\(\s*")
+# Balanced label brackets must be parsed rather than stopped at the inner ']'.
+def inline_link_destination_starts(source: str) -> list[int]:
+    """Find inline Markdown destination openings with balanced link labels."""
+    stack: list[int] = []
+    starts: list[int] = []
+    index = 0
+    while index < len(source):
+        char = source[index]
+        if char == "\\" and index + 1 < len(source):
+            index += 2  # Escaped brackets do not affect the label stack.
+            continue
+        if char in "\r\n":
+            stack.clear()
+        elif char == "[":
+            stack.append(index)
+        elif char == "]" and stack:
+            opening = stack.pop()
+            if (
+                index > opening + 1
+                and index + 1 < len(source)
+                and source[index + 1] == "("
+            ):
+                starts.append(index + 2)
+        index += 1
+    return starts
+
+
 # Classify literal deck paths by their preceding whitespace-delimited token.
 # Bracketed external URI authorities contain ']', so stripping URLs with
 # a single regex can leave their path misidentified as local.
@@ -49,8 +73,10 @@ def inline_link_destinations(source: str) -> list[str]:
     inline link syntax; ignore malformed fragments and external targets.
     """
     found: list[str] = []
-    for match in INLINE_LINK_OPEN.finditer(source):
-        index = match.end()
+    for start in inline_link_destination_starts(source):
+        index = start
+        while index < len(source) and source[index] in " \t":
+            index += 1
         angle = index < len(source) and source[index] == "<"
         if angle:
             index += 1
@@ -169,9 +195,21 @@ def validate_list(path: Path) -> str:
 def validate_repository(root: Path) -> list[str]:
     """Check active lists, inline local Markdown links and literal deck file references."""
     root = root.resolve(strict=True)
-    deck_files = sorted((root / "decks").glob("*/current.txt"))
-    if not deck_files:
+    deck_root = root / "decks"
+    deck_directories = sorted(
+        path for path in deck_root.iterdir()
+        if path.is_dir() or path.is_symlink()
+    )
+    if not deck_directories:
         raise DeckValidationError(f"{root}: no current decks")
+    deck_files: list[Path] = []
+    for directory in deck_directories:
+        if directory.is_symlink() or not directory.is_dir():
+            raise DeckValidationError(f"{directory}: deck directory must be regular")
+        current = directory / "current.txt"
+        if current.is_symlink() or not current.is_file():
+            raise DeckValidationError(f"{current}: missing regular current.txt")
+        deck_files.append(current)
     summaries: list[str] = []
     for path in deck_files:
         if not path.resolve().is_relative_to(root):
