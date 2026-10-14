@@ -99,3 +99,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle 100-Karten-Liste: [decks/tom-bombadil/current.txt](decks/tom-bombadil/current.txt)
 - Spielplan und Bracket-Analyse: [decks/tom-bombadil/analysis.md](decks/tom-bombadil/analysis.md)
+
+## Sisay, Weatherlight Captain — Five-Color Legendary Toolbox
+
+**Bracket 3 / Upgraded:** Legendäre Suchleiter, fünffarbiges Mana und Kampfabschluss mit Jodah und Aurelia. 100 Karten mit 37 Ländern und exakt drei Game Changern.
+
+- Aktuelle Liste: [decks/sisay/current.txt](decks/sisay/current.txt)
+- Spielplan und Kartenanalyse: [decks/sisay/analysis.md](decks/sisay/analysis.md)
