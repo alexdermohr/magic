@@ -60,3 +60,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 - `decks/tom-bombadil/current.txt`: aktive importierbare 100-Karten-Liste.
 - `decks/tom-bombadil/analysis.md`: Sagen-Spielplan, Game Changer, Manabasis und Risiken.
 - Eigenständiger Commander-Ordner; nachfolgende Optimierungen ersetzen `current.txt`.
+
+
+## Narset, Enlightened Exile (Bracket 3)
+
+- `decks/narset-enlightened-exile/current.txt`: aktuelle importierbare Liste.
+- `decks/narset-enlightened-exile/analysis.md`: Spielplan, Game Changer und Risiken.

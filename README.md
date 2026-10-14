@@ -99,3 +99,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle 100-Karten-Liste: [decks/tom-bombadil/current.txt](decks/tom-bombadil/current.txt)
 - Spielplan und Bracket-Analyse: [decks/tom-bombadil/analysis.md](decks/tom-bombadil/analysis.md)
+
+## Narset, Enlightened Exile — Jeskai Prowess / Spellslinger
+
+**Bracket 3 / Upgraded:** Prowess- und Token-Schwarm mit günstigen Zaubern, Friedhofskopien durch Narset und starken Kampf-Finishern.
+
+- [Aktuelle 100-Karten-Liste](decks/narset-enlightened-exile/current.txt)
+- [Spielplan, Game Changer und Risiken](decks/narset-enlightened-exile/analysis.md)
