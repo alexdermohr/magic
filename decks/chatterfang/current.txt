@@ -1,14 +1,13 @@
 1 Chatterfang, Squirrel General
 1 Academy Manufactor
 1 Birds of Paradise
-1 Blood Artist
 1 Camellia, the Seedmiser
 1 Champion of Lambholt
 1 Craterhoof Behemoth
 1 Deep Forest Hermit
 1 Delighted Halfling
-1 Deranged Hermit
 1 Elves of Deep Shadow
+1 Elvish Mystic
 1 Eternal Witness
 1 Fyndhorn Elves
 1 Hazel of the Rootbloom
@@ -16,12 +15,13 @@
 1 Llanowar Elves
 1 Marionette Apprentice
 1 Mirkwood Bats
+1 Nadier's Nightblade
 1 Ophiomancer
 1 Peregrin Took
 1 Ravenous Squirrel
 1 Scurry of Squirrels
 1 Scute Swarm
-1 Squirrel Sovereign
+1 Species Specialist
 1 Tendershoot Dryad
 1 The Odd Acorn Gang
 1 The Unbeatable Squirrel Girl
@@ -30,38 +30,38 @@
 1 Tireless Tracker
 1 Toski, Bearer of Secrets
 1 Valley Rotcaller
+1 Viscera Seer
+1 Yawgmoth, Thran Physician
 1 Zulaport Cutthroat
-1 Sol Ring
 1 Arcane Signet
-1 Skullclamp
-1 Chitterspitter
 1 Eldrazi Monument
-1 Idol of Oblivion
-1 Doubling Season
-1 Parallel Lives
-1 Squirrel Nest
+1 Skullclamp
+1 Sol Ring
 1 Beastmaster Ascension
 1 Bitterblossom
-1 Bastion of Remembrance
 1 Cryptolith Rite
+1 Doubling Season
+1 Evolutionary Leap
+1 Parallel Lives
+1 Utopia Sprawl
 1 Assassin's Trophy
 1 Beast Within
+1 Chord of Calling
 1 Deadly Dispute
-1 Heroic Intervention
-1 Veil of Summer
-1 Second Harvest
-1 Plumb the Forbidden
 1 Deadly Rollick
 1 Force of Vigor
+1 Heroic Intervention
+1 Plumb the Forbidden
+1 Veil of Summer
+1 Awaken the Woods
 1 Demonic Tutor
-1 Natural Order
+1 Diabolic Intent
 1 Finale of Devastation
+1 Natural Order
 1 Nature's Lore
-1 Three Visits
 1 Pest Infestation
 1 Rootcast Apprenticeship
-1 Chatterstorm
-1 Shamanic Revelation
+1 Three Visits
 1 Bayou
 1 Overgrown Tomb
 1 Underground Mortuary
