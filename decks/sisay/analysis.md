@@ -35,7 +35,7 @@ Die Anpassungen verlagern Slots von nicht suchbaren Spätspiel-Effekten auf **im
 
 Sisay erhält **+1/+1 je unterschiedlicher Farbe**, die unter deinen *anderen legendären Permanents* vorkommt — nicht pro Karte und nicht aufgrund ihrer Commander-Farbidentität. Ihre eigene Fähigkeit zählt sie nicht mit. Die Aktivierung kostet exakt **{W}{U}{B}{R}{G}**, hat kein Tap-Symbol und sucht eine **legendäre Permanentkarte mit Manawert strikt kleiner als Sisays aktueller Stärke**. Sie legt die Karte ins Spiel, statt sie zu wirken: Cast-Trigger von Jodah, Jhoira oder Aragorn werden dadurch nicht ausgelöst.
 
-Legendäre Länder haben Manawert 0 und sind suchbar; es sind jedoch keine zusätzlichen Farbquellen von selbst: **Gaea's Cradle** produziert ohne andere Effekte nur grünes Mana und erfordert Kreaturen. Legendäre Hexereien wie **Urza's Ruinous Blast** können *nicht* mit Sisay gesucht werden. **Relic of Legends ist nicht legendär** und ebenfalls kein Ziel. **Blackblade Reforged** ist legendär, zählt als farbloses Permanent nicht für Sisays Farbenzählung, verstärkt die Stärke aber nach dem Anlegen beträchtlich.
+Legendäre Länder haben Manawert 0 und sind suchbar; es sind jedoch keine zusätzlichen Farbquellen von selbst: **Gaea's Cradle** produziert ohne andere Effekte nur grünes Mana und erfordert Kreaturen. Legendäre Hexereien wie **Urza's Ruinous Blast** können *nicht* mit Sisay gesucht werden. **Relic of Legends ist nicht legendär** und ebenfalls kein Ziel. **Blackblade Reforged** ist legendär, zählt als farbloses Permanent nicht für Sisays Farbenzählung, verstärkt die Stärke aber **nach Ausrüsten für {3}** um +1/+1 pro eigenem Land. Damit kann Sisay sogar ausreichend Stärke erreichen, um **The Great Henge** (legendäres Artefakt, Manawert 9) direkt zu suchen; dafür muss sie bei der Verrechnung der Suche mindestens Stärke 10 haben.
 
 ### Eine konkrete Suchleiter
 
@@ -60,7 +60,7 @@ Das erzeugt **endliche, sehr starke Tutor-Sequenzen**, aber keine eingebaute End
 
 Mulligan: zwei bis vier Länder mit sicherem **Grün/Weiß** und Beschleunigung oder verlässlichem Rainbow-Fixing; vorzeitiges WUBRG-Zusammenkommen ist wertvoller als eine nur grüne Manaexplosion. Startzüge 1–3 fixen, Sisay in Zug 3–4; dann zuerst eine verlässliche **fünffarbige** Aktivierung sichern. **Smothering Tithe** ist keine Sisay-Tutoroption, sondern muss gezogen bzw. gewirkt werden; ihre Schatz-Spielsteine helfen aber bei WUBRG. **Seedborn Muse** ist ebenfalls *nicht legendär*, kann nicht von Sisay gesucht werden und wird erst bei stabiler Fünffarbenproduktion besonders stark: Sie enttappt deine Permanents auf jedem gegnerischen Enttappsegment.
 
-**Minamo, School at Water's Edge** kann Jegantha, Bloom Tender, Dynaheir oder Gaea's Cradle enttappen, soweit sie legal Ziel des Effekts sind. Für Bloom Tender als nichtlegendäre Kreatur und Gaea's Cradle als legendäres Land ist die Unterscheidung entscheidend: Minamo enttappt nur **legendäre Permanents**, also **nicht Bloom Tender**. Der Haupteinsatz ist **Jegantha**, **Dynaheir** oder **Gaea's Cradle**.
+**Minamo, School at Water's Edge** enttappt ausschließlich **legendäre Permanents**, insbesondere **Jegantha**, **Dynaheir**, **Ioreth** oder **Gaea's Cradle**. **Bloom Tender** ist nicht legendär und deshalb kein gültiges Minamo-Ziel. Ioreth kann dagegen auch nichtlegendäre Permanents enttappen.
 
 ## Antworten und Siegwege
 
