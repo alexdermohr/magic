@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Kastral, the Windcrested — Herrschaft der Lüfte
+
+**Bracket 3 / Upgraded:** Azorius-Vogel-Tribal mit Kastrals Kampfschaden-Auslösern, Flugsynergien, +1/+1-Marken und Vogel-Reanimation. 36 Länder und genau drei Game Changer.
+
+- Aktuelle 100-Karten-Liste: [decks/kastral/current.txt](decks/kastral/current.txt)
+- Spielplan und Bracket-Analyse: [decks/kastral/analysis.md](decks/kastral/analysis.md)

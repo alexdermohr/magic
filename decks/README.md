@@ -65,3 +65,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Kastral, the Windcrested — Vogeldeck (Bracket 3)
+
+- `decks/kastral/current.txt`: aktive importierbare 100-Karten-Liste.
+- `decks/kastral/analysis.md`: Kampfschaden-Strategie, Vogel-Synergien, drei Game Changer und Manabasis.
+- Spätere Verbesserungen aktualisieren `current.txt`; historische Versionen werden bei Bedarf in `versions/` gepflegt.
