@@ -99,3 +99,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle 100-Karten-Liste: [decks/tom-bombadil/current.txt](decks/tom-bombadil/current.txt)
 - Spielplan und Bracket-Analyse: [decks/tom-bombadil/analysis.md](decks/tom-bombadil/analysis.md)
+
+## Treebeard, Eldest of Ents — Der Aufstand der Ents
+
+**Bracket 3 / Upgraded:** Offizielle Baumbart-Doran-Druckversion als Commander (Abzan), Ent-/Baumwesen-Tribal, hohe Widerstandskraft als Kampfschaden sowie Originalkarten aus Mittelerde.
+
+- Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
+- Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
