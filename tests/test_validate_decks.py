@@ -59,6 +59,24 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "invalid"):
             validate_list(self.deck)
 
+    def test_existing_relative_deck_index_markdown_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "sample" / "analysis.md").write_text(
+            "# Sample\n", encoding="utf-8"
+        )
+        (self.root / "decks" / "README.md").write_text(
+            "[analysis](sample/analysis.md)\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_missing_relative_deck_index_markdown_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[analysis](sample/misspelled.md)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(

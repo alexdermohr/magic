@@ -8,6 +8,7 @@ from collections import Counter
 from pathlib import Path
 import re
 import sys
+from urllib.parse import unquote
 
 BASICS = frozenset({
     "Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes",
@@ -16,6 +17,7 @@ BASICS = frozenset({
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
+MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\(([^)\s]+)\)")
 
 
 class DeckValidationError(ValueError):
@@ -74,9 +76,22 @@ def validate_repository(root: Path) -> list[str]:
     for index in (root / "README.md", root / "decks" / "README.md"):
         if index.is_symlink() or not index.is_file():
             raise DeckValidationError(f"{index}: missing regular Markdown index")
-        for reference in set(LINK.findall(index.read_text(encoding="utf-8"))):
-            target = root / reference
-            if not target.resolve().is_relative_to(root) or not target.is_file():
+        content = index.read_text(encoding="utf-8")
+        # Historical literal paths are rooted at the repository, while Markdown
+        # links are relative to the index that actually contains each link.
+        references = [(root, ref) for ref in LINK.findall(content)]
+        for destination in MARKDOWN_LINK.findall(content):
+            if (destination.startswith(("#", "//"))
+                    or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)):
+                continue  # anchors and external URLs do not denote repo files
+            local_path = unquote(destination.split("#", 1)[0].split("?", 1)[0])
+            if local_path:
+                references.append((index.parent, local_path))
+        for base, reference in references:
+            target = base / reference
+            if (not target.resolve().is_relative_to(root)
+                    or not (target.is_file()
+                            or (reference.endswith("/") and target.is_dir()))):
                 raise DeckValidationError(f"{index}: missing local reference {reference}")
     return summaries
 
