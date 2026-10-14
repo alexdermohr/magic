@@ -20,11 +20,25 @@ LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
 # Recognize simple inline Markdown link labels, then parse destinations rather
 # than stopping at the first closing parenthesis (which may belong to a path).
 INLINE_LINK_OPEN = re.compile(r"(?<!\\)\[[^\]\n]+\]\(\s*")
-# Avoid treating both scheme and protocol-relative URLs as local legacy paths.
-EXTERNAL_URL = re.compile(
-    r"(?:(?:[A-Za-z][A-Za-z0-9+.-]*:)?//|[A-Za-z][A-Za-z0-9+.-]*:)"
-    r"[^\s\]>]+"
-)
+# Classify literal deck paths by their preceding whitespace-delimited token.
+# Bracketed external URI authorities contain ']', so stripping URLs with
+# a single regex can leave their path misidentified as local.
+URI_AUTHORITY = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*:|//")
+
+
+def literal_deck_references(content: str) -> list[str]:
+    """Find legacy deck paths but never suffixes of external URI tokens."""
+    references: list[str] = []
+    for match in LINK.finditer(content):
+        token_start = max(
+            content.rfind(chr(sep), 0, match.start())
+            for sep in (9, 10, 13, 32)
+        ) + 1
+        # Adjacent Markdown links form separate targets without whitespace.
+        prefix = content[token_start:match.start()].rsplit("](", 1)[-1]
+        if not URI_AUTHORITY.search(prefix):
+            references.append(match.group())
+    return references
 
 
 def inline_link_destinations(source: str) -> list[str]:
@@ -169,7 +183,7 @@ def validate_repository(root: Path) -> list[str]:
         content = index.read_text(encoding="utf-8")
         # Historical literal paths are rooted at the repository, while Markdown
         # links are relative to the index that actually contains each link.
-        references = [(root, ref) for ref in LINK.findall(EXTERNAL_URL.sub("", content))]
+        references = [(root, ref) for ref in literal_deck_references(content)]
         for destination in inline_link_destinations(content):
             if (destination.startswith(("#", "//"))
                     or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)):

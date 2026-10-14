@@ -183,6 +183,25 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
+    def test_ipv6_host_external_urls_are_not_local_refs(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[ipv6](http://[::1]/decks/guide.md)\n"
+            "http://[2001:db8::1]/wiki/Foo_(bar)/decks/another.md\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_adjacent_ipv6_url_does_not_hide_real_missing_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[external](http://[::1]/decks/guide.md)"
+            "[missing](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(
