@@ -29,7 +29,10 @@
 1 Galadriel, Light of Valinor
 1 Omnath, Locus of Creation
 1 Aurelia, the Warleader
+1 Loran of the Third Path
 1 Tyvar, Jubilant Brawler
+1 Teferi, Time Raveler
+1 Ashiok, Dream Render
 1 Sol Ring
 1 Arcane Signet
 1 Fellwar Stone
@@ -38,17 +41,17 @@
 1 The Great Henge
 1 Lightning Greaves
 1 Chromatic Lantern
+1 Blackblade Reforged
 1 Oath of Nissa
 1 Oath of Ajani
 1 Flowering of the White Tree
 1 Smothering Tithe
-1 Teferi, Time Raveler
 1 Leyline of the Guildpact
 1 Sylvan Library
+1 Annie Joins Up
 1 Nature's Lore
 1 Three Visits
 1 Farseek
-1 Ashiok, Dream Render
 1 Eladamri's Call
 1 Swords to Plowshares
 1 Path to Exile
@@ -58,9 +61,6 @@
 1 Heroic Intervention
 1 Flawless Maneuver
 1 Urza's Ruinous Blast
-1 Loran of the Third Path
-1 Blackblade Reforged
-1 Annie Joins Up
 1 Command Tower
 1 City of Brass
 1 Mana Confluence
