@@ -1,10 +1,14 @@
-# Sisay, Weatherlight Captain — Legendäre Toolbox
+# Sisay, Weatherlight Captain — Five-Color Legendary Toolbox
 
-**Format:** Commander · **Bracket 3 / Upgraded** · **Farben:** Weiß, Blau, Schwarz, Rot, Grün.
+**Commander:** Sisay, Weatherlight Captain · **Bracket 3 / Upgraded (v2, 14.10.2026)** · **Farben:** Weiß, Blau, Schwarz, Rot, Grün.
 
-- [Importierbare 100-Karten-Liste](current.txt) (inklusive Commander, 37 Länder, Singleton)
-- [Analyse, Suchleiter und Spielanleitung](analysis.md)
+- [Aktuelle importierbare 100-Karten-Liste](current.txt): 37 Länder; 31 Kreaturen und Commander; 3 Planeswalker; 9 Artefakte; 7 Verzauberungen; 12 Instants/Sorceries.
+- [Analyse, Suchketten, Karte-für-Karte-Tauschbegründung und Spielanleitung](analysis.md)
 
-**Drei Game Changer:** Gaea's Cradle, Smothering Tithe, Seedborn Muse.
+**Exakt drei Game Changer:** Gaea's Cradle, Smothering Tithe, Seedborn Muse. Scryfall-Bulk-Abgleich von 100/100 Karteinträgen, Commander-Legalität, Papierkarten und Game-Changer-Flags durchgeführt.
 
-Die Toolbox entwickelt schrittweise legendäre Permanents auf dem Spielfeld, sichert fünffarbiges Mana für Sisays Suchaktivierungen und gewinnt über Jodah, Aurelia und ein starkes Legenden-Board. Keine beabsichtigte frühe Zwei-Karten-Endloskombination. Bracket 3 ist ein Deckbauziel, keine aus Testpartien ermittelte Einstufung.
+**v2-Fokus:** Sisays Stärke mit legendären und farbverbessernden Permanents aufbauen, gezielt Loran/Linvala/Teferi/Ashiok als Antworten holen, mit Dynaheir eine WUBRG-Suchaktivierung kopieren und mit Jegantha, Ioreth und Tyvar Mana mehrfach nutzen. Gewonnen wird vor allem über Jodah, Kenrith und Aurelia im Kampf. Keine absichtlichen frühen Zweikarten-Endloskombos.
+
+Der alte Codex-Hinweis zu Bloom Tender/Faeburrow Elder wurde korrigiert: **Ein fünffarbiges Permanent zählt für alle fünf Farben gleichzeitig.**
+
+Bracket 3 ist eine Deckbauabsicht und keine praktisch getestete Leistungseinstufung.
