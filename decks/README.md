@@ -60,3 +60,10 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 - `decks/tom-bombadil/current.txt`: aktive importierbare 100-Karten-Liste.
 - `decks/tom-bombadil/analysis.md`: Sagen-Spielplan, Game Changer, Manabasis und Risiken.
 - Eigenständiger Commander-Ordner; nachfolgende Optimierungen ersetzen `current.txt`.
+
+
+## Sisay, Weatherlight Captain (Bracket 3)
+
+- `decks/sisay/current.txt`: aktuelle importierbare 100-Karten-Liste.
+- `decks/sisay/analysis.md`: Suchleiter, Spielplan, Manabasis und Bracket-Einordnung.
+- `decks/sisay/README.md`: Kurzüberblick.
