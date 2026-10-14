@@ -1,57 +1,68 @@
 # Chatterfang, Squirrel General — Eichhörnchen-Invasion
 
-**Stand:** 2026-10-14 · **Format:** Commander · **Ziel:** Bracket 3 / Upgraded · **Farbidentität:** Schwarz/Grün (Golgari).
+**Stand:** 2026-10-14 · **Version:** Bracket 3 / optimierte v2 · **Format:** Commander · **Farbidentität:** Schwarz/Grün (Golgari).
 
-## Deckidentität und Zählung
+## Deckidentität und strukturelle Prüfung
 
-**100 Karten**, davon **33 Kreaturen einschließlich Commander**, **36 Länder**, **6 Artefakte**, **7 Verzauberungen**, **9 Spontanzauber** und **9 Hexereien**. Genau **drei Game Changer**. Alle **95 verschiedenen Kartennamen** am 14.10.2026 stapelweise über die Scryfall-Cards-Collection-API geprüft: keine unbekannten Karten, kein Commander-Verbot und keine Karte außerhalb der Golgari-Farbidentität. Standardländer sind die erlaubte Ausnahme von Singleton. Die Scryfall-Antwort kann bei etablierten Karten bereits angekündigte zukünftige *Neuauflagen* als Standarddruck anzeigen; die Formatrechtsprüfung betrifft die bestehende Karte, nicht die zukünftige Druckversion.
+**100 Karten:** **35 Kreaturen einschließlich Commander**, **36 Länder**, **4 weitere Artefakte**, **7 Verzauberungen**, **9 Spontanzauber**, **9 Hexereien**. Die Artefaktkreatur **Academy Manufactor** wird nur bei den Kreaturen gezählt. **95 unterschiedliche Oracle-Namen**, Standardländer entsprechend der Commander-Ausnahme mehrfach.
 
-## Bracket-3-Einordnung
+Am 14.10.2026 wurde die vollständige optimierte Liste erneut über Scryfalls `cards/collection` abgefragt: **95 von 95 Namen gefunden, keine Commander-illegale Karte, keine Karte außerhalb von Schwarz/Grün und exakt drei Game Changer**. Zukünftige neue Druckvarianten alter Karten beeinträchtigen deren bereits bestehende Commander-Legalität nicht.
 
-Die drei **Game Changer** (Scryfall-Flag, 14.10.2026):
-1. **Gaea's Cradle:** riesige grüne Manamengen aus vielen Eichhörnchen; selbst ohne Commander ein starkes Token-Land.
-2. **Natural Order:** opfert ein grünes Eichhörnchen und sucht beispielsweise **Craterhoof Behemoth** direkt ins Spiel, sofern die Armee für den tödlichen Angriff groß genug ist.
-3. **Demonic Tutor:** findet situativ Token-Engine, Schutz, Antwort oder Finisher.
+Die offizielle Bracket-Einordnung ist ein **Deckbauziel** und kein experimentell nachgewiesenes Multiplayer-Powerlevel. Diese Liste orientiert sich am oberen Rand von Bracket 3, behält aber die Squirrel-/Token-Identität.
 
-**Bewusst ausgeschlossen:** **Pitiless Plunderer** — zusammen mit **Chatterfang** und mindestens zwei Eichhörnchen kann man ein Eichhörnchen opfern, das andere mit Chatterfangs Fähigkeit auf 0 Widerstand bringen und beide Todesauslöser für neue Schätze und Eichhörnchen verwenden. So entsteht bereits aus Commander plus Plunderer eine frühe Endlosschleife mit geeigneten Startspielsteinen. Ebenso **Earthcraft** plus **Squirrel Nest** (frühe Zwei-Karten-Endloskombination) und **Scurry Oak** plus **Ivy Lane Denizen**. Keine absichtlich eingebaute frühe Zwei-Karten-Endloskombination, keine Massenlandverwehrung, keine Extra-Turn-Schleifen. Bei drei oder mehr Karten sind auch unbeabsichtigte hochskalierende Interaktionen nicht grundsätzlich ausgeschlossen; der primäre Spielplan ist eine endliche Token-Armee, kein schnelles Kombodeck.
+## Game Changer und Bracket-3-Grenzen
 
-Bracket 3 bezeichnet das **Deckbauziel**; die tatsächliche Spielstärke wurde nicht in Partien getestet. Die offizielle Bracket-Beschreibung verlangt außerdem die Einordnung nach Spielgefühl, nicht nur das Auszählen der Game Changer.
+Die drei Game Changer (aktueller Scryfall-Abgleich):
 
-Quellen: https://magic.wizards.com/en/formats/commander · https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
+1. **Gaea's Cradle** — skaliert mit den zahlreichen eigenen Kreaturen; ohne Kreaturen allein kein Mana.
+2. **Natural Order** — kann durch Opfer einer grünen Kreatur **Craterhoof Behemoth** direkt ins Spiel holen, sobald genug Angreifer bereitstehen.
+3. **Demonic Tutor** — flexibler Zugriff auf Mana, Tokenproduzenten, Antworten oder Siegkarten.
+
+**Nicht eingebaut:** **Pitiless Plunderer** (mit Chatterfang und zwei verfügbaren Eichhörnchen eine frühe, wiederholbare Zwei-Karten-Schleife), **Earthcraft** zusammen mit **Squirrel Nest**, **Scurry Oak** plus **Ivy Lane Denizen** sowie **Ashnod's Altar**. Besonders Ashnod's Altar wäre hier riskant: **Camellia + Peregrin Took + Ashnod's Altar** plus ein Eichhörnchen und eine Speise ermöglichen bereits ohne Chatterfang beliebig viele Opfer-Auslösungen: Eichhörnchen für {C}{C} opfern, {2} und Food für Camellias Forage verwenden, Camellia erzeugt ein Eichhörnchen, Peregrin ersetzt dies um eine neue Speise; Ausgangszustand wiederhergestellt. Damit würde eine billige Dreikarten-Kombo absichtlich hinzukommen. **Viscera Seer** bietet das gewünschte kostenlose Opfern, aber **keine** Mana-Rückerstattung.
+
+**Vorhandene spätere Mehrkarten-Schleife (Reviewhinweis):** **Camellia, the Seedmiser**, **Peregrin Took**, **Academy Manufactor** und **Parallel Lives** *oder* **Doubling Season** bilden mit einer anfänglichen Speise und {2} Mana einen wiederholbaren Food-/Treasure-/Squirrel-Motor. Camellias Forage opfert Food und erzeugt einen Squirrel; Took fügt eine Speise zum erzeugten Tokenpaket hinzu, Manufactor macht daraus Speise/Hinweis/Schatz, der Verdoppler erzeugt mindestens zwei Schätze und Speisen. Zwei Schätze finanzieren die nächste Aktivierung. Damit kann eine echte Endlosschleife entstehen, auch ohne Chatterfang und ohne Ashnod's Altar. Die vier Karten sind gleichzeitig einzeln nützliche, teils starke Engines. Diese Schleife ist **nicht als frühe Zwei-Karten-Kombo** einzustufen, kann sich am Tisch aber wie ein deutlich stärkeres Deck anfühlen und gehört in die Vorbesprechung. **Keine Behauptung, sämtliche möglichen Mehrkarten-Kombos ausgeschlossen zu haben.**
+
+Offizielle Grundlagen: https://magic.wizards.com/en/formats/commander · https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026
+
+## Konkrete Optimierung (v1 → v2)
+
+| Raus | Rein | Begründung |
+| --- | --- | --- |
+| Blood Artist | **Nadier's Nightblade** | Trifft **alle** Gegner und heilt; löst bei **jedem eigenen Token**, der das Spielfeld verlässt, aus (auch Food, Clue, Treasure und Exil der Myriad-Kopien), nicht nur beim Tod einer Kreatur. |
+| Deranged Hermit | **Elvish Mystic** | Statt zweitem teuren Hermit eine weitere grüne Einmana-Beschleunigung; **Deep Forest Hermit** bleibt als stärkerer wiederholbarer Stammeseffekt. |
+| Squirrel Sovereign | **Yawgmoth, Thran Physician** | Opfert Squirrels für Kartenziehen und -1/-1-Marken; der Sovereign war teils im Konflikt mit dem Skullclamp-Plan, da +1/+1 die 1/1-Tokens überleben lässt. |
+| Chitterspitter | **Viscera Seer** | Kostenloser Opferausgang schon für {B}: Scry 1 pro geopferter Kreatur, sofortige Lebensverlust- und Kartenzieh-Synergien statt langsamer Acorn-Ansammlung. |
+| Squirrel Nest | **Utopia Sprawl** | Einmana-Beschleunigung für frühes Chatterfang; verzaubert ein **Forest** (einschließlich Bayou/Overgrown Tomb/Underground Mortuary), Schwarz als gewählte Zusatzfarbe möglich. |
+| Idol of Oblivion | **Evolutionary Leap** | Macht überschüssige Kreaturentokens für {G} zu einer garantierten Kreaturenkarte; mehrfach pro Runde statt maximal einer Karte pro eigenem Zug. |
+| Chatterstorm | **Diabolic Intent** | Verlässliche Suche nach Schutz, Token-Engine, Craterhoof oder Combo-Antwort für {1}{B} und ein Kreaturenopfer; kein zusätzlicher Game Changer. |
+| Shamanic Revelation | **Species Specialist** | Wähle **Squirrel**: Zieht bei jedem sterbenden Eichhörnchen eine Karte, auch bei Token und auch wenn der Specialist gleichzeitig einem Boardwipe zum Opfer fällt. |
+| Second Harvest | **Chord of Calling** | Tutort zu einem relevanten Zeitpunkt eine Kreatur direkt aufs Feld; Convoke nutzt breite Boards als Zahlung, selbst wenn gerade wenig Mana verfügbar ist. |
+| Bastion of Remembrance | **Awaken the Woods** | Skalierbarer Token-/Landfall-/Manaaufbau statt einer weiteren redundanten Drain-Karte; erzeugt Forest-Dryad-Landkreaturen, die Chatterfang durch zusätzliche Eichhörnchen ergänzt. |
+
+**Bewusster Tauschkonflikt:** Bastion war eine schwerer abzuräumende Lebensverlustquelle, und Second Harvest konnte Token ohne weitere Setupkarten explosionsartig vermehren. Deren Verlust ist real. Dafür liefern die neuen Karten mehr Starttempo, Auswahl, wiederholbaren Kartenvorteil und drei unabhängige Opfermechaniken. **Mirkwood Bats, Zulaport Cutthroat, Marionette Apprentice, Nadier's Nightblade und Valley Rotcaller** bleiben als mehrere Siegoptionen.
 
 ## Spielplan
 
-**Züge 1–3 – Mana und Chatterfang:** Einmana-Beschleuniger (**Birds of Paradise, Delighted Halfling, Llanowar Elves, Fyndhorn Elves, Elves of Deep Shadow**) erlauben Chatterfang häufig bereits im zweiten Zug. **Sol Ring, Arcane Signet, Nature's Lore** und **Three Visits** stabilisieren die Entwicklung. Nach Möglichkeit Token-produzierende Karten erst spielen, wenn Chatterfang liegt; der Commander verdoppelt die Breite von Food-, Clue-, Treasure- und anderen Token-Ereignissen durch zusätzliche 1/1-Eichhörnchen. **Chatterfang erzeugt bei einem Spielsteinereignis pro tatsächlich erzeugtem Token ein Eichhörnchen**, nicht nur eines pro Auslöser.
+**Start, ungefähr Züge 1–3:** **Birds of Paradise, Delighted Halfling, Elves of Deep Shadow, Elvish Mystic, Fyndhorn Elves, Llanowar Elves** und **Utopia Sprawl** sind jetzt sieben Möglichkeiten, schon früh zusätzliches Mana bereitzustellen. **Sol Ring** ermöglicht ebenfalls häufig frühes Chatterfang. Weitere stabile Beschleunigung: **Nature's Lore, Three Visits, Arcane Signet** und **Thornvault Forager**. Hände mit zwei bis drei Ländern, mindestens einer frühen grünen Quelle, Beschleunigung und einer Tokenquelle bevorzugen. Die zusätzlichen Beschleuniger erhöhen die Chance auf frühen Commanderzugang, garantieren ihn aber nicht.
 
-**Züge 3–6 – Token-Engines:** **Tireless Provisioner/Tracker, Bitterblossom, Ophiomancer, Scute Swarm, Squirrel Nest, Tendershoot Dryad** und die Hermits produzieren wiederholt Spielsteine. **Peregrin Took** fügt bei Tokenproduktion eine Speise hinzu, **Academy Manufactor** ersetzt Speise-/Hinweis-/Schatzproduktion durch jeweils alle drei Tokenarten. Die Ersatzeffekte von Took, Manufactor, Chatterfang, **Doubling Season** und **Parallel Lives** können große, aber endliche Token-Mengen produzieren. **Hazel of the Rootbloom** nutzt Tokens als Manarampen und kopiert am Endsegment einen Token (bei Eichhörnchen zwei Kopien); **The Unbeatable Squirrel Girl** erzeugt und vervielfacht gezielt Eichhörnchen. **Camellia, the Seedmiser** verbindet Food-Opfer mit Eichhörnchen und verstärkt deren Durchkommen über Bedrohlichkeit.
+**Aufbau, ungefähr Züge 3–6:** Tokenmotoren **Bitterblossom, Ophiomancer, Tireless Provisioner, Tireless Tracker, Scute Swarm, Tendershoot Dryad, Deep Forest Hermit, Squirrel Girl** sowie **Rootcast Apprenticeship** und **Awaken the Woods** erzeugen beständig Spielsteine. **Chatterfang** fügt pro erzeugtem Token jeweils ein Eichhörnchen hinzu; **Parallel Lives** und **Doubling Season** steigern die Menge zusätzlich. **Academy Manufactor** und **Peregrin Took** machen aus Speisen/Schätzen/Hinweisen große Tokenpakete. Der genaue Ertrag hängt von der Reihenfolge der Ersatzeffekte ab; der Controller wählt ihre Anwendung, wenn mehrere gleichzeitig relevant sind.
 
-**Kartennachschub:** **Skullclamp** verwandelt 1/1-Eichhörnchen für eine Equip-Kosten von {1} in zwei Karten. **Toski** belohnt Kampfschaden, **Idol of Oblivion** zeichnet mit fast jeder Token-Runde, **Tireless Tracker** mit Landfall-Hinweisen. **Deadly Dispute**, **Plumb the Forbidden** und **Shamanic Revelation** ziehen viele Karten, gerade wenn einzelne Token ohnehin entbehrlich sind.
+**Awaken the Woods:** Bezahle {X}{G}{G}. Die Forest-Dryad-Spielsteine sind **Länder und Kreaturen**; sie lösen vorhandene Landfall-Fähigkeiten sofort aus und können grundsätzlich {G} erzeugen, dürfen wegen Einsatzverzögerung aber gewöhnlich **erst ab dem nächsten eigenen Zug tappen**. Mit Chatterfang entstehen zu jedem Dryad-Wald zusätzliche Eichhörnchen. Mit Tireless Provisioner oder Tracker können daraus sofort weitere Food-/Treasure-/Clue- und Eichhörnchen-Trigger folgen.
 
-**Kontrolle und Schutz:** Chatterfang kann für {B} und geopferte Eichhörnchen gezielt angreifende Schlüsselkreaturen über +X/-X entfernen (nicht für Spieler-Schaden; die Fähigkeit zielt nur auf Kreaturen). **Assassin's Trophy, Beast Within, Deadly Rollick** beantworten gegnerische Permanents/Kreaturen; **Force of Vigor** trifft Artefakte/Verzauberungen. **Heroic Intervention** und **Veil of Summer** sichern wichtige Engines. **Eternal Witness** und **Takenuma** liefern begrenzte Wiederverwertung.
+**Opfern und Karten nachziehen:** **Viscera Seer** opfert gratis für Scry, **Yawgmoth** bezahlt ein Leben und opfert eine andere Kreatur zum Ziehen plus optionaler -1/-1-Marke, **Evolutionary Leap** bezahlt {G} zum Finden der nächsten Kreatur, **Chatterfang** opfert Eichhörnchen für {B} und gezielte +X/-X. **Skullclamp** tauscht gewöhnliche, nicht verstärkte 1/1-Eichhörnchen für {1} Equip in zwei Karten. **Species Specialist** produziert Karten, sobald Eichhörnchen sterben. Diese Engines können aus Tokenüberschuss nahezu unmittelbar relevante Antworten machen.
 
-## Konkrete Siegwege
+**Interaktion / Schutz:** **Assassin's Trophy, Beast Within, Deadly Rollick, Force of Vigor, Pest Infestation** und Chatterfangs eigene Opferfähigkeit entfernen die meisten Problem-Permanents bzw. Kreaturen. **Heroic Intervention** kann viele Zerstörungs-Wipes verhindern, aber kein Exil oder alle -X/-X-Effekte. **Eternal Witness** und **Takenuma** unterstützen Wiederaufbau. Das Fehlen von Bastion of Remembrance macht das Deck nach einem kompletten Kreaturen-Wipe etwas anfälliger für verlorene Lebensverlust-Engines.
 
-1. **Overrun:** Mit 8–20 Eichhörnchen im Spiel beenden **Craterhoof Behemoth** (auch via **Natural Order** oder **Finale of Devastation**), **Beastmaster Ascension**, **Eldrazi Monument**, **The Odd Acorn Gang** oder **Champion of Lambholt** den Kampf. Ein früher Craterhoof ohne ausreichend Kreaturen ist kein sinnvoller Natural-Order-Treffer.
-2. **Drain bei Tokenbewegungen:** **Mirkwood Bats** verursacht Schaden an jedem Gegner, wenn eigene Tokens ins Spiel kommen oder die eigene Tokenzone verlassen. **Zulaport Cutthroat**, **Marionette Apprentice**, **Blood Artist** und **Bastion of Remembrance** bestrafen Token-Tode. Die meisten Token sterben bei Opfer-Effekten und liefern so zugleich Kartennachschub. **Blood Artist** trifft pro Trigger **einen** Zielspieler, die übrigen genannten globalen Effekte jeweils alle Gegner.
-3. **Valley Rotcaller:** Der Angriffs-Trigger zählt **andere** eigene Eichhörnchen (sowie Bats/Lizards/Rats) und lässt **jeden Gegner** entsprechend Leben verlieren; der Rotcaller muss dafür nicht ungehindert Schaden zufügen.
+## Gewinnen und Regelklarstellungen
 
-## Manabasis / Mulligan
+1. **Kampfschaden:** **Craterhoof Behemoth** (via Natural Order, Finale of Devastation oder regulär), **Beastmaster Ascension, Eldrazi Monument, The Odd Acorn Gang** und **Champion of Lambholt** machen aus dem Squirrel-Schwarm einen Finisher. Bei **Chord of Calling** ist ein wichtiger Timingfehler zu vermeiden: Für Convoke getappte Kreaturen können im selben Zug gewöhnlich nicht auch noch angreifen. Chord für Craterhoof deshalb mit Mana bezahlen oder so timen, dass genügend ungetappte Angreifer bleiben; ein im gegnerischen Endsegment gesuchter Craterhoof gibt seinen ETB-Pump **nicht** bis zum folgenden Zug.
+2. **Lebensverlust:** **Zulaport Cutthroat**, **Marionette Apprentice** und **Nadier's Nightblade** betreffen jeden Gegner; **Valley Rotcaller** entzieht beim eigenen Angriff jedem Gegner Lebenspunkte nach Zahl der **anderen** passenden Tierkreaturen. **Mirkwood Bats** lässt bei **jedem erzeugten oder geopferten Token** alle Gegner 1 Leben verlieren – **kein Schaden**, und das bloße Sterben durch Zerstörung ohne Opfern löst Bats **nicht** aus. **Nadier's Nightblade** dagegen triggert auch beim Zerstörtwerden, Zurückschicken oder Exilieren eines eigenen Tokens (wenn er dadurch das Spielfeld verlässt).
+3. **Breites Bord statt schneller Kombo:** Große, **endliche** Schübe durch Second-Harvest-Ersatz Awaken the Woods, Rootcast, Scurry of Squirrels und Token-Verdoppler sind Hauptplan. Die oben konkret ausgewiesene spätere Vierkarten-Endlosschleife ist möglich und sollte vor dem Spiel kommuniziert werden.
 
-**36 Länder**, darunter 5 Forest und 2 Swamp, 8 Fetchlands einschließlich Prismatic Vista, **Gaea's Cradle** und **Three Tree City** für Stammesskalierung. **Swarmyard** schützt Eichhörnchen durch Regeneration; **Boseiju, Who Endures** entfernt problematische Artefakte/Verzauberungen/Länder, **Takenuma** recycelt Kreaturen. **Yavimaya, Cradle of Growth** und **Urborg, Tomb of Yawgmoth** verbessern auch die ansonsten nichtfarbigen Nutzländer. Die Liste priorisiert Stärke ohne Budgetvorgabe; **Bayou** und **Gaea's Cradle** sind teuer. **Gaea's Cradle** produziert allein mit leerem Spielfeld kein Mana, sofern Yavimaya/Urborg nicht helfen.
+## Manabasis / Risiken / Grenzen
 
-**Mulligan:** zwei bis drei Länder (mindestens eine grüne Quelle), ein Ein- oder Zweimana-Ramper und eine Token-Engine oder Card-Draw-Karte. Hände mit ausschließlich teuren Finishers und ohne frühe Beschleunigung zurückgeben. Da das Deck oft viele 1/1-Spielsteine baut, sind gegnerische Massenschadens- und Massenausschalt-Effekte das größte Risiko; Skullclamp/Plumb können vor einem erwarteten Wipe Material in Karten umwandeln.
+**36 unveränderte Länder**, darunter 5 Forest, 2 Swamp, Bayou, die fetchbaren Golgari-Duals, **Gaea's Cradle, Three Tree City**, **Swarmyard** und **Phyrexian Tower**. Mehrere Nutzländer erzeugen anfangs nur farbloses oder gar kein Mana; **Utopia Sprawl** darf nur an Forests angelegt werden. **Urborg** und **Yavimaya** können die Manaqualität steigern. Die Liste setzt keine Budgetgrenze.
 
-## Bewusst nicht im Hauptdeck
+**Risiken:** Kreaturenwipes/Exil, frühes Entfernen Chatterfangs, Token-Hate, sehr hoher Anteil an grüner früher Beschleunigung und zu viele teure Tokensynergien ohne Kartenzugriff; hinzu kommt die tatsächliche soziale Einstufung eines sehr starken oberen Bracket-3-Decks. **Nicht durchgeführt:** echte Partietests, umfassende simulierte Mulligans, vollständige Suche aller mehrteiligen Combos, Budgetoptimierung. Deshalb keine garantierte Siegrate und keine formale Zusicherung, dass jede Spielgruppe die Liste als Bracket 3 bewertet.
 
-- **Pitiless Plunderer, Earthcraft, Scurry Oak, Ivy Lane Denizen:** Bracket-3-Komborisiko.
-- **Meatsqueak, Hoard Lord:** am 14.10.2026 noch nicht als reguläre neue Karte erschienen (laut Wizards Commander-Legalität ab 13.11.2026); keine Vorwegnahme einer künftigen Karte.
-- **Squirrel Mob, Nut Collector, Acorn Harvest:** passend zum Thema, aber im Verhältnis zum Mana/Tempo weniger wirkungsvoll als die ausgewählten Token-Motoren.
-- **Ygra, Eater of All:** bietet starke Food-Synergien, kann mit Camellia und freien Opferausgängen jedoch schnell in rekursive Endlosschleifen führen und erschwert das definierte Bracket-3-Profil.
-- **Black Market Connections:** flexibel und stark, aber seine wiederholten Lebenskosten sind hier gegenüber unmittelbar tokenproduzierenden Karten weniger notwendig.
-- **Patchwork Banner, Species Specialist, Chittering Witch, Go Nuts!:** gute mögliche Testalternativen, derzeit hinter stabiler Ramp-, Draw- und Interaktionsdichte.
-
-## Prüfung und offene Grenze
-
-- **Card-API-Check bestanden:** 100 Deckeinträge, 95 verschiedene Karten, keine Commander-illegalen Kartennamen, alle Farbidentitäten in B/G, exakt drei Scryfall-Game-Changer.
-- **Format-/Komboprüfung:** frühe bekannte Zwei-Karten-Loops gezielt vermieden; keine formale Vollständigkeitsgarantie für alle Karteninteraktionen.
-- **Nicht durchgeführt:** echte Multiplayer-Partietests, Starthand-/Mulligan-Simulation, Budgetoptimierung.
+**Primärquellen:** https://magic.wizards.com/en/formats/commander · https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 · https://scryfall.com/ (Oracle-Daten und Game-Changer-Abgleich)
