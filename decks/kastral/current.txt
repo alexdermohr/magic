@@ -26,10 +26,10 @@
 1 The Lord of the Eagles
 1 Wingmate Roc
 1 Aerial Extortionist
-1 Ishai, Ojutai Dragonspeaker
-1 Keeper of the Nine Gales
+1 Falcon and Redwing
+1 Mind Stone
 1 Wan Shi Tong, Librarian
-1 Sephara, Sky's Blade
+1 Eagle of Deliverance
 1 Roaming Throne
 1 Skycoach Conductor
 1 Curiosity Crafter
@@ -57,7 +57,7 @@
 1 Cyclonic Rift
 1 Akroma's Will
 1 Flawless Maneuver
-1 Dawn's Truce
+1 Dazzling Denial
 1 March of Swirling Mist
 1 Battle Screech
 1 Migratory Route
@@ -70,7 +70,7 @@
 1 Deserted Beach
 1 Glacial Fortress
 1 Prairie Stream
-1 Irrigated Farmland
+1 Tundra
 1 Seachrome Coast
 1 Floodfarm Verge
 1 Mystic Gate
