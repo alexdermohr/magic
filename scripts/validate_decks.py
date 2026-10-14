@@ -19,7 +19,7 @@ CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
 # Inline Markdown destinations may have optional quoted titles.
 MARKDOWN_LINK = re.compile(
-    r"""\[[^\]]+\]\(\s*<?([^\s)>]+)>?(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)"""
+    r"""\[[^\]]+\]\(\s*(?:<([^<>]*)>|([^\s)>]+))(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)"""
 )
 # Exclude URLs from the legacy literal deck-path scan, including raw prose URLs.
 EXTERNAL_URL = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*://[^\s)\]>]+")
@@ -85,7 +85,8 @@ def validate_repository(root: Path) -> list[str]:
         # Historical literal paths are rooted at the repository, while Markdown
         # links are relative to the index that actually contains each link.
         references = [(root, ref) for ref in LINK.findall(EXTERNAL_URL.sub("", content))]
-        for destination in MARKDOWN_LINK.findall(content):
+        for angle_target, ordinary_target in MARKDOWN_LINK.findall(content):
+            destination = angle_target or ordinary_target
             if (destination.startswith(("#", "//"))
                     or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)):
                 continue  # anchors and external URLs do not denote repo files
@@ -95,8 +96,7 @@ def validate_repository(root: Path) -> list[str]:
         for base, reference in references:
             target = base / reference
             if (not target.resolve().is_relative_to(root)
-                    or not (target.is_file()
-                            or (reference.endswith("/") and target.is_dir()))):
+                    or not (target.is_file() or target.is_dir())):
                 raise DeckValidationError(f"{index}: missing local reference {reference}")
     return summaries
 

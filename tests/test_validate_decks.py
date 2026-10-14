@@ -94,6 +94,40 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
+    def test_missing_angle_link_with_spaces_is_rejected(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[analysis](<sample/missing file.md>)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_existing_angle_link_with_spaces_and_title(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "sample" / "real file.md").write_text(
+            "# Analyses\n", encoding="utf-8"
+        )
+        (self.root / "decks" / "README.md").write_text(
+            '[analysis](<sample/real file.md> "details")\n', encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_existing_directory_link_without_trailing_slash(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "sample" / "versions").mkdir()
+        (self.root / "decks" / "README.md").write_text(
+            "[versions](sample/versions)\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_missing_directory_link_without_trailing_slash(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[versions](sample/versions)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(
