@@ -17,7 +17,12 @@ BASICS = frozenset({
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
-MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\(([^)\s]+)\)")
+# Inline Markdown destinations may have optional quoted titles.
+MARKDOWN_LINK = re.compile(
+    r"""\[[^\]]+\]\(\s*<?([^\s)>]+)>?(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)"""
+)
+# Exclude URLs from the legacy literal deck-path scan, including raw prose URLs.
+EXTERNAL_URL = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*://[^\s)\]>]+")
 
 
 class DeckValidationError(ValueError):
@@ -63,7 +68,7 @@ def validate_list(path: Path) -> str:
 
 
 def validate_repository(root: Path) -> list[str]:
-    """Verify every active list and local file path in both deck indexes."""
+    """Check active lists, inline local Markdown links and literal deck file references."""
     root = root.resolve(strict=True)
     deck_files = sorted((root / "decks").glob("*/current.txt"))
     if not deck_files:
@@ -79,7 +84,7 @@ def validate_repository(root: Path) -> list[str]:
         content = index.read_text(encoding="utf-8")
         # Historical literal paths are rooted at the repository, while Markdown
         # links are relative to the index that actually contains each link.
-        references = [(root, ref) for ref in LINK.findall(content)]
+        references = [(root, ref) for ref in LINK.findall(EXTERNAL_URL.sub("", content))]
         for destination in MARKDOWN_LINK.findall(content):
             if (destination.startswith(("#", "//"))
                     or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)):

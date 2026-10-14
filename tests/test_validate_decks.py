@@ -77,6 +77,23 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
+    def test_external_urls_with_deck_paths_are_not_local(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "README.md").write_text(
+            "[external](https://example.test/decks/guide.md)\n"
+            "https://example.test/decks/other.md\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_missing_relative_titled_markdown_link_is_rejected(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            '[analysis](sample/typo.md "details")\n', encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(
