@@ -14,7 +14,7 @@
 1 Thrasios, Triton Hero
 1 Tymna the Weaver
 1 Linvala, Shield of Sea Gate
-1 Kethis, the Hidden Hand
+1 Etali, Primal Conqueror
 1 Raffine, Scheming Seer
 1 Esika, God of the Tree
 1 Ioreth of the Healing House
@@ -27,9 +27,11 @@
 1 Kenrith, the Returned King
 1 Jegantha, the Wellspring
 1 Galadriel, Light of Valinor
-1 Omnath, Locus of Creation
+1 Atraxa, Grand Unifier
 1 Aurelia, the Warleader
 1 Loran of the Third Path
+1 Samut, Hazoret's Champion
+1 Avacyn, Angel of Hope
 1 Tyvar, Jubilant Brawler
 1 Teferi, Time Raveler
 1 Ashiok, Dream Render
@@ -41,7 +43,6 @@
 1 The Great Henge
 1 Lightning Greaves
 1 Chromatic Lantern
-1 Samut, Hazoret's Champion
 1 Oath of Nissa
 1 Oath of Ajani
 1 Flowering of the White Tree
@@ -57,7 +58,6 @@
 1 Swan Song
 1 Anguished Unmaking
 1 Assassin's Trophy
-1 Generous Gift
 1 Heroic Intervention
 1 Flawless Maneuver
 1 Urza's Ruinous Blast
