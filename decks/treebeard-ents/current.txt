@@ -7,52 +7,45 @@
 1 Fangorn, Tree Shepherd
 1 Quickbeam, Upstart Ent
 1 Generous Ent
-1 Enraged Huorn
-1 Great Oak Guardian
-1 Orchard Strider
 1 Old Man Willow
 1 Colfenor, the Last Yew
 1 Sapling of Colfenor
 1 Leaf-Crowned Elder
 1 Timber Protector
 1 Orchard Warden
-1 Ulvenwald Observer
 1 Dauntless Dourbark
 1 Indomitable Ancients
-1 Unstoppable Ash
 1 Woodfall Primus
-1 Nemata, Primeval Warden
-1 Seedguide Ash
-1 Black Poplar Shaman
 1 Great Forest Druid
 1 Ancient Lumberknot
-1 Ezzaroot Channeler
 1 Faeburrow Elder
 1 Birds of Paradise
 1 Delighted Halfling
 1 Sakura-Tribe Elder
 1 Beast Whisperer
+1 Sinister Gnarlbark
+1 Fecund Greenshell
+1 Realmwalker
+1 Arbor Adherent
+1 Trostani, Selesnya's Voice
+1 Bedrock Tortoise
 1 Sol Ring
 1 Arcane Signet
 1 Nature's Lore
 1 Three Visits
 1 Farseek
-1 Entish Restoration
 1 Urza's Incubator
 1 Herald's Horn
 1 Guardian Project
-1 Lifecrafter's Bestiary
 1 Tribute to the World Tree
 1 Sylvan Library
 1 Assemble the Entmoot
 1 Last March of the Ents
 1 Swords to Plowshares
-1 Crib Swap
 1 Beast Within
 1 Assassin's Trophy
 1 Aura Shards
 1 Song of the Dryads
-1 Ent's Fury
 1 Wave of Reckoning
 1 Kindred Dominance
 1 Heroic Intervention
@@ -61,6 +54,13 @@
 1 Tower Defense
 1 Assault Formation
 1 Natural Order
+1 Behind the Scenes
+1 Cover of Darkness
+1 Wild Growth
+1 Utopia Sprawl
+1 Path to Exile
+1 Tend the Sprigs
+1 Sapling Nursery
 1 Command Tower
 1 Exotic Orchard
 1 Path of Ancestry
@@ -97,4 +97,4 @@
 1 Plains
 1 Plains
 1 Swamp
-1 Swamp
+1 Bojuka Bog
