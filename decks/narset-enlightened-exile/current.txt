@@ -1,13 +1,13 @@
 1 Narset, Enlightened Exile
 1 Esper Sentinel
 1 Dragon's Rage Channeler
-1 Ledger Shredder
+1 Leonin Lightscribe
 1 Stormcatch Mentor
 1 Third Path Iconoclast
 1 Young Pyromancer
 1 Balmor, Battlemage Captain
 1 Bria, Riptide Rogue
-1 Stormsplitter
+1 Vivi Ornitier
 1 Monastery Mentor
 1 Veyran, Voice of Duality
 1 Spellseeker
@@ -42,7 +42,7 @@
 1 Faithless Looting
 1 Expedite
 1 See the Truth
-1 Psychotic Fury
+1 Crash Through
 1 Shadow Rift
 1 Slip Through Space
 1 Frantic Search
