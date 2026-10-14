@@ -7,7 +7,7 @@
 1 Young Pyromancer
 1 Balmor, Battlemage Captain
 1 Bria, Riptide Rogue
-1 Slickshot Show-Off
+1 Stormsplitter
 1 Monastery Mentor
 1 Veyran, Voice of Duality
 1 Spellseeker
@@ -16,8 +16,8 @@
 1 Kykar, Wind's Fury
 1 Storm-Kiln Artist
 1 Archmage Emeritus
-1 Elsha of the Infinite
-1 Baral, Chief of Compliance
+1 Elsha, Threefold Master
+1 Voice of Victory
 1 Sol Ring
 1 Arcane Signet
 1 Fellwar Stone
@@ -26,14 +26,14 @@
 1 Talisman of Conviction
 1 Izzet Signet
 1 Skullclamp
-1 Runechanter's Pike
+1 Cori-Steel Cutter
 1 Swiftfoot Boots
 1 Mystic Remora
 1 Rhystic Study
 1 Jeskai Ascendancy
 1 Whirlwind of Thought
 1 Underworld Breach
-1 Impact Tremors
+1 Frostcliff Siege
 1 Brainstorm
 1 Ponder
 1 Preordain
@@ -41,23 +41,23 @@
 1 Gitaxian Probe
 1 Faithless Looting
 1 Expedite
-1 Defiant Strike
-1 Ancestral Anger
+1 See the Truth
+1 Psychotic Fury
 1 Shadow Rift
 1 Slip Through Space
 1 Frantic Search
 1 Expressive Iteration
-1 Windfall
+1 Candlekeep Inspiration
 1 Fists of Flame
 1 Jeska's Will
 1 Akroma's Will
-1 Unleash Fury
+1 Bulk Up
 1 Boros Charm
 1 Swords to Plowshares
 1 Path to Exile
 1 Swan Song
 1 Dovin's Veto
-1 Arcane Denial
+1 Mana Drain
 1 Chaos Warp
 1 Wear // Tear
 1 March of Swirling Mist
