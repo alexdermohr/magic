@@ -10,8 +10,10 @@
 1 Elvish Mystic
 1 Eternal Witness
 1 Fyndhorn Elves
+1 Gilded Goose
 1 Hazel of the Rootbloom
 1 Honored Dreyleader
+1 Jaheira, Friend of the Forest
 1 Llanowar Elves
 1 Marionette Apprentice
 1 Mirkwood Bats
@@ -23,7 +25,6 @@
 1 Scute Swarm
 1 Species Specialist
 1 Tendershoot Dryad
-1 The Odd Acorn Gang
 1 The Unbeatable Squirrel Girl
 1 Thornvault Forager
 1 Tireless Provisioner
@@ -60,7 +61,6 @@
 1 Natural Order
 1 Nature's Lore
 1 Pest Infestation
-1 Rootcast Apprenticeship
 1 Three Visits
 1 Bayou
 1 Overgrown Tomb
