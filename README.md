@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Narset, Enlightened Exile — Jeskai Prowess / Spellslinger
+
+**Bracket 3 / Upgraded:** Prowess- und Token-Schwarm mit günstigen Zaubern, Friedhofskopien durch Narset und starken Kampf-Finishern.
+
+- [Aktuelle 100-Karten-Liste](decks/narset-enlightened-exile/current.txt)
+- [Spielplan, Game Changer und Risiken](decks/narset-enlightened-exile/analysis.md)
