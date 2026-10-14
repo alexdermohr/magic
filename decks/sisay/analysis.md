@@ -1,29 +1,53 @@
 # Sisay, Weatherlight Captain — Five-Color Legendary Toolbox
 
-**Version:** B3 v3 · **Stand:** 2026-10-14 · **Format:** Commander · **Deckbauziel:** Bracket 3 / Upgraded · **Budget:** kein Preislimit.
+**Version:** B3 v4 · **Stand:** 2026-10-14 · **Format:** Commander · **Deckbauziel:** Bracket 3 / Upgraded · **Budget:** kein Preislimit.
 
 ## Verifizierter Aufbau
 
 Die importierbare Liste steht in [current.txt](current.txt).
 
 - **100 unterschiedliche Karten** inklusive 1 Commander.
-- **37 Länder**, **32 weitere Kreaturen**, **3 Planeswalker**, **8 Artefakte**, **7 Verzauberungen**, **12 Spontanzauber/Hexereien**.
-- **40 legendäre Karten** insgesamt, darunter Sisay und Urza's Ruinous Blast (legendäre Hexerei). Daher **38 mit Sisay suchbare legendäre Permanents** in den übrigen 99.
+- **37 Länder**, **33 weitere Kreaturen**, **3 Planeswalker**, **8 Artefakte**, **7 Verzauberungen**, **11 Spontanzauber/Hexereien**.
+- **41 legendäre Karten** insgesamt, darunter Sisay und Urza's Ruinous Blast (legendäre Hexerei). Daher **39 mit Sisay suchbare legendäre Permanents** in den übrigen 99.
 - **Drei und nur drei Game Changer:** `Gaea's Cradle`, `Smothering Tithe`, `Seedborn Muse`. Die Game-Changer-Eigenschaften, alle 100 Kartennamen, das Papierformat und die Commander-Legalität wurden am 14.10.2026 über Scryfalls Cards-Collection-API abgeglichen, einschließlich der Vorderseite `Esika, God of the Tree` ihrer doppelseitigen Karte.
 - **Keine bewusst eingebaute frühe Zwei-Karten-Endloskombo, keine Massenlandzerstörung und keine Extra-Turn-Kette.** Die hohen Tutor- und Beschleunigungsqualitäten gehören dennoch in die Pregame-Besprechung. Bracket 3 beschreibt die Deckbauabsicht, keine durch Testpartien ermittelte Spielstärke.
 
 Primärquelle Brackets/Bannliste: https://magic.wizards.com/en/formats/commander · Game-Changer-Update: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025 · https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 . Kartendaten: https://scryfall.com/ .
 
-## V3: Vier gezielte Optimierungen gegenüber v2
+## V4: Drei große legendäre Tutor-Payoffs
+
+**Ziel:** Sisay auch dann noch zu einer Bedrohung machen, wenn die Fünffarben-Mana-Engine und die frühen legendären Buffs bereits aufgebaut sind. Statt eines beliebigen Goodstuff-Stapels enthält v4 drei gezielt suchbare Endspielkarten mit eigenständigem Nutzwert.
+
+| Heraus (v3) | Hinein (v4) | Begründung und Tradeoff |
+| --- | --- | --- |
+| **Kethis, the Hidden Hand** | **Etali, Primal Conqueror** (Manawert 7) | Kethis war im Deck ohne Friedhofs-Fokus vor allem ein situativer Kostensenker. Etali exiliert **beim Eintritt** für jeden Spieler Karten bis zu einem Nichtland und lässt beliebig viele dieser so getroffenen Zauber **kostenlos wirken**. Das funktioniert, wenn Sisay Etali direkt ins Spiel legt. Mit Annie Joins Up löst Etalis ETB zweimal aus. |
+| **Omnath, Locus of Creation** | **Atraxa, Grand Unifier** (Manawert 7) | Omnath konnte ziehen und mit Fetchländern Landfall auslösen, benötigt aber weitere Landdrops. Die neue Atraxa verschafft **sofort beim Eintritt** mehrere Karten verschiedener Typen unter den obersten zehn; Annie Joins Up verdoppelt den ETB-Trigger. Der frühe vierfarbige Zwischenstufen-Tutor Omnath entfällt. |
+| **Generous Gift** | **Avacyn, Angel of Hope** (Manawert 8) | Avacyn verleiht **allen anderen eigenen Permanents Unzerstörbarkeit**, also auch Manaquellen und Nichtkreatur-Legenden, solange sie liegt. Im offenen Mana kann Sisay sie als Reaktion auf einen Zerstörungseffekt suchen, sofern Sisays Stärke bereits mindestens 9 beträgt. **Tradeoff:** Ein flexibler Sofort-Removal-Slot entfällt. Swords to Plowshares, Anguished Unmaking, Assassin's Trophy, Ertai Resurrected und Loran of the Third Path bleiben erhalten. |
+
+**Galadriel, Light of Valinor bleibt bewusst im Deck.** Ihr Alliance-Trigger wird durch die mit Sisay ins Spiel gelegten Kreaturen ausgelöst und liefert Karten, Mana oder Marken. Zusammen mit Annie Joins Up ist sie als laufende Engine in dieser Liste wichtiger als Omnath.
+
+### Tutor-Schwellen und echte Einschränkungen
+
+Sisay benötigt bei **Verrechnung** ihrer Suchfähigkeit mindestens **Stärke 8** für Etali oder Atraxa (Manawert 7), **Stärke 9** für Avacyn (Manawert 8), und mindestens **Stärke 10** für The Great Henge (Manawert 9). Das folgt aus der Bedingung *Manawert strikt kleiner als Sisays Stärke*.
+
+**Mit Jodah, the Unifier als einziger weiterer legendärer Kreatur ist Sisay schon 9/9:** 2 Basisstärke + 5 für Jodahs fünf Farben + 2 von Jodahs Legenden-Bonus (Sisay und Jodah) = 9. Damit sind alle drei neuen großen Legenden direkt suchbar. Mit zusätzlichem Flowering of the White Tree steigt Sisay auf **11/10** und kann auch The Great Henge finden. Das setzt voraus, dass Sisay und Jodah beide im Spiel sind und die erforderlichen **{W}{U}{B}{R}{G} pro Aktivierung** verfügbar sind.
+
+**Etali und Atraxa sind bewusst ETB statt Beim-Wirken.** Sisays Suche *wirkt* den gesuchten Zauber nicht, also würde beispielsweise der Beim-Wirken-Trigger von Ulamog, the Ceaseless Hunger, Emrakul, the Promised End oder Sauron, Lord of the Rings nicht ausgelöst. Die beiden neuen ETB-Effekte wirken hingegen vollständig. Etali lässt allerdings **die von ihr exilierten Zauber tatsächlich wirken**; daraus können wiederum normale Cast-Trigger entstehen, soweit die Bedingungen erfüllt sind.
+
+**Avacyn schützt nicht** gegen Exil, Opferzwang, Bouncen oder Effekte mit genügend -X/-X. Auch das eigene **Urza's Ruinous Blast exiliert** weiterhin nichtlegendäre Permanents wie Seedborn Muse oder Smothering Tithe – Avacyn verhindert das ausdrücklich nicht. Sie kostet auf der Hand {5}{W}{W}{W}; ihre dreifach weißen Kosten sind ein Grund, sie möglichst per Sisay zu holen.
+
+**Risiko:** Die drei neuen Kreaturen haben Manawert 7, 7 und 8 und können frühe Hände verschlechtern. Deshalb werden bewusst nur drei neue teure Legenden aufgenommen; die 37 Länder und die frühe Beschleunigung bleiben unangetastet. Gegen besonders schnelle Tische kann Generous Gift im erweiterten Kreis der Alternativen wieder sinnvoller sein.
+
+## Historie: V3 gegenüber v2
 
 | Heraus | Hinein | Nutzwert und Gegenargument |
 | --- | --- | --- |
 | **Atraxa, Praetors' Voice** | **Selvala, Heart of the Wilds** | Selvala kostet drei statt vier Mana, ist mit Sisay suchbar und erzeugt für {G} und Tappen X Mana in beliebiger Farbkombination, wobei X der höchsten eigenen Kreaturenstärke entspricht. Bei bereits verstärkter Sisay erhält man WUBRG für weitere Aktivierungen. **Preis:** Atraxas vierfarbige Präsenz, Keywords und vereinzeltes Proliferate entfallen; Selvala braucht eine grüne Zahlung, Tappbereitschaft und hohe eigene Stärke. |
 | **Blackblade Reforged** | **Samut, Hazoret's Champion** | Für nur {1}{R} eine frühe rote Legende, die allen eigenen Kreaturen echte Eile gibt – auch Selvala, Bloom Tender und Jegantha. Erspart das {3}-Ausrüsten von Blackblade und öffnet sofortige Manaaktivierungen. **Preis:** Weniger eigenständige rohe Sisay-Stärke; The Great Henge muss über andere Stärkequellen wie Jodah und Flowering gesucht werden. |
 | **Yoshimaru, Ever Faithful** | **Skrelv, Defector Mite** | Weiterhin weiße Legende für ein Mana, jetzt mit selektivem Schutz für Sisay und Schlüssel-Kreaturen. Skrelv schützt durch Hexproof **vor einer gewählten Farbe**, nicht vor sämtlichem Removal und nicht vor globalem Exil. Er benötigt {W/P} plus Tappen und ohne Samut/Tyvar/Dynaheir einen Zug Wartezeit. |
-| **Path to Exile** | **Swan Song** | Ein-Mana-Antwort auf gegnerische **Instants, Sorceries und Enchantments** – besonders wertvoll gegen Stack-Interaktion und Combo-Finisher. **Preis:** Ein direkter Kreaturen-Exile-Effekt weniger; Swords to Plowshares, Assassin's Trophy, Anguished Unmaking, Generous Gift und Ertai übernehmen diese Aufgaben weiterhin. Swan Song hinterlässt einen 2/2-Flieger. |
+| **Path to Exile** | **Swan Song** | Ein-Mana-Antwort auf gegnerische **Instants, Sorceries und Enchantments** – besonders wertvoll gegen Stack-Interaktion und Combo-Finisher. **Preis:** Ein direkter Kreaturen-Exile-Effekt weniger; in V3 blieben noch Swords to Plowshares, Assassin's Trophy, Anguished Unmaking, Generous Gift und Ertai. **V4 tauscht Generous Gift gegen Avacyn**, die anderen Interaktionen bleiben. Swan Song hinterlässt einen 2/2-Flieger. |
 
-Die vier Wechsel erhöhen die Anzahl sofort wirksamer, suchbarer Permanents und die Handlungsfähigkeit bei offener Mana-Engine. **Eingebaute Zweikarten-Endlosschleifen werden damit nicht bezweckt**. Stärkeverbesserung ist eine theoretische Synergieeinschätzung, keine gemessene Matchperformance; bei Metas mit vielen Boardwipes könnte die vierfarbige Atraxa oder zusätzliche Wiederbelebung erneut attraktiver werden.
+Die vier damaligen V3-Wechsel **änderten die Zahl der Sisay-Tutorziele nicht** (38 geblieben), sondern erhöhten den Nutzwert der Suchziele und die Handlungsfähigkeit bei offener Mana-Engine. Erst V4 erhöht die Zahl durch Generous Gift → Avacyn auf **39**. **Eingebaute Zweikarten-Endlosschleifen werden damit nicht bezweckt**. Stärkeverbesserung ist eine theoretische Synergieeinschätzung, keine gemessene Matchperformance; bei Metas mit vielen Boardwipes könnte **Atraxa, Praetors' Voice** oder zusätzliche Wiederbelebung erneut attraktiver werden.
 
 ## Historie: Verbesserungen der v2 gegenüber v1
 
@@ -61,7 +85,7 @@ Diese Linie braucht **für jede Sisay-Aktivierung erneut WUBRG**; die Karten ers
 
 **Dynaheir + Annie Joins Up:** Dynaheirs Tappfähigkeit erzeugt eine *verzögert ausgelöste Fähigkeit* für die nächste ausreichend teuer bezahlte Nichtmana-Aktivierung. Annie lässt ausgelöste Fähigkeiten eigener legendärer Kreaturen ein zweites Mal auslösen. Nach Dynaheirs Vorbereitung können so **zwei Kopien zusätzlich zur ursprünglichen Sisay-Aktivierung** entstehen, insgesamt drei aufeinanderfolgende Suchen für einmal WUBRG; jede Suche überprüft ihre Manawert-Grenze bei Verrechnung separat. Das ist stark, aber ohne weitere Effekte keine Endlosschleife. Quelle zur Auslösung/Verdopplung: Wizards, *Outlaws of Thunder Junction Release Notes* (Annie Joins Up), https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes .
 
-Das erzeugt **endliche, sehr starke Tutor-Sequenzen**, aber keine eingebaute Endlosschleife. Als alternative Ziele kommen je nach Spielzustand **Loran**, **Linvala**, **Teferi**, **Ashiok**, **Jodah** und **Sigarda** infrage. Nicht blind auf den maximalen Schadensausgang spielen, wenn ein Gegner Removal oder eine Kombo offen hat.
+Das erzeugt **endliche, sehr starke Tutor-Sequenzen**, aber keine eingebaute Endlosschleife. Als alternative Ziele kommen je nach Spielzustand **Loran**, **Linvala**, **Teferi**, **Ashiok**, **Jodah**, **Sigarda** und nach erreichter Stärke die neuen Endspielkarten **Etali**, **Atraxa** und **Avacyn** infrage. Nicht blind auf den maximalen Schadensausgang spielen, wenn ein Gegner Removal oder eine Kombo offen hat.
 
 ### Eine weitere wichtige Starthand
 
@@ -92,4 +116,4 @@ Mulligan: zwei bis vier Länder mit sicherem **Grün/Weiß** und Beschleunigung 
 
 **Bewusst nicht enthalten:** Dockside Extortionist, Mana Crypt und Jeweled Lotus (Commander-Bannliste), frühe Oracle-/Consultation-Siegketten, Najeela/Derevi-Endloskampf, Rhystic Study oder weitere Game Changer. **Alternative Kandidaten** für bestimmte Metas: Drana and Linvala (kreaturenbasierte aktivierte Fähigkeiten), Boromir, Warden of the Tower (freie Zauber und Destroy-Wipes), Primevals' Glorious Rebirth (lange Graveyard-/Wipe-Partien), Mirari's Wake (mehr Mana im Lategame), Austere Command (zweiter flexibler Sweeper).
 
-**Technisch verifiziert am 14.10.2026 für v3:** 100 eindeutige Kartennamen, 100/100 Scryfall-Kartentreffer (inkl. MDFC-Frontseite), Papierverfügbarkeit, Commander-Legalität, 37 Länder und die drei Game-Changer-Flags. **Nicht verifiziert:** echte Spielpartien, Mulligan-Statistik und durchschnittliche Siegquote. Die Änderung ist ein regel- und synergiebasierter Stärkegewinn, keine gemessene Matchperformance.
+**Technisch verifiziert am 14.10.2026 für v4:** 100 eindeutige Kartennamen, 100/100 Scryfall-Kartentreffer (inkl. MDFC-Frontseite), Papierverfügbarkeit, Commander-Legalität, 37 Länder, 41 legendäre Karten (39 mögliche Sisay-Tutorziele) und drei Game-Changer-Flags. **Nicht verifiziert:** echte Spielpartien, Mulligan-Statistik und durchschnittliche Siegquote. Die Änderung ist ein regel- und synergiebasierter Stärkegewinn, keine gemessene Matchperformance.
