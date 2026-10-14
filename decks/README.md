@@ -61,6 +61,10 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 - `decks/tom-bombadil/analysis.md`: Sagen-Spielplan, Game Changer, Manabasis und Risiken.
 - Eigenständiger Commander-Ordner; nachfolgende Optimierungen ersetzen `current.txt`.
 
+## Treebeard, Eldest of Ents — Der Aufstand der Ents (Bracket 3)
+
+- `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
+- `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
 
 ## Narset, Enlightened Exile (Bracket 3)
 
