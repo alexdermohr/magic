@@ -8,23 +8,22 @@
 1 Teferi, Mage of Zhalfir
 1 Zimone, Quandrix Prodigy
 1 Samut, Voice of Dissent
-1 Rielle, the Everwise
+1 King T'Challa
 1 Subira, Tulzidi Caravanner
-1 Rashmi, Eternities Crafter
+1 Dynaheir, Invoker Adept
 1 Tymna the Weaver
 1 Black Panther, Wakandan King
 1 Storm, Force of Nature
 1 Okoye, Mighty and Adored
 1 Shuri, Wakandan Inventor
-1 Misty Knight, Hero for Hire
+1 Aminatou, Veil Piercer
 1 Miles Morales
 1 Djeru, With Eyes Open
 1 Storm, Windrider
 1 Aminatou, the Fateshifter
 1 Dihada, Binder of Wills
-1 Kaya the Inexorable
-1 Kaya, Orzhov Usurper
-1 Kaya, Ghost Assassin
+1 Kiora, Behemoth Beckoner
+1 Tyvar, Jubilant Brawler
 1 Teferi, Time Raveler
 1 Teferi, Hero of Dominaria
 1 Teferi, Who Slows the Sunset
@@ -47,11 +46,8 @@
 1 Oath of Teferi
 1 Oath of Kaya
 1 Flowering of the White Tree
-1 Bard Class
 1 Sylvan Library
 1 Mystic Remora
-1 Windfall
-1 Search for Glory
 1 Finale of Devastation
 1 Swords to Plowshares
 1 Anguished Unmaking
@@ -60,13 +56,17 @@
 1 Heroic Intervention
 1 Clever Concealment
 1 Urza's Ruinous Blast
-1 Primevals' Glorious Rebirth
+1 Swan Song
+1 Patriar's Seal
+1 Thousand-Year Elixir
+1 Toxic Deluge
+1 Leyline of the Guildpact
 1 Command Tower
 1 City of Brass
 1 Mana Confluence
 1 Exotic Orchard
 1 Reflecting Pool
-1 Forbidden Orchard
+1 Minamo, School at Water's Edge
 1 The World Tree
 1 Boseiju, Who Endures
 1 Arid Mesa
