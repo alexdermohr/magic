@@ -897,5 +897,65 @@ class DeckValidationTests(unittest.TestCase):
             validate_repository(self.root)
 
 
+    def test_ast_urls_are_not_html_entity_decoded_twice(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        cases = (
+            ("a&notit.md", "a&notit.md"),
+            ("a&amp;b.md", "a&amp;amp;b.md"),
+        )
+        for name, target in cases:
+            with self.subTest(name=name):
+                (self.root / "decks" / "sample" / name).write_text(
+                    "present\n", encoding="utf-8"
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    f"[existing](sample/{target})\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_extra_body_cells_do_not_mask_real_missing_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n"
+            "| --- | --- |\n"
+            "| " + chr(96) + " | [actual](sample/missing.md) | ignored " + chr(96) + " |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_short_body_rows_pad_missing_cells(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n"
+            "| --- | --- |\n"
+            "| [actual](sample/missing.md) |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_single_hyphen_delimiters_do_not_create_table(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n"
+            "| - | - |\n"
+            "| " + chr(96) + " | [example](sample/missing.md) close " + chr(96) + " |\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_valid_3_hyphen_table_keeps_cell_link_visible(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n"
+            "| --- | --- |\n"
+            "| " + chr(96) + " | [actual](sample/missing.md) close " + chr(96) + " |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()

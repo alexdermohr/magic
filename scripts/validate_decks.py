@@ -8,7 +8,6 @@ from collections import Counter
 from pathlib import Path
 import re
 import sys
-from html import unescape
 from urllib.parse import unquote
 
 BASICS = frozenset({
@@ -24,6 +23,80 @@ LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
 # wheel hash and license; CI never installs dependencies or fetches the network.
 _VENDOR_ROOT = Path(__file__).resolve().parent / "_vendor"
 _MARKDOWN_AST = None
+
+
+
+def gfm_table_plugin(md) -> None:
+    """Match GitHub-style table delimiters and pad/drop uneven body cells.
+
+    The pinned Mistune table plugin allows one-hyphen headers and rejects
+    uneven rows. Both differ from GitHub Flavored Markdown link rendering.
+    Keep its token shapes and safe escaped-pipe splitter without editing
+    verified upstream vendor source.
+    """
+    from mistune.plugins.table import (
+        TABLE_PATTERN, NP_TABLE_PATTERN, _parse_invalid_pipe_table,
+        _process_thead, _split_table_cells, _strip_pipe_table_row,
+        _strip_table_line,
+    )
+
+    def parse_table(block, match, state, *, piped):
+        strip = _strip_pipe_table_row if piped else _strip_table_line
+        header = strip(match.group(0))
+        if header is None:
+            return None
+        pos = match.end()
+        delimiter_line = state.get_line(pos)
+        delimiter = strip(delimiter_line)
+        if delimiter is None:
+            return None
+        # GFM requires >=3 dashes per delimiter, optional outer colons.
+        delimiter_cells = _split_table_cells(delimiter)
+        valid = delimiter_cells and all(
+            re.fullmatch(r":?-{3,}:?", cell.strip()) is not None
+            for cell in delimiter_cells
+        )
+        if not valid:
+            return (_parse_invalid_pipe_table(state, pos + len(delimiter_line))
+                    if piped else None)
+        thead, aligns = _process_thead(header, delimiter)
+        if not thead or aligns is None:
+            return (_parse_invalid_pipe_table(state, pos + len(delimiter_line))
+                    if piped else None)
+        pos += len(delimiter_line)
+        rows = []
+        while pos < state.cursor_max:
+            line = state.get_line(pos)
+            text = strip(line)
+            if text is None:
+                break
+            # GFM ignores excess cells and pads missing cells with blanks.
+            cells = (_split_table_cells(text) + [""] * len(aligns))[:len(aligns)]
+            rows.append({
+                "type": "table_row",
+                "children": [
+                    {"type": "table_cell", "text": text,
+                     "attrs": {"align": aligns[i], "head": False}}
+                    for i, text in enumerate(cells)
+                ],
+            })
+            pos += len(line)
+        state.append_token({
+            "type": "table",
+            "children": [thead, {"type": "table_body", "children": rows}],
+        })
+        return pos
+
+    md.block.register(
+        "table", TABLE_PATTERN,
+        lambda block, match, state: parse_table(block, match, state, piped=True),
+        before="paragraph",
+    )
+    md.block.register(
+        "nptable", NP_TABLE_PATTERN,
+        lambda block, match, state: parse_table(block, match, state, piped=False),
+        before="paragraph",
+    )
 
 
 def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
@@ -49,7 +122,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     from mistune.plugins.table import table_in_quote, table_in_list
 
     ast = mistune.create_markdown(
-        renderer="ast", plugins=["table", table_in_quote, table_in_list]
+        renderer="ast", plugins=[gfm_table_plugin, table_in_quote, table_in_list]
     )(source)
     found: list[tuple[bool, str]] = []
 
@@ -177,7 +250,7 @@ def validate_repository(root: Path) -> list[str]:
             if literal:
                 references.append((root, destination))
                 continue
-            decoded = unescape(destination)
+            decoded = destination  # Mistune AST URLs are already CommonMark entity-decoded.
             if (decoded.startswith(("#", "//"))
                     or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", decoded)):
                 continue
