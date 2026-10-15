@@ -40,6 +40,13 @@ Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfe
 
 - Aktuelle Liste: [decks/kinnan/current.txt](decks/kinnan/current.txt)
 
+## Chatterfang, Squirrel General — Eichhörnchen-Invasion
+
+**Bracket 3 / Upgraded:** Schwarz-grünes Eichhörnchen-Tribal mit breiter Token-Produktion, Opfermechaniken und starken, endlichen Kampf-/Drain-Finishern. Drei Game Changer: Gaea's Cradle, Natural Order, Demonic Tutor.
+
+- Aktuelle 100-Karten-Liste: [decks/chatterfang/current.txt](decks/chatterfang/current.txt)
+- Spielplan, Bracket-3-Prüfung und Risiken: [decks/chatterfang/analysis.md](decks/chatterfang/analysis.md)
+
 ## Yuriko, the Tiger's Shadow
 
 **Bracket 3 / Upgraded:** Dimir-Ninja-Tempo und Bibliothekskontrolle.
