@@ -566,6 +566,94 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
 
+    def test_indented_code_examples_and_continuations_are_not_links(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "    [example](sample/missing.md)\n"
+            "    decks/sample/missing.txt\n"
+            "\n"
+            "    [continued](sample/also-missing.md)\n"
+            "[real](sample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_indented_paragraph_continuation_is_still_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "Intro paragraph without an empty line.\n"
+            "    [actual](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_list_indentation_after_blank_remains_a_real_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "- A list item\n"
+            "\n"
+            "    [actual](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_indented_code_inside_list_is_not_a_reference(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "- A list item\n"
+            "\n"
+            "      [example](sample/missing.md)\n"
+            "      decks/sample/missing.txt\n"
+            "\n"
+            "[real](sample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_indented_code_inside_quote_is_not_a_reference(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            ">     [example](sample/missing.md)\n"
+            ">     decks/sample/missing.txt\n"
+            "\n"
+            "[real](sample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_multiline_markdown_link_title_still_checks_destination(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            '[analysis](sample/missing.md "first\nsecond")\n',
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_multiline_markdown_link_title_existing_destination_passes(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            '[analysis](sample/current.txt "first\nsecond")\n',
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_code_span_cannot_cross_setext_heading_boundary(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for underline in ("===", "---"):
+            with self.subTest(underline=underline):
+                (self.root / "decks" / "README.md").write_text(
+                    "Open ` in title\n"
+                    f"{underline}\n"
+                    "[actual](sample/missing.md)\n"
+                    "Close ` after heading\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(

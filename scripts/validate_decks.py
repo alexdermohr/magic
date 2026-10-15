@@ -41,6 +41,7 @@ def markdown_inline_block_ids(text: str) -> list[int]:
         heading_or_rule = (
             re.match(r" {0,3}#{1,6}(?:[ \t]|$)", tail) is not None
             or re.fullmatch(r" {0,3}[-*_]{3,}[ \t]*", tail) is not None
+            or re.fullmatch(r" {0,3}=+[ \t]*", tail) is not None
         )
         if not tail.strip() or heading_or_rule:
             block_id += 1
@@ -110,6 +111,10 @@ def markdown_without_code(source: str) -> str:
 
     lines: list[str] = []
     fence: tuple[str, int, int, int] | None = None
+    paragraph_open = False
+    indented_code_open = False
+    list_content_indent = 0
+    list_quote_depth = 0
     for line in source.splitlines(keepends=True):
         body = line.rstrip("\r\n")
         candidate, quote_depth, list_indent, unquoted = fence_body(body)
@@ -143,6 +148,8 @@ def markdown_without_code(source: str) -> str:
                 if re.fullmatch(closing, closing_text):
                     fence = None
                 lines.append(spaces_preserving_newlines(line))
+                paragraph_open = False
+                indented_code_open = False
                 continue
         opening = re.match(r" {0,3}(`{3,}|~{3,})(.*)$", candidate)
         if opening is not None:
@@ -150,8 +157,39 @@ def markdown_without_code(source: str) -> str:
             if delimiter[0] == "~" or "`" not in info:
                 fence = (delimiter[0], len(delimiter), quote_depth, list_indent)
                 lines.append(spaces_preserving_newlines(line))
+                paragraph_open = False
+                indented_code_open = False
                 continue
+
+        # Indented code begins only at a block boundary, never as a
+        # four-space lazy continuation of an already open paragraph.
+        indentation = len(candidate) - len(candidate.lstrip(" "))
+        if list_indent:
+            list_content_indent = list_indent
+            list_quote_depth = quote_depth
+        elif (quote_depth != list_quote_depth
+                or (candidate.strip() and indentation < list_content_indent)):
+            list_content_indent = 0
+            list_quote_depth = quote_depth
+        # List paragraphs start at the list content column; four additional
+        # spaces are needed for code. Two spaces beyond '- ' are NOT code.
+        code_column = list_content_indent + 4
+        is_indented = indentation >= code_column or (
+            list_content_indent == 0 and candidate.startswith("\t")
+        )
+        if is_indented and (indented_code_open or not paragraph_open):
+            lines.append(spaces_preserving_newlines(line))
+            indented_code_open = True
+            paragraph_open = False
+            continue
         lines.append(line)
+        if not candidate.strip() or re.match(r" {0,3}#{1,6}(?:[ \t]|$)", candidate):
+            paragraph_open = False
+        elif re.fullmatch(r" {0,3}(?:=+|[-*_]{3,})[ \t]*", candidate):
+            paragraph_open = False
+        else:
+            paragraph_open = True
+        indented_code_open = False
 
     text = "".join(lines)
     block_ids = markdown_inline_block_ids(text)
@@ -263,6 +301,7 @@ def inline_link_destinations(source: str) -> list[str]:
     inline link syntax; ignore malformed fragments and external targets.
     """
     found: list[str] = []
+    block_ids = markdown_inline_block_ids(source)
     for start in inline_link_destination_starts(source):
         index = start
         while index < len(source) and source[index] in " \t":
@@ -317,9 +356,12 @@ def inline_link_destinations(source: str) -> list[str]:
         after += 1
         title_depth = 1
         while after < len(source):
+            if block_ids[after] != block_ids[start - 1]:
+                break  # Link titles may wrap softly, never cross block boundaries.
             char = source[after]
             if char in "\r\n":
-                break
+                after += 1
+                continue
             if char == "\\" and after + 1 < len(source):
                 after += 2
                 continue
