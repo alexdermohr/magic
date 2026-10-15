@@ -17,6 +17,68 @@ BASICS = frozenset({
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
+def markdown_without_code(source: str) -> str:
+    """Mask fenced blocks and matched inline code, preserving line boundaries."""
+    def spaces_preserving_newlines(value: str) -> str:
+        return re.sub(r"[^\r\n]", " ", value)
+
+    lines: list[str] = []
+    fence: tuple[str, int] | None = None
+    for line in source.splitlines(keepends=True):
+        body = line.rstrip("\r\n")
+        if fence is not None:
+            marker, minimum = fence
+            closing = (
+                r" {0,3}" + re.escape(marker) + "{" + str(minimum) + r",}[ \t]*"
+            )
+            if re.fullmatch(closing, body):
+                fence = None
+            lines.append(spaces_preserving_newlines(line))
+            continue
+        opening = re.match(r" {0,3}(`{3,}|~{3,})(.*)$", body)
+        if opening is not None:
+            delimiter, info = opening.groups()
+            if delimiter[0] == "~" or "`" not in info:
+                fence = (delimiter[0], len(delimiter))
+                lines.append(spaces_preserving_newlines(line))
+                continue
+        lines.append(line)
+
+    text = "".join(lines)
+    runs = list(re.finditer(r"`+", text))
+    next_end_by_size: dict[int, int] = {}
+    paired_end: dict[int, int] = {}
+
+    def escaped(index: int) -> bool:
+        backslashes = 0
+        while index > 0 and text[index - 1] == "\\":
+            backslashes += 1
+            index -= 1
+        return backslashes % 2 == 1
+
+    for run in reversed(runs):
+        if escaped(run.start()):
+            continue
+        size = run.end() - run.start()
+        if size in next_end_by_size:
+            paired_end[run.start()] = next_end_by_size[size]
+        next_end_by_size[size] = run.end()
+
+    result = list(text)
+    masked_until = 0
+    for run in runs:
+        if run.start() < masked_until:
+            continue
+        end = paired_end.get(run.start())
+        if end is None:
+            continue  # Unclosed code delimiter is ordinary text.
+        for pos in range(run.start(), end):
+            if result[pos] not in "\r\n":
+                result[pos] = " "
+        masked_until = end
+    return "".join(result)
+
+
 # Balanced label brackets must be parsed rather than stopped at the inner ']'.
 def inline_link_destination_starts(source: str) -> list[int]:
     """Find inline Markdown destination openings with balanced link labels."""
@@ -218,7 +280,7 @@ def validate_repository(root: Path) -> list[str]:
     for index in (root / "README.md", root / "decks" / "README.md"):
         if index.is_symlink() or not index.is_file():
             raise DeckValidationError(f"{index}: missing regular Markdown index")
-        content = index.read_text(encoding="utf-8")
+        content = markdown_without_code(index.read_text(encoding="utf-8"))
         # Historical literal paths are rooted at the repository, while Markdown
         # links are relative to the index that actually contains each link.
         references = [(root, ref) for ref in literal_deck_references(content)]
