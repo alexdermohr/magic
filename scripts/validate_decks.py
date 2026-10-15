@@ -27,6 +27,8 @@ def markdown_inline_block_ids(text: str) -> list[int]:
     container = "plain"
     quote_depth = 0
     list_column = 0
+    previous_paragraph = False
+    table_active = False
     for line in text.splitlines(keepends=True):
         body = line.rstrip("\r\n")
         tail = body
@@ -38,8 +40,16 @@ def markdown_inline_block_ids(text: str) -> list[int]:
             tail = tail[quote.end():]
             depth += 1
 
+        list_atx_heading = re.match(
+            r" {0,3}(?:[-+*]|[0-9]+[.)])[ \t]+#{1,6}(?:[ \t]|$)", tail
+        ) is not None
+        short_setext = previous_paragraph and re.fullmatch(
+            r" {0,3}-{1,2}[ \t]*", tail
+        ) is not None
         heading_or_rule = (
             re.match(r" {0,3}#{1,6}(?:[ \t]|$)", tail) is not None
+            or list_atx_heading
+            or short_setext
             or re.fullmatch(r" {0,3}[-*_]{3,}[ \t]*", tail) is not None
             or re.fullmatch(r" {0,3}=+[ \t]*", tail) is not None
         )
@@ -50,6 +60,8 @@ def markdown_inline_block_ids(text: str) -> list[int]:
             container = "plain"
             quote_depth = 0
             list_column = 0
+            previous_paragraph = False
+            table_active = False
             continue
 
         item = re.match(r" {0,3}(?:[-+*]|[0-9]+[.)])[ \t]+", tail)
@@ -76,7 +88,31 @@ def markdown_inline_block_ids(text: str) -> list[int]:
             pass
         else:
             container = "plain"
-        block_ids.extend([block_id] * len(line))
+        # GFM code spans cannot pair backticks across distinct table cells.
+        # Detect an actual separator row before treating pipe characters as
+        # cell boundaries; ordinary paragraphs may contain literal pipes.
+        separator = re.fullmatch(
+            r" {0,3}\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?[ \t]*",
+            body,
+        ) is not None
+        if separator:
+            table_active = True
+        elif table_active and "|" not in body:
+            table_active = False
+        if table_active and "|" in body:
+            for offset, character in enumerate(line):
+                block_ids.append(block_id)
+                if character == "|" and (
+                    offset == 0 or line[offset - 1] != "\\"
+                ):
+                    block_id += 1
+            previous_paragraph = False
+        else:
+            block_ids.extend([block_id] * len(line))
+            previous_paragraph = (
+                item is None and not depth and bool(tail.strip())
+                and not heading_or_rule and not table_active
+            )
     return block_ids
 
 
@@ -115,6 +151,7 @@ def markdown_without_code(source: str) -> str:
     indented_code_open = False
     list_content_indent = 0
     list_quote_depth = 0
+    raw_html_tag: str | None = None
     for line in source.splitlines(keepends=True):
         body = line.rstrip("\r\n")
         candidate, quote_depth, list_indent, unquoted = fence_body(body)
@@ -151,6 +188,15 @@ def markdown_without_code(source: str) -> str:
                 paragraph_open = False
                 indented_code_open = False
                 continue
+        # CommonMark raw HTML blocks display Markdown examples literally.
+        # Preserve line offsets while masking only the supported raw tags.
+        if raw_html_tag is not None:
+            lines.append(spaces_preserving_newlines(line))
+            if re.search(r"</\s*" + raw_html_tag + r"\s*>", body, re.I):
+                raw_html_tag = None
+            paragraph_open = False
+            indented_code_open = False
+            continue
         opening = re.match(r" {0,3}(`{3,}|~{3,})(.*)$", candidate)
         if opening is not None:
             delimiter, info = opening.groups()
@@ -160,6 +206,20 @@ def markdown_without_code(source: str) -> str:
                 paragraph_open = False
                 indented_code_open = False
                 continue
+
+        raw_open = re.match(
+            r" {0,3}<(pre|script|style|textarea)(?:[ \t/>]|$)",
+            candidate,
+            re.I,
+        )
+        if raw_open is not None:
+            tag = raw_open.group(1)
+            if re.search(r"</\s*" + tag + r"\s*>", candidate, re.I) is None:
+                raw_html_tag = tag
+            lines.append(spaces_preserving_newlines(line))
+            paragraph_open = False
+            indented_code_open = False
+            continue
 
         # Indented code begins only at a block boundary, never as a
         # four-space lazy continuation of an already open paragraph.
@@ -185,7 +245,7 @@ def markdown_without_code(source: str) -> str:
         lines.append(line)
         if not candidate.strip() or re.match(r" {0,3}#{1,6}(?:[ \t]|$)", candidate):
             paragraph_open = False
-        elif re.fullmatch(r" {0,3}(?:=+|[-*_]{3,})[ \t]*", candidate):
+        elif re.fullmatch(r" {0,3}(?:=+|-+|[*_]{3,})[ \t]*", candidate):
             paragraph_open = False
         else:
             paragraph_open = True
@@ -226,13 +286,35 @@ def markdown_without_code(source: str) -> str:
                 result[pos] = " "
         masked_until = end
     masked = "".join(result)
-    # HTML comments are not rendered Markdown references. Mask them only
-    # after code spans, so a literal `<!--` inside code cannot hide links.
-    return re.sub(
-        r"<!--[\s\S]*?(?:-->|\Z)",
-        lambda match: spaces_preserving_newlines(match.group()),
-        masked,
-    )
+    # Mask complete comments (including multiline ones). A nonterminated
+    # block comment remains a block to EOF, but a nonterminated inline
+    # comment must not suppress subsequent independent Markdown lines.
+    result = list(masked)
+    cursor = 0
+    while True:
+        opening = masked.find("<!--", cursor)
+        if opening < 0:
+            break
+        closing = masked.find("-->", opening + 4)
+        line_start = max(
+            masked.rfind("\n", 0, opening), masked.rfind("\r", 0, opening)
+        ) + 1
+        block_comment = not masked[line_start:opening].strip()
+        if closing >= 0:
+            end = closing + 3
+        elif block_comment:
+            end = len(masked)
+        else:
+            line_endings = [
+                pos for token in ("\n", "\r")
+                if (pos := masked.find(token, opening)) >= 0
+            ]
+            end = min(line_endings) if line_endings else len(masked)
+        for pos in range(opening, end):
+            if masked[pos] not in "\r\n":
+                result[pos] = " "
+        cursor = max(end, opening + 4)
+    return "".join(result)
 
 
 # Balanced label brackets must be parsed rather than stopped at the inner ']'.
@@ -315,6 +397,7 @@ def inline_link_destinations(source: str) -> list[str]:
         while index < len(source):
             char = source[index]
             if char in "\r\n":
+                closed = True  # Destination followed by a soft line break.
                 break
             if char == "\\" and index + 1 < len(source):
                 pieces.append(source[index + 1])
@@ -344,7 +427,9 @@ def inline_link_destinations(source: str) -> list[str]:
         # A destination is followed by ')' or an optional quoted/parenthesized
         # Markdown title. Reject an unterminated title or unrelated suffix.
         after = index
-        while after < len(source) and source[after] in " \t":
+        while (after < len(source)
+               and source[after] in " \t\r\n"
+               and block_ids[after] == block_ids[start - 1]):
             after += 1
         if after < len(source) and source[after] == ")":
             found.append("".join(pieces))

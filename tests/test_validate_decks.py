@@ -287,7 +287,7 @@ class DeckValidationTests(unittest.TestCase):
     def test_escaped_backticks_do_not_mask_real_links(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "decks" / "README.md").write_text(
-            "\\`escaped [actual](sample/missing.md)\\`\n",
+            "\`escaped [actual](sample/missing.md)\`\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
@@ -307,7 +307,7 @@ class DeckValidationTests(unittest.TestCase):
     def test_code_span_ending_with_backslash_keeps_real_link_visible(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "decks" / "README.md").write_text(
-            "`C:\\` then [actual](sample/missing.md) then `x`\n",
+            "`C:\` then [actual](sample/missing.md) then `x`\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
@@ -643,6 +643,102 @@ class DeckValidationTests(unittest.TestCase):
     def test_code_span_cannot_cross_setext_heading_boundary(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for underline in ("===", "---"):
+            with self.subTest(underline=underline):
+                (self.root / "decks" / "README.md").write_text(
+                    "Open ` in title\n"
+                    f"{underline}\n"
+                    "[actual](sample/missing.md)\n"
+                    "Close ` after heading\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_atx_heading_inside_list_breaks_cross_heading_codespan(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "- # Open ` in heading\n"
+            "  [actual](sample/missing.md) close ` here\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_inline_link_title_can_start_after_soft_line_break(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            '[analysis](sample/missing.md\n "details")\n',
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_multiline_separated_title_existing_target(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            '[analysis](sample/current.txt\n "details")\n',
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_unmatched_table_cell_code_does_not_hide_real_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| First | Second |\n"
+            "| --- | --- |\n"
+            "| Open ` | ordinary |\n"
+            "| [actual](sample/missing.md) | Close ` |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_raw_html_pre_block_examples_are_not_live_links(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<pre>\n"
+            "[example](sample/missing.md)\n"
+            "decks/sample/missing.txt\n"
+            "</pre>\n"
+            "[real](sample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_raw_html_block_does_not_hide_later_missing_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<pre>\n"
+            "[example](sample/ignored.md)\n"
+            "</pre>\n"
+            "[actual](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_unclosed_inline_html_comment_does_not_hide_later_real_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "See also <!-- TODO\n"
+            "[actual](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_unclosed_block_html_comment_hides_remaining_examples(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<!-- pending draft\n"
+            "[example](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_short_setext_h2_underline_ends_code_span(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for underline in ("-", "--"):
             with self.subTest(underline=underline):
                 (self.root / "decks" / "README.md").write_text(
                     "Open ` in title\n"
