@@ -106,3 +106,11 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+
+## Sisay, Weatherlight Captain — Five-Color Legendary Toolbox
+
+**Bracket 3 / Upgraded:** Legendäre Suchleiter, fünffarbiges Mana und Kampfabschluss mit Jodah und Aurelia. 100 Karten mit 37 Ländern und exakt drei Game Changern.
+
+- Aktuelle Liste: [decks/sisay/current.txt](decks/sisay/current.txt)
+- Spielplan und Kartenanalyse: [decks/sisay/analysis.md](decks/sisay/analysis.md)
