@@ -45,8 +45,28 @@ def markdown_without_code(source: str) -> str:
         lines.append(line)
 
     text = "".join(lines)
+    # Inline parsing cannot cross blank paragraphs or new Markdown blocks.
+    # Masked code fences become blank lines and also break the pairing scope.
+    block_ids: list[int] = []
+    block_id = 0
+    for line in text.splitlines(keepends=True):
+        body = line.rstrip("\r\n")
+        boundary = (
+            not body.strip()
+            or re.match(
+                r" {0,3}(?:#{1,6}(?:[ \t]|$)|>|[-+*][ \t]+|[0-9]+[.)][ \t]+)",
+                body,
+            ) is not None
+            or re.fullmatch(r" {0,3}[-*_]{3,}[ \t]*", body) is not None
+        )
+        if boundary:
+            block_id += 1
+        block_ids.extend([block_id] * len(line))
+        if boundary:
+            block_id += 1
+
     runs = list(re.finditer(r"`+", text))
-    next_end_by_size: dict[int, int] = {}
+    next_end_by_size: dict[tuple[int, int], int] = {}
     paired_end: dict[int, int] = {}
 
     def escaped(index: int) -> bool:
@@ -57,17 +77,17 @@ def markdown_without_code(source: str) -> str:
         return backslashes % 2 == 1
 
     for run in reversed(runs):
-        if escaped(run.start()):
-            continue
-        size = run.end() - run.start()
-        if size in next_end_by_size:
-            paired_end[run.start()] = next_end_by_size[size]
-        next_end_by_size[size] = run.end()
+        # A backslash before a closing delimiter is literal inside code.
+        # Only potential openers are rejected as escaped below.
+        key = (block_ids[run.start()], run.end() - run.start())
+        if key in next_end_by_size:
+            paired_end[run.start()] = next_end_by_size[key]
+        next_end_by_size[key] = run.end()
 
     result = list(text)
     masked_until = 0
     for run in runs:
-        if run.start() < masked_until:
+        if run.start() < masked_until or escaped(run.start()):
             continue
         end = paired_end.get(run.start())
         if end is None:
