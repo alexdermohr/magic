@@ -1,8 +1,8 @@
-1 Doran, the Siege Tower
+1 Doran, Besieged by Time
 1 Treefolk Harbinger
 1 Bosk Banneret
 1 Six
-1 Doran, Besieged by Time
+1 Doran, the Siege Tower
 1 Treebeard, Gracious Host
 1 Fangorn, Tree Shepherd
 1 Quickbeam, Upstart Ent
@@ -54,7 +54,7 @@
 1 Tower Defense
 1 Assault Formation
 1 Natural Order
-1 Behind the Scenes
+1 Garruk's Uprising
 1 Cover of Darkness
 1 Wild Growth
 1 Utopia Sprawl
