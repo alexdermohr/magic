@@ -957,5 +957,68 @@ class DeckValidationTests(unittest.TestCase):
             validate_repository(self.root)
 
 
+
+    def test_gfm_table_mixed_outer_pipes_cannot_hide_missing_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        samples = (
+            "| A | B |\n--- | ---\n",
+            "| A | B |\n| --- | ---\n",
+            "A | B\n| --- | --- |\n",
+            "| A | B |\n--- | --- |\n",
+        )
+        for header in samples:
+            with self.subTest(header=header):
+                (self.root / "decks" / "README.md").write_text(
+                    header + chr(96) + " | [actual](sample/missing.md) close " + chr(96) + "\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_mixed_outer_pipes_inside_blockquote(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "> | A | B |\n"
+            "> --- | ---\n"
+            "> " + chr(96) + " | [actual](sample/missing.md) close " + chr(96) + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_adjacent_raw_uri_and_literal_deck_path_are_distinct(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for separator in (",", ";"):
+            with self.subTest(separator=separator):
+                (self.root / "decks" / "README.md").write_text(
+                    "https://example.test/decks/guide.md"
+                    + separator + "decks/sample/missing.md\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_raw_uri_path_is_still_excluded_from_local_targets(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "https://example.test/decks/remote.md "
+            "[local](sample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+
+    def test_gfm_mixed_outer_pipes_inside_list(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "- | A | B |\n"
+            "  --- | ---\n"
+            "  " + chr(96) + " | [actual](sample/missing.md) close " + chr(96) + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -36,18 +36,32 @@ def gfm_table_plugin(md) -> None:
     """
     from mistune.plugins.table import (
         TABLE_PATTERN, NP_TABLE_PATTERN, _parse_invalid_pipe_table,
-        _process_thead, _split_table_cells, _strip_pipe_table_row,
-        _strip_table_line,
+        _is_escaped_pipe, _process_thead, _split_table_cells,
     )
 
+    def strip_gfm_table_row(line):
+        """Normalize optional edge pipes on *each* GFM row independently.
+
+        Mistune's stock pipe/non-pipe helpers tie body/delimiter syntax
+        to the header form, although GFM allows each row to differ.
+        Preserve escaped final pipes as cell content.
+        """
+        text = line.rstrip("\r\n").rstrip(" \t").lstrip(" ")
+        if not text or "|" not in text:
+            return None
+        if text.startswith("|"):
+            text = text[1:]
+        if text.endswith("|") and not _is_escaped_pipe(text, len(text) - 1):
+            text = text[:-1]
+        return text
+
     def parse_table(block, match, state, *, piped):
-        strip = _strip_pipe_table_row if piped else _strip_table_line
-        header = strip(match.group(0))
+        header = strip_gfm_table_row(match.group(0))
         if header is None:
             return None
         pos = match.end()
         delimiter_line = state.get_line(pos)
-        delimiter = strip(delimiter_line)
+        delimiter = strip_gfm_table_row(delimiter_line)
         if delimiter is None:
             return None
         # GFM requires >=3 dashes per delimiter, optional outer colons.
@@ -67,7 +81,7 @@ def gfm_table_plugin(md) -> None:
         rows = []
         while pos < state.cursor_max:
             line = state.get_line(pos)
-            text = strip(line)
+            text = strip_gfm_table_row(line)
             if text is None:
                 break
             # GFM ignores excess cells and pads missing cells with blanks.
@@ -163,7 +177,12 @@ def literal_deck_references(content: str) -> list[str]:
             for sep in (9, 10, 13, 32)
         ) + 1
         prefix = content[token_start:match.start()].rsplit("](", 1)[-1]
-        if not URI_AUTHORITY.search(prefix):
+        # A raw external URL can precede a separate literal deck path in the
+        # same Markdown text token: .../guide.md,decks/sample/missing.md.
+        # Keep suppressing URL-internal paths, but not the path after the
+        # punctuation boundary of a completed .md/.txt reference.
+        external_span = re.split(r"\.(?:md|txt)[,;]", prefix)[-1]
+        if not URI_AUTHORITY.search(external_span):
             references.append(match.group())
     return references
 
