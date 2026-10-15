@@ -986,7 +986,8 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
 
-    def test_adjacent_raw_uri_and_literal_deck_path_are_distinct(self) -> None:
+    def test_gfm_autolink_interior_punctuation_is_not_local(self) -> None:
+        """GFM allows commas and semicolons inside an unspaced external URL."""
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for separator in (",", ";"):
             with self.subTest(separator=separator):
@@ -995,8 +996,48 @@ class DeckValidationTests(unittest.TestCase):
                     + separator + "decks/sample/missing.md\n",
                     encoding="utf-8",
                 )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_local_path_after_whitespace_separated_url_is_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for separator in (",", ";"):
+            with self.subTest(separator=separator):
+                (self.root / "decks" / "README.md").write_text(
+                    "https://example.test/decks/guide.md"
+                    + separator + " decks/sample/missing.md\n",
+                    encoding="utf-8",
+                )
                 with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
                     validate_repository(self.root)
+
+    def test_gfm_fenced_code_interrupts_mixed_piped_table(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for fence in (chr(96) * 3 + "md | example", "~~~md | example"):
+            with self.subTest(fence=fence):
+                closer = chr(96) * 3 if fence.startswith(chr(96)) else "~~~"
+                (self.root / "decks" / "README.md").write_text(
+                    "| A | B |\n"
+                    "--- | ---\n"
+                    + fence + "\n"
+                    "[example](sample/missing.md)\n"
+                    + closer + "\n",
+                    encoding="utf-8",
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_real_link_after_table_fenced_code_is_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n"
+            "--- | ---\n"
+            + chr(96) * 3 + "md | example\n"
+            "[example](sample/ignored.md)\n"
+            + chr(96) * 3 + "\n"
+            "[actual](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
 
     def test_raw_uri_path_is_still_excluded_from_local_targets(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")

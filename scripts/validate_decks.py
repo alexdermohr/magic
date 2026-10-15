@@ -81,6 +81,14 @@ def gfm_table_plugin(md) -> None:
         rows = []
         while pos < state.cursor_max:
             line = state.get_line(pos)
+            # A GFM table ends when a new block starts. The presence of a
+            # pipe in a fenced-code info string must not swallow the fence:
+            # doing so exposes the following code example as a live link.
+            if any(re.match(block.SPECIFICATION[kind], line) for kind in (
+                "fenced_code", "atx_heading", "thematic_break",
+                "block_quote", "list", "raw_html", "ref_link",
+            )):
+                break
             text = strip_gfm_table_row(line)
             if text is None:
                 break
@@ -134,9 +142,13 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         raise DeckValidationError("offline Markdown parser has an unexpected identity")
 
     from mistune.plugins.table import table_in_quote, table_in_list
+    from mistune.plugins.url import url
 
+    # Raw extended autolinks belong to GFM's URI span, including interior
+    # commas/semicolons. Do not reinterpret a URL suffix as a local file.
     ast = mistune.create_markdown(
-        renderer="ast", plugins=[gfm_table_plugin, table_in_quote, table_in_list]
+        renderer="ast",
+        plugins=[gfm_table_plugin, table_in_quote, table_in_list, url],
     )(source)
     found: list[tuple[bool, str]] = []
 
@@ -177,12 +189,10 @@ def literal_deck_references(content: str) -> list[str]:
             for sep in (9, 10, 13, 32)
         ) + 1
         prefix = content[token_start:match.start()].rsplit("](", 1)[-1]
-        # A raw external URL can precede a separate literal deck path in the
-        # same Markdown text token: .../guide.md,decks/sample/missing.md.
-        # Keep suppressing URL-internal paths, but not the path after the
-        # punctuation boundary of a completed .md/.txt reference.
-        external_span = re.split(r"\.(?:md|txt)[,;]", prefix)[-1]
-        if not URI_AUTHORITY.search(external_span):
+        # A bare URL's interior punctuation is part of the autolink;
+        # only a true whitespace/punctuation-separated local text token
+        # is a repository-root mention. URL children remain exempt.
+        if not URI_AUTHORITY.search(prefix):
             references.append(match.group())
     return references
 
