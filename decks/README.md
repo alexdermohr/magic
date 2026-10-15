@@ -65,3 +65,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Sisay, Weatherlight Captain — Dunkelhäutige Legenden (Bracket 3)
+
+- `decks/sisay-weatherlight-captain/current.txt`: 100-Karten-Liste mit ausschließlich dunkelhäutigen Personen als Kreaturenkarten (22 einschließlich Commander).
+- `decks/sisay-weatherlight-captain/analysis.md`: konkrete Bildkriterien, Legendary-/Planeswalker-Strategie, drei Game Changer und Risiken.
+- Eigenständiges Themendeck; spätere Optimierungen ersetzen `current.txt`.
