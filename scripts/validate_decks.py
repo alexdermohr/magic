@@ -21,24 +21,61 @@ LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
 
 
 def markdown_inline_block_ids(text: str) -> list[int]:
-    """Bound inline constructs to paragraphs and explicit block boundaries."""
+    """Keep inline parsing within paragraph and GitHub Markdown containers."""
     block_ids: list[int] = []
     block_id = 0
+    container = "plain"
+    quote_depth = 0
+    list_column = 0
     for line in text.splitlines(keepends=True):
         body = line.rstrip("\r\n")
-        boundary = (
-            not body.strip()
-            or re.match(
-                r" {0,3}(?:#{1,6}(?:[ \t]|$)|>|[-+*][ \t]+|[0-9]+[.)][ \t]+)",
-                body,
-            ) is not None
-            or re.fullmatch(r" {0,3}[-*_]{3,}[ \t]*", body) is not None
+        tail = body
+        depth = 0
+        for _ in range(16):
+            quote = re.match(r" {0,3}>[ \t]?", tail)
+            if quote is None:
+                break
+            tail = tail[quote.end():]
+            depth += 1
+
+        heading_or_rule = (
+            re.match(r" {0,3}#{1,6}(?:[ \t]|$)", tail) is not None
+            or re.fullmatch(r" {0,3}[-*_]{3,}[ \t]*", tail) is not None
         )
-        if boundary:
+        if not tail.strip() or heading_or_rule:
             block_id += 1
+            block_ids.extend([block_id] * len(line))
+            block_id += 1
+            container = "plain"
+            quote_depth = 0
+            list_column = 0
+            continue
+
+        item = re.match(r" {0,3}(?:[-+*]|[0-9]+[.)])[ \t]+", tail)
+        indentation = len(tail) - len(tail.lstrip(" "))
+        if item is not None:
+            block_id += 1
+            container = "list"
+            quote_depth = depth
+            list_column = item.end()
+        elif depth:
+            if container == "quote" and quote_depth == depth:
+                pass
+            elif container == "list" and quote_depth == depth:
+                # Indented or lazy paragraph continuation of one list item.
+                pass
+            else:
+                block_id += 1
+                container = "quote"
+                quote_depth = depth
+                list_column = 0
+        elif container in {"list", "quote"}:
+            # Without a blank or a new structural block, this may be a
+            # CommonMark lazy paragraph continuation.
+            pass
+        else:
+            container = "plain"
         block_ids.extend([block_id] * len(line))
-        if boundary:
-            block_id += 1
     return block_ids
 
 
@@ -89,10 +126,21 @@ def markdown_without_code(source: str) -> str:
             if outside_container:
                 fence = None
             else:
+                # Strip only the quote markers of the opening container.
+                # A nested quote/list marker inside a root fence is code,
+                # never an alternate closing delimiter.
+                closing_text = body
+                for _ in range(opening_quotes):
+                    quote = re.match(r" {0,3}>[ \t]?", closing_text)
+                    if quote is None:
+                        closing_text = ""
+                        break
+                    closing_text = closing_text[quote.end():]
                 closing = (
-                    r" {0,3}" + re.escape(marker) + "{" + str(minimum) + r",}[ \t]*"
+                    r" {0," + str(max(3, opening_indent)) + r"}"
+                    + re.escape(marker) + "{" + str(minimum) + r",}[ \t]*"
                 )
-                if re.fullmatch(closing, candidate):
+                if re.fullmatch(closing, closing_text):
                     fence = None
                 lines.append(spaces_preserving_newlines(line))
                 continue
@@ -139,7 +187,14 @@ def markdown_without_code(source: str) -> str:
             if result[pos] not in "\r\n":
                 result[pos] = " "
         masked_until = end
-    return "".join(result)
+    masked = "".join(result)
+    # HTML comments are not rendered Markdown references. Mask them only
+    # after code spans, so a literal `<!--` inside code cannot hide links.
+    return re.sub(
+        r"<!--[\s\S]*?(?:-->|\Z)",
+        lambda match: spaces_preserving_newlines(match.group()),
+        masked,
+    )
 
 
 # Balanced label brackets must be parsed rather than stopped at the inner ']'.
@@ -363,11 +418,14 @@ def validate_repository(root: Path) -> list[str]:
         # links are relative to the index that actually contains each link.
         references = [(root, ref) for ref in literal_deck_references(content)]
         for destination in inline_link_destinations(content):
-            if (destination.startswith(("#", "//"))
-                    or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)):
+            decoded = unescape(destination)
+            if (decoded.startswith(("#", "//"))
+                    or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", decoded)):
                 continue  # anchors and external URLs do not denote repo files
-            local_path = unquote(unescape(destination).split("#", 1)[0].split("?", 1)[0])
-            if local_path:
+            local_path = unquote(decoded.split("#", 1)[0].split("?", 1)[0])
+            if local_path.startswith("/"):
+                references.append((root, local_path.lstrip("/")))
+            elif local_path:
                 references.append((index.parent, local_path))
         for base, reference in references:
             target = base / reference
