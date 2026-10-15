@@ -780,6 +780,29 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
 
+    def test_even_backslash_run_keeps_table_pipe_as_cell_boundary(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for count in (2, 4):
+            with self.subTest(backslashes=count):
+                (self.root / "decks" / "README.md").write_text(
+                    f"| Open ` {chr(92) * count}| [actual](sample/missing.md) close ` |\n"
+                    "| --- | --- |\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_odd_backslash_run_escapes_table_cell_pipe(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for count in (1, 3):
+            with self.subTest(backslashes=count):
+                (self.root / "decks" / "README.md").write_text(
+                    f"| Open ` {chr(92) * count}| [actual](sample/missing.md) close ` | end |\n"
+                    "| --- | --- |\n",
+                    encoding="utf-8",
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_inline_link_destination_starts_after_soft_line_break(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "decks" / "README.md").write_text(

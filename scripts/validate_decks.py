@@ -119,12 +119,14 @@ def markdown_inline_block_ids(text: str) -> list[int]:
         elif table_active and "|" not in tail:
             table_active = False
         if table_active and "|" in body:
-            for offset, character in enumerate(line):
+            preceding_backslashes = 0
+            for character in line:
                 block_ids.append(block_id)
-                if character == "|" and (
-                    offset == 0 or line[offset - 1] != "\\"
-                ):
+                if character == "|" and preceding_backslashes % 2 == 0:
                     block_id += 1
+                preceding_backslashes = (
+                    preceding_backslashes + 1 if character == "\\" else 0
+                )
             previous_paragraph = False
         else:
             block_ids.extend([block_id] * len(line))
