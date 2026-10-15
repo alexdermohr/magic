@@ -820,6 +820,74 @@ class DeckValidationTests(unittest.TestCase):
         )
         self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_quoted_soft_wrapped_link_destination_is_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "> [analysis](\n> sample/missing.md)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_title_followed_by_soft_break_before_final_paren_is_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            '[analysis](sample/missing.md "details"\n)\n', encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_missing_reference_style_destination_is_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[analysis][ref]\n\n[ref]: sample/missing.md\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_existing_reference_style_destination_is_accepted(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[analysis][ref]\n\n[ref]: sample/current.txt\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_html_block_literal_links_are_not_rendered(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for tag in ("div", "table", "details"):
+            with self.subTest(tag=tag):
+                (self.root / "decks" / "README.md").write_text(
+                    f"<{tag}>\n[example](sample/missing.md)\n</{tag}>\n\n"
+                    "[actual](sample/current.txt)\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_real_link_after_html_block_is_still_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<div>\n[example](sample/ignored.md)\n</div>\n\n"
+            "[actual](sample/missing.md)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_comment_backtick_cannot_hide_later_real_link(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<!-- " + chr(96) + " -->\n[actual](sample/missing.md) " + chr(96) + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_spaced_underscore_thematic_break_ends_code_span(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "Open " + chr(96) + "\n_ _ _\n[actual](sample/missing.md) close " + chr(96) + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(
