@@ -8,6 +8,7 @@ from collections import Counter
 from pathlib import Path
 import re
 import sys
+from html import unescape
 from urllib.parse import unquote
 
 BASICS = frozenset({
@@ -46,37 +47,60 @@ def markdown_without_code(source: str) -> str:
     def spaces_preserving_newlines(value: str) -> str:
         return re.sub(r"[^\r\n]", " ", value)
 
-    def fence_body(body: str) -> str:
-        """Recognize code fences inside bounded Markdown quote/list containers."""
+    def fence_body(body: str) -> tuple[str, int, int, str]:
+        """Recognize code fences and their quote/list container boundaries."""
         candidate = body
+        quote_depth = 0
+        list_indent = 0
         for _ in range(16):
             quote = re.match(r" {0,3}>[ \t]?", candidate)
             item = re.match(r" {0,3}(?:[-+*]|[0-9]+[.)])[ \t]+", candidate)
-            prefix = quote if quote is not None else item
-            if prefix is None:
+            if quote is not None:
+                quote_depth += 1
+                candidate = candidate[quote.end():]
+            elif item is not None:
+                list_indent = max(list_indent, item.end())
+                candidate = candidate[item.end():]
+            else:
                 break
-            candidate = candidate[prefix.end():]
-        return candidate
+        unquoted = body
+        for _ in range(quote_depth):
+            quote = re.match(r" {0,3}>[ \t]?", unquoted)
+            if quote is None:
+                break
+            unquoted = unquoted[quote.end():]
+        return candidate, quote_depth, list_indent, unquoted
 
     lines: list[str] = []
-    fence: tuple[str, int] | None = None
+    fence: tuple[str, int, int, int] | None = None
     for line in source.splitlines(keepends=True):
         body = line.rstrip("\r\n")
-        candidate = fence_body(body)
+        candidate, quote_depth, list_indent, unquoted = fence_body(body)
         if fence is not None:
-            marker, minimum = fence
-            closing = (
-                r" {0,3}" + re.escape(marker) + "{" + str(minimum) + r",}[ \t]*"
+            marker, minimum, opening_quotes, opening_indent = fence
+            current_indent = len(unquoted) - len(unquoted.lstrip(" "))
+            outside_container = (
+                bool(unquoted.strip())
+                and (
+                    (opening_quotes > 0 and quote_depth < opening_quotes)
+                    or (opening_indent > 0 and current_indent < opening_indent)
+                )
             )
-            if re.fullmatch(closing, candidate):
+            if outside_container:
                 fence = None
-            lines.append(spaces_preserving_newlines(line))
-            continue
+            else:
+                closing = (
+                    r" {0,3}" + re.escape(marker) + "{" + str(minimum) + r",}[ \t]*"
+                )
+                if re.fullmatch(closing, candidate):
+                    fence = None
+                lines.append(spaces_preserving_newlines(line))
+                continue
         opening = re.match(r" {0,3}(`{3,}|~{3,})(.*)$", candidate)
         if opening is not None:
             delimiter, info = opening.groups()
             if delimiter[0] == "~" or "`" not in info:
-                fence = (delimiter[0], len(delimiter))
+                fence = (delimiter[0], len(delimiter), quote_depth, list_indent)
                 lines.append(spaces_preserving_newlines(line))
                 continue
         lines.append(line)
@@ -141,8 +165,7 @@ def inline_link_destination_starts(source: str) -> list[int]:
         elif char == "]" and stack:
             opening = stack.pop()
             if (
-                index > opening + 1
-                and index + 1 < len(source)
+                index + 1 < len(source)
                 and source[index + 1] == "("
             ):
                 starts.append(index + 2)
@@ -160,6 +183,12 @@ def literal_deck_references(content: str) -> list[str]:
     """Find legacy deck paths but never suffixes of external URI tokens."""
     references: list[str] = []
     for match in LINK.finditer(content):
+        # Nested paths are not implicit repository-root paths.
+        if match.start() and (
+            content[match.start() - 1].isalnum()
+            or content[match.start() - 1] in "_/.-"
+        ):
+            continue
         token_start = max(
             content.rfind(chr(sep), 0, match.start())
             for sep in (9, 10, 13, 32)
@@ -280,10 +309,15 @@ def validate_list(path: Path) -> str:
             raise DeckValidationError(f"{path}:{line_number}: quantity exceeds 100")
         cards.append((quantity, name))
 
-    if headers and headers != [("Commander", 0), ("Deck", 1)]:
+    if headers and headers not in (
+        [("Commander", 0), ("Deck", 1)],
+        [("Commander", 0), ("Deck", 2)],
+    ):
         raise DeckValidationError(f"{path}: section headers must be Commander then Deck")
     if not cards or cards[0][0] != 1:
         raise DeckValidationError(f"{path}: exactly one first-card commander required")
+    if headers and headers[1][1] == 2 and cards[1][0] != 1:
+        raise DeckValidationError(f"{path}: second commander must have exactly one copy")
     total = sum(quantity for quantity, _ in cards)
     if total != 100:
         raise DeckValidationError(f"{path}: expected 100 cards, found {total}")
@@ -332,7 +366,7 @@ def validate_repository(root: Path) -> list[str]:
             if (destination.startswith(("#", "//"))
                     or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)):
                 continue  # anchors and external URLs do not denote repo files
-            local_path = unquote(destination.split("#", 1)[0].split("?", 1)[0])
+            local_path = unquote(unescape(destination).split("#", 1)[0].split("?", 1)[0])
             if local_path:
                 references.append((index.parent, local_path))
         for base, reference in references:

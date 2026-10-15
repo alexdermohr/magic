@@ -379,6 +379,112 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
 
+    def test_empty_alt_image_missing_target_is_rejected(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "![](sample/missing.png)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.png"):
+            validate_repository(self.root)
+
+    def test_empty_alt_external_image_is_not_local(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "![](https://example.test/art.png)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_sectioned_two_commander_import_format(self) -> None:
+        self.write_deck(
+            "Commander\n1 Partner One\n1 Partner Two\n\nDeck\n98 Plains\n"
+        )
+        self.assertEqual(validate_list(self.deck), "Partner One")
+
+    def test_second_commander_must_be_single_copy(self) -> None:
+        self.write_deck(
+            "Commander\n1 Partner One\n2 Partner Two\n\nDeck\n97 Plains\n"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "commander"):
+            validate_list(self.deck)
+
+    def test_nested_decks_path_is_not_an_extra_root_reference(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "archive" / "decks").mkdir(parents=True)
+        (self.root / "decks" / "archive" / "decks" / "guide.md").write_text(
+            "# Guide\n", encoding="utf-8"
+        )
+        (self.root / "decks" / "archive" / "current.txt").write_text(
+            "1 Archive Commander\n99 Plains\n", encoding="utf-8"
+        )
+        (self.root / "decks" / "README.md").write_text(
+            "[archive](archive/decks/guide.md)\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 2)
+
+    def test_unclosed_blockquote_fence_must_end_with_container(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "> ~~~markdown\n"
+            "> [example](sample/ignored.md)\n"
+            "\n"
+            "[actual](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_unclosed_list_fence_must_end_with_container(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "- ~~~markdown\n"
+            "  [example](sample/ignored.md)\n"
+            "\n"
+            "[actual](sample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_html_escaped_local_file_name_is_decoded(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "sample" / "a&b.md").write_text(
+            "# Real file\n", encoding="utf-8"
+        )
+        (self.root / "decks" / "README.md").write_text(
+            "[analysis](sample/a&amp;b.md)\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_html_escaped_missing_file_still_rejected(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[analysis](sample/a&amp;missing.md)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "a&missing.md"):
+            validate_repository(self.root)
+
+    def test_root_fence_containing_quote_example_stays_masked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "~~~markdown\n"
+            "> [example](sample/missing.md)\n"
+            "~~~\n"
+            "[real](sample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_legacy_decks_path_requires_word_boundary(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "notdecks/nonexistent.md is ordinary prose, not a root link.\n"
+            "[real](sample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(
