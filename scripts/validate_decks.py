@@ -29,7 +29,12 @@ def markdown_inline_block_ids(text: str) -> list[int]:
     list_column = 0
     previous_paragraph = False
     table_active = False
-    for line in text.splitlines(keepends=True):
+    table_quote_depth = 0
+    table_separator = re.compile(
+        r" {0,3}\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?[ \t]*"
+    )
+    lines = text.splitlines(keepends=True)
+    for row_index, line in enumerate(lines):
         body = line.rstrip("\r\n")
         tail = body
         depth = 0
@@ -91,13 +96,27 @@ def markdown_inline_block_ids(text: str) -> list[int]:
         # GFM code spans cannot pair backticks across distinct table cells.
         # Detect an actual separator row before treating pipe characters as
         # cell boundaries; ordinary paragraphs may contain literal pipes.
-        separator = re.fullmatch(
-            r" {0,3}\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?[ \t]*",
-            body,
-        ) is not None
-        if separator:
+        # GFM tables may be nested inside blockquotes. Compare their
+        # separator and header at the same quote depth, never with the
+        # blockquote markers still attached.
+        if table_active and depth != table_quote_depth:
+            table_active = False
+        separator = table_separator.fullmatch(tail) is not None
+        next_separator = False
+        if row_index + 1 < len(lines):
+            next_body = lines[row_index + 1].rstrip("\r\n")
+            for _ in range(depth):
+                quote = re.match(r" {0,3}>[ \t]?", next_body)
+                if quote is None:
+                    break
+                next_body = next_body[quote.end():]
+            else:
+                next_separator = table_separator.fullmatch(next_body) is not None
+        header = not table_active and "|" in tail and next_separator
+        if separator or header:
             table_active = True
-        elif table_active and "|" not in body:
+            table_quote_depth = depth
+        elif table_active and "|" not in tail:
             table_active = False
         if table_active and "|" in body:
             for offset, character in enumerate(line):
@@ -386,7 +405,12 @@ def inline_link_destinations(source: str) -> list[str]:
     block_ids = markdown_inline_block_ids(source)
     for start in inline_link_destination_starts(source):
         index = start
-        while index < len(source) and source[index] in " \t":
+        # CommonMark permits a soft line break immediately after '('.
+        while (
+            index < len(source)
+            and source[index] in " \t\r\n"
+            and block_ids[index] == block_ids[start - 1]
+        ):
             index += 1
         angle = index < len(source) and source[index] == "<"
         if angle:

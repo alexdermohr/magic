@@ -750,6 +750,53 @@ class DeckValidationTests(unittest.TestCase):
                 with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
                     validate_repository(self.root)
 
+    def test_quoted_table_header_code_cannot_hide_link_in_other_cell(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "> | Open ` | [actual](sample/missing.md) close ` |\n"
+            "> | --- | --- |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_double_quoted_table_header_uses_own_cells(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "> > | Open ` | [actual](sample/missing.md) close ` |\n"
+            "> > | --- | --- |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_table_header_code_cannot_hide_link_in_other_cell(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| Open ` | [actual](sample/missing.md) close ` |\n"
+            "| --- | --- |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_inline_link_destination_starts_after_soft_line_break(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[actual](\nsample/missing.md)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_inline_link_existing_destination_after_soft_line_break(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[actual](\nsample/current.txt)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_missing_documented_deck_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "README.md").write_text(
