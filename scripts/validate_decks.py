@@ -17,36 +17,10 @@ BASICS = frozenset({
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
-def markdown_without_code(source: str) -> str:
-    """Mask fenced blocks and matched inline code, preserving line boundaries."""
-    def spaces_preserving_newlines(value: str) -> str:
-        return re.sub(r"[^\r\n]", " ", value)
 
-    lines: list[str] = []
-    fence: tuple[str, int] | None = None
-    for line in source.splitlines(keepends=True):
-        body = line.rstrip("\r\n")
-        if fence is not None:
-            marker, minimum = fence
-            closing = (
-                r" {0,3}" + re.escape(marker) + "{" + str(minimum) + r",}[ \t]*"
-            )
-            if re.fullmatch(closing, body):
-                fence = None
-            lines.append(spaces_preserving_newlines(line))
-            continue
-        opening = re.match(r" {0,3}(`{3,}|~{3,})(.*)$", body)
-        if opening is not None:
-            delimiter, info = opening.groups()
-            if delimiter[0] == "~" or "`" not in info:
-                fence = (delimiter[0], len(delimiter))
-                lines.append(spaces_preserving_newlines(line))
-                continue
-        lines.append(line)
 
-    text = "".join(lines)
-    # Inline parsing cannot cross blank paragraphs or new Markdown blocks.
-    # Masked code fences become blank lines and also break the pairing scope.
+def markdown_inline_block_ids(text: str) -> list[int]:
+    """Bound inline constructs to paragraphs and explicit block boundaries."""
     block_ids: list[int] = []
     block_id = 0
     for line in text.splitlines(keepends=True):
@@ -64,6 +38,51 @@ def markdown_without_code(source: str) -> str:
         block_ids.extend([block_id] * len(line))
         if boundary:
             block_id += 1
+    return block_ids
+
+
+def markdown_without_code(source: str) -> str:
+    """Mask fenced blocks and matched inline code, preserving line boundaries."""
+    def spaces_preserving_newlines(value: str) -> str:
+        return re.sub(r"[^\r\n]", " ", value)
+
+    def fence_body(body: str) -> str:
+        """Recognize code fences inside bounded Markdown quote/list containers."""
+        candidate = body
+        for _ in range(16):
+            quote = re.match(r" {0,3}>[ \t]?", candidate)
+            item = re.match(r" {0,3}(?:[-+*]|[0-9]+[.)])[ \t]+", candidate)
+            prefix = quote if quote is not None else item
+            if prefix is None:
+                break
+            candidate = candidate[prefix.end():]
+        return candidate
+
+    lines: list[str] = []
+    fence: tuple[str, int] | None = None
+    for line in source.splitlines(keepends=True):
+        body = line.rstrip("\r\n")
+        candidate = fence_body(body)
+        if fence is not None:
+            marker, minimum = fence
+            closing = (
+                r" {0,3}" + re.escape(marker) + "{" + str(minimum) + r",}[ \t]*"
+            )
+            if re.fullmatch(closing, candidate):
+                fence = None
+            lines.append(spaces_preserving_newlines(line))
+            continue
+        opening = re.match(r" {0,3}(`{3,}|~{3,})(.*)$", candidate)
+        if opening is not None:
+            delimiter, info = opening.groups()
+            if delimiter[0] == "~" or "`" not in info:
+                fence = (delimiter[0], len(delimiter))
+                lines.append(spaces_preserving_newlines(line))
+                continue
+        lines.append(line)
+
+    text = "".join(lines)
+    block_ids = markdown_inline_block_ids(text)
 
     runs = list(re.finditer(r"`+", text))
     next_end_by_size: dict[tuple[int, int], int] = {}
@@ -104,14 +123,19 @@ def inline_link_destination_starts(source: str) -> list[int]:
     """Find inline Markdown destination openings with balanced link labels."""
     stack: list[int] = []
     starts: list[int] = []
+    block_ids = markdown_inline_block_ids(source)
+    current_block: int | None = None
     index = 0
     while index < len(source):
+        if current_block != block_ids[index]:
+            stack.clear()
+            current_block = block_ids[index]
         char = source[index]
         if char == "\\" and index + 1 < len(source):
             index += 2  # Escaped brackets do not affect the label stack.
             continue
         if char in "\r\n":
-            stack.clear()
+            pass  # Soft line breaks inside one inline block retain link labels.
         elif char == "[":
             stack.append(index)
         elif char == "]" and stack:
