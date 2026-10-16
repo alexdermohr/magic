@@ -154,10 +154,34 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
 
     # Raw extended autolinks belong to GFM's URI span, including interior
     # commas/semicolons. Do not reinterpret a URL suffix as a local file.
-    ast = mistune.create_markdown(
-        renderer="ast",
-        plugins=[gfm_table_plugin, table_in_quote, table_in_list, gfm_url_plugin],
-    )(source)
+    # Mistune 3.3.4 rejects escaped punctuation in <angle-link> targets,
+    # even though CommonMark permits it. Override only during this parse;
+    # the vendored source and its provenance remain unchanged.
+    from mistune import helpers
+    from string import punctuation
+    def gfm_angle_link_href(text, opening):
+        begin = opening + 1
+        pos = begin
+        while pos < len(text):
+            char = text[pos]
+            if char == "\\" and pos + 1 < len(text) and text[pos + 1] in punctuation:
+                pos += 2
+                continue
+            if char == ">":
+                return text[begin:pos], pos + 1
+            if char in "<\n\r\x00\\":
+                return None, None
+            pos += 1
+        return None, None
+    original_angle_parser = helpers._parse_angle_link_href
+    helpers._parse_angle_link_href = gfm_angle_link_href
+    try:
+        ast = mistune.create_markdown(
+            renderer="ast",
+            plugins=[gfm_table_plugin, table_in_quote, table_in_list, gfm_url_plugin],
+        )(source)
+    finally:
+        helpers._parse_angle_link_href = original_angle_parser
     found: list[tuple[bool, str]] = []
 
     def visit(tokens: list[dict]) -> None:
@@ -185,9 +209,9 @@ URI_AUTHORITY = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*:|//")
 # GFM autolinks require a dotted domain with no underscore in its final two labels.
 # The pinned Mistune URL plugin is more permissive and can hide literal deck paths.
 GFM_HTTP_DOMAIN = r"(?:[A-Za-z0-9_-]+\.)*[A-Za-z0-9-]+\.[A-Za-z0-9-]+(?![A-Za-z0-9_-])"
-GFM_URL_AUTOLINK_PATTERN = r"https?://" + GFM_HTTP_DOMAIN + r"(?:[^\s<]*[^<.,:;\"')\]\s])?"
+GFM_URL_AUTOLINK_PATTERN = r"(?<![^\s*_~(])https?://" + GFM_HTTP_DOMAIN + r"(?:[^\s<]*[^<.,:;\"')\]\s])?"
 GFM_HTTP_PREFIX = re.compile(r"^https?://" + GFM_HTTP_DOMAIN, re.IGNORECASE)
-GFM_HTTP_START = re.compile(r"^https?://", re.IGNORECASE)
+GFM_HTTP_START = re.compile(r"https?://", re.IGNORECASE)
 GFM_EMAIL_START = re.compile(r"^(?:mailto|xmpp):", re.IGNORECASE)
 # GFM allows www.-autolinks only at the beginning of a token or after these
 # explicit inline delimiters. The final two domain labels may not contain "_".
@@ -224,7 +248,7 @@ def literal_deck_references(content: str) -> list[str]:
         candidate = prefix.lstrip("*_~(")
         # The mailto:/xmpp: email grammar ends before a separate bare path.
         if (GFM_EMAIL_START.match(candidate)
-                or (GFM_HTTP_START.match(candidate)
+                or (GFM_HTTP_START.search(candidate)
                     and not GFM_HTTP_PREFIX.match(candidate))
                 or not (URI_AUTHORITY.search(prefix)
                         or gfm_www_autolink_prefix(prefix))):
