@@ -1503,6 +1503,39 @@ class DeckValidationTests(unittest.TestCase):
                 ):
                     validate_repository(self.root)
 
+    def test_commonmark_character_references_form_visible_deck_paths(self) -> None:
+        """Rendered text decodes valid semicolon-terminated HTML entities."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "decks/sample/miss&#x69;ng.md",
+            "decks/sample/miss&#105;ng.md",
+            "decks&sol;sample&sol;missing.md",
+            "decks/sample/miss&#x69;<em>ng</em>.md",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_invalid_or_escaped_character_references_do_not_join_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            r"decks/sample/miss\&#x69;ng.md",
+            "decks/sample/miss&#x69ng.md",
+            "decks/sample/miss&notanentity;ng.md",
+            "decks/sample/miss&<em>#x69;</em>ng.md",
+            "<span title='decks/sample/miss&#x69;ng.md'>safe</span>",
+            chr(96) + "decks/sample/miss&#x69;ng.md" + chr(96),
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+
     def test_gfm_999_character_label_counts_source_escapes(self) -> None:
         """Each backslash escape is two source characters, not one."""
         self.write_deck("1 Sample Commander\n99 Plains\n")

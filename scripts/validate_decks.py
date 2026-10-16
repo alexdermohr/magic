@@ -277,6 +277,24 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
     )
 
+    # CommonMark decodes semicolon-terminated numeric and named character
+    # references only within each text token. Decoding a concatenated run
+    # would accidentally turn a backslash-escaped ampersand (split by Mistune
+    # into separate tokens) into a character reference.
+    from html import unescape as unescape_character_reference
+    from html.entities import html5 as named_character_references
+    character_reference = re.compile(
+        r"&(?:#[xX][0-9A-Fa-f]{1,6}|#[0-9]{1,7}|[A-Za-z][A-Za-z0-9]{1,31});"
+    )
+
+    def decode_character_references(raw: str) -> str:
+        def replace(match: re.Match[str]) -> str:
+            entity = match.group(0)
+            if entity.startswith("&#") or entity[1:] in named_character_references:
+                return unescape_character_reference(entity)
+            return entity
+        return character_reference.sub(replace, raw)
+
     def visit(tokens: list[dict]) -> None:
         # Mistune may split one rendered filename into adjacent text tokens
         # at escaped punctuation or emphasis boundaries. Check the combined
@@ -295,7 +313,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if kind == "text":
                 raw = token.get("raw")
                 if isinstance(raw, str):
-                    rendered.append(raw)
+                    rendered.append(decode_character_references(raw))
                 else:
                     flush_text()
                 return
