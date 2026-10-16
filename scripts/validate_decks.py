@@ -148,13 +148,15 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         raise DeckValidationError("offline Markdown parser has an unexpected identity")
 
     from mistune.plugins.table import table_in_quote, table_in_list
-    from mistune.plugins.url import url
+    from mistune.plugins.url import parse_url_link
+    def gfm_url_plugin(md):
+        md.inline.register("url_link", GFM_URL_AUTOLINK_PATTERN, parse_url_link)
 
     # Raw extended autolinks belong to GFM's URI span, including interior
     # commas/semicolons. Do not reinterpret a URL suffix as a local file.
     ast = mistune.create_markdown(
         renderer="ast",
-        plugins=[gfm_table_plugin, table_in_quote, table_in_list, url],
+        plugins=[gfm_table_plugin, table_in_quote, table_in_list, gfm_url_plugin],
     )(source)
     found: list[tuple[bool, str]] = []
 
@@ -180,6 +182,13 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
 # Markdown links use the directory containing their index. No bare suffix of
 # an external URL is a local reference.
 URI_AUTHORITY = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*:|//")
+# GFM autolinks require a dotted domain with no underscore in its final two labels.
+# The pinned Mistune URL plugin is more permissive and can hide literal deck paths.
+GFM_HTTP_DOMAIN = r"(?:[A-Za-z0-9_-]+\.)*[A-Za-z0-9-]+\.[A-Za-z0-9-]+(?![A-Za-z0-9_-])"
+GFM_URL_AUTOLINK_PATTERN = r"https?://" + GFM_HTTP_DOMAIN + r"(?:[^\s<]*[^<.,:;\"')\]\s])?"
+GFM_HTTP_PREFIX = re.compile(r"^https?://" + GFM_HTTP_DOMAIN, re.IGNORECASE)
+GFM_HTTP_START = re.compile(r"^https?://", re.IGNORECASE)
+GFM_EMAIL_START = re.compile(r"^(?:mailto|xmpp):", re.IGNORECASE)
 # GFM allows www.-autolinks only at the beginning of a token or after these
 # explicit inline delimiters. The final two domain labels may not contain "_".
 GFM_WWW_AUTHORITY = re.compile(
@@ -194,13 +203,6 @@ def gfm_www_autolink_prefix(prefix: str) -> bool:
                 and "<" not in prefix[match.end():]):
             return True
     return False
-
-
-# GFM protocol autolinks have email-address boundaries, unlike HTTP URLs:
-# a comma/semicolon after mailto:/xmpp: ends the email autolink.
-GFM_EMAIL_PROTOCOL_TERMINATOR = re.compile(
-    r"(?:^|[*_~(])(?:mailto|xmpp):[^,;\s]*[,;]$", re.IGNORECASE
-)
 
 
 def literal_deck_references(content: str) -> list[str]:
@@ -219,8 +221,13 @@ def literal_deck_references(content: str) -> list[str]:
         # A bare URL's interior punctuation is part of the autolink;
         # only a true whitespace/punctuation-separated local text token
         # is a repository-root mention. URL children remain exempt.
-        if (GFM_EMAIL_PROTOCOL_TERMINATOR.search(prefix)
-                or not (URI_AUTHORITY.search(prefix) or gfm_www_autolink_prefix(prefix))):
+        candidate = prefix.lstrip("*_~(")
+        # The mailto:/xmpp: email grammar ends before a separate bare path.
+        if (GFM_EMAIL_START.match(candidate)
+                or (GFM_HTTP_START.match(candidate)
+                    and not GFM_HTTP_PREFIX.match(candidate))
+                or not (URI_AUTHORITY.search(prefix)
+                        or gfm_www_autolink_prefix(prefix))):
             references.append(match.group())
     return references
 
