@@ -1405,5 +1405,59 @@ class DeckValidationTests(unittest.TestCase):
                 self.assertEqual(len(validate_repository(self.root)), 1)
 
 
+    def test_gfm_reference_labels_support_501_through_999_characters(self) -> None:
+        """GFM permits reference labels up to 999 characters; Mistune defaults to 500."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for length in (500, 501, 750, 999):
+            with self.subTest(length=length):
+                label = "a" * length
+                (self.root / "decks" / "README.md").write_text(
+                    f"[analysis][{label}]\n\n[{label}]: sample/missing.md\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_gfm_reference_label_above_999_is_not_link(self) -> None:
+        """A thousand-character label must not accidentally become a real link."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        label = "a" * 1000
+        (self.root / "decks" / "README.md").write_text(
+            f"[analysis][{label}]\n\n[{label}]: sample/missing.md\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_angle_destination_unescaped_backslash_is_literal(self) -> None:
+        """GFM retains a backslash preceding a non-punctuation character."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            r"[analysis](<sample/a\qb.md>)" + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+        (self.root / "decks" / "sample" / "a\\qb.md").write_text(
+            "# present\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_angle_destination_escaped_punctuation_and_literal_backslash(self) -> None:
+        """Punctuation escapes still unescape; non-punctuation slashes remain literal."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            r"[analysis](<sample/a\&b\qc.md>)" + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+        (self.root / "decks" / "sample" / "a&b\\qc.md").write_text(
+            "# present\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

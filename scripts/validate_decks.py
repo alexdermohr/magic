@@ -219,18 +219,32 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 continue
             if char == ">":
                 return text[begin:pos], pos + 1
-            if char in "<\n\r\x00\\":
+            if char in "<\n\r\x00":
                 return None, None
             pos += 1
         return None, None
+    # GFM permits 999-character reference labels; pinned Mistune 3.3.4
+    # limits both inline lookup and block definitions to 500. Change only
+    # this parsing window, keeping the checked-in vendor bytes untouched.
+    from mistune.block_parser import BlockParser
+    gfm_label = r"(?:[^\\\[\]]|\\.){0,999}"
+    original_inline_label = helpers._INLINE_LINK_LABEL_RE
     original_angle_parser = helpers._parse_angle_link_href
+    helpers._INLINE_LINK_LABEL_RE = re.compile(gfm_label + r"\]")
     helpers._parse_angle_link_href = gfm_angle_link_href
     try:
-        ast = mistune.create_markdown(
+        markdown = mistune.create_markdown(
             renderer="ast",
             plugins=[gfm_table_plugin, table_in_quote, table_in_list, gfm_url_plugin, gfm_strikethrough_plugin],
-        )(source)
+        )
+        markdown.block.register(
+            "ref_link",
+            r"^ {0,3}\[(?P<reflink_1>" + gfm_label + r")\]:",
+            BlockParser.parse_ref_link,
+        )
+        ast = markdown(source)
     finally:
+        helpers._INLINE_LINK_LABEL_RE = original_inline_label
         helpers._parse_angle_link_href = original_angle_parser
     found: list[tuple[bool, str]] = []
 
