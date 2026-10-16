@@ -1503,6 +1503,23 @@ class DeckValidationTests(unittest.TestCase):
                 ):
                     validate_repository(self.root)
 
+    def test_gfm_999_character_label_counts_source_escapes(self) -> None:
+        """Each backslash escape is two source characters, not one."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for n, is_valid in ((499, True), (500, False)):
+            label = "\\!" * n
+            with self.subTest(source_characters=len(label)):
+                (self.root / "decks" / "README.md").write_text(
+                    f"[{label}]: sample/missing.md\n\n[{label}]\n",
+                    encoding="utf-8",
+                )
+                if is_valid:
+                    with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                        validate_repository(self.root)
+                else:
+                    self.assertEqual(len(validate_repository(self.root)), 1)
+
+
     def test_quote_aware_html_tag_attributes_keep_contiguous_visible_paths(self) -> None:
         """Angle brackets inside quoted attributes never separate rendered text."""
         self.write_deck("1 Sample Commander\n99 Plains\n")

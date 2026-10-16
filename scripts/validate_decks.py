@@ -228,9 +228,26 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     # this parsing window, keeping the checked-in vendor bytes untouched.
     from mistune.block_parser import BlockParser
     gfm_label = r"(?:[^\\\[\]]|\\.){0,999}"
+
+    class SourceBoundLabelPattern:
+        """The regex counts escapes as tokens; GFM limits source characters."""
+
+        def __init__(self, pattern):
+            self.pattern = pattern
+
+        def match(self, text, pos=0):
+            candidate = self.pattern.match(text, pos)
+            return (candidate if candidate is not None
+                    and len(candidate.group(0)) - 1 <= 999 else None)
+
+    def parse_gfm_ref_link(block, match, state):
+        if len(match.group("reflink_1")) > 999:
+            return None
+        return BlockParser.parse_ref_link(block, match, state)
+
     original_inline_label = helpers._INLINE_LINK_LABEL_RE
     original_angle_parser = helpers._parse_angle_link_href
-    helpers._INLINE_LINK_LABEL_RE = re.compile(gfm_label + r"\]")
+    helpers._INLINE_LINK_LABEL_RE = SourceBoundLabelPattern(re.compile(gfm_label + r"\]"))
     helpers._parse_angle_link_href = gfm_angle_link_href
     try:
         markdown = mistune.create_markdown(
@@ -240,7 +257,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         markdown.block.register(
             "ref_link",
             r"^ {0,3}\[(?P<reflink_1>" + gfm_label + r")\]:",
-            BlockParser.parse_ref_link,
+            parse_gfm_ref_link,
         )
         ast = markdown(source)
     finally:
