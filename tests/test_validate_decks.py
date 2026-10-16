@@ -1503,6 +1503,50 @@ class DeckValidationTests(unittest.TestCase):
                 ):
                     validate_repository(self.root)
 
+    def test_inline_html_table_row_keeps_live_link_in_other_cell(self) -> None:
+        """A phrasing tag plus a pipe is not an HTML block starting a new line."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for tag in ("span", "label", "ruby"):
+            with self.subTest(tag=tag):
+                row = "<" + tag + ">" + chr(96) + "</" + tag + ">" + (
+                    " | [actual](sample/missing.md) close " + chr(96)
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    "| A | B |\n| --- | --- |\n" + row + "\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_actual_html_block_still_ends_gfm_table(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n| --- | --- |\n"
+            "<div>\n[actual](sample/missing.md)\n\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_more_textual_inline_html_wrappers_preserve_visible_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for opening, closing in (
+            ("<label for='x'>", "</label>"),
+            ("<ruby>", "</ruby>"),
+            ("<rb>", "</rb>"),
+            ("<output>", "</output>"),
+            ("<font color='red'>", "</font>"),
+            ("<strike>", "</strike>"),
+            ("<tt>", "</tt>"),
+        ):
+            with self.subTest(opening=opening):
+                (self.root / "decks" / "README.md").write_text(
+                    "decks/sample/" + opening + "missing" + closing + ".md\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+
     def test_commonmark_character_references_form_visible_deck_paths(self) -> None:
         """Rendered text decodes valid semicolon-terminated HTML entities."""
         self.write_deck("1 Sample Commander\n99 Plains\n")

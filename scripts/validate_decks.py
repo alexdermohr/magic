@@ -40,6 +40,7 @@ def gfm_table_plugin(md) -> None:
         TABLE_PATTERN, NP_TABLE_PATTERN, _parse_invalid_pipe_table,
         _is_escaped_pipe, _process_thead, _split_table_cells,
     )
+    from mistune.core import BlockState
 
     def strip_gfm_table_row(line, *, require_pipe=False):
         """Normalize edge pipes and indentation in a GFM table row.
@@ -60,6 +61,24 @@ def gfm_table_plugin(md) -> None:
         if text.endswith("|") and not _is_escaped_pipe(text, len(text) - 1):
             text = text[:-1]
         return text
+
+    def begins_real_block(block, state, pos, line):
+        # A block-specification regex may match an inline tag at the start
+        # of a valid GFM table cell. Only end the table if the actual pinned
+        # HTML block parser accepts the candidate in an isolated state.
+        if any(re.match(block.SPECIFICATION[kind], line) for kind in (
+            "fenced_code", "atx_heading", "thematic_break",
+            "block_quote", "list", "ref_link",
+        )):
+            return True
+        html_spec = block.SPECIFICATION["raw_html"]
+        if re.match(html_spec, line) is None:
+            return False
+        trial = BlockState()
+        trial.process(state.src[pos:])
+        candidate = re.match(html_spec, trial.src)
+        return (candidate is not None
+                and block.parse_raw_html(candidate, trial) is not None)
 
     def parse_table(block, match, state, *, piped):
         header = strip_gfm_table_row(match.group(0), require_pipe=True)
@@ -90,10 +109,7 @@ def gfm_table_plugin(md) -> None:
             # A GFM table ends when a new block starts. The presence of a
             # pipe in a fenced-code info string must not swallow the fence:
             # doing so exposes the following code example as a live link.
-            if any(re.match(block.SPECIFICATION[kind], line) for kind in (
-                "fenced_code", "atx_heading", "thematic_break",
-                "block_quote", "list", "raw_html", "ref_link",
-            )):
+            if begins_real_block(block, state, pos, line):
                 break
             text = strip_gfm_table_row(line)
             if text is None:
@@ -269,9 +285,10 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     # Attributes stay opaque; unknown tags remain conservative boundaries.
     transparent_inline_tags = frozenset({
         "a", "abbr", "b", "bdi", "bdo", "cite", "code", "data",
-        "del", "dfn", "em", "i", "ins", "kbd", "mark", "q",
-        "s", "samp", "small", "span", "strong", "sub", "sup",
-        "time", "u", "var",
+        "del", "dfn", "em", "font", "i", "ins", "kbd", "label",
+        "mark", "output", "q", "rb", "ruby", "s", "samp", "small",
+        "span", "strike", "strong", "sub", "sup", "time", "tt",
+        "u", "var",
     })
     transparent_tag = re.compile(
         r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
