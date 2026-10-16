@@ -233,6 +233,20 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     for child in children:
                         visit_inline(child)
                 return
+            if kind == "inline_html":
+                raw = token.get("raw")
+                # Formatting tags and comments add no visible characters.
+                # Their attributes/comment bodies remain opaque. Void tags,
+                # scripts and other raw HTML remain run boundaries.
+                if isinstance(raw, str) and (
+                    re.fullmatch(r"<!--[\s\S]*?-->", raw)
+                    or re.fullmatch(
+                        r"</?(?:a|abbr|b|cite|del|em|i|ins|mark|q|s|small|span|strong|sub|sup|u)\b[^<>]*>",
+                        raw,
+                        re.IGNORECASE,
+                    )
+                ):
+                    return
             flush_text()
             if isinstance(children, list):
                 visit(children)

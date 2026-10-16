@@ -1324,5 +1324,53 @@ class DeckValidationTests(unittest.TestCase):
             validate_repository(self.root)
 
 
+    def test_inline_html_formatting_preserves_visible_deck_path(self) -> None:
+        """A styled portion of one path is still visible local-path prose."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "decks/sample/<em>missing</em>.md",
+            "decks/sample/<span class='link'>missing</span>.md",
+            "decks/sample/<a href='https://example.test'>missing</a>.md",
+            "decks/sample/<b>mis</b><i>sing</i>.md",
+            "decks/sample/<strong data-target='decks/sample/other.md'>missing</strong>.md",
+            "decks/sample/<!-- label annotation -->missing.md",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_html_attributes_and_comments_are_not_local_references(self) -> None:
+        """Hidden markup/attributes are not separate rendered filenames."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<span data-target='decks/sample/missing.md'>safe</span>",
+            "<!-- decks/sample/missing.md -->",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_nontransparent_html_breaks_deck_path_run(self) -> None:
+        """A line break or image cannot silently merge separate path parts."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "decks/sample/missing<br>thing.md",
+            "decks/sample/missing<img src='icon.svg'>thing.md",
+            "decks/sample/missing<hr>thing.md",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
