@@ -1061,5 +1061,77 @@ class DeckValidationTests(unittest.TestCase):
             validate_repository(self.root)
 
 
+    def test_gfm_pipe_less_body_rows_keep_links_in_separate_cells(self) -> None:
+        """GFM example 202: pipe-less body lines remain table cells."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for opening in ("open `", "first\nopen `"):
+            with self.subTest(opening=opening):
+                (self.root / "decks" / "README.md").write_text(
+                    "| A | B |\n| --- | --- |\n"
+                    + opening + "\n[actual](sample/missing.md) close `\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_pipe_less_table_code_example_stays_literal(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n| --- | --- |\n"
+            "`[example](sample/ignored.md)`\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_four_space_indented_delimiter_is_not_a_table(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| Open ` | [example](sample/missing.md) close ` |\n"
+            "    | --- | --- |\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_three_space_indented_delimiter_can_start_table(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| Open ` | [actual](sample/missing.md) close ` |\n"
+            "   | --- | --- |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_www_autolinks_keep_nontrailing_punctuation(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for separator in (",", ";"):
+            with self.subTest(separator=separator):
+                (self.root / "decks" / "README.md").write_text(
+                    "www.example.com" + separator + "decks/sample/missing.md\n",
+                    encoding="utf-8",
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_www_autolink_does_not_hide_separate_local_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for sep in (", ", "; ", ". ", "\n"):
+            with self.subTest(sep=sep):
+                (self.root / "decks" / "README.md").write_text(
+                    "www.example.com" + sep + "decks/sample/missing.md\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_invalid_www_authority_does_not_mask_local_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "www.bad_domain.com,decks/sample/missing.md\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+            validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()

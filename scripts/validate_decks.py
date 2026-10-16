@@ -39,15 +39,19 @@ def gfm_table_plugin(md) -> None:
         _is_escaped_pipe, _process_thead, _split_table_cells,
     )
 
-    def strip_gfm_table_row(line):
-        """Normalize optional edge pipes on *each* GFM row independently.
+    def strip_gfm_table_row(line, *, require_pipe=False):
+        """Normalize edge pipes and indentation in a GFM table row.
 
-        Mistune's stock pipe/non-pipe helpers tie body/delimiter syntax
-        to the header form, although GFM allows each row to differ.
-        Preserve escaped final pipes as cell content.
+        Only 0–3 initial spaces are allowed at the current block depth.
+        Header/delimiter lines require a pipe; established body rows do not.
+        Mistune invokes this parser inside the relevant list/quote container.
         """
-        text = line.rstrip("\r\n").rstrip(" \t").lstrip(" ")
-        if not text or "|" not in text:
+        raw = line.rstrip("\r\n").rstrip(" \t")
+        indent = len(raw) - len(raw.lstrip(" "))
+        if indent > 3:
+            return None
+        text = raw[indent:]
+        if not text or text.startswith("\t") or (require_pipe and "|" not in text):
             return None
         if text.startswith("|"):
             text = text[1:]
@@ -56,12 +60,12 @@ def gfm_table_plugin(md) -> None:
         return text
 
     def parse_table(block, match, state, *, piped):
-        header = strip_gfm_table_row(match.group(0))
+        header = strip_gfm_table_row(match.group(0), require_pipe=True)
         if header is None:
             return None
         pos = match.end()
         delimiter_line = state.get_line(pos)
-        delimiter = strip_gfm_table_row(delimiter_line)
+        delimiter = strip_gfm_table_row(delimiter_line, require_pipe=True)
         if delimiter is None:
             return None
         # GFM requires >=3 dashes per delimiter, optional outer colons.
@@ -174,6 +178,20 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
 # Markdown links use the directory containing their index. No bare suffix of
 # an external URL is a local reference.
 URI_AUTHORITY = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*:|//")
+# GFM allows www.-autolinks only at the beginning of a token or after these
+# explicit inline delimiters. The final two domain labels may not contain "_".
+GFM_WWW_AUTHORITY = re.compile(
+    r"(?:^|[*_~(])www\.([A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)+)"
+)
+
+
+def gfm_www_autolink_prefix(prefix: str) -> bool:
+    for match in GFM_WWW_AUTHORITY.finditer(prefix):
+        labels = match.group(1).split(".")
+        if ("_" not in labels[-1] and "_" not in labels[-2]
+                and "<" not in prefix[match.end():]):
+            return True
+    return False
 
 
 def literal_deck_references(content: str) -> list[str]:
@@ -192,7 +210,7 @@ def literal_deck_references(content: str) -> list[str]:
         # A bare URL's interior punctuation is part of the autolink;
         # only a true whitespace/punctuation-separated local text token
         # is a repository-root mention. URL children remain exempt.
-        if not URI_AUTHORITY.search(prefix):
+        if not (URI_AUTHORITY.search(prefix) or gfm_www_autolink_prefix(prefix)):
             references.append(match.group())
     return references
 
