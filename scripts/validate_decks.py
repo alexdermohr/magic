@@ -187,14 +187,29 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     def visit(tokens: list[dict]) -> None:
         for token in tokens:
             kind = token.get("type")
+            children = token.get("children")
             if kind in {"link", "image"}:
                 destination = token.get("attrs", {}).get("url")
                 if isinstance(destination, str):
                     found.append((False, destination))
+                # For <scheme:...> URI autolinks, Mistune repeats the URL in
+                # the rendered label. Its scheme syntax (not the bare-URL
+                # extension's authority rules) decides whether it is a link.
+                # Never scan that exact URI label a second time as local prose.
+                # Ordinary link labels are still recursively validated.
+                if (
+                    kind == "link"
+                    and isinstance(destination, str)
+                    and re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", destination)
+                    and isinstance(children, list)
+                    and len(children) == 1
+                    and children[0].get("type") == "text"
+                    and children[0].get("raw") == destination
+                ):
+                    continue
             elif kind == "text":
                 for reference in literal_deck_references(token.get("raw", "")):
                     found.append((True, reference))
-            children = token.get("children")
             if isinstance(children, list):
                 visit(children)
 

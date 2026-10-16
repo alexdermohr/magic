@@ -1239,5 +1239,40 @@ class DeckValidationTests(unittest.TestCase):
         self.assertEqual(len(validate_repository(self.root)), 1)
 
 
+    def test_angle_uri_autolink_label_is_not_local_deck_path(self) -> None:
+        """Angle URI autolinks use their rendered URI label, not literal path prose."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for url in (
+            "https://bad_domain.example,decks/sample/missing.md",
+            "https://example.test,decks/sample/missing.md",
+            "mailto:foo@bar.example,decks/sample/missing.md",
+            "xmpp:foo@bar.example,decks/sample/missing.md",
+        ):
+            with self.subTest(url=url):
+                (self.root / "decks" / "README.md").write_text(
+                    f"<{url}>\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_angle_autolink_does_not_hide_adjacent_literal_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<https://bad_domain.example,decks/sample/ignored.md> "
+            "decks/sample/missing.md\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_normal_external_markdown_link_label_still_checks_literal_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[decks/sample/missing.md](https://example.test)\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+            validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()
