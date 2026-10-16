@@ -194,6 +194,13 @@ def gfm_www_autolink_prefix(prefix: str) -> bool:
     return False
 
 
+# GFM protocol autolinks have email-address boundaries, unlike HTTP URLs:
+# a comma/semicolon after mailto:/xmpp: ends the email autolink.
+GFM_EMAIL_PROTOCOL_TERMINATOR = re.compile(
+    r"(?:^|[*_~(])(?:mailto|xmpp):[^,;\s]*[,;]$", re.IGNORECASE
+)
+
+
 def literal_deck_references(content: str) -> list[str]:
     references: list[str] = []
     for match in LINK.finditer(content):
@@ -210,7 +217,8 @@ def literal_deck_references(content: str) -> list[str]:
         # A bare URL's interior punctuation is part of the autolink;
         # only a true whitespace/punctuation-separated local text token
         # is a repository-root mention. URL children remain exempt.
-        if not (URI_AUTHORITY.search(prefix) or gfm_www_autolink_prefix(prefix)):
+        if (GFM_EMAIL_PROTOCOL_TERMINATOR.search(prefix)
+                or not (URI_AUTHORITY.search(prefix) or gfm_www_autolink_prefix(prefix))):
             references.append(match.group())
     return references
 

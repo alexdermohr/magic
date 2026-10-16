@@ -1133,5 +1133,21 @@ class DeckValidationTests(unittest.TestCase):
             validate_repository(self.root)
 
 
+    def test_gfm_email_protocol_boundary_exposes_local_suffix(self) -> None:
+        """Commas and semicolons terminate mailto/xmpp email autolinks."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for scheme in ("mailto", "xmpp"):
+            for boundary in (",", ";"):
+                with self.subTest(scheme=scheme, boundary=boundary):
+                    (self.root / "decks" / "README.md").write_text(
+                        f"{scheme}:foo@bar.example{boundary}decks/sample/missing.md\n",
+                        encoding="utf-8",
+                    )
+                    with self.assertRaisesRegex(
+                        DeckValidationError, "decks/sample/missing.md"
+                    ):
+                        validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()
