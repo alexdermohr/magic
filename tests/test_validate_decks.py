@@ -1503,6 +1503,37 @@ class DeckValidationTests(unittest.TestCase):
                 ):
                     validate_repository(self.root)
 
+    def test_quote_aware_html_tag_attributes_keep_contiguous_visible_paths(self) -> None:
+        """Angle brackets inside quoted attributes never separate rendered text."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for opening, closing in (
+            ('<span title=">">', "</span>"),
+            ("<dfn title='x<y'>", "</dfn>"),
+            ('<time datetime="2026-10-16" title="a > b">', "</time>"),
+            ('<kbd title="a < b > c">', "</kbd>"),
+        ):
+            with self.subTest(opening=opening):
+                (self.root / "decks" / "README.md").write_text(
+                    "decks/sample/" + opening + "missing" + closing + ".md\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_quoted_html_void_and_structural_tags_still_separate(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for fragment in (
+            '<img alt=">">',
+            '<span title=">"/>',
+            '<section title=">">',
+        ):
+            with self.subTest(fragment=fragment):
+                (self.root / "decks" / "README.md").write_text(
+                    "decks/sample/" + fragment + "missing.md\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+
     def test_transparent_tag_attributes_still_do_not_create_paths(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "decks" / "README.md").write_text(

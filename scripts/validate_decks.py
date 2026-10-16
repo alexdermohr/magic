@@ -256,7 +256,9 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         "s", "samp", "small", "span", "strong", "sub", "sup",
         "time", "u", "var",
     })
-    transparent_tag = re.compile(r"</?([A-Za-z][A-Za-z0-9-]*)\b[^<>]*>")
+    transparent_tag = re.compile(
+        r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
+    )
 
     def visit(tokens: list[dict]) -> None:
         # Mistune may split one rendered filename into adjacent text tokens
