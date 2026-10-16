@@ -1177,5 +1177,38 @@ class DeckValidationTests(unittest.TestCase):
                     validate_repository(self.root)
 
 
+
+    def test_invalid_http_authority_exposes_adjacent_local_reference(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for host in ("bad_domain.example", "sub.bad_domain.example"):
+            with self.subTest(host=host):
+                (self.root / "decks" / "README.md").write_text(
+                    f"https://{host},decks/sample/missing.md\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_valid_http_authority_keeps_external_url_interior(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for host in ("example.test", "sub_part.a.example"):
+            with self.subTest(host=host):
+                (self.root / "decks" / "README.md").write_text(
+                    f"https://{host},decks/sample/missing.md\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_mail_protocol_boundaries_expose_adjacent_local_reference(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for protocol in ("mailto", "xmpp"):
+            for punctuation in (")", "]", ",", ";", "?"):
+                with self.subTest(protocol=protocol, punctuation=punctuation):
+                    (self.root / "decks" / "README.md").write_text(
+                        f"{protocol}:foo@bar.example{punctuation}decks/sample/missing.md\n",
+                        encoding="utf-8",
+                    )
+                    with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                        validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()
