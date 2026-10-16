@@ -1210,5 +1210,34 @@ class DeckValidationTests(unittest.TestCase):
                         validate_repository(self.root)
 
 
+
+    def test_http_autolink_requires_supported_gfm_start_boundary(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for prefix in ("x", "]", "="):
+            with self.subTest(prefix=prefix):
+                (self.root / "decks" / "README.md").write_text(
+                    f"{prefix}https://example.test,decks/sample/missing.md\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_angle_destination_escaped_punctuation_missing_target_is_rejected(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            r"[analysis](<sample/missing\&b.md>)" + "\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing&b.md"):
+            validate_repository(self.root)
+
+    def test_angle_destination_escaped_punctuation_existing_target_is_accepted(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "sample" / "a&b.md").write_text("# valid\n", encoding="utf-8")
+        (self.root / "decks" / "README.md").write_text(
+            r"[analysis](<sample/a\&b.md>)" + "\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
