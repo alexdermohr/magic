@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Sisay, Weatherlight Captain — Dunkelhäutige Legenden
+
+**Bracket 3 / Upgraded:** Fünffarbige Legendary-Toolbox. Jede der 22 Kreaturenkarten zeigt eine dunkelhäutige Person oder einen entsprechend etablierten maskierten Charakter. Sieben Planeswalker, bessere Sisay-Enttapp-Effekte und zusätzliche Kontrolle erhöhen die Zuverlässigkeit der Legendary-Toolbox.
+
+- Aktuelle importierbare 100-Karten-Liste: [decks/sisay-weatherlight-captain/current.txt](decks/sisay-weatherlight-captain/current.txt)
+- Spielplan, Bildkriterien, drei Game Changer und Risiken: [decks/sisay-weatherlight-captain/analysis.md](decks/sisay-weatherlight-captain/analysis.md)
