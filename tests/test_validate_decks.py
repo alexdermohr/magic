@@ -1372,5 +1372,38 @@ class DeckValidationTests(unittest.TestCase):
                 self.assertEqual(len(validate_repository(self.root)), 1)
 
 
+    def test_gfm_strikethrough_is_visible_local_path_text(self) -> None:
+        """GFM renders single and double tilde pairs as strikethrough."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "decks/sample/~~miss~~ing.md",
+            "decks/sample/~miss~ing.md",
+            "decks/sample/~~mis~~**sing**.md",
+            "decks/sample/**mis**~sing~.md",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_gfm_strikethrough_does_not_strip_literal_or_triple_tildes(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "decks/sample/~~~miss~~~ing.md",
+            r"decks/sample/\~miss\~ing.md",
+            "decks/sample/~missing.md",
+            "decks/sample/~~miss~ing.md",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

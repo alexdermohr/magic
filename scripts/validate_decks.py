@@ -127,6 +127,56 @@ def gfm_table_plugin(md) -> None:
     )
 
 
+
+def gfm_strikethrough_plugin(md) -> None:
+    """Support GFM's one- and two-tilde strikethrough without editing Mistune."""
+    from mistune.plugins.formatting import strikethrough
+
+    strikethrough(md)  # Mistune's pinned plugin supports double tildes.
+
+    def parse_single_tilde(inline, match, state):
+        source = state.src
+        opening = match.start()
+        backslashes = 0
+        cursor = opening - 1
+        while cursor >= 0 and source[cursor] == "\\":
+            backslashes += 1
+            cursor -= 1
+        if backslashes % 2:
+            return None
+
+        start = match.end()
+        for closing in re.finditer(r"(?<!~)~(?!~)", source[start:]):
+            end = start + closing.start()
+            if end <= start or source[end - 1].isspace():
+                continue
+            cursor = end - 1
+            backslashes = 0
+            while cursor >= start and source[cursor] == "\\":
+                backslashes += 1
+                cursor -= 1
+            if backslashes % 2:
+                continue
+            content = source[start:end]
+            if re.search(r"\n[ \t]*\n", content):
+                return None
+            nested = state.copy()
+            nested.src = content
+            state.append_token({
+                "type": "strikethrough",
+                "children": inline.render(nested),
+            })
+            return end + 1
+        return None
+
+    md.inline.register(
+        "gfm_single_strikethrough",
+        r"(?<!~)~(?=[^\s~])",
+        parse_single_tilde,
+        before="strikethrough",
+    )
+
+
 def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     """Return (literal-root-path, destination) for rendered Markdown references.
 
@@ -178,7 +228,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     try:
         ast = mistune.create_markdown(
             renderer="ast",
-            plugins=[gfm_table_plugin, table_in_quote, table_in_list, gfm_url_plugin],
+            plugins=[gfm_table_plugin, table_in_quote, table_in_list, gfm_url_plugin, gfm_strikethrough_plugin],
         )(source)
     finally:
         helpers._parse_angle_link_href = original_angle_parser
