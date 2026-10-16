@@ -1149,5 +1149,33 @@ class DeckValidationTests(unittest.TestCase):
                         validate_repository(self.root)
 
 
+    def test_literal_deck_paths_require_full_extension_boundary(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for path in (
+            "decks/sample/notes.md.bak",
+            "decks/sample/notes.txt.old",
+            "decks/sample/notes.md2",
+            "decks/sample/notes.txt~",
+            "decks/sample/notes.txt-extra",
+            "decks/sample/notes.md/archive",
+        ):
+            with self.subTest(path=path):
+                (self.root / "decks" / "README.md").write_text(
+                    path + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+        for punctuation in ("", ".", ",", ")", ";"):
+            with self.subTest(punctuation=punctuation):
+                (self.root / "decks" / "README.md").write_text(
+                    "decks/sample/missing.md" + punctuation + "\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()

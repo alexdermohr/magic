@@ -16,7 +16,9 @@ BASICS = frozenset({
     "Snow-Covered Mountain", "Snow-Covered Forest",
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
-LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)")
+# Do not match a .md/.txt prefix of a longer filename (e.g. .md.bak).
+# A solitary trailing period is prose punctuation and still ends the path.
+LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)(?![\w/~+-]|\.[\w-])")
 
 
 # Mistune 3.3.4 is checked in as auditable Python source with an upstream
