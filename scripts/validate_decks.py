@@ -248,6 +248,16 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         helpers._parse_angle_link_href = original_angle_parser
     found: list[tuple[bool, str]] = []
 
+    # Only non-void, non-structural phrasing tags are invisible path joins.
+    # Attributes stay opaque; unknown tags remain conservative boundaries.
+    transparent_inline_tags = frozenset({
+        "a", "abbr", "b", "bdi", "bdo", "cite", "code", "data",
+        "del", "dfn", "em", "i", "ins", "kbd", "mark", "q",
+        "s", "samp", "small", "span", "strong", "sub", "sup",
+        "time", "u", "var",
+    })
+    transparent_tag = re.compile(r"</?([A-Za-z][A-Za-z0-9-]*)\b[^<>]*>")
+
     def visit(tokens: list[dict]) -> None:
         # Mistune may split one rendered filename into adjacent text tokens
         # at escaped punctuation or emphasis boundaries. Check the combined
@@ -299,18 +309,16 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 return
             if kind == "inline_html":
                 raw = token.get("raw")
-                # Formatting tags and comments add no visible characters.
-                # Their attributes/comment bodies remain opaque. Void tags,
-                # scripts and other raw HTML remain run boundaries.
-                if isinstance(raw, str) and (
-                    re.fullmatch(r"<!--[\s\S]*?-->", raw)
-                    or re.fullmatch(
-                        r"</?(?:a|abbr|b|cite|del|em|i|ins|mark|q|s|small|span|strong|sub|sup|u)\b[^<>]*>",
-                        raw,
-                        re.IGNORECASE,
-                    )
-                ):
-                    return
+                # Comments and transparent text-level HTML add no visible
+                # separator; their attributes and bodies are never scanned.
+                if isinstance(raw, str):
+                    if re.fullmatch(r"<!--[\s\S]*?-->", raw):
+                        return
+                    tag = transparent_tag.fullmatch(raw)
+                    if (tag is not None
+                            and tag.group(1).lower() in transparent_inline_tags
+                            and not raw.rstrip().endswith("/>")):
+                        return
             flush_text()
             if isinstance(children, list):
                 visit(children)
@@ -326,14 +334,11 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
 # Bare mentions like decks/name/current.txt remain repository-root relative;
 # Markdown links use the directory containing their index. No bare suffix of
 # an external URL is a local reference.
-URI_AUTHORITY = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*:|//")
 # GFM autolinks require a dotted domain with no underscore in its final two labels.
 # The pinned Mistune URL plugin is more permissive and can hide literal deck paths.
 GFM_HTTP_DOMAIN = r"(?:[A-Za-z0-9_-]+\.)*[A-Za-z0-9-]+\.[A-Za-z0-9-]+(?![A-Za-z0-9_-])"
 GFM_URL_AUTOLINK_PATTERN = r"(?<![^\s*_~(])https?://" + GFM_HTTP_DOMAIN + r"(?:[^\s<]*[^<.,:;\"')\]\s])?"
 GFM_HTTP_PREFIX = re.compile(r"^https?://" + GFM_HTTP_DOMAIN, re.IGNORECASE)
-GFM_HTTP_START = re.compile(r"https?://", re.IGNORECASE)
-GFM_EMAIL_START = re.compile(r"^(?:mailto|xmpp):", re.IGNORECASE)
 # GFM allows www.-autolinks only at the beginning of a token or after these
 # explicit inline delimiters. The final two domain labels may not contain "_".
 GFM_WWW_AUTHORITY = re.compile(
@@ -367,12 +372,10 @@ def literal_deck_references(content: str) -> list[str]:
         # only a true whitespace/punctuation-separated local text token
         # is a repository-root mention. URL children remain exempt.
         candidate = prefix.lstrip("*_~(")
-        # The mailto:/xmpp: email grammar ends before a separate bare path.
-        if (GFM_EMAIL_START.match(candidate)
-                or (GFM_HTTP_START.search(candidate)
-                    and not GFM_HTTP_PREFIX.match(candidate))
-                or not (URI_AUTHORITY.search(prefix)
-                        or gfm_www_autolink_prefix(prefix))):
+        # Only a supported GFM bare HTTP(S)/www autolink hides its
+        # own URL suffix. Arbitrary URI-looking prose (e.g. See:) does not.
+        if not (GFM_HTTP_PREFIX.match(candidate)
+                or gfm_www_autolink_prefix(prefix)):
             references.append(match.group())
     return references
 

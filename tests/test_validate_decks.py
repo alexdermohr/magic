@@ -1459,5 +1459,58 @@ class DeckValidationTests(unittest.TestCase):
         self.assertEqual(len(validate_repository(self.root)), 1)
 
 
+    def test_unsupported_bare_protocols_do_not_hide_local_deck_paths(self) -> None:
+        """Only real GFM bare autolinks may suppress a rendered deck reference."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for prefix in (
+            "See:",
+            "custom:",
+            "ftp:",
+            "javascript:",
+            "data:text/plain,",
+            "//example.test,",
+        ):
+            with self.subTest(prefix=prefix):
+                (self.root / "decks" / "README.md").write_text(
+                    prefix + "decks/sample/missing.md\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_other_transparent_inline_html_tags_preserve_deck_paths(self) -> None:
+        """Phrasing tags add no visible separator between local-path fragments."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for opening, closing in (
+            ("<dfn>", "</dfn>"),
+            ("<kbd>", "</kbd>"),
+            ("<var>", "</var>"),
+            ("<time datetime='2026-10-16'>", "</time>"),
+            ("<samp>", "</samp>"),
+            ("<data value='1'>", "</data>"),
+            ("<code>", "</code>"),
+            ("<bdi>", "</bdi>"),
+            ("<bdo dir='ltr'>", "</bdo>"),
+        ):
+            with self.subTest(opening=opening):
+                (self.root / "decks" / "README.md").write_text(
+                    "decks/sample/" + opening + "missing" + closing + ".md\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_transparent_tag_attributes_still_do_not_create_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<dfn data-target='decks/sample/missing.md'>safe</dfn>\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
