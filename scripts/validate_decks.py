@@ -185,18 +185,33 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     found: list[tuple[bool, str]] = []
 
     def visit(tokens: list[dict]) -> None:
-        for token in tokens:
+        # Mistune may split one rendered filename into adjacent text tokens
+        # at escaped punctuation or emphasis boundaries. Check the combined
+        # visible inline run, without crossing code, HTML or block boundaries.
+        rendered: list[str] = []
+
+        def flush_text() -> None:
+            if rendered:
+                for reference in literal_deck_references("".join(rendered)):
+                    found.append((True, reference))
+                rendered.clear()
+
+        def visit_inline(token: dict) -> None:
             kind = token.get("type")
             children = token.get("children")
+            if kind == "text":
+                raw = token.get("raw")
+                if isinstance(raw, str):
+                    rendered.append(raw)
+                else:
+                    flush_text()
+                return
             if kind in {"link", "image"}:
                 destination = token.get("attrs", {}).get("url")
                 if isinstance(destination, str):
                     found.append((False, destination))
-                # For <scheme:...> URI autolinks, Mistune repeats the URL in
-                # the rendered label. Its scheme syntax (not the bare-URL
-                # extension's authority rules) decides whether it is a link.
-                # Never scan that exact URI label a second time as local prose.
-                # Ordinary link labels are still recursively validated.
+                # URI autolinks repeat the URL as one text child. That is
+                # the link's URI, not a separate bare local deck reference.
                 if (
                     kind == "link"
                     and isinstance(destination, str)
@@ -206,12 +221,25 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     and children[0].get("type") == "text"
                     and children[0].get("raw") == destination
                 ):
-                    continue
-            elif kind == "text":
-                for reference in literal_deck_references(token.get("raw", "")):
-                    found.append((True, reference))
+                    flush_text()
+                    return
+                if kind == "link":
+                    if isinstance(children, list):
+                        for child in children:
+                            visit_inline(child)
+                    return
+            if kind in {"strong", "emphasis", "strikethrough"}:
+                if isinstance(children, list):
+                    for child in children:
+                        visit_inline(child)
+                return
+            flush_text()
             if isinstance(children, list):
                 visit(children)
+
+        for token in tokens:
+            visit_inline(token)
+        flush_text()
 
     visit(ast)
     return found

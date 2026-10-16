@@ -1274,5 +1274,55 @@ class DeckValidationTests(unittest.TestCase):
             validate_repository(self.root)
 
 
+    def test_rendered_inline_fragments_join_literal_deck_references(self) -> None:
+        """GFM backslash escapes and emphasis still render one local path."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for rendered_path in (
+            r"decks/sample/missing\.md",
+            r"decks/sample/missing\.txt",
+            "decks/sample/**missing**.md",
+            "decks/sample/miss*ing*.md",
+            r"[decks/sample/missing\.md](https://example.test)",
+        ):
+            with self.subTest(rendered_path=rendered_path):
+                (self.root / "decks" / "README.md").write_text(
+                    rendered_path + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing"
+                ):
+                    validate_repository(self.root)
+
+    def test_split_rendered_reference_inside_blockquote_is_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            r"> decks/sample/missing\.md" + "\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_code_and_block_boundaries_do_not_join_literal_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for separated in (
+            "decks/sample/missing" + chr(96) + "code" + chr(96) + ".md\n",
+            "decks/sample/missing\n\n.md\n",
+        ):
+            with self.subTest(separated=separated):
+                (self.root / "decks" / "README.md").write_text(
+                    separated, encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_angle_uri_autolink_does_not_hide_following_split_local_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<https://bad_domain.example,decks/sample/ignored.md> "
+            r"decks/sample/missing\.md" + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+            validate_repository(self.root)
+
+
 if __name__ == "__main__":
     unittest.main()
