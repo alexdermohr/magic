@@ -30,6 +30,23 @@ jobs:
               "Snow-Covered Swamp", "Snow-Covered Mountain",
               "Snow-Covered Forest",
           }
+          # Oracle text exceptions to Commander singleton (Scryfall, 2026-10-17).
+          # None means "any number"; fixed limits are enforced below.
+          copy_limits = {
+              "Cid, Timeless Artificer": None,
+              "Dragon's Approach": None,
+              "Hare Apparent": None,
+              "Nazgûl": 9,
+              "Persistent Petitioners": None,
+              "Rat Colony": None,
+              "Relentless Rats": None,
+              "Seven Dwarves": 7,
+              "Shadowborn Apostle": None,
+              "Slime Against Humanity": None,
+              "Sphinx's Approach": None,
+              "Tempest Hawk": None,
+              "Templar Knight": None,
+          }
           decks = sorted(Path("decks").glob("*/current.txt"))
           errors = []
           if not decks:
@@ -52,8 +69,11 @@ jobs:
               if total != 100:
                   errors.append(f"{path}: {total} cards, expected 100")
               for name, qty in counts.items():
-                  if qty > 1 and name not in basic:
-                      errors.append(f"{path}: {qty} copies of nonbasic card {name}")
+                  if name in basic:
+                      continue
+                  limit = copy_limits.get(name, 1)
+                  if limit is not None and qty > limit:
+                      errors.append(f"{path}: {qty} copies of {name}, maximum {limit}")
           if errors:
               print("\n".join(errors), file=sys.stderr)
               sys.exit(1)
