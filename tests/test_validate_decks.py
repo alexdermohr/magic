@@ -131,6 +131,46 @@ class DeckValidationTests(unittest.TestCase):
             ),
         )
 
+    def test_r3_strikethrough_closer_inside_extended_autolink_is_opaque(self) -> None:
+        # The tilde in the bare HTTP(S) autolink is not a GFM strike closer.
+        # Neither the URL interior nor apparent nested Markdown is a deck link.
+        source = "~see https://example.test/~[analysis](sample/missing.md) end~"
+        self.assertNotIn((False, "sample/missing.md"),
+                         rendered_markdown_references(source))
+
+    def test_r3_angle_autolink_percent_encoded_href_has_opaque_label(self) -> None:
+        # The angle-autolink label is not visible text even if Mistune's
+        # URL escaping percent-encodes punctuation in its href attribute.
+        source = "<mailto:foo@bar.example|decks/sample/missing.md>"
+        self.assertEqual(
+            rendered_markdown_references(source),
+            [(False, "mailto:foo@bar.example%7Cdecks/sample/missing.md")],
+        )
+
+    def test_r3_table_html_and_fence_probe_work_is_linearly_bounded(self) -> None:
+        # The parser previously copied the entire remaining document for
+        # every invalid raw-HTML/fence candidate in a GFM table body.
+        rendered_markdown_references("")  # bind the pinned Mistune import
+        from mistune.core import BlockState
+        from unittest.mock import patch
+
+        source = "| A | B |\n| - | - |\n" + "<div:\n<pre.\n" * 600
+        original_process = BlockState.process
+        processed_characters = 0
+
+        def traced_process(block_state, text):
+            nonlocal processed_characters
+            processed_characters += len(text)
+            return original_process(block_state, text)
+
+        with patch.object(BlockState, "process", traced_process):
+            self.assertEqual(rendered_markdown_references(source), [])
+        self.assertLess(
+            processed_characters,
+            16 * len(source),
+            "GFM table block probes may not repeatedly copy the suffix",
+        )
+
     def test_flat_import_format_with_basic_lands(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         self.assertEqual(validate_list(self.deck), "Sample Commander")

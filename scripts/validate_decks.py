@@ -74,7 +74,9 @@ def gfm_table_plugin(md) -> None:
         fence_spec = block.SPECIFICATION["fenced_code"]
         if re.match(fence_spec, line) is not None:
             trial = BlockState()
-            trial.process(state.src[pos:])
+            # Classification needs only the current candidate line. Copying
+            # the suffix for each table row grows quadratically.
+            trial.process(line)
             candidate = re.match(fence_spec, trial.src, re.M)
             if candidate is not None and block.parse_fenced_code(candidate, trial) is not None:
                 return True
@@ -84,7 +86,9 @@ def gfm_table_plugin(md) -> None:
         if re.match(html_spec, line) is None:
             return False
         trial = BlockState()
-        trial.process(state.src[pos:])
+        # HTML block eligibility is decided by the opener on this line;
+        # never copy the entire table tail for each rejected candidate.
+        trial.process(line)
         candidate = re.match(html_spec, trial.src)
         return (candidate is not None
                 and block.parse_raw_html(candidate, trial) is not None)
@@ -184,9 +188,15 @@ def gfm_strikethrough_plugin(md) -> None:
         # deletion. Search the full source, not just through the closer:
         # angle autolinks and HTML tags require their final ">" to match.
         closer_pattern = re.compile(r"(?<!~)" + re.escape(marker) + r"(?!~)")
-        special_rules = inline.compile_sc([
-            "escape", "codespan", "link", "auto_link", "auto_email", "inline_html",
-        ])
+        rules = [
+            "escape", "codespan", "link", "auto_link", "auto_email",
+            "inline_html",
+        ]
+        # The GFM URL plugin is available in production but not required
+        # when this formatting plugin is tested standalone.
+        if "url_link" in inline.specification:
+            rules.append("url_link")
+        special_rules = inline.compile_sc(rules)
         scan = start
         special = special_rules.search(source, scan)
         closing = closer_pattern.search(source, scan)
@@ -614,7 +624,10 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     and isinstance(children, list)
                     and len(children) == 1
                     and children[0].get("type") == "text"
-                    and children[0].get("raw") == destination
+                    and (
+                        children[0].get("raw") == destination
+                        or children[0].get("raw") == unquote(destination)
+                    )
                 ):
                     flush_text()
                     return
