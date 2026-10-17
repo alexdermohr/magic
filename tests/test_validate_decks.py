@@ -89,6 +89,48 @@ class DeckValidationTests(unittest.TestCase):
             ),
         )
 
+    def test_r3_image_alt_text_is_not_visible_local_reference(self) -> None:
+        # GitHub turns alt text into an img attribute, not rendered prose.
+        # The image source destination still needs normal path checking.
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "![decks/sample/missing.md](https://example.test/image.png)"
+            ),
+        )
+        self.assertIn(
+            (False, "decks/sample/missing.png"),
+            rendered_markdown_references(
+                "![some text](decks/sample/missing.png)"
+            ),
+        )
+        self.assertIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "![hidden alt](https://example.test/image.png) "
+                "decks/sample/missing.md"
+            ),
+        )
+
+    def test_r3_zero_width_wbr_preserves_visible_path_fragments(self) -> None:
+        # A wbr offers a line-break opportunity, not a rendered separator.
+        for source in (
+            "<div>decks/sample/miss<wbr>ing.md</div>",
+            "decks/sample/miss<wbr>ing.md",
+            "decks/sample/miss<wbr/>ing.md",
+        ):
+            with self.subTest(source=source):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "decks/sample/miss<br>ing.md"
+            ),
+        )
+
     def test_flat_import_format_with_basic_lands(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         self.assertEqual(validate_list(self.deck), "Sample Commander")

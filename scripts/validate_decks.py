@@ -441,7 +441,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         "del", "dfn", "em", "font", "i", "ins", "kbd", "label",
         "mark", "output", "q", "rb", "ruby", "s", "samp", "small",
         "span", "strike", "strong", "sub", "sup", "time", "tt",
-        "u", "var", "template",
+        "u", "var", "template", "wbr",
     })
     transparent_tag = re.compile(
         r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
@@ -469,7 +469,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         CODE_TAGS = frozenset({"pre"})
         VOID_TAGS = frozenset({
             "area", "base", "br", "col", "embed", "hr", "img",
-            "input", "link", "meta", "param", "source", "track", "wbr",
+            "input", "link", "meta", "param", "source", "track",
         })
         # GitHub's GFM tagfilter renders these tag spellings as literal text
         # rather than HTML, including attributes of the forbidden tags.
@@ -600,6 +600,11 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 destination = token.get("attrs", {}).get("url")
                 if isinstance(destination, str):
                     found.append((False, destination))
+                if kind == "image":
+                    # Image alt text is an HTML attribute, not visible
+                    # prose; the replaced image also breaks text runs.
+                    flush_text()
+                    return
                 # URI autolinks repeat the URL as one text child. That is
                 # the link's URI, not a separate bare local deck reference.
                 if (
@@ -637,7 +642,8 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     tag = transparent_tag.fullmatch(raw)
                     if (tag is not None
                             and tag.group(1).lower() in transparent_inline_tags
-                            and not raw.rstrip().endswith("/>")):
+                            and (tag.group(1).lower() == "wbr"
+                                 or not raw.rstrip().endswith("/>"))):
                         # GFM ends a www.-autolink before an HTML token.
                         # Otherwise joined rendered text could mistake the
                         # following visible deck path for an URL suffix.
