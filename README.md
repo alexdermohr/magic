@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Sidar Jabari of Zhalfir — Die Ritterschaft von Zhalfir
+
+**Bracket 3 / Upgraded:** Esper-Ritter-Tribal mit Eminence, Friedhofs-Reanimation, Horsemanship und Kampffinishern; 32 weitere Kreaturen (davon 31 Ritterkarten und Roaming Throne als Golem, der auf dem Schlachtfeld zum Ritter wird), V3 mit mehr Kartenvorteil und zwei günstigen Reanimationen; weiterhin genau drei Game Changer.
+
+- 100-Karten-Liste: [decks/sidar-jabari-knights/current.txt](decks/sidar-jabari-knights/current.txt)
+- Spielplan, Bracket-Regeln, Manabasis: [decks/sidar-jabari-knights/analysis.md](decks/sidar-jabari-knights/analysis.md)

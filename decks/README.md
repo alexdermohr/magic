@@ -65,3 +65,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Sidar Jabari of Zhalfir — Die Ritterschaft von Zhalfir (Bracket 3)
+
+- Aktuelle optimierte Bracket-3-V3-Liste (100 Karten; 32 weitere Kreaturen, 30 andere Zauber, 37 Länder): [decks/sidar-jabari-knights/current.txt](sidar-jabari-knights/current.txt).
+- [decks/sidar-jabari-knights/analysis.md](sidar-jabari-knights/analysis.md): Ritter-/Reanimation-/Combat-Plan, drei Game Changer, Mana, Risiken.
+- Folgende Optimierungen pflegen die aktuelle Liste; historische Snapshots nur bei tatsächlich neuen Versionen.
