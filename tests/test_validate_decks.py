@@ -693,6 +693,49 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
 
+    def test_gfm_disallowed_html_tags_expose_visible_deck_paths(self) -> None:
+        """GFM escapes disallowed tags so their text is displayed literally."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<script>decks/sample/missing.md</script>\n",
+            "<SCRIPT>decks/sample/missing.md</SCRIPT>\n",
+            "<style>\ndecks/sample/missing.md\n</style>\n",
+            "<iframe>decks/sample/missing.md</iframe>\n",
+            "<script data-ref='decks/sample/missing.md'>safe</script>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_gfm_tagfilter_keeps_other_html_attributes_and_comments_opaque(self) -> None:
+        """Filtering one tag does not expose unrelated raw HTML attributes."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<div data-ref='decks/sample/missing.md'><script>safe</script></div>\n",
+            "<!-- <script>decks/sample/missing.md</script> -->\n",
+            "<pre>\n[example](sample/missing.md)\n</pre>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_disallowed_inline_html_tag_attributes_are_visible(self) -> None:
+        """The filtered inline tag itself is visible, including attributes."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "See <script data-ref='decks/sample/missing.md'>safe</script> here\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+            validate_repository(self.root)
+
     def test_raw_html_pre_block_examples_are_not_live_links(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "decks" / "README.md").write_text(
@@ -984,8 +1027,8 @@ class DeckValidationTests(unittest.TestCase):
                 ):
                     validate_repository(self.root)
 
-    def test_gfm_table_real_reference_definition_still_terminates(self) -> None:
-        """A genuine reference definition must remain available to later links."""
+    def test_gfm_table_reference_definition_is_cell_text(self) -> None:
+        """Reference-like text in table body does not define a global link."""
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "decks" / "README.md").write_text(
             "| A | B |\n| --- | --- |\n"
@@ -993,8 +1036,45 @@ class DeckValidationTests(unittest.TestCase):
             "[actual][x]\n",
             encoding="utf-8",
         )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_table_real_reference_definition_after_blank_line(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n| --- | --- |\n"
+            "text | text\n\n"
+            "[x]: sample/missing.md\n\n[actual][x]\n",
+            encoding="utf-8",
+        )
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
+
+    def test_gfm_table_valid_reference_looking_row_keeps_link_live(self) -> None:
+        """A ref-def-looking title across cells still renders a live second-cell link."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n| --- | --- |\n"
+            '[x]: sample/current.txt "t | [live](sample/missing.md)"\n',
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_invalid_table_header_retries_next_line(self) -> None:
+        """A rejected header may precede a real two-column table."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "| x |\n| a | b |\n| --- | --- |\n"
+            "| ` | [live](sample/missing.md) ` |\n",
+            "x |\na | b\n--- | ---\n"
+            "` | [live](sample/missing.md) `\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
 
     def test_gfm_table_mixed_outer_pipes_cannot_hide_missing_link(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")

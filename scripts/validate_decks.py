@@ -37,7 +37,7 @@ def gfm_table_plugin(md) -> None:
     verified upstream vendor source.
     """
     from mistune.plugins.table import (
-        TABLE_PATTERN, NP_TABLE_PATTERN, _parse_invalid_pipe_table,
+        TABLE_PATTERN, NP_TABLE_PATTERN,
         _is_escaped_pipe, _process_thead, _split_table_cells,
     )
     from mistune.core import BlockState
@@ -71,14 +71,8 @@ def gfm_table_plugin(md) -> None:
             "block_quote", "list",
         )):
             return True
-        # A [label]: prefix is not sufficient: a malformed definition is
-        # still table-cell text. Invoke the registered definition parser on
-        # an isolated state, preserving the live table and reference env.
-        trial = BlockState()
-        trial.process(state.src[pos:])
-        ref_match = block.compile_sc(["ref_link"]).match(trial.src)
-        if ref_match is not None and block.parse_method(ref_match, trial) is not None:
-            return True
+        # GFM reference definitions are paragraph constructs, not a new
+        # block that can interrupt an established table's body rows.
         html_spec = block.SPECIFICATION["raw_html"]
         if re.match(html_spec, line) is None:
             return False
@@ -104,12 +98,10 @@ def gfm_table_plugin(md) -> None:
             for cell in delimiter_cells
         )
         if not valid:
-            return (_parse_invalid_pipe_table(state, pos + len(delimiter_line))
-                    if piped else None)
+            return None
         thead, aligns = _process_thead(header, delimiter)
         if not thead or aligns is None:
-            return (_parse_invalid_pipe_table(state, pos + len(delimiter_line))
-                    if piped else None)
+            return None
         pos += len(delimiter_line)
         rows = []
         while pos < state.cursor_max:
@@ -352,6 +344,15 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
     )
 
+    # GFM tagfilter escapes the leading "<" of these tags; formerly raw HTML
+    # may therefore contain rendered literal deck paths. Keep ordinary HTML
+    # markup and comments opaque.
+    disallowed_html_tag = re.compile(
+        r"</?(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)(?=[\s/>])",
+        re.IGNORECASE,
+    )
+    html_comment = re.compile(r"<!--[\s\S]*?-->")
+
     # CommonMark decodes semicolon-terminated numeric and named character
     # references only within each text token. Decoding a concatenated run
     # would accidentally turn a backslash-escaped ampersand (split by Mistune
@@ -385,6 +386,23 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         def visit_inline(token: dict) -> None:
             kind = token.get("type")
             children = token.get("children")
+            if kind == "block_html":
+                flush_text()
+                raw = token.get("raw")
+                if isinstance(raw, str):
+                    # GFM escapes forbidden tags but leaves other raw tags
+                    # and their attributes unchanged.
+                    clean = html_comment.sub(" ", raw)
+                    if disallowed_html_tag.search(clean):
+                        escaped = disallowed_html_tag.sub(
+                            lambda match: "&lt;" + match.group()[1:], clean
+                        )
+                        visible = transparent_tag.sub(" ", escaped)
+                        for reference in literal_deck_references(
+                            decode_character_references(visible)
+                        ):
+                            found.append((True, reference))
+                return
             if kind == "text":
                 raw = token.get("raw")
                 if isinstance(raw, str):
@@ -421,6 +439,10 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 return
             if kind == "inline_html":
                 raw = token.get("raw")
+                if isinstance(raw, str) and disallowed_html_tag.match(raw):
+                    # The forbidden tag is displayed literally by GFM.
+                    rendered.append(decode_character_references(raw))
+                    return
                 # Comments and transparent text-level HTML add no visible
                 # separator; their attributes and bodies are never scanned.
                 if isinstance(raw, str):
