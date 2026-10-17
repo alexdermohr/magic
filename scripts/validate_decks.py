@@ -178,7 +178,6 @@ def gfm_strikethrough_plugin(md) -> None:
             cursor -= 1
         if backslashes % 2:
             return None
-
         start = match.end()
         cache_key = (id(source), marker)
         cached = state.formatting_no_end.get(cache_key)
@@ -196,6 +195,8 @@ def gfm_strikethrough_plugin(md) -> None:
         # when this formatting plugin is tested standalone.
         if "url_link" in inline.specification:
             rules.append("url_link")
+        if "www_link" in inline.specification:
+            rules.append("www_link")
         special_rules = inline.compile_sc(rules)
         scan = start
         special = special_rules.search(source, scan)
@@ -301,6 +302,19 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     from mistune.plugins.url import parse_url_link
     def gfm_url_plugin(md):
         md.inline.register("url_link", GFM_URL_AUTOLINK_PATTERN, parse_url_link)
+
+        def parse_www_link(inline, match, state):
+            # GFM makes the complete bare www. span one link token. Parsing
+            # its interior as Markdown could invent local destinations.
+            raw = match.group(0)
+            state.append_token({
+                "type": "link",
+                "children": [{"type": "text", "raw": raw}],
+                "attrs": {"url": "http://" + raw},
+            })
+            return match.end()
+
+        md.inline.register("www_link", GFM_WWW_AUTOLINK_PATTERN, parse_www_link)
 
     # Raw extended autolinks belong to GFM's URI span, including interior
     # commas/semicolons. Do not reinterpret a URL suffix as a local file.
@@ -627,6 +641,11 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     and (
                         children[0].get("raw") == destination
                         or children[0].get("raw") == unquote(destination)
+                        or (
+                            isinstance(children[0].get("raw"), str)
+                            and children[0]["raw"].startswith("www.")
+                            and destination == "http://" + children[0]["raw"]
+                        )
                     )
                 ):
                     flush_text()
@@ -687,6 +706,12 @@ GFM_HTTP_PREFIX = re.compile(r"^https?://" + GFM_HTTP_DOMAIN, re.IGNORECASE)
 # explicit inline delimiters. The final two domain labels may not contain "_".
 GFM_WWW_AUTHORITY = re.compile(
     r"(?:^|[*_~(])www\.([A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)+)"
+)
+# The same extended link must be opaque to GFM strikethrough delimiters.
+# Reject prefixes that do not start a URL token, and stop at HTML/whitespace.
+GFM_WWW_AUTOLINK_PATTERN = (
+    r"(?<![^\s*_~(])(?i:www\.)" + GFM_HTTP_DOMAIN
+    + r"(?:[^\s<]*[^<.,:;\"')\]\s])?"
 )
 
 
@@ -833,11 +858,13 @@ def validate_repository(root: Path) -> list[str]:
             if literal:
                 references.append((root, destination))
                 continue
-            decoded = destination  # Mistune AST URLs are already CommonMark entity-decoded.
+            decoded = unquote(destination)  # Decode for scheme/authority classification.
             if (decoded.startswith(("#", "//"))
                     or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", decoded)):
                 continue
-            local_path = unquote(decoded.split("#", 1)[0].split("?", 1)[0])
+            # Split source URI delimiters before decoding: %23 in a local
+            # filename is data, not an unencoded fragment separator.
+            local_path = unquote(destination.split("#", 1)[0].split("?", 1)[0])
             if local_path.startswith("/"):
                 references.append((root, local_path.lstrip("/")))
             elif local_path:

@@ -171,6 +171,49 @@ class DeckValidationTests(unittest.TestCase):
             "GFM table block probes may not repeatedly copy the suffix",
         )
 
+    def test_r3_www_autolink_tilde_cannot_close_strikethrough(self) -> None:
+        # GitHub's extended www autolink includes its tilde punctuation and
+        # bracket/parenthesis sequence; the suffix is never a local link.
+        self.assertNotIn(
+            (False, "sample/missing.md"),
+            rendered_markdown_references(
+                "~see www.example.com/~[analysis](sample/missing.md) end~"
+            ),
+        )
+
+    def test_r3_www_autolink_tilde_cannot_steal_visible_deck_strike(self) -> None:
+        # Tilde in a www URL is opaque to GFM delimiter recognition.
+        self.assertIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "www.example.com/~user decks/sample/~miss~ing.md"
+            ),
+        )
+
+    def test_r3_percent_encoded_url_scheme_is_not_a_local_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[x](%68%74%74%70%73://example.test/decks/guide.md)\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_r3_list_marker_interrupts_table_on_github(self) -> None:
+        # GitHub GFM closes tables at list starts even with a pipe inside.
+        # The following Markdown is code, not a live missing link.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for start in ("1.", "-", "*"):
+            source = (
+                "| A | B |\n| --- | --- |\n"
+                + start + " " + chr(96)
+                + " | [actual](sample/missing.md) close " + chr(96) + "\n"
+            )
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8",
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_flat_import_format_with_basic_lands(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         self.assertEqual(validate_list(self.deck), "Sample Commander")
