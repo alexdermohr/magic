@@ -6,18 +6,19 @@
 1 Slither Blade
 1 Triton Shorestalker
 1 Changeling Outcast
+1 Tetsuko Umezawa, Fugitive
 1 Invisible Stalker
 1 Tinybones, the Pickpocket
 1 Thief of Sanity
 1 Fallen Shinobi
-1 Silent-Blade Oni
+1 Gríma, Saruman's Footman
 1 Gonti, Lord of Luxury
 1 Doc Aurlock, Grizzled Genius
 1 Bilbo, Thief in the Night
 1 Rev, Tithe Extractor
 1 Felix Five-Boots
 1 Dauthi Voidwalker
-1 Thieving Skydiver
+1 Mercurial Spelldancer
 1 Hostage Taker
 1 Opposition Agent
 1 Notion Thief
@@ -36,23 +37,22 @@
 1 Nature's Lore
 1 Three Visits
 1 Farseek
-1 Siphon Insight
+1 Submerge
 1 Predators' Hour
-1 Arcane Heist
 1 Dream-Thief's Bandana
-1 Rogue Class
+1 Nature's Will
 1 Villainous Wealth
 1 Outrageous Robbery
 1 Bribery
 1 Blatant Thievery
+1 Tasha, the Witch Queen
 1 Mnemonic Betrayal
 1 Notorious Throng
-1 Cunning Rhetoric
+1 Bitterblossom
 1 Kindred Discovery
 1 Reconnaissance Mission
 1 Windfall
 1 Lightning Greaves
-1 Cover of Darkness
 1 Assassin's Trophy
 1 Beast Within
 1 Swan Song
@@ -90,7 +90,7 @@
 1 Otawara, Soaring City
 1 Takenuma, Abandoned Mire
 1 Cavern of Souls
-1 Rogue's Passage
+1 Yavimaya, Cradle of Growth
 1 Access Tunnel
 1 Rejuvenating Springs
 1 Morphic Pool
