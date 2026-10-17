@@ -1,16 +1,41 @@
 # Myrel, Shield of Argive — Die Armee von Argivia (Bracket 3)
 
-**Stand:** 2026-10-17 · **Revision:** V2 / Optimierung · **Format:** Commander (100 Karten) · **Ziel:** Bracket 3 / Upgraded · **Farbidentität:** Mono-Weiß · **Archetyp:** Soldier-Typal, Token-Aggro.
+**Stand:** 2026-10-17 · **Revision:** V3 / Optimierung · **Format:** Commander (100 Karten) · **Ziel:** Bracket 3 / Upgraded · **Farbidentität:** Mono-Weiß · **Archetyp:** Soldier-Typal, Token-Aggro.
 
 ## Stand und Prüfprotokoll
 
-Die aktive, direkt importierbare `current.txt` umfasst **100 Karten**: 1 Commander, 28 weitere Kreaturen, 13 andere Artefakte, 11 Verzauberungen, 10 Spontanzauber, 1 Planeswalker und 36 Länder. Von den Ländern sind **25 einfache Plains**. Es gibt 76 verschiedene Einträge/Kartennamen, davon 21 mit gedrucktem Kreaturentyp Soldier einschließlich Myrel; `Mirror Entity` ist aufgrund von Changeling ebenfalls ein Soldier. Die im Spiel erzeugten Tokens vergrößern die Soldatendichte erheblich.
+Die aktive, direkt importierbare `current.txt` umfasst **100 Karten**: 1 Commander, 27 weitere Kreaturen, 14 andere Artefakte, 11 Verzauberungen, 10 Spontanzauber, 1 Planeswalker und 36 Länder. Von den Ländern sind **25 einfache Plains**. Es gibt 76 verschiedene Einträge/Kartennamen, davon 19 mit gedrucktem Kreaturentyp Soldier einschließlich Myrel; `Mirror Entity` ist aufgrund von Changeling ebenfalls ein Soldier. Die im Spiel erzeugten Tokens vergrößern die Soldatendichte erheblich.
 
-**Scryfall-Oracle-Check vom 2026-10-17 (V2):** 76/76 einzigartige Kartennamen gefunden; jede Karte Commander-legal und in Papierform erhältlich; keine Farbidentität außerhalb von Weiß. Genau **drei Game Changer**: `Enlightened Tutor`, `Smothering Tithe` und `Teferi's Protection`. Die Prüfung umfasst Kartendaten, nicht Spielpartien. Bracket 3 ist hier das gebaute Leistungsziel; keine frühe absichtliche Zwei-Karten-Endloskombination, kein Massenlandentzug und keine Extrazug-Kette.
+**Scryfall-Oracle-Check vom 2026-10-17 (V3):** 76/76 einzigartige Kartennamen gefunden; jede Karte Commander-legal und in Papierform erhältlich; keine Farbidentität außerhalb von Weiß. Genau **drei Game Changer**: `Enlightened Tutor`, `Smothering Tithe` und `Teferi's Protection`. Die Prüfung umfasst Kartendaten, nicht Spielpartien. Bracket 3 ist hier das gebaute Leistungsziel; keine frühe absichtliche Zwei-Karten-Endloskombination, kein Massenlandentzug und keine Extrazug-Kette.
 
-**Manakosten (64 Nichtlandkarten einschließlich Commander):** 10 Karten mit Manawert 1, 14 mit 2, 20 mit 3, 12 mit 4, 6 mit 5 und 2 mit 6. Exalted Sunborn kann wegen Warp für {1}{W} temporär zwei Mana kosten, zählt bei der Manawertverteilung aber regulär als fünf.
+**Manakosten (64 Nichtlandkarten einschließlich Commander):** 11 Karten mit Manawert 1, 14 mit 2, 20 mit 3, 11 mit 4, 6 mit 5 und 2 mit 6. Exalted Sunborn kann wegen Warp für {1}{W} temporär zwei Mana kosten, zählt bei der Manawertverteilung aber regulär als fünf.
 
-## V2: konkrete Veränderungen
+## V3 – geprüfte Prioritäten: erster Angriff, Widerstandsfähigkeit, Kartenqualität
+
+Die V3 enthält **vier 1:1-Tausche** gegenüber der V2. Sie erhöht die Zahl der realistischen Quellen für Eile von zwei (Lightning Greaves, Swiftfoot Boots) auf vier (zusätzlich Lavaspur Boots und Hall of the Bandit Lord), wobei das Land getappt ins Spiel kommt und Eile nur beim Bezahlen eines Kreaturenzaubers gibt. Beide neuen Eile-Karten bleiben ohne Game-Changer-Einstufung. Die 36 Länder bleiben erhalten.
+
+| Raus (V2) | Rein (V3) | Entscheidung mit Gegenargument |
+| --- | --- | --- |
+| Daru Warchief | **Thalia, Heretic Cathar** | Ein Mana früher, weiterhin echter Soldier; gegnerische Kreaturen und Nichtstandardländer kommen getappt. Das hilft Myrels nächsten Angriff zu öffnen. Verzicht auf +1/+2-Soldier-Lord und Kostenrabatt für Soldier-Zauber. |
+| Mentor of the Meek | **Rumor Gatherer** | Kostet weiterhin drei Mana, benötigt bei Spielstein-Eintritt aber keine zusätzlichen Zahlungen und sichtet weitere Karten. Zeichnet höchstens die **zweite** Kreaturen-Eintrittsauslösung pro Zug als eine Karte; in sehr manareichen Runden könnte Mentor mehr Karten ziehen. Kein Soldier, eine verringerte Typendichte wird bewusst akzeptiert. |
+| Bastion Protector | **Lavaspur Boots** | Nur ein Mana zum Ausspielen und ein Mana zum Ausrüsten; Myrel erhält Eile, +1/+0 und Ward {1}. Die Stiefel sind über Urza's Saga suchbar, weil ihr **Mana-Kostenwert genau {1}** ist. Nachteil: Ward {1} ist kein Hexproof, und Myrel verliert Bastions dauerhafte Unzerstörbarkeit. |
+| Nykthos, Shrine to Nyx | **Hall of the Bandit Lord** | Das Hall-Mana ermöglicht Myrel beim Ausspielen Eile, wenn es für ihren Kreaturenzauber verwendet wird. Hall kommt allerdings getappt und kostet beim Tappen drei Lebenspunkte. Nykthos konnte bei hoher weißer Hingabe sehr stark werden, doch Myrels Soldier-Token haben **keine Manasymbole in ihren Manakosten** und erhöhen Hingabe nie – unabhängig davon, ob sie weiß oder farblos sind. Three Tree City übernimmt die Soldier-zählende Manaexplosion. |
+
+### Warum diese Veränderungen funktionieren können
+
+- **Früh Myrel angreifen:** Lightning Greaves und Swiftfoot Boots bleiben. Hall of the Bandit Lord ist eine zusätzliche, landbasierte Quelle für Eile; Lavaspur Boots ist die dritte direkte Eile-Ausrüstung. Ein über Urza's Saga gefundener Lavaspur Boot kann ab dem nächsten Hauptsegment an Myrel ausgerüstet werden. Urza's Saga sucht Artefakte **mit Manakosten {0} oder {1}**, nicht Artefakte mit Manawert beliebiger Höhe.
+- **Thalia als Tempo-Soldat:** Wenn Gegner Kreaturen in ihren Zügen ausspielen, bleiben diese in unserem darauffolgenden Zug getappt und können Myrel normalerweise nicht blocken. Bereits zuvor auf dem Feld stehende Kreaturen bleiben unbeeinflusst. Es wird weder Land zerstört noch das Enttappen bestehender Länder verhindert; dies ist keine Massenlandzerstörung.
+- **Rumor Gatherer + gleichzeitige Myrel-Token:** Jeder eintretende Soldier löst eine eigene Alliance-Fähigkeit aus. Die zweite im aktuellen Zug **verrechnete** Fähigkeit zieht statt Scry genau eine Karte; weitere Fähigkeiten können Scry 1 liefern. Die Manakosten von Rumor Gatherer sind {1}{W}{W}, weshalb das Deck weiterhin genügend weiße Quellen benötigt.
+- **Schutz bleibt ohne Bastion:** Mother of Runes, Flawless Maneuver, Clever Concealment und Teferi's Protection bleiben; auch Dolmen Gate und Reconnaissance ermöglichen risikoärmere Angriffe. Der Schutz vor gezieltem Exil ist aber ohne angelegte Swiftfoot Boots oder funktionierenden Mother of Runes nicht automatisch vorhanden.
+
+### Gegenprobe zur Optimierung
+
+- **Tempo ist kein Garant:** Hall of the Bandit Lord kann in einer Starthand den zweiten Manaeinsatz verzögern, und seine drei Lebenspunkte kosten im langen Spiel relevant Leben. Es ist **keine** sofort nutzbare weiße Quelle.
+- **Mentor of the Meek bleibt eine ernsthafte Alternative:** Mit zehn eingehenden 1/1-Spielsteinen und zehn verfügbaren Mana kann Mentor theoretisch zehn Karten ziehen, sofern die Spielsteine bei ihrem Eintritt Stärke höchstens zwei haben. Rumor Gatherer zieht dagegen höchstens eine Karte pro Zug und filtert den Rest. Diese Entscheidung priorisiert die frühen, manaärmeren Angriffe und das Scry; ohne Goldfish-/Partietests ist sie noch eine Hypothese.
+- **Kein Throne of the God-Pharaoh / Halo Fountain:** Diese Belohnungen für getappte Kreaturen passen schlecht zu dem im Deck verbliebenen Captain of the Watch, der anderen Soldiers Wachsamkeit gibt. Myrels neu erzeugte Soldier-Artefakt-Token kommen zudem ungetappt und **nicht angreifend** ins Spiel. Ein zweiter, vom Tappen abhängiger Siegplan wäre weniger konsistent als die vorhandenen Flug-/Soldaten-Finisher.
+- **Graveyard-Interaktion bleibt offen:** Soul-Guide Lantern wäre über Urza's Saga auffindbar und kann gegnerische Friedhöfe exilieren; ohne bekanntes Reanimations-Meta verdrängt sie hier aber keinen zentralen Beschleuniger, Schutz- oder Kartenmotor. Dies ist ein situationsabhängiger Nachrüstslot und keine bestandene Meta-Analyse.
+
+## Historie V2: frühere Veränderungen
 
 | Heraus | Hinein | Gewinn und zugehöriger Nachteil |
 | --- | --- | --- |
@@ -25,7 +50,7 @@ Die aktive, direkt importierbare `current.txt` umfasst **100 Karten**: 1 Command
 | Winds of Abandon | **Banner of Kinship** | Fünf-Mana-Schlachtabschluss mit permanentem, beim Eintritt festgelegtem Bonus für alle Soldiers. Verzicht auf ein asymmetrisches Massenexil, das Gegnern aber viele Standardländer geben konnte. |
 | Hall of Heliod's Generosity, Castle Ardenvale, Mistveil Plains | **3 Plains** | Drei weniger bedingte, farblose oder getappt kommende Quellen; sichereres frühes weißes Mana. Dafür weniger spät nutzbare Rekursion/Human-Produktion. |
 
-**Bewusst behalten:** `Preeminent Captain`, `Captain of the Watch`, `Catapult Master`, `Valiant Veteran`, `Field Marshal`, `Daru Warchief`, `Recruiter of the Guard`, `Ranger-Captain of Eos`, `Bastion Protector`, `Stoneforge Mystic`, `Skullclamp`, `Caretaker's Talent`, `Cathars' Crusade`, `Anointed Procession`, `Mondrak`, `Ojer Taq`, `Elspeth, Storm Slayer`, `Goldnight Commander`, `Odric`, `Akroma's Will`, `Reconnaissance`, `Dolmen Gate`, `Lightning Greaves` und `Swiftfoot Boots`.
+**In V3 weiterhin enthalten:** `Preeminent Captain`, `Captain of the Watch`, `Catapult Master`, `Valiant Veteran`, `Field Marshal`, `Recruiter of the Guard`, `Ranger-Captain of Eos`, `Bastion Protector`, `Stoneforge Mystic`, `Skullclamp`, `Caretaker's Talent`, `Cathars' Crusade`, `Anointed Procession`, `Mondrak`, `Ojer Taq`, `Elspeth, Storm Slayer`, `Goldnight Commander`, `Odric`, `Akroma's Will`, `Reconnaissance`, `Dolmen Gate`, `Lightning Greaves` und `Swiftfoot Boots`.
 
 ## Zentrale Angriffe und Regelinteraktionen
 
@@ -44,19 +69,19 @@ Die aktive, direkt importierbare `current.txt` umfasst **100 Karten**: 1 Command
 
 ## Spielablauf und Mana
 
-- **Züge 1–2:** Zwei bis drei Manaquellen, darunter mindestens eine weiße, plus `Sol Ring`/`Arcane Signet`/`Mind Stone` oder günstige Soldiers bevorzugen. Myrel kostet {3}{W}; übermäßig viele colorless-only-Länder machen die Starthand unzuverlässig. `Mother of Runes` und `Recruitment Officer` sind bevorzugte Einmana-Starts. `Resolute Reinforcements` oder `Valiant Veteran` legen zwei frühe Bodies/Lord bereit.
-- **Züge 3–4:** Manaquellen weiter entwickeln, ggf. `Archaeomancer's Map`/`Land Tax`. Vor Myrels erstem Angriff möglichst einen Schutz/Haste-Effekt und einen zweiten Soldier bereitstellen. `Ranger-Captain of Eos` kann neuerdings `Mother of Runes` oder `Esper Sentinel` finden. Myrels zusätzlicher Token entsteht erst beim Angriff, nicht beim Ausspielen.
-- **Züge 4–6:** Myrel einsetzen und Angriffe mit `Veteran Soldier`, `Exalted Sunborn` (Warp), `Anointed Procession`, `Roaming Throne` und `Renewed Solidarity` skalieren. Pro eigener Runde weiter Mana/Draw entwickeln; `Trouble in Pairs` hilft gerade, wenn Myrel erneut entfernt wird.
+- **Züge 1–2:** Zwei bis drei Manaquellen, darunter mindestens eine weiße, plus `Sol Ring`/`Arcane Signet`/`Mind Stone` oder günstige Soldiers bevorzugen. Wenn möglich Lavaspur Boots bereits für {1} legen; ihre Ausrüstung kostet später {1}. Myrel kostet {3}{W}; übermäßig viele colorless-only-Länder machen die Starthand unzuverlässig. `Mother of Runes` und `Recruitment Officer` sind bevorzugte Einmana-Starts. `Resolute Reinforcements` oder `Valiant Veteran` legen zwei frühe Bodies/Lord bereit.
+- **Züge 3–4:** Manaquellen weiter entwickeln, ggf. `Archaeomancer's Map`/`Land Tax`. Vor Myrels erstem Angriff möglichst eine der vier Eile-Quellen oder einen wirksamen Schutz und einen zweiten Soldier bereitstellen. Thalia erschwert frisch ausgespielte gegnerische Blocker. `Ranger-Captain of Eos` kann `Mother of Runes` oder `Esper Sentinel` finden; `Recruiter of the Guard` findet außerdem Rumor Gatherer. Myrels zusätzlicher Token entsteht erst beim Angriff, nicht beim Ausspielen.
+- **Züge 4–6:** Myrel einsetzen und Angriffe mit `Veteran Soldier`, `Exalted Sunborn` (Warp), `Anointed Procession`, `Roaming Throne` und `Renewed Solidarity` skalieren. Rumor Gatherer kann dabei zahlreiche Token-Eintritte in kostenlose Scry-Auslösungen und einmaligen Kartenzug umwandeln. Pro Runde weiter Mana/Kartennachschub entwickeln; `Trouble in Pairs` hilft gerade, wenn Myrel erneut entfernt wird.
 - **Schlussangriff:** `Eldrazi Monument` verleiht Flugfähigkeit, `Banner of Kinship` vergrößert die gesamte Soldier-Armee, `Odric` manipuliert Blocks, `Goldnight Commander` und `Cathars' Crusade` skalieren mit jedem Token, `Akroma's Will` verschafft den entscheidenden Durchbruch. `Elspeth, Storm Slayer` kann selbst Fliegen für das Team freischalten.
 
-Die 36 Länder enthalten **25 Plains**, dazu unter anderem `Eiganjo, Seat of the Empire`, `Minas Tirith`, `Cavern of Souls`, `Plaza of Heroes`, `War Room`, `Nykthos, Shrine to Nyx`, `Three Tree City` und `Urza's Saga`. `Emeria, the Sky Ruin` bleibt als langsamer Wiederaufbau-Baustein erhalten; die sieben Plains sind nicht für frühe Züge vorauszusetzen. `Urza's Saga` ist ein temporäres Land und sucht beispielsweise `Skullclamp` oder `Sol Ring`.
+Die 36 Länder enthalten **25 Plains**, dazu unter anderem `Eiganjo, Seat of the Empire`, `Minas Tirith`, `Cavern of Souls`, `Plaza of Heroes`, `War Room`, `Three Tree City`, `Hall of the Bandit Lord` und `Urza's Saga`. `Emeria, the Sky Ruin` bleibt als langsamer Wiederaufbau-Baustein erhalten; die sieben Plains sind nicht für frühe Züge vorauszusetzen. `Urza's Saga` ist ein temporäres Land und sucht beispielsweise `Skullclamp` oder `Sol Ring`.
 
 ## Wichtigste Gegenargumente und weitere Tests
 
 - **Haliya vs. Welcoming Vampire:** Haliya ist häufiger ein echter Soldier im Deck, gewinnt viel Leben und kann bei großen Tokenwellen ziehen; sie zieht **weniger zuverlässig bei nur einem Token/Turn**. Wenn viele Partien Myrel vor dem ersten Angriff verlieren, ist die Vampire-Rückkehr eine sinnvolle Testhypothese.
 - **Winds of Abandon vs. Banner:** Der neue Finisher ist ein starkes Win-More, wenn schon viele Soldiers auf dem Feld stehen. `Winds of Abandon` konnte dagegen im selben Zug alle gegnerischen Kreaturen exilieren. In einem Meta mit vielen Deathtouch- oder Reach-Blockern kann die alte Karte trotz des starken Ramp-Nachteils besser sein.
 - **Hohes Board-Commitment:** Auch bei nun verbesserten Schutzwerkzeugen verliert die Strategie gegen mehrfache Exil-/Bounce-Massenentfernung und gegen `Propaganda`-/`Ghostly Prison`-Effekte viel Tempo.
-- **Farbquellen:** Drei Utilitylands wurden zu einfachen Plains, doch `Urza's Saga`, `Nykthos`, `Three Tree City` und `War Room` geben nicht bedingungslos weißes Mana. Die Eröffnungsqualität sollte in Testhänden geprüft werden.
+- **Farbquellen:** Drei Utilitylands wurden zu einfachen Plains, doch `Urza's Saga`, `Hall of the Bandit Lord`, `Three Tree City` und `War Room` geben nicht bedingungslos weißes Mana. Die Eröffnungsqualität sollte in Testhänden geprüft werden.
 - **Token-Komplexität:** `Cathars' Crusade`, Tokenverdoppler und `Renewed Solidarity` erzeugen schnell viele einzelne Zähler/Trigger; das ist keine Deckbau-Regelverletzung, aber erfordert korrekte Abwicklung.
 - **Keine behaupteten Spiele:** Oracle-, Bracket-, Singleton- und Zählprüfung sind durchgeführt. Mulligan-Hand-Simulationen, Deckgeschwindigkeit und Siege in echten Spielen sind noch nicht unabhängig gemessen.
 
