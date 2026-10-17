@@ -65,3 +65,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Gahiji, Honored One — Das Tierreich (Bracket 3)
+
+- `decks/gahiji-animals/current.txt`: importierbare 100-Karten-Liste mit 34 weiteren Tierkreaturen, 28 Nichtkreaturen und 37 Ländern.
+- `decks/gahiji-animals/analysis.md`: Tier-Thema, Spielplan, drei Game Changer und Risiken.
+- Spätere Optimierungen aktualisieren `current.txt`; datierte Versionen können bei Bedarf unter `versions/` archiviert werden.
