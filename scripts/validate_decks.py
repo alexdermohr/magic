@@ -148,9 +148,9 @@ def gfm_strikethrough_plugin(md) -> None:
     """Support GFM's one- and two-tilde strikethrough without editing Mistune."""
     from mistune.plugins.formatting import strikethrough
 
-    strikethrough(md)  # Mistune's pinned plugin supports double tildes.
+    strikethrough(md)  # Keep the pinned rule and output conventions.
 
-    def parse_single_tilde(inline, match, state):
+    def parse_tildes(inline, match, state, marker):
         source = state.src
         opening = match.start()
         backslashes = 0
@@ -162,8 +162,27 @@ def gfm_strikethrough_plugin(md) -> None:
             return None
 
         start = match.end()
-        for closing in re.finditer(r"(?<!~)~(?!~)", source[start:]):
-            end = start + closing.start()
+        # Choose a delimiter only outside Mistune's actual escape and code
+        # tokens. Both single and double tilde closers can occur inside code
+        # spans and must not expose their apparent Markdown links.
+        closer_pattern = re.compile(r"(?<!~)" + re.escape(marker) + r"(?!~)")
+        special_rules = inline.compile_sc(["escape", "codespan"])
+        scan = start
+        while (closing := closer_pattern.search(source, scan)) is not None:
+            special = special_rules.search(source, scan, closing.end())
+            if special is not None and special.start() < closing.start():
+                if special.lastgroup == "codespan":
+                    probe = state.copy()
+                    probe.src = source
+                    end_of_code = inline.parse_codespan(special, probe)
+                    if probe.tokens[-1]["type"] == "codespan":
+                        scan = end_of_code
+                        continue
+                scan = special.end()
+                continue
+
+            end = closing.start()
+            scan = closing.end()
             if end <= start or source[end - 1].isspace():
                 continue
             cursor = end - 1
@@ -182,9 +201,23 @@ def gfm_strikethrough_plugin(md) -> None:
                 "type": "strikethrough",
                 "children": inline.render(nested),
             })
-            return end + 1
+            return end + len(marker)
         return None
 
+    def parse_single_tilde(inline, match, state):
+        return parse_tildes(inline, match, state, "~")
+
+    def parse_double_tilde(inline, match, state):
+        return parse_tildes(inline, match, state, "~~")
+
+    # Override the pinned double-tilde closer only for token-aware matching.
+    # Preserve its token name and registration order; vendored bytes stay fixed.
+    md.inline.register(
+        "strikethrough",
+        r"~~(?=[^\s~])",
+        parse_double_tilde,
+        before="link",
+    )
     md.inline.register(
         "gfm_single_strikethrough",
         r"(?<!~)~(?=[^\s~])",

@@ -1405,6 +1405,42 @@ class DeckValidationTests(unittest.TestCase):
                 self.assertEqual(len(validate_repository(self.root)), 1)
 
 
+    def test_gfm_strikethrough_code_span_tildes_do_not_activate_links(self) -> None:
+        """A tilde inside an actual code span cannot close outer deletion."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "~open `code~ [actual](sample/missing.md) close`~",
+            "~~open `code~~ [actual](sample/missing.md) close`~~",
+            "~~open ``code~~ [actual](sample/missing.md) close``~~",
+            "~open ``code~ [actual](sample/missing.md) close``~",
+            "~open ``code ` tick~ [actual](sample/missing.md) close``~",
+            "~open `code~ [actual](sample/missing.md) close`~ and more",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_strikethrough_still_checks_visible_links_near_code_spans(self) -> None:
+        """Unmatched or escaped backticks cannot hide actual local links."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "~open `code~ [hidden](sample/hidden.md) close`~ "
+            "[live](sample/missing.md)",
+            r"~open \`literal~ [live](sample/missing.md) \`~",
+            "~open `unclosed~ [live](sample/missing.md)",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+
     def test_gfm_reference_labels_support_501_through_999_characters(self) -> None:
         """GFM permits reference labels up to 999 characters; Mistune defaults to 500."""
         self.write_deck("1 Sample Commander\n99 Plains\n")
