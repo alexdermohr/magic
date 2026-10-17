@@ -65,3 +65,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Gev, Scaled Scorch — Echsen-Schwarm (Bracket 3)
+
+- `decks/gev-lizards/current.txt`: aktuelle 100-Karten-Liste (Rakdos, Lizard-Tribal).
+- `decks/gev-lizards/analysis.md`: Spielplan, Kartensynergien, Game Changer und Prüfgrenzen.
+- Spätere Optimierungen ersetzen `current.txt`; historische Stände gegebenenfalls unter `versions/`.
