@@ -718,6 +718,8 @@ class DeckValidationTests(unittest.TestCase):
         for source in (
             "<div data-ref='decks/sample/missing.md'><script>safe</script></div>\n",
             "<!-- <script>decks/sample/missing.md</script> -->\n",
+            "<!-- <script>decks/sample/missing.md\n",
+            "<!-- open comment\n<script>decks/sample/missing.md\n",
             "<pre>\n[example](sample/missing.md)\n</pre>\n",
         ):
             with self.subTest(source=source):

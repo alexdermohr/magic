@@ -351,7 +351,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         r"</?(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)(?=[\s/>])",
         re.IGNORECASE,
     )
-    html_comment = re.compile(r"<!--[\s\S]*?-->")
+    html_comment = re.compile(r"<!--[\s\S]*?(?:-->|\Z)")
 
     # CommonMark decodes semicolon-terminated numeric and named character
     # references only within each text token. Decoding a concatenated run
