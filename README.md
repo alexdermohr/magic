@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Captain America, Team Leader — Die Liga der Superhelden
+
+**Bracket 3 / Upgraded (v3, 17.10.2026):** Jeskai-Heldentribal mit 38 Kreaturen (33 gedruckte Heroes), Marken- und Karten-Engine um Cathars' Crusade, Danny Pink und Echo; unblockbare Angriffe mit Wraith und Herald of Secret Streams. 100 Commander-legale Karten und genau drei Game Changer.
+
+- Aktuelle importierbare Liste: [decks/captain-america-heroes/current.txt](decks/captain-america-heroes/current.txt)
+- Spielplan, Bracket-Prüfung und Risiken: [decks/captain-america-heroes/analysis.md](decks/captain-america-heroes/analysis.md)
