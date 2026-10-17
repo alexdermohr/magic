@@ -391,7 +391,13 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         # </pre>, </script>, </style> or </textarea> to finish rule 1.
         original_raw_html = markdown.block.parse_raw_html
         rule_one_tags = frozenset(("pre", "script", "style", "textarea"))
-        rule_one_end = re.compile(r"</(?:pre|script|style|textarea)\s*>", re.IGNORECASE)
+        # Filtered script/style/textarea wrappers still follow GFM's
+        # first-rule-1-closer Markdown block boundary. GitHub then renders
+        # following 4-space indented text as code. An HTML <pre> wrapper,
+        # however, stays an example until its own actual closing tag.
+        rule_one_any_end = re.compile(
+            r"</(?:pre|script|style|textarea)\s*>", re.IGNORECASE
+        )
 
         def parse_gfm_raw_html(match, state):
             marker = match.group(0).strip()
@@ -401,7 +407,15 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 if boundary and boundary not in " \t\n\r/>":
                     return None
                 if marker.startswith("<") and not marker.startswith("</") and tag.group(1).lower() in rule_one_tags:
-                    ending = rule_one_end.search(state.src, match.end())
+                    # Only a matching </pre> closes visible <pre> examples;
+                    # forbidden wrappers use GFM's Markdown block terminator.
+                    if tag.group(1).lower() == "pre":
+                        rule_end = re.compile(
+                            r"</pre\s*>", re.IGNORECASE
+                        )
+                    else:
+                        rule_end = rule_one_any_end
+                    ending = rule_end.search(state.src, match.end())
                     if ending is None:
                         end = state.cursor_max
                     else:
@@ -427,7 +441,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         "del", "dfn", "em", "font", "i", "ins", "kbd", "label",
         "mark", "output", "q", "rb", "ruby", "s", "samp", "small",
         "span", "strike", "strong", "sub", "sup", "time", "tt",
-        "u", "var",
+        "u", "var", "template",
     })
     transparent_tag = re.compile(
         r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
@@ -483,7 +497,8 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     self.hidden.append(tag)
                 return
             if tag in self.FILTERED_TAGS:
-                self.parts.append(self.get_starttag_text() or "<" + tag + ">")
+                raw_start = self.get_starttag_text() or "<" + tag + ">"
+                self.parts.append(decode_character_references(raw_start))
             elif tag in self.CODE_TAGS:
                 self.hidden.append(tag)
                 self.parts.append(" ")
@@ -506,7 +521,8 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if self.hidden:
                 return
             if tag in self.FILTERED_TAGS:
-                self.parts.append(self.get_starttag_text() or "<" + tag + "/>")
+                raw_start = self.get_starttag_text() or "<" + tag + "/>"
+                self.parts.append(decode_character_references(raw_start))
             elif tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
                 self.parts.append(" ")
 
@@ -622,6 +638,11 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     if (tag is not None
                             and tag.group(1).lower() in transparent_inline_tags
                             and not raw.rstrip().endswith("/>")):
+                        # GFM ends a www.-autolink before an HTML token.
+                        # Otherwise joined rendered text could mistake the
+                        # following visible deck path for an URL suffix.
+                        if gfm_www_autolink_prefix("".join(rendered)):
+                            flush_text()
                         return
             flush_text()
             if isinstance(children, list):

@@ -26,6 +26,69 @@ class DeckValidationTests(unittest.TestCase):
     def write_deck(self, content: str) -> None:
         self.deck.write_text(content, encoding="utf-8")
 
+    def test_r3_pre_block_ignores_wrong_closing_tag(self) -> None:
+        # Browser-visible <pre> examples remain opaque across wrong closers.
+        for opener, wrong, closer in [
+            ("pre", "script", "pre"),
+            ("PRE", "StYlE", "pRe"),
+        ]:
+            source = (
+                f"<{opener}>\n</{wrong}>\n"
+                "decks/sample/missing.md\n"
+                f"</{closer}>\n"
+            )
+            with self.subTest(source=source):
+                self.assertEqual(rendered_markdown_references(source), [])
+        self.assertIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "<pre>\nexample\n</PRE>\n\ndecks/sample/missing.md\n"
+            ),
+        )
+
+    def test_r3_gfm_filtered_tag_decodes_attribute_entities_once(self) -> None:
+        self.assertIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "<script data-ref='decks&sol;sample&sol;missing.md'>safe</script>"
+            ),
+        )
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "<script data-ref='decks&amp;sol;sample&amp;sol;missing.md'>safe</script>"
+            ),
+        )
+
+    def test_r3_template_inline_path_fragments_stay_visible(self) -> None:
+        self.assertIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "decks/sample/<template>missing</template>.md"
+            ),
+        )
+        # GitHub renders form tags as paragraph boundaries, unlike template.
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "decks/sample/miss<form></form>ing.md"
+            ),
+        )
+
+    def test_r3_www_autolink_followed_by_inline_html_does_not_hide_path(self) -> None:
+        self.assertIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "www.example.com<span></span>decks/sample/missing.md"
+            ),
+        )
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "www.example.comdecks/sample/missing.md"
+            ),
+        )
+
     def test_flat_import_format_with_basic_lands(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         self.assertEqual(validate_list(self.deck), "Sample Commander")
