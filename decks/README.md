@@ -68,6 +68,6 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 ## Captain America, Team Leader — Die Liga der Superhelden (Bracket 3)
 
-- `decks/captain-america-heroes/current.txt`: 100-Karten-Hero-Commander-Deck (Jeskai, v2, 38 Kreaturen inkl. Commander, 26 weitere Zauber, 36 Länder).
-- `decks/captain-america-heroes/analysis.md`: Spielplan, 33 gedruckte Hero-Kreaturen, zwölf begründete Tausche, Bracket-3-/Oracle-Prüfung und verbleibende Risiken.
+- `decks/captain-america-heroes/current.txt`: 100-Karten-Hero-Commander-Deck (Jeskai, v3, 38 Kreaturen inkl. Commander, 26 weitere Zauber, 36 Länder).
+- `decks/captain-america-heroes/analysis.md`: Spielplan, 33 gedruckte Hero-Kreaturen, sieben weitere begründete V3-Tausche, Bracket-3-Oracle-Prüfung und verbleibende Risiken.
 - Aktueller Hauptstand unter `current.txt`; eine eigene Deck-Versionierung wird erst bei späteren Änderungen benötigt.

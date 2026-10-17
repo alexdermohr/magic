@@ -8,21 +8,21 @@
 1 Captain America, Wings of Freedom
 1 Captain Marvel, Apex Avenger
 1 Director Nick Fury
-1 Falcon and Redwing
+1 King T'Challa
 1 Firebird, Blazing Ranger
 1 Hawkeye, Trick Shot
 1 Shuri, Vibranium Technologist
 1 Iron Man, Armored Avenger
 1 Jarvis, Earth's Mightiest Butler
-1 Jocasta, Automaton Avenger
+1 Captain America, Skybound
 1 Metallic Mimic
-1 Photon, Mighty Marvel
+1 Wraith, Vicious Vigilante
 1 Professor Hulk
 1 Quicksilver, Brash Blur
 1 Rescue, Pepper Potts
 1 Scarlet Witch, Chaotic Avenger
 1 Shang-Chi and the Ten Rings
-1 She-Hulk, Wallbreaker
+1 Echo, Perceptive Prodigy
 1 Spectacular Spider-Man
 1 Spider-Woman, Stunning Savior
 1 The Wasp, Winsome Avenger
@@ -38,7 +38,7 @@
 1 Herald of Secret Streams
 1 Sol Ring
 1 Arcane Signet
-1 Fellwar Stone
+1 Relic of Legends
 1 Talisman of Conviction
 1 Talisman of Creativity
 1 Talisman of Progress
@@ -56,12 +56,12 @@
 1 Generous Gift
 1 Chaos Warp
 1 Raise the Palisade
-1 Damning Verdict
+1 Cathars' Crusade
 1 Teferi's Protection
 1 Ripples of Potential
 1 Akroma's Will
 1 Flawless Maneuver
-1 Arcane Denial
+1 Mana Drain
 1 Avengers Tower
 1 Command Tower
 1 Exotic Orchard
