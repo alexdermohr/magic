@@ -68,8 +68,16 @@ def gfm_table_plugin(md) -> None:
         # HTML block parser accepts the candidate in an isolated state.
         if any(re.match(block.SPECIFICATION[kind], line) for kind in (
             "fenced_code", "atx_heading", "thematic_break",
-            "block_quote", "list", "ref_link",
+            "block_quote", "list",
         )):
+            return True
+        # A [label]: prefix is not sufficient: a malformed definition is
+        # still table-cell text. Invoke the registered definition parser on
+        # an isolated state, preserving the live table and reference env.
+        trial = BlockState()
+        trial.process(state.src[pos:])
+        ref_match = block.compile_sc(["ref_link"]).match(trial.src)
+        if ref_match is not None and block.parse_method(ref_match, trial) is not None:
             return True
         html_spec = block.SPECIFICATION["raw_html"]
         if re.match(html_spec, line) is None:

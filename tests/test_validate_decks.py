@@ -958,6 +958,34 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+    def test_gfm_table_invalid_reference_prefix_keeps_link_live(self) -> None:
+        """An invalid [label]: row remains a table row, not a block boundary."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "| A | B |\n| --- | --- |\n[x]: ` | [actual](sample/missing.md) close `\n",
+            "| A | B |\n| --- | --- |\n[x]: ` | [actual](sample/missing.md) close ` |\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_gfm_table_real_reference_definition_still_terminates(self) -> None:
+        """A genuine reference definition must remain available to later links."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n| --- | --- |\n"
+            "[x]: sample/missing.md\n\n"
+            "[actual][x]\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
     def test_gfm_table_mixed_outer_pipes_cannot_hide_missing_link(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         samples = (
