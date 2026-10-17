@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Myrel, Shield of Argive — Die Armee von Argivia
+
+**Bracket 3 / Upgraded:** Mono-weißes Soldier-Typal-Deck mit Myrels Angriffstoken, Tokenverdopplern, Kampfdurchbruch und drei regelkonformen Game Changern.
+
+- Aktuelle importierbare 100-Karten-Liste: [decks/myrel-soldiers/current.txt](decks/myrel-soldiers/current.txt)
+- Spielplan, Synergien und Live-Legalitätsprüfung: [decks/myrel-soldiers/analysis.md](decks/myrel-soldiers/analysis.md)
