@@ -4,8 +4,9 @@ from __future__ import annotations
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+import time
 
-from scripts.validate_decks import DeckValidationError, validate_list, validate_repository
+from scripts.validate_decks import (DeckValidationError, validate_list, validate_repository, literal_deck_references, rendered_markdown_references)
 
 
 class DeckValidationTests(unittest.TestCase):
@@ -688,6 +689,104 @@ class DeckValidationTests(unittest.TestCase):
             "| --- | --- |\n"
             "| Open ` | ordinary |\n"
             "| [actual](sample/missing.md) | Close ` |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_marked_container_table_cells_keep_correct_visibility(self) -> None:
+        """Explicitly marked table body cells remain GFM tables."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "> | A | B |\n> | - | - |\n> | text | [live](sample/missing.md) |\n",
+            "- | A | B |\n  | - | - |\n  | text | [live](sample/missing.md) |\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+        # This link-like label is split into two genuine list-table cells.
+        (self.root / "decks" / "README.md").write_text(
+            "- | A | B |\n  | - | - |\n"
+            "  | [not | live](sample/missing.md) |\n", encoding="utf-8"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_literal_deck_scanner_keeps_greedy_path_boundaries(self) -> None:
+        cases = {
+            "decks/sample/current.txt": ["decks/sample/current.txt"],
+            "decks/sample/note.md.": ["decks/sample/note.md"],
+            "decks/sample/a.md.bak": [],
+            "decks/sample/a.md/other.txt": ["decks/sample/a.md/other.txt"],
+            "decks/a.md.decks/b.txt": ["decks/a.md.decks/b.txt"],
+            "decks/..md": ["decks/..md"],
+            "decks/.md": [],
+            "path/to/decks/x.md": [],
+            "decks/x.md https://example.test/decks/b.md": ["decks/x.md"],
+        }
+        for source, expected in cases.items():
+            with self.subTest(source=source):
+                self.assertEqual(literal_deck_references(source), expected)
+
+    def test_adversarial_literal_paths_and_opaque_tildes_are_bounded(self) -> None:
+        start = time.monotonic()
+        self.assertEqual(literal_deck_references("decks/" * 30000), [])
+        self.assertLess(time.monotonic() - start, 2.0)
+        start = time.monotonic()
+        self.assertEqual(
+            rendered_markdown_references(
+                "~x" + (" " + chr(96) + "a" + chr(96)) * 3200 + " ~"
+            ),
+            [],
+        )
+        self.assertLess(time.monotonic() - start, 2.0)
+
+    def test_gfm_table_lazy_container_lines_keep_links_live(self) -> None:
+        """GitHub does not lazily continue tables in blockquotes or lists."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "> | A | B |\n> | - | - |\n[live | x](sample/missing.md)\n",
+            "> [live | x](sample/missing.md)\n--- | ---\n",
+            "- | A | B |\n  | - | - |\n[live | x](sample/missing.md)\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_invalid_backtick_info_preserves_live_table_cell(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n| --- | --- |\n"
+            "``` x` | [live](sample/missing.md) `\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_malformed_or_uppercase_html_preserves_following_links(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<pre.\n\n[live](sample/missing.md)\n",
+            "<div:\n[live](sample/missing.md)\n",
+            "<PRE>\nx\n</PRE>\n\n[live](sample/missing.md)\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_footnote_continuation_contains_live_markdown_links(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "Note[^1]\n\n[^1]: ok text\n\n    [live](sample/missing.md)\n",
             encoding="utf-8",
         )
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):

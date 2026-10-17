@@ -18,7 +18,8 @@ BASICS = frozenset({
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # Do not match a .md/.txt prefix of a longer filename (e.g. .md.bak).
 # A solitary trailing period is prose punctuation and still ends the path.
-LINK = re.compile(r"decks/[A-Za-z0-9_./-]+\.(?:md|txt)(?![\w/~+-]|\.[\w-])")
+_DECK_PATH_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_./-")
+_DECK_EXTENSIONS = re.compile(r"\.(?:md|txt)")
 
 
 # Mistune 3.3.4 is checked in as auditable Python source with an upstream
@@ -67,10 +68,16 @@ def gfm_table_plugin(md) -> None:
         # of a valid GFM table cell. Only end the table if the actual pinned
         # HTML block parser accepts the candidate in an isolated state.
         if any(re.match(block.SPECIFICATION[kind], line) for kind in (
-            "fenced_code", "atx_heading", "thematic_break",
-            "block_quote", "list",
+            "atx_heading", "thematic_break", "block_quote", "list",
         )):
             return True
+        fence_spec = block.SPECIFICATION["fenced_code"]
+        if re.match(fence_spec, line) is not None:
+            trial = BlockState()
+            trial.process(state.src[pos:])
+            candidate = re.match(fence_spec, trial.src, re.M)
+            if candidate is not None and block.parse_fenced_code(candidate, trial) is not None:
+                return True
         # GFM reference definitions are paragraph constructs, not a new
         # block that can interrupt an established table's body rows.
         html_spec = block.SPECIFICATION["raw_html"]
@@ -83,10 +90,15 @@ def gfm_table_plugin(md) -> None:
                 and block.parse_raw_html(candidate, trial) is not None)
 
     def parse_table(block, match, state, *, piped):
+        # Lazy container continuation lines can extend paragraphs, not GFM tables.
+        if match.start() in state.lazy_line_starts:
+            return None
         header = strip_gfm_table_row(match.group(0), require_pipe=True)
         if header is None:
             return None
         pos = match.end()
+        if pos in state.lazy_line_starts:
+            return None
         delimiter_line = state.get_line(pos)
         delimiter = strip_gfm_table_row(delimiter_line, require_pipe=True)
         if delimiter is None:
@@ -105,6 +117,8 @@ def gfm_table_plugin(md) -> None:
         pos += len(delimiter_line)
         rows = []
         while pos < state.cursor_max:
+            if pos in state.lazy_line_starts:
+                break
             line = state.get_line(pos)
             # A GFM table ends when a new block starts. The presence of a
             # pipe in a fenced-code info string must not swallow the fence:
@@ -175,7 +189,8 @@ def gfm_strikethrough_plugin(md) -> None:
         ])
         scan = start
         special = special_rules.search(source, scan)
-        while (closing := closer_pattern.search(source, scan)) is not None:
+        closing = closer_pattern.search(source, scan)
+        while closing is not None:
             if special is not None and special.start() < closing.start():
                 if special.lastgroup == "codespan":
                     probe = state.copy()
@@ -183,6 +198,8 @@ def gfm_strikethrough_plugin(md) -> None:
                     end_of_code = inline.parse_codespan(special, probe)
                     if probe.tokens[-1]["type"] == "codespan":
                         scan = end_of_code
+                        if scan > closing.start():
+                            closing = closer_pattern.search(source, scan)
                         special = special_rules.search(source, scan)
                         continue
                 if special.lastgroup == "link":
@@ -191,14 +208,19 @@ def gfm_strikethrough_plugin(md) -> None:
                     end_of_link = inline.parse_link(special, probe)
                     if end_of_link is not None:
                         scan = end_of_link
+                        if scan > closing.start():
+                            closing = closer_pattern.search(source, scan)
                         special = special_rules.search(source, scan)
                         continue
                 scan = special.end()
+                if scan > closing.start():
+                    closing = closer_pattern.search(source, scan)
                 special = special_rules.search(source, scan)
                 continue
 
             end = closing.start()
             scan = closing.end()
+            closing = closer_pattern.search(source, scan)
             if end <= start or source[end - 1].isspace():
                 continue
             cursor = end - 1
@@ -264,6 +286,8 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         raise DeckValidationError("offline Markdown parser has an unexpected identity")
 
     from mistune.plugins.table import table_in_quote, table_in_list
+    from mistune.plugins.footnotes import footnotes
+    from mistune import list_parser
     from mistune.plugins.url import parse_url_link
     def gfm_url_plugin(md):
         md.inline.register("url_link", GFM_URL_AUTOLINK_PATTERN, parse_url_link)
@@ -311,6 +335,42 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             return None
         return BlockParser.parse_ref_link(block, match, state)
 
+    # Mistune retains lazy-line origins for quotes, but list-item extraction
+    # discards that flag. Recover only the unindented child line starts from
+    # the consumed original lines; GFM tables cannot continue lazily.
+    original_list_item = list_parser._parse_list_item
+
+    def parse_gfm_list_item(block, bullet, item, token, state, rules):
+        start_cursor = state.cursor
+        first, continue_width = list_parser._compile_continue_width(
+            item.text, item.leading_width
+        )
+        original_child_state = state.child_state
+
+        def list_child_state(src, lazy_line_starts=None):
+            child = original_child_state(src, lazy_line_starts)
+            if src.startswith(first):
+                offset = len(first)
+                consumed = state.src[start_cursor:state.cursor]
+                for raw in consumed.splitlines(keepends=True):
+                    normalized = list_parser._clean_list_item_text(
+                        raw, continue_width
+                    )
+                    if not src.startswith(normalized, offset):
+                        break  # A following list item was already consumed.
+                    if (raw.strip() and not list_parser._has_continuation_indent(
+                            raw, continue_width)):
+                        child.lazy_line_starts.add(offset)
+                    offset += len(normalized)
+            return child
+
+        state.child_state = list_child_state
+        try:
+            return original_list_item(block, bullet, item, token, state, rules)
+        finally:
+            state.child_state = original_child_state
+
+    list_parser._parse_list_item = parse_gfm_list_item
     original_inline_label = helpers._INLINE_LINK_LABEL_RE
     original_angle_parser = helpers._parse_angle_link_href
     helpers._INLINE_LINK_LABEL_RE = SourceBoundLabelPattern(re.compile(gfm_label + r"\]"))
@@ -318,15 +378,44 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     try:
         markdown = mistune.create_markdown(
             renderer="ast",
-            plugins=[gfm_table_plugin, table_in_quote, table_in_list, gfm_url_plugin, gfm_strikethrough_plugin],
+            plugins=[gfm_table_plugin, table_in_quote, table_in_list, footnotes, gfm_url_plugin, gfm_strikethrough_plugin],
         )
         markdown.block.register(
             "ref_link",
             r"^ {0,3}\[(?P<reflink_1>" + gfm_label + r")\]:",
             parse_gfm_ref_link,
         )
+        # Mistune's raw_html start regex also matches malformed <pre./<div:
+        # prefixes, and its rule-1 closing-tag search is case-sensitive.
+        # CommonMark/GFM require a tag-name boundary and allow case-insensitive
+        # </pre>, </script>, </style> or </textarea> to finish rule 1.
+        original_raw_html = markdown.block.parse_raw_html
+        rule_one_tags = frozenset(("pre", "script", "style", "textarea"))
+        rule_one_end = re.compile(r"</(?:pre|script|style|textarea)\s*>", re.IGNORECASE)
+
+        def parse_gfm_raw_html(match, state):
+            marker = match.group(0).strip()
+            tag = re.fullmatch(r"</?([A-Za-z][A-Za-z0-9-]*)", marker)
+            if tag is not None:
+                boundary = state.src[match.end():match.end() + 1]
+                if boundary and boundary not in " \t\n\r/>":
+                    return None
+                if marker.startswith("<") and not marker.startswith("</") and tag.group(1).lower() in rule_one_tags:
+                    ending = rule_one_end.search(state.src, match.end())
+                    if ending is None:
+                        end = state.cursor_max
+                    else:
+                        offset = state.src.find("\n", ending.end())
+                        end = state.cursor_max if offset == -1 else offset + 1
+                    state.append_token({"type": "block_html", "raw": state.src[state.cursor:end]})
+                    return end
+            return original_raw_html(match, state)
+
+        markdown.block.parse_raw_html = parse_gfm_raw_html
+        markdown.block.register("raw_html", None, lambda block, match, state: parse_gfm_raw_html(match, state))
         ast = markdown(source)
     finally:
+        list_parser._parse_list_item = original_list_item
         helpers._INLINE_LINK_LABEL_RE = original_inline_label
         helpers._parse_angle_link_href = original_angle_parser
     found: list[tuple[bool, str]] = []
@@ -490,18 +579,45 @@ def gfm_www_autolink_prefix(prefix: str) -> bool:
 
 
 def literal_deck_references(content: str) -> list[str]:
+    # Scan each contiguous path-like run once. A backtracking match beginning
+    # at every nested "decks/" takes quadratic time on repeated prefixes.
     references: list[str] = []
-    for match in LINK.finditer(content):
-        if match.start() and (
-            content[match.start() - 1].isalnum()
-            or content[match.start() - 1] in "_/.-"
+    length = len(content)
+    offset = 0
+    while (start := content.find("decks/", offset)) >= 0:
+        end = start + 6
+        while end < length and content[end] in _DECK_PATH_CHARS:
+            end += 1
+
+        # Greedy legacy regex semantics: use the rightmost extension whose
+        # following characters satisfy the original Markdown-path boundary.
+        match_end = None
+        for extension in _DECK_EXTENSIONS.finditer(content, start + 7, end):
+            candidate_end = extension.end()
+            if candidate_end < length:
+                following = content[candidate_end]
+                if (following.isalnum() or following in "_/~+-"
+                        or (following == "." and candidate_end + 1 < length
+                            and (content[candidate_end + 1].isalnum()
+                                 or content[candidate_end + 1] in "_-"))):
+                    continue
+            match_end = candidate_end
+
+        # Nested "decks/" in the same uninterrupted path cannot provide
+        # another independent root-relative reference.
+        offset = max(end, start + 6)
+        if match_end is None:
+            continue
+        if start and (
+            content[start - 1].isalnum()
+            or content[start - 1] in "_/.-"
         ):
             continue
         token_start = max(
-            content.rfind(chr(sep), 0, match.start())
+            content.rfind(chr(sep), 0, start)
             for sep in (9, 10, 13, 32)
         ) + 1
-        prefix = content[token_start:match.start()].rsplit("](", 1)[-1]
+        prefix = content[token_start:start].rsplit("](", 1)[-1]
         # A bare URL's interior punctuation is part of the autolink;
         # only a true whitespace/punctuation-separated local text token
         # is a repository-root mention. URL children remain exempt.
@@ -510,7 +626,7 @@ def literal_deck_references(content: str) -> list[str]:
         # own URL suffix. Arbitrary URI-looking prose (e.g. See:) does not.
         if not (GFM_HTTP_PREFIX.match(candidate)
                 or gfm_www_autolink_prefix(prefix)):
-            references.append(match.group())
+            references.append(content[start:match_end])
     return references
 
 
