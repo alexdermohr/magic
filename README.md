@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Gev, Scaled Scorch — Echsen-Schwarm
+
+**Bracket 3 / Upgraded:** Rakdos-Echsen-Tribal mit frühem Pinger-Schaden, +1/+1-Marken auf nachgespielten Kreaturen und Schadens-Finishern.
+
+- Importierbare Liste: [decks/gev-lizards/current.txt](decks/gev-lizards/current.txt)
+- Spielplan, Synergien und Bracket-Einordnung: [decks/gev-lizards/analysis.md](decks/gev-lizards/analysis.md)
