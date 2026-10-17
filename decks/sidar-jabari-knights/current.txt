@@ -8,7 +8,7 @@
 1 Marshal of Zhalfir
 1 Smitten Swordmaster
 1 Ayara's Oathsworn
-1 Aryel, Knight of Windgrace
+1 Knight of Dusk's Shadow
 1 Acclaimed Contender
 1 Knight Exemplar
 1 Skyhunter Strike Force
@@ -20,7 +20,6 @@
 1 Vodalian Wave-Knight
 1 Exsanguinator Cavalry
 1 Haakon, Stromgald Scourge
-1 Valiant Knight
 1 Battle Angels of Tyr
 1 Cavalier of Dawn
 1 Cavalier of Night
@@ -32,14 +31,13 @@
 1 Dion, Bahamut's Dominant
 1 Silverblade Paladin
 1 Summon: Knights of Round
-1 Murderous Rider
 1 Sol Ring
 1 Arcane Signet
 1 Talisman of Dominance
 1 Talisman of Hierarchy
 1 Talisman of Progress
 1 Fellwar Stone
-1 Herald's Horn
+1 Conjurer's Mantle
 1 Patchwork Banner
 1 Rhystic Study
 1 Kindred Discovery
@@ -61,6 +59,8 @@
 1 Monument to Endurance
 1 Chivalric Alliance
 1 Flawless Maneuver
+1 Black Market Connections
+1 Animate Dead
 1 Command Tower
 1 Exotic Orchard
 1 Raffine's Tower

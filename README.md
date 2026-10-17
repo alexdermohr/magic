@@ -109,7 +109,7 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## Sidar Jabari of Zhalfir — Die Ritterschaft von Zhalfir
 
-**Bracket 3 / Upgraded:** Esper-Ritter-Tribal mit Eminence, Friedhofs-Reanimation, Horsemanship und Kampffinishern; 34 Ritter-Kreaturen neben dem Commander, V2 mit stärkeren Loot-/Reanimationswerkzeugen und genau drei Game Changern.
+**Bracket 3 / Upgraded:** Esper-Ritter-Tribal mit Eminence, Friedhofs-Reanimation, Horsemanship und Kampffinishern; 32 weitere Kreaturen (davon 31 Ritterkarten und Roaming Throne als Golem, der auf dem Schlachtfeld zum Ritter wird), V3 mit mehr Kartenvorteil und zwei günstigen Reanimationen; weiterhin genau drei Game Changer.
 
 - 100-Karten-Liste: [decks/sidar-jabari-knights/current.txt](decks/sidar-jabari-knights/current.txt)
 - Spielplan, Bracket-Regeln, Manabasis: [decks/sidar-jabari-knights/analysis.md](decks/sidar-jabari-knights/analysis.md)
