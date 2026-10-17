@@ -162,14 +162,16 @@ def gfm_strikethrough_plugin(md) -> None:
             return None
 
         start = match.end()
-        # Choose a delimiter only outside Mistune's actual escape and code
-        # tokens. Both single and double tilde closers can occur inside code
-        # spans and must not expose their apparent Markdown links.
+        # A closer inside an opaque inline token must not terminate the
+        # deletion. Search the full source, not just through the closer:
+        # angle autolinks and HTML tags require their final ">" to match.
         closer_pattern = re.compile(r"(?<!~)" + re.escape(marker) + r"(?!~)")
-        special_rules = inline.compile_sc(["escape", "codespan"])
+        special_rules = inline.compile_sc([
+            "escape", "codespan", "auto_link", "auto_email", "inline_html",
+        ])
         scan = start
         while (closing := closer_pattern.search(source, scan)) is not None:
-            special = special_rules.search(source, scan, closing.end())
+            special = special_rules.search(source, scan)
             if special is not None and special.start() < closing.start():
                 if special.lastgroup == "codespan":
                     probe = state.copy()

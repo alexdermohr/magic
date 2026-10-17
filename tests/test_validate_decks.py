@@ -1422,6 +1422,54 @@ class DeckValidationTests(unittest.TestCase):
                 )
                 self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_gfm_strikethrough_angle_autolink_tildes_are_opaque(self) -> None:
+        """Angle URI autolink contents cannot terminate surrounding deletions."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "~open <https://example.com/~[actual](sample/missing.md)> close~",
+            "~~open <https://example.com/~~[actual](sample/missing.md)> close~~",
+            "~open <mailto:one~[actual](sample/missing.md)@example.test> close~",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_strikethrough_html_tildes_are_opaque(self) -> None:
+        """Valid inline HTML tags and comments cannot supply a tilde closer."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            '~open <span data-note="~[actual](sample/missing.md)">ok</span> close~',
+            '~~open <span data-note="~~[actual](sample/missing.md)">ok</span> close~~',
+            "~open <!-- ~[actual](sample/missing.md) --> close~",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_strikethrough_opaque_tokens_do_not_hide_adjacent_links(self) -> None:
+        """Skipping opaque tokens still exposes actual links outside the tokens."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "~open <https://example.com/~[fake](sample/fake.md)> close~ "
+            "[live](sample/missing.md)",
+            '~open <span data-note="~[fake](sample/fake.md)">ok</span> close~ '
+            "[live](sample/missing.md)",
+            "~open <https://example.com/~ [live](sample/missing.md) close~",
+            r"~open \<https://example.com/~ [live](sample/missing.md) close~",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
     def test_gfm_strikethrough_still_checks_visible_links_near_code_spans(self) -> None:
         """Unmatched or escaped backticks cannot hide actual local links."""
         self.write_deck("1 Sample Commander\n99 Plains\n")
