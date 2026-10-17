@@ -1,46 +1,63 @@
-# Gev, Scaled Scorch — Echsen-Schwarm (Bracket 3)
+# Gev, Scaled Scorch — Echsen-Schwarm (Bracket 3 / v2)
 
-**Stand:** 17.10.2026 · **Farbidentität:** Rakdos (Schwarz/Rot) · **Budget:** offen · **Commander:** Gev, Scaled Scorch.
+**Stand:** 17.10.2026 · **Farben:** Rakdos (Schwarz/Rot) · **Commander:** Gev, Scaled Scorch · **Budget:** offen · **Datei:** [current.txt](current.txt).
 
-## Konzept
+## Deckziel
 
-Gev kostet {B}{R}. Jedes Wirken eines Lizard-Spruchs löst einen Schadenspunkt auf einen Zielgegner aus. Andere eigene Kreaturen kommen mit je einer zusätzlichen +1/+1-Marke für jeden Gegner, der im laufenden Zug Leben verloren hat, ins Spiel — in einer regulären Viererrunde also maximal drei Marken. Die Marke wird **beim Eintritt** bestimmt; Gev selbst wird nicht verstärkt.
+Ein starkes, konsequent thematisches Echsen-Commander-Deck innerhalb **Bracket 3**. Frühe Lizard-Kreaturen erzeugen mit Gev Schaden und wachsen durch +1/+1-Marken; wiederholte Quellen lassen **alle Gegner im selben Zug** Leben verlieren. Redundante Kartenvorteils- und Schadensmotoren sollen auch ohne Gev weiter funktionieren. Keine bewusst gebaute frühe Zwei-Karten-Endlosschleife, keine Extra-Turn-Kette, keine Massenlandzerstörung.
 
-**Timing:** Gevs Cast-Auslöser geht nach dem Wirken einer Echse auf den Stapel und verrechnet in der Regel vor dem Kreaturenspruch. Der von diesem Trigger geschädigte Gegner zählt somit bereits für die eintretende Echse. Schaden an *alle* Gegner vor dem Ausspielen der nächsten Echse ermöglicht bis zu drei Zusatzmarken.
+**Gev-Regel:** Für jeden gewirkten Lizard-Zauber verursacht Gev einem Zielgegner 1 Schaden. *Andere* eigene Kreaturen kommen mit einer zusätzlichen +1/+1-Marke **pro Gegner, der im laufenden Zug Leben verloren hat**, ins Spiel. In einer Viererpartie sind das maximal drei zusätzliche Marken pro Kreatur. Die Schadensfähigkeit wird beim Wirken ausgelöst und in der Regel vor dem beschworenen Lizard verrechnet; daher zählt dieser Gegner für dessen ETB-Marken. Gev selbst erhält durch seine statische Fähigkeit keine zusätzliche Marke.
 
-## Synergie-Schwerpunkte
+## Optimierung v1 → v2: zehn gezielte Tausche
 
-- **Früher Druck:** Hired Claw, Iridescent Vinelasher, Flamecache Gecko, Fireglass Mentor, Valley Flamecaller, Magebane Lizard, Agate Instigator und Hearthborn Battler.
-- **Lizard-Burn:** Hissing Iguanar, Dagger Caster (Oracle-Typ Lizard), Kindlespark Duo, Spitfire Lagac und der neue **Master of Barbs** (Reality Fracture, Oktober 2026) verstärken den Schadensplan.
-- **Alle Gegner früh treffen:** Ingris Stingerquill fügt für jede eigene angreifende Kreatur jedem Gegner einen Schadenspunkt zu. Bei danach gespielten Kreaturen kann Gev deshalb typischerweise drei Zusatzmarken verteilen. Ingris ist eine **Sphinx, keine Echse**, aber ein sehr passender Engine-Baustein.
-- **Schadensverstärker:** Valley Flamecaller, Ojer Axonil, Deepest Might, Solphim, Mayhem Dominus; dazu Impact Tremors und Purphoros, God of the Forge. Gevs Schaden trifft nur einen Gegner pro Auslösung, nicht automatisch den ganzen Tisch.
-- **Stammesunterstützung:** Roaming Throne (Lizard wählen) verdoppelt die ausgelösten Fähigkeiten **anderer** eigener Echsen, einschließlich Gev; Urza's Incubator reduziert Lizard-Kosten; Patchwork Banner, Herald's Horn, Molten Echoes, Shared Animosity und Cover of Darkness stärken das Tribal-Thema.
-- **Konstanz und Antworten:** Demonic Tutor, Necropotence, Jeska's Will, Black Market Connections, Night's Whisper, Wheel of Misfortune, Deadly Rollick, Chaos Warp, Withering Torment und Blasphemous Act.
+| Heraus | Hinein | Begründung und Preis |
+| --- | --- | --- |
+| Frilled Sparkshooter | **Viashino Heretic** | Aus bloßen Kampfwerten wird eine echte Echse mit wiederholbarer Artefaktzerstörung und Schaden. Heretic braucht ein Zugfenster zum Tappen. |
+| Reptilian Recruiter | **Ob Nixilis, Captive Kingpin** | Weg von teurem, einmaligem Kreaturendiebstahl hin zu Kartenimpulsen bei exakt einem verlorenen Lebenspunkt. Ob ist selbst keine Echse und profitiert nicht von Lizard-Tribal-Boni. |
+| Scorch Spitter | **Spear Spewer** | Schon vor dem Ausspielen weiterer Kreaturen zuverlässig alle Gegner je 1 Schaden zufügen, statt beim Angriff nur einen Gegner. Spear ist keine Echse und benötigt für seine Tapfähigkeit ein Zugfenster. |
+| Hissing Iguanar | **Molten Gatekeeper** | Bei neuen eigenen Kreaturen jedes Mal Schaden an **alle** Gegner, statt auf sterbende Kreaturen angewiesene Einzelschadensauslöser. Gatekeeper ist kein Lizard und löst Gevs Cast-Fähigkeit nicht aus. |
+| Party Thrasher | **Professional Face-Breaker** | Treasures und aus Treasures bezahlbarer Impulskartenvorteil bei durchkommendem Kampfschaden. Benötigt erfolgreiche Angriffe, ist kein Lizard und verliert die einmalige Mainphase-Filterung von Party Thrasher. |
+| Wheel of Misfortune | **Diabolic Intent** | Fehlende Schlüsselkarte gezielt suchen, wenn eine eigene Kreatur geopfert werden kann. Verliert den größeren einmaligen Karten-Refill und erzeugt Kartennachteil ohne Opferwert. |
+| Plumb the Forbidden | **Scales of Shale** | Thematischer und dank Affinity for Lizards oft günstiger Schutz einer Schlüsselkreatur durch Unzerstörbarkeit; zusätzlich Lifelink. Schwächt das Ziehen nach Massremoval und schützt nur ein Ziel. |
+| Feed the Swarm | **Rakdos Charm** | Friedhofshass, Artefaktzerstörung oder gegen große gegnerische Kreaturenmengen tödlicher Schaden auf Instant-Speed. Entfernt **keine Verzauberung**; dafür bleiben Withering Torment und Chaos Warp. |
+| Shizo, Death's Storehouse | **Mount Doom** | Wiederholbarer Schaden an allen Gegnern im Land-Slot und Farbfixing, ermöglicht häufig drei Gev-Marken. Lebenspunkte und Aktivierungskosten sind ein realer Preis. |
+| Den of the Bugbear | **Three Tree City** | Hohe Manaausbeute bei breitem Echsenfeld und günstige Stammesunterstützung. Zunächst farbloses Land; verschlechtert Farbstabilität in sehr frühen Zügen. |
 
-## Spielplan
+**Vier Themen der Version:** Mehr Quellen, die vor dem Nachspielen einer Echse alle Gegner treffen; weniger langsame Einzelkarten; zusätzliche Tutoren und Impuls-Kartenvorteil; an Echsen angepasste Mana- und Schutzunterstützung.
 
-1. **Mulligan:** zwei bis drei Länder, Zugriff auf Schwarz und Rot, eine frühe Echse oder einen zuverlässigen Schadensauslöser.
-2. **Züge 1–3:** Gev legen und günstige Echsen folgen lassen. Möglichst vor weiteren Kreaturen alle drei Gegner einmal Leben verlieren lassen.
-3. **Mittleres Spiel:** Karten- und Mana-Nachschub über Fireglass Mentor, Necropotence, Jeska's Will sowie die Mana-Artefakte und Urza's Incubator. Gev nicht unnötig in offenen Removal-Schutz laufen lassen.
-4. **Sieg:** Im Kampf über Shared Animosity und Cover of Darkness oder über viele Nichtkampfschadensauslöser mit Valley Flamecaller, Ojer Axonil, Solphim, Impact Tremors und Purphoros.
-5. **Reset:** Patriarch's Bidding holt nach einem Boardwipe die Echsen zurück, aber auch gegnerische Kreaturentypen können profitieren; Blasphemous Act und Vandalblast sind situative Antworten.
+## Die stärksten Interaktionen
 
-## Struktur und Bracket
+- **Bontu's Monument:** Jeder eigene Kreaturenzauber löst aus, dass jeder Gegner 1 Leben verliert. Da der Auslöser vor dem Kreaturenzauber verrechnet wird, bekommt die danach kommende eigene Kreatur durch Gev typischerweise drei Marken. Das Monument reduziert außerdem die generischen Kosten schwarzer Kreaturen und verschafft Leben.
+- **Spear Spewer / Mount Doom / Molten Gatekeeper / Ingris Stingerquill / Impact Tremors:** Treffen mehrere oder alle Gegner. Ein einziger solcher Vorgang genügt, damit Gev in einer Viererpartie bis zu drei Marken auf *jede weitere* eintreffende eigene Kreatur legt.
+- **Ob Nixilis, Captive Kingpin:** Beim Verlust von **exakt 1 Leben** durch ein einzelnes Ereignis bei einem oder mehreren Gegnern triggert Ob nur **einmal** für dieses Ereignis — nicht einmal pro Gegner. Gevs einzelne Pings können eigenständige Ereignisse bilden. Achtung: Schadensverstärker wie Ojer Axonil oder Solphim können aus 1 Schaden mehr als 1 machen, was Ob **nicht** triggert. Lebensverlust durch Bontu's Monument wird von Schadenserhöhungen nicht beeinflusst.
+- **Roaming Throne** wählt beim Eintritt „Lizard“ und verdoppelt ausgelöste Fähigkeiten eigener Echsen, darunter Gevs **Cast-Schadenstrigger**. Nicht verdoppelt wird Gevs **statische** Ersatzeffekt-/ETB-Markenregel.
+- **Valley Flamecaller / Ojer Axonil, Deepest Might / Solphim, Mayhem Dominus** verstärken Schadensauslöser und bilden Siegpfade ohne eigene Komboschleife. Die genaue Menge und der betroffene Gegnertyp hängen von der jeweiligen Schadensquelle und den Ersatzeffekten ab.
+- **Shared Animosity / Cover of Darkness** geben einer breiten Lizard-Armee eine direkte Kampfschaden-Perspektive; **Molten Echoes / Purphoros, God of the Forge / Impact Tremors** bestrafen Gegner auch ohne erfolgreiche Angriffe.
+- **Viashino Heretic / Rakdos Charm / Withering Torment / Chaos Warp / Deadly Rollick / Vandalblast** sorgen für unterschiedliche Antworttypen. Massremoval mit **Blasphemous Act** ist möglich, **Patriarch's Bidding** bringt später eigene Echsen zurück, kann aber auch gegnerische Tribes stärken.
 
-- **100 Karten**, **97 unterschiedliche Kartennamen**. Mehrfach nur 3 Swamp und 2 Mountain.
-- **36 Länder**, **36 Kreaturen inklusive Commander**, **28 andere Karten**.
-- **Genau 3 Game Changer:** Demonic Tutor, Jeska's Will, Necropotence (Abgleich mit der im Oktober 2026 veröffentlichten Scryfall-basierten Game-Changer-Liste).
-- Kein beabsichtigter früher deterministischer Zwei-Karten-Endlossieg, keine Extra-Turn-Kette, keine Massenlandvernichtung. **Bracket 3** ist die bewusste Deckbaustufe, nicht durch Partien bestätigte Spielstärke.
-- Hohe thematische Dichte statt eines rein auf Rakdos-Staples reduzierten Goodstuff-Decks; einzelne Nicht-Echsen übernehmen notwendige Funktionen. Die Manabasis enthält teure Länder und kann bei Bedarf budgetfreundlich gestaltet werden.
+## Game Changer und bewusste Bracket-Grenzen
 
-## Prüfgrenzen und Referenzen
+**Drei Game Changer:** Demonic Tutor, Jeska's Will und Necropotence. Es sind die einzigen für diese Liste vorgesehenen Game Changer; die 2026er Erweiterung der offiziellen Game-Changer-Liste (u. a. Farewell und Biorhythm) betrifft diese Liste nicht.
 
-Die Kartenanzahl sowie die Singleton-Struktur wurden maschinell gezählt. Gevs Oracle-Text, wichtige 2026er-Neuzugänge und die genannten Game Changer wurden gegen veröffentlichte Karten- bzw. Formatquellen gegengeprüft. Eine **vollständige Live-Abfrage aller 97 Kartennamen** auf Oracle-Legalität, Rakdos-Farbidentität und Spielstärke sowie echte Multiplayer-Partietests fehlen; deshalb keine belastbare Aussage über ein mathematisches Optimum oder gemessene Siegquoten.
+**Nicht aufnehmen:** Murderous Redcap bildet mit Gev eine frühe deterministische Endlosschleife, sobald der Redcap durch Gevs Marken ein +1/+1-Counter-Persist-Gegenstück erhält und mit seinem ETB-Schaden sich selbst töten kann. Dabei werden +1/+1- und -1/-1-Marken nach den zustandsbasierten Aktionen aufgehoben, sodass Persist erneut wirken kann. Auch Ob Nixilis + All Will Be One wäre als frühe Zweikarten-Endlosschleife kein Ziel für dieses Bracket.
 
-- Gev / offizielle Regelerläuterungen: https://magic.wizards.com/en/news/feature/bloomburrow-release-notes
-- Commander-Format: https://magic.wizards.com/en/formats/commander
-- Game Changer, Scryfall-Abgleich vom 16.10.2026: https://playgroup.gg/commander/game-changers
-- Master of Barbs: https://mtg.wtf/card/fra/344/Master-of-Barbs
-- Ingris Stingerquill: https://mtg.wtf/card/fra/137/Ingris-Stingerquill
+## Pilotieren und Schwächen
 
-**Importfähige Liste:** [current.txt](current.txt).
+1. **Mulligan:** 2–3 farblich passende Länder, mindestens ein frühes Spielstück (Echse, Sol Ring, Arcane Signet, Talisman, Fellwar Stone). Ein nur farbloses Startland ist riskant.
+2. **Frühspiel:** Gev für {B}{R} wirken und sichere, günstige Echsen nachlegen. Wo möglich erst alle drei Gegner Leben verlieren lassen: Spear Spewer, Bontu's Monument, später Mount Doom/Molten Gatekeeper. Nicht unnötig über einen gegnerischen Boardwipe hinaus auslegen.
+3. **Mittelspiel:** Kartenvorteil über Fireglass Mentor, Necropotence, Black Market Connections, Ob Nixilis und Face-Breaker; Mana über Urza's Incubator, Herald's Horn, Artefakte und im breiten Board Three Tree City.
+4. **Endspiel:** Marken-/Evasion-Kampf über Shared Animosity und Cover of Darkness, oder schadenbasierte Finisher über Valley Flamecaller, Purphoros, Impact Tremors und die wiederholten Pings.
+5. **Gegenmaßnahmen:** Exil/Spotremoval auf Gev verlangsamen den +1/+1-Plan. Brettabräumer besiegen die Kreaturenschwemme; Patriarch's Bidding stellt wieder her, Scales of Shale schützt nur einen einzelnen wichtigen Körper. Drei Tree City ist ohne Kreaturen nur farbloses Mana. Die Life-Kosten von Necropotence, Mount Doom und Spear Spewer muss man gegeneinander abwägen (Spear trifft auch den eigenen Spieler).
+
+## Struktur und Prüfnachweis
+
+- **100 Karten** mit **97 unterschiedlichen Kartennamen**, 36 Länder, 36 Kreaturen inklusive Gev, 28 weitere Zauber. Nur die Basics Swamp (3) und Mountain (2) kommen mehrfach vor.
+- Die Version wurde im GitHub-Branch `deck/gev-lizards-b3-20261017` abgelegt und durch erneutes Auslesen strukturell überprüft.
+- Zur Beurteilung wurden Oracle-Texte der gezielt getauschten Karten sowie die offizielle Commander-/Bracket-Einordnung herangezogen. **Nicht nachgewiesen:** umfassende automatisierte Live-Scryfall-Prüfung aller 97 Namen und Farbidentitäten, vollständiger Combo-Audit, echte Mehrspielerpartien oder gemessene Siegquote. „Optimiert“ meint eine aus Kartenfunktionen hergeleitete Verbesserung, kein empirisch bewiesenes Optimum.
+
+## Referenzen
+
+- [Offizielles Commander-Format und Bannliste](https://magic.wizards.com/en/formats/commander)
+- [Offizielle Bracket-/Game-Changer-Anpassungen (Oktober 2025)](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025)
+- [Offizielle Bracket-/Game-Changer-Anpassungen (Februar 2026)](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026)
+- [Aktuelle importierbare Liste](current.txt)
