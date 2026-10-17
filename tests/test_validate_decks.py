@@ -880,6 +880,40 @@ class DeckValidationTests(unittest.TestCase):
                 )
                 self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_gfm_tagfiltered_raw_text_parses_nested_visible_markup(self) -> None:
+        """GitHub escapes script/style wrappers; nested phrasing remains HTML."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<script>decks/sample/<em>missing</em>.md</script>\n",
+            "<style>decks/sample/<span>missing</span>.md</style>\n",
+            "<script>decks&sol;sample&sol;missing.md</script>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_gfm_sanitized_form_and_template_content_remains_visible(self) -> None:
+        """GitHub removes these wrappers but renders their inner text."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<div>decks/sample/miss<form></form>ing.md</div>\n",
+            "<div>decks/sample/miss<template></template>ing.md</div>\n",
+            "<template>decks/sample/missing.md</template>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
     def test_gfm_tagfiltered_script_style_decodes_entities_once(self) -> None:
         """GitHub escapes the raw tags, then HTML character refs become visible."""
         self.write_deck("1 Sample Commander\n99 Plains\n")

@@ -469,6 +469,14 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             self.parts: list[str] = []
             self.hidden: list[str] = []
 
+        def set_cdata_mode(self, elem, *, escapable=False) -> None:
+            # GitHub's GFM tagfilter escapes forbidden wrappers before
+            # browser parsing. Their contents are therefore ordinary HTML,
+            # not the browser's script/style/textarea raw-text or RCDATA.
+            if elem in self.FILTERED_TAGS:
+                return
+            super().set_cdata_mode(elem, escapable=escapable)
+
         def handle_starttag(self, tag, attrs) -> None:
             if self.hidden:
                 if tag in self.CODE_TAGS:
