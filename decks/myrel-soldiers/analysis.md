@@ -1,65 +1,63 @@
 # Myrel, Shield of Argive — Die Armee von Argivia (Bracket 3)
 
-**Stand:** 2026-10-17 · **Format:** Commander (100 Karten) · **Ziel:** Bracket 3 / Upgraded · **Farbidentität:** Weiß · **Archetyp:** Soldier-Typal / Token-Aggro.
+**Stand:** 2026-10-17 · **Revision:** V2 / Optimierung · **Format:** Commander (100 Karten) · **Ziel:** Bracket 3 / Upgraded · **Farbidentität:** Mono-Weiß · **Archetyp:** Soldier-Typal, Token-Aggro.
 
-## Deckaufbau und Datenprüfung
+## Stand und Prüfprotokoll
 
-`current.txt` ist eine direkt importierbare Liste mit **100 Karten**:
+Die aktive, direkt importierbare `current.txt` umfasst **100 Karten**: 1 Commander, 28 weitere Kreaturen, 13 andere Artefakte, 11 Verzauberungen, 10 Spontanzauber, 1 Planeswalker und 36 Länder. Von den Ländern sind **25 einfache Plains**. Es gibt 76 verschiedene Einträge/Kartennamen, davon 21 mit gedrucktem Kreaturentyp Soldier einschließlich Myrel; `Mirror Entity` ist aufgrund von Changeling ebenfalls ein Soldier. Die im Spiel erzeugten Tokens vergrößern die Soldatendichte erheblich.
 
-- 1 Commander: Myrel, Shield of Argive
-- 30 weitere Kreaturen
-- 12 Artefakte, 9 Verzauberungen, 10 Spontanzauber, 1 Hexerei, 1 Planeswalker
-- 36 Länder, davon 22 Standard-Ebenen (`Plains`)
+**Scryfall-Oracle-Check vom 2026-10-17 (V2):** 76/76 einzigartige Kartennamen gefunden; jede Karte Commander-legal und in Papierform erhältlich; keine Farbidentität außerhalb von Weiß. Genau **drei Game Changer**: `Enlightened Tutor`, `Smothering Tithe` und `Teferi's Protection`. Die Prüfung umfasst Kartendaten, nicht Spielpartien. Bracket 3 ist hier das gebaute Leistungsziel; keine frühe absichtliche Zwei-Karten-Endloskombination, kein Massenlandentzug und keine Extrazug-Kette.
 
-**Live-Prüfung am 2026-10-17:** Alle 79 verschiedenen Kartennamen mit der Scryfall-Collection-API anhand ihres aktuellen Oracle-Datensatzes abgeglichen. Ergebnis: 79/79 gefunden, 79/79 Commander-legal, kein Farbidentitätsverstoß; genau drei als Game Changer markierte Karten. Die Anzahl aller physischen Deckkarten beträgt inklusive der 22 Ebenen genau 100. Der Deckinhalt wurde als GitHub-Datei zusätzlich zurückgelesen.
+**Manakosten (64 Nichtlandkarten einschließlich Commander):** 10 Karten mit Manawert 1, 14 mit 2, 20 mit 3, 12 mit 4, 6 mit 5 und 2 mit 6. Exalted Sunborn kann wegen Warp für {1}{W} temporär zwei Mana kosten, zählt bei der Manawertverteilung aber regulär als fünf.
 
-**Game Changer (genau 3):** `Smothering Tithe`, `Teferi's Protection`, `Enlightened Tutor`. Keine absichtlich eingebaute frühe Zweikarten-Endloskombination, keine Massenlandverwehrung und keine Extrazug-Schleife. Damit entspricht die Konstruktion den Bracket-3-Bauvorgaben; die tatsächliche Spielstärke und Siegrate wurden nicht in Partien gemessen.
+## V2: konkrete Veränderungen
 
-## Warum Myrel?
+| Heraus | Hinein | Gewinn und zugehöriger Nachteil |
+| --- | --- | --- |
+| Thraben Inspector | **Mother of Runes** | Dauerhafter Schutz und farbabhängiger Durchbruch für Myrel ab dem Folgezug statt einmaliger Clue und eines billigen Soldiers. |
+| Siege Veteran | **Resolute Reinforcements** | Für zwei statt drei Mana sofort zwei Soldaten, mit Flash auch am gegnerischen Ende; verliert langsamen Markenzuwachs und Ersatz für sterbende Nichttoken-Soldaten. |
+| Welcoming Vampire | **Haliya, Guided by Light** | Soldier mit Lebensgewinn pro eintretendem Artefakt/Kreatur und Endstep-Draw ab drei in einem Zug gewonnenen Leben; weniger zuverlässiger Draw als Vampire bei sehr kleiner Armee. |
+| Hero of Bladehold | **Exalted Sunborn** | Verdoppelt Myrels Token ab Warp {1}{W} bereits in einem frühen Angriff; später permanente Verdopplung für fünf Mana. Kein Soldier und kein eigener 2-Soldaten-Angriffstrigger. |
+| Rescue Retriever | **Eldrazi Monument** | Alle eigenen Kreaturen erhalten Flugfähigkeit, +1/+1 und Unzerstörbarkeit – besserer Durchbruch und Board-Schutz; verlangt ab nächstem Upkeep jeden Zug ein Kreaturenopfer. |
+| Firemane Commando | **Trouble in Pairs** | Wiederholbarer, von Myrels Angriff und Board unabhängiger Kartenvorteil im Mehrspieler-Commander, sowie Schutz vor gegnerischen Extrazügen; verliert einen fliegenden Soldier-Angreifer. |
+| Folk Hero | **Veteran Soldier** | Myrel erzeugt beim Angriff gegen einen Gegner, den kein Gegner im Leben übertrifft, pro Gegner einen zusätzlichen getappten und angreifenden 1/1-Soldaten. Diese Fähigkeit liegt auf Myrel und wird von Roaming Throne mitverdoppelt; verliert potenziellen Draw durch gewirkte Soldier-Zauber. |
+| Herald's Horn | **Renewed Solidarity** | Drei-Mana-Soldatenbuff (+1/+0) plus Kopien der eigenen, in diesem Zug ins Spiel gekommenen Soldier-Tokens zu Beginn des Endsteps. Deutlich stärkerer Wachstumsmotor; kein Cast-Rabatt/Upkeep-Reveal mehr. |
+| Winds of Abandon | **Banner of Kinship** | Fünf-Mana-Schlachtabschluss mit permanentem, beim Eintritt festgelegtem Bonus für alle Soldiers. Verzicht auf ein asymmetrisches Massenexil, das Gegnern aber viele Standardländer geben konnte. |
+| Hall of Heliod's Generosity, Castle Ardenvale, Mistveil Plains | **3 Plains** | Drei weniger bedingte, farblose oder getappt kommende Quellen; sichereres frühes weißes Mana. Dafür weniger spät nutzbare Rekursion/Human-Produktion. |
 
-Myrel ist selbst ein Soldat und gewinnt durch Angreifen immer mehr 1/1-Soldaten-Artefaktkreaturen. Der Auslöser zählt die beim Verrechnen **bereits kontrollierten Soldaten**, einschließlich Myrel. Die Spielsteine kommen dabei **nicht angreifend** ins Spiel und können erst in einer späteren Kampfphase selbst angreifen.
+**Bewusst behalten:** `Preeminent Captain`, `Captain of the Watch`, `Catapult Master`, `Valiant Veteran`, `Field Marshal`, `Daru Warchief`, `Recruiter of the Guard`, `Ranger-Captain of Eos`, `Bastion Protector`, `Stoneforge Mystic`, `Skullclamp`, `Caretaker's Talent`, `Cathars' Crusade`, `Anointed Procession`, `Mondrak`, `Ojer Taq`, `Elspeth, Storm Slayer`, `Goldnight Commander`, `Odric`, `Akroma's Will`, `Reconnaissance`, `Dolmen Gate`, `Lightning Greaves` und `Swiftfoot Boots`.
 
-Im eigenen Zug verhindert Myrels statische Fähigkeit das Wirken gegnerischer Zaubersprüche sowie das Aktivieren gegnerischer Artefakt-, Kreaturen- und Verzauberungsfähigkeiten **auf dem Spielfeld**. Sie sperrt keine aktivierten Fähigkeiten von Ländern oder aus anderen Zonen; insbesondere ist sie im gegnerischen Zug ungeschützt.
+## Zentrale Angriffe und Regelinteraktionen
 
-Gegenüber Harbin, Vanguard Aviator (weiß-blau) priorisiert diese Liste den eingebauten Tokenmotor und die unmittelbare Soldaten-Identität. Gegenüber Caesar, Legion's Emperor (Mardu) verzichtet sie bewusst auf zusätzliche Farben und Aristocrats-Nebenthemen.
+1. **Früh zwei Soldaten bereitstellen:** `Resolute Reinforcements` bringt selbst und per ETB einen Soldier, also für zwei Mana zwei Soldiers. Nach dem ersten eigenen Zug, in dem Myrel angreifen kann, vergrößert jeder zusätzliche Soldier ihre Trigger-Menge. `Recruitment Officer` und `Valiant Veteran` sorgen für günstige Starts.
+2. **Myrel geschützt angreifen lassen:** `Mother of Runes` kann ab dem Zug nach dem Ausspielen Farbenschutz geben, `Lightning Greaves`/`Swiftfoot Boots` ermöglichen Haste, `Reconnaissance` entfernt Myrel nach dem Angriffstrigger aus unvorteilhaften Kämpfen. `Dolmen Gate` verhindert Kampfschaden an eigenen Angreifern.
+3. **Myrel + Veteran Soldier:** Bei einem Angriff auf einen Gegner, den kein anderer Gegner beim Lebensstand übertrifft (etwa einen Gegner mit dem höchsten Lebenspunktestand), erzeugt das Background eine getappte, angreifende Soldier-Token-Kreatur **je Gegner**. In einer Vierer-Partie sind das drei zusätzliche Angreifer; Myrels eigener Trigger erzeugt getrennt X farblose Soldier-Artefaktkreaturen, die **nicht** angreifend ins Spiel kommen.
+4. **Roaming Throne auf Soldier:** Myrels eigener Trigger wird verdoppelt; sie zählt bei jeder Verrechnung erneut die dann vorhandenen Soldaten. Die von Veteran Soldier verliehene Fähigkeit ist ebenfalls eine Triggerfähigkeit von Myrel und wird ein zweites Mal ausgelöst. Token-Verdoppler erhöhen beide Tokenquellen.
+5. **Exalted Sunborn:** Warp {1}{W} liefert für diesen Zug eine temporäre Token-Verdopplung, dann wird die Kreatur zu Beginn des Endsteps ins Exil geschickt und kann später aus dem Exil für die regulären Kosten gewirkt werden. Das ist für den Angriff im kritischen Zug oft effizienter als teure, sofort permanente Tokenverdoppler.
+6. **Renewed Solidarity:** Die Verzauberung überprüft beim Endstep die Tokens vom gewählten Kreaturentyp, die **in diesem Zug** ins Spiel kamen, und erzeugt dann von jedem eine Kopie. Myrels farblose Soldier-Artefaktkreaturen bleiben beim Kopieren Soldier-Artefaktkreaturen. Die Kopien sind nicht automatisch getappt und angreifend; das sind keine kopierbaren Werte. Tokens, die erst bei diesem Endstep-Auslöser entstehen, lösen keine weitere Kopierwelle in demselben Endstep aus.
+7. **Haliya:** Jede ins Spiel kommende Kreatur oder jedes Artefakt kann 1 Leben geben; Myrels Artefaktkreaturen zählen je Token **einmal**, nicht als getrennte Artefakt- und Kreaturen-Eintritte. Ab drei Leben in deinem Zug zieht Haliya beim Endstep genau eine Karte.
+8. **Banner of Kinship:** Wähle bei Eintritt Soldier. Die Zahl der fellowship counters ist ein **Momentaufnahme-Wert bei Eintritt**: Neue Soldaten erhöhen den Zähler später nicht, profitieren aber vom vorhandenen Bonus. Auf bereits breitem Feld macht dies die Armee oft unmittelbar lethal.
+9. **Eldrazi Monument:** Fliegen und Unzerstörbarkeit erlauben Alpha-Strikes und schützen vor gewöhnlichen Destroy-Wipes, aber nicht vor Exil oder -X/-X. Der Opferauslöser im eigenen Upkeep ist verpflichtend. Monument möglichst erst bei genügend Kreaturen/Token legen.
+10. **Catapult Master:** Fünf beliebige ungetappte Soldier als Aktivierungskosten tappen; neu erzeugte Spielsteine können für diese Kosten auch ohne Haste eingesetzt werden. Wichtig gegen Problemkreaturen und besonders gegen gegnerische Commander.
+11. **Die Land-Fähigkeits-Ausnahme genau formuliert:** Während deines Zugs untersagt Myrel das Aktivieren von Fähigkeiten gegnerischer **Artefakte, Kreaturen oder Verzauberungen**, einschließlich Manafähigkeiten auf dem Spielfeld. Fähigkeiten von **reinen Ländern** bleiben nutzbar. Ein Artefaktland wie `Seat of the Synod`, ein Kreaturenland wie `Dryad Arbor` oder ein animiertes Land mit betroffenem Zusatztyp verliert dagegen auch die Möglichkeit, seine aktivierte Manafähigkeit zu nutzen. Kartenfähigkeiten in anderen Zonen unterliegen nicht automatisch diesem Verbot.
+12. **Horn of Gondor bewusst NICHT aufgenommen:** Das Horn zählt **Humans**, nicht Soldiers. Die von Myrel erzeugten farblosen Soldier-Artefakt-Token sind keine Humans. `Horn of Valhalla` wäre dagegen dank seiner Soldier-Adventure eine technisch passende Alternative, wurde aber gegenüber den verlässlichen Engines/Schutzkarten nicht priorisiert.
 
-## Primäre Kartenpakete
+## Spielablauf und Mana
 
-| Paket | Schlüsselkarte und Funktion |
-| --- | --- |
-| Frühe Soldaten | `Recruitment Officer`, `Ballyrush Banneret`, `Valiant Veteran`, `Preeminent Captain`, `Brimaz, King of Oreskos` |
-| Stamm-Boni | `Field Marshal`, `Daru Warchief`, `Captain of the Watch`, `Patchwork Banner`, `Herald's Horn` |
-| Token-Multiplikation | `Anointed Procession`, `Mondrak, Glory Dominus`, `Ojer Taq, Deepest Foundation`, `Elspeth, Storm Slayer` |
-| Angriffsdurchbruch | `Goldnight Commander`, `Cathars' Crusade`, `Mirror Entity`, `Odric, Master Tactician`, `Akroma's Will` |
-| Ziehen | `Esper Sentinel`, `Mentor of the Meek`, `Skullclamp`, `Caretaker's Talent`, `Bennie Bracks, Zoologist`, `Tocasia's Welcome`, `Idol of Oblivion`, `Folk Hero` |
-| Schutz | `Lightning Greaves`, `Swiftfoot Boots`, `Dolmen Gate`, `Reconnaissance`, `Flawless Maneuver`, `Clever Concealment`, `Teferi's Protection` |
-| Mana | `Sol Ring`, `Arcane Signet`, `Mind Stone`, `Pearl Medallion`, `Archaeomancer's Map`, `Land Tax`, `Smothering Tithe`, `Nykthos, Shrine to Nyx`, `Three Tree City` |
-| Interaktion | `Swords to Plowshares`, `Path to Exile`, `Stroke of Midnight`, `Generous Gift`, `Cathar Commando`, `Winds of Abandon` |
+- **Züge 1–2:** Zwei bis drei Manaquellen, darunter mindestens eine weiße, plus `Sol Ring`/`Arcane Signet`/`Mind Stone` oder günstige Soldiers bevorzugen. Myrel kostet {3}{W}; übermäßig viele colorless-only-Länder machen die Starthand unzuverlässig. `Mother of Runes` und `Recruitment Officer` sind bevorzugte Einmana-Starts. `Resolute Reinforcements` oder `Valiant Veteran` legen zwei frühe Bodies/Lord bereit.
+- **Züge 3–4:** Manaquellen weiter entwickeln, ggf. `Archaeomancer's Map`/`Land Tax`. Vor Myrels erstem Angriff möglichst einen Schutz/Haste-Effekt und einen zweiten Soldier bereitstellen. `Ranger-Captain of Eos` kann neuerdings `Mother of Runes` oder `Esper Sentinel` finden. Myrels zusätzlicher Token entsteht erst beim Angriff, nicht beim Ausspielen.
+- **Züge 4–6:** Myrel einsetzen und Angriffe mit `Veteran Soldier`, `Exalted Sunborn` (Warp), `Anointed Procession`, `Roaming Throne` und `Renewed Solidarity` skalieren. Pro eigener Runde weiter Mana/Draw entwickeln; `Trouble in Pairs` hilft gerade, wenn Myrel erneut entfernt wird.
+- **Schlussangriff:** `Eldrazi Monument` verleiht Flugfähigkeit, `Banner of Kinship` vergrößert die gesamte Soldier-Armee, `Odric` manipuliert Blocks, `Goldnight Commander` und `Cathars' Crusade` skalieren mit jedem Token, `Akroma's Will` verschafft den entscheidenden Durchbruch. `Elspeth, Storm Slayer` kann selbst Fliegen für das Team freischalten.
 
-## Explosive, aber endliche Synergien
+Die 36 Länder enthalten **25 Plains**, dazu unter anderem `Eiganjo, Seat of the Empire`, `Minas Tirith`, `Cavern of Souls`, `Plaza of Heroes`, `War Room`, `Nykthos, Shrine to Nyx`, `Three Tree City` und `Urza's Saga`. `Emeria, the Sky Ruin` bleibt als langsamer Wiederaufbau-Baustein erhalten; die sieben Plains sind nicht für frühe Züge vorauszusetzen. `Urza's Saga` ist ein temporäres Land und sucht beispielsweise `Skullclamp` oder `Sol Ring`.
 
-- **Myrel + Roaming Throne:** `Roaming Throne` bei Eintritt auf Soldier einstellen. Myrels Angriffs-Fähigkeit löst dann zweimal aus. Ohne Verluste und weitere Effekte wird aus N Soldaten nach der ersten Verrechnung 2N, nach der zweiten 4N. Die Zahl wird für jeden Auslöser separat bei dessen Verrechnung bestimmt.
-- **Tokenverdoppler:** `Anointed Procession`, `Mondrak` und Elspeth verdoppeln die von Myrel erzeugte Menge; `Ojer Taq` verdreifacht sie. Mehrere Ersatzeffekte verstärken sich multiplikativ, aber erzeugen **keine Endlosschleife**.
-- **Goldnight Commander:** Jeder ins Spiel kommende Spielstein löst einen weiteren +1/+1-Effekt für das gesamte Team aus, auch für die bereits deklarierten Angreifer.
-- **Odric + viele Soldaten:** Mit Odric und mindestens drei weiteren deklarierten Angreifern bestimmst du gegnerische Blocks; die von Myrel erst danach erzeugten Spielsteine helfen beim Erreichen dieser vier Angreifer nicht rückwirkend.
-- **Skullclamp:** Unverstärkte 1/1-Soldaten sterben durch -1 Widerstandskraft beim Ausrüsten und ziehen zwei Karten. Nach einem +1/+1-Lord bleiben sie häufig am Leben: `Skullclamp` ist in dieser Liste daher in frühen Spielphasen oder nach passendem Opfer effektiver.
-- **Urza's Saga:** Sucht insbesondere `Skullclamp` oder `Sol Ring`; das Land wird nach Kapitel III geopfert. Bei knapper Starthand also nicht als dauerhaftes viertes Mana einplanen.
+## Wichtigste Gegenargumente und weitere Tests
 
-## Spielablauf
+- **Haliya vs. Welcoming Vampire:** Haliya ist häufiger ein echter Soldier im Deck, gewinnt viel Leben und kann bei großen Tokenwellen ziehen; sie zieht **weniger zuverlässig bei nur einem Token/Turn**. Wenn viele Partien Myrel vor dem ersten Angriff verlieren, ist die Vampire-Rückkehr eine sinnvolle Testhypothese.
+- **Winds of Abandon vs. Banner:** Der neue Finisher ist ein starkes Win-More, wenn schon viele Soldiers auf dem Feld stehen. `Winds of Abandon` konnte dagegen im selben Zug alle gegnerischen Kreaturen exilieren. In einem Meta mit vielen Deathtouch- oder Reach-Blockern kann die alte Karte trotz des starken Ramp-Nachteils besser sein.
+- **Hohes Board-Commitment:** Auch bei nun verbesserten Schutzwerkzeugen verliert die Strategie gegen mehrfache Exil-/Bounce-Massenentfernung und gegen `Propaganda`-/`Ghostly Prison`-Effekte viel Tempo.
+- **Farbquellen:** Drei Utilitylands wurden zu einfachen Plains, doch `Urza's Saga`, `Nykthos`, `Three Tree City` und `War Room` geben nicht bedingungslos weißes Mana. Die Eröffnungsqualität sollte in Testhänden geprüft werden.
+- **Token-Komplexität:** `Cathars' Crusade`, Tokenverdoppler und `Renewed Solidarity` erzeugen schnell viele einzelne Zähler/Trigger; das ist keine Deckbau-Regelverletzung, aber erfordert korrekte Abwicklung.
+- **Keine behaupteten Spiele:** Oracle-, Bracket-, Singleton- und Zählprüfung sind durchgeführt. Mulligan-Hand-Simulationen, Deckgeschwindigkeit und Siege in echten Spielen sind noch nicht unabhängig gemessen.
 
-**Zug 1–3:** Mit 2–4 Länderquellen und frühem Mana bzw. Soldaten beginnen. `Land Tax` sichert Handkarten/Landdrops, spielt aber keine Länder direkt ins Spiel. `Stoneforge Mystic` findet `Skullclamp` oder eines der zwei schützenden Stiefel-Ausrüstungen. `Enlightened Tutor` sucht früh bei Bedarf `Sol Ring`, `Skullclamp`, `Anointed Procession` oder andere Artefakte/Verzauberungen.
-
-**Zug 3–5:** Myrel möglichst mit Haste-Schutz ausrüsten und angreifen. `Reconnaissance` erlaubt Myrel nach dem Angriffs-Auslöser aus einem ungünstigen Kampf zu entfernen. Ohne Eile muss Myrel einen vollständigen Zugzyklus überstehen.
-
-**Zug 5+:** Mit Token-Multiplikatoren, Lords und dem Kampfdurchbruch durch `Odric` oder `Akroma's Will` abschließen. `Clever Concealment` und `Teferi's Protection` schützen das aufgebaute Board auch gegen Exil-Bereinigung; `Flawless Maneuver` schützt dagegen nur vor Zerstörung.
-
-## Reale Schwachstellen und spätere Prüfpunkte
-
-- **Abhängigkeit von Myrel und Kampfschritten:** Wiederholtes Commander-Removal im gegnerischen Zug, Propaganda-Effekte und fehlendes Haste verzögern den Motor. Die Liste hat mit `Call the Coppercoats`, `Elspeth`, `Brimaz` und `Hero of Bladehold` zusätzliche Tokenquellen.
-- **Breiter Spieltisch:** Gegen Massenvernichtung helfen Schutzzauber; nicht alle sind gegen Exil oder -X/-X wirksam. Mono-Weiß hat weniger Flexibilität bei Kartenziehen und Mana als Mehrfarben-Decks.
-- **Manabasis:** 36 Länder sind defensiv gewählt, da Myrel auf vier Mana zuverlässig ins Spiel kommen soll. `Emeria, the Sky Ruin`, `Mistveil Plains` und `Windbrisk Heights` können getappt ins Spiel kommen. `Nykthos`, `Three Tree City`, `War Room`, `Urza's Saga` und `Hall of Heliod's Generosity` produzieren nicht ohne zusätzliche Bedingungen weißes Mana.
-- **Keine automatische Ausweichfähigkeit:** Myrel erzeugt beim Angriff Soldaten, kann dabei aber gegen größere Blocker sterben. `Dolmen Gate` und `Reconnaissance` wurden bewusst statt zusätzlicher großer Pumpzauber gewählt.
-- **Friedhöfe:** Gezielte Friedhofsinteraktion fehlt. Falls die Spielgruppe viel Reanimation spielt, ist `Soul-Guide Lantern` ein sinnvoller Austausch gegen eine langsamere Value-Karte.
-- **Kein behaupteter Praxistest:** Zähl-, Oracle-, Farb- und Bracket-Prüfungen sind erfolgt; Mulligan- und Spielsituationen sowie Manakurve unter realen Gegnern sind bislang nicht getestet.
-
-**Referenzen:** [Offizielle Commander-Regeln/Brackets](https://magic.wizards.com/en/formats/commander), [Wizards-Update Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Scryfall](https://scryfall.com) und [importierbare Deckliste](current.txt).
+**Referenzen:** [Commander-Brackets bei Wizards](https://magic.wizards.com/en/formats/commander), [Scryfall-Kartendaten](https://scryfall.com), [aktuelle Liste](current.txt) sowie [GitHub-PR #26](https://github.com/alexdermohr/magic/pull/26).
