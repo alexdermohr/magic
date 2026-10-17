@@ -440,8 +440,6 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         r"</?(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)(?=[\s/>])",
         re.IGNORECASE,
     )
-    html_comment = re.compile(r"<!--[\s\S]*?(?:-->|\Z)")
-
     from html.parser import HTMLParser
 
     class VisibleRawHTML(HTMLParser):
@@ -453,7 +451,18 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             "blockquote", "section", "article", "header", "footer",
             "h1", "h2", "h3", "h4", "h5", "h6",
         })
-        CODE_TAGS = frozenset({"pre", "code"})
+        # HTML <code> is visible phrasing; only <pre> remains example text.
+        CODE_TAGS = frozenset({"pre"})
+        VOID_TAGS = frozenset({
+            "area", "base", "br", "col", "embed", "hr", "img",
+            "input", "link", "meta", "param", "source", "track", "wbr",
+        })
+        # GitHub's GFM tagfilter renders these tag spellings as literal text
+        # rather than HTML, including attributes of the forbidden tags.
+        FILTERED_TAGS = frozenset({
+            "title", "textarea", "style", "xmp", "iframe", "noembed",
+            "noframes", "script", "plaintext",
+        })
 
         def __init__(self) -> None:
             super().__init__(convert_charrefs=True)
@@ -465,10 +474,13 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 if tag in self.CODE_TAGS:
                     self.hidden.append(tag)
                 return
-            if tag in self.CODE_TAGS:
+            if tag in self.FILTERED_TAGS:
+                self.parts.append(self.get_starttag_text() or "<" + tag + ">")
+            elif tag in self.CODE_TAGS:
                 self.hidden.append(tag)
                 self.parts.append(" ")
-            elif tag in self.BLOCK_TAGS:
+            elif tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
+                # HTML replaced/void elements interrupt visible path text.
                 self.parts.append(" ")
 
         def handle_endtag(self, tag) -> None:
@@ -477,11 +489,17 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     self.hidden.pop()
                     self.parts.append(" ")
                 return
-            if tag in self.BLOCK_TAGS:
+            if tag in self.FILTERED_TAGS:
+                self.parts.append("</" + tag + ">")
+            elif tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
                 self.parts.append(" ")
 
         def handle_startendtag(self, tag, attrs) -> None:
-            if not self.hidden and tag in self.BLOCK_TAGS:
+            if self.hidden:
+                return
+            if tag in self.FILTERED_TAGS:
+                self.parts.append(self.get_starttag_text() or "<" + tag + "/>")
+            elif tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
                 self.parts.append(" ")
 
         def handle_data(self, data) -> None:
@@ -529,12 +547,13 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     # GitHub's tagfilter renders forbidden tag markup as
                     # literal text. Ordinary allowed HTML tags are markup:
                     # only their data nodes (not attributes) are displayed.
-                    clean = html_comment.sub(" ", raw)
-                    filtered = disallowed_html_tag.sub(
-                        lambda match: "&lt;" + match.group()[1:], clean
-                    )
+                    # HTMLParser recognizes comment boundaries only in
+                    # markup, not inside quoted tag attributes. A comment
+                    # contributes no text and never splits adjacent fragments.
+                    # Tag filtering occurs in the handlers instead of an
+                    # unscoped regex that also touches comments/attributes.
                     visitor = VisibleRawHTML()
-                    visitor.feed(filtered)
+                    visitor.feed(raw)
                     visitor.close()
                     for reference in literal_deck_references(
                         "".join(visitor.parts)

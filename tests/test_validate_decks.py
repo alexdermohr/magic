@@ -809,6 +809,64 @@ class DeckValidationTests(unittest.TestCase):
                 with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
                     validate_repository(self.root)
 
+    def test_gfm_raw_html_comment_fragments_remain_contiguous(self) -> None:
+        """Comments vanish instead of becoming a rendered word separator."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<div>decks/sample/<!-- -->missing.md</div>\n",
+            "<div>decks/sample/<!-- explanation -->missing.md</div>\n",
+            "<p>decks/sample/<!-- comment -->missing.md</p>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_raw_html_code_text_is_visible(self) -> None:
+        """HTML code is phrasing, unlike pre-formatted example content."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<div>decks/sample/<code>missing</code>.md</div>\n",
+            "<p><code>decks/sample/missing.md</code></p>\n",
+            "<div>decks/sample/<CODE>missing</CODE>.md</div>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_html_comment_start_inside_quoted_attribute_is_not_comment(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            '<div title="<!--">decks/sample/missing.md</div>\n',
+            "<div data-note='<!--'>decks/sample/missing.md</div>\n",
+            '<div title="<!-- nested -->">decks/sample/missing.md</div>\n',
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_raw_html_void_elements_separate_literal_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            '<div>decks/sample/miss<img src="x">ing.md</div>\n',
+            '<div>decks/sample/miss<input value="x">ing.md</div>\n',
+            '<p>decks/sample/miss<br>ing.md</p>\n',
+            '<div>decks/sample/miss<img src="x"/>ing.md</div>\n',
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_gfm_allowed_raw_html_opaque_parts_stay_hidden(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for source in (
