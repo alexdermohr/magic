@@ -4,15 +4,15 @@
 1 Ballyrush Banneret
 1 Valiant Veteran
 1 Field Marshal
-1 Daru Warchief
+1 Thalia, Heretic Cathar
 1 Captain of the Watch
 1 Preeminent Captain
 1 Catapult Master
 1 Brimaz, King of Oreskos
 1 Boromir, Warden of the Tower
 1 Cathar Commando
-1 Mentor of the Meek
-1 Bastion Protector
+1 Rumor Gatherer
+1 Lavaspur Boots
 1 Stoneforge Mystic
 1 Roaming Throne
 1 Mirror Entity
@@ -64,7 +64,7 @@
 1 Elspeth, Storm Slayer
 1 Eiganjo, Seat of the Empire
 1 Minas Tirith
-1 Nykthos, Shrine to Nyx
+1 Hall of the Bandit Lord
 1 Three Tree City
 1 Cavern of Souls
 1 Plaza of Heroes
