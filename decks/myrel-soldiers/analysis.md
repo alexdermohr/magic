@@ -50,7 +50,7 @@ Die V3 enthält **vier 1:1-Tausche** gegenüber der V2. Sie erhöht die Zahl der
 | Winds of Abandon | **Banner of Kinship** | Fünf-Mana-Schlachtabschluss mit permanentem, beim Eintritt festgelegtem Bonus für alle Soldiers. Verzicht auf ein asymmetrisches Massenexil, das Gegnern aber viele Standardländer geben konnte. |
 | Hall of Heliod's Generosity, Castle Ardenvale, Mistveil Plains | **3 Plains** | Drei weniger bedingte, farblose oder getappt kommende Quellen; sichereres frühes weißes Mana. Dafür weniger spät nutzbare Rekursion/Human-Produktion. |
 
-**In V3 weiterhin enthalten:** `Preeminent Captain`, `Captain of the Watch`, `Catapult Master`, `Valiant Veteran`, `Field Marshal`, `Recruiter of the Guard`, `Ranger-Captain of Eos`, `Bastion Protector`, `Stoneforge Mystic`, `Skullclamp`, `Caretaker's Talent`, `Cathars' Crusade`, `Anointed Procession`, `Mondrak`, `Ojer Taq`, `Elspeth, Storm Slayer`, `Goldnight Commander`, `Odric`, `Akroma's Will`, `Reconnaissance`, `Dolmen Gate`, `Lightning Greaves` und `Swiftfoot Boots`.
+**In V3 weiterhin enthalten:** `Preeminent Captain`, `Captain of the Watch`, `Catapult Master`, `Valiant Veteran`, `Field Marshal`, `Recruiter of the Guard`, `Ranger-Captain of Eos`, `Stoneforge Mystic`, `Skullclamp`, `Caretaker's Talent`, `Cathars' Crusade`, `Anointed Procession`, `Mondrak`, `Ojer Taq`, `Elspeth, Storm Slayer`, `Goldnight Commander`, `Odric`, `Akroma's Will`, `Reconnaissance`, `Dolmen Gate`, `Lightning Greaves` und `Swiftfoot Boots`.
 
 ## Zentrale Angriffe und Regelinteraktionen
 
