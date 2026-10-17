@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Gahiji, Honored One — Das Tierreich
+
+**Bracket 3 / Upgraded:** Naya-Zoo aus verschiedenen Tierarten; alle Kreaturen sind Tiere. Tier-Spielsteine, Gahiji-Kampfboni, Kartennachschub und Craterhoof als Finisher.
+
+- Aktuelle 100-Karten-Liste: [decks/gahiji-animals/current.txt](decks/gahiji-animals/current.txt)
+- Spielplan, Bracket-Prüfung und Risiken: [decks/gahiji-animals/analysis.md](decks/gahiji-animals/analysis.md)
