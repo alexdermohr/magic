@@ -1,57 +1,74 @@
-# Anowon, the Ruin Thief — Die Gilde der Schatten (Bracket 3)
+# Anowon, the Ruin Thief — Die Gilde der Schatten (Bracket 3, V2)
 
-**Stand:** 17. Oktober 2026 · **Format:** Commander · **Ziel:** Bracket 3 / Upgraded · **Farbidentität:** Dimir (Blau/Schwarz)
+**Stand:** 17. Oktober 2026 · **Format:** Commander · **Ziel:** möglichst starkes Bracket 3 / Upgraded · **Farben:** Dimir (Blau/Schwarz).
 
-## Ziel und Identität
+**Commander:** `Anowon, the Ruin Thief`. **Aktuelle importierbare Liste:** [current.txt](current.txt). Die Optimierung setzt auf schnelle, schwer blockbare Schurken, gegnerischen Kartendiebstahl und ein eigenständiges Kampffinish – Mill alleine ist nicht der Plan.
 
-Ein konsequentes Rogue-/Schurken-Tribal-Deck: evasive Schurken treffen mehrere Gegner, Anowon verstärkt sie und verwandelt Schaden in Mill und mögliche Karten. Gestohlene Kreaturen, Artefakte, Zauber und Bibliothekskarten werden gegen ihre Besitzer eingesetzt. Reines Deckmillen ist keine alleinige Siegbedingung. Die Liste zielt auf große thematische Dichte bei hoher realer Stärke, ohne Budgetobergrenze.
+## Verifizierter Umfang
 
-**Commander:** `Anowon, the Ruin Thief` (gedruckte, offiziell Commander-legale Karte). **Aktuelle importierbare Liste:** [current.txt](current.txt).
+- **100 Karten:** 1 Commander, 31 weitere Kreaturen, 32 weitere Nichtlandkarten und 36 Länder.
+- **30 Kreaturen mit gedrucktem Rogue-Typ** unter den 32 Kreaturen. `Changeling Outcast` zählt wegen Changeling überall als Rogue, `Roaming Throne` auf dem Spielfeld nach Wahl von Rogue ebenfalls; die Kreaturendichte bleibt gegenüber V1 erhalten.
+- **36 Länder**, darunter **4 Island / 3 Swamp**; sieben Mana-Artefakte (`Sol Ring`, `Arcane Signet`, `Talisman of Dominance`, `Dimir Signet`, `Fellwar Stone`, `Mind Stone`, `Patchwork Banner`) sowie Kostenreduktion durch `Frogtosser Banneret`.
+- **Genau drei offiziell markierte Game Changer:** `Opposition Agent`, `Notion Thief`, `Rhystic Study`. Alle anderen Karten ohne Scryfall-`game_changer`-Flag.
+- **Nominaler durchschnittlicher Manawert der 64 Nichtlandkarten: 2,61.** Tatsächliche Zauberkosten sind teilweise anders: `Deadly Rollick` kann kostenlos sein; `Knowledge Exploitation` hat Prowl.
+- Kein eingebauter früher Zwei-Karten-Endlos-Kombosieg, keine Massenlandzerstörung und keine Möglichkeit, unbegrenzt Extrazüge aneinanderzureihen.
 
-### Deckstruktur
+## Optimierung V1 → V2: neun gezielte Tausche
 
-- **100 Karten gesamt:** ein Commander + 99 Karten; **36 Länder**, **32 Kreaturen inkl. Commander**, **32 übrige Nichtlandkarten**.
-- Unter den 32 Kreaturen sind **30 mit gedrucktem Kreaturentyp Rogue**. `Changeling Outcast` ist wegen Changeling in allen Zonen ein Rogue; `Roaming Throne` wählt beim Eintritt Rogue und zählt danach zusätzlich als Rogue. Damit tragen im regulären Spiel alle 32 Kreaturen die Stammesmechanik, sobald Roaming Throne im Spiel ist.
-- Genau **drei Game Changer**: `Opposition Agent`, `Notion Thief`, `Rhystic Study`.
-- Weder eine gezielt eingeplante frühe Zwei-Karten-Endlosschleife noch Massenlandzerstörung. `Notorious Throng` ermöglicht **einen** Extrazug, sofern die Prowl-Kosten bezahlt wurden; keine Extrazugschleife geplant.
-- 36 Länder einschließlich sechs Basics, gesuchter Duals und sieben Fetchlands plus `Prismatic Vista`. Die ursprüngliche Auswahlversion von Scryfall für `Underground Sea` kann digital sein; das Land existiert als offizielle Papierkarte (z.B. Revised). Bei einem Import unbedingt zulässige Papierdrucke verwenden.
+| Heraus | Hinein | Verbesserung / bewusster Preis |
+| --- | --- | --- |
+| Marang River Prowler | **Bilbo, Luckwearer // Burglar's Plot** | Zwei statt drei Mana; weiterhin unblockbarer Rogue mit zusätzlichem Looting bei Kampfschaden. Die Adventure-Seite kann für {4}{U} zwei Nichtland-Permanents desselben Kartentyps zwischen Spielern tauschen (auch eigene schwache gegen gegnerische starke Kreatur). Nachteil: keine Friedhofs-Rekursion wie Prowler. |
+| Earwig Squad | **Bilbo, Thief in the Night** | Zwei statt fünf Mana regulär/drei Mana Prowl. Erlaubt beim Angriff einmalig das Wirken eines Artefakts, Spontanzaubers oder einer Hexerei aus dem **eigenen** Friedhof gegen Bezahlung (außerhalb der Hand gewirkte Zauber werden um {1} generisch günstiger). Verlust: gezieltes Exilieren von drei gegnerischen Bibliothekskarten. |
+| Master Thief | **Brazen Borrower // Petty Theft** | Für {1}{U} gegnerisches Nichtland-Permanent auf die Hand und später ein 3-Mana-Rogue mit Aufblitzen und Flugfähigkeit. Tauscht dauerhaften Artefakt-Kontrollwechsel gegen flexible, früher verfügbare Interaktion und Ausweichen. |
+| Cloak and Dagger | **Double Down** | Verdoppelt **gewirkte** Rogue-/Outlaw-Kreaturzauber. Kopien von Permanentzaubern werden beim Verrechnen zu Token. Mit `Gonti, Lord of Luxury`, `Thieving Skydiver` oder `Grim Hireling` steigt Value stark. Nachteil: kostet vier Mana, keine Sofortwirkung ohne nachfolgenden Rogue-Zauber und kein Shroud mehr. |
+| Reconnaissance Mission | **Bloodchief Ascension** | Kostet nur {B}. Nach drei Questmarken verwandelt jeder tatsächlich im gegnerischen Friedhof ankommende Mill in Lebensverlust und eigenen Lebensgewinn; sinnvoller alternativer Finisher. Verlust: universelles Kampfschaden-Carddraw; teilweise durch Rhystic, Mystic Remora, Kindred Discovery, Anowon, Mask, Sygg und Bilbo ersetzt. |
+| Herald's Horn | **Banner of Kinship** | Wechselt von generischer Tribal-Discount-/Topdeck-Value-Engine zu explosiver Kampfschadensskalierung: vorhandene Rogues bei Banner-ETB zählen als Fellowship-Counter, jeder Rogue erhält dauerhaft entsprechend viel +X/+X. Mit unblockbaren Kreaturen unmittelbare Siegoption. Nachteil: fünf statt drei Mana und boardabhängig. |
+| Swiftfoot Boots | **Mystic Remora** | Für {U} sehr früher Kartenvorteil aus gegnerischen Nichtkreaturzaubern; wesentlich höheres Tempo-Potenzial als Equipment ohne sofortigen Karten-/Boardwert. Nachteil: weniger Schutz vor gezieltem Removal und kumulative Manakosten. |
+| Reality Shift | **Deadly Rollick** | Exiliert sofort eine Kreatur ohne Ersatz-2/2; kostenlos, falls ein eigener Commander kontrolliert wird, sonst für {3}{B}. Nachteil: ohne Commander teurer als Reality Shift. |
+| Rogue's Passage | **Island (vierte Kopie)** | Mehr verlässliches blaues Mana für `Counterspell`, `Mana Drain`, Bilbo und die übrigen blauen Schurken. Verlust: spät bezahlbare Unblockbarkeit über ein farbloses Land; die Liste hat schon mehrere evasive Schurken sowie `Cover of Darkness` und `Krydle of Baldur's Gate`. |
 
-## Spielplan
+**Entscheidung zugunsten von Stärke statt bloßer Tribal-Optik:** `Double Down` und `Banner of Kinship` geben den vielen günstigen Rogue-Karten eine spürbare Mitte-/Endspielskalierung. Das kostet zwei mittelgute Value-Engines. `Mystic Remora` und `Deadly Rollick` erhöhen die Geschwindigkeit und Reaktionsfähigkeit.
 
-**Züge 1–3:** `Changeling Outcast`, `Slither Blade`, `Triton Shorestalker`, `Merfolk Windrobber` und `Thieves' Guild Enforcer` eröffnen frühe Angriffe. `Sol Ring`, `Arcane Signet`, `Talisman of Dominance`, `Dimir Signet`, `Fellwar Stone`, `Mind Stone` und `Patchwork Banner` beschleunigen. `Frogtosser Banneret` und `Herald's Horn` senken die Kosten weiterer Schurken.
+## So gewinnt das Deck
 
-**Züge 3–6:** Anowon früh legen, aber nicht ohne Schutz gegen besonders removallastige Tische erzwingen. Er gibt **anderen** Rogues +1/+1. Sein Kampftrigger tritt **einmal je getroffenem Spieler** auf, egal wie viele Rogues diesem Spieler gleichzeitig Kampfschaden zufügen; die Anzahl gemillter Karten hängt von der Summe des Rogues-Kampfschadens ab. `Roaming Throne` mit Rogue als gewähltem Typ kopiert den Trigger, wodurch Mill und Kartenpotenzial steigen.
+**Frühes Spiel (Züge 1–3):** `Changeling Outcast`, `Slither Blade`, `Triton Shorestalker`, `Merfolk Windrobber`, `Shoreline Looter`, `Invisible Stalker` und `Bilbo, Luckwearer` eröffnen frühe Treffer. `Bitterblossom` produziert fliegende Faerie-Rogue-Spielsteine. `Frogtosser Banneret` beschleunigt nachfolgende Rogues. **Starthände** bevorzugen zwei bis drei Länder, frühes Blau und einen günstigen Angreifer oder `Mystic Remora`.
 
-**Kartenvorteil:** `Rhystic Study`, `Kindred Discovery` (Rogue wählen), `Reconnaissance Mission`, `Sygg, River Cutthroat`, `Faerie Mastermind`, `Mask of Memory`, `Black Market Connections` und Anowon halten die Hand voll. `Bitterblossom` produziert jede Runde evasive Faerie-Rogue-Token; `Black Market Connections` kann Changeling-Token und Treasures liefern.
+**Mittleres Spiel (Züge 3–6):** Anowon macht *andere* Rogues +1/+1 und lässt jeden Spieler, dem eine oder mehrere unserer Rogues Kampfschaden zugefügt haben, entsprechend dem Schaden millen. Bei mindestens einer so gemillten Kreaturenkarte ziehen wir eine Karte **pro getroffenem Spieler**, nicht pro Rogue. `Roaming Throne`, das Rogue gewählt hat, kopiert diesen Auslöser. `Drown in the Loch` profitiert von den dabei gefüllten Friedhöfen.
 
-**Diebstahl:** `Zareth San, the Trickster` nutzt einen ungeblockten Rogue als Eintrittstrick und übernimmt Permanents aus dem Friedhof des getroffenen Gegners. `Tinybones, the Pickpocket` nutzt gegnerische Friedhöfe, `Thada Adel, Acquisitor` und `Master Thief` übernehmen Artefakte, `Gonti, Lord of Luxury` und `Praetor's Grasp` stehlen Optionen aus Bibliotheken, `Bribery` bringt gegnerische Kreaturen direkt ins Spiel, `Knowledge Exploitation` benutzt gegnerische Instant-/Sorcery-Zauber. `Opposition Agent` kapert gegnerische Bibliothekssuchen.
+**Auf gegnerische Karten zugreifen:** `Gonti, Lord of Luxury`, `Thada Adel, Acquisitor`, `Thieving Skydiver`, `Praetor's Grasp`, `Bribery` und `Knowledge Exploitation` nutzen die Ressourcen der Gegner. `Zareth San, the Trickster` übernimmt gegnerische Nichtland-Permanents aus dem Friedhof nach Kampfschaden. `Tinybones, the Pickpocket` verwertet gegnerische Friedhöfe. `Bilbo, Luckwearer` besitzt mit `Burglar's Plot` einen zusätzlichen echten Kontrolltausch. `Bilbo, Thief in the Night` kann eigene verbrauchte Diebstahl- oder Interaktionszauber erneut casten; normale Kosten und ggf. Ziele bleiben nötig.
 
-**Abschluss:** `Stinkdrinker Bandit` verstärkt nicht geblockte Rogue-Angreifer, `Oona's Blackguard` erzeugt Marken- und Abwurf-Druck, `Patchwork Banner` ist ein weiterer Lord-Effekt. `Cover of Darkness` gewährt Rogue-Kreaturen Fear (nicht blockbar außer durch schwarze und/oder Artefakt-Kreaturen), `Raise the Palisade` räumt gegnerische Nicht-Rogues temporär aus dem Weg und `Notorious Throng` verwandelt Kampfschaden in ein zusätzliches Rogue-Fliegerboard – mit Prowl auch in einen Extrazug. Nicht blockbare Kreaturen verteilen den Kampfschaden auf möglichst viele Gegner.
+**Karten und Mana:** `Rhystic Study`, `Mystic Remora`, `Kindred Discovery` (Rogue wählen), `Black Market Connections`, `Mask of Memory`, `Sygg, River Cutthroat` und `Faerie Mastermind` ergänzen Anowon. `Grim Hireling` liefert Schätze für getroffene Gegner. `Notion Thief` mit `Windfall` kann die Gegner um ihren Kartenziehschritt des Wheels bringen, lässt uns selbst entsprechend mehr ziehen, ist aber keine Endlosschleife.
 
-**Interaktion:** `Drown in the Loch` nutzt die durch Anowon gefüllten Friedhöfe für Counter oder Removal. `Counterspell`, `Mana Drain`, `Swan Song`, `An Offer You Can't Refuse` schützen Schlüsselzüge; `Reality Shift`, `Resculpt`, `Withering Torment` und `Feed the Swarm` beantworten viele Problemkarten, insbesondere die sonst für Dimir schwierigen Verzauberungen.
+**Abschluss:** Ein `Banner of Kinship` mit drei oder vier vorhandenen Rogues verleiht allen eigenen Rogues +3/+3 oder +4/+4, sodass unblockbare 1/1s plötzlich gefährliche Angreifer sind. Neue Rogues profitieren ebenfalls, obwohl später nicht automatisch neue Fellowship-Counter entstehen. `Stinkdrinker Bandit`, `Oona's Blackguard` und `Patchwork Banner` verstärken den Angriff. `Notorious Throng` erzeugt fliegende Rogue-Token und ermöglicht **einen** Extrazug bei Bezahlung der Prowl-Kosten ({5}{U}), nicht schon bei normalem Wirken. `Bloodchief Ascension` ist die zusätzliche Mill-Lebensverlust-Achse.
 
-## Regelhinweise und bewusst akzeptierte Risiken
+**Schutz und Interaktion:** `Counterspell`, `Mana Drain`, `Swan Song`, `An Offer You Can't Refuse` sowie situativ `Drown in the Loch` verhindern besonders gefährliche Zauber. `Deadly Rollick`, `Feed the Swarm`, `Withering Torment`, `Resculpt` und `Raise the Palisade` treffen relevante Permanents oder räumen Blocker weg.
 
-- **`Dauthi Voidwalker` und Anowon:** Dauthi ersetzt den Weg gemillter gegnerischer Karten in den Friedhof durch offenes Exil. Gemäß der Mill-Regel 701.13c kann Anowon die so gemillten Kreaturenkarten im öffentlichen Exil weiterhin erkennen; Anowon **zieht also trotzdem**. Dauthi verhindert jedoch zugleich, dass frische gegnerische Kreaturen/Permanents als Friedhofsziele für `Zareth San` oder `Tinybones` dienen. Dauthi daher situativ opfern bzw. Zareth vor Dauthi einsetzen. Dieser Zielkonflikt wird für Friedhofskontrolle und kostenloses Wirken gestohlener Karten akzeptiert.
-- **`Notion Thief` + `Windfall`:** ersetzt gegnerische Kartenzieheffekte (außer der ersten regulären Ziehung im Ziehsegment) durch eigene Züge und ist ein extrem asymmetrischer, aber nicht unendlicher Zwei-Karten-Spielzug. Vor dem Spiel gegebenenfalls ansprechen; **keine geplante Endlosschleife**.
-- **`Cloak and Dagger`:** kann automatisch an einen neu eintretenden Rogue angelegt werden und gibt Shroud; danach können eigene gezielte Effekte diesen Rogue nicht mehr als Ziel bestimmen, bis die Ausrüstung wechselt.
-- **`Notorious Throng`:** Prowl verlangt, dass dem passenden Spieler bereits in diesem Zug von einem Rogue Kampfschaden zugefügt wurde. Normal gewirkt erzeugt es nur Token, nicht den Extrazug.
-- **`Opposition Agent`:** Seine Fähigkeit greift nur ein, wenn ein Gegner tatsächlich seine Bibliothek durchsucht; kein passiver permanenter Tutor.
-- **Schwächen:** Schnelle Boardwipes, wiederholte Massenentfernung, Fog-Effekte sowie Tische mit wenigen Kreaturenkarten im Friedhof können Kartenvorteil, Mill und Kampfabschluss ausbremsen. Doppelblau für `Counterspell` / `Mana Drain` erfordert disziplinierte Mulligans. Für `Bribery`, `Knowledge Exploitation` und `Praetor's Grasp` sind starke gegnerische Ziele nötig; sie sind thematisch mächtig, aber situativ.
+## Regelinteraktionen, Risiken und Grenzen
 
-## Bewusst zurückgestellte Karten / erweiterter Kreis
+- **Dauthi Voidwalker kontra Bloodchief Ascension / Zareth San / Tinybones:** Dauthis Ersatzeffekt exiliert Karten, die ansonsten in gegnerische Friedhöfe gehen würden. Damit lösen sie `Bloodchief Ascension` nicht aus und stehen Zareth/Tinybones nicht als Friedhofsziele zur Verfügung. Dauthi selbst kann eine exilierte Karte kostenlos spielbar machen und sich dafür opfern; für eine starke Bloodchief-/Zareth-Runde die Reihenfolge sinnvoll wählen. Seine Friedhofskontrolle ist gegen entsprechende Gegnerdecks trotzdem stark.
+- **Dauthi versus Anowon:** Gemäß der Milling-Regel 701.13c gelten durch Ersatzeffekt offen exilierte Karten weiterhin als *milled*. Anowons Draw-Bedingung prüft damit auch offen so gemillte Kreaturenkarten; Dauthi verhindert diesen Draw nicht.
+- **Double Down kopiert nur tatsächlich gewirkte Outlaw-Zauber**, keine nachträglich auf das Spielfeld gebrachten Schurken. Legendäre Kopien (z.B. von den Bilbo-Kreaturen) unterliegen der Legendenregel; ihr Nutzen ist deutlich kleiner. Eine zu einem Token gewordene Kopie des Permanentzaubers wird regeltechnisch nicht „erzeugt“; reine Token-creation-Auslöser reagieren daher nicht darauf.
+- **Bloodchief Ascension** benötigt drei Questmarken durch Endsegmente, in deren jeweiligem Zug ein Gegner mindestens zwei Leben verloren hat. **Mindcrank bleibt ausdrücklich außerhalb des Decks**, weil die Kombination nach Aufladung von Bloodchief eine Zwei-Karten-Endlosschleife ermöglicht und damit unser Bracket-3-Ziel gefährdet.
+- **Bilbo, Luckwearer und Bilbo, Thief in the Night** sind zwei verschieden benannte legendäre Rogues und dürfen gemeinsam im Spiel sein. `Burglar's Plot` darf nur zwei Nichtland-Permanents mit mindestens einem gemeinsamen Kartentyp tauschen.
+- **Zareth San** muss einen ungeblockten Rogue zurück auf die Hand nehmen, wenn seine Spezialfähigkeit für {2}{U}{B} aktiviert wird, und kommt getappt und angreifend ins Spiel. Nicht beliebige Ziele aus irgendeinem Friedhof, sondern eine gültige gegnerische Permanente nach Kampfschaden übernehmen.
+- **Schwachstellen:** Commander-Entfernung erschwert verlässliches Nachziehen und verringert die Druckhöhe; nach Verlust von Swiftfoot Boots steigt dieses Risiko. Banner braucht ein Board, Double Down nachfolgende Outlaw-Zauber, Remora hat kumulative Versorgungskosten. Viele Diebstahlkarten sind abhängig von Gegnerbibliotheken. Keine Karte alleine garantiert einen Sieg.
 
-- **`Oona's Prowler`** (raus gegenüber erster Fassung): günstig und evasiv, aber Gegner dürfen sich mit beliebigem Abwurf selbst den Friedhof füllen; ersetzt durch `Dauthi Voidwalker`.
-- **`Cyclonic Rift`**: hervorragende asymmetrische Antwort, aber vierter Game Changer; für Bracket 3 nicht zusammen mit den derzeitigen drei zulässig.
-- **`Demonic Tutor`, `Vampiric Tutor` und `Fierce Guardianship`**: stärkere generische Konsistenz/Interaktion, aber ebenfalls Game Changer und weniger Rogue-/Theft-Thema.
-- **`Nihil Spellbomb`**: alternative Friedhofskontrolle, wenn die Zareth-/Tinybones-Anti-Synergie von Dauthi stärker stört als Dauthis eigener Diebstahl nützt.
-- **`Obelisk of Urd`**: starker zusätzlicher Stammesschaden als mögliche spätere Anpassung, wenn häufig das fehlende Kampffinish auffällt.
-- **`Oona, Queen of the Fae`**: großer Token-Mana-Sink, aber mit sechs Mana weniger effizient als die bestehenden frühen Rogue-Engines.
+## Erweiterter Kreis – geprüft, aber nicht aufgenommen
 
-## Prüfrahmen
+- **`Boss Uramon, Shadow's Reach`** wirkt mit Shadow und Rogue-Spielsteinen ideal, aber Scryfall kennzeichnet die aktuell verfügbare Version als **`not_legal` im Commander-Format**. Deshalb ausdrücklich nicht in der 100-Karten-Liste.
+- **`Flare of Denial`**: kostenloses Gegenzaubern gegen Opfer einer Nichtspielstein-blauen Kreatur; stark gegen Wraths, kostet aber einen eigenen Rogue und ist bei leerem Board teurer. Vorläufig bleibt `An Offer You Can't Refuse` als kostengünstige Schutzreaktion.
+- **`Cephalid Facetaker`**: unblockbarer Rogue, kann Angriffe als Kopie anderer Kreaturen gestalten; erwägenswert, aber weniger konsistent als die zwei frühen Bilbos.
+- **`Cruel Calculations`** (2026): drei Mana zum Nachziehen nach Mill, jedoch abhängig davon, dass die Karten in diesem Zug tatsächlich vom Bibliotheksoberteil **in den Friedhof** gelangt sind. Mit `Dauthi Voidwalker` kann die Karte völlig leer bleiben.
+- **`Mindcrank`**: als einzelne Karte akzeptabel, zusammen mit `Bloodchief Ascension` bewusst nicht enthalten.
+- **`Cyclonic Rift`, `Demonic Tutor`, `Vampiric Tutor`, `Fierce Guardianship`**: zusätzliche Game Changer würden die derzeitigen drei überschreiten.
+- **`Marang River Prowler`, `Earwig Squad`, `Master Thief`, `Cloak and Dagger`, `Reconnaissance Mission`, `Herald's Horn`, `Swiftfoot Boots`, `Reality Shift` und `Rogue's Passage`** bleiben als bewusst gestrichene Originalversion dokumentiert.
 
-Die Liste wurde zu **100 Karten** gezählt, und der Scryfall-Oracle-/Commander-Farbidentitätsabgleich prüft alle **96 unterschiedlichen Einträge**, inklusive der MDFC `Clearwater Pathway // Murkwater Pathway` über ihren vorderen Kartennamen. Zulässiges Papier gilt für tatsächliche Karten, nicht jede einzelne von Scryfall zufällig gewählte Druckversion. Bei jedem späteren Kartentausch muss die Prüfung erneut erfolgen.
+## Prüfnachweise und Aussagegrenzen
 
-Diese Bracket-3-Einordnung beruht auf den aktuellen Commander-Bracket-Regeln und dem Drei-Game-Changer-Limit. **Es wurden keine realen Testpartien gespielt;** Aussagen über Spielstärke sind Deckbauanalysen und keine gemessenen Siegraten.
+Aktuelle Scryfall-`/cards/collection`-Prüfung der V2: **95 von 95 unterschiedliche Einträge erkannt, 100 Karten, 36 Länder, 32 Kreaturen, 30 gedruckte Rogue-Kreaturen, keine Commander-illegalen Karten, keine falschen Farbidentitäten, genau drei Game Changer über das aktuelle `game_changer`-Kennzeichen; nominaler durchschnittlicher Nichtland-Manawert 2,61.**
 
-**Primärquellen:** [Wizards Commander & Brackets](https://magic.wizards.com/en/formats/commander) · [Wizards Brackets Update Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) · [Scryfall](https://scryfall.com).
+Scryfall kann für `Underground Sea` standardmäßig eine digitale Variante auswählen; reguläre spielbare **Papierdrucke**, beispielsweise aus Revised Edition, existieren. Ausschließlich zulässige echte Papierkarten verwenden.
+
+**Grenze:** Keine behauptete Messung der tatsächlichen Siegrate oder manuelle Partien. Die Änderungen sind analytische Deckverbesserungen, keine durch Matchtests bewiesene Überlegenheit. Einstufung gemäß den gegenwärtigen Wizards-Bracket-Empfehlungen, die ein Orientierungssystem für Vorgespräche und kein turnierjuristisches Siegel sind.
+
+**Quellen:** [Offizielle Commander-Brackets und Game Changers](https://magic.wizards.com/en/formats/commander) · [Commander-Update Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) · [Scryfall-Karten und Legality](https://scryfall.com) · [Wizards-Regeln zu Double Down](https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes).
