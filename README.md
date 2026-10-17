@@ -106,3 +106,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Gonti, Canny Acquisitor — Die Gilde der Diebe
+
+**Bracket 3 / Upgraded:** Sultai-Diebe/Rogues, die gegnerische Bibliotheken, Zaubersprüche und bleibende Karten stehlen und mit fremden Ressourcen gewinnen.
+
+- Liste: [decks/gonti-thieves/current.txt](decks/gonti-thieves/current.txt)
+- Spielplan, Bracket-Regeln, Game Changer und Risiken: [decks/gonti-thieves/analysis.md](decks/gonti-thieves/analysis.md)
