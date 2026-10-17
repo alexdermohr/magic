@@ -68,6 +68,6 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 ## Sidar Jabari of Zhalfir — Die Ritterschaft von Zhalfir (Bracket 3)
 
-- Neue importierbare 100-Karten-Liste: [decks/sidar-jabari-knights/current.txt](sidar-jabari-knights/current.txt).
+- Aktuelle optimierte Bracket-3-V2-Liste (100 Karten): [decks/sidar-jabari-knights/current.txt](sidar-jabari-knights/current.txt).
 - [decks/sidar-jabari-knights/analysis.md](sidar-jabari-knights/analysis.md): Ritter-/Reanimation-/Combat-Plan, drei Game Changer, Mana, Risiken.
 - Folgende Optimierungen pflegen die aktuelle Liste; historische Snapshots nur bei tatsächlich neuen Versionen.
