@@ -1,0 +1,97 @@
+1 Gev, Scaled Scorch
+1 Hired Claw
+1 Iridescent Vinelasher
+1 Ravine Raider
+1 Scorch Spitter
+1 Flamecache Gecko
+1 Fireglass Mentor
+1 Valley Flamecaller
+1 Agate Instigator
+1 Agate-Blade Assassin
+1 Cindering Cutthroat
+1 Frilled Sparkshooter
+1 Hearthborn Battler
+1 Magebane Lizard
+1 Master of Barbs
+1 Reptilian Recruiter
+1 Spitfire Lagac
+1 Steampath Charger
+1 Thought-Stalker Warlock
+1 Valley Rotcaller
+1 Lizard Blades
+1 Kindlespark Duo
+1 Hissing Iguanar
+1 Immolation Shaman
+1 Dagger Caster
+1 Chandra's Pyreling
+1 Laughing Jasper Flint
+1 Party Thrasher
+1 Glidedive Duo
+1 Gastal Thrillseeker
+1 Ingris Stingerquill
+1 Ojer Axonil, Deepest Might
+1 Solphim, Mayhem Dominus
+1 Roaming Throne
+1 Creeping Bloodsucker
+1 Purphoros, God of the Forge
+1 Sol Ring
+1 Arcane Signet
+1 Talisman of Indulgence
+1 Fellwar Stone
+1 Herald's Horn
+1 Patchwork Banner
+1 Urza's Incubator
+1 Bontu's Monument
+1 Demonic Tutor
+1 Jeska's Will
+1 Necropotence
+1 Black Market Connections
+1 Night's Whisper
+1 Plumb the Forbidden
+1 Wheel of Misfortune
+1 Chaos Warp
+1 Withering Torment
+1 Deadly Rollick
+1 Blasphemous Act
+1 Vandalblast
+1 Deflecting Swat
+1 Feed the Swarm
+1 Impact Tremors
+1 Shared Animosity
+1 Molten Echoes
+1 Cover of Darkness
+1 Patriarch's Bidding
+1 Goblin Bombardment
+1 Command Tower
+1 Cavern of Souls
+1 Unclaimed Territory
+1 Secluded Courtyard
+1 Path of Ancestry
+1 Blood Crypt
+1 Badlands
+1 Luxury Suite
+1 Haunted Ridge
+1 Dragonskull Summit
+1 Sulfurous Springs
+1 Blackcleave Cliffs
+1 Blazemire Verge
+1 Raucous Theater
+1 Smoldering Marsh
+1 Tainted Peak
+1 Graven Cairns
+1 Foreboding Ruins
+1 Urborg, Tomb of Yawgmoth
+1 Takenuma, Abandoned Mire
+1 Sokenzan, Crucible of Defiance
+1 Shizo, Death's Storehouse
+1 Den of the Bugbear
+1 Rockface Village
+1 Mudflat Village
+1 Bojuka Bog
+1 Bloodstained Mire
+1 Verdant Catacombs
+1 Marsh Flats
+1 Scalding Tarn
+1 Prismatic Vista
+3 Swamp
+2 Mountain
