@@ -2,7 +2,7 @@
 1 Birds of Paradise
 1 Delighted Halfling
 1 Bloom Tender
-1 Thieving Varmint
+1 Deathrite Shaman
 1 Slither Blade
 1 Triton Shorestalker
 1 Changeling Outcast
@@ -18,7 +18,7 @@
 1 Rev, Tithe Extractor
 1 Felix Five-Boots
 1 Dauthi Voidwalker
-1 Mercurial Spelldancer
+1 Thieving Skydiver
 1 Hostage Taker
 1 Opposition Agent
 1 Notion Thief
@@ -26,7 +26,6 @@
 1 Edric, Spymaster of Trest
 1 Baleful Strix
 1 Zareth San, the Trickster
-1 Brainstealer Dragon
 1 Roaming Throne
 1 Gilded Drake
 1 Sol Ring
@@ -34,6 +33,7 @@
 1 Fellwar Stone
 1 Talisman of Dominance
 1 Talisman of Curiosity
+1 Talisman of Resilience
 1 Nature's Lore
 1 Three Visits
 1 Farseek
@@ -42,7 +42,6 @@
 1 Dream-Thief's Bandana
 1 Nature's Will
 1 Villainous Wealth
-1 Outrageous Robbery
 1 Bribery
 1 Blatant Thievery
 1 Tasha, the Witch Queen
@@ -56,7 +55,8 @@
 1 Assassin's Trophy
 1 Beast Within
 1 Swan Song
-1 Counterspell
+1 Memory Lapse
+1 Heroic Intervention
 1 Cyclonic Rift
 1 Toxic Deluge
 1 Treachery
@@ -91,7 +91,7 @@
 1 Takenuma, Abandoned Mire
 1 Cavern of Souls
 1 Yavimaya, Cradle of Growth
-1 Access Tunnel
+1 Command Beacon
 1 Rejuvenating Springs
 1 Morphic Pool
 1 Undergrowth Stadium
