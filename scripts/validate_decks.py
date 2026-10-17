@@ -97,10 +97,10 @@ def gfm_table_plugin(md) -> None:
         delimiter = strip_gfm_table_row(delimiter_line, require_pipe=True)
         if delimiter is None:
             return None
-        # GFM requires >=3 dashes per delimiter, optional outer colons.
+        # GFM permits one or more dashes per delimiter, optional colons.
         delimiter_cells = _split_table_cells(delimiter)
         valid = delimiter_cells and all(
-            re.fullmatch(r":?-{3,}:?", cell.strip()) is not None
+            re.fullmatch(r":?-+:?", cell.strip()) is not None
             for cell in delimiter_cells
         )
         if not valid:
@@ -170,16 +170,20 @@ def gfm_strikethrough_plugin(md) -> None:
             return None
 
         start = match.end()
+        cache_key = (id(source), marker)
+        cached = state.formatting_no_end.get(cache_key)
+        if cached is not None and cached[0] is source and start <= cached[1]:
+            return None
         # A closer inside an opaque inline token must not terminate the
         # deletion. Search the full source, not just through the closer:
         # angle autolinks and HTML tags require their final ">" to match.
         closer_pattern = re.compile(r"(?<!~)" + re.escape(marker) + r"(?!~)")
         special_rules = inline.compile_sc([
-            "escape", "codespan", "auto_link", "auto_email", "inline_html",
+            "escape", "codespan", "link", "auto_link", "auto_email", "inline_html",
         ])
         scan = start
+        special = special_rules.search(source, scan)
         while (closing := closer_pattern.search(source, scan)) is not None:
-            special = special_rules.search(source, scan)
             if special is not None and special.start() < closing.start():
                 if special.lastgroup == "codespan":
                     probe = state.copy()
@@ -187,8 +191,18 @@ def gfm_strikethrough_plugin(md) -> None:
                     end_of_code = inline.parse_codespan(special, probe)
                     if probe.tokens[-1]["type"] == "codespan":
                         scan = end_of_code
+                        special = special_rules.search(source, scan)
+                        continue
+                if special.lastgroup == "link":
+                    probe = state.copy()
+                    probe.src = source
+                    end_of_link = inline.parse_link(special, probe)
+                    if end_of_link is not None:
+                        scan = end_of_link
+                        special = special_rules.search(source, scan)
                         continue
                 scan = special.end()
+                special = special_rules.search(source, scan)
                 continue
 
             end = closing.start()
@@ -212,6 +226,7 @@ def gfm_strikethrough_plugin(md) -> None:
                 "children": inline.render(nested),
             })
             return end + len(marker)
+        state.formatting_no_end[cache_key] = (source, len(source))
         return None
 
     def parse_single_tilde(inline, match, state):
@@ -230,7 +245,7 @@ def gfm_strikethrough_plugin(md) -> None:
     )
     md.inline.register(
         "gfm_single_strikethrough",
-        r"(?<!~)~(?=[^\s~])",
+        r"~(?<!~~)(?=[^\s~])",
         parse_single_tilde,
         before="strikethrough",
     )

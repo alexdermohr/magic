@@ -935,12 +935,22 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
 
-    def test_gfm_single_hyphen_delimiters_do_not_create_table(self) -> None:
+    def test_gfm_single_hyphen_delimiters_keep_cell_links_visible(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         (self.root / "decks" / "README.md").write_text(
             "| A | B |\n"
             "| - | - |\n"
             "| " + chr(96) + " | [example](sample/missing.md) close " + chr(96) + " |\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_single_hyphen_table_existing_link_is_accepted(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "| A | B |\n| - | - |\n"
+            "| ok | [exists](sample/current.txt) |\n",
             encoding="utf-8",
         )
         self.assertEqual(len(validate_repository(self.root)), 1)
@@ -1497,6 +1507,92 @@ class DeckValidationTests(unittest.TestCase):
                     DeckValidationError, "sample/missing.md"
                 ):
                     validate_repository(self.root)
+
+    def test_gfm_strikethrough_link_tildes_keep_references_live(self) -> None:
+        """Bracketed inline links bind more tightly than outer tilde closers."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source, target in (
+            ("~5 [x](sample/a~b.md)", "sample/a~b.md"),
+            ("~3 lands; see [Plan~B](sample/missing.md)", "sample/missing.md"),
+            ("~~5 [x](sample/a~~b.md)", "sample/a~~b.md"),
+            ('~5 [x](sample/missing.md "ti~tle")', "sample/missing.md"),
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, target):
+                    validate_repository(self.root)
+
+    def test_gfm_strikethrough_link_tildes_preserve_valid_links(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "~5 [x](sample/current.txt)",
+            "~3 [Plan~B](sample/current.txt)",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_strikethrough_external_link_tildes_are_opaque(self) -> None:
+        """A complete external link destination cannot expose nested-looking links."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "~open [safe](https://example.com/~[actual](sample/missing.md)) close~",
+            "~~open [safe](https://example.com/~~[actual](sample/missing.md)) close~~",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_pinned_mistune_sources_match_provenance_sha256(self) -> None:
+        """CI must verify every vendored source and the pinned license bytes."""
+        import hashlib
+        import json
+
+        root = Path(__file__).resolve().parents[1] / "scripts" / "_vendor"
+        source_root = root / "mistune"
+        self.assertFalse(root.is_symlink())
+        self.assertFalse(source_root.is_symlink())
+        manifest = json.loads((root / "PROVENANCE.json").read_text("utf-8"))
+        actual = {
+            path.relative_to(root).as_posix(): hashlib.sha256(
+                path.read_bytes()
+            ).hexdigest()
+            for path in source_root.rglob("*.py")
+            if path.is_file() and not path.is_symlink()
+        }
+        self.assertDictEqual(actual, manifest["files_sha256"])
+        self.assertEqual(
+            hashlib.sha256((root / "LICENSE.mistune").read_bytes()).hexdigest(),
+            manifest["license_sha256"],
+        )
+
+    def test_gfm_strikethrough_unclosed_runs_use_bound_cache_and_fast_path(self) -> None:
+        """Many unmatched tildes must not repeatedly scan the entire tail."""
+        from scripts.validate_decks import (
+            gfm_strikethrough_plugin, rendered_markdown_references,
+        )
+
+        rendered_markdown_references("")  # load the same pinned parser
+        import mistune
+
+        md = mistune.create_markdown(renderer="ast", plugins=[
+            gfm_strikethrough_plugin,
+        ])
+        self.assertIn("~", md.inline._get_fast_trigger_chars())
+        source = " ".join(["~open"] * 200)
+        state = md.inline.state_cls({"ref_links": {}})
+        state.src = source
+        md.inline.render(state)
+        self.assertEqual(
+            state.formatting_no_end.get((id(source), "~")),
+            (source, len(source)),
+        )
 
     def test_gfm_strikethrough_still_checks_visible_links_near_code_spans(self) -> None:
         """Unmatched or escaped backticks cannot hide actual local links."""
