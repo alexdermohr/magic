@@ -1,7 +1,7 @@
 1 Captain America, Team Leader
 1 Agent Phil Coulson
 1 Ant-Man, Elusive Avenger
-1 Bastion Protector
+1 Captain America, Unbowed
 1 Black Widow, Agile Avenger
 1 Captain America, Living Legend
 1 Captain America, Super-Soldier
@@ -11,14 +11,14 @@
 1 Falcon and Redwing
 1 Firebird, Blazing Ranger
 1 Hawkeye, Trick Shot
-1 Hercules, Olympian Hero
+1 Shuri, Vibranium Technologist
 1 Iron Man, Armored Avenger
 1 Jarvis, Earth's Mightiest Butler
 1 Jocasta, Automaton Avenger
 1 Metallic Mimic
 1 Photon, Mighty Marvel
 1 Professor Hulk
-1 Quicksilver, Speedster
+1 Quicksilver, Brash Blur
 1 Rescue, Pepper Potts
 1 Scarlet Witch, Chaotic Avenger
 1 Shang-Chi and the Ten Rings
@@ -30,25 +30,25 @@
 1 War Machine, Avenging Arsenal
 1 Winter Soldier, Reborn Avenger
 1 Roaming Throne
-1 Silver Sable, Mercenary Leader
+1 Araña, Heart of the Spider
 1 SP//dr, Piloted by Peni
-1 Daredevil, Man Without Fear
-1 Night Nurse, Healer of Heroes
+1 Kid Loki
+1 The Wondrous Wasp
+1 Danny Pink
+1 Herald of Secret Streams
 1 Sol Ring
 1 Arcane Signet
 1 Fellwar Stone
 1 Talisman of Conviction
 1 Talisman of Creativity
 1 Talisman of Progress
-1 Herald's Horn
+1 Flowering of the White Tree
 1 Urza's Incubator
 1 Folk Hero
 1 Kindred Discovery
 1 Rhystic Study
 1 Smothering Tithe
-1 Avengers Assemble!
 1 Avengers Quinjet
-1 Uncivil Unrest
 1 Shared Animosity
 1 Champions from Beyond
 1 Swords to Plowshares
@@ -58,7 +58,7 @@
 1 Raise the Palisade
 1 Damning Verdict
 1 Teferi's Protection
-1 Heroic Sacrifice
+1 Ripples of Potential
 1 Akroma's Will
 1 Flawless Maneuver
 1 Arcane Denial
@@ -92,6 +92,8 @@
 1 Tundra
 1 Volcanic Island
 1 Plateau
-3 Plains
-2 Island
+1 Eiganjo, Seat of the Empire
+1 Minamo, School at Water's Edge
+2 Plains
+1 Island
 1 Mountain

@@ -109,7 +109,7 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## Captain America, Team Leader — Die Liga der Superhelden
 
-**Bracket 3 / Upgraded:** Jeskai-Heldentribal mit Avengers und Spider-Man; echte Hero-Kreaturen, +1/+1-Marken und kampforientierte Abschlüsse. Verifiziert: 100 Commander-legale Karten mit passender Farbidentität und exakt drei Game Changers.
+**Bracket 3 / Upgraded (v2, 17.10.2026):** Jeskai-Heldentribal mit 38 Kreaturen (33 echte Heroes), +1/+1-Marken, Kartenziehen durch Danny Pink und unblockbaren Angriffen. 100 Commander-legale Karten, exakt drei Game Changer.
 
 - Aktuelle importierbare Liste: [decks/captain-america-heroes/current.txt](decks/captain-america-heroes/current.txt)
 - Spielplan, Bracket-Prüfung und Risiken: [decks/captain-america-heroes/analysis.md](decks/captain-america-heroes/analysis.md)
