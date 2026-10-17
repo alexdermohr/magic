@@ -504,6 +504,11 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
 
         def handle_data(self, data) -> None:
             if not self.hidden:
+                # HTMLParser does not unescape CDATA inside script/style;
+                # GFM tagfilter displays their text as ordinary HTML-escaped
+                # prose. Decode once, never again for already decoded data.
+                if self.cdata_elem in {"script", "style"}:
+                    data = decode_character_references(data)
                 self.parts.append(data)
 
 

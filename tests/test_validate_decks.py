@@ -880,6 +880,52 @@ class DeckValidationTests(unittest.TestCase):
                 )
                 self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_gfm_tagfiltered_script_style_decodes_entities_once(self) -> None:
+        """GitHub escapes the raw tags, then HTML character refs become visible."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<script>decks&#47;sample&#47;missing.md</script>\n",
+            "<STYLE>decks&#x2F;sample&#x2F;missing.md</STYLE>\n",
+            "<script data-note='safe'>decks&#47;sample/missing.md</script>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_gfm_tagfiltered_script_double_escaping_not_overdecoded(self) -> None:
+        """A visible '&#47;' produced from &amp;#47; is not an actual slash."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<script>decks&amp;#47;sample&amp;#47;missing.md</script>\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_gfm_abrupt_empty_html_comment_does_not_split_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "<div>decks/sample/<!-->missing.md</div>\n",
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+            validate_repository(self.root)
+
+    def test_gfm_foreign_closer_attribute_indented_example_stays_opaque(self) -> None:
+        """Actual GitHub HTML renders the indented path as code, not a reference."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            '<script data-x="</pre>">\n'
+            "    decks/sample/missing.md\n"
+            "</script>\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_gfm_disallowed_html_tags_expose_visible_deck_paths(self) -> None:
         """GFM escapes disallowed tags so their text is displayed literally."""
         self.write_deck("1 Sample Commander\n99 Plains\n")
