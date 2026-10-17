@@ -65,3 +65,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Captain America, Team Leader — Die Liga der Superhelden (Bracket 3)
+
+- `decks/captain-america-heroes/current.txt`: 100-Karten-Hero-Commander-Deck (Jeskai, 36 Kreaturen inkl. Commander, 28 andere Zauber, 36 Länder).
+- `decks/captain-america-heroes/analysis.md`: Spielplan, 32 echte Hero-Kreaturen, Game-Changer-Nachweis, Commander-Legalität und Testgrenzen.
+- Aktueller Hauptstand unter `current.txt`; eine eigene Deck-Versionierung wird erst bei späteren Änderungen benötigt.
