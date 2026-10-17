@@ -442,6 +442,53 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     )
     html_comment = re.compile(r"<!--[\s\S]*?(?:-->|\Z)")
 
+    from html.parser import HTMLParser
+
+    class VisibleRawHTML(HTMLParser):
+        """Collect browser-visible raw HTML text, excluding markup and examples."""
+
+        BLOCK_TAGS = frozenset({
+            "div", "p", "details", "summary", "table", "thead", "tbody",
+            "tfoot", "tr", "td", "th", "br", "hr", "ul", "ol", "li",
+            "blockquote", "section", "article", "header", "footer",
+            "h1", "h2", "h3", "h4", "h5", "h6",
+        })
+        CODE_TAGS = frozenset({"pre", "code"})
+
+        def __init__(self) -> None:
+            super().__init__(convert_charrefs=True)
+            self.parts: list[str] = []
+            self.hidden: list[str] = []
+
+        def handle_starttag(self, tag, attrs) -> None:
+            if self.hidden:
+                if tag in self.CODE_TAGS:
+                    self.hidden.append(tag)
+                return
+            if tag in self.CODE_TAGS:
+                self.hidden.append(tag)
+                self.parts.append(" ")
+            elif tag in self.BLOCK_TAGS:
+                self.parts.append(" ")
+
+        def handle_endtag(self, tag) -> None:
+            if self.hidden:
+                if tag == self.hidden[-1]:
+                    self.hidden.pop()
+                    self.parts.append(" ")
+                return
+            if tag in self.BLOCK_TAGS:
+                self.parts.append(" ")
+
+        def handle_startendtag(self, tag, attrs) -> None:
+            if not self.hidden and tag in self.BLOCK_TAGS:
+                self.parts.append(" ")
+
+        def handle_data(self, data) -> None:
+            if not self.hidden:
+                self.parts.append(data)
+
+
     # CommonMark decodes semicolon-terminated numeric and named character
     # references only within each text token. Decoding a concatenated run
     # would accidentally turn a backslash-escaped ampersand (split by Mistune
@@ -479,18 +526,20 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 flush_text()
                 raw = token.get("raw")
                 if isinstance(raw, str):
-                    # GFM escapes forbidden tags but leaves other raw tags
-                    # and their attributes unchanged.
+                    # GitHub's tagfilter renders forbidden tag markup as
+                    # literal text. Ordinary allowed HTML tags are markup:
+                    # only their data nodes (not attributes) are displayed.
                     clean = html_comment.sub(" ", raw)
-                    if disallowed_html_tag.search(clean):
-                        escaped = disallowed_html_tag.sub(
-                            lambda match: "&lt;" + match.group()[1:], clean
-                        )
-                        visible = transparent_tag.sub(" ", escaped)
-                        for reference in literal_deck_references(
-                            decode_character_references(visible)
-                        ):
-                            found.append((True, reference))
+                    filtered = disallowed_html_tag.sub(
+                        lambda match: "&lt;" + match.group()[1:], clean
+                    )
+                    visitor = VisibleRawHTML()
+                    visitor.feed(filtered)
+                    visitor.close()
+                    for reference in literal_deck_references(
+                        "".join(visitor.parts)
+                    ):
+                        found.append((True, reference))
                 return
             if kind == "text":
                 raw = token.get("raw")

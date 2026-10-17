@@ -792,6 +792,36 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "sample/missing.md"):
             validate_repository(self.root)
 
+    def test_gfm_allowed_raw_html_visible_deck_paths_are_checked(self) -> None:
+        """GFM displays ordinary HTML block body text, not its attributes."""
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<div>decks/sample/missing.md</div>\n",
+            "<p>decks/sample/missing.md</p>\n",
+            "<details><summary>X</summary>decks/sample/missing.md</details>\n",
+            "<table><tr><td>decks/sample/missing.md</td></tr></table>\n",
+            "<div>decks/sample/<em>missing</em>.md</div>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
+    def test_gfm_allowed_raw_html_opaque_parts_stay_hidden(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "<div data-path='decks/sample/missing.md'>safe</div>\n",
+            "<!-- decks/sample/missing.md -->\n",
+            "<pre>decks/sample/missing.md</pre>\n",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source, encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_gfm_disallowed_html_tags_expose_visible_deck_paths(self) -> None:
         """GFM escapes disallowed tags so their text is displayed literally."""
         self.write_deck("1 Sample Commander\n99 Plains\n")
