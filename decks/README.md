@@ -65,3 +65,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Gonti, Canny Acquisitor — Die Gilde der Diebe (Bracket 3)
+
+- `decks/gonti-thieves/current.txt`: importierbare 100-Karten-Liste mit genau drei Game Changern.
+- `decks/gonti-thieves/analysis.md`: Diebstahl-Spielplan, Regelfallen, Scryfall-Abgleich und Grenzen.
+- Spätere Optimierungen aktualisieren `current.txt`; frühere Fassungen können bei Bedarf unter `versions/` erhalten bleiben.
