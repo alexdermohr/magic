@@ -7,7 +7,7 @@
 1 Desecration Elemental
 1 Ebonblade Reaper
 1 Thought Eater
-1 Thought Nibbler
+1 Vampire Hexmage
 1 Flesh Reaver
 1 Grid Monitor
 1 Faerie Mastermind
@@ -40,7 +40,7 @@
 1 Black Market Connections
 1 Windfall
 1 Bitterthorn, Nissa's Animus
-1 Strionic Resonator
+1 Irenicus's Vile Duplication
 1 Despotic Scepter
 1 Diabolic Intent
 1 Lightning Greaves
@@ -52,7 +52,7 @@
 1 Cyclonic Rift
 1 Toxic Deluge
 1 Aetherize
-1 Illusionist's Gambit
+1 Skullclamp
 1 Feed the Swarm
 1 Deadly Rollick
 1 Mana Drain
@@ -88,7 +88,7 @@
 1 Takenuma, Abandoned Mire
 1 Maze of Ith
 1 Homeward Path
-1 Command Beacon
+1 Urza's Saga
 1 Bojuka Bog
 1 Urborg, Tomb of Yawgmoth
 1 Cabal Coffers

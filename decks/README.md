@@ -68,7 +68,7 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 ## Jon Irenicus, Shattered One (Bracket 3)
 
-- `decks/jon-irenicus/current.txt`: aktuelle importierbare optimierte V5 mit 100 Karten.
+- `decks/jon-irenicus/current.txt`: aktuelle importierbare optimierte V6 mit 100 Karten.
 - `decks/jon-irenicus/README.md`: Spielplan und regelgeprüfte Geschenk-/Goad-Interaktionen.
 - `decks/jon-irenicus/analysis.md`: Einzelkarten, Bracket/Matchups, Risiken und belegte Änderungen.
-- `decks/jon-irenicus/versions/`: die tatsächlich entstandenen v1-, v2-, v3- und v4-Zwischenstände.
+- `decks/jon-irenicus/versions/`: die tatsächlich entstandenen v1-, v2-, v3-, v4- und v5-Zwischenstände.
