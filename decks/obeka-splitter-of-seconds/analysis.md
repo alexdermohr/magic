@@ -1,14 +1,14 @@
-# Obeka, Splitter of Seconds — Karten- und Spielanalyse V6 (Bracket 3)
+# Obeka, Splitter of Seconds — Karten- und Spielanalyse V7 (Bracket 3)
 
-**Aktuelle Liste:** [current.txt](current.txt), identisch mit [versions/2026-10-18-b3-v6.txt](versions/2026-10-18-b3-v6.txt). Historische Listen V1–V5 wurden tatsächlich erstellt und bleiben unter [versions/](versions/) erhalten. Stand: 18.10.2026.
+**Aktuelle Liste:** [current.txt](current.txt), identisch mit [versions/2026-10-18-b3-v7.txt](versions/2026-10-18-b3-v7.txt). Historische Listen V1–V6 wurden tatsächlich erstellt und bleiben unter [versions/](versions/) erhalten. Stand: 18.10.2026.
 
 ## 1. Mechanik und Regelprüfung
 
 Der verifizierte Oracle-Text von Obeka lautet: „Menace. Whenever Obeka deals combat damage to a player, you get that many additional upkeep steps after this phase.“ 2 Schadenspunkte ergeben 2 zusätzliche eigene Upkeeps nach der Kampfphase, 5 Schadenspunkte ergeben 5. Das sind **keine** weiteren normalen Untap-, Draw-, Main- oder Combat-Steps. Durch Double Strike sind zwei separate Schadensereignisse und Upkeep-Trigger möglich.
 
-- „At the beginning of your upkeep“ funktioniert in jedem Obeka-Upkeep. Beispiele aus V5: sechs Courts, Bitterblossom, Phyrexian Arena, Replicating Ring, Dragonmaster Outcast, Creeping Bloodsucker, Plargg and Nassari, Ring of Valkas und Ring of Evos Isle.
+- „At the beginning of your upkeep“ funktioniert in jedem Obeka-Upkeep. Beispiele aus V7: sechs Courts, Bitterblossom, Phyrexian Arena, Replicating Ring, Generous Plunderer, Creeping Bloodsucker, Plargg and Nassari, Ring of Valkas und Ring of Evos Isle.
 - „At the beginning of each upkeep“ schließt auch fremde Upkeeps ein, wird durch Obeka aber nur während ihrer **eigenen** künstlichen Upkeeps beschleunigt. Midnight Clock wurde aus V5 zugunsten schnelleren Manas entfernt.
-- **Initiative:** Ravenloft Adventurer nimmt beim Eintritt die Initiative. Dadurch wagt man sich einmal in die Unterstadt; anschließend geschieht das zu **Beginn jedes eigenen Upkeeps**, solange man die Initiative behält. Vier zusätzliche Upkeeps nach der Übernahme können einen vollständigen Durchgang bis zum letzten Raum ermöglichen: Dort wird eine Kreatur aus den obersten zehn Karten mit drei +1/+1-Marken und temporärem Hexproof ins Spiel gebracht. Ravenlofts Ersatzeffekt exiliert sterbende Gegnerkreaturen und kann damit zukünftige Reanimationsziele für die eigene Virtue of Persistence entfernen.
+- **Initiative:** Ravenloft Adventurer nimmt beim Eintritt die Initiative. Dadurch wagt man sich einmal in die Unterstadt; anschließend geschieht das zu **Beginn jedes eigenen Upkeeps**, solange man die Initiative behält. Vier zusätzliche Upkeeps nach der Übernahme können einen vollständigen Durchgang bis zum letzten Raum ermöglichen: Dort wird eine Kreatur aus den obersten zehn Karten mit drei +1/+1-Marken und temporärem Hexproof ins Spiel gebracht. Ravenlofts Ersatzeffekt exiliert sterbende Gegnerkreaturen. Der frühere Konflikt mit der eigenen Virtue of Persistence wird in V7 vermieden, da Virtue zugunsten von Mirkwood Bats entfernt wurde.
 - **The Black Gate:** Für {1}{B} und Tappen macht es eine Kreatur gegen einen der Spieler mit den aktuell meisten Lebenspunkten unblockbar, **nicht** automatisch gegen einen beliebigen Gegner. Um ungetappt ins Spiel zu kommen, kann man beim Eintritt 3 Leben bezahlen. **Plaza of Heroes** macht legendäre Kreaturen für {3}, Tappen und Exilieren bis zum Zugende hexproof/indestructible und liefert farbiges Mana insbesondere für Obeka.
 - **Aether Tunnel:** Die verzauberte Kreatur erhält +1/+0 und kann nicht geblockt werden; die Aura geht bei Removal der Kreatur verloren.
 - **Super Intelligence** zieht Karten nur für den Controller der verzauberten Kreatur. An eine **eigene** Kreatur angelegt, zieht es pro Obeka-Upkeep genau eine Karte; an eine fremde Kreatur wäre es kontraproduktiv.
@@ -17,7 +17,7 @@ Der verifizierte Oracle-Text von Obeka lautet: „Menace. Whenever Obeka deals c
 - **Roaming Throne** muss beim Eintritt *Warlock* wählen (Obeka ist Ogre Warlock), damit Obekas Kampfschaden-Auslöser ein weiteres Mal auslöst. Courts sind Verzauberungen und werden vom Throne nicht selbst dupliziert.
 - **Monarch:** Die sechs Courts machen dich beim Eintritt zum Monarchen. Bei Court of Embereth, Locthwain, Vantress und Ire entscheidet der aktuell gehaltene Monarchenstatus über die Stärke der jeweiligen ausgelösten Fähigkeit.
 - **Sword of Feast and Famine** enttappt nach Obekas Kampfschaden alle eigenen Länder *vor* den Extra-Upkeeps. Die schwarz/grüne Schutzfähigkeit verhindert zugleich, dass die **schwarze** Malakir Rebirth die ausgerüstete Obeka legal als Ziel wählt. Super Intelligence ist blau und bleibt davon unberührt.
-- **Mechanized Production + Replicating Ring:** Bei acht Night-Countern erzeugt der Ring acht Token mit dem Namen *Replicated Ring*. Mit passenden gleichzeitig auslösenden Upkeep-Triggern lässt sich die Reihenfolge so wählen, dass der Ring zuerst die acht Token erzeugt und anschließend Production acht gleichnamige Artefakte feststellt: alternativer Sieg.
+- **Mechanized Production + Replicating Ring:** Bei acht Night-Countern erzeugt der Ring acht Token mit dem Namen *Replicated Ring*. Mit passenden gleichzeitig auslösenden Upkeep-Triggern lässt sich die Reihenfolge so wählen, dass der Ring zuerst die acht Token erzeugt und anschließend Production acht gleichnamige Artefakte feststellt. **Wichtig:** Die acht Artefakte müssen nicht den Namen des verzauberten Artefakts tragen. Das ist nicht nur aus dem Oracle-Text ersichtlich, sondern wird in den [offiziellen Mechanized-Production-Regelerläuterungen 2026](https://magic.wizards.com/en/news/feature/marvel-super-heroes-release-notes) ausdrücklich bestätigt. Der gegenteilige P2-Hinweis in PR #31 ist sachlich widerlegt.
 
 **Bracket:** Wizards klassifiziert Bracket 3 als Upgraded und erlaubt maximal drei Game Changer. Live-Scryfall-Abfrage vom 18.10.2026: Alle 100 Karten sind Commander-legal und Grixis-farbkonform; genau **Ancient Tomb, Demonic Tutor, Fierce Guardianship** sind als Game Changer markiert. Die Karte Gamble wurde deshalb *nicht* aufgenommen (wäre ein vierter Game Changer). Aggravated Assault wurde wegen der zusammen mit Sword of Feast and Famine möglichen wiederholbaren Kampfschleifen ebenfalls bewusst vermieden.
 
@@ -66,7 +66,7 @@ Embereth/Bitterblossom: Bei denselben Upkeeps jeweils Bitterblossom **vor** Cour
 
 - **37 reguläre Länder** und Malakir Rebirth/Malakir Mire als optionales MDFC-Land. Drei Checklands wurden durch sofort ungetappte Painlands ersetzt; zusätzliche Lebenspunkte-Kosten bewusst akzeptiert.
 - **10 Rocks**, davon **9 für höchstens zwei Mana**: Sol Ring, Arcane Signet, Fellwar Stone, drei Talismane, drei Signets sowie Replicating Ring mit MV3. Ancient Tomb beschleunigt zusätzlich.
-- **62 Nichtländer einschließlich Commander:** aktuelle Oracle-Mana-Value-Verteilung **MV0:1, MV1:9, MV2:24, MV3:12, MV4:11, MV5:4, MV7:1**. MV0 ist *Profane Tutor* und **keine** ohne Suspend sofort kostenlose Handkarte.
+- **63 Nichtländer einschließlich Commander und Malakir Rebirth als MDFC-Vorderseite:** aktuelle V7-Oracle-Mana-Value-Verteilung **MV0:1, MV1:9, MV2:25, MV3:12, MV4:12, MV5:4**. Die 37 gedruckten Landkarten sind separat; Malakir Mire ist die optionale Rückseite derselben Karte, kein zusätzlicher Land-Slot. MV0 ist *Profane Tutor*, keine sofort kostenlos wirkbare Handkarte.
 - **Interaktion:** vier Counterspell-Varianten (Counterspell, Mana Drain, Swan Song, An Offer You Can't Refuse), dazu Fierce Guardianship und Deflecting Swat; Deadly Rollick, Chaos Warp, Feed the Swarm, Toxic Deluge, Vandalblast, Rakdos Charm und Malakir Rebirth decken unterschiedliche Situationen ab. Ring of Evos Isle, Mithril Coat und Swiftfoot Boots liefern bleibenden Schutz.
 - **Evasion:** Brotherhood Regalia, Aqueous Form, Thassa, Key to the City, Aether Tunnel, Trailblazer's Boots und Shizo/The Black Gate als aktivierbare Landoptionen. Shizo/Fear ist gegen schwarze oder Artefaktkreaturen nicht sicher; Trailblazer's Boots benötigt gegnerisches Nichtstandardland.
 - **Siegpfade:** Embereth und andere Courts, Psychosis Crawler-Draw-Drain, Mechanized Production/Ring, Court of Cunning-Mill, 21 Kommanderschaden. Obeka ist Haupt-Beschleuniger, die Engines geben teilweise auch ohne sie normalen Value.
@@ -92,13 +92,13 @@ Python-Standardbibliothek, festgelegter Seed **20261018**, **100.000 zufällige 
 ² Zählt das **Sehen** einer Evasionkarte, auch wenn diese Vorbedingungen oder noch nicht verfügbare Manakosten benötigt. Insbesondere Rogue's Passage (vier Mana plus Tap), The Black Gate (nur gegen Gegner mit höchstem Lebensstand), Trailblazer's Boots (gegnerisches Nichtstandardland), Shizo (Fear-Blocker) und Key to the City (Discard). Die separate günstige Teilmenge umfasst nur Quellen mit höchstens drei Mana für Cast/Equip/Aktivierung, ohne Commander-Cast oder Timing. Es sind **keine** garantierten Angriffe bis Zug 5.
 ³ Payoffkarte gezogen, **nicht** zwingend bereits gewirkt oder suspendiert. Insbesondere Rousing Refrain/Profane Tutor brauchen vorherige Suspend-Aktion. Diese Raten sind **keine Spiel- oder Gewinnwahrscheinlichkeit**.
 
-Die direkte Scryfall-API-Prüfung im selben Lauf bestätigte **100/100 legal, Grixis und drei Game Changer**. Zusätzlich stimmen current.txt und V6 zeilenweise überein. Es liegen keine echten Vier-Spieler-Partietests vor.
+Die direkte Scryfall-API-Prüfung im selben Lauf bestätigte **100/100 legal, Grixis und drei Game Changer**. Zusätzlich stimmen current.txt und V7 zeilenweise überein; die MDFC- und Ring-Regeln werden gesondert geprüft. Es liegen keine echten Vier-Spieler-Partietests vor.
 
 ## 6. Stärkstes Gegenargument und Restunsicherheit
 
 Ein zurückgehaltener V4-Plan mit **Struggle for Project Purity + Sheoldred, the Apocalypse / Psychosis Crawler** hat bei fünf zusätzlichen Upkeeps eine höhere unmittelbare Schadensobergrenze als V5 und kann die gesamte Runde in einem Zug gewinnen. Dafür verschenkt Struggle je Gegner fünf zusätzliche Handkarten: Gegen aufmerksame blau spielende Gegner kann Obeka entfernt werden, bevor die Trigger einen Sieg sichern. V5 priorisiert darum ein früher erreichbares, robusteres Setup und eigene statt symmetrische Ressourcen. Das ist ein **begründeter Deckbauentscheid, keine gemessene Partiensiegquote**.
 
-Die größten Risiken bleiben Obeka-Removal, Verlust des Monarchenstatus, Lebensverlust durch Bitterblossom/Arena/Painlands, eine zu hohe Zahl an Equipment ohne Kreatur sowie Farbengpässe, die von der einfachen Simulation nicht erfasst werden. Die neue V6 sollte die **obere Bracket-3-Stärke** besser ausschöpfen; ein behaupteter sicherer Sieg oder echte Meta-Dominanz ist nicht belegt.
+Die größten Risiken bleiben Obeka-Removal, Verlust des Monarchenstatus, Lebensverlust durch Bitterblossom/Arena/Painlands, eine zu hohe Zahl an Equipment ohne Kreatur sowie Farbengpässe, die von der einfachen Simulation nicht erfasst werden. Die neue V7 sollte die **obere Bracket-3-Stärke** besser ausschöpfen; ein behaupteter sicherer Sieg oder echte Meta-Dominanz ist nicht belegt.
 ## 7. Neue Optimierung: V5 → V6 (18.10.2026)
 
 | Heraus | Herein | Konkreter Gewinn | Stärkstes Gegenargument |
@@ -112,4 +112,38 @@ Die größten Risiken bleiben Obeka-Removal, Verlust des Monarchenstatus, Lebens
 
 **Prüfinterpretation:** Die Gesamtrate gezogener Evasionkarten steigt von V5 auf V6 **nicht**, weil zwei Evasion-Slots jeweils ausgetauscht wurden. Der Anteil **günstiger** Evasionkarten steigt in der deterministischen 100.000-Hand-Simulation von **40,83 % auf 54,97 %**. Eine tatsächliche T5-Kampfschadenswahrscheinlichkeit ist das nicht. Die neue Initiative ist in der Upkeep-Payoff-Kategorie nur als **bedingter** Kandidat enthalten: Man muss Ravenloft zuvor wirken und die Initiative besitzen; die Simulation wertet das nicht als garantiert aus.
 
-Alle sechs Versionen sind importierbare historische Listen und das aktuelle Deck wurde erneut gegen die Live-Oracle-/Commander-Legalitätsdaten geprüft. **V6: 100/100 legal, Grixis, exakt drei Game Changer** (Ancient Tomb, Demonic Tutor, Fierce Guardianship); Verteilung MV0:1, MV1:9, MV2:24, MV3:12, MV4:11, MV5:4, MV7:1. Reale Mehrspielerpartien und kontrollierte Win-Rate-Tests liegen weiterhin nicht vor.
+Alle sechs Versionen sind importierbare historische Listen und das aktuelle Deck wurde erneut gegen die Live-Oracle-/Commander-Legalitätsdaten geprüft. **V6: 100/100 legal, Grixis, exakt drei Game Changer** (Ancient Tomb, Demonic Tutor, Fierce Guardianship); historisch korrekt nach MDFC-Frontface: MV0:1, MV1:10, MV2:24, MV3:12, MV4:11, MV5:4, MV7:1. Die neue V7-Mana-Value-Verteilung steht in Abschnitt 4. Reale Mehrspielerpartien und kontrollierte Win-Rate-Tests liegen weiterhin nicht vor.
+
+## 8. Weitere echte Optimierung V6 → V7 und PR31-Regelkorrekturen
+
+| Heraus | Neu | Belegbarer Nutzen und Gegenargument |
+|---|---|---|
+| **Virtue of Persistence** (MV7) | **Mirkwood Bats** (MV4) | Jedes von uns erzeugte **oder geopferte** Token verursacht 1 Lebensverlust bei jedem Gegner: Court-of-Embereth-Knights, Bitterblossom-Faeries, die acht Replicated Rings, Treasure von The Reaver Cleaver / Generous Plunderer und Kopien von Court of Vantress oder Mechanized Production. Da Mirkwood Bats eine Kreatur ist, erhöht sie auch die Zahl günstiger Unterstadt-Kreaturentreffer. Der Verlust der Adventure-Removal-Seite und des sehr starken späten Reanimations-Upkeeps ist relevant; Ravenloft Adventurer exiliert jedoch gerade die gegnerischen Kreaturen, die Virtue gerne reanimieren würde. |
+| **Dragonmaster Outcast** (MV1) | **Generous Plunderer** (MV2) | Statt erst ab **sechs Ländern** Token zu erzeugen, entstehen nach Belieben schon bei jedem eigenen Upkeep ungetappte Treasure-Token: direkt nutzbare Manaressourcen auch nach Obekas Kampfschaden. Der ausgewählte Gegner erhält zugleich einen **getappten** Treasure; dies ist eine echte Ressourcenschenkung für seinen Folgeturn. Mirkwood Bats sieht unseren Token, **nicht** den gegnerischen. |
+
+### Regeln und Explosivität (kein Partietest)
+
+Bei einer Ausgangslage mit **Obeka, Mirkwood Bats und Generous Plunderer als einzigen drei Kreaturen**, einem eigenen Court of Embereth sowie gehaltenem Monarchenstatus erzeugen fünf zusätzliche Upkeeps je einen Knight und einen eigenen Treasure. Court of Embereth fügt (bei ununterbrochenem Bestand) **4 + 5 + 6 + 7 + 8 = 30** Schaden an **jedem** Gegner zu. Die zehn von uns erzeugten Token lösen Mirkwood Bats insgesamt zehnmal aus: **zusätzliche 10 Lebensverlust pro Gegner**. Insgesamt also 40 pro Gegner, **ohne** bereits Obekas Kampfschaden einzurechnen. Opponents' tapped Treasures zählen bei Mirkwood Bats nicht als unsere Token-Erzeugung. Der Gegner kann durch Reaktionen, Verlust der Monarchie und Removal erheblich abweichen.
+
+Mit **Bitterblossom** zusätzlich kommen je Upkeep noch eine Faerie und ein weiterer Bats-Trigger hinzu. Diese Karten verlangen mehrere aktive Permanents, sind keine frühe Zwei-Karten-Endlosschleife und gewährleisten keinen garantierten Spielsieg.
+
+**Wizards-Oracle-Gegenprobe zum Codex-P2 vom 18.10.2026:** Mechanized Production gewinnt bei acht Artefakten gleichen Namens **untereinander** — das verzauberte Artefakt muss nicht so heißen. Bei acht erzeugten Replicated Rings ist die Bedingung erfüllt, sobald der Production-Trigger verrechnet wird, auch wenn die Aura weiterhin *Replicating Ring* verzaubert. Primärquelle: [Magic: The Gathering Marvel Super Heroes Release Notes, Mechanized Production](https://magic.wizards.com/en/news/feature/marvel-super-heroes-release-notes). Daher ist **kein** künstlicher Kartentausch und keine siebenfache Production-Kopie nötig.
+
+**Zweiter PR31-P2: echte Korrektur.** Bei *Malakir Rebirth // Malakir Mire* meldet Scryfall "Instant // Land"; außerhalb von Stack/Battlefield zählt für die Manakurve die Vorderseite **Malakir Rebirth ({B}, MV1)**. Der alte Filter "Land" irgendwo im kombinierten type_line war falsch. V7 weist nun 63 Nichtländer, darunter den MV1-Spell, aus. Das ausführbare Testskript prüft beide Regeln bei --oracle.
+
+### Reproduzierbarer V6/V7-Vergleich (100.000 Deck-Mischungen je Version)
+
+| Messgröße (nur gezogene Karten, **keine reale Cast-/Winrate**) | V6 | V7 |
+|---|---:|---:|
+| 2–4 Landquellen in Starthand | 75,53 % | **75,53 %** |
+| Nominelle Commander-Mana-Versorgung bis Zug 4 | 80,06 % | **80,06 %** |
+| Evasion-Karte bis Zug 5 gesehen | 65,95 % | **65,95 %** |
+| Günstige Evasion-Karte bis Zug 5 gesehen | 54,97 % | **54,97 %** |
+| Upkeep-Payoff-Karte bis Zug 5 gesehen | 94,31 % | **93,31 %** |
+| Potentielle Upkeep-Mana-Karte bis Zug 5 gesehen | 22,80 % | **32,27 %** |
+| Mirkwood Bats + mindestens eine Tokenquelle bis Zug 5 gesehen | 0 % | **7,66 %** |
+| Commander-Mana + Evasion + Upkeep-Payoff gesehen | 47,80 % | **47,15 %** |
+
+**Wichtige Interpretation:** Die reine Upkeep-Kartenzählung sinkt leicht, weil die ehemalige Virtue einen direkten Upkeep-Trigger hatte, Mirkwood Bats dagegen auf **Token-Erzeugung oder Opferung** reagiert und daher richtigerweise **nicht** als eigene Upkeep-Fähigkeit gezählt wird. Das neue Mana/Token-Paket ist in V7 real früher und flexibler, sein tatsächlicher Siegquoten-Effekt ist jedoch mangels Vier-Spieler-Test nicht belegt. Die Werte für V1–V6 wurden mit derselben Klassifizierung wie zuvor berechnet; historische Karten behalten ihren korrekten Upkeep-Payoff-Status.
+
+**Leistungsabwägung:** V7 konzentriert sich stärker auf eine breite, selbstverstärkende Treasure-/Token-Engine und hat keine 7-Mana-Karte mehr. Sie erhält sechs Courts, die komplette Evasion-Struktur, die Hauptcounter, alle drei Game Changer und alle bisherigen Haupt-Siegbedingungen. Der Nachteil bleibt die Token-/Commander-Abhängigkeit und das Geschenk gegnerischer Treasures. Für maximal gesicherte Obeka-Starthände ist die bereits gute V6-Evasion-Struktur unverändert. Clout of the Dominus (+2/+2, Haste, Shroud für {U/R}) wurde geprüft und **bewusst nicht** aufgenommen: Shroud verhindert das spätere Anlegen der vielen weiteren Auren und Ausrüstungen an Obeka; der zusätzliche frühe Power-Schub ist den Synergiebruch hier nicht wert.

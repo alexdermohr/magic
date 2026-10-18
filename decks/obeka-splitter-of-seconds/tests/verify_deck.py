@@ -40,13 +40,22 @@ UPKEEP_PAYOFFS = {
     "Court of Embereth", "Court of Ambition", "Court of Cunning", "Court of Ire",
     "Court of Locthwain", "Court of Vantress",
     "Bonehoard Dracosaur", "Ravenloft Adventurer", "Plargg and Nassari", "Twilight Prophet",
-    "Dragonmaster Outcast", "Creeping Bloodsucker", "The Scarab God",
+    "Dragonmaster Outcast", "Generous Plunderer", "Creeping Bloodsucker", "The Scarab God",
     "Stolen Strategy", "Mechanized Production", "Extravagant Replication",
     "Smaug the Magnificent", "Sheoldred, Whispering One",
     "Virtue of Persistence", "Struggle for Project Purity", "Phyrexian Arena",
     "Theater of Horrors", "Chronozoa", "Replicating Ring", "Midnight Clock",
     "Ring of Valkas", "Ring of Evos Isle", "Super Intelligence",
     "Bitterblossom", "Rousing Refrain", "Profane Tutor",
+}
+# Token-Schaden benötigt Tokenquellen; er ist KEIN eigener Upkeep-Trigger.
+TOKEN_SOURCES = {
+    "Court of Embereth", "Bitterblossom", "Replicating Ring",
+    "Mechanized Production", "Court of Vantress", "Ravenloft Adventurer",
+    "The Reaver Cleaver", "Generous Plunderer",
+}
+UPKEEP_MANA_SOURCES = {
+    "Replicating Ring", "Rousing Refrain", "Generous Plunderer",
 }
 COLOR_ID = {"U", "B", "R"}
 
@@ -94,6 +103,10 @@ def monte_carlo(names: list[str], trials: int) -> dict[str, float]:
         fast_evasion = bool(FAST_EVASION.intersection(t5))
         payoff = bool(UPKEEP_PAYOFFS.intersection(t5))
         haste = bool(HASTE.intersection(t4))
+        mana_engine = bool(UPKEEP_MANA_SOURCES.intersection(t5))
+        token_drain_setup = (
+            "Mirkwood Bats" in t5 and bool(TOKEN_SOURCES.intersection(t5))
+        )
         ctr["2-4 lands opening"] += 2 <= opener_lands <= 4
         ctr["4+ land-sources by T4"] += mana_t4 >= 4
         ctr["nominal mana for commander by T4"] += cmd_t4
@@ -102,6 +115,8 @@ def monte_carlo(names: list[str], trials: int) -> dict[str, float]:
         ctr["upkeep payoff accessed by T5"] += payoff
         ctr["commander+evasion+payoff accessed by T5"] += cmd_t4 and evasion and payoff
         ctr["haste accessed by T4"] += haste
+        ctr["upkeep-mana engine card seen by T5"] += mana_engine
+        ctr["token-drain + source seen by T5"] += token_drain_setup
     return {k: round(100 * v / trials, 2) for k, v in ctr.items()}
 
 
@@ -129,8 +144,24 @@ def oracle_check(names: list[str]) -> None:
     changers = sorted(c["name"] for c in cards if c.get("game_changer", False))
     assert len(changers) <= 3, f"Zu viele Game Changer: {changers}"
     print("ORACLE_PASS 100/100 Commander-legal, Grixis, Game Changers:", changers)
-    nonland = [c for c in cards if "Land" not in c["type_line"]]
+    # MDFC: In Bibliothek und Hand zählt nur die Vorderseite (Malakir: Instant).
+    # Kombinierter Scryfall-Typ "Instant // Land" darf nicht herausgefiltert werden.
+    def front_type(card: dict) -> str:
+        faces = card.get("card_faces")
+        return faces[0]["type_line"] if faces else card["type_line"].split(" // ")[0]
+
+    nonland = [c for c in cards if "Land" not in front_type(c)]
+    assert len(nonland) == 63, f"Frontface-MDFC nicht als Spell gezählt: {len(nonland)}"
+    assert "Land" not in front_type(resolved["Malakir Rebirth"])
+    assert resolved["Malakir Rebirth"]["cmc"] == 1
     curve = dict(sorted(collections.Counter(int(c["cmc"]) for c in nonland).items()))
+    assert sum(curve.values()) == 63
+    assert (
+        "eight or more artifacts with the same name as one another"
+        in resolved["Mechanized Production"]["oracle_text"]
+    )
+    assert "named Replicated Ring" in resolved["Replicating Ring"]["oracle_text"]
+    print("RULE_PASS MDFC front face and Mechanized Production / Replicated Ring")
     print("ORACLE_CURVE", curve, "nonland spells", len(nonland),
           "MDFC as virtual land", "Malakir Rebirth" in names)
 
@@ -148,13 +179,16 @@ def main() -> None:
     v4 = read_list(ROOT / "versions/2026-10-18-b3-v4.txt")
     v5 = read_list(ROOT / "versions/2026-10-18-b3-v5.txt")
     v6 = read_list(ROOT / "versions/2026-10-18-b3-v6.txt")
+    v7 = read_list(ROOT / "versions/2026-10-18-b3-v7.txt")
     current = read_list(ROOT / "current.txt")
-    assert v6 == current, "current.txt weicht von dokumentierter V6 ab"
+    assert v7 == current, "current.txt weicht von dokumentierter V7 ab"
+    assert set(v7) - set(v6) == {"Mirkwood Bats", "Generous Plunderer"}
+    assert set(v6) - set(v7) == {"Virtue of Persistence", "Dragonmaster Outcast"}
     assert "Ring of Valkas" in UPKEEP_PAYOFFS, "Review-Regression: Ring of Valkas fehlt"
     assert "Ring of Evos Isle" in UPKEEP_PAYOFFS, "Ring of Evos Isle fehlt"
     assert "Rogue\'s Passage" in EARLY_EVASION, "PR31-Finding: Rogue\'s Passage fehlt"
     assert "The Black Gate" in EARLY_EVASION and "Aether Tunnel" in FAST_EVASION
-    for label, names in [("v1", v1), ("v2", v2), ("v3", v3), ("v4", v4), ("v5", v5), ("v6/current", v6)]:
+    for label, names in [("v1", v1), ("v2", v2), ("v3", v3), ("v4", v4), ("v5", v5), ("v6", v6), ("v7/current", v7)]:
         print(label, f"{len(names)} einzigartige Karten; 37 Länder + MDFC")
         print(json.dumps(monte_carlo(names, args.trials), indent=2, sort_keys=True))
     if args.oracle:

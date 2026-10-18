@@ -6,7 +6,7 @@
 1 Ravenloft Adventurer
 1 Plargg and Nassari
 1 Super Intelligence
-1 Dragonmaster Outcast
+1 Generous Plunderer
 1 Creeping Bloodsucker
 1 Psychosis Crawler
 1 Robe of the Archmagi
@@ -15,7 +15,7 @@
 1 Court of Vantress
 1 Rousing Refrain
 1 Aether Tunnel
-1 Virtue of Persistence
+1 Mirkwood Bats
 1 Roaming Throne
 1 Sword of Feast and Famine
 1 Phyrexian Arena
