@@ -531,7 +531,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 return
             if tag in self.FILTERED_TAGS:
                 raw_start = self.get_starttag_text() or "<" + tag + ">"
-                self.parts.append(decode_character_references(raw_start))
+                self.parts.extend((" ", decode_character_references(raw_start), " "))
             else:
                 self.record_live_target(tag, attrs)
             if tag in self.CODE_TAGS:
@@ -548,7 +548,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     self.parts.append(" ")
                 return
             if tag in self.FILTERED_TAGS:
-                self.parts.append("</" + tag + ">")
+                self.parts.extend((" ", "</" + tag + ">", " "))
             elif tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
                 self.parts.append(" ")
 
@@ -558,7 +558,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 return
             if tag in self.FILTERED_TAGS:
                 raw_start = self.get_starttag_text() or "<" + tag + "/>"
-                self.parts.append(decode_character_references(raw_start))
+                self.parts.extend((" ", decode_character_references(raw_start), " "))
             else:
                 self.record_live_target(tag, attrs)
             if tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
@@ -772,8 +772,11 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if kind == "inline_html":
                 raw = token.get("raw")
                 if isinstance(raw, str) and disallowed_html_tag.match(raw):
-                    # The forbidden tag is displayed literally by GFM.
+                    # Filtered tags are visible markup, but they do not
+                    # concatenate their attribute text into adjacent filenames.
+                    flush_text()
                     append_rendered(decode_character_references(raw))
+                    flush_text()
                     return
                 # Comments and transparent text-level HTML add no visible
                 # separator; their attributes and bodies are never scanned.
@@ -860,11 +863,12 @@ def literal_deck_references(
         # The AST gives rendered (not raw Markdown) text. Literal filenames
         # may use printable punctuation, including quotes and malformed entity
         # fragments, so an ASCII allowlist drops real missing references.
+        # Actual HTML token boundaries are handled by the AST visitor, not
+        # guessed from visible literal angle characters.
         while (
             end < length
             and content[end].isprintable()
             and not content[end].isspace()
-            and content[end] not in "<>"
         ):
             end += 1
 

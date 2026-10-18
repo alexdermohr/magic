@@ -84,6 +84,31 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_escaped_visible_angle_brackets_are_literal_filename_text(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for markdown, relative in (
+            (r"decks/sample/miss\<copy.md", "decks/sample/miss<copy.md"),
+            (r"decks/sample/miss\>copy.md", "decks/sample/miss>copy.md"),
+            (r"decks/sample/miss\<copy\>file.md", "decks/sample/miss<copy>file.md"),
+        ):
+            with self.subTest(markdown=markdown):
+                self.assertIn(
+                    (True, relative),
+                    rendered_markdown_references(markdown),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    markdown + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+                existing = self.root / relative
+                existing.write_text("existing literal angle filename", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                existing.unlink()
+
     def test_r3_visible_internal_filename_delimiters_are_checked(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for character in (",", ";", "'", '"', "(", ")", "[", "]"):
