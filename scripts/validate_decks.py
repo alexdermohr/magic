@@ -418,7 +418,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         from mistune.inline_parser import INLINE_HTML, InlineParser
         markdown.inline.register(
             "inline_html",
-            r"<!--(?:>|->|-->)|" + INLINE_HTML,
+            r"<\?\?>|<!--(?:>|->|-->)|" + INLINE_HTML,
             InlineParser.parse_inline_html,
         )
         # Mistune's raw_html start regex also matches malformed <pre./<div:

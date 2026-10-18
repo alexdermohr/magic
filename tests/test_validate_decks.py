@@ -119,6 +119,35 @@ class DeckValidationTests(unittest.TestCase):
             ),
         )
 
+
+    def test_r3_empty_processing_instruction_is_transparent(self) -> None:
+        # GFM accepts a zero-length PI <??>, unlike pinned Mistune's rule.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for markup in ("<??>", "<![CDATA[]]>"):
+            source = f"decks/sample/miss{markup}ing.md"
+            with self.subTest(markup=markup):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+                target = self.root / "decks" / "sample" / "missing.md"
+                target.write_text("exists", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                target.unlink()
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                chr(96) + "decks/sample/miss<??>ing.md" + chr(96)
+            ),
+        )
+
     def test_r3_empty_and_abrupt_gfm_comments_are_invisible(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for comment in ("<!---->", "<!-->", "<!--->", "<!-- -->"):
