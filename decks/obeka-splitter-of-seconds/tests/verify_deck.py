@@ -23,7 +23,14 @@ EARLY_ROCKS = {
 EARLY_EVASION = {
     "Brotherhood Regalia", "Aqueous Form", "Thassa, God of the Sea",
     "Key to the City", "Shizo, Death's Storehouse", "Prowler's Helm",
-    "Trailblazer's Boots",
+    "Trailblazer's Boots", "Rogue's Passage", "The Black Gate",
+    "Aether Tunnel",
+}
+# Diese Evasion-Optionen benötigen höchstens drei weitere Mana für
+# Ausspielen/Anlegen/Aktivieren (Commander-Kosten und Sequenzen nicht gezählt).
+FAST_EVASION = {
+    "Brotherhood Regalia", "Aqueous Form", "Key to the City",
+    "Shizo, Death's Storehouse", "The Black Gate", "Aether Tunnel",
 }
 HASTE = {
     "Swiftfoot Boots", "Lightning Greaves", "Lavaspur Boots",
@@ -32,7 +39,7 @@ HASTE = {
 UPKEEP_PAYOFFS = {
     "Court of Embereth", "Court of Ambition", "Court of Cunning", "Court of Ire",
     "Court of Locthwain", "Court of Vantress",
-    "Bonehoard Dracosaur", "Plargg and Nassari", "Twilight Prophet",
+    "Bonehoard Dracosaur", "Ravenloft Adventurer", "Plargg and Nassari", "Twilight Prophet",
     "Dragonmaster Outcast", "Creeping Bloodsucker", "The Scarab God",
     "Stolen Strategy", "Mechanized Production", "Extravagant Replication",
     "Smaug the Magnificent", "Sheoldred, Whispering One",
@@ -84,12 +91,14 @@ def monte_carlo(names: list[str], trials: int) -> dict[str, float]:
             mana_t4 >= 3 and mana_t2 >= 2 and early_rock
         )
         evasion = bool(EARLY_EVASION.intersection(t5))
+        fast_evasion = bool(FAST_EVASION.intersection(t5))
         payoff = bool(UPKEEP_PAYOFFS.intersection(t5))
         haste = bool(HASTE.intersection(t4))
         ctr["2-4 lands opening"] += 2 <= opener_lands <= 4
         ctr["4+ land-sources by T4"] += mana_t4 >= 4
         ctr["nominal mana for commander by T4"] += cmd_t4
         ctr["early evasion accessed by T5"] += evasion
+        ctr["cheap evasion option seen by T5"] += fast_evasion
         ctr["upkeep payoff accessed by T5"] += payoff
         ctr["commander+evasion+payoff accessed by T5"] += cmd_t4 and evasion and payoff
         ctr["haste accessed by T4"] += haste
@@ -138,11 +147,14 @@ def main() -> None:
     v3 = read_list(ROOT / "versions/2026-10-18-b3-v3.txt")
     v4 = read_list(ROOT / "versions/2026-10-18-b3-v4.txt")
     v5 = read_list(ROOT / "versions/2026-10-18-b3-v5.txt")
+    v6 = read_list(ROOT / "versions/2026-10-18-b3-v6.txt")
     current = read_list(ROOT / "current.txt")
-    assert v5 == current, "current.txt weicht von dokumentierter V5 ab"
+    assert v6 == current, "current.txt weicht von dokumentierter V6 ab"
     assert "Ring of Valkas" in UPKEEP_PAYOFFS, "Review-Regression: Ring of Valkas fehlt"
     assert "Ring of Evos Isle" in UPKEEP_PAYOFFS, "Ring of Evos Isle fehlt"
-    for label, names in [("v1", v1), ("v2", v2), ("v3", v3), ("v4", v4), ("v5/current", v5)]:
+    assert "Rogue\'s Passage" in EARLY_EVASION, "PR31-Finding: Rogue\'s Passage fehlt"
+    assert "The Black Gate" in EARLY_EVASION and "Aether Tunnel" in FAST_EVASION
+    for label, names in [("v1", v1), ("v2", v2), ("v3", v3), ("v4", v4), ("v5", v5), ("v6/current", v6)]:
         print(label, f"{len(names)} einzigartige Karten; 37 Länder + MDFC")
         print(json.dumps(monte_carlo(names, args.trials), indent=2, sort_keys=True))
     if args.oracle:

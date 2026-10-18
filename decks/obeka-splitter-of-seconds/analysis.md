@@ -1,13 +1,16 @@
-# Obeka, Splitter of Seconds — Karten- und Spielanalyse V5 (Bracket 3)
+# Obeka, Splitter of Seconds — Karten- und Spielanalyse V6 (Bracket 3)
 
-**Aktuelle Liste:** [current.txt](current.txt), identisch mit [versions/2026-10-18-b3-v5.txt](versions/2026-10-18-b3-v5.txt). Historische Listen V1–V4 wurden tatsächlich erstellt und bleiben unter [versions/](versions/) erhalten. Stand: 18.10.2026.
+**Aktuelle Liste:** [current.txt](current.txt), identisch mit [versions/2026-10-18-b3-v6.txt](versions/2026-10-18-b3-v6.txt). Historische Listen V1–V5 wurden tatsächlich erstellt und bleiben unter [versions/](versions/) erhalten. Stand: 18.10.2026.
 
 ## 1. Mechanik und Regelprüfung
 
 Der verifizierte Oracle-Text von Obeka lautet: „Menace. Whenever Obeka deals combat damage to a player, you get that many additional upkeep steps after this phase.“ 2 Schadenspunkte ergeben 2 zusätzliche eigene Upkeeps nach der Kampfphase, 5 Schadenspunkte ergeben 5. Das sind **keine** weiteren normalen Untap-, Draw-, Main- oder Combat-Steps. Durch Double Strike sind zwei separate Schadensereignisse und Upkeep-Trigger möglich.
 
-- „At the beginning of your upkeep“ funktioniert in jedem Obeka-Upkeep. Beispiele aus V5: sechs Courts, Bitterblossom, Phyrexian Arena, Replicating Ring, Dragonmaster Outcast, Creeping Bloodsucker, Bonehoard Dracosaur, Plargg and Nassari, Ring of Valkas und Ring of Evos Isle.
+- „At the beginning of your upkeep“ funktioniert in jedem Obeka-Upkeep. Beispiele aus V5: sechs Courts, Bitterblossom, Phyrexian Arena, Replicating Ring, Dragonmaster Outcast, Creeping Bloodsucker, Plargg and Nassari, Ring of Valkas und Ring of Evos Isle.
 - „At the beginning of each upkeep“ schließt auch fremde Upkeeps ein, wird durch Obeka aber nur während ihrer **eigenen** künstlichen Upkeeps beschleunigt. Midnight Clock wurde aus V5 zugunsten schnelleren Manas entfernt.
+- **Initiative:** Ravenloft Adventurer nimmt beim Eintritt die Initiative. Dadurch wagt man sich einmal in die Unterstadt; anschließend geschieht das zu **Beginn jedes eigenen Upkeeps**, solange man die Initiative behält. Vier zusätzliche Upkeeps nach der Übernahme können einen vollständigen Durchgang bis zum letzten Raum ermöglichen: Dort wird eine Kreatur aus den obersten zehn Karten mit drei +1/+1-Marken und temporärem Hexproof ins Spiel gebracht. Ravenlofts Ersatzeffekt exiliert sterbende Gegnerkreaturen und kann damit zukünftige Reanimationsziele für die eigene Virtue of Persistence entfernen.
+- **The Black Gate:** Für {1}{B} und Tappen macht es eine Kreatur gegen einen der Spieler mit den aktuell meisten Lebenspunkten unblockbar, **nicht** automatisch gegen einen beliebigen Gegner. Um ungetappt ins Spiel zu kommen, kann man beim Eintritt 3 Leben bezahlen. **Plaza of Heroes** macht legendäre Kreaturen für {3}, Tappen und Exilieren bis zum Zugende hexproof/indestructible und liefert farbiges Mana insbesondere für Obeka.
+- **Aether Tunnel:** Die verzauberte Kreatur erhält +1/+0 und kann nicht geblockt werden; die Aura geht bei Removal der Kreatur verloren.
 - **Super Intelligence** zieht Karten nur für den Controller der verzauberten Kreatur. An eine **eigene** Kreatur angelegt, zieht es pro Obeka-Upkeep genau eine Karte; an eine fremde Kreatur wäre es kontraproduktiv.
 - **Rousing Refrain** wird für {1}{R} mit drei Zeitmarken ausgesetzt. Zu Beginn der eigenen Upkeeps verschwindet je eine Marke; beim Verrechnen nach der letzten Marke erzeugt es rotes Mana entsprechend einer gegnerischen Handgröße, das bis zum Ende des Zuges bestehen bleibt. Danach wird es erneut mit drei Marken ausgesetzt und kann bei ausreichend vielen Upkeeps **im selben Zug** ein weiteres Mal wirken.
 - **Profane Tutor** wird für {1}{B} mit zwei Marken ausgesetzt und kann nach zwei eigenen Upkeeps kostenlos wirken. Anders als Diabolic Intent braucht es kein Kreaturenopfer, ist aber nicht in derselben Hauptphase sofort verfügbar.
@@ -63,35 +66,50 @@ Embereth/Bitterblossom: Bei denselben Upkeeps jeweils Bitterblossom **vor** Cour
 
 - **37 reguläre Länder** und Malakir Rebirth/Malakir Mire als optionales MDFC-Land. Drei Checklands wurden durch sofort ungetappte Painlands ersetzt; zusätzliche Lebenspunkte-Kosten bewusst akzeptiert.
 - **10 Rocks**, davon **9 für höchstens zwei Mana**: Sol Ring, Arcane Signet, Fellwar Stone, drei Talismane, drei Signets sowie Replicating Ring mit MV3. Ancient Tomb beschleunigt zusätzlich.
-- **62 Nichtländer einschließlich Commander:** aktuelle Oracle-Mana-Value-Verteilung **MV0:1, MV1:9, MV2:24, MV3:12, MV4:10, MV5:5, MV7:1**. MV0 ist *Profane Tutor* und **keine** ohne Suspend sofort kostenlose Handkarte.
+- **62 Nichtländer einschließlich Commander:** aktuelle Oracle-Mana-Value-Verteilung **MV0:1, MV1:9, MV2:24, MV3:12, MV4:11, MV5:4, MV7:1**. MV0 ist *Profane Tutor* und **keine** ohne Suspend sofort kostenlose Handkarte.
 - **Interaktion:** vier Counterspell-Varianten (Counterspell, Mana Drain, Swan Song, An Offer You Can't Refuse), dazu Fierce Guardianship und Deflecting Swat; Deadly Rollick, Chaos Warp, Feed the Swarm, Toxic Deluge, Vandalblast, Rakdos Charm und Malakir Rebirth decken unterschiedliche Situationen ab. Ring of Evos Isle, Mithril Coat und Swiftfoot Boots liefern bleibenden Schutz.
-- **Evasion:** Brotherhood Regalia, Aqueous Form, Thassa, Key to the City, Prowler's Helm, Trailblazer's Boots und die beiden aktivierbaren Landoptionen. Shizo/Fear ist gegen schwarze oder Artefaktkreaturen nicht sicher; Trailblazer's Boots benötigt gegnerisches Nichtstandardland.
+- **Evasion:** Brotherhood Regalia, Aqueous Form, Thassa, Key to the City, Aether Tunnel, Trailblazer's Boots und Shizo/The Black Gate als aktivierbare Landoptionen. Shizo/Fear ist gegen schwarze oder Artefaktkreaturen nicht sicher; Trailblazer's Boots benötigt gegnerisches Nichtstandardland.
 - **Siegpfade:** Embereth und andere Courts, Psychosis Crawler-Draw-Drain, Mechanized Production/Ring, Court of Cunning-Mill, 21 Kommanderschaden. Obeka ist Haupt-Beschleuniger, die Engines geben teilweise auch ohne sie normalen Value.
 
 ## 5. Reproduzierbare Simulation und Korrektur des Reviews
 
 **Befehl aus Repo-Root:** python3 decks/obeka-splitter-of-seconds/tests/verify_deck.py --oracle
 
-Python-Standardbibliothek, festgelegter Seed **20261018**, **100.000 zufällige Starthandsamples pro tatsächlich angelegter V1–V5**. Alle 99 Karten ohne Commander werden gemischt; ausgewertet werden Starthand (7) und regulär gezogene Karten bis Zug 4/5. Der Codex-P2-Befund zu V4 wurde behoben: **Ring of Valkas wird als Upkeep-Payoff mitgezählt**, ebenso die neue Ring of Evos Isle.
+Python-Standardbibliothek, festgelegter Seed **20261018**, **100.000 zufällige Starthandsamples pro tatsächlich angelegter V1–V6**. Alle 99 Karten ohne Commander werden gemischt; ausgewertet werden Starthand (7) und regulär gezogene Karten bis Zug 4/5. Die beiden Codex-P2-Funde sind berücksichtigt: **Ring of Valkas** ist Upkeep-Payoff, und **Rogue's Passage** wird in historischen Listen als gezogene Evasionkarte gezählt. Die sehr hohen Aktivierungskosten von Rogue's Passage bleiben ein Grund für seinen Austausch.
 
-| Nur Kartenverfügbarkeit | V1 | V2 | V3 | V4 korrigiert | V5 |
-|---|---:|---:|---:|---:|---:|
-| Starthand mit 2–4 Länder-/MDFC-Karten | 75,53 % | 75,53 % | 75,53 % | 75,53 % | **75,53 %** |
-| Vier Landquellen bis Turn 4 gesehen | 67,82 % | 67,82 % | 67,82 % | 67,82 % | **67,82 %** |
-| Nominelles Obeka-Mana bis Turn 4¹ | 79,19 % | 79,19 % | 79,19 % | 79,19 % | **80,06 %** |
-| Frühe Evasion bis Turn 5 gezogen² | 48,26 % | 48,26 % | 54,88 % | 54,88 % | **60,71 %** |
-| Hastequelle bis Turn 4 gezogen | 29,70 % | 37,88 % | 37,88 % | 37,88 % | **37,88 %** |
-| Upkeep-Payoff bis Turn 5 gezogen³ | 95,15 % | 95,96 % | 95,19 % | 94,33 % | **94,31 %** |
-| Nominelles Mana + Evasion + Payoff zusammen¹²³ | 34,45 % | 34,85 % | 39,07 % | 38,61 % | **43,26 %** |
+| Nur Kartenverfügbarkeit | V1 | V2 | V3 | V4 | V5 | V6 |
+|---|---:|---:|---:|---:|---:|---:|
+| Starthand mit 2–4 Länder-/MDFC-Karten | 75,53 % | 75,53 % | 75,53 % | 75,53 % | 75,53 % | **75,53 %** |
+| Vier Landquellen bis Zug 4 gesehen | 67,82 % | 67,82 % | 67,82 % | 67,82 % | 67,82 % | **67,82 %** |
+| Nominelles Obeka-Mana bis Zug 4¹ | 79,19 % | 79,19 % | 79,19 % | 79,19 % | 80,06 % | **80,06 %** |
+| Evasion-Karte bis Zug 5 gezogen² | 54,92 % | 54,92 % | 60,78 % | 60,78 % | 65,95 % | **65,95 %** |
+| **Günstige Evasion-Karte bis Zug 5 gezogen²** | 40,83 % | 40,83 % | 40,83 % | 40,83 % | 40,83 % | **54,97 %** |
+| Hastequelle bis Zug 4 gezogen | 29,70 % | 37,88 % | 37,88 % | 37,88 % | 37,88 % | **37,88 %** |
+| Upkeep-Payoff bis Zug 5 gezogen³ | 95,15 % | 95,96 % | 95,19 % | 94,33 % | 94,31 % | **94,31 %** |
+| Nominelles Mana + Evasion + Payoff zusammen¹²³ | 40,13 % | 40,59 % | 44,16 % | 43,63 % | 47,80 % | **47,80 %** |
 
 ¹ **Keine echte Cast-Mana-Simulation:** „4 Landquellen bis Turn 4“ oder „3 Landquellen + bis Turn 2 gesehenen frühen Rock“ gelten optimistisch als genügend Mana. Manafarben, getappte Länder, tatsächliche Cast-/Equip-Kosten, regelmäßige Landdrops, Mulligans und gegnerische Antworten fehlen.
-² Zählt Ziehen einer Evasionkarte, auch wenn diese Voraussetzungen benötigt (gegnerische Nichtstandardländer für Trailblazer, Fear-Blocker für Shizo, eigener Discard für Key to the City).
+² Zählt das **Sehen** einer Evasionkarte, auch wenn diese Vorbedingungen oder noch nicht verfügbare Manakosten benötigt. Insbesondere Rogue's Passage (vier Mana plus Tap), The Black Gate (nur gegen Gegner mit höchstem Lebensstand), Trailblazer's Boots (gegnerisches Nichtstandardland), Shizo (Fear-Blocker) und Key to the City (Discard). Die separate günstige Teilmenge umfasst nur Quellen mit höchstens drei Mana für Cast/Equip/Aktivierung, ohne Commander-Cast oder Timing. Es sind **keine** garantierten Angriffe bis Zug 5.
 ³ Payoffkarte gezogen, **nicht** zwingend bereits gewirkt oder suspendiert. Insbesondere Rousing Refrain/Profane Tutor brauchen vorherige Suspend-Aktion. Diese Raten sind **keine Spiel- oder Gewinnwahrscheinlichkeit**.
 
-Die direkte Scryfall-API-Prüfung im selben Lauf bestätigte **100/100 legal, Grixis und drei Game Changer**. Zusätzlich stimmen current.txt und V5 zeilenweise überein. Es liegen keine echten Vier-Spieler-Partietests vor.
+Die direkte Scryfall-API-Prüfung im selben Lauf bestätigte **100/100 legal, Grixis und drei Game Changer**. Zusätzlich stimmen current.txt und V6 zeilenweise überein. Es liegen keine echten Vier-Spieler-Partietests vor.
 
 ## 6. Stärkstes Gegenargument und Restunsicherheit
 
 Ein zurückgehaltener V4-Plan mit **Struggle for Project Purity + Sheoldred, the Apocalypse / Psychosis Crawler** hat bei fünf zusätzlichen Upkeeps eine höhere unmittelbare Schadensobergrenze als V5 und kann die gesamte Runde in einem Zug gewinnen. Dafür verschenkt Struggle je Gegner fünf zusätzliche Handkarten: Gegen aufmerksame blau spielende Gegner kann Obeka entfernt werden, bevor die Trigger einen Sieg sichern. V5 priorisiert darum ein früher erreichbares, robusteres Setup und eigene statt symmetrische Ressourcen. Das ist ein **begründeter Deckbauentscheid, keine gemessene Partiensiegquote**.
 
-Die größten Risiken bleiben Obeka-Removal, Verlust des Monarchenstatus, Lebensverlust durch Bitterblossom/Arena/Painlands, eine zu hohe Zahl an Equipment ohne Kreatur sowie Farbengpässe, die von der einfachen Simulation nicht erfasst werden. Die neue V5 sollte die **obere Bracket-3-Stärke** besser ausschöpfen; ein behaupteter sicherer Sieg oder echte Meta-Dominanz ist nicht belegt.
+Die größten Risiken bleiben Obeka-Removal, Verlust des Monarchenstatus, Lebensverlust durch Bitterblossom/Arena/Painlands, eine zu hohe Zahl an Equipment ohne Kreatur sowie Farbengpässe, die von der einfachen Simulation nicht erfasst werden. Die neue V6 sollte die **obere Bracket-3-Stärke** besser ausschöpfen; ein behaupteter sicherer Sieg oder echte Meta-Dominanz ist nicht belegt.
+## 7. Neue Optimierung: V5 → V6 (18.10.2026)
+
+| Heraus | Herein | Konkreter Gewinn | Stärkstes Gegenargument |
+|---|---|---|---|
+| Bonehoard Dracosaur (MV5) | **Ravenloft Adventurer (MV4)** | Initiative erschließt pro zusätzlichem Upkeep einen weiteren Unterstadt-Raum; der letzte erlaubt es, eine Kreatur aus den obersten zehn Karten kostenlos ins Spiel zu bringen. Außerdem werden gegnerische sterbende Kreaturen exiliert. | Der Dracosaur bietet verlässliche Exil-Kartenauswahl und gelegentliche Treasures ohne Initiative und ist eine stärkere fliegende Kreatur. Ravenloft kann mit Virtue of Persistence bei gegnerischen Reanimationszielen kollidieren. |
+| Prowler's Helm | **Aether Tunnel** | Unblockbar plus **+1/+0** für nur zwei Mana, ohne zusätzliche Equip-Aktivierung. Ein zusätzlicher Schadenspunkt bedeutet bei Obeka einen zusätzlichen Upkeep. | Aura geht bei Commander-Removal mit verloren; Helm bleibt liegen und ist wiederverwendbar. |
+| Reflecting Pool | **Plaza of Heroes** | Farbige Manaquelle speziell für Obeka und später legendären Support; einmaliger Schutz gegen Ziel-Removal und Zerstörungseffekte. | Reflecting Pool bietet nach Fixing mehr freie Farben für sämtliche Nichtlegendären. Plaza benötigt drei andere Mana und opfert den Land-Slot für Schutz. |
+| Rogue's Passage | **The Black Gate** | Schwarze statt farblose Manaquelle, deutlich günstigere Aktivierung zum Durchbringen Obekas. | Nur ein Spieler mit den meisten Lebenspunkten ist als „unblockbar gegen“-Spieler wählbar; gelegentlich 3 Leben nötig, um ungetappt ins Spiel zu kommen. |
+
+**Initiative-Regel (Primärquelle):** [Wizards, Battle for Baldur's Gate Release Notes](https://magic.wizards.com/en/news/feature/commander-legends-battle-baldurs-gate-release-notes-2022-06-01). Die Initiative zu übernehmen löst bereits das erste Raumabenteuer aus; jeder weitere eigene Upkeep setzt bei gehaltener Initiative fort. Der Abschlussweg benötigt insgesamt fünf betretene Räume und lässt sich deshalb mit Obekas Extra-Upkeeps in einem Zug vollenden. Gegner können die Initiative über Kampfschaden zurückerobern.
+
+**Prüfinterpretation:** Die Gesamtrate gezogener Evasionkarten steigt von V5 auf V6 **nicht**, weil zwei Evasion-Slots jeweils ausgetauscht wurden. Der Anteil **günstiger** Evasionkarten steigt in der deterministischen 100.000-Hand-Simulation von **40,83 % auf 54,97 %**. Eine tatsächliche T5-Kampfschadenswahrscheinlichkeit ist das nicht. Die neue Initiative ist in der Upkeep-Payoff-Kategorie nur als **bedingter** Kandidat enthalten: Man muss Ravenloft zuvor wirken und die Initiative besitzen; die Simulation wertet das nicht als garantiert aus.
+
+Alle sechs Versionen sind importierbare historische Listen und das aktuelle Deck wurde erneut gegen die Live-Oracle-/Commander-Legalitätsdaten geprüft. **V6: 100/100 legal, Grixis, exakt drei Game Changer** (Ancient Tomb, Demonic Tutor, Fierce Guardianship); Verteilung MV0:1, MV1:9, MV2:24, MV3:12, MV4:11, MV5:4, MV7:1. Reale Mehrspielerpartien und kontrollierte Win-Rate-Tests liegen weiterhin nicht vor.

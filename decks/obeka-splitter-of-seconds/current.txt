@@ -3,7 +3,7 @@
 1 Court of Ambition
 1 Court of Cunning
 1 Court of Ire
-1 Bonehoard Dracosaur
+1 Ravenloft Adventurer
 1 Plargg and Nassari
 1 Super Intelligence
 1 Dragonmaster Outcast
@@ -14,7 +14,7 @@
 1 Mechanized Production
 1 Court of Vantress
 1 Rousing Refrain
-1 Prowler's Helm
+1 Aether Tunnel
 1 Virtue of Persistence
 1 Roaming Throne
 1 Sword of Feast and Famine
@@ -85,12 +85,12 @@
 1 Prismatic Vista
 1 Mana Confluence
 1 City of Brass
-1 Reflecting Pool
+1 Plaza of Heroes
 1 Underground River
 1 Sulfurous Springs
 1 Shivan Reef
 1 Shizo, Death's Storehouse
-1 Rogue's Passage
+1 The Black Gate
 1 Otawara, Soaring City
 1 Takenuma, Abandoned Mire
 1 Arena of Glory
