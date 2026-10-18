@@ -20,4 +20,15 @@ jobs:
       - name: Validate current Commander lists and documented file references
         run: python3 scripts/validate_decks.py
       - name: Test positive and negative validation cases
-        run: python3 -m unittest discover -s tests -p 'test_validate_decks.py' -v
+        run: |
+          python3 - <<'PY'
+          import unittest
+
+          suite = unittest.defaultTestLoader.discover(
+              "tests", pattern="test_validate_decks.py"
+          )
+          if suite.countTestCases() == 0:
+              raise SystemExit("No deck-validation tests collected")
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          raise SystemExit(0 if result.wasSuccessful() else 1)
+          PY

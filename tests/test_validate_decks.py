@@ -371,6 +371,46 @@ class DeckValidationTests(unittest.TestCase):
                 ):
                     validate_repository(self.root)
 
+    def test_r3_sanitizer_stripped_tags_join_visible_paths(self) -> None:
+        # Verified against GitHub's GFM renderer, not the HTML5 void list.
+        # These unsafe/unsupported elements are stripped, leaving a single
+        # visible missing path in ordinary prose and inside raw block HTML.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        stripped_void = (
+            "area", "base", "col", "embed", "input",
+            "link", "meta", "param", "track",
+        )
+        stripped_wrappers = (
+            "button", "select", "option", "datalist", "meter", "progress",
+        )
+        for tag in stripped_void + stripped_wrappers:
+            markup = f"<{tag}>" if tag in stripped_void else f"<{tag}></{tag}>"
+            for source in (
+                "decks/sample/miss" + markup + "ing.md",
+                "<div>decks/sample/miss" + markup + "ing.md</div>",
+            ):
+                with self.subTest(tag=tag, source=source):
+                    self.assertIn(
+                        (True, "decks/sample/missing.md"),
+                        rendered_markdown_references(source),
+                    )
+                    (self.root / "decks" / "README.md").write_text(
+                        source + "\n", encoding="utf-8"
+                    )
+                    with self.assertRaisesRegex(
+                        DeckValidationError, "decks/sample/missing.md"
+                    ):
+                        validate_repository(self.root)
+
+    def test_r3_visible_replaced_elements_are_still_path_breaks(self) -> None:
+        for tag in ("br", "hr", "img", "source"):
+            with self.subTest(tag=tag):
+                source = "decks/sample/miss<" + tag + ">ing.md"
+                self.assertNotIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+
     def test_r3_list_marker_interrupts_table_on_github(self) -> None:
         # GitHub GFM closes tables at list starts even with a pipe inside.
         # The following Markdown is code, not a live missing link.
@@ -1219,7 +1259,6 @@ class DeckValidationTests(unittest.TestCase):
         (self.root / "decks" / "x").write_text("image fixture", encoding="utf-8")
         for source in (
             '<div>decks/sample/miss<img src="x">ing.md</div>\n',
-            '<div>decks/sample/miss<input value="x">ing.md</div>\n',
             '<p>decks/sample/miss<br>ing.md</p>\n',
             '<div>decks/sample/miss<img src="x"/>ing.md</div>\n',
         ):

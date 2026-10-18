@@ -459,7 +459,14 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         helpers._parse_angle_link_href = original_angle_parser
     found: list[tuple[bool, str]] = []
 
-    # Only non-void, non-structural phrasing tags are invisible path joins.
+    # GitHub's GFM sanitizer removes these elements without replacing them.
+    # Unlike visible img/br/hr/source, they join adjacent rendered text.
+    stripped_tags = frozenset({
+        "area", "base", "col", "embed", "input", "link", "meta",
+        "param", "track", "button", "select", "option", "datalist",
+        "meter", "progress",
+    })
+    # Ordinary phrasing markup and sanitizer-stripped tags are invisible joins.
     # Attributes stay opaque; unknown tags remain conservative boundaries.
     transparent_inline_tags = frozenset({
         "a", "abbr", "b", "bdi", "bdo", "big", "cite", "code", "data",
@@ -467,7 +474,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         "mark", "output", "q", "rb", "ruby", "s", "samp", "small",
         "span", "strike", "strong", "sub", "sup", "time", "tt",
         "u", "var", "template", "wbr",
-    })
+    }) | stripped_tags
     transparent_tag = re.compile(
         r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
     )
@@ -492,10 +499,9 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         })
         # HTML <code> is visible phrasing; only <pre> remains example text.
         CODE_TAGS = frozenset({"pre"})
-        VOID_TAGS = frozenset({
-            "area", "base", "br", "col", "embed", "hr", "img",
-            "input", "link", "meta", "param", "source", "track",
-        })
+        # Only elements kept by GitHub's sanitizer interrupt visible text.
+        # Other HTML5 void tags above are removed rather than replaced.
+        VOID_TAGS = frozenset({"br", "hr", "img", "source"})
         # GitHub's GFM tagfilter renders these tag spellings as literal text
         # rather than HTML, including attributes of the forbidden tags.
         FILTERED_TAGS = frozenset({
