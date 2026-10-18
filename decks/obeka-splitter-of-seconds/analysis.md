@@ -1,99 +1,97 @@
-# Analyse — Obeka, Splitter of Seconds (Bracket 3), V4
+# Obeka, Splitter of Seconds — Karten- und Spielanalyse V5 (Bracket 3)
 
-**Stand:** 18.10.2026. [Aktive Liste](current.txt) / [Spielanleitung](README.md) / [Prüfskript](tests/verify_deck.py). Es gibt vier **tatsächlich geschriebene** Listen in versions/, keine erfundenen Partietests.
+**Aktuelle Liste:** [current.txt](current.txt), identisch mit [versions/2026-10-18-b3-v5.txt](versions/2026-10-18-b3-v5.txt). Historische Listen V1–V4 wurden tatsächlich erstellt und bleiben unter [versions/](versions/) erhalten. Stand: 18.10.2026.
 
-## 1. Oracle, Regelmechanik und Bracket
+## 1. Mechanik und Regelprüfung
 
-**Obeka — verifizierter Oracle-Text:** „Menace. Whenever Obeka deals combat damage to a player, you get that many additional upkeep steps after this phase.“ Basispower 2; Kampfschaden 3/5/7 bedeutet genau 3/5/7 eigene zusätzliche Upkeeps. Mit Double Strike können zwei Schadensereignisse je einmal separat auslösen. **Nach der Kampfphase**, vor der zweiten Hauptphase; kein Enttappen, keine automatische Landspielberechtigung, kein reguläres Kartenziehen und keine neuen Combat Steps.
+Der verifizierte Oracle-Text von Obeka lautet: „Menace. Whenever Obeka deals combat damage to a player, you get that many additional upkeep steps after this phase.“ 2 Schadenspunkte ergeben 2 zusätzliche eigene Upkeeps nach der Kampfphase, 5 Schadenspunkte ergeben 5. Das sind **keine** weiteren normalen Untap-, Draw-, Main- oder Combat-Steps. Durch Double Strike sind zwei separate Schadensereignisse und Upkeep-Trigger möglich.
 
-- **„At the beginning of your upkeep“:** Alle sechs Courts, Ring of Valkas, Creeping Bloodsucker, Phyrexian Arena, Bonehoard Dracosaur, Plargg and Nassari, Dragonmaster Outcast, Replicating Ring, Chronozoa, Mechanized Production usw. lösen in jedem Obeka-Upkeep erneut aus.
-- **„At the beginning of each upkeep“:** Midnight Clock bekommt auch auf gegnerischen Upkeeps Counter, auf allen zusätzlichen eigenen ebenso. Das ist anders als ein rein eigener Upkeep.
-- **„At the beginning of each opponent's upkeep“:** Solche Trigger skalieren mit Obeka **nicht**; deshalb Sheoldred, Whispering One als nur bedingt geeignet gestrichen (zusätzlich sieben Mana und Graveyard-Vorbedingung).
-- **Zusätzliche Bedingungen:** Twilight Prophet braucht *city's blessing* (≥10 kontrollierte Permanents); Dragonmaster Outcast ≥6 Länder; die sechs Courts belohnen besonders den Monarchenstatus; Mechanized Production braucht ein verzaubertes eigenes Artefakt und acht Artefakte desselben Namens; Chronozoa stirbt zu zwei Kopien nur, wenn zuletzt *ohne* Time-Counter; Replicating Ring braucht acht Night-Counter.
-- **Roaming Throne:** Als Kreaturentyp **Warlock** wählen. Obeka ist Ogre **Warlock**. Der Thron verdoppelt deren Kampfschaden-Trigger, also die gewährten Upkeeps. Er verdoppelt **nicht** die Trigger der Verzauberungs-Courts oder andere Kreaturentypen ohne Warlock-Übereinstimmung.
+- „At the beginning of your upkeep“ funktioniert in jedem Obeka-Upkeep. Beispiele aus V5: sechs Courts, Bitterblossom, Phyrexian Arena, Replicating Ring, Dragonmaster Outcast, Creeping Bloodsucker, Bonehoard Dracosaur, Plargg and Nassari, Ring of Valkas und Ring of Evos Isle.
+- „At the beginning of each upkeep“ schließt auch fremde Upkeeps ein, wird durch Obeka aber nur während ihrer **eigenen** künstlichen Upkeeps beschleunigt. Midnight Clock wurde aus V5 zugunsten schnelleren Manas entfernt.
+- **Super Intelligence** zieht Karten nur für den Controller der verzauberten Kreatur. An eine **eigene** Kreatur angelegt, zieht es pro Obeka-Upkeep genau eine Karte; an eine fremde Kreatur wäre es kontraproduktiv.
+- **Rousing Refrain** wird für {1}{R} mit drei Zeitmarken ausgesetzt. Zu Beginn der eigenen Upkeeps verschwindet je eine Marke; beim Verrechnen nach der letzten Marke erzeugt es rotes Mana entsprechend einer gegnerischen Handgröße, das bis zum Ende des Zuges bestehen bleibt. Danach wird es erneut mit drei Marken ausgesetzt und kann bei ausreichend vielen Upkeeps **im selben Zug** ein weiteres Mal wirken.
+- **Profane Tutor** wird für {1}{B} mit zwei Marken ausgesetzt und kann nach zwei eigenen Upkeeps kostenlos wirken. Anders als Diabolic Intent braucht es kein Kreaturenopfer, ist aber nicht in derselben Hauptphase sofort verfügbar.
+- **Roaming Throne** muss beim Eintritt *Warlock* wählen (Obeka ist Ogre Warlock), damit Obekas Kampfschaden-Auslöser ein weiteres Mal auslöst. Courts sind Verzauberungen und werden vom Throne nicht selbst dupliziert.
+- **Monarch:** Die sechs Courts machen dich beim Eintritt zum Monarchen. Bei Court of Embereth, Locthwain, Vantress und Ire entscheidet der aktuell gehaltene Monarchenstatus über die Stärke der jeweiligen ausgelösten Fähigkeit.
+- **Sword of Feast and Famine** enttappt nach Obekas Kampfschaden alle eigenen Länder *vor* den Extra-Upkeeps. Die schwarz/grüne Schutzfähigkeit verhindert zugleich, dass die **schwarze** Malakir Rebirth die ausgerüstete Obeka legal als Ziel wählt. Super Intelligence ist blau und bleibt davon unberührt.
+- **Mechanized Production + Replicating Ring:** Bei acht Night-Countern erzeugt der Ring acht Token mit dem Namen *Replicated Ring*. Mit passenden gleichzeitig auslösenden Upkeep-Triggern lässt sich die Reihenfolge so wählen, dass der Ring zuerst die acht Token erzeugt und anschließend Production acht gleichnamige Artefakte feststellt: alternativer Sieg.
 
-**Offizielle Bracket-3-Vorgaben:** Maximal drei Game Changer, starke Synergien und Interaktion zulässig; keine absichtlich sehr frühen konsistenten Zwei-Karten-Endloskombos. Aktuell live bei Scryfall verifiziert: **Ancient Tomb, Demonic Tutor, Fierce Guardianship** = exakt drei; Commander legal, alle 100 Karten mit ausschließlich U/B/R-Farbidentität, keine gebannten Karten.
+**Bracket:** Wizards klassifiziert Bracket 3 als Upgraded und erlaubt maximal drei Game Changer. Live-Scryfall-Abfrage vom 18.10.2026: Alle 100 Karten sind Commander-legal und Grixis-farbkonform; genau **Ancient Tomb, Demonic Tutor, Fierce Guardianship** sind als Game Changer markiert. Die Karte Gamble wurde deshalb *nicht* aufgenommen (wäre ein vierter Game Changer). Aggravated Assault wurde wegen der zusammen mit Sword of Feast and Famine möglichen wiederholbaren Kampfschleifen ebenfalls bewusst vermieden.
 
-Quellen:
-- https://magic.wizards.com/en/formats/commander
-- https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta
-- https://scryfall.com/card/otj/222/obeka-splitter-of-seconds
-- https://scryfall.com/docs/api
+Primärquellen: [Wizards Commander](https://magic.wizards.com/en/formats/commander), [Commander Brackets Update, Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [Obeka Oracle](https://scryfall.com/card/otj/222/obeka-splitter-of-seconds), [Scryfall API](https://scryfall.com/docs/api).
 
-## 2. Systematische Upkeep-Auswahl und konkrete Skalierung
+## 2. Wie viel entsteht aus 3 oder 5 Upkeeps?
 
-Die Scryfall-Oracle-Suche nach Grixis-legalen Karten mit „at the beginning of your upkeep“ oder „at the beginning of each upkeep“ lieferte am 18.10.2026 **559 Kandidaten**. Ranglisten- und Oracle-Texte wurden geprüft; auch seltene Alternativen (Tombstone Stairwell, Chronozoa, Dauthi Embrace, Mechanized Production, Court of Vantress und Court of Locthwain) waren im Abgleich. Die Suchmenge umfasst auch negative bzw. nur bedingt passende Karten und ist **keine** Behauptung, alle 559 von Hand vollumfänglich gespielt zu haben.
-
-| Permanent | 3 zusätzliche Upkeeps | 5 zusätzliche Upkeeps | Einschränkung |
+| Upkeep-Permanent | 3 Extra-Upkeeps | 5 Extra-Upkeeps | Voraussetzungen |
 |---|---|---|---|
-| Court of Embereth | Bei Start mit Obeka als einziger Kreatur: 2+3+4 = **9 Schaden an jedem Gegner** | 2+3+4+5+6 = **20 je Gegner** | Monarch muss bei den Triggerauflösungen gehalten werden |
-| Court of Ire | **21** gezielter Schaden | **35** gezielter Schaden | Monarch für 7 statt 2 pro Trigger |
-| Court of Cunning | **30 Mill-Karten pro gewähltem Spieler** | **50 Karten pro gewähltem Spieler** | Monarch; Spieler können auch ohne Königsmacht für 2 gemillt werden |
-| Creeping Bloodsucker | **3 Schaden je Gegner + bis zu 9 Leben** bei 3 Gegnern | **5 je Gegner + bis zu 15 Leben** | tatsächliche Gegnerzahl; keine Kreatur außerhalb seiner Fähigkeit nötig |
-| Ring of Valkas | **3 +1/+1-Counter auf Obeka** | **5 Counter** | vorher ausgerüstete rote Obeka |
-| Replicating Ring | +3 Night-Counter | +5 Night-Counter | bei acht Countern erzeugt der Ring 8 *Replicated Rings* und setzt zurück |
-| Struggle for Project Purity | bis zu **9 eigene Draws**, plus je 3 Draws bei allen Gegnern | bis zu **15 eigene Draws**, plus je 5 bei allen Gegnern | Modus Brotherhood, drei lebende Gegner; extrem riskant, wenn man danach nicht dominiert |
-| Chronozoa | 1 Exemplar läuft aus und produziert **2 Kopien** | 2 Kopien je noch 1 Counter vor dem zweiten Auslaufen | muss mit drei Counter starten und natürlich auslaufen, Removal verhindert Ertrag |
-| Court of Locthwain | drei gegnerische Karten exiliert, bei Monarch drei freie Spell-Erlaubnisse | fünf Karten/Erlaubnisse | tatsächliches Wirken nach normalen Timing-Regeln; erlaubt wird je ein Spell aus dort exilierten Karten |
-| Court of Vantress | bis zu drei Kopien von Artefakten/Verzauberungen | bis zu fünf Kopien | Monarch; andere geeignete Zielpermanents nötig |
+| Court of Embereth | **9** Schaden pro Gegner (2+3+4) | **20** Schaden pro Gegner (2+3+4+5+6) | Anfänglich nur Obeka als Kreatur, Court aktiv und Monarch |
+| Court of Embereth **+ Bitterblossom** | **15** Schaden pro Gegner (3+5+7) | **35** Schaden pro Gegner (3+5+7+9+11) | Faerie-Trigger zuerst, beide im Spiel, Monarch, anfänglich nur Obeka |
+| Court of Ire | **21** gezielter Schaden | **35** gezielter Schaden | Monarch, für 7 statt 2 pro Auslöser |
+| Court of Cunning | **30** Karten millen pro gewähltem Spieler | **50** pro gewähltem Spieler | Monarch, im Standardfall sonst 2 Karten |
+| Creeping Bloodsucker | Jeder Gegner 3 Schaden, du bis zu 9 Leben bei drei Gegnern | Jeder Gegner 5 Schaden, du bis zu 15 Leben | drei lebende Gegner |
+| Ring of Valkas **+ Ring of Evos Isle** | **+6 +1/+1-Marken** | **+10 +1/+1-Marken** | beide korrekt an Obeka ausgerüstet |
+| Super Intelligence | **3 Karten** | **5 Karten** | eigene Kreatur dauerhaft verzaubert |
+| Replicating Ring | +3 Zeitmarken | +5 Zeitmarken | nach insgesamt acht Night-Countern entstehen acht Replicated Rings |
+| Court of Locthwain | drei gegnerische Karten exiliert, bis zu drei kostenlose Cast-Erlaubnisse | fünf Karten/Erlaubnisse | Monarch und legal wirkbare Zauber |
+| Court of Vantress | bis zu drei Permanent-Kopien | bis zu fünf Kopien | Monarch und anderes Artefakt oder Enchantment als Ziel |
+| Plargg and Nassari | bis zu sechs kostenlos gewirkte Zauber | bis zu zehn | Angebot der exilierten Karten und gegnerische Wahl |
+| Rousing Refrain | ein möglicher Gratis-Cast je drei entfernten Zeitmarken | wiederholbar nach je drei Marken | muss vorher suspendiert sein, gegnerische Hand nicht leer |
 
-**Embereth-Hinweis:** Für N extra Upkeeps und genau eine bereits vorhandene Kreatur startet die Schadensreihe bei 2. Bei mehr eigenen Kreaturen, mehreren Court-Kopien und Bloodletter of Aclazotz steigt der Schaden erheblich stärker. Angriffsbedingter Monarchenverlust ist eine wesentliche Schwachstelle.
+Embereth/Bitterblossom: Bei denselben Upkeeps jeweils Bitterblossom **vor** Court of Embereth auflösen. Dann wird zuerst eine Faerie, danach ein Knight erstellt und *anschließend* Schaden entsprechend allen eigenen Kreaturen verursacht. Die Kombination kostet aber **ein Leben pro Upkeep**. Das Leben kommt idealerweise aus Creeping Bloodsucker, Sheoldred oder Shadowspear zurück.
 
-**Mechanized Production + Replicating Ring:** Erreicht der Ring acht Night-Counter in deinem Upkeep, erzeugt er acht *Replicated Ring*-Token. Ist auch Mechanized Production bereits auf einem eigenen Artefakt aktiv, kannst du beide eigenen Upkeep-Trigger so auf den Stapel legen, dass **zuerst** der Ring auflöst und **danach** Production seinen Token erzeugt und acht gleichnamige Artefakte prüft. Der Name „Replicated Ring“ unterscheidet sich ausdrücklich von „Replicating Ring“; das ist für den Karten-Check unerheblich, weil *irgendeine* gemeinsame Gruppe von acht Artefakten genügt.
+## 3. Vollzogene V4→V5-Kartenwechsel
 
-## 3. Jedes Kartenpaket und seine Schwachstellen
-
-**21 Kern-Engine-Karten:**
-- **Courts (6):** Embereth (skalierender Tisch-Schaden; Top-Priorität), Ambition (Discard oder bis zu 6 Lebensverlust), Cunning (Mill-Finish und Graveyard-Setup), Ire (gezielte Removal-/Finisher-Schüsse), Locthwain (exilierte gegnerische Karten; freie Spells bei Monarch), Vantress (schwer begrenzbare Kopier-Engine; bevorzugt auf Embereth, Locthwain, Arena, Crawler, Ring).
-- **Wert/Druck (8):** Bonehoard Dracosaur (2 Exil-Karten und Token), Plargg and Nassari (kostenlose Zauber während Triggerauflösung), Twilight Prophet (großer Lebensschwung, aber bedingt), Dragonmaster Outcast (ein Mana, ab sechs Ländern 5/5er), Creeping Bloodsucker (früher Drain/Lifegain), Smaug the Magnificent (Treasures und Angriffsburn), Phyrexian Arena (zuverlässiger Upkeep-Draw, kostet Leben), Struggle for Project Purity (maximaler Draw-Output, zugleich gefährliche Opponent-Draws).
-- **Skalierer/Finish (7):** Psychosis Crawler (Draw in Tisch-Schaden), Mechanized Production (Artefakt-Alternate-Win), Virtue of Persistence (teure wiederholte gegnerische Reanimation, Adventure früher Removal), Roaming Throne (verdoppelt Obeka-Trigger), Bloodletter of Aclazotz (verdoppelt gegnerischen Lebensverlust im eigenen Zug), Chronozoa (Vanishing-Token-Sequenz), Sheoldred, the Apocalypse (Life-Drain durch gegnerischen Draw, Lifegain durch eigenen).
-
-**10 Beschleuniger:** Sol Ring (Ausnahmeleistung), Arcane Signet, Fellwar Stone, Talismans von Dominance/Indulgence/Creativity, Dimir Signet, Izzet Signet (acht günstige Rocks), Replicating Ring (3 Mana, auch Alternate-Win), Midnight Clock (3 Mana; holt auf dem 12. Counter sieben neue Karten, kann bei voller Hand auch stören). Sword of the Animist wurde gestrichen, weil hier nur drei Basics existieren und der Ramp spät entsteht. Ancient Tomb ist zusätzliche Land-Beschleunigung.
-
-**17 Evasion/Schutz/Kampf-Upgrades:** Brotherhood Regalia (unblockbar + Ward2, Equip Commander1), Aqueous Form (unblockbar + Scry), Thassa, God of the Sea (wiederholbar unblockbar), Key to the City (Discard gegen unblockbar, Card-Advantage im Untap), Prowler's Helm (außer Walls praktisch unblockbar), Swiftfoot Boots (Haste + Hexproof), Lavaspur Boots (+1/+0 + Haste + Ward1), Ring of Valkas (Haste + jedes Upkeep Power-Counter), Blackblade Reforged (Lands in Power), Fireshrieker/Lizard Blades (Double Strike), The Reaver Cleaver (Treasure pro Kampfschaden, löst weitere Siege aus), Robe of the Archmagi (Warlock Equip1 für enormen Draw), Mithril Coat (Flash-Indestructible, schützt Commander), Shadowspear (Trample/Lifelink und Hexproof/Indestructible-Antwort), Deflecting Swat (Target-Rewrite), Fierce Guardianship (schützt gegen Nichtkreaturenzauber, Game Changer). **Keine** dieser Karten ersetzt alle anderen Schutztypen.
-
-**12 Interaktions- und Flexkarten:** Counterspell, Arcane Denial, Swan Song, An Offer You Can't Refuse, Mana Drain (Counter-Matrix); Deadly Rollick (bei Commander frei gegen Kreaturen), Chaos Warp (universell, auch Enchantments), Feed the Swarm (wichtige schwarze Enchantment-Antwort), Toxic Deluge (resettet Boards, kann eigene Obeka treffen), Vandalblast (Artefaktboards), Rakdos Charm (Graveyard/Artefakt/Token-Gegner), Malakir Rebirth (Obeka gegen Removal bzw. getapptes schwarzes MDFC-Land). **2 Tutor:** Demonic Tutor (Game Changer, universell), Diabolic Intent (Kreaturen-Opferkosten; unter Umständen schmerzhaft).
-
-**37 reguläre Länder:** Command Tower/Exotic Orchard/Xander's Lounge, echte und Shock-Grixis-Duals (Underground Sea, Volcanic Island, Badlands; Steam Vents/Watery Grave/Blood Crypt), Battlebond-Duals (Morphic Pool/Training Center/Luxury Suite), 9 Fetchlands + Prismatic Vista, universelle Quellen (Mana Confluence/City of Brass/Reflecting Pool), drei Checklands, Evasion-/Value-Länder (Shizo, Rogue's Passage, Otawara, Takenuma, Arena of Glory), Ancient Tomb, je ein Island/Swamp/Mountain. Hohe Farbkonsistenz, aber die Simulation berücksichtigt nicht die gelegentlich getappten Länder, Life-Payment oder Fetch-Sequenz. **Malakir Mire** ist zusätzlich die Landrückseite eines Spells, kein 38. eigenständiger Slot.
-
-## 4. Vollzogene Versionierung — tatsächliche Änderungen
-
-| Version | Änderungen | Motiv |
+| Heraus | Herein | Entscheidendes Argument / Nachteil |
 |---|---|---|
-| V1 | 100 initiale Singleton-Karten; Oracle PASS | Baseline mit viel Payoff, zu viel reaktivem Equipment und sieben Mana schwerer Reanimation |
-| V2 | Lightning Greaves → **Lavaspur Boots**; Sword of the Animist → **Ring of Valkas**; Theater of Horrors → **Robe of the Archmagi**; Psychosis Crawler → **Chronozoa** | +Power/Haste, Upkeep-Marken, frühes Damage-Draw, originelle Token-Folge |
-| V3 | Sheoldred, Whispering One → **Prowler's Helm** | Entfernt die teure Graveyard-Voraussetzung, verbessert sichere Obeka-Treffer |
-| V4 (aktuell) | Stolen Strategy → **Court of Locthwain**; Extravagant Replication → **Court of Vantress**; The Scarab God → **Psychosis Crawler** | Beide Courts günstiger und Monarch-abhängig explosiver; Scarab God braucht 4 Mana/Kreatur für Zombies, Psychosis ist mit mehreren Draw-Engines das bessere Finish |
+| Midnight Clock | **Rakdos Signet** | Frühere zweifarbige Beschleunigung (2 statt 3 Mana), verliert spätere Handauffüllung |
+| Diabolic Intent | **Profane Tutor** | Zwei Obeka-Upkeeps statt Kreaturenopfer, braucht Wartezeit |
+| Smaug the Magnificent | **Rousing Refrain** | Wiederkehrendes postcombat-taugliches rotes Mana, benötigt Suspend und gegnerische Hand |
+| Chronozoa | **Bitterblossom** | Ein früherer Flying-Token **pro Upkeep**, Monarch-Defense und Embereth-Schaden; kostet eigenes Leben, Kopien sind nur 1/1 |
+| Twilight Prophet | **Super Intelligence** | Nur {U}, Draw ohne City’s Blessing, setzt eigene Kreatur voraus |
+| Struggle for Project Purity | **Sword of Feast and Famine** | Keine geschenkten Handkarten; Combat-Pump, Schutz und Land-Enttappen. Verliert das frühere sehr explosive Draw-/Sheoldred-Finish |
+| Fireshrieker | **Trailblazer's Boots** | Zweites günstiges Evasion-Teil; Lizard Blades bleibt der Double-Strike-Weg. Weniger Maximal-Upkeeps durch Doppelstrike |
+| Arcane Denial | **Ring of Evos Isle** | Pro Upkeep Power und aktivierter Hexproof; ein weniger Counterspell |
+| Drowned Catacomb | **Underground River** | Ab Zug 1 ungetappt statt abhängig von Standardlandtypen; farbige Aktivierung kostet 1 Leben |
+| Dragonskull Summit | **Sulfurous Springs** | Gleiches Argument für B/R |
+| Sulfur Falls | **Shivan Reef** | Gleiches Argument für U/R |
 
-**Bewusst nicht enthalten:** One Ring (Burden-Schaden pro zusätzlichem Upkeep und zusätzlicher Game Changer), Dark Confidant/Dark Tutelage (multiplikativer Lebensverlust bei hohen Mana Values), Mystic Remora und Tombstone Stairwell (Cumulative Upkeep verschlingt während mehrerer eigener Upkeeps Ressourcen), Descent into Avernus (massiver symmetrischer Schaden und Geschenke an Gegner), Pact of Negation (Zahlung im direkt folgenden zusätzlichen Upkeep), Braid of Fire (Mana leert sich zwischen Upkeep-Schritten), Staff of Nin (6 Mana für 1 Karte/Upkeep), Ophiomancer (nur ein Snake-Token bei keinem Snake), Knuckles the Echidna (30 Artefakte Sieg sehr speziell), Triskaidekaphile (genau 13 Karten unzuverlässig), Stolen Strategy (zauberbare Karten nur bis Turn-Ende, unzuverlässig mit wenig Postcombat-Mana), Sheoldred, Whispering One (nur gegnerische Upkeep-Opfer werden *nicht* dupliziert). Panoptic Mirror und absichtlich schnelle Endloskombos aus Bracket-3-Gründen vermieden.
+**Unverändert:** alle sechs Courts, Virtue of Persistence als später Reanimationsmotor, Mechanized Production als Alternate-Win, Psychosis Crawler als Draw-Finisher, The Reaver Cleaver für Treasures, Roaming Throne zur Verdopplung von Obeka, Blackblade Reforged zur drastischen Powererhöhung sowie die drei Game Changer.
 
-## 5. Simulation: 100.000 reproduzierbare Starthände pro Version
+**Abgewogene, nicht übernommene Kandidaten:** As Foretold skaliert seine Time-Counter, erlaubt aber nur **einmal je Zug** einen Gratiszauber; Inspiring Refrain zieht über Suspend alle drei Upkeeps zwei Karten, Super Intelligence ist bei sicherer eigener Kreatur effizienter; Scrawling Crawler und Struggle schenken allen Gegnern Antworten; Paradox Haze erhöht normalerweise nur die Zahl früher Upkeeps; Whispersilk Cloak gibt Shroud und verhindert neue zielende Ausrüstungen/Auren; Doom's Time Platform benötigt bereits einen Nonland-Spell im Friedhof und einen Angriff. Sword plus Aggravated Assault ist wegen der Bracket-3-Kombo-Grenze ausgeschlossen. Gamble wäre der vierte Game Changer.
 
-Lokal ausgeführt, Python-Standardbibliothek, deterministischer Seed **20261018**, je Version 100.000 zufällige Kartenanordnungen; Commander ist außerhalb des 99-Karten-Stapels. Kein Mulligan. Gezählt werden die 7 Opening-Cards plus reguläre Draws bis Zug 4/5. **Das ist Kartenverfügbarkeit, keine Magic-Partie.**
+## 4. Kurve, Konsistenz, Interaktion
 
-| Messgröße | V1 | V2 | V3 | V4 |
-|---|---:|---:|---:|---:|
-| Opening-Hand mit 2–4 Landquellen | 75,53 % | 75,53 % | 75,53 % | **75,53 %** |
-| Mindestens vier Landquellen bis Zug 4 | 67,82 % | 67,82 % | 67,82 % | **67,82 %** |
-| Rechnerisch genug Mana für Commander bis Zug 4¹ | 79,19 % | 79,19 % | 79,19 % | **79,19 %** |
-| Frühe Evasion bis Zug 5 im gesehenen Kartenpool | 48,26 % | 48,26 % | 54,88 % | **54,88 %** |
-| Hastequelle bis Zug 4 gesehen | 29,70 % | 37,88 % | 37,88 % | **37,88 %** |
-| Upkeep-Payoff bis Zug 5 gesehen | 95,15 % | 95,21 % | 94,33 % | **93,33 %** |
-| Commander-Mana + Evasion + Payoff bis Zug 5 im Pool¹ | 34,45 % | 34,46 % | 38,58 % | **38,06 %** |
+- **37 reguläre Länder** und Malakir Rebirth/Malakir Mire als optionales MDFC-Land. Drei Checklands wurden durch sofort ungetappte Painlands ersetzt; zusätzliche Lebenspunkte-Kosten bewusst akzeptiert.
+- **10 Rocks**, davon **9 für höchstens zwei Mana**: Sol Ring, Arcane Signet, Fellwar Stone, drei Talismane, drei Signets sowie Replicating Ring mit MV3. Ancient Tomb beschleunigt zusätzlich.
+- **62 Nichtländer einschließlich Commander:** aktuelle Oracle-Mana-Value-Verteilung **MV0:1, MV1:9, MV2:24, MV3:12, MV4:10, MV5:5, MV7:1**. MV0 ist *Profane Tutor* und **keine** ohne Suspend sofort kostenlose Handkarte.
+- **Interaktion:** vier Counterspell-Varianten (Counterspell, Mana Drain, Swan Song, An Offer You Can't Refuse), dazu Fierce Guardianship und Deflecting Swat; Deadly Rollick, Chaos Warp, Feed the Swarm, Toxic Deluge, Vandalblast, Rakdos Charm und Malakir Rebirth decken unterschiedliche Situationen ab. Ring of Evos Isle, Mithril Coat und Swiftfoot Boots liefern bleibenden Schutz.
+- **Evasion:** Brotherhood Regalia, Aqueous Form, Thassa, Key to the City, Prowler's Helm, Trailblazer's Boots und die beiden aktivierbaren Landoptionen. Shizo/Fear ist gegen schwarze oder Artefaktkreaturen nicht sicher; Trailblazer's Boots benötigt gegnerisches Nichtstandardland.
+- **Siegpfade:** Embereth und andere Courts, Psychosis Crawler-Draw-Drain, Mechanized Production/Ring, Court of Cunning-Mill, 21 Kommanderschaden. Obeka ist Haupt-Beschleuniger, die Engines geben teilweise auch ohne sie normalen Value.
 
-¹ **Optimistische Proxy-Messgröße**: „T4-Mana“ ist entweder vier Landquellen in den ersten elf Karten oder mindestens drei mit zwei Ländern und 1–2-Mana-Rock bis Zug 2. Farben, getappte Landquellen, Rock-Kosten, echte Cast-Sequenz, Equip-Kosten und Gegnerinteraktion **nicht** berücksichtigt. „Im Pool“ belegt **keinen** ausspielbaren T5-Engine-Zustand; 38,06 % ist **keine** tatsächliche T5-Combo- oder Gewinnchance. Die 93,33 % geben lediglich an, ob mindestens ein geeignetes Upkeep-Permanent gezogen wurde, nicht ob es aktiviert/bezahlt wurde. V4 reduziert einzelne bedingte Payoffs zugunsten wesentlich stärkerer Zaubereffekte; reine Trefferquote darf deshalb nicht mit Spielstärke verwechselt werden.
+## 5. Reproduzierbare Simulation und Korrektur des Reviews
 
-**Reproduzierbarer Befehl:** Aus Repo-Root:
-    python3 decks/obeka-splitter-of-seconds/tests/verify_deck.py --oracle
+**Befehl aus Repo-Root:** python3 decks/obeka-splitter-of-seconds/tests/verify_deck.py --oracle
 
-Das Skript prüft V1–V4 auf Singleton/100, Gleichheit von current/V4, Monte Carlo und mit --oracle aktuelle Scryfall-Daten. Letzter Live-Lauf: **ORACLE_PASS 100/100**, 100 legale Grixis-Karten und **drei Game Changer**. Nonland-CMC-Histogramm **{1:8, 2:22, 3:13, 4:14, 5:4, 7:1}**, 62 Nicht-Länder inkl. Commander, 37 feste Länder und ein MDFC.
+Python-Standardbibliothek, festgelegter Seed **20261018**, **100.000 zufällige Starthandsamples pro tatsächlich angelegter V1–V5**. Alle 99 Karten ohne Commander werden gemischt; ausgewertet werden Starthand (7) und regulär gezogene Karten bis Zug 4/5. Der Codex-P2-Befund zu V4 wurde behoben: **Ring of Valkas wird als Upkeep-Payoff mitgezählt**, ebenso die neue Ring of Evos Isle.
 
-## 6. Stärkste Gegenargumente, Restunsicherheit, Bewertung
+| Nur Kartenverfügbarkeit | V1 | V2 | V3 | V4 korrigiert | V5 |
+|---|---:|---:|---:|---:|---:|
+| Starthand mit 2–4 Länder-/MDFC-Karten | 75,53 % | 75,53 % | 75,53 % | 75,53 % | **75,53 %** |
+| Vier Landquellen bis Turn 4 gesehen | 67,82 % | 67,82 % | 67,82 % | 67,82 % | **67,82 %** |
+| Nominelles Obeka-Mana bis Turn 4¹ | 79,19 % | 79,19 % | 79,19 % | 79,19 % | **80,06 %** |
+| Frühe Evasion bis Turn 5 gezogen² | 48,26 % | 48,26 % | 54,88 % | 54,88 % | **60,71 %** |
+| Hastequelle bis Turn 4 gezogen | 29,70 % | 37,88 % | 37,88 % | 37,88 % | **37,88 %** |
+| Upkeep-Payoff bis Turn 5 gezogen³ | 95,15 % | 95,96 % | 95,19 % | 94,33 % | **94,31 %** |
+| Nominelles Mana + Evasion + Payoff zusammen¹²³ | 34,45 % | 34,85 % | 39,07 % | 38,61 % | **43,26 %** |
 
-1. **Monarch-Abhängigkeit**: Trotz sechs Courts können aggressive Gegner Monarch über Angriffe übernehmen. Dann sind Locthwain, Vantress und Embereth deutlich schwächer. Gegenmaßnahme: Regalia/Helm ermöglichen Rückeroberung; alle sechs Courts machen bereits beim Eintritt Monarch. Nicht vollständig eliminiert.
-2. **Obeka als Single Point of Acceleration**: Sie kostet vier Mana und wird aktiv bekämpft. Ohne sie sind sechs Courts plus Arena/Plargg weiter spielbar, aber der Geschwindigkeitssprung fehlt. 8 günstige Rocks und mehrere Schutzklassen verringern, nicht beseitigen das Risiko.
-3. **Mana ohne zusätzliches Enttappen**: Fünf extra Upkeeps liefern kein Mana aus schon getappten Länder/Rocks. Plargg und Locthwain lösen das mit kostenlos wirkbaren Spells teilweise; ansonsten sind Treasure-Engines wichtig. Mit 37 + MDFC Landquellen und zehn Rocks ist der normale Aufbau konsistent, aber keine perfekte Manakurve garantiert.
-4. **Symmetrischer Kartenvorteil**: Struggle for Project Purity schenkt drei Gegnern pro Upkeep jeweils Karten. Nur legen, wenn der eigene Tempo-/Lebensverlustvorteil die geschenkten Antworten aufwiegt; Psychosis/Sheoldred können diese Draws bestrafen.
-5. **Keine realen Spielpartien verifiziert**: Oracle-/Decklisten-Prüfung und vereinfachte Monte Carlo sind reproduzierbar. Die behauptete relative Spielstärke bleibt qualitative Deckbau-Einschätzung. Ein 4-Spieler-Matchup-/Pilotentest steht offen.
+¹ **Keine echte Cast-Mana-Simulation:** „4 Landquellen bis Turn 4“ oder „3 Landquellen + bis Turn 2 gesehenen frühen Rock“ gelten optimistisch als genügend Mana. Manafarben, getappte Länder, tatsächliche Cast-/Equip-Kosten, regelmäßige Landdrops, Mulligans und gegnerische Antworten fehlen.
+² Zählt Ziehen einer Evasionkarte, auch wenn diese Voraussetzungen benötigt (gegnerische Nichtstandardländer für Trailblazer, Fear-Blocker für Shizo, eigener Discard für Key to the City).
+³ Payoffkarte gezogen, **nicht** zwingend bereits gewirkt oder suspendiert. Insbesondere Rousing Refrain/Profane Tutor brauchen vorherige Suspend-Aktion. Diese Raten sind **keine Spiel- oder Gewinnwahrscheinlichkeit**.
 
-**Einschätzung:** Hohe, für Bracket 3 passende Synergiedichte und mehrere nachprüfbare Siege ohne deterministische T3-Endlosschleife. Weniger robust als ein dediziertes Control-Deck gegen wiederholtes Commander-Removal, dafür sehr explosiv ab erfolgreichem Obeka-Kampfschaden. Die leistungsstärksten Permanents sind **Court of Embereth, Court of Vantress, Court of Locthwain, Plargg and Nassari, Ring of Valkas** und **Mechanized Production**.
+Die direkte Scryfall-API-Prüfung im selben Lauf bestätigte **100/100 legal, Grixis und drei Game Changer**. Zusätzlich stimmen current.txt und V5 zeilenweise überein. Es liegen keine echten Vier-Spieler-Partietests vor.
+
+## 6. Stärkstes Gegenargument und Restunsicherheit
+
+Ein zurückgehaltener V4-Plan mit **Struggle for Project Purity + Sheoldred, the Apocalypse / Psychosis Crawler** hat bei fünf zusätzlichen Upkeeps eine höhere unmittelbare Schadensobergrenze als V5 und kann die gesamte Runde in einem Zug gewinnen. Dafür verschenkt Struggle je Gegner fünf zusätzliche Handkarten: Gegen aufmerksame blau spielende Gegner kann Obeka entfernt werden, bevor die Trigger einen Sieg sichern. V5 priorisiert darum ein früher erreichbares, robusteres Setup und eigene statt symmetrische Ressourcen. Das ist ein **begründeter Deckbauentscheid, keine gemessene Partiensiegquote**.
+
+Die größten Risiken bleiben Obeka-Removal, Verlust des Monarchenstatus, Lebensverlust durch Bitterblossom/Arena/Painlands, eine zu hohe Zahl an Equipment ohne Kreatur sowie Farbengpässe, die von der einfachen Simulation nicht erfasst werden. Die neue V5 sollte die **obere Bracket-3-Stärke** besser ausschöpfen; ein behaupteter sicherer Sieg oder echte Meta-Dominanz ist nicht belegt.

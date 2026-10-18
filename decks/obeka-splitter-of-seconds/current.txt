@@ -5,7 +5,7 @@
 1 Court of Ire
 1 Bonehoard Dracosaur
 1 Plargg and Nassari
-1 Twilight Prophet
+1 Super Intelligence
 1 Dragonmaster Outcast
 1 Creeping Bloodsucker
 1 Psychosis Crawler
@@ -13,14 +13,14 @@
 1 Court of Locthwain
 1 Mechanized Production
 1 Court of Vantress
-1 Smaug the Magnificent
+1 Rousing Refrain
 1 Prowler's Helm
 1 Virtue of Persistence
 1 Roaming Throne
-1 Struggle for Project Purity
+1 Sword of Feast and Famine
 1 Phyrexian Arena
 1 Bloodletter of Aclazotz
-1 Chronozoa
+1 Bitterblossom
 1 Sheoldred, the Apocalypse
 1 Sol Ring
 1 Arcane Signet
@@ -31,7 +31,7 @@
 1 Dimir Signet
 1 Izzet Signet
 1 Replicating Ring
-1 Midnight Clock
+1 Rakdos Signet
 1 Ring of Valkas
 1 Brotherhood Regalia
 1 Aqueous Form
@@ -40,7 +40,7 @@
 1 Swiftfoot Boots
 1 Lavaspur Boots
 1 Blackblade Reforged
-1 Fireshrieker
+1 Trailblazer's Boots
 1 Lizard Blades
 1 The Reaver Cleaver
 1 Mithril Coat
@@ -48,7 +48,7 @@
 1 Fierce Guardianship
 1 Shadowspear
 1 Counterspell
-1 Arcane Denial
+1 Ring of Evos Isle
 1 Swan Song
 1 An Offer You Can't Refuse
 1 Mana Drain
@@ -60,7 +60,7 @@
 1 Rakdos Charm
 1 Malakir Rebirth
 1 Demonic Tutor
-1 Diabolic Intent
+1 Profane Tutor
 1 Command Tower
 1 Exotic Orchard
 1 Xander's Lounge
@@ -86,9 +86,9 @@
 1 Mana Confluence
 1 City of Brass
 1 Reflecting Pool
-1 Drowned Catacomb
-1 Dragonskull Summit
-1 Sulfur Falls
+1 Underground River
+1 Sulfurous Springs
+1 Shivan Reef
 1 Shizo, Death's Storehouse
 1 Rogue's Passage
 1 Otawara, Soaring City

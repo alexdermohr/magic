@@ -18,11 +18,12 @@ TRIALS = 100_000
 EARLY_ROCKS = {
     "Sol Ring", "Arcane Signet", "Fellwar Stone",
     "Talisman of Dominance", "Talisman of Indulgence", "Talisman of Creativity",
-    "Dimir Signet", "Izzet Signet",
+    "Dimir Signet", "Izzet Signet", "Rakdos Signet",
 }
 EARLY_EVASION = {
     "Brotherhood Regalia", "Aqueous Form", "Thassa, God of the Sea",
     "Key to the City", "Shizo, Death's Storehouse", "Prowler's Helm",
+    "Trailblazer's Boots",
 }
 HASTE = {
     "Swiftfoot Boots", "Lightning Greaves", "Lavaspur Boots",
@@ -37,6 +38,8 @@ UPKEEP_PAYOFFS = {
     "Smaug the Magnificent", "Sheoldred, Whispering One",
     "Virtue of Persistence", "Struggle for Project Purity", "Phyrexian Arena",
     "Theater of Horrors", "Chronozoa", "Replicating Ring", "Midnight Clock",
+    "Ring of Valkas", "Ring of Evos Isle", "Super Intelligence",
+    "Bitterblossom", "Rousing Refrain", "Profane Tutor",
 }
 COLOR_ID = {"U", "B", "R"}
 
@@ -134,9 +137,12 @@ def main() -> None:
     v2 = read_list(ROOT / "versions/2026-10-18-b3-v2.txt")
     v3 = read_list(ROOT / "versions/2026-10-18-b3-v3.txt")
     v4 = read_list(ROOT / "versions/2026-10-18-b3-v4.txt")
+    v5 = read_list(ROOT / "versions/2026-10-18-b3-v5.txt")
     current = read_list(ROOT / "current.txt")
-    assert v4 == current, "current.txt weicht von dokumentierter V4 ab"
-    for label, names in [("v1", v1), ("v2", v2), ("v3", v3), ("v4/current", v4)]:
+    assert v5 == current, "current.txt weicht von dokumentierter V5 ab"
+    assert "Ring of Valkas" in UPKEEP_PAYOFFS, "Review-Regression: Ring of Valkas fehlt"
+    assert "Ring of Evos Isle" in UPKEEP_PAYOFFS, "Ring of Evos Isle fehlt"
+    for label, names in [("v1", v1), ("v2", v2), ("v3", v3), ("v4", v4), ("v5/current", v5)]:
         print(label, f"{len(names)} einzigartige Karten; 37 Länder + MDFC")
         print(json.dumps(monte_carlo(names, args.trials), indent=2, sort_keys=True))
     if args.oracle:
