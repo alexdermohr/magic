@@ -76,6 +76,26 @@ class DeckValidationTests(unittest.TestCase):
         )
 
 
+    def test_r3_source_element_is_transparent_in_visible_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for value in (
+            "<div>decks/sample/miss<source>ing.md</div>",
+            "decks/sample/miss<source>ing.md",
+            "decks/sample/miss<source/>ing.md",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(value),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    value + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+
     def test_r3_mixed_www_html_boundary_reveals_missing_path(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for host in ("WWW", "wWw", "WwW"):
@@ -451,7 +471,8 @@ class DeckValidationTests(unittest.TestCase):
                         validate_repository(self.root)
 
     def test_r3_visible_replaced_elements_are_still_path_breaks(self) -> None:
-        for tag in ("br", "hr", "img", "source"):
+        # GitHub renders source as an invisible, non-replaced element.
+        for tag in ("br", "hr", "img"):
             with self.subTest(tag=tag):
                 source = "decks/sample/miss<" + tag + ">ing.md"
                 self.assertNotIn(

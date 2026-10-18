@@ -488,7 +488,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         CODE_TAGS = frozenset({"pre"})
         # Only elements kept by GitHub's sanitizer interrupt visible text.
         # Other HTML5 void tags above are removed rather than replaced.
-        VOID_TAGS = frozenset({"br", "hr", "img", "source"})
+        VOID_TAGS = frozenset({"br", "hr", "img"})
         # GitHub's GFM tagfilter renders these tag spellings as literal text
         # rather than HTML, including attributes of the forbidden tags.
         FILTERED_TAGS = frozenset({
