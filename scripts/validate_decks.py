@@ -524,6 +524,10 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if self.hidden:
                 if tag in self.CODE_TAGS:
                     self.hidden.append(tag)
+                else:
+                    # <pre> hides literal prose from deck-path scanning, but
+                    # an actual <a href> or <img src> remains clickable.
+                    self.record_live_target(tag, attrs)
                 return
             if tag in self.FILTERED_TAGS:
                 raw_start = self.get_starttag_text() or "<" + tag + ">"
@@ -550,6 +554,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
 
         def handle_startendtag(self, tag, attrs) -> None:
             if self.hidden:
+                self.record_live_target(tag, attrs)
                 return
             if tag in self.FILTERED_TAGS:
                 raw_start = self.get_starttag_text() or "<" + tag + "/>"
@@ -639,6 +644,16 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     inline_pre_depth -= 1
                     return
             if inline_pre_depth:
+                # HTML navigation inside pre is still active in GitHub GFM;
+                # suppress only the preformatted plain-text examples.
+                raw = token.get("raw")
+                if (kind == "inline_html" and isinstance(raw, str)
+                        and re.match(r"(?i)^<(?:a|img)(?=[\s/>])", raw)):
+                    visitor = VisibleRawHTML()
+                    visitor.feed(raw)
+                    visitor.close()
+                    for destination in visitor.destinations:
+                        found.append((False, destination))
                 return
             if kind == "block_html":
                 flush_text()

@@ -79,6 +79,30 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_html_anchors_inside_pre_are_live_navigation(self) -> None:
+        # GFM emits actual clickable <a> tags inside both raw-block and inline
+        # <pre>, even though plain file-looking prose remains example text.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for value in (
+            '<pre>\n<a href="sample/missing.md">click</a>\n</pre>',
+            'before <pre><a href="sample/missing.md">click</a></pre> after',
+            'before <pre><img src="sample/missing.png"></pre> after',
+        ):
+            target = "sample/missing.png" if "<img" in value else "sample/missing.md"
+            with self.subTest(value=value):
+                self.assertIn(
+                    (False, target),
+                    rendered_markdown_references(value),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    value + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+
     def test_r3_inline_pre_examples_are_opaque_and_closing_restores_paths(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for source in (
@@ -457,7 +481,6 @@ class DeckValidationTests(unittest.TestCase):
             '<a data-ref="sample/missing.md">visible text</a>',
             '<img src="https://outside.test/ignored.png" alt="sample/missing.md">',
             '<a href="https://outside.test/ignored.md">visible text</a>',
-            '<pre>\n<a href="sample/missing.md">example</a>\n</pre>',
             '<!-- <img src="sample/missing.png"> -->',
         ):
             with self.subTest(source=source):
