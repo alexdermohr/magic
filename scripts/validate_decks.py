@@ -14,7 +14,7 @@ from urllib.parse import unquote
 BASICS = frozenset({
     "Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes",
     "Snow-Covered Plains", "Snow-Covered Island", "Snow-Covered Swamp",
-    "Snow-Covered Mountain", "Snow-Covered Forest",
+    "Snow-Covered Mountain", "Snow-Covered Forest", "Snow-Covered Wastes",
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # Do not match a .md/.txt prefix of a longer filename (e.g. .md.bak).
@@ -603,6 +603,9 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             return entity
         return character_reference.sub(replace, raw)
 
+    # HTML pre nesting can span several AST blocks and paragraph visits.
+    inline_pre_depth = 0
+
     def visit(tokens: list[dict]) -> None:
         # Mistune may split one rendered filename into adjacent text tokens
         # at escaped punctuation or emphasis boundaries. Check the combined
@@ -610,7 +613,6 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         rendered: list[str] = []
         inside_link_label = 0
         rendered_label_text = False
-        inline_pre_depth = 0
 
         def append_rendered(value: str) -> None:
             nonlocal rendered_label_text
@@ -644,8 +646,13 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     inline_pre_depth -= 1
                     return
             if inline_pre_depth:
-                # HTML navigation inside pre is still active in GitHub GFM;
-                # suppress only the preformatted plain-text examples.
+                # Only rendered bare text is an opaque preformatted example.
+                # GFM still emits clickable Markdown links/images and raw
+                # HTML href/src inside inline pre elements.
+                if kind in {"link", "image"}:
+                    destination = token.get("attrs", {}).get("url")
+                    if isinstance(destination, str):
+                        found.append((False, destination))
                 raw = token.get("raw")
                 if (kind == "inline_html" and isinstance(raw, str)
                         and re.match(r"(?i)^<(?:a|img)(?=[\s/>])", raw)):
@@ -654,6 +661,14 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     visitor.close()
                     for destination in visitor.destinations:
                         found.append((False, destination))
+                if kind in {"strong", "emphasis", "strikethrough"}:
+                    if isinstance(children, list):
+                        for child in children:
+                            visit_inline(child)
+                elif isinstance(children, list) and kind not in {"link", "image"}:
+                    # An open inline pre persists across paragraph/list AST
+                    # containers; their close tags and live links remain visible.
+                    visit(children)
                 return
             if kind == "block_html":
                 flush_text()

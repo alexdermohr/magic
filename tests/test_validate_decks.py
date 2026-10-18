@@ -80,6 +80,72 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_unclosed_inline_pre_remains_opaque_across_blocks(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "before <pre>example\n\ndecks/sample/missing.md",
+            "before <PRE class='example'>example\n\n"
+            "decks/sample/missing.md",
+        ):
+            with self.subTest(source=source):
+                self.assertNotIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+        closed = ("before <pre>example\n\ndecks/sample/missing.md"
+                  "</pre> decks/sample/visible.md")
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(closed),
+        )
+        self.assertIn(
+            (True, "decks/sample/visible.md"),
+            rendered_markdown_references(closed),
+        )
+        (self.root / "decks" / "README.md").write_text(
+            closed + "\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(
+            DeckValidationError, "decks/sample/visible.md"
+        ):
+            validate_repository(self.root)
+
+    def test_r3_markdown_navigation_inside_inline_pre_is_live(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source, target in (
+            ("before <pre>[analysis](sample/missing.md)</pre> after",
+             "sample/missing.md"),
+            ("before <pre>![x](sample/missing.png)</pre> after",
+             "sample/missing.png"),
+            ("before <pre>**[analysis](sample/missing.md)**</pre> after",
+             "sample/missing.md"),
+            ("before <pre>example\n\n[analysis](sample/missing.md)",
+             "sample/missing.md"),
+        ):
+            with self.subTest(source=source):
+                self.assertIn(
+                    (False, target),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+
+    def test_r3_snow_covered_wastes_basic_land_has_unlimited_copies(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Snow-Covered Wastes\n")
+        self.assertEqual(validate_list(self.deck), "Sample Commander")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_r3_html_anchors_inside_pre_are_live_navigation(self) -> None:
         # GFM emits actual clickable <a> tags inside both raw-block and inline
         # <pre>, even though plain file-looking prose remains example text.
