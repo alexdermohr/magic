@@ -87,6 +87,59 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_all_uppercase_gfm_declarations_are_invisible(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for declaration in (
+            "<!ELEMENT br EMPTY>",
+            "<!ATTLIST br class CDATA #IMPLIED>",
+            "<!ENTITY x 'hidden'>",
+        ):
+            source = f"decks/sample/miss{declaration}ing.md"
+            with self.subTest(declaration=declaration):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+                doc = self.root / "decks" / "sample" / "missing.md"
+                doc.write_text("exists", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                doc.unlink()
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "decks/sample/miss<!element br empty>ing.md"
+            ),
+        )
+
+    def test_r3_empty_and_abrupt_gfm_comments_are_invisible(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for comment in ("<!---->", "<!-->", "<!--->", "<!-- -->"):
+            source = f"decks/sample/miss{comment}ing.md"
+            with self.subTest(comment=comment):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+                doc = self.root / "decks" / "sample" / "missing.md"
+                doc.write_text("exists", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                doc.unlink()
+
     def test_r3_invisible_processing_instruction_and_declarations_preserve_path(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for markup in (

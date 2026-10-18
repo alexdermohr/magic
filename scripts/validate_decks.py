@@ -412,6 +412,15 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             r"^ {0,3}\[(?P<reflink_1>" + gfm_label + r")\]:",
             parse_gfm_ref_link,
         )
+        # The pinned Mistune comment rule misses GFM's three valid empty
+        # / abrupt comment forms. Extend only this parser instance; leave
+        # the SHA-verified vendor source and rule precedence untouched.
+        from mistune.inline_parser import INLINE_HTML, InlineParser
+        markdown.inline.register(
+            "inline_html",
+            r"<!--(?:>|->|-->)|" + INLINE_HTML,
+            InlineParser.parse_inline_html,
+        )
         # Mistune's raw_html start regex also matches malformed <pre./<div:
         # prefixes, and its rule-1 closing-tag search is case-sensitive.
         # CommonMark/GFM require a tag-name boundary and allow case-insensitive
@@ -810,8 +819,9 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 if isinstance(raw, str):
                     if (
                         re.fullmatch(r"<!--[\s\S]*?-->", raw)
+                        or raw in {"<!-->", "<!--->"}
                         or (raw.startswith("<?") and raw.endswith("?>"))
-                        or re.fullmatch(r"(?is)<!DOCTYPE\s[^>]*>", raw)
+                        or re.fullmatch(r"<![A-Z]+[ \t\r\n\f]+[^>]*>", raw)
                         or (raw.startswith("<![CDATA[") and raw.endswith("]]>"))
                     ):
                         # GFM emits these as invisible HTML comments,
