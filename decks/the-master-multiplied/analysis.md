@@ -1,12 +1,24 @@
-# Analyse: The Master, Multiplied — Bracket 3, V3 (18. Oktober 2026)
+# Analyse: The Master, Multiplied — Bracket 3, V4 (18. Oktober 2026)
 
 ## Ziel, Faktenlage, Scope
 
-Optimiert wird die tatsächlich angelegte V2 auf den oberen Bereich von **Commander Bracket 3 (Upgraded)**. Liste und Versionen sind im selben Ordner. Drei Game Changer: **Ancient Tomb, Demonic Tutor, Jeska's Will**. Keine angezielte, schnelle deterministische Zwei-Karten-Endloskombination, kein Mass-Land-Denial, keine Extra-Turn-Kette. Stärke gegen typische Vierergruppen, keine unbewiesenen Winraten.
+Optimiert wurde die tatsächlich archivierte V3 auf den oberen Bereich von **Commander Bracket 3 (Upgraded)**. Die V1, V2 und V3 bleiben als echte Versionen erhalten. Liste und Versionen sind im selben Ordner. Drei Game Changer: **Ancient Tomb, Demonic Tutor, Jeska's Will**. Keine angezielte, schnelle deterministische Zwei-Karten-Endloskombination, kein Mass-Land-Denial, keine Extra-Turn-Kette. Stärke gegen typische Vierergruppen, keine unbewiesenen Winraten.
 
 **Regelanker:** Offizielle Doctor-Who-Release-Notes https://magic.wizards.com/en/news/feature/magic-the-gathering-doctor-who-release-notes · Commander-Brackets-Original https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta · offizielle Bracket-Aktualisierungen https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 · Live-Scryfall-Daten über validate.py.
 
-## Die acht V2→V3-Änderungen
+## Fünf Änderungen V3 → V4
+
+| Heraus | Hinein | Entscheidung und stärkstes Gegenargument |
+|---|---|---|
+| **Shared Animosity** | **Shredder, Shadow Master** | Shredder erzeugt selbst ohne Commander beim Attackieren Kopien für die beiden anderen Gegner und halbiert bei Treffer deren Lebenspunkte. Mit Master bleiben diese Tokens liegen. Animosity kann nach mehreren Master-Angriffen mehr direkten Schaden erzeugen, ist aber vorher oft eine tote Karte und hilft ohne Tokenarmee kaum. Shredder kostet zwei Mana mehr und braucht zum Halbieren Kampfschaden, daher insbesondere mit Regalia einsetzen. |
+| **Mimic Vat** | **Splinter Twin** | Splinter Twin kopiert **eigene** vorhandene Schlüsselwesen dauerhaft über Master und bietet die Fähigkeit jeden Zug. Mimic Vat ist erst nach einem Nichttoken-Kreaturentod plus drei Mana aktiv; es kann jedoch gegnerische Kreaturen kopieren und überlebt Removal des zu kopierenden Originals, während Twin als Aura ein mögliches 2-für-1 ist. |
+| **Heat Shimmer** | **Wheel of Fortune** | Zusätzlicher Einmal-Klon für drei Mana raus; stattdessen dringend benötigter Hand-Reset auf sieben Karten für drei Mana, unabhängig von Master und Angriffsgelegenheit. Wheel ist laut Live-Scryfall **kein Game Changer**. Großes Risiko: Alle Gegner ziehen ebenfalls sieben; bei gegnerischem Mana-/Counter-Vorteil bewusst zurückhalten. |
+| **Rising of the Day** | **Brotherhood Regalia** | Billige gezielte Unblockbarkeit mit Ward {2}, nur {1} zum Ausrüsten einer legendären Kreatur. Relevanter als das sechste Haste-Signal, da Greaves, Boots, Samut, Bitter Reunion und Arena of Glory erhalten bleiben. Verlust: Rising verleiht allen Kreaturen dauerhaft Eile und bufft legendäre Angreifer; Regalia nur einer Kreatur und **nicht** ihren Myriad-Kopien. |
+| **Rogue's Passage** | **War Room** | Gleiche Anzahl (36) physischer Landkarten und weiterhin farbloses Mana, aber wiederholbarer Kartenzieher ohne Commander, Board oder Treffer. Regalia übernimmt die billigere Unblockbarkeit. Risiko: War Room kostet beim Ziehen {3}, {T} und in Rakdos **2 Leben**, also kein schneller Ramp. |
+
+**Warum keine weiteren spektakulären Karten:** Bei 36 Ländern, sieben Artefakt-Rampquellen und mehreren echten Burn-Finishern ist zusätzliche Wiederherstellung des Kartennachschubs wichtiger als ein weiteres teures Token-Gewinnstück. Shredder und Splinter Twin sind die zwei zusätzlichen, voneinander unabhängigen Synergiepfade. Keine Änderung an den drei Game Changers und kein früher günstiger Zwei-Karten-Infiniteloop als Ziel.
+
+## Historisch: acht Änderungen V2→V3
 
 | Heraus | Hinein | Abwägung |
 |---|---|---|
@@ -42,18 +54,32 @@ Jeder dieser Master-Tokens hat selbst die legendäre Ausnahme und das Präventio
 - **Cybermen Squadron:** Sieben Mana, verteilt Myriad nur an **nichtlegendäre Artefaktkreaturen**. Die meisten gewählten Angriffsträger sind keine solche Kreaturen.
 - **The One Ring / Mana Vault / Necropotence:** Starke Game Changer, würden aber die drei fest belegten GC-Plätze neu aufteilen; Ancient Tomb beschleunigt wiederholt, Demonic Tutor findet Schutz und Kombo-Payoff, Jeska's Will gibt Burst-Mana und Optionen.
 
+## Geprüfte weitere Kandidaten ohne Einbau
+
+| Karte | Ergebnis |
+|---|---|
+| **Grim Hireling** | Bis zu sechs Treasures je Kampfrunde im Viererspiel; enorm mit Aggravated Assault, benötigt aber echten Kampfschaden zu möglichst mehreren Spielern. Vorläufig hinter Shredder und Wheel priorisiert. Bei zu schwacher Manaentwicklung gegen einen nachweislich unterperformenden Midrange-Slot testen. |
+| **Banshee of the Dread Choir** | Eigenes Myriad plus Discard bei Treffern. Fünf Mana ohne Evasion und ohne sofortigen Schaden ist gegen Shredders halbierende Treffer schlechter. |
+| **Genasi Enforcers** | Echtes günstiges 2-Mana-Myriad, aber nur kleine Körper und Mana sink für +1/+0. Die bestehenden Dalek Squadron und Elturel Survivors liefern mehr selbstständigen Druck. |
+| **Flamerush Rider** | Kopiert beim Angreifen ein anderes angreifendes Wesen (auch ETB-Payoffs), aber fünf Mana und Angriffsbedingung. Delina und günstigere Splinter-Twin-Engine bleiben im direkten Vergleich. |
+| **Mana Echoes** | Riesige farblose Manaausgabe aus vielen Master-Tokens, jedoch erst nach bereits gelungener Tokeneskalation und ohne Farbfestlegung für weitere Combats. Kein verlässlicher früher Beschleuniger. |
+| **Neheb, the Eternal** | Starker Postcombat-Manaausbruch nach Gruppenschaden, aber auf der Fünf-Mana-Stufe bereits mehr als genug Payoffs; kann mit Assault ab einem großen Board zur Schleife führen. |
+| **Helm of the Host** | Starker eigenständiger Tokenkopierer, aber vier Mana plus fünf Equip vor dem ersten Kopieren; für oberen B3-Tempoanspruch deutlich langsamer als Twin. |
+| **Enduring Courage** | Wiederkehrende Haste-Unterstützung und +2/+0 für ETB-Wesen; vier Mana und kein sofortiger Kartenvorteil. Regalia löst die derzeit knappere Blocker-/Schutzfrage. |
+| **Wheel vs. The One Ring** | Wheel zählt aktuell nicht zu den Game Changern; Ring ist einer. Ring würde eine Neuallokation eines der drei aktiven GC-Plätze und einen Last-/Lebensverlustplan erfordern. |
+
 ## Risikoanalyse und Gegenmaßnahmen
 
 1. **Tempo und Farbkosten:** Sechs-Mana-Commander plus mehrfach 5–6-Mana-Kreaturen sind riskant. V3 senkt Spitzenlast durch vier billigere Engines und zwei kostengünstige Haste-/Myriad-Karten. 36 Länder, sieben Mana-Artefakte, Ancient Tomb/Arena of Glory, Jeska's Will und Treasure-Synergien. Triple Black bei Massacre Wurm bleibt eine echte Kostenhürde.
 2. **Boardwipes und Exil:** Dolmen Gate schützt nur vor Kampfschaden. Lightning Greaves, Swiftfoot Boots, Deflecting Swat und Malakir Rebirth helfen gegen einzelne Antworten. Plumb the Forbidden verwandelt ein verloren gehendes Board in Karten; Goblin Bombardment verwandelt bedrohte Tokens in Schaden. Exilierende Boardwipes bleiben gefährlich.
-3. **Kartennachschub:** Black Market Connections, Grenzo, Idol of Oblivion, Professional Face-Breaker, Ob Nixilis, Night's Whisper, Jeska's Will, Plumb und Fable. Mangelt es im Praxistest trotzdem an Karten, sind **Phyrexian Arena**, **Wheel of Fortune** oder **Valakut Awakening** primäre Nachrücker (gegen Shared Animosity, eine hochpreisige Kreatur oder einen Utility-Land-Slot).
-4. **Angriffsgelegenheiten:** Myriad löst beim Deklarieren, *vor* Blockern aus; Shizo und Rogue's Passage sichern Treffer, Samut/Rising/Bitter/Greaves/Boots/Arena Eile. Entscheidend ist das Überleben von mindestens einem Master bis zum Aufräumen, nicht zwingend das erste Durchkommen.
-5. **Meta-Abhängigkeit:** Mimic Vat braucht einen nontoken Kreaturentod; Reanimate benötigt passende Friedhöfe. Gegen graveyardloses Combo-Meta sinkt deren Wert. Hate/Removal und Game-Changer-Begrenzungen gelten weiter.
-6. **Spielgeschwindigkeit:** Keine dokumentierten Partietests, keine Behauptung über genaue Siegrunde oder Winrate. Beobachte in einer Serie von Viererpartien Anteil Spiele mit farblich rechtzeitigem Master, erster nützlicher Kopie bis Zug 6, Draw-Versorgung bis Zug 8 und durch Wipe verlorene Boards.
+3. **Kartennachschub:** Black Market Connections, Grenzo, Idol of Oblivion, Professional Face-Breaker, Ob Nixilis, Night's Whisper, Jeska's Will, Plumb, Fable, **Wheel of Fortune** und das **War-Room-Land**. Mangelt es im Praxistest trotzdem an Karten, sind **Phyrexian Arena**, **Wheel of Fortune** oder **Valakut Awakening** primäre Nachrücker (gegen Shared Animosity, eine hochpreisige Kreatur oder einen Utility-Land-Slot).
+4. **Angriffsgelegenheiten:** Myriad löst beim Deklarieren, *vor* Blockern aus; Shizo und die günstige **Brotherhood Regalia** sichern Treffer, Samut/Bitter/Greaves/Boots/Arena bieten Eile. Entscheidend ist das Überleben von mindestens einem Master bis zum Aufräumen, nicht zwingend das erste Durchkommen.
+5. **Meta-Abhängigkeit:** Splinter Twin ist eine Aura mit 2-für-1-Risiko; Reanimate benötigt passende Friedhöfe. Gegen removalstarkes Meta kann Twin zu langsam werden, während Wheel dem Gegner neue Antworten liefert. Hate/Removal und Game-Changer-Begrenzungen gelten weiter.
+6. **Spielgeschwindigkeit:** Keine dokumentierten Partietests, keine Behauptung über genaue Siegrunde oder Winrate. Beobachte in einer Serie von Viererpartien Anteil Spiele mit farblich rechtzeitigem Master, erster nützlicher Kopie bis Zug 6, Draw-Versorgung bis Zug 8, durchschnittlich durch Wheel an Gegner vergebene Karten und durch Wipes verlorene Boards.
 
 ## Einzelkarten-Revision der aktiven V3
 
-Alle 100 Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. „Risiko“ nennt jeweils den stärksten Grund, warum ein Slot trotz seines Nutzens noch ersetzbar sein könnte.
+Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. „Risiko“ nennt jeweils den stärksten Grund, warum ein Slot trotz seines Nutzens noch ersetzbar sein könnte.
 
 | # | Karte | Konkreter Nutzen | Wichtigster Einwand |
 |---:|---|---|---|
@@ -70,14 +96,14 @@ Alle 100 Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. �
 | 11 | Professional Face-Breaker | Treasures und zusätzliche gespielte Karten aus Kampfschaden | Benötigt erfolgreiche Treffer |
 | 12 | Grenzo, Havoc Raiser | Jeder Treffer kann Goad oder Zugriff auf gegnerische Karten bewirken | Schwach, wenn Angreifer dauerhaft geblockt werden |
 | 13 | Mishra, Claimed by Gix | Jede eigene Angriffserklärung führt zu gegnerischem Lebensverlust; legendär kopierbar | Angriffsbedürftig; Vereinigung mit anderem Halbteil nicht geplant |
-| 14 | Heat Shimmer | Flexibel eigenen oder gegnerischen Kreaturentext günstig kopieren | Nur eine Kopie; ohne Master vergänglich |
+| 14 | Wheel of Fortune | Füllt unabhängig von Master für drei Mana eine leere Hand auf sieben Karten auf; laut Live-Oracle kein Game Changer | Jeder Gegner erhält ebenfalls sieben neue Karten; kann Gegner vor uns stärken |
 | 15 | Ob Nixilis, Captive Kingpin | Wiederholbare Karten-Exileffekte bei exakt einem Lebenspunkt Verlust; gut mit Mirkwood Bats | Trigger nicht bei jeder beliebigen Schadensmenge |
 | 16 | Orthion, Hero of Lavabrink | Wiederholbar eigene Nichtlegendäre kopieren; Aktivierung für fünf Kopien als Spätspiel-Plan | Tap-Fähigkeit braucht aktiven Zug und Mana |
 | 17 | Jaxis, the Troublemaker | Günstige wiederholbare Kopien; eigene Tokens bleiben und Draw beim Sterben möglich | Verbraucht Karten beim Aktivieren, nur andere Kreatur als Ziel |
 | 18 | Feldon of the Third Path | Holt ETB-Wesen als Artefakt-Kreaturentoken aus dem eigenen Friedhof | Braucht zuvor verlorene Kreaturen und einen Zug/haste |
 | 19 | Redoubled Stormsinger | Verdoppelt im selben Angriff frisch erzeugte Myriad-Tokens, wenn Trigger passend gestapelt | Mit dem Commander anzugreifen ist nötig, anfällig vor Combat |
 | 20 | Delina, Wild Mage | Jeder eigene Angriff kann mehrere dauerhafte Kreaturenkopien erzeugen | Würfelabhängig, muss angreifen |
-| 21 | Mimic Vat | Speichert sterbende Nontokens und erzeugt wiederholbare ETB-Kopien aus jedem Friedhof | Benötigt einen Kreaturentod plus drei Mana pro Aktivierung |
+| 21 | Splinter Twin | Wiederholbare Tap-Kopien eigener ETB-/Myriad-Kreaturen; Master bewahrt Token trotz verzögertem Exiltrigger | Vier Mana für Aura; Removal kann verzaubertes Wesen samt Aura zerstören |
 | 22 | Karlach, Fury of Avernus | Zusätzlicher Kampf samt Enttappen beim ersten Combat; legendär kopierbar | Funktioniert nicht mehrfach pro Runde allein durch Kopien im späteren Combat |
 | 23 | Bitter Reunion | Zwei Karten nach Abwurf und optional Eile für alle Kreaturen | Einmalige Eile-Aktivierung mit Opferkosten |
 | 24 | Roaming Throne | Verdoppelt mit Wahl 'Time Lord' die Master-Myriad-Angriffsauslösung | Vier Mana, Typwahl unterstützt nicht automatisch restliche Kreaturen |
@@ -101,11 +127,11 @@ Alle 100 Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. �
 | 42 | Fable of the Mirror-Breaker | Goblin-Treasure, Handfilter und dauerhafte Kopier-Engine | Sagenkapitel verzögert den Wert |
 | 43 | Impact Tremors | Früher und schwer angreifbarer Token-ETB-Schadensverstärker | Kein Body, ohne Tokens wirkungslos |
 | 44 | Purphoros, God of the Forge | Zwei Schaden an jeden Gegner pro eintretender Kreatur, oft unzerstörbar | Unter fünf roter Hingabe keine Kreatur; legendäre Nichtkreaturentokens nicht geschützt |
-| 45 | Shared Animosity | Massive Schadensskalierung beim zweiten Master-Angriff | Wenig Nutzen bei blockierter Armee ohne Trample |
+| 45 | Shredder, Shadow Master | Kopiert sich angreifend selbst gegen die anderen Gegner; Treffer halbieren deren verbleibende Lebenspunkte; Master hält Tokens | Fünf Mana und Kampfschaden erforderlich, kein eigener Evasion-Text |
 | 46 | Black Market Connections | Treasure, Karten oder Shapeshifter flexibel jede Runde | Lebenspunkte-Tax kann gefährlich eskalieren |
 | 47 | Goblin Bombardment | Antwort auf Exil/Wipe und punktgenauer Abschluss durch Tokenopfer | Opferkosten werden vom Master nicht verhindert |
 | 48 | Aggravated Assault | Unbegrenzt oft aktivierbares 5-Mana-Kampfplus bei genügend Ressourcen, enttappt alle Kreaturen | Manaintensiv; gefährliche Kombinationen mit speziellen Manaquellen daher gemieden |
-| 49 | Rising of the Day | Dauerhafte Eile und Legenden-Angriffskraft durch Enchantment | Redundant mit Samut, bei langer Partie aber sinnvoll |
+| 49 | Brotherhood Regalia | Legendärer Master oder Shredder kann für 1 Equip Ward 2 und Unblockbarkeit bekommen; frühe Absicherung | Keine Eile und keine Wirkung auf ungerüstete Myriad-Tokens |
 | 50 | Demonic Tutor | Flexibler Tutor findet die benötigte Engine oder Antwort | Einer der drei offiziellen Game Changer |
 | 51 | Jeska's Will | Großer roter Mana- und Kartenburst für Commander oder Finisher | Einer der drei Game Changer; schwankt mit gegnerischer Hand |
 | 52 | Twinflame | Zwei-Mana-Eile-Kopie eigener Kreatur, spätere zusätzlichen Ziele möglich | Nur eigene Kreaturen und Kopien ohne Master vergänglich |
@@ -140,7 +166,7 @@ Alle 100 Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. �
 | 81 | Command Beacon | Umgeht spätere Commander-Steuer einmalig über Hand | Farblos bis zur Aktivierung |
 | 82 | Arena of Glory | Beschleunigt rote Kreatur und kann ihr Eile geben | Exert verhindert Enttappen im nächsten Untap-Step |
 | 83 | Shizo, Death's Storehouse | Schwarzes Land mit Fear-Evasion für legendäre Master-Karten und Tokens | Fear kann von Schwarz/Artefakt geblockt werden |
-| 84 | Rogue's Passage | Sichert das Durchkommen eines essenziellen Angreifers | Vier Mana plus Tap ist kostspielig |
+| 84 | War Room | Zieht unabhängig von Master Karten als Farblos-Land, ohne zusätzlichen Spellslot | Aktivierung kostet 3 Mana, Tappen und 2 Leben |
 | 85 | Phyrexian Tower | Opferungsressource zu zwei schwarzen Mana, mit Token-Überschuss brauchbar | Opferkosten bleiben auch bei Master Pflicht |
 | 86 | Takenuma, Abandoned Mire | MDFC-ähnlicher Channel-Wiedergewinn von Kreaturen | Aktivierungswert situativ |
 | 87 | Sokenzan, Crucible of Defiance | Rotes Land, im Spätspiel Token über Channel | Token alleine klein |
@@ -165,4 +191,4 @@ python3 decks/the-master-multiplied/validate.py
 python3 decks/the-master-multiplied/validate.py --oracle
 ```
 
-Diese Tests validieren importierbare Listen, V1/V2-Abgrenzung und aktuelle Oracle-Namen, Commander-Legalität, Farbidentität, Landzählung, Game-Changer-Flags und Manakurve. Sie simulieren weder einen vollständigen Magic-Priority-/State-Based-Action-Stack noch echte Multiplayer-Partien. Ohne solche Partietests werden keine Kampfabläufe als end-to-end „getestet“ bezeichnet.
+Diese Tests validieren importierbare Listen, V1/V2/V3-Archivierung und aktuelle Oracle-Namen, Commander-Legalität, Farbidentität, Landzählung, Game-Changer-Flags und Manakurve. Sie simulieren weder einen vollständigen Magic-Priority-/State-Based-Action-Stack noch echte Multiplayer-Partien. Ohne solche Partietests werden keine Kampfabläufe als end-to-end „getestet“ bezeichnet.

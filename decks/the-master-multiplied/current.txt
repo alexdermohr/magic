@@ -11,14 +11,14 @@
 1 Professional Face-Breaker
 1 Grenzo, Havoc Raiser
 1 Mishra, Claimed by Gix
-1 Heat Shimmer
+1 Wheel of Fortune
 1 Ob Nixilis, Captive Kingpin
 1 Orthion, Hero of Lavabrink
 1 Jaxis, the Troublemaker
 1 Feldon of the Third Path
 1 Redoubled Stormsinger
 1 Delina, Wild Mage
-1 Mimic Vat
+1 Splinter Twin
 1 Karlach, Fury of Avernus
 1 Bitter Reunion
 1 Roaming Throne
@@ -42,11 +42,11 @@
 1 Fable of the Mirror-Breaker
 1 Impact Tremors
 1 Purphoros, God of the Forge
-1 Shared Animosity
+1 Shredder, Shadow Master
 1 Black Market Connections
 1 Goblin Bombardment
 1 Aggravated Assault
-1 Rising of the Day
+1 Brotherhood Regalia
 1 Demonic Tutor
 1 Jeska's Will
 1 Twinflame
@@ -81,7 +81,7 @@
 1 Command Beacon
 1 Arena of Glory
 1 Shizo, Death's Storehouse
-1 Rogue's Passage
+1 War Room
 1 Phyrexian Tower
 1 Takenuma, Abandoned Mire
 1 Sokenzan, Crucible of Defiance

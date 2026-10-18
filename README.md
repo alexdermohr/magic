@@ -110,9 +110,9 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## The Master, Multiplied — Die vervielfachte Armee
 
-**Bracket 3 / Upgraded (V3, 18.10.2026):** Rakdos-Myriad und permanente Kreaturentokens durch die statischen Fähigkeiten des Commanders; explosive Attacken, ETB-Schaden und gezielte Legendenkopien.
+**Bracket 3 / Upgraded (V4, 18.10.2026):** Rakdos-Myriad und permanente Kreaturentokens durch die statischen Fähigkeiten des Commanders; explosive Attacken, ETB-Schaden und gezielte Legendenkopien.
 
 - Aktuelle 100-Karten-Liste: [decks/the-master-multiplied/current.txt](decks/the-master-multiplied/current.txt)
 - Strategie, Regeln und Bedienung: [decks/the-master-multiplied/README.md](decks/the-master-multiplied/README.md)
-- Einzelkarten-/Alternativenanalyse und zwei frühere Versionen: [decks/the-master-multiplied/analysis.md](decks/the-master-multiplied/analysis.md) · [Versionen](decks/the-master-multiplied/versions/)
+- Einzelkarten-/Alternativenanalyse und drei frühere Versionen: [decks/the-master-multiplied/analysis.md](decks/the-master-multiplied/analysis.md) · [Versionen](decks/the-master-multiplied/versions/)
 - Reproduzierbarer Live-Oracle-Test: `python3 decks/the-master-multiplied/validate.py --oracle`

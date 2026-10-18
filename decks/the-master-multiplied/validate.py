@@ -23,6 +23,13 @@ SWAPS_V2_TO_V3 = {
     "Sauron, the Necromancer": "Mimic Vat",
     "Gemstone Caverns": "Hall of Echoes",
 }
+SWAPS_V3_TO_V4 = {
+    "Shared Animosity": "Shredder, Shadow Master",
+    "Mimic Vat": "Splinter Twin",
+    "Heat Shimmer": "Wheel of Fortune",
+    "Rising of the Day": "Brotherhood Regalia",
+    "Rogue's Passage": "War Room",
+}
 
 def assert_ok(condition: bool, message: str) -> None:
     if not condition:
@@ -47,7 +54,7 @@ def oracle(cards: list[str]) -> dict[str,dict]:
         body=json.dumps({"identifiers":[{"name":c} for c in group]}).encode("utf-8")
         req=urllib.request.Request(
             "https://api.scryfall.com/cards/collection",data=body,
-            headers={"User-Agent":"TheMasterB3Validator/3.0 (https://github.com/alexdermohr/magic)",
+            headers={"User-Agent":"TheMasterB3Validator/4.0 (https://github.com/alexdermohr/magic)",
                      "Accept":"application/json","Content-Type":"application/json"},method="POST")
         with urllib.request.urlopen(req,timeout=20) as res:
             data=json.load(res)
@@ -67,15 +74,20 @@ def main() -> int:
     current=names(ROOT/"current.txt")
     v1=names(ROOT/"versions/2026-10-18-b3-v1.txt")
     v2=names(ROOT/"versions/2026-10-18-b3-v2.txt")
+    v3=names(ROOT/"versions/2026-10-18-b3-v3.txt")
     for required in ["README.md","analysis.md"]:
         assert_ok((ROOT/required).is_file(),f"Missing documentation {required}")
-    changed_out=set(v2)-set(current)
-    changed_in=set(current)-set(v2)
-    assert_ok(changed_out==set(SWAPS_V2_TO_V3),f"V2 outgoing swap mismatch: {sorted(changed_out)}")
-    assert_ok(changed_in==set(SWAPS_V2_TO_V3.values()),f"V3 incoming swap mismatch: {sorted(changed_in)}")
-    assert_ok(set(v1)!=set(v2) and set(v1)!=set(current),"Historical versions not distinct")
+    out23=set(v2)-set(v3)
+    in23=set(v3)-set(v2)
+    out34=set(v3)-set(current)
+    in34=set(current)-set(v3)
+    assert_ok(out23==set(SWAPS_V2_TO_V3),f"V2 outgoing swap mismatch: {sorted(out23)}")
+    assert_ok(in23==set(SWAPS_V2_TO_V3.values()),f"V3 incoming swap mismatch: {sorted(in23)}")
+    assert_ok(out34==set(SWAPS_V3_TO_V4),f"V3 outgoing swap mismatch: {sorted(out34)}")
+    assert_ok(in34==set(SWAPS_V3_TO_V4.values()),f"V4 incoming swap mismatch: {sorted(in34)}")
+    assert_ok(len({frozenset(v) for v in [v1,v2,v3,current]})==4,"Historical versions not distinct")
     assert_ok(not {"Combat Celebrant","Kiki-Jiki, Mirror Breaker"} & set(current),"Early combo package unexpectedly restored")
-    print("STRUCTURE PASS: 100 cards incl. commander; 6 basics; 2 real older versions; 8 validated V2->V3 replacements")
+    print("STRUCTURE PASS: 100 cards incl. commander; 6 basics; V1/V2/V3 archived; 8 V2->V3 and 5 V3->V4 replacements")
     if not a.oracle:
         print("LIVE ORACLE NOT RUN (execute with --oracle)")
         return 0
