@@ -76,6 +76,41 @@ class DeckValidationTests(unittest.TestCase):
         )
 
 
+
+    def test_r3_remaining_ascii_punctuation_in_literal_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for char in ("@", "=", "!"):
+            relative = f"decks/sample/missing{char}copy.md"
+            with self.subTest(char=char):
+                self.assertIn(
+                    (True, relative),
+                    rendered_markdown_references(relative),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    relative + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+                doc = self.root / relative
+                doc.write_text("existing", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                doc.unlink()
+                self.assertNotIn(
+                    (True, "decks/sample/guide.md"),
+                    rendered_markdown_references(
+                        f"decks/sample/guide.md{char}copy"
+                    ),
+                )
+
+    def test_r3_nfc_after_casefold_rejects_canonically_equal_names(self) -> None:
+        self.write_deck(
+            "1 Sample Commander\n1 \u0390\n1 \u0399\u0308\u0301\n97 Plains\n"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "duplicate nonbasic"):
+            validate_list(self.deck)
+
     def test_r3_source_element_is_transparent_in_visible_paths(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for value in (
