@@ -8,6 +8,7 @@ from collections import Counter
 from pathlib import Path
 import re
 import sys
+import unicodedata
 from urllib.parse import unquote
 
 BASICS = frozenset({
@@ -514,7 +515,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             # Other attributes are not navigation targets and stay opaque.
             attribute = "href" if tag == "a" else "src" if tag == "img" else None
             if attribute is not None:
-                value = dict(attrs).get(attribute)
+                value = next((v for key, v in attrs if key == attribute), None)
                 if isinstance(value, str):
                     self.destinations.append(value)
 
@@ -770,6 +771,15 @@ def gfm_www_autolink_prefix(prefix: str) -> bool:
     return False
 
 
+def unicode_filename_continuation(character: str) -> bool:
+    """Unicode letters, marks and symbols continue paths; punctuation ends them."""
+    return (
+        ord(character) > 127
+        and not character.isspace()
+        and unicodedata.category(character)[0] != "P"
+    )
+
+
 def literal_deck_references(
     content: str, *, suppress_bare_autolinks: bool = True
 ) -> list[str]:
@@ -782,7 +792,7 @@ def literal_deck_references(
         end = start + 6
         while end < length and (
             content[end] in _DECK_PATH_CHARS
-            or (ord(content[end]) > 127 and not content[end].isspace())
+            or unicode_filename_continuation(content[end])
         ):
             end += 1
 
@@ -794,7 +804,7 @@ def literal_deck_references(
             if candidate_end < length:
                 following = content[candidate_end]
                 if (following.isalnum() or following in "_/~+-"
-                        or (ord(following) > 127 and not following.isspace())
+                        or unicode_filename_continuation(following)
                         or (following == "." and candidate_end + 1 < length
                             and (content[candidate_end + 1].isalnum()
                                  or content[candidate_end + 1] in "_-"))):

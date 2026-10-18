@@ -327,6 +327,50 @@ class DeckValidationTests(unittest.TestCase):
                 else:
                     self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_r3_duplicate_raw_html_targets_use_first_attribute(self) -> None:
+        # GitHub GFM preserves the first href/src for duplicate attributes.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source, missing in (
+            ('<a href="sample/missing.md" href="https://outside.test">safe</a>',
+             "sample/missing.md"),
+            ('<img src="sample/missing.png" src="https://outside.test/x.png">',
+             "sample/missing.png"),
+            ('<div><a href="sample/missing.md" href="https://outside.test">'
+             'safe</a></div>', "sample/missing.md"),
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, missing):
+                    validate_repository(self.root)
+        for source in (
+            '<a href="https://outside.test" href="sample/missing.md">safe</a>',
+            '<img src="https://outside.test/x.png" src="sample/missing.png">',
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_r3_unicode_punctuation_terminates_visible_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for punctuation in ("…", "，", "。"):
+            source = "decks/sample/missing.md" + punctuation
+            with self.subTest(source=source):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
     def test_r3_list_marker_interrupts_table_on_github(self) -> None:
         # GitHub GFM closes tables at list starts even with a pipe inside.
         # The following Markdown is code, not a live missing link.
