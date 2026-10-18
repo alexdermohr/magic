@@ -808,7 +808,15 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 # Comments and transparent text-level HTML add no visible
                 # separator; their attributes and bodies are never scanned.
                 if isinstance(raw, str):
-                    if re.fullmatch(r"<!--[\s\S]*?-->", raw):
+                    if (
+                        re.fullmatch(r"<!--[\s\S]*?-->", raw)
+                        or (raw.startswith("<?") and raw.endswith("?>"))
+                        or re.fullmatch(r"(?is)<!DOCTYPE\s[^>]*>", raw)
+                        or (raw.startswith("<![CDATA[") and raw.endswith("]]>"))
+                    ):
+                        # GFM emits these as invisible HTML comments,
+                        # declarations or processing instructions; browsers
+                        # join the surrounding visible text unchanged.
                         return
                     if re.match(r"(?i)^<(?:a|img)(?=[\s/>])", raw):
                         visitor = VisibleRawHTML()

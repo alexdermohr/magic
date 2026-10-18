@@ -86,6 +86,52 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_invisible_processing_instruction_and_declarations_preserve_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for markup in (
+            "<?x?>",
+            "<?php echo 'x';?>",
+            "<!DOCTYPE html>",
+            "<![CDATA[hidden]]>",
+            "<!-- hidden -->",
+        ):
+            source = f"decks/sample/miss{markup}ing.md"
+            with self.subTest(markup=markup):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+                target = self.root / "decks" / "sample" / "missing.md"
+                target.write_text("exists", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                target.unlink()
+
+    def test_r3_invisible_processing_instruction_never_hides_other_references(self) -> None:
+        source = (
+            "decks/sample/miss<?x decks/sample/hidden.md ?>ing.md"
+            " and decks/sample/outside.md"
+        )
+        references = rendered_markdown_references(source)
+        self.assertIn((True, "decks/sample/missing.md"), references)
+        self.assertIn((True, "decks/sample/outside.md"), references)
+        self.assertNotIn((True, "decks/sample/hidden.md"), references)
+        # Unknown non-HTML declarations are literal visible text, not
+        # transparent markup; do not join their adjacent filename fragments.
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "decks/sample/miss<!bogus>ing.md"
+            ),
+        )
+
     def test_r3_escaped_terminal_punctuation_is_filename_not_prose(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for char in (">", ",", ";", ")", "]", "}", '"', "'"):
