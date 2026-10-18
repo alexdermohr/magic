@@ -36,7 +36,7 @@ Besonders wertvoll sind nicht nur viele Körper auf dem Tisch, sondern dauerhaft
 - **Wheel of Fortune** füllt eine nach Ramp, Kopierzaubern und Removal geleerte Hand für drei Mana mit sieben Karten. Gegenargument: Auch Gegner erhalten sieben Karten; möglichst nach eigenem Mana-/Boardvorsprung einsetzen.
 - **Brotherhood Regalia** gibt dem ausgerüsteten Wesen Ward {2} und Unblockbarkeit; das Anlegen an eine **legendäre Kreatur** kostet nur {1}. Damit schützen wir Master oder Shredder gezielt vor Blockern. Myriad-Kopien übernehmen Ausrüstungen und dadurch verliehene Fähigkeiten **nicht**.
 - **War Room** ist ein farbloses Land und zieht auch in langen Spielen *ohne Master* für {3}, {T} und zwei Leben eine Karte.
-- **Splinter Twin** ist die wiederholbare eigene Kreaturenkopie: Solange ein Master-Objekt seine statische Fähigkeit besitzt, bleibt der mithilfe der aktivierten Fähigkeit erzeugte Kreaturentoken nach der Endstep-Auslösung erhalten. Die verliehene Tap-Fähigkeit wird **nicht** mitkopiert.
+- **Splinter Twin** ist die wiederholbare eigene Kreaturenkopie: Solange ein Master-Objekt seine statische Fähigkeit besitzt, bleibt der mithilfe der aktivierten Fähigkeit erzeugte Kreaturentoken nach der Endstep-Auslösung erhalten. Die verliehene Tap-Fähigkeit wird **nicht** mitkopiert. Auch **Orthion, Hero of Lavabrink** darf jede *andere* Kreatur, also gerade auch den legendären Master, kopieren (ein Token für {1}{R} oder fünf für {6}{R}{R}{R}, jeweils zusätzlich {T}); nur die erzeugten Kreaturentokens sind durch Master gegen den späteren Opfertrigger geschützt.
 
 **V4-Tauschliste und kritische Gegenabwägung:** [analysis.md](analysis.md). Keine zusätzlichen Game Changer; keine neue schnelle Zwei-Karten-Endlosschleife ist absichtlich eingebaut.
 
@@ -53,11 +53,12 @@ Besonders wertvoll sind nicht nur viele Körper auf dem Tisch, sondern dauerhaft
 ## Regeln, die leicht falsch gespielt werden
 
 - **Nur getriggertes Opfer/Exil verhindert:** nicht die Legendenregel für Nicht-Kreaturentokens, nicht Zerstören, ein Opfer als Zauber-/Aktivierungskosten, Ersatzeffekte, gegnerische Triggers oder die Regeln für zustandsbasierte Aktionen.
+- **Mirkwood Bats:** Verursacht je einen Lebensverlust pro **erzeugtem oder geopfertem** Token (für jeden Gegner); das bloße Sterben eines Tokens durch Kampfschaden, Zerstörung oder Widerstandskraft 0 löst es **nicht** aus.
 - **Wegfall des Originals:** Ein verbleibender Master-Token besitzt dieselben statischen Fähigkeiten. Erst wenn kein permanenter Master mit diesen Fähigkeiten mehr kontrolliert wird, entfällt dieser Schutz. Bereits ohne Wirkung verrechnete einmalige Cleanup-Trigger werden später nicht nachgeholt.
 - **Kopien „angreifend ins Spiel“:** Haben nicht angegriffen im Sinne von `whenever ... attacks`; keine eigene Angriffsauslösung in diesem Combat. ETB- und Kampfschaden-Auslöser funktionieren regulär. Myriad gibt exakt einen Token pro anderem Gegner, nicht pro Blocker.
 - **Free Spells/Commander-Schaden:** Master-Tokenkopien sind keine Commander. Deadly Rollick und Deflecting Swat verlangen für die kostenlose Variante die *echte Commanderkarte* unter unserer Kontrolle. Nur ihr persönlicher Kampfschaden zählt für 21 Commander-Schaden.
 - **Purphoros und Legendenregel:** Unter roter Hingabe fünf ist Purphoros keine Kreatur. Token-Kopien wären dann ggf. legendäre **Nicht-Kreaturentokens** und erhalten keinen Schutz vor der Legendenregel des Masters.
-- **Extrakämpfe:** Great Train Heist mit dem ersten Spree-Modus kostet insgesamt **{3}{R}**, enttappt alle eigenen Kreaturen und erzeugt **keine** zusätzliche Mainphase. Karlach enttappt bei der ersten Kampfphase und schafft eine weitere, nicht bei jedem späteren Combat erneut.
+- **Extrakämpfe:** Great Train Heist mit seinem Extra-Combat-Spree-Modus kostet insgesamt **{2}{R}{R}** (Grundkosten {R} plus Spree-Aufpreis {2}{R}), enttappt alle eigenen Kreaturen und erzeugt **nur beim Wirken während unserer Kampfphase** eine zusätzliche Kampfphase nach der aktuellen. Der Modus erzeugt **keine** zusätzliche Hauptphase. Karlach enttappt bei der ersten Kampfphase und schafft eine weitere, nicht bei jedem späteren Combat erneut.
 - **Schutzlücken:** Dolmen Gate verhindert ausschließlich Kampfschaden an eigenen angreifenden Kreaturen, kein Spot- oder Mass-Removal. Shizo gibt Fear statt echter Unblockbarkeit; Brotherhood Regalia macht nur das **ausgerüstete** Wesen unblockbar und gibt Ward {2} (kein Hexproof).
 
 ## Typischer Sieg ohne The Master

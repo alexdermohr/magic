@@ -54,6 +54,14 @@ Jeder dieser Master-Tokens hat selbst die legendäre Ausnahme und das Präventio
 - **Cybermen Squadron:** Sieben Mana, verteilt Myriad nur an **nichtlegendäre Artefaktkreaturen**. Die meisten gewählten Angriffsträger sind keine solche Kreaturen.
 - **The One Ring / Mana Vault / Necropotence:** Starke Game Changer, würden aber die drei fest belegten GC-Plätze neu aufteilen; Ancient Tomb beschleunigt wiederholt, Demonic Tutor findet Schutz und Kombo-Payoff, Jeska's Will gibt Burst-Mana und Optionen.
 
+## Prüfung von drei vorhandenen PR-Reviewhinweisen (Oracle-Stand 18.10.2026)
+
+- **Great Train Heist:** Exakter Gesamtpreis des Extra-Combat-Modus: **{2}{R}{R}**, nicht {3}{R}; der Spree-Zusatzpreis {2}{R} kommt zu den Grundkosten {R}. Nur während *unserer Kampfphase* gibt es eine weitere Kampfphase, keine Mainphase.
+- **Orthion, Hero of Lavabrink:** Kopierziel ist jede *andere* eigene Kreatur, auch eine **legendäre**. Die fünf Master-Kopien des zweiten Modus bleiben als Tokens bestehen, sofern The Masters statische Fähigkeit bei Verrechnung des verzögerten Opfertriggers aktiv ist. Die Auswahl „Nichtlegendäre“ war falsch.
+- **Mirkwood Bats:** Auslösung nur bei Token-**Erzeugung** und Token-**Opferung**, nicht bei beliebigem Sterben eines Tokens durch Schaden, Zerstörung oder Null-Widerstandskraft. Ein Tokenopfer zählt, auch wenn es als Zauber-/Aktivierungskosten bezahlt wurde.
+
+Diese drei Aussagen wurden gegen die derzeitigen Scryfall-Oracle-Texte verglichen. Die Kartenliste selbst muss dafür nicht geändert werden.
+
 ## Geprüfte weitere Kandidaten ohne Einbau
 
 | Karte | Ergebnis |
@@ -77,7 +85,7 @@ Jeder dieser Master-Tokens hat selbst die legendäre Ausnahme und das Präventio
 5. **Meta-Abhängigkeit:** Splinter Twin ist eine Aura mit 2-für-1-Risiko; Reanimate benötigt passende Friedhöfe. Gegen removalstarkes Meta kann Twin zu langsam werden, während Wheel dem Gegner neue Antworten liefert. Hate/Removal und Game-Changer-Begrenzungen gelten weiter.
 6. **Spielgeschwindigkeit:** Keine dokumentierten Partietests, keine Behauptung über genaue Siegrunde oder Winrate. Beobachte in einer Serie von Viererpartien Anteil Spiele mit farblich rechtzeitigem Master, erster nützlicher Kopie bis Zug 6, Draw-Versorgung bis Zug 8, durchschnittlich durch Wheel an Gegner vergebene Karten und durch Wipes verlorene Boards.
 
-## Einzelkarten-Revision der aktiven V3
+## Einzelkarten-Revision der aktiven V4
 
 Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. „Risiko“ nennt jeweils den stärksten Grund, warum ein Slot trotz seines Nutzens noch ersetzbar sein könnte.
 
@@ -91,14 +99,14 @@ Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt
 | 6 | Gray Merchant of Asphodel | Schwarze Hingabe skaliert mit legendären Gary-Kopien und Blade of Selves | Fünf Mana; schwarze Hingabe nötig |
 | 7 | Massacre Wurm | ETB schwächt Gegnerboards; mehrere Kopien bestrafen Todesfälle massiv | BBB und sechs Mana, auch gegen große Kreaturen nicht immer ausreichend |
 | 8 | Terror of the Peaks | Kopier- und ETB-Engine kann sofort zum Sieg schießen | Fünf Mana, Zielvorgaben und Schaden pro Einzeltrigger |
-| 9 | Mirkwood Bats | Jede Token-Erzeugung oder jeder Tokentod belastet alle Gegner | Vier Mana ohne eigene Angriffspräsenz |
+| 9 | Mirkwood Bats | Jede Tokenerzeugung oder Tokenopferung lässt jeden Gegner 1 Leben verlieren; auch für geopferte Treasure | **Nicht** bei bloßem Tod durch Kampf, Zerstören oder Widerstandskraft 0; vier Mana |
 | 10 | Agate Instigator | Günstiger schadensbasierter ETB-Payoff, multiplizierbar | Gegen ETB-Stopp- und Schutz-Effekte schwächer |
 | 11 | Professional Face-Breaker | Treasures und zusätzliche gespielte Karten aus Kampfschaden | Benötigt erfolgreiche Treffer |
 | 12 | Grenzo, Havoc Raiser | Jeder Treffer kann Goad oder Zugriff auf gegnerische Karten bewirken | Schwach, wenn Angreifer dauerhaft geblockt werden |
 | 13 | Mishra, Claimed by Gix | Jede eigene Angriffserklärung führt zu gegnerischem Lebensverlust; legendär kopierbar | Angriffsbedürftig; Vereinigung mit anderem Halbteil nicht geplant |
 | 14 | Wheel of Fortune | Füllt unabhängig von Master für drei Mana eine leere Hand auf sieben Karten auf; laut Live-Oracle kein Game Changer | Jeder Gegner erhält ebenfalls sieben neue Karten; kann Gegner vor uns stärken |
 | 15 | Ob Nixilis, Captive Kingpin | Wiederholbare Karten-Exileffekte bei exakt einem Lebenspunkt Verlust; gut mit Mirkwood Bats | Trigger nicht bei jeder beliebigen Schadensmenge |
-| 16 | Orthion, Hero of Lavabrink | Wiederholbar eigene Nichtlegendäre kopieren; Aktivierung für fünf Kopien als Spätspiel-Plan | Tap-Fähigkeit braucht aktiven Zug und Mana |
+| 16 | Orthion, Hero of Lavabrink | Kopiert jede **andere eigene Kreatur**, ausdrücklich auch den legendären Master; mit {6}{R}{R}{R} entstehen fünf dauerhafte Kreaturentokens, sofern ein Master schützt | Tap-Fähigkeit als Hexerei; zweiter Modus kostet neun Mana plus Tappen |
 | 17 | Jaxis, the Troublemaker | Günstige wiederholbare Kopien; eigene Tokens bleiben und Draw beim Sterben möglich | Verbraucht Karten beim Aktivieren, nur andere Kreatur als Ziel |
 | 18 | Feldon of the Third Path | Holt ETB-Wesen als Artefakt-Kreaturentoken aus dem eigenen Friedhof | Braucht zuvor verlorene Kreaturen und einen Zug/haste |
 | 19 | Redoubled Stormsinger | Verdoppelt im selben Angriff frisch erzeugte Myriad-Tokens, wenn Trigger passend gestapelt | Mit dem Commander anzugreifen ist nötig, anfällig vor Combat |
@@ -136,7 +144,7 @@ Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt
 | 51 | Jeska's Will | Großer roter Mana- und Kartenburst für Commander oder Finisher | Einer der drei Game Changer; schwankt mit gegnerischer Hand |
 | 52 | Twinflame | Zwei-Mana-Eile-Kopie eigener Kreatur, spätere zusätzlichen Ziele möglich | Nur eigene Kreaturen und Kopien ohne Master vergänglich |
 | 53 | Electroduplicate | Kopiert Kreatur mit Eile und kann aus Friedhof erneut wirken | Drei-Mana-Einzelkopie beim ersten Mal |
-| 54 | Great Train Heist | Sofort-Angriffsenttappen plus zusätzlicher Combat, weitere flexible Modi | Combat-Modus kostet tatsächlich vier Mana und erzeugt keine Mainphase |
+| 54 | Great Train Heist | Spree-Extra-Combat für **{2}{R}{R}** (Grundkosten {R} plus {2}{R}); enttappt alle eigenen Kreaturen, zusätzlicher Combat nur beim Wirken während eigener Kampfphase | Zwei rote Quellen erforderlich; zusätzliche Kampfphase, aber keine neue Mainphase |
 | 55 | Reanimate | Extrem effiziente Wiederherstellung eines Payoff aus jedem Friedhof | Lebensverlust nach Manawert und anfällig für Graveyard-Hate |
 | 56 | Deadly Rollick | Exilt störende Kreatur im kritischen Angriff | Nur mit tatsächlichem Commander kostenlos, nicht bloß Master-Token |
 | 57 | Chaos Warp | Entfernt grundsätzlich jede Art gegnerischer Permanents | Kann dem Gegner zufällig eine relevante Karte geben |
