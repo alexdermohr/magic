@@ -1,6 +1,6 @@
 # Sauron — Optimierung und Einzelprüfung
 
-Stand 2026-10-18. v1 ist der archivierte Erstentwurf; current.txt enthält acht gezielte Optimierungen (v2). Die 100 Einzelpositionen wurden hinsichtlich Regeltext, Tempo, Synergie, Schwachpunkt und möglichem Ersatz überprüft. Bewertung rein theoretisch.
+Stand 2026-10-18. v1, v2 und v3 sind tatsaechlich entstandene 100-Karten-Listen. v1 und v2 liegen unter versions; current.txt ist die optimierte v3. Die 100 Einzelpositionen wurden hinsichtlich Regeltext, Tempo, Synergie, Schwachpunkt und möglichem Ersatz überprüft. Bewertung rein theoretisch.
 
 ## Acht v1 → v2 Wechsel
 
@@ -16,6 +16,18 @@ Stand 2026-10-18. v1 ist der archivierte Erstentwurf; current.txt enthält acht 
 | Fabled Passage | Prismatic Vista | Basic bereits vor dem vierten Land enttappt, bessere frühe Manakurve. |
 
 **Gegenargument:** Living Death oder Psychosis Crawler können im langen Spiel explosiver sein; Trailblazer's Boots braucht nach Equipment-Anlegen kein weiteres Mana, Rogue's Passage funktionierte ohne Kreaturen auf dem Board als Land. Die v2 investiert stattdessen in Turn-2-Farbfixing, sichere Army-Evasion, Ring-Tempt und niedrigere Wincon-Kurve.
+
+## V2 -> V3: fuenf gepruefte Tauschentscheidungen
+
+| Heraus (v2) | Hinein (v3) | Zugewinn | Wichtigstes Gegenargument |
+|---|---|---|---|
+| All Will Be One | Teferi's Ageless Insight | Saurons Ring-Refill wird von 4 auf 8 Karten vergroessert; laeuft auch mit Remora und Wheels | Verliert direkten Amass-Counter-Schaden; braucht Doppelblau |
+| Goblin Plate Mail | My Precious | Army dauerhaft unblockbar und hexproof statt nur Menace, optional Adventure | Mehr Mana und Lebenspunkte, kein sofortiges Amass |
+| Fall of Cair Andros | Birthday Escape | Fuer {U} Draw plus Ring-Tempt, auch ohne ungebremsten Army-Angriff | Explosiver Blasphemous-Act-Amass-Sonderfall entfaellt |
+| Lazotep Plating | March of Swirling Mist | Phasing rettet Sauron und Army gegen viele globale Wraths | Verliert Amass und billigen Board-Hexproof; X kostet Mana |
+| Baleful Strix | Dauthi Voidwalker | Shadow-Ringtraeger, Friedhofs-Hate und exilierter gegnerischer Gratiszauber | Kein ETB-Draw oder Deathtouch; Gegner-Graveyard-Reanimate wird erschwert |
+
+Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal und nicht als Game Changer markiert. Manabasis und die drei Game-Changer-Plaetze bleiben unveraendert. Ziel: weniger Abhaengigkeit von ungebremstem Kampfschaden und besserer Widerstand gegen Boardwipes.
 
 ## Karte für Karte
 
@@ -83,20 +95,20 @@ Stand 2026-10-18. v1 ist der archivierte Erstentwurf; current.txt enthält acht 
 | Rielle, the Everwise | 3.0 | Erster Discard-Vorgang jedes Zugs zieht X Karten zusätzlich. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
 | Roaming Throne | 4.0 | Als Horror bestimmt, verdoppelt es sämtliche ausgelösten Sauron-Fähigkeiten. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
 | Herald of Secret Streams | 4.0 | Alle +1/+1-Counter-Kreaturen können nicht geblockt werden. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
-| Baleful Strix | 2.0 | Flying, deathtouch | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
+| Dauthi Voidwalker | 2.0 | Shadow-Ringtraeger, exiliert Gegnergraveyards und kann kostenlos einen gegnerischen Spell wirken | Verliert Baleful-Strix-ETB-Karte; stoert Reanimate auf gegnerische Ziele |
 | Orcish Bowmasters | 2.0 | GC-ETB und Extra-Draw-Amass, wächst Army und pings. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
 | Great Goblin, Foul-Hearted | 5.0 | Amass Goblins 3 bei ETB oder Attack, allen Army-Kreaturen Trample. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
 | Call of the Ring | 2.0 | Regelmäßiges Tempt jeder Upkeep auch ohne kampfbereite Army. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | March from the Black Gate | 2.0 | When this enchantment enters and whenever an Army you control attacks, amass Orcs 1. (Put a +1/+1 counter on an Army you cont | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Cool but Rude | 2.0 | Für 1R Level 2 kaufen: JEDE abgeworfene Karte verursacht jedem Gegner zwei Schaden. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
-| Fall of Cair Andros | 3.0 | Blasphemous Act verursacht excess noncombat damage an Gegnerkreaturen und macht große neue Army. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
+| Birthday Escape | 1.0 | Einmana-Cantrip mit anschliessender Ring-Versuchung; wiederholbare Draw-Engine mit Sauron | Ohne Sauron nur ein Cantrip, nicht wiederholbar |
 | The Ozolith | 1.0 | Konserviert +1/+1-Marken aus einer Army, Neuübertragung erst nächster Combat. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
-| Goblin Plate Mail | 2.0 | When this Equipment enters, amass Goblins 1, then attach this Equipment to the amassed Army. (To amass Goblins 1, put a +1/+1 | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
+| My Precious | 3.0 | Hobbit-Equipment: Hexproof und unblockbar, Equip {2} plus 2 Leben; Adventure kann Draw liefern | Teurer als Goblin Plate Mail, kein Amass-ETB |
 | Brotherhood Regalia | 2.0 | Unblockbar und Ward2, Equip an legendärem Ringbearer kostet 1. | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
 | Key to the Side-Door | 1.0 | Ein Mana Artefakt plus zweimalige Farblose Mana und Tappen für Unblockbarkeit. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Shadowspear | 1.0 | Equipped creature gets +1/+1 and has trample and lifelink. | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
 | Rhystic Study | 3.0 | GC-Kartenziehen zu jedem Gegnerzauber ohne Zahlung 1. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
-| All Will Be One | 5.0 | Jede Gruppe neuer +1/+1-Counter wird zu X direktem Schaden. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
+| Teferi's Ageless Insight | 4.0 | Replacement: Sauron zieht ausserhalb des Ziehsegments acht statt vier; verdoppelt auch andere echte Draws | Vier Mana und Doppelblau; ersetzt nicht den frueheren Counter-Schadensfinisher |
 | Mystic Remora | 1.0 | Cumulative upkeep {1} (At the beginning of your upkeep, put an age counter on this permanent, then sacrifice it unless you pa | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Black Market Connections | 3.0 | Treasure, Draw und Changeling, der selbst der Kreaturentyp Army ist. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Demonic Tutor | 2.0 | GC-Universalsuche nach fehlender Engine/Antwort. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
@@ -109,7 +121,7 @@ Stand 2026-10-18. v1 ist der archivierte Erstentwurf; current.txt enthält acht 
 | Sauron's Ransom | 3.0 | Instant-Dig aus vier Karten, beliebige Verteilung in zwei Piles, Tempt. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Reanimate | 1.0 | Ein Mana für bedrohte oder abgeworfene Engines aus jedem Graveyard. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Toxic Deluge | 3.0 | Flexible -X/-X gegen ganze Kreaturenfront; kostet Leben und eigene Army. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
-| Blasphemous Act | 9.0 | Multipler großer Creature-Wipe, mit Fall of Cair Andros Amass-Übermaß. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
+| Blasphemous Act | 9.0 | Multipler großer Creature-Wipe, kostet dank Gegnerkreaturen oft nur {R} und raeumt das Board. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
 | Monument to Endurance | 3.0 | Bei bis zu drei Discards je Zug je einen der unterschiedlichen Modi Draw, Treasure, Drain 3. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Mana Drain | 2.0 | Counter target spell. At the beginning of your next main phase, add an amount of {C} equal to that spell's mana value. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Arcane Denial | 2.0 | Counter target spell. Its controller may draw up to two cards at the beginning of the next turn's upkeep. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
@@ -119,16 +131,15 @@ Stand 2026-10-18. v1 ist der archivierte Erstentwurf; current.txt enthält acht 
 | Feed the Swarm | 2.0 | Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent's mana value. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Deadly Rollick | 4.0 | If you control a commander, you may cast this spell without paying its mana cost. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Slip Out the Back | 1.0 | Put a +1/+1 counter on target creature. It phases out. (Treat it and anything attached to it as though they don't exist until | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
-| Lazotep Plating | 2.0 | Hexproof für eigene Permanents und Amass; keine Wrath-Protection. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
+| March of Swirling Mist | 1.0 | Phase X Kreaturen fuer {X}{U}; schuetzt Army und Sauron gegen globale Antworten | Bei X=2 sind 3 Mana noetig; keine neue Amass-Marke |
 | Swiftfoot Boots | 2.0 | Ein Equip für Hexproof/Haste, aber kein nichtzielender Wrath-Schutz. | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
 
 ## Live-Daten und probabilistische Stichprobe
 
-- v1 und v2 je 100 unterschiedliche Karten. 108 verschiedene Oracle-Karten über beide Listen, alle über Scryfall /cards/collection erkannt, Grixis, Papierkarten und Commander-legal.
-- In v2: **37 Länder**, **62 Nichtlandkarten ohne Commander**, **12 Rampquellen**, **3 Game Changer**: Orcish Bowmasters, Rhystic Study, Demonic Tutor.
-- Durchschnitt MV Nichtländer ohne Commander: **2.774**. Histogramm: 1:10, 2:23, 3:15, 4:5, 5:6, 6+:3.
-- Reproduzierbare 50.000 Ziehungsstichproben (Seed 20261018; 10 Karten ohne Ersatz aus 99, kein Mulligan): erste sieben Karten mit >=2 Ländern **81.33%**; erste zehn Karten mit >=3 Ländern **80.03%**; erste sieben Karten mit >=2 Ländern und wenigstens einem der 12 Ramp-Slots **46.77%**.
-- Dies sind Ziehungsquoten, keine Simulation von Zügen, gegnerischem Verhalten oder Winrate. Git-Diff-Prüfung erfolgt nach Erstellung.
+- v3 enthaelt 100 verschiedene Karten, darunter 1 Commander, 37 Laender, 62 Nichtland-Karten und 12 Manaartefakte. Die drei Game Changer bleiben Demonic Tutor, Rhystic Study und Orcish Bowmasters. Ein abschliessender frischer Live-Abgleich folgt auf genau diesen Stand.
+- Durchschnittlicher MV der 62 Nichtland-Karten ohne Commander: 2.726 (v2: 2.774). Histogramm: 1:12, 2:21, 3:15, 4:6, 5:5, 6+:3.
+- Exakt berechnete hypergeometrische Wahrscheinlichkeiten (99 Karten, 37 Laender, 12 Rocks, kein Mulligan): erste 7 >=2 Laender 81.42 %, erste 10 >=3 Laender 80.04 %, erste 7 >=2 Laender und mindestens ein Ramp-Artefakt 46.79 %.
+- Die Starthand-Wahrscheinlichkeiten sind in v2 und v3 identisch, weil Laender und Ramp unveraendert bleiben; dies sind keine simulierten Partien oder Gewinnquoten.
 
 ## Bewusst ausgeschlossene Optionen
 
@@ -140,6 +151,15 @@ Stand 2026-10-18. v1 ist der archivierte Erstentwurf; current.txt enthält acht 
 - Rakdos Charm und Vandalblast: Metagame-Antworten, die bei vielen Graveyard- oder Artifact-Decks einen Value-Slot ersetzen sollten.
 - Glamdring, Foe-hammer: interessante Army-Power-Kostenreduktion, aber zusätzliche Equip-Vorleistung und niedrigere Instant-/Sorcery-Dichte als ein Spellslinger-Deck.
 - Impact Tremors: Amass erzeugt bei bestehender Army keinen neuen Token; deshalb als Plan ungeeignet.
+
+## Zusaetzlich bewertete Kandidaten
+
+- The Reaver Cleaver: hoher Treasure-Ertrag nach Army-Kampfschaden, aber 3 Mana plus Equip 3 und bereits erfolgreiche Evasion noetig.
+- Kazuul's Fury: Instant-Fling auf einer getappt ins Spiel kommenden roten Landrueckseite; Board-Opfer und Tempoverlust sind relevante Nachteile.
+- Library of Leng: konserviert wichtige Discard-Karten oben auf der Bibliothek, kann aber die Netto-Kartenauswahl verlangsamen.
+- Containment Construct: macht abgeworfene Karten im selben Zug spielbar; oft fehlt nach Saurons Turn jedoch Mana zum Ausspielen.
+- Talion, the Kindly Lord: generisch starker Draw- und Life-Drain-Motor, aber weniger Mordor-Identitaet als die gewaehlteten Synergien.
+- Ledger Shredder: effizienter Connive-Engine- und Ringtraeger, aber keine Friedhofskontrolle; Dauthi ist der groessere Lueckenschluss.
 
 ## Grenzen
 
