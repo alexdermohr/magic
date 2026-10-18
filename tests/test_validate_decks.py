@@ -82,6 +82,41 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_visible_interior_ascii_filename_punctuation_is_checked(self) -> None:
+        # GitHub GFM renders each character as literal prose within filenames.
+        # These are not markdown/HTML/CSV separators; never silently skip them.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for char in ("%", "^", "#", "?", ":", "|", "{", "}"):
+            target = f"decks/sample/missing{char}copy.md"
+            with self.subTest(char=char):
+                self.assertIn(
+                    (True, target), rendered_markdown_references(target)
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    target + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+                document = self.root / target
+                document.write_text("existing", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                document.unlink()
+                self.assertNotIn(
+                    (True, "decks/sample/guide.md"),
+                    rendered_markdown_references(
+                        f"decks/sample/guide.md{char}copy"
+                    ),
+                )
+        self.assertIn(
+            (True, "decks/sample/guide.md%copy.md"),
+            rendered_markdown_references(
+                "decks/sample/guide.md%copy.md"
+            ),
+        )
+
     def test_r3_block_html_image_inside_inline_pre_is_live(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for tag, path in (
