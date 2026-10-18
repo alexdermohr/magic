@@ -411,6 +411,30 @@ class DeckValidationTests(unittest.TestCase):
                     rendered_markdown_references(source),
                 )
 
+    def test_r3_literal_plus_and_tilde_filenames_are_checked(self) -> None:
+        # GitHub GFM shows + and ~ in bare paths, not as separators.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for relative in (
+            "decks/sample/missing+copy.md",
+            "decks/sample/missing~copy.md",
+            "decks/sample/missing+copy~2.md",
+        ):
+            with self.subTest(reference=relative):
+                self.assertIn(
+                    (True, relative), rendered_markdown_references(relative)
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    relative + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+                path = self.root / relative
+                path.write_text("Valid local deck document", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                path.unlink()
+
     def test_r3_list_marker_interrupts_table_on_github(self) -> None:
         # GitHub GFM closes tables at list starts even with a pipe inside.
         # The following Markdown is code, not a live missing link.
@@ -2180,18 +2204,26 @@ class DeckValidationTests(unittest.TestCase):
                     validate_repository(self.root)
 
     def test_gfm_strikethrough_does_not_strip_literal_or_triple_tildes(self) -> None:
+        # GitHub GFM keeps these lone/triple tildes in visible filenames;
+        # escaped tildes also render literally. None may hide a missing file.
         self.write_deck("1 Sample Commander\n99 Plains\n")
-        for source in (
-            "decks/sample/~~~miss~~~ing.md",
-            r"decks/sample/\~miss\~ing.md",
-            "decks/sample/~missing.md",
-            "decks/sample/~~miss~ing.md",
+        for source, visible in (
+            ("decks/sample/~~~miss~~~ing.md", "decks/sample/~~~miss~~~ing.md"),
+            (r"decks/sample/\~miss\~ing.md", "decks/sample/~miss~ing.md"),
+            ("decks/sample/~missing.md", "decks/sample/~missing.md"),
+            ("decks/sample/~~miss~ing.md", "decks/sample/~~miss~ing.md"),
         ):
             with self.subTest(source=source):
+                self.assertIn(
+                    (True, visible), rendered_markdown_references(source)
+                )
                 (self.root / "decks" / "README.md").write_text(
                     source + "\n", encoding="utf-8"
                 )
-                self.assertEqual(len(validate_repository(self.root)), 1)
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
 
 
     def test_gfm_strikethrough_code_span_tildes_do_not_activate_links(self) -> None:
