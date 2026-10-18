@@ -459,22 +459,9 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         helpers._parse_angle_link_href = original_angle_parser
     found: list[tuple[bool, str]] = []
 
-    # GitHub's GFM sanitizer removes these elements without replacing them.
-    # Unlike visible img/br/hr/source, they join adjacent rendered text.
-    stripped_tags = frozenset({
-        "area", "base", "col", "embed", "input", "link", "meta",
-        "param", "track", "button", "select", "option", "datalist",
-        "meter", "progress",
-    })
-    # Ordinary phrasing markup and sanitizer-stripped tags are invisible joins.
-    # Attributes stay opaque; unknown tags remain conservative boundaries.
-    transparent_inline_tags = frozenset({
-        "a", "abbr", "b", "bdi", "bdo", "big", "cite", "code", "data",
-        "del", "dfn", "em", "font", "i", "ins", "kbd", "label",
-        "mark", "output", "q", "rb", "ruby", "s", "samp", "small",
-        "span", "strike", "strong", "sub", "sup", "time", "tt",
-        "u", "var", "template", "wbr",
-    }) | stripped_tags
+    # GFM removes unsupported and unknown inline markup without replacing
+    # its visible text. Therefore only explicit structural/replaced elements
+    # should break a rendered filename; a growing tag allowlist is incomplete.
     transparent_tag = re.compile(
         r"""</?([A-Za-z][A-Za-z0-9-]*)\b(?:[^<>"']|"[^"]*"|'[^']*')*>"""
     )
@@ -581,6 +568,17 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     data = decode_character_references(data)
                 self.parts.append(data)
 
+
+    # Some structural tags split paragraphs when used as inline markup,
+    # even though GFM strips them inside an established raw HTML block.
+    inline_separators = (
+        VisibleRawHTML.BLOCK_TAGS
+        | VisibleRawHTML.VOID_TAGS
+        | VisibleRawHTML.CODE_TAGS
+        | frozenset({"form", "fieldset", "address", "aside", "main",
+                     "figure", "nav", "center", "menu", "dl", "dt",
+                     "dd", "dir"})
+    )
 
     # CommonMark decodes semicolon-terminated numeric and named character
     # references only within each text token. Decoding a concatenated run
@@ -728,7 +726,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                             found.append((False, destination))
                     tag = transparent_tag.fullmatch(raw)
                     if (tag is not None
-                            and tag.group(1).lower() in transparent_inline_tags):
+                            and tag.group(1).lower() not in inline_separators):
                         # GFM ends a www.-autolink before an HTML token.
                         # Otherwise joined rendered text could mistake the
                         # following visible deck path for an URL suffix.

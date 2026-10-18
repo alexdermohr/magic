@@ -435,6 +435,49 @@ class DeckValidationTests(unittest.TestCase):
                 self.assertEqual(len(validate_repository(self.root)), 1)
                 path.unlink()
 
+    def test_r3_unknown_inline_html_removed_by_gfm_preserves_path(self) -> None:
+        # GitHub strips unknown/sanitizer-disallowed inline tags without
+        # replacement nodes; relying on a finite phrasing whitelist misses
+        # live missing filenames inside surrounding visible text.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for tag in (
+            "legend", "optgroup", "object", "dialog", "map",
+            "foo", "x-custom", "svg", "canvas", "video", "audio",
+        ):
+            source = f"decks/sample/miss<{tag}></{tag}>ing.md"
+            with self.subTest(tag=tag):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+
+    def test_r3_inline_structural_html_must_not_join_visible_paths(self) -> None:
+        # In the GFM inline context these tags break paragraphs, unlike
+        # the same sanitized tag inside an already-established raw div.
+        for tag in (
+            "form", "fieldset", "address", "aside", "main", "figure", "nav",
+            "center", "menu", "dl", "dt", "dd", "dir",
+        ):
+            with self.subTest(tag=tag):
+                source = f"decks/sample/miss<{tag}></{tag}>ing.md"
+                self.assertNotIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+        self.assertIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(
+                "<div>decks/sample/miss<fieldset></fieldset>ing.md</div>"
+            ),
+        )
+
     def test_r3_list_marker_interrupts_table_on_github(self) -> None:
         # GitHub GFM closes tables at list starts even with a pipe inside.
         # The following Markdown is code, not a live missing link.
