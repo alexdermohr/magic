@@ -583,14 +583,27 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         # at escaped punctuation or emphasis boundaries. Check the combined
         # visible inline run, without crossing code, HTML or block boundaries.
         rendered: list[str] = []
+        inside_link_label = 0
+        rendered_label_text = False
+
+        def append_rendered(value: str) -> None:
+            nonlocal rendered_label_text
+            rendered.append(value)
+            if value and inside_link_label:
+                rendered_label_text = True
 
         def flush_text() -> None:
+            nonlocal rendered_label_text
             if rendered:
-                for reference in literal_deck_references("".join(rendered)):
+                for reference in literal_deck_references(
+                    "".join(rendered), suppress_bare_autolinks=not rendered_label_text
+                ):
                     found.append((True, reference))
                 rendered.clear()
+                rendered_label_text = False
 
         def visit_inline(token: dict) -> None:
+            nonlocal inside_link_label
             kind = token.get("type")
             children = token.get("children")
             if kind == "block_html":
@@ -616,11 +629,19 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if kind == "text":
                 raw = token.get("raw")
                 if isinstance(raw, str):
-                    rendered.append(decode_character_references(raw))
+                    append_rendered(decode_character_references(raw))
                 else:
                     flush_text()
                 return
             if kind in {"link", "image"}:
+                if kind == "link" and inside_link_label:
+                    # GFM does not create a nested bare-URL hyperlink inside
+                    # an explicit Markdown label. Mistune's URL plugin does,
+                    # so its child text is still visible and must be scanned.
+                    if isinstance(children, list):
+                        for child in children:
+                            visit_inline(child)
+                    return
                 destination = token.get("attrs", {}).get("url")
                 if isinstance(destination, str):
                     found.append((False, destination))
@@ -652,8 +673,12 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     return
                 if kind == "link":
                     if isinstance(children, list):
-                        for child in children:
-                            visit_inline(child)
+                        inside_link_label += 1
+                        try:
+                            for child in children:
+                                visit_inline(child)
+                        finally:
+                            inside_link_label -= 1
                     return
             if kind in {"strong", "emphasis", "strikethrough"}:
                 if isinstance(children, list):
@@ -664,7 +689,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 raw = token.get("raw")
                 if isinstance(raw, str) and disallowed_html_tag.match(raw):
                     # The forbidden tag is displayed literally by GFM.
-                    rendered.append(decode_character_references(raw))
+                    append_rendered(decode_character_references(raw))
                     return
                 # Comments and transparent text-level HTML add no visible
                 # separator; their attributes and bodies are never scanned.
@@ -724,7 +749,9 @@ def gfm_www_autolink_prefix(prefix: str) -> bool:
     return False
 
 
-def literal_deck_references(content: str) -> list[str]:
+def literal_deck_references(
+    content: str, *, suppress_bare_autolinks: bool = True
+) -> list[str]:
     # Scan each contiguous path-like run once. A backtracking match beginning
     # at every nested "decks/" takes quadratic time on repeated prefixes.
     references: list[str] = []
@@ -732,7 +759,10 @@ def literal_deck_references(content: str) -> list[str]:
     offset = 0
     while (start := content.find("decks/", offset)) >= 0:
         end = start + 6
-        while end < length and content[end] in _DECK_PATH_CHARS:
+        while end < length and (
+            content[end] in _DECK_PATH_CHARS
+            or (ord(content[end]) > 127 and not content[end].isspace())
+        ):
             end += 1
 
         # Greedy legacy regex semantics: use the rightmost extension whose
@@ -770,8 +800,9 @@ def literal_deck_references(content: str) -> list[str]:
         candidate = prefix.lstrip("*_~(")
         # Only a supported GFM bare HTTP(S)/www autolink hides its
         # own URL suffix. Arbitrary URI-looking prose (e.g. See:) does not.
-        if not (GFM_HTTP_PREFIX.match(candidate)
-                or gfm_www_autolink_prefix(prefix)):
+        if (not suppress_bare_autolinks
+                or not (GFM_HTTP_PREFIX.match(candidate)
+                        or gfm_www_autolink_prefix(prefix))):
             references.append(content[start:match_end])
     return references
 
@@ -858,9 +889,14 @@ def validate_repository(root: Path) -> list[str]:
             if literal:
                 references.append((root, destination))
                 continue
-            decoded = unquote(destination)  # Decode for scheme/authority classification.
-            if (decoded.startswith(("#", "//"))
-                    or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", decoded)):
+            # A percent-encoded colon in a local basename is data, not a
+            # URI scheme delimiter. A literal colon before any /?# is the
+            # structural separator (including percent-encoded scheme names).
+            raw_prefix = re.split(r"[/?#]", destination, maxsplit=1)[0]
+            decoded = unquote(destination)
+            if (destination.startswith(("#", "//"))
+                    or (":" in raw_prefix
+                        and re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", decoded))):
                 continue
             # Split source URI delimiters before decoding: %23 in a local
             # filename is data, not an unencoded fragment separator.

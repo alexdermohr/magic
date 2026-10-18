@@ -198,6 +198,41 @@ class DeckValidationTests(unittest.TestCase):
         )
         self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_r3_encoded_colon_filename_is_local_not_a_scheme(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "README.md").write_text(
+            "[x](sample%3Amissing.md)\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "sample:missing.md"):
+            validate_repository(self.root)
+
+    def test_r3_unicode_local_deck_paths_are_not_silently_skipped(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for missing in (
+            "decks/café/missing.md",
+            "decks/cafe\u0301/missing.md",
+            "decks/emoji-🪄/missing.md",
+        ):
+            with self.subTest(missing=missing):
+                (self.root / "decks" / "README.md").write_text(
+                    missing + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+                    validate_repository(self.root)
+
+    def test_r3_explicit_www_like_link_label_remains_visible(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "[www.example.com,decks/sample/missing.md](https://outside.test)",
+            "[www.example.com,decks/sample/missing.md](sample/current.txt)",
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
+                    validate_repository(self.root)
+
     def test_r3_list_marker_interrupts_table_on_github(self) -> None:
         # GitHub GFM closes tables at list starts even with a pipe inside.
         # The following Markdown is code, not a live missing link.
