@@ -16,7 +16,7 @@ Jon gibt **zu Beginn unseres Endsegments** bis zu eine bereits von uns kontrolli
 
 **Kreaturenzauber-Stopp:** Steel Golem und Grid Monitor stellen Kreaturendecks ab. Gegen Spell-Combo oder Decks, die bereits Kreaturen auf dem Tisch haben, sind sie schwächer.
 
-**Hand und Ressourcen:** Thought Nibbler (U; Handlimit −2), Thought Eater (1U; −3), Thought Devourer (3U; −4) und Rotting Regisaur (gegnerischer Upkeep-Discard) treffen kontrollierende Gegner. Greater Harvester fordert im Upkeep ein Permanentopfer; Phyrexian Negator lässt den Empfänger nach erlittenem Schaden weitere Permanents verlieren.
+**Hand und Ressourcen:** Thought Nibbler (U; Handlimit −2), Thought Eater (1U; −3), Thought Devourer (2UU; −4, benötigt zwei blaue Quellen) und Rotting Regisaur (gegnerischer Upkeep-Discard) treffen kontrollierende Gegner. Greater Harvester fordert im Upkeep ein Permanentopfer; Phyrexian Negator lässt den Empfänger nach erlittenem Schaden weitere Permanents verlieren.
 
 **Lebenspunkte und Kampf:** Ebonblade Reaper halbiert beim eigenen Angriff die Lebenspunkte seines jeweiligen Beherrschers; Flesh Reaver verursacht zusätzlich Schaden am Beherrscher, wenn er Schaden verursacht. Desecration Elemental verlangt bei gewirkten Sprüchen Opfer anderer Kreaturen. Archfiend of the Dross droht nach vier Upkeeps mit dem Verlust des Spiels für seinen jeweiligen Beherrscher; bei Besitzer-Rückfall äußerst gefährlich.
 
