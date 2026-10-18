@@ -605,6 +605,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         rendered: list[str] = []
         inside_link_label = 0
         rendered_label_text = False
+        inline_pre_depth = 0
 
         def append_rendered(value: str) -> None:
             nonlocal rendered_label_text
@@ -623,9 +624,22 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 rendered_label_text = False
 
         def visit_inline(token: dict) -> None:
-            nonlocal inside_link_label
+            nonlocal inside_link_label, inline_pre_depth
             kind = token.get("type")
             children = token.get("children")
+            # Inline <pre> is a rendered example just like block <pre>.
+            # Its ordinary text is not a live deck reference.
+            if kind == "inline_html" and isinstance(token.get("raw"), str):
+                tag = token["raw"]
+                if re.match(r"(?i)^<pre(?=[\s/>])", tag):
+                    flush_text()
+                    inline_pre_depth += 1
+                    return
+                if inline_pre_depth and re.fullmatch(r"(?i)</pre\s*>", tag):
+                    inline_pre_depth -= 1
+                    return
+            if inline_pre_depth:
+                return
             if kind == "block_html":
                 flush_text()
                 raw = token.get("raw")

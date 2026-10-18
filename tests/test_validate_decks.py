@@ -78,6 +78,40 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_inline_pre_examples_are_opaque_and_closing_restores_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            "before <pre>decks/sample/missing.md</pre> after",
+            "before <PRE class='example'>decks/sample/missing.md</PrE> after",
+            "before <pre>decks/sample/missing.md",
+        ):
+            with self.subTest(source=source):
+                self.assertNotIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+        visible = (
+            "before <pre>decks/sample/missing.md</pre> "
+            "decks/sample/visible.md"
+        )
+        self.assertIn(
+            (True, "decks/sample/visible.md"),
+            rendered_markdown_references(visible),
+        )
+        (self.root / "decks" / "README.md").write_text(
+            visible + "\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(
+            DeckValidationError, "decks/sample/visible.md"
+        ):
+            validate_repository(self.root)
+
     def test_r3_dollar_sign_in_literal_filename_and_suffix(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         relative = "decks/sample/missing$copy.md"
