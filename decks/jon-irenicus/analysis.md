@@ -1,38 +1,41 @@
 # Jon Irenicus, Shattered One — Kartenanalyse und Optimierung (Bracket 3)
 
-**Stand: 18.10.2026, V4.** Hauptziel: dauerhaft nachteilige, erzwungen angreifende Geschenke; mehrfacher Jon-Kartenvorteil; eigene Siegbedingungen, auch wenn nur noch zwei Spieler übrig sind. Die Karten sind nach konkreter Synergie bewertet, nicht nach Seltenheit oder Preis. **Keine echten Multiplayer-Spiele oder empirischen Winraten belegt.**
+**Stand: 18.10.2026, V5.** Hauptziel: dauerhaft nachteilige, erzwungen angreifende Geschenke; mehrfacher Jon-Kartenvorteil; eigene Siegbedingungen, auch wenn nur noch zwei Spieler übrig sind. Die Karten sind nach konkreter Synergie bewertet, nicht nach Seltenheit oder Preis. **Keine echten Multiplayer-Spiele oder empirischen Winraten belegt.**
 
 ## 1. Messbare Struktur / rechtlicher Deckrahmen
 
-- **100 Karten:** 1 Commander, **26 weitere Kreaturen**, **37 sonstige Nichtlandkarten** (einschließlich MDFC Malakir Rebirth), **36 reguläre Länder**. **95 eindeutige Namen**, übrige Mehrfachkarten ausschließlich 4 Island und 3 Swamp.
+- **100 Karten:** 1 Commander, **26 weitere Kreaturen**, **36 sonstige Nichtlandkarten** (einschließlich MDFC Malakir Rebirth), **37 Landkarten**, darunter 36 eigenständig manaerzeugende Länder und Maze of Ith (ohne eigenständige Manaaktivierung). **95 eindeutige Namen**, übrige Mehrfachkarten ausschließlich 4 Island und 3 Swamp.
 - **Drei Game Changer:** Rhystic Study, Demonic Tutor, Cyclonic Rift — gemäß frischer Scryfall-Prüfung. Keine absichtliche frühe unendliche Zweikarten-Siegkombination, keine Extra-Turn-Kette und keine Massenlandzerstörung. Bracket 3 nach Wizards; keine reale Stärke- oder Winrate-Messung.
-- **V4-Manakurve** ohne Länder/Commander (63 Karten): **8×MV1, 25×MV2, 13×MV3, 15×MV4, 2×MV5**; Durchschnitt **2,651**. V3 lag bei 2,889 und 27 Karten MV1–2; V4 hat 33. Das verkürzt die frühen Geschenk- und Antwortfenster. Einzelfall-Mulligans nicht simuliert.
-- **Aktuelle Live-Validierung:** Scryfall Cards/Collection erkannte alle **95/95 unterschiedlichen Namen**, Commander-Legalität und Farbidentität ausschließlich U/B; zusätzliche Papier-Printings für bei der API digital repräsentierte Karten geprüft. Jede ältere Version bleibt im Archiv (v1, v2 und die tatsächlich zuvor veröffentlichte v3).
-- **Restschwächen:** sechs Zwei-Mana-Rocks + Sol Ring für viermanaigen Jon, weiterhin Risiko durch gezieltes Removal und langsames Hauptpaket der 4–5-Mana-Geschenke. Reale Gegnerwahl und tatsächliche Angriffsentscheidungen wurden nicht engine-simuliert.
+- **V5-Manakurve** ohne Länder/Commander (62 Karten): **9×MV1, 24×MV2, 15×MV3, 13×MV4, 1×MV5**; Durchschnitt **2,565** (V4: 2,651 auf 63 Karten). MV1–2 bleibt 33; die Senkung entsteht besonders durch Wegfall schwerer Geschenke und des Ausrüstungs-Slots. Den 37 Ländern liegt nur 36-fach verlässliche Manaerzeugung zugrunde; Maze of Ith ist ein funktionaler Spell-Slot. Keine realen Mulligan-/Turn-Simulationen.
+- **Aktuelle Live-Validierung:** Scryfall Cards/Collection erkannte alle **95/95 unterschiedlichen Namen**, Commander-Legalität und Farbidentität ausschließlich U/B; zusätzliche Papier-Printings für bei der API digital repräsentierte Karten geprüft. Alle tatsächlich entstandenen Vorgänger v1, v2, v3 und der bytegetreu vorher veröffentlichte v4 liegen im Archiv.
+- **Restschwächen:** sechs Zwei-Mana-Rocks + Sol Ring für viermanaigen Jon, weiterhin Risiko durch gezieltes Removal; ohne Jon sind Thought Nibbler und Thought Eater zunächst selbstbelastende Körper. Windfall ist ohne Life-Loss-Payoff besonders riskant. Reale Gegnerwahl und tatsächliche Angriffsentscheidungen wurden nicht engine-simuliert.
 
 ## 2. Regeln und Synergien auf Basis des aktuellen Oracle-Texts
 
 1. **Jon & Gegnerkontrolle.** „Own“ heißt Eigentümer, nicht aktueller Controller. Deshalb ziehen wir beim Angriff unserer geschenkten Kreatur mit Jon pro vorhandenem Jon einmal. Angriffe zählen bei Deklaration, ohne Kampfschaden. Tokens gehören dem Spieler, der sie erstellt hat. Kein ETB beim Kontrollwechsel; +1/+1-Marken und Goad bleiben.
-2. **Goad im Duell.** Bei nur einem Gegner müssen legal angreifende, goadete Körper uns angreifen. Zahlungen für Propaganda sind nie verpflichtend. Angriffssperre durch Assault Suit verhindert dann den Angriff **und unseren Jon-Draw**.
+2. **Goad im Duell.** Bei nur einem Gegner müssen legal angreifende, goadete Körper uns angreifen. Zahlungen für Propaganda sind nie verpflichtend. **Maze of Ith** wird nach der Angriffsdeklaration aktiviert: seine Schadensverhinderung bewahrt uns, ohne Jons bereits ausgelösten Kartenzug zu verlieren. Bloßes Enttappen entfernt gemäß Regeln 506.4b die Kreatur nicht aus dem Kampf. Gegen mehrere Angreifer oder kampffremde Trigger allein nicht ausreichend; Maze produziert normalerweise kein Mana.
 3. **Nicht opferbar heißt nicht unzerstörbar.** Despotic Scepter kann unsere an Gegner verschenkten Permanents mit seiner Tap-Fähigkeit zerstören, obwohl der Empfänger sie nicht opfern darf. Indestructible, Exil und Bounce sind separate Fälle. Homeward Path kontrolliert Geschenke wieder selbst und überträgt damit deren „you“-Nachteile auf uns.
 4. **Mehrfache Jon-Trigger.** Roaming Throne wählt bei ETB **Wizard** und verdoppelt ausgelöste Fähigkeiten jedes anderen eigenen Wizards, also die beiden Fähigkeiten Jons. Spark Double kann Jon als nichtlegendäre Kreatur kopieren; Sakashima kopiert ihn samt Legendenregel-Ausnahme. Diese Jons lösen selbst zusätzlich aus. Strionic Resonator kann einzelne auf dem Stapel liegende Jon-Endstep-/Draw-Trigger kopieren. Jeder Geschenk-Trigger benötigt beim Auf-den-Stapel-Legen bereits ein passendes von uns kontrolliertes Kreaturenziel; Doppeltrigger garantieren keine zusätzlichen Körper.
-5. **Equipment-Falle, Review #30 P2:** Ein vor Jon ausgerüstetes Sword of Fire and Ice (pro Blau) bzw. Sword of Feast and Famine (pro Schwarz) macht Jons blau-schwarzes Ziel illegal. Nach dem Verschenken kann Equip wiederum nicht auf fremdkontrollierte Kreatur zielen. Beide sind deshalb **aus der aktuellen Liste entfernt**, frühere V3-Wertaussagen waren falsch. Bitterthorn und Mask of Memory geben keinen Schutz und bleiben nach Kontrollwechsel angelegt. Ihr jeweiliger Angriff/Kampfschaden löst ihre unter **unserer** Kontrolle stehende Equipment-Fähigkeit aus (Land bzw. Draw).
+5. **Equipment-Falle, Review #30 P2:** Ein vor Jon ausgerüstetes Sword of Fire and Ice (pro Blau) bzw. Sword of Feast and Famine (pro Schwarz) macht Jons blau-schwarzes Ziel illegal. Nach dem Verschenken kann Equip wiederum nicht auf fremdkontrollierte Kreatur zielen. Beide sind deshalb **aus der aktuellen Liste entfernt**, frühere V3-Wertaussagen waren falsch. **Bitterthorn** gibt keinen Schutz und bleibt bei Jons Kontrollwechsel angelegt; es sucht auf Angriffsdeklaration des geschenkten Germs ein Standardland für uns. Die zuvor eingesetzte Mask of Memory ist seit V5 durch Windfall ersetzt (ohne zusätzlichen Kampfschaden-Trefferzwang).
 6. **Bitterthorn:** Beim ETB eigener 0/0-Germ mit ausgerüstet +1/+1; vor Ende des Zuges kann Jon ihn mit 2 Marken als 3/3 an Gegner geben. Die Ausrüstung bleibt unsere und sucht bei jedem Angriff ein Basic. Nach Verbrauch der sieben Basics gibt es kein weiteres Land. Kein Schaden erforderlich.
 7. **Spellseeker:** Der Manawert XBB beider Finisher **Torment of Hailfire/Exsanguinate ist in der Bibliothek 2**. Deshalb kann Spellseeker sie direkt suchen. Alternativ findet sie Demonic Tutor, Diabolic Intent, Cyclonic Rift, Mana Drain und zahlreiche weitere ≤2-Spells. Diabolic Intent bezahlt man mit einem **noch unter unserer Kontrolle stehenden** zulässig opferbaren Token.
-8. **Sheoldred-Falle, Review #30 P2:** Jon-Draws sind unser Kartenziehen; **Sheoldred heilt uns**, verursacht dabei keinen Schaden. Sie bestraft **gegnerische** Zieheffekte. **Psychosis Crawler** verursacht bei unseren Draws Schaden an jedem Gegner. Faerie Mastermind kann in Kombination mit Sheoldred beide Seiten auslösen.
+8. **Sheoldred-Falle, Review #30 P2:** Jon-Draws sind unser Kartenziehen; **Sheoldred heilt uns**, verursacht dabei keinen Schaden. Sie bestraft **gegnerische** Zieheffekte. **Psychosis Crawler** verursacht bei unseren Draws Schaden an jedem Gegner. **Windfall** kann bei genug gegnerischen Handkarten Sheoldred-/Crawler-Trigger massiv liefern, füllt aber auch Kombogegnerhände; **Bloodchief Ascension** wertet das gleichzeitige Abwerfen echter Karten nach drei Quest-Marken in zusätzlichen 2er-Lebensverlust um.
 9. **Archfiend:** Ölmarken gehen beim Übergeben nicht verloren. Nach vier Upkeeps mit reduzierten Ölmarken verliert der jeweilige Beherrscher die Partie. Wird die Kreatur nach Ausscheiden ihres Empfängers wieder von uns kontrolliert, kann die nächste Ölreduzierung uns treffen. Despotic Scepter, Pongify, Reality Shift, Deadly Rollick oder Rift als Rettung behalten.
 10. **Fehlkandidaten:** Master of Cruelties hat rote Farbidentität und ist in U/B **illegal** (Review #30 P2). Bronze Bombshell kann nach Jon-Übergabe wegen „can't be sacrificed“ ihre Opfer-Schadensfähigkeit nicht erfüllen; keine stabile Engine. Plague Reaver löst bereits beim eigenen Endstep Opferdruck auf uns aus, ehe Jon die Kreatur übergeben kann.
 11. **Lord Skitter & Token:** Ratentoken entsteht zu Beginn **unseres** Kampfsegments und kann später desselben Zuges verschenkt werden. Ophiomancer produziert auch im fremden Upkeep, sofern wir keine Schlange kontrollieren. Geschenk-Tokens werden danach ohne weitere ETB-Fähigkeiten zu eigenen Jon-Draw-Trägern.
 12. **Crypt Ghast:** Extort-Hybridpips in Reminder-Text machen die Identität nicht weiß; die Oracle-Farbidentität ist rein Schwarz. Es erzeugt extra B für jeden für Mana getappten Swamp, mit Urborg auch auf fast sämtlichen anderen Ländern; Cabal Coffers kann zusätzlich viel schwarzes Mana liefern.
+13. **Braids/Ascension:** Beide profitieren von echten Tokens, die wir selbst opfern können, und von Gegnern, die durch Jon-Schenkungen bestimmte Kreaturen **nicht** opfern dürfen. Wer kein passendes anderes Permanent besitzt, muss bei Braids 2 Leben verlieren und gibt uns eine Karte. Gelangt dagegen eine **echte gegnerische Karte** durch Opfer, Abwurf oder Zerstörung auf den Friedhof, löst aktive Bloodchief Ascension aus; verlorene Token-Kreaturen sind keine Karten. Braids darf eine bereits verschenkte Kreatur nicht mehr selbst opfern.
+14. **Maze/Metamorph:** Maze verhindert Kampf-Schaden und lässt Angriffstrigger bestehen (Wizards Regel 506.4b), aber die +2/+2-Marken machen mehrere Geschenke immer noch gefährlich. Metamorph kann beliebige Artefakte oder Kreaturen als Artefaktkopie übernehmen, einschließlich unserer negativen Geschenke; als Kopie eines legendären Jons ohne besondere Legendenregel-Ausnahme kann es nicht zusätzlich zu Jon bleiben.
 
-## 3. Einzelkartenwertung der tatsächlich enthaltenen V4-Karten
+## 3. Einzelkartenwertung der tatsächlich enthaltenen V5-Karten
 
-A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehesten metaabhängig. Auch Länder einzeln nach konkreter Funktion bewertet; mehrfach vorhandene Basics je einmal bewertet.
+A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehesten metaabhängig. Länder sind nach realem Manabeitrag beziehungsweise Schutzwert bewertet; mehrfach vorhandene Basics je einmal.
 
 | Karte | Wertung | Konkreter Beitrag / relevante Grenze |
 |---|:---:|---|
 | Jon Irenicus, Shattered One | A | Gibt per Endstep dauerhafte nicht opferbare Goad-Geschenke; Angriffe unserer fremdkontrollierten Kreaturen erzeugen pro Jon Karte; vier Mana und removal-anfällig. |
 | Lord Skitter, Sewer King | A- | Jeden eigenen Kampfbeginn 1/1-Rat ohne Menace mit „kann nicht blocken“ zum Verschenken; nur ein anderer neu eintretender eigener Rat löst Skitters Friedhofsexil aus. Kein sofortiger Angriff des neuen Tokens. |
+| Braids, Arisen Nightmare | A | Wiederkehrender Endstep: selbst kontrollierten Snake/Rat/Faerie opfern, jeder Gegner opfert gleichartigen Permanenttyp oder verliert 2 Leben und wir ziehen je eine Karte. Geschenkte unsacbare Körper können nicht als Kosten der Gegner dienen. |
 | Archfiend of the Dross | A-/risk | Öl-Uhr versenkt Spieler nach vier Empfänger-Versorgungssegmenten; bei Rückfall an uns lebensgefährlich, instant-speed Removal zurückhalten. |
 | Baleful Strix | A | 2 Mana Karte und Deathtouch-Blocker, im Notfall als harmloser Attack-Draw-Träger verschenkbar. |
 | Spellseeker | A | Findet u. a. beide X-Finisher (Bibliotheks-MV 2), Demonic Tutor, Diabolic Intent, Cyclonic Rift, Mana Drain oder billige Antworten; nach ETB notfalls Geschenkkörper. |
@@ -42,12 +45,11 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Thought Nibbler | A- | Für U günstiges Geschenk mit Handmaximum −2 und Flugfähigkeit; macht früh Jon-Kartenziehen verfügbar, anfänglich eigener Handgrößen-Nachteil. |
 | Flesh Reaver | B+ | 4/4 für 2 Mana; bei Schaden gegen Spieler/Kreatur erleidet Empfänger gleich viel, aber 6/6 durch Jon-Marken droht uns. |
 | Grid Monitor | A- | Sperrt Kreaturensprüche des Empfängers, 4/6-Druckkörper. Gegen viele Spells weniger effektiv. |
-| Thought Devourer | A- | Handmaximum des Empfängers minus vier dauerhaft; Flugkörper, gegen Control besonders stark; bei leerer Hand weniger. |
 | Faerie Mastermind | A | Wiederholbarer unabhängiger Draw-Engine gegen zweite Karten anderer; Flash, aktiviert gemeinsamen Draw für Sheoldred/Crawler. |
 | Nadir Kraken | A- | Bei beliebigem eigenem Kartenziehen und Zahlung 1 wachsende Tentakel-Token; Synergie mit mehreren Jon-Kopien, früh manahungrig. |
 | Ophiomancer | A | Erzeugt bei kontrollierter Schlangenlosigkeit in jedem Upkeep neues Token, nach Schenkung stetig nachproduzierbar. |
 | Phyrexian Negator | B+ | Nach erlittenem Schaden verliert Empfänger andere Permanents; Jon verhindert Selbstopfer, Schutz vor Damage-basierter Selbstgefährdung nötig. |
-| Greater Harvester | A- | Gesicherter Opfer-Effekt auf Empfänger-Upkeep, Schaden verlangt zwei weitere Permanents; 5 Mana und 5/6 Bedrohung. |
+| Phyrexian Metamorph | A- | Kopiert für {3} und 2 Lebenspunkte oder {3}{U} einen passenden Geschenk-Golem/Archfiend oder ein Mana-Artefakt. Als Jon-Kopie ohne legendäre Ausnahme wegen Legendenregel nur einer; flexibel, aber vom Board abhängig. |
 | Psychosis Crawler | A- | Jeder eigene Kartenzug trifft alle Gegner, maximiert Jon-Engine ohne Kampferfolg; fragil gegen Removal. |
 | Rotting Regisaur | A- | Erzwungener Kartenabwurf bei jedem gegnerischen Upkeep; 7/6 minus Jons Marken 9/8 kann uns rasch töten. |
 | Sygg, River Cutthroat | A- | Zieht am Ende jedes Zugs mit mindestens 3 Lebensverlust eines Gegners optional eine Karte; von großen goaded Angriffen unabhängig von Jon nutzbar. |
@@ -56,6 +58,8 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Steel Golem | A- | Dreimanalock verhindert Kreaturensprüche; ein starkes Early-Geschenk ohne Treasures, aber 3/4 später Druck auf uns. |
 | Talion, the Kindly Lord | A | Unabhängiger Kartenzug/Life-Loss bei gewähltem Manawert oder Power/Toughness von gegnerisch gewirkten Spells; sollte unter unserer Kontrolle bleiben. |
 | Crypt Ghast | A- | Verdoppelt Mana beim Tappen von Swamps, extort als Lebenspunkt-Finisher; mit Urborg/Coffers explodieren X-Zauber, ohne Swamps eingeschränkt. |
+| Spark Double | A | Nichtlegendäre Kopie von Jon oder anderem eigenen Kernstück, erzeugt zusätzliche Schenkungs- und Draw-Trigger; braucht bereits gutes Kopierziel. |
+| Sakashima of a Thousand Faces | A | Kopiert Jon ohne Legendenregel-Konflikt, verdoppelt bei Vorhandensein beider Jons Schenkungen und Kartenziehen; kostet vier Mana. |
 | Sol Ring | A | Effizienter farbloser Früh-Ramp zu Jon, Ausrüstung, großen Finishern. |
 | Arcane Signet | A | Zwei-Mana-Farbfixing für UU und BB. |
 | Dimir Signet | A | Zwei-Mana-Beschleunigung U/B, benötigt weiteres Mana zum Aktivieren. |
@@ -66,14 +70,13 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Expedition Map | A | Sucht je nach Bedarf Homeward Path, Cabal Coffers oder Urborg für Mana-/Sicherheitspläne. |
 | Rhystic Study | A | Game Changer 1: massiver Kartenvorteil; erzeugt politisch zusätzliche Steuern. |
 | Mystic Remora | A- | Effizientes Noncreature-Draw gegen schnelle Spells; kumulativer Upkeep steigt. |
+| Bloodchief Ascension | A | B-Kosten, lädt über 2+ gegnerischen Lebensverlust in jeweiligen Zügen bis drei Quest-Marken. Danach echter gegnerischer Karten-Friedhofseintrag: 2 Lebensverlust/2 eigener Lebensgewinn; Tokens zählen nicht. Nicht von Jon abhängig. |
 | Bitterblossom | A- | Je Zug Flug-Token als Blocker, Schwertträger oder Geschenke; eigener Lebensverlust bleibt. |
 | Black Market Connections | A | Flexible Auswahl Treasure, Karten und Shapeshifter; kostet eigene Lebenspunkte. |
-| Spark Double | A | Nichtlegendäre Kopie von Jon oder anderem eigenen Kernstück, erzeugt zusätzliche Schenkungs- und Draw-Trigger; braucht bereits gutes Kopierziel. |
-| Mask of Memory | A- | Vor Jon-Geschenk ausrüsten; nach erfolgreichem Kampfschaden löst die von uns kontrollierte Ausrüstung Kartenziehen 2 / Abwerfen 1 aus; nicht ohne Treffer. |
+| Windfall | A-/risk | Discard- und Draw-Neuverteilung für {2}{U}, starke nichtunendliche Kill-Linie mit aktiver Bloodchief Ascension oder Sheoldred; kann aber ohne Payoff Kombogegner neu ausstatten. |
 | Bitterthorn, Nissa's Animus | A | Erzeugt eigenes Germ-Token; mit Jon direkt als 3/3-Geschenk. Bleibt als unser Equipment angelegt und sucht bei dessen Angriff Basic-Land getappt, insgesamt 7 Basics. |
 | Strionic Resonator | A | Für 2/T kopiert Jon-Trigger auf dem Stack, bei Bedarf andere Ziele; kann auch andere wertvolle eigene ausgelöste Fähigkeiten kopieren. |
 | Despotic Scepter | A | Nur ein Mana **beim Ausspielen**, aktivierte Fähigkeit kostet **allein Tappen** (kein Mana); zerstört Permanent in unserem Eigentum selbst unter Gegnerkontrolle. Not-Aus im Heads-up auch ohne freie Länder. |
-| Assault Suit | B+ | Vor Gabe angelegt schützt es uns vor Angriff des ausgestatteten Geschenks, aber verhindert damit auch Jon-Draw in einem Zweierspiel; Equip 3 teuer. |
 | Diabolic Intent | A | Nur 1B sucht exakt ein beliebiges Ziel, bezahlt durch vorher noch selbst kontrollierten Token; nie mit nicht opferbarer geschenkter Kreatur finanzieren. |
 | Lightning Greaves | A- | Haste und Shroud für Jon, lässt sich günstig auf andere Kreaturen umlegen; Shroud blockiert eigene Zielspells/Ausrüsten bis umgerüstet. |
 | Torment of Hailfire | A | Eigenständiger skalierbarer X-Finisher, Gegner wählen Discard/Sac/Lebensverlust; kein Coop-Bedarf. |
@@ -85,8 +88,6 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Toxic Deluge | A- | Vielseitige Boardkontrolle gegen Aggro und Gifts, bezahlt eigenes Leben. |
 | Aetherize | A- | Duel/aggro Verteidigung; verschenkte Angreifer kehren als unsere Eigentums-Karten zurück auf Hand. |
 | Illusionist's Gambit | B+ | Combat-Umleitung/zweite Combat-Phase ohne uns; im Duo nur die gerade drohenden Schäden verhindern, nicht automatisch Win. |
-| Reins of Power | B+ | Instant-Speed Kontrolltausch aller Kreaturen, überraschender Combat Swing; nur bis EOT und gefährliches Rücktauschen. |
-| Sakashima of a Thousand Faces | A | Kopiert Jon ohne Legendenregel-Konflikt, verdoppelt bei Vorhandensein beider Jons Schenkungen und Kartenziehen; kostet vier Mana. |
 | Feed the Swarm | A- | Schwarzes Kreaturen- und Verzauberungsremoval, eigene Lebenspunkte kosten. |
 | Deadly Rollick | A | Spot-Exil unabhängig von Schadensresistenz, häufig kostenlos mit Jon. |
 | Mana Drain | A | UU-Counter universal und potenzieller farbloser Manaschub in der nächsten eigenen Hauptphase; funktional stärker als Counterspell. |
@@ -120,6 +121,7 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Choked Estuary | B+ | U/B often ungetappt mit passendem Land zur Offenlegung, sonst getappt. |
 | Otawara, Soaring City | A | Ungetapptes U, als Kanal-Fähigkeit vielseitiger Bounce auch unserer Geschenk-Gefahren. |
 | Takenuma, Abandoned Mire | A- | Schwarze Quelle mit Graveyard-Recursion per Channel. |
+| Maze of Ith | A | Nach Deklaration eines gegnerischen Angriffs enttappen und dessen Kampfschaden verhindern, ohne Jon-Draw oder Angriffsauslöser rückgängig zu machen. Produziert ohne Urborg kein Mana; Expedition Map findet es. |
 | Homeward Path | A | Schlüssel-Sicherheitsland zum Zurückholen aller eigenbesessenen Kreaturen; nicht unkritisch bei Negativträgern. |
 | Command Beacon | B+ | Holt Jon trotz Commander-Tax einmal auf Hand, farbloses Land. |
 | Bojuka Bog | A- | Friedhofsexil eines Spielers beim ETB; getapptes schwarzes Land. |
@@ -151,28 +153,46 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 
 **Wichtigste Gegenargumente:** Der Wegfall von **No Mercy** verschlechtert eine sichere, aber nur *nach* Schaden reagierende Abschreckung gegen Aggro. Ohne die zwei Evil Eyes fehlt eine spezielle globale Angriffssperre, die jedoch auch unsere eigenen verschenkten Kreaturen am Draw-Trigger hinderte. Ohne Court of Ambition entfällt die Monarch-Karte und zusätzliche Handzerstörung, dafür ist zielgenaue Suche billiger. Weniger gesondertes Goad gegenüber nicht-eigenen Kreaturen nach Bloodthirsty Blade; Jon goadet eigene Geschenke ohnehin dauerhaft. Mehr Jon-Kopien sind ohne Tokenversorgung und gegen Boardwipes keine unabhängige Siegstrategie.
 
+### V4 → V5: genau fünf zusätzliche, überprüfte Ein-zu-eins-Wechsel
+
+| Heraus | Hinein | Entscheidung und bewusst aufgegebener Nutzen |
+|---|---|---|
+| Assault Suit | Maze of Ith | Maze wird erst nach Angreiferdeklaration eingesetzt und erhält so Jons Attack-Draw bei präventivem Kampfschadenschutz; über Expedition Map suchbar. Es schützt nur vor genau einem Angriff und produziert ohne Urborg kein Mana. Assault Suit verbot den Angriff auf uns bereits bei der Deklaration und beendete damit im Duell unsere Draw-Engine. |
+| Greater Harvester | Phyrexian Metamorph | Keine sperrige 5-Mana/BBB-Upkeep-Opferwaffe mehr: Metamorph ist flexibler Geschenk-Duplikator oder Kopie eines Ramp-Artefakts für effektiv drei Mana plus zwei Leben. Konkreter Verlust: direkter permanenter Opferzwang beim Gegner. |
+| Thought Devourer | Bloodchief Ascension | Vierter Mana-Slot mit doppeltem Blau für redundant verkleinerte Hand gegen Einmana-Attrition-Engine; weiterhin Handlimit −2/−3 über Nibbler/Eater. Ascension benötigt drei separate Endstep-Bedingungen und echte Karten im gegnerischen Friedhof. |
+| Mask of Memory | Windfall | Zusätzliche Kampfschadensbedingung für Draw entfällt; Windfall erzeugt unabhängig von Combat eine neue Hand und kann mit Sheoldred, Psychosis Crawler oder aktiver Ascension direkt Lebenspunkte kosten. **Gegenargument:** Auch Combo-Gegner ziehen neue Karten, wenn der Einsatz zu früh erfolgt. |
+| Reins of Power | Braids, Arisen Nightmare | Der einmalige, vier Mana teure Kampftausch entfällt zugunsten wiederholter Opfer-/Draw-Entscheidungen über eigene Token im Endsegment. Braids und Jon erfordern **unterschiedliche** noch selbstkontrollierte Kreaturen, wenn beide Trigger genutzt werden sollen. |
+
+**Weitere bewusste Nichtaufnahmen:** Blasphemous Edict (globale Opferung kann unseren Jon und unsere Engine treffen, während geschenkte Nichtopfer-Kreaturen überleben); Phyrexian Soulgorger (geschenkt scheitert sein Selbstopfer und gibt dem Gegner oft bloß einen 10/10-Body); Coveted Falcon (massengeschenkte Körper ohne Jon-Goad bleiben frei opferbar und müssen nicht angreifen); Parasitic Impetus (nützlich, aber langsamerer Einzelkreaturen-Lebensdrain als Ascension/Windfall); Consecrated Sphinx und The One Ring (beide aktuell zusätzliche Game Changer, kein Slot frei). Keiner dieser Punkte ist ein pauschales Bannurteil: das ist die konkrete V5-Deckpriorisierung.
+
 ## 5. Historische echte Deckstände (nicht nachträglich konstruiert)
 
 - **V1**: erste 100-Karten-Liste, enthielt unpassende teure Geschenke und illegalen roten The Reaver Cleaver.
 - **V2**: sechs Kartenwechsel inklusive Legalitätskorrektur; Faerie Mastermind, Thought Devourer und Fellwar Stone statt situativerer Alternativen.
 - **V3**: Plague Reaver wegen vor der Schenkung ausgelöster eigener Opferfähigkeit durch Greater Harvester ersetzt; Scryfall-legal bestätigt, aber mit nun behobenen drei Codex-P2-Hinweisen.
-- **V4**: aktuelle 17 austarierte 1:1-Tausche, effizientere Manakurve, neue Trigger-/Tokenmotoren, mehr eigener Commander-Schutz und Notfallzerstörung gegen geschenkte Permanents. V3 separat unter versions/ archiviert. Kein künstlich erstellter weiterer Snapshot.
+- **V4**: 17 gezielte Tausche, effizientere Manakurve, mehrfache Jon-Trigger, Commander-Schutz und Notfallzerstörung gegen geschenkte Permanents. Auf GitHub tatsächlich veröffentlicht und **byteidentisch unter versions/2026-10-18-b3-v4.txt** archiviert.
+- **V5**: aktuelle fünf zusätzliche reale Tausche für kontrolliertes Duell, unabhängiges Attrition-Finish, braidsbasierte Opfererpressung und flexible Kopien. Keine fiktiven Zwischenstände.
 
 ## 6. Gegenproben gegen Aggro, Kontrolle, Combo und Duell
 
-| Gegner | Vorteile der V4 | Stärkster Gegenbeweis / Handlung |
+| Gegner | Vorteile der V5 | Stärkster Gegenbeweis / Handlung |
 |---|---|---|
 | Aggro / Tokens | Ophiomancer-Snakes, Aetherize, Propaganda, Toxic Deluge, gezieltes Exil, wiederholte Rat-/Faerie-Träger | No Mercy gestrichen; ein 9/8 verschenkter Rotting Regisaur tötet uns im Duell schnell. Scepter und Removal vor dem Ausscheiden des vorletzten Gegners reservieren. |
-| Control | Thought Nibbler/Eater/Devourer, Rotting Regisaur, Rhystic/Remora, zusätzliche Jon-Draws, niedrige Kurve | Wiederholter Jon-Removal und Wraths nehmen mehreren Kopien gleichzeitig die Draw-Engine. Boots, Countermana und Kartenziehen unabhängig von Jon priorisieren. |
+| Control | Thought Nibbler/Eater, Rotting Regisaur, Rhystic/Remora, Bloodchief Ascension, zusätzliche Jon-Draws, niedrige Kurve | Wiederholter Jon-Removal und Wraths nehmen mehreren Kopien gleichzeitig die Draw-Engine. Boots, Countermana und Kartenziehen unabhängig von Jon priorisieren. |
 | Kreaturen-Combo | Steel Golem/Grid Monitor verhindern neue Kreaturensprüche; Desecration Elemental bestraft weitere Zauber, günstiges Removal + Mana Drain | Bereits liegende ETB-Combo oder Nichtkreaturenschleife wird nicht durch goad gestoppt; für Schlüsselzug Mana offenhalten. |
 | Spell-Combo | Günstigere Suchkarten (Spellseeker, Intent), Swan Song, Arcane Denial, Mana Drain, Rhystic/Remora | Ohne Opposition Agent/Fierce Guardianship/Force of Will gibt es keinen explosiven kostenlosen Combo-Stopp. Bracket/Slots erfordern verantwortbare Zurückhaltung bei allzu vielen Game Changern. |
-| Heads-up | Despotic Scepter beseitigt Geschenkgefahren, Boots schützt Jon, Reins/Aetherize/Illusionist decken Combat; Torment und Exsanguinate selbständig | Goad zwingt Attacken gegen uns, Jon-Kartenziehen fällt nach Zerstörung/Return der Geschenke weg. Vor dem letzten gegnerischen Zug unabhängigen Win-Plan vorbereiten. |
+| Heads-up | Maze of Ith und Despotic Scepter kontrollieren Geschenkgefahren, Boots schützt Jon, Aetherize/Illusionist decken größere Combats; Torment/Exsanguinate und Ascension bleiben selbständig | Goad zwingt Attacken gegen uns, Jon-Kartenziehen fällt nach Zerstörung/Return der Geschenke weg. Vor dem letzten gegnerischen Zug unabhängigen Win-Plan vorbereiten. |
 
 ## 7. Messungen, Grenzen und überprüfbarer GitHub-Ablauf
 
 **V3 vorher:** Scryfall 97/97 unterschiedliche Namen, alle farb- und Commander-legal. 100 Karten; 36 Länder; 23 Nicht-Commander-Kreaturen; 40 andere Spells; MV 2,889 (1:6, 2:21, 3:16, 4:15, 5:4, 6:1). 10.000 einfache Seed-20261018-Stichproben von 11 Karten ergaben 31,87 % mindestens 4 Länder und einen ausgewählten Mana-Rock; dies war **keine reale Simulation** von Mulligans, Turns oder Siegen.
 
-**V4 aktuelle lokale Prüfung, 18.10.2026:** 100 Karten, **95 verschiedene Kartennamen**, 36 Länder (4 Island + 3 Swamp), 26 weitere Kreaturen, 37 andere Nichtländer. Live-Scryfall Cards/Collection **95/95 getroffen**, alle Commander-legal, alle U/B/neutral. Genau die drei erlaubten Game Changer. Manakurve 8/25/13/15/2, Ø MV 2,651. Historische V3-Datei bytegetreu archiviert; nun Versionshistorie V1–V3 und aktuelle V4.
+**V4 – archivierter historischer Teststand, 18.10.2026:** 100 Karten, **95 verschiedene Kartennamen**, 36 Länder (4 Island + 3 Swamp), 26 weitere Kreaturen, 37 andere Nichtländer. Live-Scryfall Cards/Collection **95/95 getroffen**, alle Commander-legal, alle U/B/neutral. Genau die drei erlaubten Game Changer. Manakurve 8/25/13/15/2, Ø MV 2,651. Historische V3-Datei bytegetreu archiviert; historischer Stand V4 ist jetzt ebenfalls bytegenau abgelegt.
+
+
+**V5 – frischer Live-Test (18.10.2026):** 100 Karten: Jon, 26 weitere Kreaturen, 36 andere Nichtland-Spells, 37 Landkarten inklusive Maze of Ith (nur 36 ohne Zusatzkarten manaerzeugend). 95 unterschiedliche Oracle-Namen, alle auf Scryfall Commander-legal und innerhalb U/B, ergänzender Papierdruck-Abgleich, genau **drei Game Changer** (Cyclonic Rift, Demonic Tutor, Rhystic Study). Durchschnittlicher Manawert der 62 Nichtland-Nichtcommander-Karten **2,565**, Verteilung 9×MV1, 24×MV2, 15×MV3, 13×MV4 und 1×MV5. Kartenformat und Typsortierung geprüft, nur 4 Island und 3 Swamp mehrfach. 100-Karten-V4-Archiv wurde vom vorherigen Git-Commit übernommen. Keine gemessene Winrate.
+
+**Nachprüfbare kritische Interaktion:** Wizards Comprehensive Rules (Ausgabe 19.06.2026), **506.4b**: Ein bereits deklarierter Angreifer verlässt durch Enttappen nicht den Kampf. **Maze of Ith** verhindert jedoch explizit allen von/zu ihm verursachten Kampfschaden, sodass unser Jon-Draw bereits vor dieser Rettung auslösen durfte. Ohne diese explizite Schadensverhinderung würde bloßes Enttappen nicht reichen.
 
 **Ohne empirischen Nachweis:** keine realen Manabrew-Partien, keine gemessene Gewinnrate, keine vollständige Prüfung aller theoretischen Zwei-Karten-Combos. Die Kartenwahl ist eine nachvollziehbare regel- und kurvenbasierte Hypothese. Ein geplanter fairer Praxistest: gegen drei Gegnerprofile je mindestens 10 Partien protokollieren Jon-Einsatz, Anzahl geschenkter Angreifer, Karten per Jon, Siegpfad und die letzte Zweiersituation. Nach künftigem Review ausschließlich neue Commit-Revisionsprüfungen als aktuell anerkennen.
 

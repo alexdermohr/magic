@@ -109,7 +109,7 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## Jon Irenicus, Shattered One — Das vergiftete Geschenk
 
-**Bracket 3 / Upgraded (V4):** Dimir-Geschenke und Goad mit mehrfachen Jon-Triggern, preiswerten Handlimit-Nachteilen, eigenem Schutz und unabhängigen X-Spell-Finishern. Exakt drei Game Changer; echte Versionen V1–V3 archiviert.
+**Bracket 3 / Upgraded (V5):** Dimir-Geschenke, mehrfache Jon-Trigger, Duell-Schutz über Maze of Ith und eigene Attrition-/X-Spell-Finisher über Braids, Bloodchief Ascension und Windfall. Exakt drei Game Changer; echte Versionen V1–V4 archiviert.
 
 - [Aktuelle 100-Karten-Liste](decks/jon-irenicus/current.txt)
 - [Strategie und kritische Regeln](decks/jon-irenicus/README.md)
