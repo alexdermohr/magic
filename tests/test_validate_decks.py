@@ -83,6 +83,83 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_visible_internal_filename_delimiters_are_checked(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for character in (",", ";", "'", '"', "(", ")", "[", "]"):
+            relative = f"decks/sample/miss{character}copy.md"
+            with self.subTest(character=character):
+                self.assertIn(
+                    (True, relative),
+                    rendered_markdown_references(relative),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    relative + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+                path = self.root / relative
+                path.write_text("valid existing path", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                path.unlink()
+                self.assertNotIn(
+                    (True, "decks/sample/note.md"),
+                    rendered_markdown_references(
+                        f"decks/sample/note.md{character}copy"
+                    ),
+                )
+
+        for terminator in (",", ";", "'", '"', ")", "]", "…", "，"):
+            with self.subTest(terminator=terminator):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(
+                        "decks/sample/missing.md" + terminator
+                    ),
+                )
+
+    def test_r3_visible_malformed_entities_are_exact_filename_text(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for raw in (
+            r"decks/sample/miss\&#x69;ng.md",
+            "decks/sample/miss&#x69ng.md",
+            "decks/sample/miss&notanentity;ng.md",
+            "decks/sample/miss&<em>#x69;</em>ng.md",
+        ):
+            literal = (
+                "decks/sample/miss&#x69;ng.md"
+                if raw.startswith("decks/sample/miss\\") or "<em>" in raw
+                else raw
+            )
+            with self.subTest(raw=raw):
+                self.assertIn(
+                    (True, literal), rendered_markdown_references(raw)
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    raw + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+                target = self.root / literal
+                target.write_text("valid existing path", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                target.unlink()
+
+        # Attributes and code examples still cannot fabricate live links.
+        for raw in (
+            "<span title='decks/sample/miss&#x69;ng.md'>safe</span>",
+            chr(96) + "decks/sample/miss&#x69;ng.md" + chr(96),
+        ):
+            with self.subTest(opaque=raw):
+                (self.root / "decks" / "README.md").write_text(
+                    raw + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_r3_visible_interior_ascii_filename_punctuation_is_checked(self) -> None:
         # GitHub GFM renders each character as literal prose within filenames.
         # These are not markdown/HTML/CSV separators; never silently skip them.
@@ -2926,23 +3003,6 @@ class DeckValidationTests(unittest.TestCase):
                 )
                 with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
                     validate_repository(self.root)
-
-    def test_invalid_or_escaped_character_references_do_not_join_paths(self) -> None:
-        self.write_deck("1 Sample Commander\n99 Plains\n")
-        for source in (
-            r"decks/sample/miss\&#x69;ng.md",
-            "decks/sample/miss&#x69ng.md",
-            "decks/sample/miss&notanentity;ng.md",
-            "decks/sample/miss&<em>#x69;</em>ng.md",
-            "<span title='decks/sample/miss&#x69;ng.md'>safe</span>",
-            chr(96) + "decks/sample/miss&#x69;ng.md" + chr(96),
-        ):
-            with self.subTest(source=source):
-                (self.root / "decks" / "README.md").write_text(
-                    source + "\n", encoding="utf-8"
-                )
-                self.assertEqual(len(validate_repository(self.root)), 1)
-
 
     def test_gfm_999_character_label_counts_source_escapes(self) -> None:
         """Each backslash escape is two source characters, not one."""

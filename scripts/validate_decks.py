@@ -857,15 +857,15 @@ def literal_deck_references(
     offset = 0
     while (start := content.find("decks/", offset)) >= 0:
         end = start + 6
-        while end < length and (
-            content[end] in _DECK_PATH_CHARS
-            or unicode_filename_continuation(content[end])
+        # The AST gives rendered (not raw Markdown) text. Literal filenames
+        # may use printable punctuation, including quotes and malformed entity
+        # fragments, so an ASCII allowlist drops real missing references.
+        while (
+            end < length
+            and content[end].isprintable()
+            and not content[end].isspace()
+            and content[end] not in "<>"
         ):
-            # A malformed numeric entity such as &#x69ng is a literal
-            # Markdown separator, not a decoded filename continuation.
-            # Valid character references were already decoded per text token.
-            if content.startswith("&#", end):
-                break
             end += 1
 
         # Greedy legacy regex semantics: use the rightmost extension whose
@@ -873,14 +873,16 @@ def literal_deck_references(
         match_end = None
         for extension in _DECK_EXTENSIONS.finditer(content, start + 7, end):
             candidate_end = extension.end()
-            if candidate_end < length:
-                following = content[candidate_end]
-                if (following.isalnum() or following in "_/~+-&@=!$%^#?:|{}"
-                        or unicode_filename_continuation(following)
-                        or (following == "." and candidate_end + 1 < length
-                            and (content[candidate_end + 1].isalnum()
-                                 or content[candidate_end + 1] in "_-"))):
-                    continue
+            # Only terminal prose punctuation may follow a .md/.txt basename.
+            # A nonpunctuation suffix, or punctuation followed by filename
+            # characters, means the apparent extension is internal data.
+            trailer = content[candidate_end:end]
+            if trailer and not all(
+                char in ".,;:!?)]}>" or char in (chr(39), chr(34)) or
+                (ord(char) > 127 and unicodedata.category(char).startswith("P"))
+                for char in trailer
+            ):
+                continue
             match_end = candidate_end
 
         # Nested "decks/" in the same uninterrupted path cannot provide
