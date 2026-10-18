@@ -106,3 +106,12 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Jon Irenicus, Shattered One — Das vergiftete Geschenk
+
+**Bracket 3 / Upgraded:** Dimir-Politik und Goad mit verschenkten Kreaturen, dauerhaftem Empfängernachteil und eigenen X-Spell-Finishern. Exakt drei Game Changer; v1/v2 und Regeln dokumentiert.
+
+- [Aktuelle 100-Karten-Liste](decks/jon-irenicus/current.txt)
+- [Strategie und kritische Regeln](decks/jon-irenicus/README.md)
+- [Einzelbewertung und Optimierung](decks/jon-irenicus/analysis.md)
+- [Archivierte tatsächliche Zwischenversionen](decks/jon-irenicus/versions/)

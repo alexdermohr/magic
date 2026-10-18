@@ -65,3 +65,10 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Jon Irenicus, Shattered One (Bracket 3)
+
+- `decks/jon-irenicus/current.txt`: aktuelle importierbare optimierte V3 mit 100 Karten.
+- `decks/jon-irenicus/README.md`: Spielplan und regelgeprüfte Geschenk-/Goad-Interaktionen.
+- `decks/jon-irenicus/analysis.md`: Einzelkarten, Bracket/Matchups, Risiken und belegte Änderungen.
+- `decks/jon-irenicus/versions/`: die tatsächlich entstandenen v1- und v2-Zwischenstände.
