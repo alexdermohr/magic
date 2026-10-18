@@ -81,6 +81,51 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_block_html_image_inside_inline_pre_is_live(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for tag, path in (
+            ('<img src="sample/missing.png">', "sample/missing.png"),
+            ('<IMG SRC="sample/missing.png">', "sample/missing.png"),
+        ):
+            source = "before <pre>example\n\n" + tag
+            with self.subTest(source=source):
+                self.assertIn(
+                    (False, path), rendered_markdown_references(source)
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+
+    def test_r3_block_html_closing_inline_pre_restores_visible_paths(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for endtag in ("</pre>", "</PRE>"):
+            source = (
+                "before <pre>example\n\ninside\n\n"
+                + endtag + "\n\ndecks/sample/missing.md"
+            )
+            with self.subTest(source=source):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "decks/sample/missing.md"
+                ):
+                    validate_repository(self.root)
+        source = "before <pre>example\n\ninside\n\ndecks/sample/missing.md"
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references(source),
+        )
+
     def test_r3_unclosed_inline_pre_remains_opaque_across_blocks(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for source in (

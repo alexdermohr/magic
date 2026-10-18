@@ -646,6 +646,24 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     inline_pre_depth -= 1
                     return
             if inline_pre_depth:
+                # Mistune can move subsequent standalone HTML into a block
+                # token while a browser still has the earlier inline <pre>
+                # open. Preserve the HTML parser's hidden-pre state across
+                # that token and accept only live href/src and post-close text.
+                if kind == "block_html" and isinstance(token.get("raw"), str):
+                    flush_text()
+                    visitor = VisibleRawHTML()
+                    visitor.hidden = ["pre"] * inline_pre_depth
+                    visitor.feed(token["raw"])
+                    visitor.close()
+                    inline_pre_depth = len(visitor.hidden)
+                    for destination in visitor.destinations:
+                        found.append((False, destination))
+                    for reference in literal_deck_references(
+                        "".join(visitor.parts)
+                    ):
+                        found.append((True, reference))
+                    return
                 # Only rendered bare text is an opaque preformatted example.
                 # GFM still emits clickable Markdown links/images and raw
                 # HTML href/src inside inline pre elements.
