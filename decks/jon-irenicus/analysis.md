@@ -32,7 +32,7 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Karte | Wertung | Konkreter Beitrag / relevante Grenze |
 |---|:---:|---|
 | Jon Irenicus, Shattered One | A | Gibt per Endstep dauerhafte nicht opferbare Goad-Geschenke; Angriffe unserer fremdkontrollierten Kreaturen erzeugen pro Jon Karte; vier Mana und removal-anfällig. |
-| Lord Skitter, Sewer King | A- | Jeden eigenen Kampfbeginn neuer Rat mit Menace zum Verschenken; Rat-ETB exiliert gegnerische Friedhofskarte. Kein sofortiger Angriff des neuen Tokens. |
+| Lord Skitter, Sewer King | A- | Jeden eigenen Kampfbeginn 1/1-Rat ohne Menace mit „kann nicht blocken“ zum Verschenken; nur ein anderer neu eintretender eigener Rat löst Skitters Friedhofsexil aus. Kein sofortiger Angriff des neuen Tokens. |
 | Archfiend of the Dross | A-/risk | Öl-Uhr versenkt Spieler nach vier Empfänger-Versorgungssegmenten; bei Rückfall an uns lebensgefährlich, instant-speed Removal zurückhalten. |
 | Baleful Strix | A | 2 Mana Karte und Deathtouch-Blocker, im Notfall als harmloser Attack-Draw-Träger verschenkbar. |
 | Spellseeker | A | Findet u. a. beide X-Finisher (Bibliotheks-MV 2), Demonic Tutor, Diabolic Intent, Cyclonic Rift, Mana Drain oder billige Antworten; nach ETB notfalls Geschenkkörper. |
@@ -72,7 +72,7 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Mask of Memory | A- | Vor Jon-Geschenk ausrüsten; nach erfolgreichem Kampfschaden löst die von uns kontrollierte Ausrüstung Kartenziehen 2 / Abwerfen 1 aus; nicht ohne Treffer. |
 | Bitterthorn, Nissa's Animus | A | Erzeugt eigenes Germ-Token; mit Jon direkt als 3/3-Geschenk. Bleibt als unser Equipment angelegt und sucht bei dessen Angriff Basic-Land getappt, insgesamt 7 Basics. |
 | Strionic Resonator | A | Für 2/T kopiert Jon-Trigger auf dem Stack, bei Bedarf andere Ziele; kann auch andere wertvolle eigene ausgelöste Fähigkeiten kopieren. |
-| Despotic Scepter | A | Ein Mana plus Tappen zerstört als Eigentümer jede eigene Kreatur, selbst unter Gegnerkontrolle; zentraler Not-Aus für finale Heads-up-Risiken. |
+| Despotic Scepter | A | Nur ein Mana **beim Ausspielen**, aktivierte Fähigkeit kostet **allein Tappen** (kein Mana); zerstört Permanent in unserem Eigentum selbst unter Gegnerkontrolle. Not-Aus im Heads-up auch ohne freie Länder. |
 | Assault Suit | B+ | Vor Gabe angelegt schützt es uns vor Angriff des ausgestatteten Geschenks, aber verhindert damit auch Jon-Draw in einem Zweierspiel; Equip 3 teuer. |
 | Diabolic Intent | A | Nur 1B sucht exakt ein beliebiges Ziel, bezahlt durch vorher noch selbst kontrollierten Token; nie mit nicht opferbarer geschenkter Kreatur finanzieren. |
 | Lightning Greaves | A- | Haste und Shroud für Jon, lässt sich günstig auf andere Kreaturen umlegen; Shroud blockiert eigene Zielspells/Ausrüsten bis umgerüstet. |
@@ -91,7 +91,7 @@ A = tragend, A− = stark mit Voraussetzung, B+ = situativer Nutzen, B = am ehes
 | Deadly Rollick | A | Spot-Exil unabhängig von Schadensresistenz, häufig kostenlos mit Jon. |
 | Mana Drain | A | UU-Counter universal und potenzieller farbloser Manaschub in der nächsten eigenen Hauptphase; funktional stärker als Counterspell. |
 | Arcane Denial | A- | Zuverlässiger 1U-Counter, zieht Gegnern Karten; mit Sheoldred ein Vorteil. |
-| Swan Song | A | Effizienter 1U-Stop gegen Combo/Removal, hinterlässt 2/2-Flieger. |
+| Swan Song | A | Einmanaiger U-Konter nur gegen Enchantment-, Instant- oder Sorcery-Spells (nicht gegen Kreaturen/Artefakte/Planeswalker); hinterlässt gegnerischen 2/2-Flieger. |
 | Pongify | A | Ein-Mana Instant Remove ohne Farbenbeschränkung, gibt 3/3-Affe. |
 | Reality Shift | A | Exilt auch indestructible Geschenke, hinterlässt Manifest. |
 | Malakir Rebirth | B+ | Schützt eigene Kreatur vor Destroy, MDFC als getapptes schwarzes Land möglich; bei geschenktem Ziel nicht ideal. |

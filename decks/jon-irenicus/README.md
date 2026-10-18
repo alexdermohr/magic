@@ -20,7 +20,7 @@ Jon gibt **zu Beginn unseres Endsegments** bis zu eine bereits von uns kontrolli
 
 **Lebenspunkte und Kampf:** Ebonblade Reaper halbiert beim eigenen Angriff die Lebenspunkte seines jeweiligen Beherrschers; Flesh Reaver verursacht zusätzlich Schaden am Beherrscher, wenn er Schaden verursacht. Desecration Elemental verlangt bei gewirkten Sprüchen Opfer anderer Kreaturen. Archfiend of the Dross droht nach vier Upkeeps mit dem Verlust des Spiels für seinen jeweiligen Beherrscher; bei Besitzer-Rückfall äußerst gefährlich.
 
-**Wiederholbare Träger:** Bitterblossom erzeugt eine fliegende Kreatur pro eigenem Upkeep, Ophiomancer bei fehlender Schlange in **jedem Upkeep** eine Schlange, Lord Skitter in unserer Kampfphase je eine Rat-Menance-Kreatur, Black Market Connections erzeugt optional einen Shapeshifter und Nadir Kraken bei eigenem Kartenziehen gegen Mana weitere Tentakel. Geschenkte Tokens bleiben unser Eigentum und lösen Jons Kartenziehen beim Angriff aus.
+**Wiederholbare Träger:** Bitterblossom erzeugt eine fliegende Kreatur pro eigenem Upkeep, Ophiomancer bei fehlender Schlange in **jedem Upkeep** eine Schlange, Lord Skitter in unserem Kampfbeginn je einen 1/1-Ratten-Token mit „kann nicht blocken“ (ohne Menace), Black Market Connections erzeugt optional einen Shapeshifter und Nadir Kraken bei eigenem Kartenziehen gegen Mana weitere Tentakel. Geschenkte Tokens bleiben unser Eigentum und lösen Jons Kartenziehen beim Angriff aus.
 
 ## Neu: Die eigentliche V4-Engine
 
@@ -30,7 +30,7 @@ Jon gibt **zu Beginn unseres Endsegments** bis zu eine bereits von uns kontrolli
 
 **Nicht mehr im Deck:** Sword of Fire and Ice und Sword of Feast and Famine. Durch Schutz vor Blau beziehungsweise Schwarz kann Jon eine bereits damit ausgerüstete Kreatur **nicht** als Ziel seiner blau-schwarzen Fähigkeit wählen. Nach der Schenkung kann unsere Ausrüstungsaktivierung die fremdkontrollierte Kreatur nicht mehr ausrüsten. Die frühere V3-Synergiebehauptung war falsch und ist korrigiert.
 
-**Despotic Scepter** ({1}, {T}: zerstöre ein Permanent in unserem Eigentum) ist unser wichtigster Sicherheitshebel: Es kann geschenkte Kreaturen unabhängig davon zerstören, wer sie kontrolliert; „kann nicht geopfert werden“ verhindert *Zerstörung* nicht. Es wirkt nicht gegen Unzerstörbarkeit und muss vor dem eigenen gefährlichen Upkeep oder tödlichen Angriff einsatzbereit sein.
+**Despotic Scepter** (Zauberkosten {1}; Aktivierung **nur {T}**: zerstöre ein Permanent in unserem Eigentum) ist unser wichtigster Sicherheitshebel: Es kann geschenkte Kreaturen unabhängig davon zerstören, wer sie kontrolliert; „kann nicht geopfert werden“ verhindert *Zerstörung* nicht. Es wirkt nicht gegen Unzerstörbarkeit und muss vor dem eigenen gefährlichen Upkeep oder tödlichen Angriff einsatzbereit sein.
 
 ## Eigener Karten-, Schutz- und Siegplan
 
