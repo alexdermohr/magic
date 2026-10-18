@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+"""The Master, Multiplied Bracket-3: local invariant checker; optional live Scryfall Oracle check."""
+from __future__ import annotations
+import argparse
+from collections import Counter
+import json
+from pathlib import Path
+import re
+import sys
+import urllib.request
+
+ROOT = Path(__file__).resolve().parent
+EXPECTED_GC = {"Ancient Tomb", "Demonic Tutor", "Jeska's Will"}
+COMMANDER = "The Master, Multiplied"
+BASICS = {"Swamp", "Mountain"}
+SWAPS_V2_TO_V3 = {
+    "Mirage Phalanx": "Redoubled Stormsinger",
+    "Warchief Giant": "Goldlust Triad",
+    "Mirror Box": "Samut, Hazoret's Champion",
+    "Etali, Primal Storm": "Rionya, Fire Dancer",
+    "Kardur, Doomscourge": "Heat Shimmer",
+    "Firbolg Flutist": "Molten Duplication",
+    "Sauron, the Necromancer": "Mimic Vat",
+    "Gemstone Caverns": "Hall of Echoes",
+}
+
+def assert_ok(condition: bool, message: str) -> None:
+    if not condition:
+        raise ValueError(message)
+
+def names(path: Path) -> list[str]:
+    lines=path.read_text(encoding="utf-8").splitlines()
+    assert_ok(all(re.fullmatch(r"1 .+",row) for row in lines),f"{path}: expected '1 NAME' per line")
+    cards=[line.split(" ",1)[1] for line in lines]
+    counts=Counter(cards)
+    assert_ok(len(cards)==100,f"{path}: {len(cards)} cards, not 100")
+    assert_ok(cards[0]==COMMANDER,f"{path}: unexpected commander")
+    assert_ok(all(q==1 or card in BASICS for card,q in counts.items()),f"{path}: non-basic singleton violation")
+    assert_ok(counts["Swamp"]==3 and counts["Mountain"]==3,f"{path}: basics count differs")
+    return cards
+
+def oracle(cards: list[str]) -> dict[str,dict]:
+    unique=list(dict.fromkeys(cards))  # Scryfall API may return duplicate basic land identifiers.
+    found={}
+    for i in range(0,len(unique),75):
+        group=unique[i:i+75]
+        body=json.dumps({"identifiers":[{"name":c} for c in group]}).encode("utf-8")
+        req=urllib.request.Request(
+            "https://api.scryfall.com/cards/collection",data=body,
+            headers={"User-Agent":"TheMasterB3Validator/3.0 (https://github.com/alexdermohr/magic)",
+                     "Accept":"application/json","Content-Type":"application/json"},method="POST")
+        with urllib.request.urlopen(req,timeout=20) as res:
+            data=json.load(res)
+        assert_ok(not data.get("not_found"),f"Unmatched Scryfall names: {data.get('not_found')}")
+        for c in data.get("data",[]):
+            title=c["name"] if c["name"] in unique else c["name"].split(" // ",1)[0]
+            assert_ok(title in unique,f"Unexpected Oracle response: {c['name']}")
+            assert_ok(title not in found,f"Duplicate Oracle response: {title}")
+            found[title]=c
+    assert_ok(set(found)==set(unique),f"Scryfall mismatch: {set(unique)-set(found)}")
+    return found
+
+def main() -> int:
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--oracle",action="store_true",help="Fetch live Scryfall legality, color identity, GC flag, and mana curve")
+    a=p.parse_args()
+    current=names(ROOT/"current.txt")
+    v1=names(ROOT/"versions/2026-10-18-b3-v1.txt")
+    v2=names(ROOT/"versions/2026-10-18-b3-v2.txt")
+    for required in ["README.md","analysis.md"]:
+        assert_ok((ROOT/required).is_file(),f"Missing documentation {required}")
+    changed_out=set(v2)-set(current)
+    changed_in=set(current)-set(v2)
+    assert_ok(changed_out==set(SWAPS_V2_TO_V3),f"V2 outgoing swap mismatch: {sorted(changed_out)}")
+    assert_ok(changed_in==set(SWAPS_V2_TO_V3.values()),f"V3 incoming swap mismatch: {sorted(changed_in)}")
+    assert_ok(set(v1)!=set(v2) and set(v1)!=set(current),"Historical versions not distinct")
+    assert_ok(not {"Combat Celebrant","Kiki-Jiki, Mirror Breaker"} & set(current),"Early combo package unexpectedly restored")
+    print("STRUCTURE PASS: 100 cards incl. commander; 6 basics; 2 real older versions; 8 validated V2->V3 replacements")
+    if not a.oracle:
+        print("LIVE ORACLE NOT RUN (execute with --oracle)")
+        return 0
+    found=oracle(current)
+    illegals=[n for n,c in found.items() if c["legalities"]["commander"]!="legal"]
+    bad_colors=[(n,c["color_identity"]) for n,c in found.items()
+                if not set(c["color_identity"]).issubset({"B","R"})]
+    absent_gc=[n for n,c in found.items() if "game_changer" not in c]
+    gc={n for n,c in found.items() if c.get("game_changer") is True}
+    land_names=[n for n,c in found.items() if "Land" in c["type_line"].split(" // ",1)[0].split(" — ",1)[0]]
+    actual_lands=sum(current.count(n) for n in land_names)
+    nonland_mana=Counter(int(c["cmc"]) for n,c in found.items() if n not in land_names)
+    assert_ok(not illegals,f"Commander-illegal cards: {illegals}")
+    assert_ok(not bad_colors,f"Off-color cards: {bad_colors}")
+    assert_ok(not absent_gc,f"Missing Game Changer flags: {absent_gc}")
+    assert_ok(gc==EXPECTED_GC,f"Game Changers: expected {EXPECTED_GC}, found {gc}")
+    assert_ok(actual_lands==36,f"Expected 36 lands, found {actual_lands}")
+    assert_ok("Malakir Rebirth" in found and "Land" in found["Malakir Rebirth"]["type_line"],
+              "Expected dual-faced utility land Malakir Rebirth")
+    print("ORACLE PASS: live Scryfall: 100 names, Commander legal, Rakdos identities")
+    print(f"LANDS PASS: {actual_lands} cards with land-front; Malakir Rebirth is a spell/land MDFC")
+    print("GAME CHANGERS PASS:",", ".join(sorted(gc)))
+    print("NONLAND MANA CURVE (unique cards):",json.dumps(sorted(nonland_mana.items())))
+    return 0
+
+if __name__=="__main__":
+    try:
+        sys.exit(main())
+    except Exception as error:
+        print("FAIL:",error,file=sys.stderr)
+        sys.exit(1)
