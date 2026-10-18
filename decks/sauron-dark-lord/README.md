@@ -1,46 +1,67 @@
 # Sauron, the Dark Lord — Die Macht Mordors
 
-18.10.2026 | Commander Bracket 3 — Upgraded | Grixis (U/B/R) | Ohne Budgetbegrenzung
+**Stand:** 18.10.2026 · **Format:** Commander, Bracket 3 / Upgraded · **Farben:** Grixis (U/B/R) · **Budget:** unbegrenzt
 
-current.txt enthält 100 importierbare Karten mit Commander zuerst. versions/2026-10-18-b3-v1.txt enthält eine tatsächlich geschriebene frühere 100-Karten-Liste; current.txt ist optimierte v3. Der tatsaechlich entstandene v2-Stand ist unter versions/2026-10-18-b3-v2.txt archiviert.
+**Aktuelle importierbare 100-Karten-Liste:** [current.txt](current.txt). Der Commander steht in der ersten Zeile. Die tatsächlich entstandenen früheren Decklisten bleiben in [versions/](versions/) erhalten: v1, v2 und v3. **current.txt ist v4.**
 
-## Spielplan
+## Strategie in einem Satz
 
-Sauron (3UBR) lässt beim Wirken JEDES gegnerischen Spruchs Orcs 1 amassen. Eine eigene Army, die einem Spieler Kampfschaden zufügt, lässt den Ring versuchen. Bei jeder Versuchung darf man die gesamte eigene Hand abwerfen und vier Karten ziehen. Eine leere Hand darf ebenfalls abgeworfen werden; den Discard mit einer guten Hand kann man ablehnen. Amass erzeugt gewöhnlich nur eine Army, die bei weiteren Amass-Ereignissen +1/+1-Marken erhält.
+Gegnerische Zauber bauen Saurons Ork-Armee auf; deren Kampfschaden und gezielte Ring-Versuchungen verwandeln Hände in neue Karten. Discard-Schaden, Kontrolle, wiederholte Wheels und große Armee-Angriffe gewinnen die Partie.
 
-**Früh (Züge 1–3):** Zwei oder drei Länder, eine U/B/R-Quelle in Reichweite und einen Zweimana-Stein suchen. Alle zwölf Rampquellen sind Manartefakte; Relic of Sauron ist thematisch, aber spät, Phial of Galadriel ein Value-Rock. Mit Sol Ring/Talisman/Signet ist Sauron ab Turn 4/5 plausibel, aber nicht garantiert. Mystic Remora, Rhystic Study, Call of the Ring und Mauhúr liefern erste Value-Engines.
+## Zug 1–3: Mana, nicht nur Bomben
 
-**Mittel (Züge 4–6):** Sauron nur dann blank ausspielen, wenn Removal-Risiko akzeptabel ist. Seine Ward verlangt vom zielenden Gegner das Opfern eines LEGENDÄREN Artefakts oder einer legendären Kreatur; nichtzielende Boardwipes umgehen Ward. Gegen Removal gibt es Swan Song, Mana Drain, Arcane Denial, An Offer You Can't Refuse, Slip Out the Back, March of Swirling Mist und Swiftfoot Boots. March of Swirling Mist kann bei {X}{U} Sauron und Army vor vielen nichtzielenden Boardwipes phasen; mit X=2 kostet das {2}{U}. The Ozolith erhält Marken nach Army-Tod, nicht jedoch den Token selbst.
+Mit **37 Ländern und zwölf Manaartefakten** beginnen. Hände mit zwei bis drei Ländern, einer praktikablen U/B/R-Abfolge und mindestens einem günstigen Manastein sind zu bevorzugen. Arcane Signet, Fellwar Stone, die Talismane und Signets beschleunigen Sauron; Sol Ring ist besonders explosiv, fixiert aber keine Farben. Relic of Sauron kostet vier Mana und liefert danach zwei Mana in beliebiger U/B/R-Kombination, später auch Kartenauswahl. Phial of Galadriel ist ein langsameres dreimanaiges Fixing-Artefakt, aber gelegentlich ein zusätzlicher Draw.
 
-**Angreifen:** Die erste Ring-Emblem-Fähigkeit verhindert lediglich Blocken durch Kreaturen mit höherer Stärke als der Ringbearer; eine riesige Army kann also weiter mit 1/1 geblockt werden. Key to the Side-Door macht die Army für 2 Mana pro Aktivierung unblockbar; Brotherhood Regalia ebenfalls (Ringbearer ist legendär und kann für 1 equippt werden). My Precious gibt der ausgerüsteten Kreatur Hexproof und dauerhafte Unblockbarkeit (Equip {2} plus 2 Leben). Herald of Secret Streams gibt Unblockbarkeit bei Countern. The Black Gate funktioniert nur gegenüber dem Spieler mit den meisten Lebenspunkten oder geteilter Führung. Orcish Siegemaster, Great Goblin, Foul-Hearted und Shadowspear bringen Trample.
+Mit Mystic Remora, Rhystic Study, Mauhúr, Uruk-hai Captain, Call of the Ring und The Great Goblin kann das Deck bereits vor Sauron Nutzen erzeugen. **Sauron kostet {3}{U}{B}{R}**. Ihn nicht unnötig in offenes Removal oder kurz vor einen globalen Wipe spielen.
 
-**Ring ohne Kampf:** Call of the Ring versucht in jedem eigenen Upkeep. Ringsight versucht und sucht eine Karte, die eine Farbe mit irgendeiner eigenen legendären Kreatur teilt; Sauron selbst hat drei Farben und macht den Tutor vielseitig. Sauron's Ransom ist eine Instant-Kartenauswahl plus Versuchung. Birthday Escape zieht fuer {U} erst eine Karte und laesst danach den Ring versuchen; es funktioniert auch ohne eigene Army. Phial of Galadriel ersetzt die ERSTE Karte aus einer leeren Hand beim Sauron-Re-Wheel durch zwei Karten: insgesamt fünf gezogene Karten, nicht acht.
+## Zug 4–6: Armee, Ring und die erste Handauffüllung
 
-## Finisher
+Sauron besitzt **Ward — Sacrifice a legendary artifact or legendary creature**. Ein Gegner, der ihn mit einem Zauber/einer Fähigkeit anzielt, muss also als Ward-Kosten eine passende eigene legendäre Permanente opfern oder verliert den gezielten Spruch bzw. die Fähigkeit. Diese Ward schützt **nicht** vor gewöhnlichen nichtzielenden Boardwipes.
 
-**Orks:** Sauron, Mauhúr, March from the Black Gate, Saruman und Great Goblin, Foul-Hearted erzeugen immer mehr Marken; per Key, Regalia, Herald oder Trample passieren sie Blocker. Chandra's Ignition mit einer riesigen Army zielt auf eine eigene Kreatur und verursacht Schaden in Höhe ihrer Stärke an allen Gegnern und allen anderen Kreaturen.
+- **Jeder vom Gegner gewirkte Spruch** löst Saurons *amass Orcs 1* aus. Mehrere Amass-Ereignisse erhöhen normalerweise die Marken **derselben Army**; es werden nicht automatisch neue Spielsteine erzeugt. Mauhúr legt bei jedem passenden +1/+1-Markenereignis eine zusätzliche Marke dazu.
+- **Army-Kampfschaden an einem Spieler** löst *The Ring tempts you* aus. Die erste Ring-Stufe macht eine große Army nicht automatisch unblockbar – nur Kreaturen mit **größerer** Stärke dürfen den Ringträger nicht blocken.
+- Durch **My Precious**, **Brotherhood Regalia** oder **Herald of Secret Streams** erreicht die Army Spieler zuverlässig. The Black Gate ist eine eingeschränkte Land-Alternative gegen einen Spieler mit den meisten Lebenspunkten. Shadowspear, Orcish Siegemaster und Great Goblin, Foul-Hearted geben Trample.
+- **Call of the Ring** versucht im eigenen Versorgungssegment ohne Kampfschaden. **Birthday Escape** ({U}, eine Karte ziehen und danach einmal *tempt*) ist ein einmaliger Sorcery-Effekt. **Sauron's Ransom** und **Ringsight** erzeugen weitere einzelne Ring-Versuchungen; Ringsight sucht eine Karte, die mit einer **beliebigen eigenen legendären Kreatur** eine Farbe teilt.
 
-**Amass-Schaden:** The Great Goblin pingt bei einem Counter-Auftrag auf Orc/Goblin/Army für zwei auf genau EINEN Gegner. Einzelne Counter-Pakete loesen The Great Goblin nur einmal aus. Teferi's Ageless Insight verdoppelt Saurons vier Zieh-Karten ausserhalb des eigenen Ziehsegments auf acht, statt Amass-Counter direkt in Schaden zu verwandeln. Mit Orcish Bowmasters wachsen die Amass-Trigger bei Extra-Draw der Gegner; ein Ereignis mit drei Countern bleibt für The Great Goblin nur ein Trigger.
+Wenn der Ring versucht, darf Sauron die **gesamte** eigene Hand abwerfen und vier Karten ziehen; dies ist optional und funktioniert auch mit leerer Hand. Gute Schutzkarten nicht reflexartig abwerfen.
 
-**Discard-Burn:** Cool but Rude muss erst für zusätzliche 1R auf Level 2 gebracht werden; erst dann verursacht JEDE abgeworfene Karte zwei Schaden an jedem Gegner. Glint-Horn Buccaneer verursacht einen weiteren Schaden an jeden Gegner pro Discard. Monument to Endurance wählt bei den ersten bis zu drei Discard-Triggern eines Zugs je einen unterschiedlichen Effekt (Draw, Treasure, alle Gegner verlieren drei Leben). Wheel of Fortune, Echo of Eons und Saurons Ring-Handauffüllung liefern Discard-Ereignisse. Das sind hohe synergistische Schäden, aber keine geplante Endlosschleife.
+## Wincondition A — die Macht Mordors
 
-**Board-Kontrolle:** Archfiend of Ifnir macht mit JEDEM abgeworfenen Blatt -1/-1 auf jedes gegnerische Creature. Bone Miser wandelt Discard in Zombies/BB/Draw. Rielle zieht beim ERSTEN Discard-Vorgang eines jeden Zugs X zusätzliche Karten. Roaming Throne sollte als HORROR deklariert werden, damit Saurons eigene Trigger jeweils zusätzlich auslösen; bei mehreren Ring-Refill-Triggern wird jede optionale Entscheidung separat getroffen.
+Sauron, Saruman, the White Hand, March from the Black Gate, Mauhúr und Great Goblin, Foul-Hearted vergrößern die Army. Mit Unblockbarkeit trifft sie direkt. **Chandra's Ignition** lässt eine große eigene Kreatur ihren Schaden an allen Gegnern und allen anderen Kreaturen verursachen. Vorsicht: Wird das anvisierte Wesen vorher entfernt, scheitert Ignition.
 
-**Ohne Commander:** The Locust God erzeugt Haste-Flieger bei jedem Draw, Rhystic Study, Mystic Remora und Black Market Connections halten Kartenfluss hoch. Dauthi Voidwalker exiliert gegnerische Friedhofskarten mit Leerenmarken und kann eine davon kostenlos wirken lassen. Reanimate gewinnt eigene Engines aus dem Friedhof zurueck; mit aktivem Dauthi sind gegnerische Friedhofsziele seltener.
+**The Great Goblin** fügt bei jedem Ereignis, das einem eigenen Orc/Goblin/Army Marken gibt, **zwei Schaden an genau einem Gegner** zu; fünf auf einmal aufgelegte Marken erzeugen **nur einen** solchen Trigger. Orcish Bowmasters bestraft zusätzliche gegnerische Draws und amässt dabei Orcs.
 
+## Wincondition B — echte Discard-Wheels
 
-## V3: gezielte Optimierung
+**Cool but Rude** muss zunächst für {1}{R} auf **Level 2** aufgestuft sein; danach verursacht jede selbst abgeworfene Karte **zwei Schaden an jedem Gegner**. Glint-Horn Buccaneer fügt beim eigenen Discard je Karte einen weiteren Schaden pro Gegner zu. Archfiend of Ifnir legt je abgeworfener Karte eine -1/-1-Marke auf jede gegnerische Kreatur. Bone Miser wandelt abgeworfene Länder in {B}{B}, Kreaturen in 2/2-Zombies und andere Karten in Draw um. Rielle, the Everwise, zieht beim **ersten Discard-Ereignis jedes Zugs** entsprechend viele Zusatzkarten. Monument to Endurance kann in einem Zug jeden seiner drei unterschiedlichen Modi einmal einsetzen.
 
-- Teferi's Ageless Insight ersetzt All Will Be One: Saurons optionaler Handabwurf fuehrt normalerweise zu acht statt vier neuen Karten. Verloren geht direkter Schaden aus Army-Countern, deshalb bleibt die Kampf-/Discard-Schadensachse wichtig.
-- My Precious ersetzt Goblin Plate Mail: Equipment fuer unblockbare und fluchsichere Army statt nur Menace. Das Adventure kann alternativ eine Kreatur zum Kartenziehen opfern. Ausruesten kostet Mana und Lebenspunkte.
-- Birthday Escape ersetzt Fall of Cair Andros: Einmana-Tempt ohne Kampfschaden oder besondere Wrath-Kombination. Verloren geht die fruehere Amass-Explosion mit Blasphemous Act.
-- March of Swirling Mist ersetzt Lazotep Plating: Phasing gegen viele globale Removal-Effekte und zur situativen Entfernung gegnerischer Blocker. Gegen einzelne zielende Sprueche bleibt Slip Out the Back am guenstigsten. Ein phasender Sauron ist in dieser Zeit nicht anwesend.
-- Dauthi Voidwalker ersetzt Baleful Strix: Shadow-Ringtraeger, gegnerisches Friedhofsexil und das spaetere Spielen einer exilierten gegnerischen Karte. Ein Ringtraeger, der keine Army ist, loest durch seinen Kampfschaden allein NICHT Saurons Armee-Schaden-Trigger aus.
+**Wheel of Fortune** ({2}{R}) und **Windfall** ({2}{U}) bewirken tatsächlich, dass alle Spieler ihre Hand *abwerfen* und neue Karten ziehen. Das triggert die Discard-Payoffs und füllt Gegnern gleichzeitig die Hände. **Echo of Eons wurde deshalb in v4 entfernt:** Es *mischt* Hände und Friedhöfe in die Bibliotheken und ist **kein Discard**. Mit Dauthi Voidwalker werden tatsächlich abgeworfene gegnerische Karten stattdessen mit Void-Marken ins Exil geschickt.
 
-Die vier unveraenderten Kernbedingungen sind 37 Laender, zwoelf Manaartefakte, genau drei Game Changer und keine fruehe beabsichtigte Zweikarten-Endlosschleife. Ohne echte Multiplayer-Testpartien ist der relative Staerkezuwachs eine theoretische, regelbasierte Bewertung.
+### Whispering Madness — der ungewöhnliche Motor der v4
 
-## Bracket-3-Grenzen
+**Whispering Madness** ({2}{U}{B}) lässt alle Spieler ihre Hände abwerfen und so viele Karten ziehen, wie beim größten abgeworfenen Stapel abgelegt wurden. Seine **Cipher**-Fähigkeit kann die Karte nach dem ersten Wirken im Exil an die Ork-Armee oder an den dank Shadow meist unblockbaren Dauthi Voidwalker *encodieren*. Bei jedem folgenden Kampfschaden dieser Kreatur an einem Spieler darfst du kostenlos eine **Kopie des verschlüsselten Spruchs wirken**.
 
-Genau 3 live-geprüfte Game Changer: Demonic Tutor, Rhystic Study, Orcish Bowmasters. Kein Ancient Tomb, Mana Vault, Cyclonic Rift, Deflecting Swat, Fierce Guardianship oder The One Ring (diese Karte löst durch ihren Namen KEINE Ring-Versuchung aus). Keine absichtliche frühe Zweikarten-Infinite-Combo, Extra-Turn-Kette oder Massenlandzerstörung. Das ist eine theoretische Bracket-Einordnung, keine gemessene Gewinnrate.
+Trifft die encodierte **Army** einen Spieler, werden Saurons Army-Damage-Trigger und der Cipher-Trigger gleichzeitig ausgelöst. **Du bestimmst die Stapelreihenfolge:** Erst Ring-Versuchung und optionaler Vier-/Acht-Karten-Refill, dann der Wheel; oder erst Wheel, danach die Ring-Versuchung. Der kostenlose Cipher-Cast ist ein *gewirkter Nichtkreaturenzauber* und löst **Saruman, the White Hand** für *amass Orcs 4* aus. Die Cipher-Kopie löst **nicht** Saurons Trigger für gegnerische Zauber aus, denn du wirkst sie selbst.
 
-Quellen: https://magic.wizards.com/en/formats/commander ; https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025 ; https://magic.wizards.com/en/news/feature/the-hobbit-release-notes ; https://scryfall.com/
+Das ist eine wiederholbare, kampfgebundene Engine, **keine** unendliche Zweikartenkombination. Dauthi exiliert dabei gegnerische Discard-Karten, kann später eine davon kostenlos wirken; sein eigener Kampfschaden löst **nicht** Saurons Army-Trigger aus. Durch gegnerisches Removal kann die verschlüsselte Kreatur verloren gehen und damit der weitere Cipher-Nutzen.
+
+## Ersatzstrategie, Zieh-Reihenfolge und Schutz
+
+The Locust God erzeugt bei eigenem Draw fliegende Insekten mit Eile und ist eine Siegoption auch ohne Sauron. Reanimate holt eine wichtige Kreatur zurück; Dauthi Voidwalker kann die Reanimation gegnerischer Kreaturen behindern, da diese im Exil statt im Friedhof landen.
+
+**Teferi's Ageless Insight** ersetzt vier normale Sauron-Draws außerhalb des eigenen Ziehsegments durch acht. Ist nur **Phial of Galadriel** zusätzlich zu Sauron vorhanden und die Hand vor dem Draw leer, werden es normalerweise **fünf** Karten. Mit **beiden** Ersatzeffekten und leerer Hand können es **neun oder zehn** Karten sein, abhängig von der gewählten Ersatzreihenfolge für den ersten Draw. Bei wiederholten Wheels mit Teferi auf die verbleibende Bibliotheksgröße achten.
+
+**Roaming Throne:** Beim Eintritt „**Horror**“ bestimmen. Es verdoppelt Saurons eigene ausgelöste Fähigkeiten (Cast-Amass, Army-Combat-Tempt, Ring-Discard/Draw). Bei mehreren Refill-Triggern wird jeder separat entschieden.
+
+**Boardwipes:** March of Swirling Mist kann für {X}{U} eigene Kreaturen phasen (Sauron + Army mit X=2) und so viele globale Antworten umgehen; Slip Out the Back schützt kostengünstiger ein einzelnes Ziel. Eine gephaste Sauron-Kreatur kann in der Zwischenzeit keine Fähigkeiten auslösen. Swiftfoot Boots, My Precious und Brotherhood Regalia helfen gegen gezieltes Removal, nicht zwangsläufig gegen Wraths. **The Ozolith** erhält Counter beim Verlassen der Army und kann sie zu Beginn des eigenen Kampfes auf ein neues Wesen übertragen. Toxic Deluge und Blasphemous Act zerstören ohne Schutz häufig auch die eigene Armee.
+
+## Warum gerade diese v4?
+
+- **Echo of Eons → Windfall:** Ein echter Discard-Wheel für drei Mana statt Hand-/Friedhofsmischen, das die Discard-Engine gar nicht auslöst. Verlust: Echo hatte Flashback aus dem Friedhof.
+- **Key to the Side-Door → Whispering Madness:** Die viermanaige Cipher-Engine bietet wiederholbaren Discard und erneuten Kartenaustausch statt eines fünften separaten Evasion-Helfers. Verlust: Die preiswerte garantierte Unblockbarkeit von Key entfällt. My Precious, Brotherhood Regalia, Herald of Secret Streams, The Black Gate und die Trample-Karten erhalten mehrere Wege zum Angriff.
+
+## Bracket 3 und Nachweise
+
+**Exakt drei Game Changer:** **Demonic Tutor, Rhystic Study und Orcish Bowmasters**. Kein Ancient Tomb, Mana Vault, Underworld Breach, Cyclonic Rift, Fierce Guardianship oder The One Ring. Letzteres löst keine Ring-Versuchung aus. Keine geplanten frühen deterministischen Zweikarten-Endlosschleifen, keine Extra-Turn-Ketten oder Massenlandzerstörung. Bracket 3 beschreibt das angestrebte **Spielerlebnis**, nicht eine gemessene Gewinnquote.
+
+**Quellen:** [Offizieller Commander-/Bracket-Überblick](https://magic.wizards.com/en/formats/commander) · [Scryfall-Kartendaten](https://scryfall.com/) · [Review und Änderungshistorie](analysis.md). Strukturelle Tests und Kartendatenprüfungen ersetzen keine gespielten Multiplayer-Partien.

@@ -1,6 +1,6 @@
 # Sauron — Optimierung und Einzelprüfung
 
-Stand 2026-10-18. v1, v2 und v3 sind tatsaechlich entstandene 100-Karten-Listen. v1 und v2 liegen unter versions; current.txt ist die optimierte v3. Die 100 Einzelpositionen wurden hinsichtlich Regeltext, Tempo, Synergie, Schwachpunkt und möglichem Ersatz überprüft. Bewertung rein theoretisch.
+Stand 2026-10-18. v1, v2 und v3 sind tatsaechlich entstandene, unveraendert archivierte 100-Karten-Listen unter versions/. current.txt ist die optimierte v4. Die 100 Einzelpositionen wurden hinsichtlich Regeltext, Tempo, Synergie, Schwachpunkt und möglichem Ersatz überprüft. Bewertung rein theoretisch.
 
 ## Acht v1 → v2 Wechsel
 
@@ -28,6 +28,24 @@ Stand 2026-10-18. v1, v2 und v3 sind tatsaechlich entstandene 100-Karten-Listen.
 | Baleful Strix | Dauthi Voidwalker | Shadow-Ringtraeger, Friedhofs-Hate und exilierter gegnerischer Gratiszauber | Kein ETB-Draw oder Deathtouch; Gegner-Graveyard-Reanimate wird erschwert |
 
 Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal und nicht als Game Changer markiert. Manabasis und die drei Game-Changer-Plaetze bleiben unveraendert. Ziel: weniger Abhaengigkeit von ungebremstem Kampfschaden und besserer Widerstand gegen Boardwipes.
+
+## V3 nach V4: Zwei gezielte Kartentausche
+
+| Heraus (v3) | Hinein (v4) | Nachvollziehbare Verbesserung | Starkes Gegenargument |
+| --- | --- | --- | --- |
+| Echo of Eons | **Windfall** | 2U statt sechs Mana; echtes Abwerfen statt Mischen. Discard-Payoffs und Dauthi Voidwalker profitieren. | Echo konnte fuer 2U aus dem Friedhof geflashbackt werden und war auch fuer Bowmasters nuetzlich. Windfall fuellt gegnerische Haende. |
+| Key to the Side-Door | **Whispering Madness** | Der erste Wheel erzeugt sofort viele Abwurf-Trigger; mit Cipher auf einer unblockbaren Army oder Shadow-Dauthi entsteht ein wiederholbarer Angriffsmotor. | Key lieferte fuer {2} und Tappen jederzeit garantierte Unblockbarkeit. Cipher braucht nach dem teureren Erstcast weiteren Kampfschaden. |
+
+**Gegenprobe zur Evasion:** Der Verlust von Key koennte die Ring-Engine verlangsamen. Er ist hier durch **My Precious, Brotherhood Regalia, Herald of Secret Streams, The Black Gate** sowie **Shadowspear, Orcish Siegemaster und Great Goblin, Foul-Hearted** als Trample-Unterstuetzung vertretbar. Dauthi Voidwalker mit Shadow ist ein weiterer geeigneter Cipher-Traeger. Gegen extrem removalstarke Pods bleibt die Rueckkehr zu Key eine begruendete Metagame-Alternative.
+
+**Besondere v4-Synergie:** Wenn die encodierte Army trifft, gehen Saurons Army-Kampfschaden-Tempt-Trigger und Cipher auf den Stapel; ihre Reihenfolge wird vom eigenen Controller gewaehlt. Der kostenfrei durch Cipher gewirkte Nichtkreaturenzauber Whispering Madness loest **Saruman, the White Hand** fuer **amass Orcs 4** aus. Das Abwerfen erzeugt Schaden durch Cool but Rude und Glint-Horn Buccaneer, Ressourcen durch Bone Miser und Monument und gegnerweite -1/-1-Marken durch Archfiend of Ifnir. Dauthi Voidwalker ersetzt das Ablegen gegnerischer Karten im Friedhof durch Exilieren mit Void-Marken. Dieser Motor braucht einen erfolgreichen Kampftreffer und ist keine deterministische fruehe Zweikarten-Endlosschleife.
+
+## Beruecksichtigte PR-Reviewpunkte
+
+1. **Echo of Eons war kein Discard.** Es mischt Haende und Friedhoefe in die Bibliotheken. Der alte README-Satz, es loese Discard-Payoffs aus, war sachlich falsch. v4 ersetzt es durch Windfall und dokumentiert den Unterschied.
+2. **Birthday Escape ist einmalig.** Der billige Sorcery-Cantrip bietet genau eine Tempt-Ausloesung pro erfolgreichem Wirken, keine eingebaute Wiederholung.
+3. **Phial of Galadriel und Teferi's Ageless Insight:** Eine ansonsten leere Sauron-Hand ergibt bei vier Draws durch Phial allein fuenf, durch Teferi allein acht und mit beiden Replacement-Effekten je nach Reihenfolge **neun oder zehn** Karten.
+
 
 ## Karte für Karte
 
@@ -105,7 +123,7 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 | The Ozolith | 1.0 | Konserviert +1/+1-Marken aus einer Army, Neuübertragung erst nächster Combat. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | My Precious | 3.0 | Hobbit-Equipment: Hexproof und unblockbar, Equip {2} plus 2 Leben; Adventure kann Draw liefern | Teurer als Goblin Plate Mail, kein Amass-ETB |
 | Brotherhood Regalia | 2.0 | Unblockbar und Ward2, Equip an legendärem Ringbearer kostet 1. | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
-| Key to the Side-Door | 1.0 | Ein Mana Artefakt plus zweimalige Farblose Mana und Tappen für Unblockbarkeit. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
+| Whispering Madness | 4.0 | Echter Vier-Mana-Discard-Wheel mit Cipher: auf Army oder Dauthi verschluesselt, nach weiteren Kampftreffern kostenlose Kopien; triggert Sarumans Amass 4 je gecasteter Kopie. | Kein garantierter Treffer ohne Evasion, mehr Mana als Key; nach Kreaturenentfernung keine weiteren Cipher-Casts. |
 | Shadowspear | 1.0 | Equipped creature gets +1/+1 and has trample and lifelink. | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
 | Rhystic Study | 3.0 | GC-Kartenziehen zu jedem Gegnerzauber ohne Zahlung 1. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Teferi's Ageless Insight | 4.0 | Replacement: Sauron zieht ausserhalb des Ziehsegments acht statt vier; verdoppelt auch andere echte Draws | Vier Mana und Doppelblau; ersetzt nicht den frueheren Counter-Schadensfinisher |
@@ -116,7 +134,7 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 | Faithless Looting | 1.0 | Draw two cards, then discard two cards. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Frantic Search | 3.0 | Draw two cards, then discard two cards. Untap up to three lands. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Wheel of Fortune | 3.0 | Sieben Karten für alle: starker Discard-Payoff, aber gegnerischer Refill. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
-| Echo of Eons | 6.0 | Flashback 2U aus Hand-Discard, aber mischt alle Graveyards zurück. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
+| Windfall | 3.0 | Echter Drei-Mana-Wheel: Alle Spieler werfen ihre Hand ab und ziehen so viele Karten wie der groesste zuvor abgeworfene Stapel. Aktiviert Cool but Rude, Bone Miser, Archfiend, Rielle, Monument und Dauthi. | Auch Gegner werden aufgefuellt; nicht aus dem Friedhof flashbackbar wie Echo of Eons. |
 | Chandra's Ignition | 5.0 | Ganze Army-Stärke schädigt jeden Gegner und alle anderen Kreaturen. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
 | Sauron's Ransom | 3.0 | Instant-Dig aus vier Karten, beliebige Verteilung in zwei Piles, Tempt. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Reanimate | 1.0 | Ein Mana für bedrohte oder abgeworfene Engines aus jedem Graveyard. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
@@ -134,12 +152,13 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 | March of Swirling Mist | 1.0 | Phase X Kreaturen fuer {X}{U}; schuetzt Army und Sauron gegen globale Antworten | Bei X=2 sind 3 Mana noetig; keine neue Amass-Marke |
 | Swiftfoot Boots | 2.0 | Ein Equip für Hexproof/Haste, aber kein nichtzielender Wrath-Schutz. | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
 
-## Live-Daten und probabilistische Stichprobe
+## Live-Daten und exakte Ziehungswahrscheinlichkeiten (v4)
 
-- v3 enthaelt 100 verschiedene Karten, darunter 1 Commander, 37 Laender, 62 Nichtland-Karten und 12 Manaartefakte. Die drei Game Changer bleiben Demonic Tutor, Rhystic Study und Orcish Bowmasters. Ein abschliessender frischer Live-Abgleich folgt auf genau diesen Stand.
-- Durchschnittlicher MV der 62 Nichtland-Karten ohne Commander: 2.726 (v2: 2.774). Histogramm: 1:12, 2:21, 3:15, 4:6, 5:5, 6+:3.
-- Exakt berechnete hypergeometrische Wahrscheinlichkeiten (99 Karten, 37 Laender, 12 Rocks, kein Mulligan): erste 7 >=2 Laender 81.42 %, erste 10 >=3 Laender 80.04 %, erste 7 >=2 Laender und mindestens ein Ramp-Artefakt 46.79 %.
-- Die Starthand-Wahrscheinlichkeiten sind in v2 und v3 identisch, weil Laender und Ramp unveraendert bleiben; dies sind keine simulierten Partien oder Gewinnquoten.
+- Frisch per Scryfall /cards/collection: 115 unterschiedliche Karten in den vier tatsaechlich erstellten Versionen, alle mit legalities.commander=legal, Grixis-Farbidentitaet und existierendem Papierdruck (bei Underground Sea, Volcanic Island, Badlands und Wheel of Fortune wurde eine eigene Papierausgabe nachgeschlagen).
+- **100 verschiedene Karten: 1 Commander, 37 Laender und 62 Nichtlaender, darunter 12 Manaartefakte.** Exakt drei aktuelle Game Changer: Demonic Tutor, Orcish Bowmasters, Rhystic Study.
+- Mittelwert der 62 Nichtlaender ohne Commander: **2,726** (v3 ebenfalls 2,726). Manawert-Kurve: 1:11, 2:21, 3:16, 4:7, 5:5, 6+:2. Echo (6) und Key (1) wurden durch Windfall (3) und Whispering (4) ersetzt: Mana-Summe gleich, weniger 6+-Karten.
+- Exakte Hypergeometrie fuer das 99er-Deck ohne Mulligans: in den ersten 7 Karten mindestens 2 Laender **81,42 %**; in den ersten 10 Karten mindestens 3 Laender **80,04 %**; in 7 Karten mindestens 2 Laender und mindestens ein Manaartefakt **46,79 %**. Beispiel: P(>=2 Laender in 7) = 1 - [C(62,7) + 37*C(62,6)]/C(99,7). Laender und Ramp sind seit v3 identisch.
+- Die v3-Snapshot-Datei ist bytegenau mit dem vor v4 auf GitHub veroeffentlichten current.txt-Blob verglichen worden. **Keine simulierten Multiplayer-Partien, keine gemessene Winrate.**
 
 ## Bewusst ausgeschlossene Optionen
 
@@ -162,5 +181,7 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 - Ledger Shredder: effizienter Connive-Engine- und Ringtraeger, aber keine Friedhofskontrolle; Dauthi ist der groessere Lueckenschluss.
 
 ## Grenzen
+
+Es gibt weiterhin keine real gespielten Viererpartien und keinen vollstaendigen Combo-Datenbank-Abgleich. Die angenommene Staerkesteigerung der v4 folgt aus Kartentext, Kosten und Synergie, nicht aus einer Messung.
 
 Keine gespielten Partien, keine gemessene Siegquote, kein vollständiger Combo-Datenbankvergleich. Oracle und Game-Changer-Flags sind ein zeitpunktbezogener Live-Check; spätere Regelupdates erfordern Nachprüfung.

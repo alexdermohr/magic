@@ -70,7 +70,7 @@
 1 The Ozolith
 1 My Precious
 1 Brotherhood Regalia
-1 Key to the Side-Door
+1 Whispering Madness
 1 Shadowspear
 1 Rhystic Study
 1 Teferi's Ageless Insight
@@ -81,7 +81,7 @@
 1 Faithless Looting
 1 Frantic Search
 1 Wheel of Fortune
-1 Echo of Eons
+1 Windfall
 1 Chandra's Ignition
 1 Sauron's Ransom
 1 Reanimate
