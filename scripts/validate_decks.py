@@ -19,7 +19,7 @@ BASICS = frozenset({
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # Do not match a .md/.txt prefix of a longer filename (e.g. .md.bak).
 # A solitary trailing period is prose punctuation and still ends the path.
-_DECK_PATH_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_./-+~&@=!")
+_DECK_PATH_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_./-+~&@=!$")
 _DECK_EXTENSIONS = re.compile(r"\.(?:md|txt)")
 
 
@@ -808,7 +808,7 @@ def literal_deck_references(
             candidate_end = extension.end()
             if candidate_end < length:
                 following = content[candidate_end]
-                if (following.isalnum() or following in "_/~+-&@=!"
+                if (following.isalnum() or following in "_/~+-&@=!$"
                         or unicode_filename_continuation(following)
                         or (following == "." and candidate_end + 1 < length
                             and (content[candidate_end + 1].isalnum()

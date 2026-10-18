@@ -77,6 +77,29 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_dollar_sign_in_literal_filename_and_suffix(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        relative = "decks/sample/missing$copy.md"
+        self.assertIn(
+            (True, relative),
+            rendered_markdown_references(relative),
+        )
+        (self.root / "decks" / "README.md").write_text(
+            relative + "\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(
+            DeckValidationError, "missing local reference"
+        ):
+            validate_repository(self.root)
+        target = self.root / relative
+        target.write_text("existing", encoding="utf-8")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+        self.assertNotIn(
+            (True, "decks/sample/guide.md"),
+            rendered_markdown_references("decks/sample/guide.md$copy"),
+        )
+
     def test_r3_remaining_ascii_punctuation_in_literal_paths(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for char in ("@", "=", "!"):
