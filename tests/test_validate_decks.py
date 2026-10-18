@@ -85,6 +85,45 @@ class DeckValidationTests(unittest.TestCase):
 
 
 
+
+    def test_r3_escaped_terminal_punctuation_is_filename_not_prose(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for char in (">", ",", ";", ")", "]", "}", '"', "'"):
+            source = "decks/sample/missing.md\\" + char
+            with self.subTest(char=char):
+                self.assertNotIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(source),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                nested = "decks/sample/missing.md\\" + char + ".md"
+                full = "decks/sample/missing.md" + char + ".md"
+                self.assertIn(
+                    (True, full),
+                    rendered_markdown_references(nested),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    nested + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+                path = self.root / full
+                path.write_text("existing filename", encoding="utf-8")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+                path.unlink()
+                # The same *unescaped* suffix is ordinary prose punctuation.
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(
+                        "decks/sample/missing.md" + char
+                    ),
+                )
+
     def test_r3_escaped_visible_angle_brackets_are_literal_filename_text(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for markdown, relative in (

@@ -4,6 +4,7 @@
 Not a proof of legality, color identity, ban lists or Commander brackets.
 """
 from __future__ import annotations
+from bisect import bisect_left
 from collections import Counter
 from pathlib import Path
 import re
@@ -19,7 +20,8 @@ BASICS = frozenset({
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # Do not match a .md/.txt prefix of a longer filename (e.g. .md.bak).
 # A solitary trailing period is prose punctuation and still ends the path.
-_DECK_PATH_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_./-+~&@=!$%^#?:|{}")
+# Only unescaped terminal punctuation can be treated as prose after .md/.txt.
+_PROSE_TRAILING_PUNCT = frozenset(".,;:!?)]}>") | {chr(39), chr(34)}
 _DECK_EXTENSIONS = re.compile(r"\.(?:md|txt)")
 
 
@@ -613,27 +615,40 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
         rendered: list[str] = []
         inside_link_label = 0
         rendered_label_text = False
+        rendered_length = 0
+        previous_text_token = False
+        escaped_terminal_offsets: set[int] = set()
 
-        def append_rendered(value: str) -> None:
-            nonlocal rendered_label_text
+        def append_rendered(value: str, *, escaped_terminal: bool = False) -> None:
+            nonlocal rendered_label_text, rendered_length
+            if escaped_terminal:
+                escaped_terminal_offsets.add(rendered_length)
             rendered.append(value)
+            rendered_length += len(value)
             if value and inside_link_label:
                 rendered_label_text = True
 
         def flush_text() -> None:
-            nonlocal rendered_label_text
+            nonlocal rendered_label_text, rendered_length, previous_text_token
             if rendered:
                 for reference in literal_deck_references(
-                    "".join(rendered), suppress_bare_autolinks=not rendered_label_text
+                    "".join(rendered),
+                    suppress_bare_autolinks=not rendered_label_text,
+                    escaped_terminal_offsets=frozenset(escaped_terminal_offsets),
                 ):
                     found.append((True, reference))
                 rendered.clear()
                 rendered_label_text = False
+            escaped_terminal_offsets.clear()
+            rendered_length = 0
+            previous_text_token = False
 
         def visit_inline(token: dict) -> None:
-            nonlocal inside_link_label, inline_pre_depth
+            nonlocal inside_link_label, inline_pre_depth, previous_text_token
             kind = token.get("type")
             children = token.get("children")
+            if kind != "text":
+                previous_text_token = False
             # Inline <pre> is a rendered example just like block <pre>.
             # Its ordinary text is not a live deck reference.
             if kind == "inline_html" and isinstance(token.get("raw"), str):
@@ -713,7 +728,19 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if kind == "text":
                 raw = token.get("raw")
                 if isinstance(raw, str):
-                    append_rendered(decode_character_references(raw))
+                    # Mistune splits a source backslash-escaped punctuation
+                    # character into a single adjacent text token. Keep its
+                    # provenance: it is literal filename data, not a comma
+                    # or quote punctuating surrounding prose.
+                    escaped = (
+                        previous_text_token and len(raw) == 1
+                        and raw in _PROSE_TRAILING_PUNCT
+                    )
+                    append_rendered(
+                        decode_character_references(raw),
+                        escaped_terminal=escaped,
+                    )
+                    previous_text_token = True
                 else:
                     flush_text()
                 return
@@ -851,11 +878,13 @@ def unicode_filename_continuation(character: str) -> bool:
 
 
 def literal_deck_references(
-    content: str, *, suppress_bare_autolinks: bool = True
+    content: str, *, suppress_bare_autolinks: bool = True,
+    escaped_terminal_offsets: frozenset[int] = frozenset(),
 ) -> list[str]:
     # Scan each contiguous path-like run once. A backtracking match beginning
     # at every nested "decks/" takes quadratic time on repeated prefixes.
     references: list[str] = []
+    markers = sorted(escaped_terminal_offsets)
     length = len(content)
     offset = 0
     while (start := content.find("decks/", offset)) >= 0:
@@ -882,11 +911,15 @@ def literal_deck_references(
             # characters, means the apparent extension is internal data.
             trailer = content[candidate_end:end]
             if trailer and not all(
-                char in ".,;:!?)]}>" or char in (chr(39), chr(34)) or
+                char in _PROSE_TRAILING_PUNCT or
                 (ord(char) > 127 and unicodedata.category(char).startswith("P"))
                 for char in trailer
             ):
                 continue
+            if trailer and markers:
+                marker = bisect_left(markers, candidate_end)
+                if marker < len(markers) and markers[marker] < end:
+                    continue
             match_end = candidate_end
 
         # Nested "decks/" in the same uninterrupted path cannot provide
