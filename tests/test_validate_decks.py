@@ -233,6 +233,100 @@ class DeckValidationTests(unittest.TestCase):
                 with self.assertRaisesRegex(DeckValidationError, "decks/sample/missing.md"):
                     validate_repository(self.root)
 
+    def test_r3_selfclosing_phrasing_tags_preserve_visible_path(self) -> None:
+        # GitHub GFM treats <span/> like a non-void inline tag and strips
+        # <big/> while preserving contiguous browser-visible text.
+        for tag in ("span", "em", "small", "big", "wbr"):
+            with self.subTest(tag=tag):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(
+                        f"decks/sample/<{tag}/>missing.md"
+                    ),
+                )
+        # Actual line and block breaks must remain separators.
+        for tag in ("br", "div"):
+            with self.subTest(separator=tag):
+                self.assertNotIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(
+                        f"decks/sample/<{tag}/>missing.md"
+                    ),
+                )
+
+    def test_r3_unicode_suffix_cannot_terminate_earlier_extension(self) -> None:
+        # Unicode names remain a single path run after an apparent .md.
+        for suffix in ("🪄", "\u0301"):
+            with self.subTest(suffix=suffix):
+                self.assertNotIn(
+                    (True, "decks/sample/guide.md"),
+                    rendered_markdown_references(
+                        "decks/sample/guide.md" + suffix
+                    ),
+                )
+        self.assertIn(
+            (True, "decks/sample/guide.md🪄.md"),
+            rendered_markdown_references("decks/sample/guide.md🪄.md"),
+        )
+
+    def test_r3_html_href_and_img_src_are_live_local_destinations(self) -> None:
+        # GitHub GFM renders these as live links/images, including raw HTML
+        # inside a block; href/src are destinations, not generic attributes.
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source, missing in (
+            ('<a href="sample/missing.md">analysis</a>', "sample/missing.md"),
+            ('<div><a href="sample/missing.md">analysis</a></div>', "sample/missing.md"),
+            ('<A HREF="sample/missing.md">analysis</A>', "sample/missing.md"),
+            ('<a href="sample/miss&#105;ng.md">analysis</a>', "sample/missing.md"),
+            ('<a href="sample%2Fmissing.md">analysis</a>', "sample/missing.md"),
+            ('<img src="sample/missing.png">', "sample/missing.png"),
+            ('<div><img src="sample/missing.png"></div>', "sample/missing.png"),
+            ('<IMG SRC="sample/missing.png"/>', "sample/missing.png"),
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(DeckValidationError, missing):
+                    validate_repository(self.root)
+
+    def test_r3_opaque_html_attributes_and_examples_not_destinations(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for source in (
+            '<span data-ref="sample/missing.md">visible text</span>',
+            '<a data-ref="sample/missing.md">visible text</a>',
+            '<img src="https://outside.test/ignored.png" alt="sample/missing.md">',
+            '<a href="https://outside.test/ignored.md">visible text</a>',
+            '<pre>\n<a href="sample/missing.md">example</a>\n</pre>',
+            '<!-- <img src="sample/missing.png"> -->',
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_r3_form_tag_gfm_rendering_differs_by_html_context(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        # Inline form splits paragraphs in real GitHub GFM and is NOT a
+        # continuous file name. The independent review conflated this with
+        # a raw block where the sanitizer strips form without splitting text.
+        for source, should_reject in (
+            ("decks/sample/miss<form></form>ing.md", False),
+            ("<div>decks/sample/miss<form></form>ing.md</div>", True),
+        ):
+            with self.subTest(source=source):
+                (self.root / "decks" / "README.md").write_text(
+                    source + "\n", encoding="utf-8"
+                )
+                if should_reject:
+                    with self.assertRaisesRegex(
+                        DeckValidationError, "decks/sample/missing.md"
+                    ):
+                        validate_repository(self.root)
+                else:
+                    self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_r3_list_marker_interrupts_table_on_github(self) -> None:
         # GitHub GFM closes tables at list starts even with a pipe inside.
         # The following Markdown is code, not a live missing link.
@@ -1078,6 +1172,7 @@ class DeckValidationTests(unittest.TestCase):
 
     def test_gfm_raw_html_void_elements_separate_literal_paths(self) -> None:
         self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "x").write_text("image fixture", encoding="utf-8")
         for source in (
             '<div>decks/sample/miss<img src="x">ing.md</div>\n',
             '<div>decks/sample/miss<input value="x">ing.md</div>\n',
@@ -1970,6 +2065,7 @@ class DeckValidationTests(unittest.TestCase):
     def test_nontransparent_html_breaks_deck_path_run(self) -> None:
         """A line break or image cannot silently merge separate path parts."""
         self.write_deck("1 Sample Commander\n99 Plains\n")
+        (self.root / "decks" / "icon.svg").write_text("image fixture", encoding="utf-8")
         for source in (
             "decks/sample/missing<br>thing.md",
             "decks/sample/missing<img src='icon.svg'>thing.md",
@@ -2398,7 +2494,6 @@ class DeckValidationTests(unittest.TestCase):
         self.write_deck("1 Sample Commander\n99 Plains\n")
         for fragment in (
             '<img alt=">">',
-            '<span title=">"/>',
             '<section title=">">',
         ):
             with self.subTest(fragment=fragment):
@@ -2406,6 +2501,16 @@ class DeckValidationTests(unittest.TestCase):
                     "decks/sample/" + fragment + "missing.md\n", encoding="utf-8"
                 )
                 self.assertEqual(len(validate_repository(self.root)), 1)
+
+        # Real GitHub GFM treats self-closing non-void span as inline markup:
+        # its contents remain browser-visible, not a false separator.
+        (self.root / "decks" / "README.md").write_text(
+            'decks/sample/<span title=">"/>missing.md\n', encoding="utf-8"
+        )
+        with self.assertRaisesRegex(
+            DeckValidationError, "decks/sample/missing.md"
+        ):
+            validate_repository(self.root)
 
 
     def test_transparent_tag_attributes_still_do_not_create_paths(self) -> None:

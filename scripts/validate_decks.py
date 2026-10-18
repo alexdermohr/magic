@@ -461,7 +461,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
     # Only non-void, non-structural phrasing tags are invisible path joins.
     # Attributes stay opaque; unknown tags remain conservative boundaries.
     transparent_inline_tags = frozenset({
-        "a", "abbr", "b", "bdi", "bdo", "cite", "code", "data",
+        "a", "abbr", "b", "bdi", "bdo", "big", "cite", "code", "data",
         "del", "dfn", "em", "font", "i", "ins", "kbd", "label",
         "mark", "output", "q", "rb", "ruby", "s", "samp", "small",
         "span", "strike", "strong", "sub", "sup", "time", "tt",
@@ -506,6 +506,17 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             super().__init__(convert_charrefs=True)
             self.parts: list[str] = []
             self.hidden: list[str] = []
+            self.destinations: list[str] = []
+
+        def record_live_target(self, tag, attrs) -> None:
+            # GitHub renders permitted raw <a href> and <img src> as links.
+            # HTMLParser already decodes attribute character references.
+            # Other attributes are not navigation targets and stay opaque.
+            attribute = "href" if tag == "a" else "src" if tag == "img" else None
+            if attribute is not None:
+                value = dict(attrs).get(attribute)
+                if isinstance(value, str):
+                    self.destinations.append(value)
 
         def set_cdata_mode(self, elem, *, escapable=False) -> None:
             # GitHub's GFM tagfilter escapes forbidden wrappers before
@@ -523,7 +534,9 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if tag in self.FILTERED_TAGS:
                 raw_start = self.get_starttag_text() or "<" + tag + ">"
                 self.parts.append(decode_character_references(raw_start))
-            elif tag in self.CODE_TAGS:
+            else:
+                self.record_live_target(tag, attrs)
+            if tag in self.CODE_TAGS:
                 self.hidden.append(tag)
                 self.parts.append(" ")
             elif tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
@@ -547,7 +560,9 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
             if tag in self.FILTERED_TAGS:
                 raw_start = self.get_starttag_text() or "<" + tag + "/>"
                 self.parts.append(decode_character_references(raw_start))
-            elif tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
+            else:
+                self.record_live_target(tag, attrs)
+            if tag in self.BLOCK_TAGS or tag in self.VOID_TAGS:
                 self.parts.append(" ")
 
         def handle_data(self, data) -> None:
@@ -621,6 +636,8 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                     visitor = VisibleRawHTML()
                     visitor.feed(raw)
                     visitor.close()
+                    for destination in visitor.destinations:
+                        found.append((False, destination))
                     for reference in literal_deck_references(
                         "".join(visitor.parts)
                     ):
@@ -696,11 +713,15 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                 if isinstance(raw, str):
                     if re.fullmatch(r"<!--[\s\S]*?-->", raw):
                         return
+                    if re.match(r"(?i)^<(?:a|img)(?=[\s/>])", raw):
+                        visitor = VisibleRawHTML()
+                        visitor.feed(raw)
+                        visitor.close()
+                        for destination in visitor.destinations:
+                            found.append((False, destination))
                     tag = transparent_tag.fullmatch(raw)
                     if (tag is not None
-                            and tag.group(1).lower() in transparent_inline_tags
-                            and (tag.group(1).lower() == "wbr"
-                                 or not raw.rstrip().endswith("/>"))):
+                            and tag.group(1).lower() in transparent_inline_tags):
                         # GFM ends a www.-autolink before an HTML token.
                         # Otherwise joined rendered text could mistake the
                         # following visible deck path for an URL suffix.
@@ -773,6 +794,7 @@ def literal_deck_references(
             if candidate_end < length:
                 following = content[candidate_end]
                 if (following.isalnum() or following in "_/~+-"
+                        or (ord(following) > 127 and not following.isspace())
                         or (following == "." and candidate_end + 1 < length
                             and (content[candidate_end + 1].isalnum()
                                  or content[candidate_end + 1] in "_-"))):
