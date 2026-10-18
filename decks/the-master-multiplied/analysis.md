@@ -1,12 +1,33 @@
-# Analyse: The Master, Multiplied — Bracket 3, V4 (18. Oktober 2026)
+# Analyse: The Master, Multiplied — Bracket 3, V5 (18. Oktober 2026)
 
 ## Ziel, Faktenlage, Scope
 
-Optimiert wurde die tatsächlich archivierte V3 auf den oberen Bereich von **Commander Bracket 3 (Upgraded)**. Die V1, V2 und V3 bleiben als echte Versionen erhalten. Liste und Versionen sind im selben Ordner. Drei Game Changer: **Ancient Tomb, Demonic Tutor, Jeska's Will**. Keine angezielte, schnelle deterministische Zwei-Karten-Endloskombination, kein Mass-Land-Denial, keine Extra-Turn-Kette. Stärke gegen typische Vierergruppen, keine unbewiesenen Winraten.
+Die zuletzt publizierte V4 wurde gezielt auf **Commander Bracket 3 (Upgraded)** optimiert. V1–V4 sind als tatsächlich existierende Listen archiviert. Liste und Versionen sind im selben Ordner. Drei Game Changer: **Ancient Tomb, Demonic Tutor, Jeska's Will**. Keine angezielte, schnelle deterministische Zwei-Karten-Endloskombination, kein Mass-Land-Denial, keine Extra-Turn-Kette. Stärke gegen typische Vierergruppen, keine unbewiesenen Winraten.
 
 **Regelanker:** Offizielle Doctor-Who-Release-Notes https://magic.wizards.com/en/news/feature/magic-the-gathering-doctor-who-release-notes · Commander-Brackets-Original https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta · offizielle Bracket-Aktualisierungen https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 · Live-Scryfall-Daten über validate.py.
 
-## Fünf Änderungen V3 → V4
+## Vier Änderungen V4 → V5 (aktuelle Entscheidung)
+
+| Heraus | Hinein | Begründung und stärkstes Gegenargument |
+|---|---|---|
+| **Grenzo, Havoc Raiser** | **Ingris Stingerquill** | Ingris (Manakosten **{B}{R}{R}**) verursacht bei **jedem deklarierten eigenen Angreifer** durch diesen Angreifer je **1 Schaden an jedem Gegner**. Das braucht keinen Treffer und skaliert bei späteren Master-Angriffen extrem stark; der Commander kann aus 3 Mana eine eigenständige Gruppenangriffs-Engine machen, besonders mit **Ob Nixilis, Captive Kingpin**. Ingris ist legendär und hat Stärke 1 (Imperial Recruiter findet sie). **Gegenargument:** Grenzo kostet zwei statt drei Mana, kann wiederholt fremde Karten zugänglich machen und Goad-Politik erzeugen; die höhere doppelt-rote Farbanforderung kann in Starthänden bremsen. |
+| **Feldon of the Third Path** | **Saw in Half** | Feldon braucht Kreaturen im **eigenen Friedhof**, Aktivierung für {2}{R} und sofortiges Tappen. **Saw in Half ({2}{B}, Spontanzauber)** verdoppelt jetzt jede *eigene* geopferte/zuvor zerstörbare Kreaturen-ETB-Wirkung (z. B. Gray Merchant, Massacre Wurm) auch ohne Master: Nur wenn das Ziel tatsächlich stirbt, entstehen zwei permanent bestehende Tokenkopien mit halbierter Stärke und Widerstandskraft, jeweils aufgerundet. Zwei Master-Tokens behalten untereinander ihre statischen Fähigkeiten. **Gegenargument:** Das Original wird zerstört (auch ggf. der echte Commander), Saw scheitert als Doppelung an Unzerstörbarkeit und ist nur einmal nutzbar. Feldon hätte über mehrere Züge wiederholt Kreaturen zurückholen können. |
+| **Dolmen Gate** | **Liquimetal Torque** | Acht statt sieben tatsächliche Mana-Artefakte und die zusätzliche Zweimana-Rampe beschleunigen das Erreichen bzw. erneute Wirken des **Sechs-Mana-Commanders**. Torque produziert farbloses Mana, kann aber alternativ ein gegnerisches **Nichtland-Permanent** zu einem Artefakt machen, das danach Vandalblast entfernt. **Gegenargument:** Dolmen Gate verhindert beim Angriff Kampfschaden an eigenen Angreifern; dieser Schutz für das *Original* geht verloren. Die bereits durch Myriad erhaltenen Master-Tokens schützen einander jedoch vor ausgelösten Exil-/Opfertriggers, wenn das Original im Kampf stirbt; vor Exil-Wipes schützt das nicht. |
+| **Feed the Swarm** | **Withering Torment** | Gegen Kreaturen und Verzauberungen gleiche Zielklassen, aber für **{2}{B} als Spontanzauber** statt Hexerei. Der Lebensverlust ist fix 2 statt abhängig vom Manawert; erlaubt auch Antworten im gegnerischen Zug. **Gegenargument:** Ein Mana teurer, schlechter beim Entfernen sehr günstiger Verzauberungen bei bereits gefährlich niedrigem Leben. |
+
+Die gezielten Verbesserungen ersetzen Karten mit eher situativem Wert durch eine neue Angriffsschadens-Engine, einen flexiblen Instant-Klon, eine weitere frühe Manaquelle und Instant-Interaktion. **36 Landkarten, drei Game Changer und die Bracket-3-Kombobeschränkung bleiben unverändert.** Die ersten drei Historienversionen und jetzt auch V4 sind archiviert.
+
+## Weitere geprüfte Karten für V5 (nicht übernommen)
+
+- **Devastating Onslaught (2026):** Starke permanente Kreaturenkopien mit Master, aber exakte Kosten **{X}{X}{R}** — bei X=3 also sieben Mana. Kein vermeintlicher Ein-Mana-Massendoppler. Electroduplicate bleibt für drei Mana plus späteres Flashback für vier Mana als flexible Engine erhalten.
+- **Foggy Swamp Visions:** Kann aus mehreren Friedhöfen massenhaft Kopien erzeugen (mit Master dauerhaft), benötigt aber zuvor passende Kreaturenkarten in Friedhöfen und Waterbend-{X}; Saw in Half ist als Sofort-ETB auf der eigenen Hand zuverlässiger.
+- **Weftstalker Ardent:** Jede andere eigene Kreatur oder jedes Artefakt beim Eintritt verursacht Gruppenschaden. Herausragende Alternative gegen viele Treasure-/Artefaktdecks, aber vorhandene Burn-Payoffs (Agate Instigator, Impact Tremors, Mirkwood Bats, Purphoros, Terror of the Peaks) bleiben stärker in ihren jeweiligen Rollen; ohne Kandidatenklarheit nicht zusätzlich den Kreaturenslot überfrachten.
+- **Dark Ritual, Seething Song:** Einmalige Explosionsmanaquellen können The Master früher wirken, kosten aber eine Karte ohne wiederholbaren Wert und lassen nach Removal höhere Commander-Steuer zurück. Der achte permanente Mana-Stein ist die robuste Vorzugslösung.
+- **Chrome Mox / Mox Diamond / Mana Vault:** Stand heutiger Scryfall-Game-Changer-Flags allesamt Game Changer. Ohne Austausch eines der drei etablierten Plätze überschreitet der Einbau die Bracket-3-Grenze.
+- **Grim Hireling:** Treasury-Beschleunigung bei mehreren Kampftreffern ist stark, braucht aber echte Treffer und kann mit Aggravated Assault schnell fast deterministische Kampfschleifen auslösen.
+- **Curse-Marred Demon:** ETB-Tutor mit zufälligem Discard ist interessant, kann aber das gesuchte Stück zufällig wieder abwerfen und braucht {2}{R}{R}; kein zwingender Ersatz für vorhandenen Demonic Tutor.
+
+## Historisch: fünf Änderungen V3 → V4
 
 | Heraus | Hinein | Entscheidung und stärkstes Gegenargument |
 |---|---|---|
@@ -78,16 +99,16 @@ Diese drei Aussagen wurden gegen die derzeitigen Scryfall-Oracle-Texte vergliche
 
 ## Risikoanalyse und Gegenmaßnahmen
 
-1. **Tempo und Farbkosten:** Sechs-Mana-Commander plus mehrfach 5–6-Mana-Kreaturen sind riskant. V3 senkt Spitzenlast durch vier billigere Engines und zwei kostengünstige Haste-/Myriad-Karten. 36 Länder, sieben Mana-Artefakte, Ancient Tomb/Arena of Glory, Jeska's Will und Treasure-Synergien. Triple Black bei Massacre Wurm bleibt eine echte Kostenhürde.
-2. **Boardwipes und Exil:** Dolmen Gate schützt nur vor Kampfschaden. Lightning Greaves, Swiftfoot Boots, Deflecting Swat und Malakir Rebirth helfen gegen einzelne Antworten. Plumb the Forbidden verwandelt ein verloren gehendes Board in Karten; Goblin Bombardment verwandelt bedrohte Tokens in Schaden. Exilierende Boardwipes bleiben gefährlich.
-3. **Kartennachschub:** Black Market Connections, Grenzo, Idol of Oblivion, Professional Face-Breaker, Ob Nixilis, Night's Whisper, Jeska's Will, Plumb, Fable, **Wheel of Fortune** und das **War-Room-Land**. Mangelt es im Praxistest trotzdem an Karten, sind **Phyrexian Arena statt Feldon of the Third Path** (falls kaum geeignete Kreaturen im eigenen Friedhof liegen) oder **Valakut Awakening statt Command Beacon** (falls erneutes Commander-Wirken selten ist) überprüfbare Nachrücker. Im zweiten Fall sinkt die Zahl der Land-Vorderseiten auf 35, die MDFC-Rückseite bietet weiterhin ein getapptes rotes Land. **Wheel und Shredder sind bereits aktiv und keine Nachrücker.**
+1. **Tempo und Farbkosten:** Ein Sechs-Mana-Commander plus mehrfach 5–6-Mana-Kreaturen bleibt anspruchsvoll. 36 Länder, jetzt **acht Mana-Artefakte**, Ancient Tomb/Arena of Glory, Jeska's Will und Treasure-Synergien tragen die Beschleunigung. Triple Black für Massacre Wurm und {B}{R}{R} für Ingris erfordern bewusstes Farbmanagement; Liquimetal Torque liefert **farbloses**, kein Rakdos-Mana.
+2. **Boardwipes und Exil:** Nach Wegfall von Dolmen Gate ist das geblockte **Original** anfälliger; Master-Tokens können sich durch ihre eigene statische Fähigkeit weiterhin halten. Lightning Greaves, Swiftfoot Boots, Deflecting Swat und Malakir Rebirth helfen gegen einzelne Antworten. Plumb the Forbidden verwandelt ein verloren gehendes Board in Karten; Goblin Bombardment wandelt bedrohte Tokens in Schaden um. Saw in Half kann ein **einzelnes zerstörbares Zielwesen** in zwei Tokens umwandeln, schützt aber nicht gegen einen anschließend resolvierenden Mass-Wipe. Exilierende Boardwipes bleiben gefährlich.
+3. **Kartennachschub:** Black Market Connections, Idol of Oblivion, Professional Face-Breaker, Ob Nixilis, Night's Whisper, Jeska's Will, Plumb, Fable, **Wheel of Fortune** und War Room. Ingris ersetzt Grenzo und liefert **Schaden, keinen Kartenzugriff**. Wenn in wirklichen Partien Karten fehlen, wäre **Phyrexian Arena statt Splinter Twin** eine klare Alternative (wenn Twin häufig durch Removal einen 2-für-1-Nachteil produziert), oder **Valakut Awakening statt Command Beacon**, falls Commander-Recasts kaum nötig sind; im zweiten Fall sinkt die Zahl der Land-Vorderseiten auf 35. Diese Swaps wurden **nicht** umgesetzt.
 4. **Angriffsgelegenheiten:** Myriad löst beim Deklarieren, *vor* Blockern aus; Shizo und die günstige **Brotherhood Regalia** sichern Treffer, Samut/Bitter/Greaves/Boots/Arena bieten Eile. Entscheidend ist das Überleben von mindestens einem Master bis zum Aufräumen, nicht zwingend das erste Durchkommen.
 5. **Meta-Abhängigkeit:** Splinter Twin ist eine Aura mit 2-für-1-Risiko; Reanimate benötigt passende Friedhöfe. Gegen removalstarkes Meta kann Twin zu langsam werden, während Wheel dem Gegner neue Antworten liefert. Hate/Removal und Game-Changer-Begrenzungen gelten weiter.
 6. **Spielgeschwindigkeit:** Keine dokumentierten Partietests, keine Behauptung über genaue Siegrunde oder Winrate. Beobachte in einer Serie von Viererpartien Anteil Spiele mit farblich rechtzeitigem Master, erster nützlicher Kopie bis Zug 6, Draw-Versorgung bis Zug 8, durchschnittlich durch Wheel an Gegner vergebene Karten und durch Wipes verlorene Boards.
 
-## Einzelkarten-Revision der aktiven V4
+## Einzelkarten-Revision der aktiven V5
 
-Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. „Risiko“ nennt jeweils den stärksten Grund, warum ein Slot trotz seines Nutzens noch ersetzbar sein könnte.
+Alle 100 aktuellen V5-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt. „Risiko“ nennt jeweils den stärksten Grund, warum ein Slot trotz seines Nutzens noch ersetzbar sein könnte.
 
 | # | Karte | Konkreter Nutzen | Wichtigster Einwand |
 |---:|---|---|---|
@@ -102,13 +123,13 @@ Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt
 | 9 | Mirkwood Bats | Jede Tokenerzeugung oder Tokenopferung lässt jeden Gegner 1 Leben verlieren; auch für geopferte Treasure | **Nicht** bei bloßem Tod durch Kampf, Zerstören oder Widerstandskraft 0; vier Mana |
 | 10 | Agate Instigator | Günstiger schadensbasierter ETB-Payoff, multiplizierbar | Gegen ETB-Stopp- und Schutz-Effekte schwächer |
 | 11 | Professional Face-Breaker | Treasures und zusätzliche gespielte Karten aus Kampfschaden | Benötigt erfolgreiche Treffer |
-| 12 | Grenzo, Havoc Raiser | Jeder Treffer kann Goad oder Zugriff auf gegnerische Karten bewirken | Schwach, wenn Angreifer dauerhaft geblockt werden |
+| 12 | Ingris Stingerquill | BRR: Jeder **deklarierte** eigene Angriff löst 1 Gruppenschaden je Gegner durch diese Kreatur aus; Ob Nixilis kann pro separatem Ereignis Karten exilieren; Imperial Recruiter kann Ingris mit Stärke 1 finden | Zwei rote Mana nötig; Token, die angreifend **eintreten**, haben nicht selbst angegriffen und erzeugen hier keinen neuen Trigger |
 | 13 | Mishra, Claimed by Gix | Jede eigene Angriffserklärung führt zu gegnerischem Lebensverlust; legendär kopierbar | Angriffsbedürftig; Vereinigung mit anderem Halbteil nicht geplant |
 | 14 | Wheel of Fortune | Füllt unabhängig von Master für drei Mana eine leere Hand auf sieben Karten auf; laut Live-Oracle kein Game Changer | Jeder Gegner erhält ebenfalls sieben neue Karten; kann Gegner vor uns stärken |
 | 15 | Ob Nixilis, Captive Kingpin | Wiederholbare Karten-Exileffekte bei exakt einem Lebenspunkt Verlust; gut mit Mirkwood Bats | Trigger nicht bei jeder beliebigen Schadensmenge |
 | 16 | Orthion, Hero of Lavabrink | Kopiert jede **andere eigene Kreatur**, ausdrücklich auch den legendären Master; mit {6}{R}{R}{R} entstehen fünf dauerhafte Kreaturentokens, sofern ein Master schützt | Tap-Fähigkeit als Hexerei; zweiter Modus kostet neun Mana plus Tappen |
 | 17 | Jaxis, the Troublemaker | Günstige wiederholbare Kopien; eigene Tokens bleiben und Draw beim Sterben möglich | Verbraucht Karten beim Aktivieren, nur andere Kreatur als Ziel |
-| 18 | Feldon of the Third Path | Holt ETB-Wesen als Artefakt-Kreaturentoken aus dem eigenen Friedhof | Braucht zuvor verlorene Kreaturen und einen Zug/haste |
+| 18 | Saw in Half | Sofort zwei Kreaturentokens mit ETB-Auslösern durch Zerstören einer **eigenen** zerstörbaren Kreatur, auch ohne Master | Original stirbt; bei Indestructible entstehen keine Kopien; halbierte P/T mit Aufrundung beachten |
 | 19 | Redoubled Stormsinger | Verdoppelt im selben Angriff frisch erzeugte Myriad-Tokens, wenn Trigger passend gestapelt | Mit dem Commander anzugreifen ist nötig, anfällig vor Combat |
 | 20 | Delina, Wild Mage | Jeder eigene Angriff kann mehrere dauerhafte Kreaturenkopien erzeugen | Würfelabhängig, muss angreifen |
 | 21 | Splinter Twin | Wiederholbare Tap-Kopien eigener ETB-/Myriad-Kreaturen; Master bewahrt Token trotz verzögertem Exiltrigger | Vier Mana für Aura; Removal kann verzaubertes Wesen samt Aura zerstören |
@@ -127,7 +148,7 @@ Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt
 | 34 | Blade of Selves | Myriad für Gray Merchant/Massacre Wurm und andere ETB-Payoffs | Ausrüstung insgesamt sechs Mana; angreifende Kopien haben keine Angriffstrigger |
 | 35 | Lightning Greaves | Null-Mana-Anlegen, Eile und Shroud für Commander | Shroud behindert eigenes weiteres Zielen |
 | 36 | Swiftfoot Boots | Eile und Hexproof ohne eigenes Zielen abzuschalten | Zusätzliches Equip-Mana erforderlich |
-| 37 | Dolmen Gate | Kampfschaden an eigenen Angreifern verhindert | Kein Schutz vor Removal/Boardwipes |
+| 37 | Liquimetal Torque | Achter günstiger Mana-Stein für 6-Mana-Commander; macht auch ein störendes Nichtland-Permanent bis EOT zum Artefakt für Vandalblast | Erzeugt nur farbloses Mana, und sein Tap kann nicht in demselben Zug Mana und Typänderung liefern |
 | 38 | Samut, Hazoret's Champion | Für nur zwei Mana allen eigenen Kreaturen Eile geben | Legendenkörper leicht zu entfernen, kein Card Draw |
 | 39 | Idol of Oblivion | Zieht wiederholt Karten nach beliebiger Token-Erzeugung | Ohne regelmäßige Token-Produktion tot |
 | 40 | Flameshadow Conjuring | Kopiert jede nichttokenhafte Kreatur bei Eintritt für R; Master bewahrt Tokens | Zusätzliche rote Manareserven nötig |
@@ -148,7 +169,7 @@ Alle 100 V4-Kartenslots, inklusive mehrfacher Basisländer, sind berücksichtigt
 | 55 | Reanimate | Extrem effiziente Wiederherstellung eines Payoff aus jedem Friedhof | Lebensverlust nach Manawert und anfällig für Graveyard-Hate |
 | 56 | Deadly Rollick | Exilt störende Kreatur im kritischen Angriff | Nur mit tatsächlichem Commander kostenlos, nicht bloß Master-Token |
 | 57 | Chaos Warp | Entfernt grundsätzlich jede Art gegnerischer Permanents | Kann dem Gegner zufällig eine relevante Karte geben |
-| 58 | Feed the Swarm | Rakdos-Antwort auf Enchantments und Kreaturen | Sorcery-Speed und Lebensverlust |
+| 58 | Withering Torment | Spontanzauber für {2}{B} zerstört Kreatur oder Verzauberung und kostet fix 2 Leben, flexibel in fremden Zügen | Kostet ein Mana mehr als Feed the Swarm; keine Planeswalker-Antwort |
 | 59 | Vandalblast | Effizienter Artefakthate; Overload räumt gegnerische Artefakte asymmetrisch | Keine Kreaturen- oder Enchantment-Antwort |
 | 60 | Toxic Deluge | Flexibler Notfallwipe gegen Blocker und Gegner-Armeen | Kann eigene Tokens töten und benötigt Leben |
 | 61 | Deflecting Swat | Schützt kritische Zauber/Ziele situativ ohne Mana | Ohne tatsächlichen Commander kostet es Mana |
@@ -199,4 +220,4 @@ python3 decks/the-master-multiplied/validate.py
 python3 decks/the-master-multiplied/validate.py --oracle
 ```
 
-Diese Tests validieren importierbare Listen, V1/V2/V3-Archivierung und aktuelle Oracle-Namen, Commander-Legalität, Farbidentität, Landzählung, Game-Changer-Flags und Manakurve. Sie simulieren weder einen vollständigen Magic-Priority-/State-Based-Action-Stack noch echte Multiplayer-Partien. Ohne solche Partietests werden keine Kampfabläufe als end-to-end „getestet“ bezeichnet.
+Diese Tests validieren importierbare Listen, V1/V2/V3/V4-Archivierung und aktuelle Oracle-Namen, Commander-Legalität, Farbidentität, Landzählung, Game-Changer-Flags und Manakurve. Sie simulieren weder einen vollständigen Magic-Priority-/State-Based-Action-Stack noch echte Multiplayer-Partien. Ohne solche Partietests werden keine Kampfabläufe als end-to-end „getestet“ bezeichnet.

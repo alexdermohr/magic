@@ -9,13 +9,13 @@
 1 Mirkwood Bats
 1 Agate Instigator
 1 Professional Face-Breaker
-1 Grenzo, Havoc Raiser
+1 Ingris Stingerquill
 1 Mishra, Claimed by Gix
 1 Wheel of Fortune
 1 Ob Nixilis, Captive Kingpin
 1 Orthion, Hero of Lavabrink
 1 Jaxis, the Troublemaker
-1 Feldon of the Third Path
+1 Saw in Half
 1 Redoubled Stormsinger
 1 Delina, Wild Mage
 1 Splinter Twin
@@ -34,7 +34,7 @@
 1 Blade of Selves
 1 Lightning Greaves
 1 Swiftfoot Boots
-1 Dolmen Gate
+1 Liquimetal Torque
 1 Samut, Hazoret's Champion
 1 Idol of Oblivion
 1 Flameshadow Conjuring
@@ -55,7 +55,7 @@
 1 Reanimate
 1 Deadly Rollick
 1 Chaos Warp
-1 Feed the Swarm
+1 Withering Torment
 1 Vandalblast
 1 Toxic Deluge
 1 Deflecting Swat
