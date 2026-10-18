@@ -75,6 +75,54 @@ class DeckValidationTests(unittest.TestCase):
             ),
         )
 
+
+    def test_r3_mixed_www_html_boundary_reveals_missing_path(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for host in ("WWW", "wWw", "WwW"):
+            value = host + ".example.com<span></span>decks/sample/missing.md"
+            with self.subTest(host=host):
+                self.assertIn(
+                    (True, "decks/sample/missing.md"),
+                    rendered_markdown_references(value),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    value + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+
+    def test_r3_ampersand_visible_filename_rejected_if_missing(self) -> None:
+        self.write_deck("1 Sample Commander\n99 Plains\n")
+        for value in (
+            "decks/sample/missing&copy.md",
+            "decks/sample/missing&amp;copy.md",
+        ):
+            with self.subTest(value=value):
+                self.assertIn(
+                    (True, "decks/sample/missing&copy.md"),
+                    rendered_markdown_references(value),
+                )
+                (self.root / "decks" / "README.md").write_text(
+                    value + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(
+                    DeckValidationError, "missing local reference"
+                ):
+                    validate_repository(self.root)
+        self.assertNotIn(
+            (True, "decks/sample/missing.md"),
+            rendered_markdown_references("decks/sample/missing.md&copy.md"),
+        )
+
+    def test_r3_nfc_nfd_duplicate_nonbasic_is_rejected(self) -> None:
+        self.write_deck(
+            "1 Sample Commander\n1 And\u00faril\n1 Andu\u0301ril\n97 Plains\n"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "duplicate nonbasic"):
+            validate_list(self.deck)
+
     def test_r3_www_autolink_followed_by_inline_html_does_not_hide_path(self) -> None:
         self.assertIn(
             (True, "decks/sample/missing.md"),

@@ -19,7 +19,7 @@ BASICS = frozenset({
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # Do not match a .md/.txt prefix of a longer filename (e.g. .md.bak).
 # A solitary trailing period is prose punctuation and still ends the path.
-_DECK_PATH_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_./-+~")
+_DECK_PATH_CHARS = frozenset("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_./-+~&")
 _DECK_EXTENSIONS = re.compile(r"\.(?:md|txt)")
 
 
@@ -686,7 +686,7 @@ def rendered_markdown_references(source: str) -> list[tuple[bool, str]]:
                         or children[0].get("raw") == unquote(destination)
                         or (
                             isinstance(children[0].get("raw"), str)
-                            and children[0]["raw"].startswith("www.")
+                            and children[0]["raw"].lower().startswith("www.")
                             and destination == "http://" + children[0]["raw"]
                         )
                     )
@@ -756,7 +756,8 @@ GFM_HTTP_PREFIX = re.compile(r"^https?://" + GFM_HTTP_DOMAIN, re.IGNORECASE)
 # GFM allows www.-autolinks only at the beginning of a token or after these
 # explicit inline delimiters. The final two domain labels may not contain "_".
 GFM_WWW_AUTHORITY = re.compile(
-    r"(?:^|[*_~(])www\.([A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)+)"
+    r"(?:^|[*_~(])www\.([A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)+)",
+    re.IGNORECASE,
 )
 # The same extended link must be opaque to GFM strikethrough delimiters.
 # Reject prefixes that do not start a URL token, and stop at HTML/whitespace.
@@ -807,7 +808,7 @@ def literal_deck_references(
             candidate_end = extension.end()
             if candidate_end < length:
                 following = content[candidate_end]
-                if (following.isalnum() or following in "_/~+-"
+                if (following.isalnum() or following in "_/~+-&"
                         or unicode_filename_continuation(following)
                         or (following == "." and candidate_end + 1 < length
                             and (content[candidate_end + 1].isalnum()
@@ -884,8 +885,9 @@ def validate_list(path: Path) -> str:
     for quantity, name in cards:
         if name not in BASICS and quantity != 1:
             raise DeckValidationError(f"{path}: nonbasic card {name!r} has quantity {quantity}")
-        seen[name.casefold()] += quantity
-        if name not in BASICS and seen[name.casefold()] != 1:
+        key = unicodedata.normalize("NFC", name).casefold()
+        seen[key] += quantity
+        if name not in BASICS and seen[key] != 1:
             raise DeckValidationError(f"{path}: duplicate nonbasic card {name!r}")
     return cards[0][1]
 
