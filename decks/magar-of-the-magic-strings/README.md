@@ -24,7 +24,7 @@ Das Deck lebt von **Friedhof vorbereiten -> Magar-Puppen erzeugen -> unblockbar 
 
 - **Wiederholter Zauberschaden:** Blood for the Blood God! trifft alle Gegner jeweils fuer acht; Explosive Singularity verursacht wiederholt zehn Schaden an einem Ziel. Guttersnipe liefert weiteren Schaden durch jedes kostenlos gewirkte Instant/Sorcery.
 - **Kreaturenuebermacht:** Breach the Multiverse und Rise of the Dark Realms holen Kreaturen, die das Spiel entscheiden koennen.
-- **Ressourcenvorsprung:** Brass's Bounty und Hit the Mother Lode versorgen weitere Magar-Aktivierungen, und Peer into the Abyss erzeugt potentiell massiven Kartenvorteil (riskante Lebenspunkthalbierung).
+- **Ressourcenvorsprung:** Brass's Bounty versorgt unmittelbar weitere Aktivierungen. Hit the Mother Lode erzeugt dagegen **getappte** Schätze, die erst nach dem Enttappen nutzbar sind. Peer into the Abyss erzeugt potentiell massiven Kartenvorteil (riskante Lebenspunkthalbierung).
 
 ## Besonders wichtige Regeln
 
@@ -35,6 +35,7 @@ Das Deck lebt von **Friedhof vorbereiten -> Magar-Puppen erzeugen -> unblockbar 
 - **Berserkers' Onslaught** kann bei ungebremstem Kampfschaden eine Puppe zweifach ausloesen. **Strionic Resonator** kann eine einzelne Kampfschaden-Ausloesung kopieren.
 - **Fevered Suspicion** hat Rebound nur, wenn der urspruengliche Zauber aus der Hand gewirkt wurde; Magar-Kopien bekommen keinen zusaetzlichen Rebound.
 - **Filth** im Friedhof und **Urborg, Tomb of Yawgmoth** machen die eigenen Puppen dank Swampwalk gegen praktisch alle Gegner unblockbar, solange diese ein Swamp kontrollieren. Anger im Friedhof braucht ein eigenes Mountain, keine bloss beliebige rote Manaquelle.
+- **The Black Gate** macht die Zielkreatur nur gegen den gewaehlten Spieler mit den meisten bzw. gleich vielen Lebenspunkten unblockbar; das Land hilft also nicht gegen jeden Spieler beliebig.
 
 ## Bracket 3
 
