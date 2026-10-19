@@ -3,10 +3,9 @@
 1 Filth
 1 Chainer, Nightmare Adept
 1 Anje Falkenrath
-1 Oriq Loremage
+1 Vile Entomber
 1 Storm-Kiln Artist
 1 Professional Face-Breaker
-1 Ransack the Lab
 1 Birgi, God of Storytelling
 1 Doom Whisperer
 1 Sol Ring
@@ -24,15 +23,14 @@
 1 Expedition Map
 1 Prowler's Helm
 1 Monument to Endurance
-1 Fireshrieker
-1 Glaring Spotlight
+1 Embercleave
 1 Silver Shroud Costume
 1 Bitter Reunion
 1 Dauthi Embrace
-1 Fervor
 1 Berserkers' Onslaught
 1 Ripples of Undeath
 1 Black Market Connections
+1 Fable of the Mirror-Breaker
 1 Brass's Bounty
 1 Breach the Multiverse
 1 Rise of the Dark Realms
@@ -54,6 +52,8 @@
 1 Gamble
 1 Demonic Tutor
 1 Final Parting
+1 Ransack the Lab
+1 Buried Alive
 1 Chaos Warp
 1 Withering Torment
 1 Rakdos Charm
@@ -92,7 +92,7 @@
 1 Geier Reach Sanitarium
 1 Takenuma, Abandoned Mire
 1 Sokenzan, Crucible of Defiance
-1 Flamekin Village
+1 Blazemire Verge
 1 Swamp
 1 Swamp
 1 Swamp
