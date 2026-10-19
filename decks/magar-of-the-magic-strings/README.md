@@ -27,7 +27,7 @@ Beim Kampfschaden **an einem Spieler** darfst du eine Kopie der notierten Karte 
 
 `Dark Deal` ({2}{B}) lässt jeden Spieler seine Hand abwerfen und anschließend **eine Karte weniger** nachziehen, als er abgeworfen hat. Dadurch befördern wir in einem Zug mehrere Zauber in den Friedhof, schaffen neues Material und lösen `Monument to Endurance` aus. Das Monument darf jede seiner drei Optionen **höchstens einmal je Zug** wählen; bei vier oder mehr gleichzeitig abgeworfenen Karten entstehen **nicht vier Monument-Effekte**.
 
-Vorteile gegenüber `Buried Alive`: Direkter Instant-/Sorcery-Friedhofszugang aus unserer Hand und neuer Kartenzugang, ohne drei Kreaturen zu suchen. Der Nachteil ist real: Das Wheel zwingt auch Gegner zum neuen Kartenziehen, und wir können dabei Schutz/Evasion abwerfen, die wir lieber behalten hätten.
+Vorteile gegenüber `Buried Alive`: Direkter Instant-/Sorcery-Friedhofszugang aus unserer Hand und neuer Kartenzugang, ohne drei Kreaturen zu suchen. Der Nachteil ist real: Das Wheel zwingt auch Gegner zum neuen Kartenziehen, und wir können dabei Schutz/Evasion abwerfen, die wir lieber behalten hätten. **Zusatzsynergie:** Liegt Stinkweed Imp durch Dark Deals Abwerfen im Friedhof, darf bereits eines der anschließenden tatsächlichen Kartenziehen durch Dredge 5 ersetzt werden.
 
 ## Wichtige Karteninteraktionen und Grenzen
 
