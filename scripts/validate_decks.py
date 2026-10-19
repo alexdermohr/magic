@@ -94,8 +94,10 @@ def visible_index_source(markdown: str) -> str:
             continue
         if marker:
             run = marker.group(1)
-            fence = (run[0], len(run))
-            continue
+            # Backticks in a backtick-fence info string invalidate the opener.
+            if run[0] != chr(96) or chr(96) not in line[marker.end():]:
+                fence = (run[0], len(run))
+                continue
         lines.append(line)
     return "\n".join(lines)
 
@@ -125,7 +127,8 @@ def local_index_references(markdown: str, index: Path, root: Path) -> list[Path]
     text = re.sub(r"(?i)(?:https?://|//|www\.)[^\s<>]+", "", text)
     for match in LITERAL_PATH.finditer(text):
         path = match.group().rstrip(".,;:!?)]}\"'")
-        if path.endswith((".txt", ".md", "/")):
+        # Directory mentions do not need a trailing slash or extension.
+        if path:
             record(path, root)
     return targets
 

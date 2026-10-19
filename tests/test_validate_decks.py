@@ -109,6 +109,13 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
+    def test_extensionless_literal_directory_is_validated(self) -> None:
+        self.write_index("See decks/sample/versions for snapshots.\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+        (self.root / "decks" / "sample" / "versions").mkdir()
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_plain_existing_deck_path_in_inline_code(self) -> None:
         self.write_index("See " + chr(96) + "decks/sample/current.txt" + chr(96) + ".\n")
         self.assertEqual(len(validate_repository(self.root)), 1)
@@ -130,6 +137,13 @@ class DeckValidationTests(unittest.TestCase):
         self.write_index(ticks + "\n[example](sample/missing.md)\n"
                          "decks/sample/missing.md\n" + ticks + "\n")
         self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_backtick_in_info_string_does_not_open_fence(self) -> None:
+        ticks = chr(96) * 3
+        self.write_index(ticks + " " + chr(96) + "invalid" + chr(96) + "\n"
+                         "[real](sample/missing.md)\n" + ticks + "\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
 
     def test_html_comment_delimiters_in_different_fences_do_not_hide_link(self) -> None:
         ticks = chr(96) * 3
