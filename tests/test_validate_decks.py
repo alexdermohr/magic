@@ -131,6 +131,24 @@ class DeckValidationTests(unittest.TestCase):
                          "decks/sample/missing.md\n" + ticks + "\n")
         self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_html_comment_delimiters_in_different_fences_do_not_hide_link(self) -> None:
+        ticks = chr(96) * 3
+        self.write_index(
+            ticks + "\n<!--\n" + ticks + "\n"
+            "[real](sample/missing.md)\n" +
+            ticks + "\n-->\n" + ticks + "\n"
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_multiline_html_comment_hides_example_not_later_link(self) -> None:
+        (self.root / "decks" / "sample" / "analysis.md").write_text("# OK\n")
+        self.write_index(
+            "<!--\n[example](sample/missing.md)\n-->\n"
+            "[real](sample/analysis.md)\n"
+        )
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_html_comment_is_not_a_reference(self) -> None:
         self.write_index("<!-- [example](sample/missing.md) -->\n")
         self.assertEqual(len(validate_repository(self.root)), 1)
