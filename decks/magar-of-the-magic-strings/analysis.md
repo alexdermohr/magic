@@ -1,4 +1,58 @@
-# Magar of the Magic Strings – Optimierung V3
+# Magar of the Magic Strings – V4-Optimierung
+
+**Datum:** 19. Oktober 2026 · **Bracket:** 3 · **Aktiv:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt).
+
+## Die wichtigste verifizierte Regelerkenntnis
+
+Magars Fähigkeit ({1}{B}{R}) hat **keine Tap-Kosten und keine Sorcery-Timing-Beschränkung**. Die bisherige Eile-Fokussierung war deswegen überdimensioniert: Aktivierung **im gegnerischen Endsegment direkt vor deinem Zug** erzeugt eine Puppe, die im folgenden eigenen Zug ohne Eile angreifen darf. Dafür muss die Puppe bis zu unserem Angriff im Spiel bleiben. Früh erzeugte Puppen sind trotzdem durch Removal verwundbar; Haste von Anger, Chainer, Greaves, Boots und Bitter Reunion bleibt als Alternative sinnvoll. Referenz: [Oracle Magar](https://mtg.wtf/card/unf/514/Magar-of-the-Magic-Strings).
+
+## Fünf gezielte V3 → V4-Wechsel
+
+| V3 heraus | V4 hinein | Verbesserungsgrund | Stärkstes Gegenargument |
+|---|---|---|---|
+| Oriq Loremage | **Vile Entomber** | Beides vier Mana; Entomber entombt eine beliebige Karte **sofort beim ETB** und hat Deathtouch. | Loremage kann langfristig mehrfach tappen und ist als 3/3 größer; Vile hat nur einmaligen ETB ohne Kopien. |
+| Fervor | **Buried Alive** | Mit EOT-Magar-Aktivierung weniger Haste nötig; Buried Alive sucht für drei Mana bis zu drei Kreaturen direkt in den Friedhof, meist Anger und Filth. | Wer schnell eigene Züge mit frisch erzeugten Puppen angreifen will, verliert die globale Haste-Enchantment. |
+| Glaring Spotlight | **Fable of the Mirror-Breaker** | Für drei Mana Goblin/Treasure, anschließend **gezieltes Discard und Draw** und schließlich Reflection für echte ETB-Kreaturen (besonders Vile Entomber). | Spotlight bot einen einmaligen unblockbaren Teamangriff und Hexproof, die Fable nicht bieten kann. |
+| Fireshrieker | **Embercleave** | Flash, kostenloses ETB-Anlegen und +1/+1/Trample bei Doppelschlag; kann **nach der Blockerdeklaration** einem ungeblockten Magar-Spell-Körper Doppeltrigger ermöglichen. | Bei nur einem Angreifer kostet das erste Anlegen insgesamt fünf Mana mit **{R}{R}**; spätere Re-Equip-Aktionen kosten drei statt zwei. |
+| Flamekin Village | **Blazemire Verge** | Ohne Elemental war Village zuverlässig getappt; Verge kommt ungetappt und liefert Schwarz sicher, Rot bei Swamp/Mountain. | Village konnte als wiederholbare Haste-Quelle dienen, Verge nicht; Verge besitzt selbst keine Landtypen. |
+
+**Zusätzliche Strukturkorrektur:** `Ransack the Lab` war in der bisherigen Importliste irreführend zwischen Kreaturen notiert, ist aber eine **Sorcery** und steht nun bei den Setup-Spells. Die Sortierung ändert keinen weiteren Kartenbestand.
+
+## Aktuelle V4-Slotstruktur
+
+| Position | Karten |
+|---|---:|
+| Commander | 1 |
+| Sonstige Kreaturen | 9 |
+| Artefakte | 17 |
+| Verzauberungen | 6 |
+| Großzauber für Magar | 9 |
+| Setup/Discard/Tutoren | 14 |
+| Removal und Schutzspells inkl. Malakir Rebirth | 8 |
+| Echte Länder | 36 |
+| **Insgesamt** | **100** |
+
+Die tatsächlich im Deck enthaltenen Instants/Sorceries sind die neun Großzauber, 14 Setup-Karten und acht Interaktionskarten = **31**; sonstige Kategorien ergeben 69. `Malakir Rebirth` ist als Instant mit Landrückseite unter Interaktion gezählt, nicht unter den 36 festen Ländern.
+
+## Kritische Interaktionen
+
+- **Fable**: Die Saga transformiert zur `Reflection of Kiki-Jiki`. Sie darf nichtlegendäre **Kreaturen** kopieren, etwa `Vile Entomber` für einen weiteren echten ETB-Friedhofstutor. Die notierten Namen von **Magars 3/3** sind keine kopierbaren Werte; solche Puppentoken können bei Kampfschaden **keinen** notierten Zauber wirken.
+- **Buried Alive** legt Anger und Filth in den Friedhof, gibt **aber keinen** Magar-zielbaren Instant/Sorcery-Zauber ab. Dafür sind Entomb/Unmarked Grave/Ransack/Faithless Looting oder ein schon im Friedhof liegender Spell nötig.
+- **Anger** erfordert ein eigenes Mountain; **Filth** erfordert ein eigenes Swamp und gegnerische Swamps für Swampwalk. `Urborg, Tomb of Yawgmoth` macht alle Länder zu Swamps. `Blazemire Verge` selbst ist weder Swamp noch Mountain.
+- **Embercleave**: Der Kostenrabatt zählt angreifende Kreaturen und reduziert nur generisches Mana. Das ETB-Ausrüsten zielt auf eine eigene Kreatur (nicht auf eine Kreatur mit Shroud). Doppelschlag ermöglicht zwei Magar-Treffer, wenn die Puppe beide Kampfschadensschritte schädigen kann; die Erstschlagkopie des Spells löst vor dem regulären Kampfschaden auf.
+- **Zusatzkosten** gelten auch für Magar-Kopien (z. B. Big Score), und Overload ist nicht als alternative Kostenoption bei kostenlosem Magar-Cast auswählbar (Vandalblast).
+- **Friedhofshass/Removal** bleibt stärkstes Meta-Risiko. `Fable` liefert wertvolle normale Spielfiguren, ersetzt aber kein nachweislich gewonnenes Match.
+- **Weitere Kandidaten ohne Änderung:** `Solphim, Mayhem Dominus` verdoppelt vor allem Blood for the Blood God!, Sorin's Vengeance und Schaden von Call Forth the Tempest, benötigt aber eine passende Schadensquelle und hat kaum Nutzen bei Brass's Bounty / Breach the Multiverse. `Army of the Damned` bringt viele Zombies, aber getappt und erst nach dem bereits erfolgreichen Angriff. `Overwhelming Forces` zieht viele Karten, trifft allerdings nur Kreaturen eines Gegners, während In Garruk's Wake alle gegnerischen Kreaturen und Planeswalker entfernt.
+
+## Prüfstand und Quellen
+
+Aktuelle Bannlistenlage: [Wizards Commander](https://magic.wizards.com/en/formats/commander), [B&R 12. Oktober 2026](https://magic.wizards.com/en/news/announcements/banned-and-restricted-october-12-2026); Bracket 3 erlaubt maximal drei Game Changers. **Aktiv unverändert:** `Demonic Tutor`, `Gamble`, `Jeska's Will`. Neue Karten (Embercleave, Fable, Vile Entomber, Blazemire Verge) und erneut aufgenommene Buried Alive sind Commander-legal und anhand veröffentlichter Kartentexte beurteilt. Der tatsächliche Remote-100-Kartenstand und der unveränderte V3-Snapshot werden nach der Veröffentlichung nochmals gelesen.
+
+**Keine gemessene Winrate oder echte Playtests.** Reviews und GitHub-Pflichtchecks gelten jeweils nur für den geprüften Head; keine geschützten Regeln umgehen und ohne Checks nicht mergen.
+
+---
+
+## Historische V3- und frühere Analysen (nicht aktueller Kartenstand)
 
 **Stand:** 2026-10-19. **Commander:** Magar of the Magic Strings. **Bracket:** 3 / Upgraded. **Mission:** Eine echte Magar-Puppe möglichst früh sicher zum Gegner bringen und mit wiederholbaren Großzaubern gewinnen.
 
