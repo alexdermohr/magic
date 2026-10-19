@@ -1,7 +1,7 @@
 1 Magar of the Magic Strings
-1 Anger
+1 Stinkweed Imp
 1 Filth
-1 Chainer, Nightmare Adept
+1 Mirkwood Bats
 1 Anje Falkenrath
 1 Vile Entomber
 1 Storm-Kiln Artist
@@ -53,7 +53,7 @@
 1 Demonic Tutor
 1 Final Parting
 1 Ransack the Lab
-1 Buried Alive
+1 Dark Deal
 1 Chaos Warp
 1 Withering Torment
 1 Rakdos Charm
