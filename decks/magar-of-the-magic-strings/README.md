@@ -1,49 +1,51 @@
-# Magar of the Magic Strings - Puppentheater der unmoeglichen Zauber
+# Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Format:** Commander, Bracket 3 (Upgraded) | **Farben:** Rakdos (Schwarz/Rot) | **Version:** V1, 19.10.2026
+**Aktuell:** Bracket 3 / Upgraded · **Version:** V2, 19. Oktober 2026 · **Farbidentität:** Rakdos · **Commander:** Magar of the Magic Strings.
 
-- [current.txt](current.txt): 100 Karten einschliesslich Commander, im Format `1 Kartenname`.
-- [analysis.md](analysis.md): detaillierte Mechanik, Deckbauentscheidungen, Risiken und moegliche Weiterentwicklung.
-- Keine Budgetgrenze. Ziel ist ein starkes, ungewoehnliches Bracket-3-Deck ohne beabsichtigte Endloskombos.
+- [current.txt](current.txt): einzige aktuelle, importierbare 100-Karten-Liste.
+- [versions/2026-10-19-b3-v1.txt](versions/2026-10-19-b3-v1.txt): unveränderte echte V1 vor acht gezielten V2-Wechseln.
+- [analysis.md](analysis.md): Slot-Tausche, Alternativen, Risiken, konkrete Karten- und Regelgrenzen.
 
-## Kerngedanke
+**Ziel:** Möglichst hohe Spielstärke innerhalb Bracket 3 ohne beabsichtigte frühe Zweikarten-Endloskombos, Extra-Turn-Ketten oder Massenlandvernichtung. Kein Budgetlimit.
 
-Magar kostet {1}{B}{R}. Seine aktivierte Faehigkeit kostet {1}{B}{R} und benoetigt **kein Tappen**: Benenne eine Instant- oder Sorcery-Karte im eigenen Friedhof und lege **diese Karte** verdeckt als 3/3-Kreatur ins Spiel. Sie ist kein Token. Fuegt sie einem Spieler Kampfschaden zu, darfst du eine Kopie des notierten Zaubers kostenlos wirken. Verlaesst der verdeckte Spruch das Spielfeld, wird die Karte stattdessen ins Exil geschickt.
+## Was Magar wirklich macht
 
-Das Deck lebt von **Friedhof vorbereiten -> Magar-Puppen erzeugen -> unblockbar und eilig machen -> mehrfach treffen**.
+Magar kostet {1}{B}{R}. Seine aktivierte Fähigkeit kostet {1}{B}{R}, **nicht Tap**: Nimm eine angezielte Instant-/Sorcery-Karte aus **deinem Friedhof**, notiere ihren Namen und lege die **echte Karte** verdeckt als 3/3-Kreatur aufs Feld. Die Karte ist **kein Token** und hat verdeckt keinen Namen, keine Farbe, keinen Kreaturentyp und Manawert 0.
 
-## Reihenfolge beim Spielen
+Nach Kampfschaden an **einem Spieler** darf diese Kreatur eine Kopie der **notierten Karte** kostenlos wirken. Auch Hexereien dürfen dabei während des Kampfschadensegments gewirkt werden. Verlässt die 3/3 das Spielfeld, wird sie statt eines anderen Zielorts ins Exil geschickt. Der notierte Name ist **kein kopierbarer Wert**: Clone-/Token-Kopien dieser Puppe kennen ihn nicht, erhalten also keinen brauchbaren Zauberbezug.
 
-1. **Start:** Zwei bis vier Manaquellen entwickeln. Faithless Looting, Thrill of Possibility, Cathartic Reunion, Wheel of Fortune und Anje Falkenrath bringen geeignete Zauber in den Friedhof. Entomb, Unmarked Grave und Oriq Loremage suchen direkt nach passenden Friedhofszielen.
-2. **Magar absichern:** Mit Lightning Greaves, Swiftfoot Boots, Mithril Coat, Deflecting Swat und Plaza of Heroes kann Magar laenger ueberleben. Er muss selbst normalerweise nicht angreifen.
-3. **Eine Puppe erzeugen:** Drei Mana bezahlen, den gewaehlten Instant/Sorcery aus dem Friedhof als verdeckte 3/3 auflegen. Fuer sofortigen Angriff helfen Anger (im Friedhof + eigenes Mountain), Chainer, Nightmare Adept oder Bitter Reunion.
-4. **Treffer erzwingen:** Key to the City, Brotherhood Regalia, Whispersilk Cloak, Thieves' Tools, Access Tunnel, Rogue's Passage und Dauthi Embrace machen den Angriff moeglich. Bedlam verhindert generell Blocks, auch eigene.
-5. **Den richtigen Zauber kopieren:** Brass's Bounty gibt Treasures, Blood for the Blood God! liefert Karten und Schaden, Breach the Multiverse und Rise of the Dark Realms gewinnen Kreaturen, In Garruk's Wake raeumt nur Gegner ab. Berserkers' Onslaught laesst unblockbare Puppen mit Doppelschlag zweimal ausloesen.
+**Zusatzkosten werden beim kostenlosen Wirken nicht erlassen**: Ein auf diese Weise gewirktes `Big Score` benötigt weiterhin den verlangten Discard. `Vandalblast` kann beim kostenlosen Wirken **nicht überladen** werden, weil Overload ein alternatives Wirken ist.
 
-## Siegeslinien
+## Spielplan und Prioritäten
 
-- **Wiederholter Zauberschaden:** Blood for the Blood God! trifft alle Gegner jeweils fuer acht; Explosive Singularity verursacht wiederholt zehn Schaden an einem Ziel. Guttersnipe liefert weiteren Schaden durch jedes kostenlos gewirkte Instant/Sorcery.
-- **Kreaturenuebermacht:** Breach the Multiverse und Rise of the Dark Realms holen Kreaturen, die das Spiel entscheiden koennen.
-- **Ressourcenvorsprung:** Brass's Bounty versorgt unmittelbar weitere Aktivierungen. Hit the Mother Lode erzeugt dagegen **getappte** Schätze, die erst nach dem Enttappen nutzbar sind. Peer into the Abyss erzeugt potentiell massiven Kartenvorteil (riskante Lebenspunkthalbierung).
+1. **Mana + Auswahl:** Bis Zug 3 Magar, ein 2-Mana-Manaartefakt und Discard/Entomb vorbereiten. `Faithless Looting`, `Cathartic Reunion`, `Thrill of Possibility`, `Anje Falkenrath`, `Key to the City` oder `Ripples of Undeath` legen teure Ziele in den Friedhof.
+2. **Ziel suchen:** `Entomb` und `Unmarked Grave` legen sofort passende Karten ab; `Final Parting` sucht gleichzeitig den Magar-Zauber für den Friedhof und eine Evasion-/Schutzkarte auf die Hand. `Gamble` und `Demonic Tutor` bleiben flexibel.
+3. **Sichere Puppe erzeugen:** Magar aktivieren. `Anger` im Friedhof **und** ein eigenes Mountain oder `Chainer, Nightmare Adept` geben Eile. Alternativ gibt `Flamekin Village` für {R} plus Tappen einem Ziel Eile; das Land kommt in dieser Liste fast immer getappt ins Spiel (keine Elementals zum Vorzeigen).
+4. **Treffer garantieren:** `Key to the City`, `Dauthi Embrace`, `Whispersilk Cloak`, `Thieves' Tools`, `Silver Shroud Costume`, `Access Tunnel`, `Rogue's Passage` oder `Bedlam`. `Glaring Spotlight`: {3} + opfern macht alle eigenen bestehenden Kreaturen für den Zug unblockbar und gibt ihnen Hexproof — einmaliger Zug zum Durchbruch.
+5. **Zauberkopien ausnutzen:** `Blood for the Blood God!` = 8 Schaden an jedem Gegner, Karten nachziehen; `Sorin's Vengeance` = 10 Schaden an einem Spieler/Planeswalker und 10 Leben; `Brass's Bounty` = Länderanzahl Schätze; `Breach the Multiverse` oder `Rise of the Dark Realms` = breite Kreaturenübernahme. `In Garruk's Wake` schont unsere Puppen.
+6. **Mehr aus einer Puppe:** `Berserkers' Onslaught` lässt ungeblockte Puppen zweimal Kampfschaden zufügen (zwei Magar-Trigger). `Illusionist's Bracers` statt der alten Resonator-Linie: Wird es an **Magar selbst** ausgerüstet (Equip {3}), erhält man bei jeder Magar-Aktivierung eine Kopie der **aktivierten** Fähigkeit, ggf. mit neuem Ziel: So entstehen zwei verschiedene Puppen für eine Aktivierung, wenn **zwei unterschiedliche zulässige Karten im Friedhof** liegen. Bei nur einer legalen Zielkarte verpufft nach der ersten Abwicklung die zweite Instanz.
 
-## Besonders wichtige Regeln
+## Was V2 verändert
 
-- Die verdeckten 3/3 **haben keine Kreaturentypen**, keinen Namen, keine Farbe und einen Manawert von 0. Die notierte Karte ist **kein Token**. Die notierte Information ist nicht kopierbar: Ein durch Clone-/Tokeneffekte erzeugtes Abbild der Puppe weiss nicht, welcher Zauber gemeint war.
-- Eine Kopie des Spruches wird beim Kampfschaden **während der Ausloesung** gewirkt. Das erlaubt auch Sorceries im Kampf. Der Effekt kann ohne Bezahlung der Manakosten genutzt werden, **zusätzliche Kosten bleiben jedoch fällig**: z. B. Discard fuer Big Score, Cathartic Reunion oder Fire Covenant mit Lebenspunkten. Setze solche Karten bevorzugt als Setup ein, nicht als Magar-Puppen.
-- Fuer die 3/3 gilt Einsatzverzoegerung. Nur Anger, Chainer, Boots oder Bitter Reunion erlauben im selben Zug Angriffe. Magar selbst benoetigt keine Eile, um seine Faehigkeit zu aktivieren.
-- Magar-Puppen sterben nicht regulaer in den Friedhof; sie werden beim Verlassen ins Exil geschickt. Blinken/Opfern/Reanimieren der gleichen Puppe ist kein dauerhafter Trick. Ruestungen und andere permanente Unterstuetzung bleiben davon getrennt.
-- **Berserkers' Onslaught** kann bei ungebremstem Kampfschaden eine Puppe zweifach ausloesen. **Strionic Resonator** kann eine einzelne Kampfschaden-Ausloesung kopieren.
-- **Fevered Suspicion** hat Rebound nur, wenn der urspruengliche Zauber aus der Hand gewirkt wurde; Magar-Kopien bekommen keinen zusaetzlichen Rebound.
-- **Filth** im Friedhof und **Urborg, Tomb of Yawgmoth** machen die eigenen Puppen dank Swampwalk gegen praktisch alle Gegner unblockbar, solange diese ein Swamp kontrollieren. Anger im Friedhof braucht ein eigenes Mountain, keine bloss beliebige rote Manaquelle.
-- **The Black Gate** macht die Zielkreatur nur gegen den gewaehlten Spieler mit den meisten bzw. gleich vielen Lebenspunkten unblockbar; das Land hilft also nicht gegen jeden Spieler beliebig.
+Die frühe Motorisierung ist robuster: `Monument to Endurance` kostet nur drei statt fünf Mana für `Bone Miser` und macht aus dem Abwerfen Karten, Schätze oder Gegner-Lebensverlust (jede der drei Optionen nur einmal pro Zug). `Silver Shroud Costume` kann als Flash-Ausrüstung beim ETB direkt an eine Kreatur angelegt werden, gibt ihr in diesem Zug Shroud und dauerhaft Unblockbarkeit; spätere Neuausrüstung kostet {3}. `Glaring Spotlight` sichert einen Mehrfachtreffer und kann auf gegnerische Zielremoval-Spells reagieren.
 
-## Bracket 3
+`Vandalblast` ersetzt den teuren Zufallszauber `Fevered Suspicion`: von Hand überladen ({4}{R}) entfernt es sämtliche gegnerischen Artefakte; eine kostenlose Magar-Kopie zerstört dagegen nur **ein angezieltes** gegnerisches Artefakt. `Sorin's Vengeance` gewinnt zusätzlich Leben, wo `Explosive Singularity` nur Schaden zufügte.
 
-**Genau drei Game Changers:** Gamble, Demonic Tutor, Jeska's Will. Deflecting Swat wurde im Oktober 2025 von der Game-Changer-Liste entfernt. Bewusst keine Savage-Beating-/Extra-Combat-Endlosschleife, keine Extrazugkette und keine Massenlandvernichtung.
+## Karten, die man nicht falsch spielen sollte
 
-Offizielle Referenzen:
-- https://magic.wizards.com/en/formats/commander
-- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
-- https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026
+- Die neue `Flamekin Village` ist kein verlässliches ungetapptes Erstland, aber eine zusätzliche Eile-Quelle.
+- `The Black Gate` kann nur einen gewählten Spieler mit den meisten oder gleich vielen Lebenspunkten von Blocks ausschließen. Es macht nicht gegen **jeden** Gegner unblockbar.
+- `Filth` benötigt den eigenen Friedhof **und** ein eigenes Swamp. `Urborg, Tomb of Yawgmoth` verwandelt alle Länder in Swamps und ermöglicht dann Swampwalk gegen jeden Gegner mit Land.
+- `Hit the Mother Lode` erzeugt getappte Schätze. Sie finanzieren keine Aktivierung im gleichen Zug, falls man sie nicht zusätzlich enttappt.
+- `Malakir Rebirth` eignet sich als Absicherung des echten Magar, rettet aber eine bereits verdeckte Magar-Puppe wegen deren eigener Exil-Ersatzwirkung nicht.
+- `Whispersilk Cloak` verleiht Shroud; nach dem Anlegen kann man die Puppe nicht ohne Weiteres mit eigenen Ziel-Fähigkeiten weiter ausrüsten.
+- `Berserkers' Onslaught` hilft nur bei Kampfschaden — jede erfolgreiche Puppe löst ihren Schadenstrigger selbst aus. Eine beliebig erzeugte Kopie einer verdeckten Puppe hat nicht deren notierten Kartennamen.
+- `Glaring Spotlight` verleiht Hexproof nur Kreaturen, die beim Verrechnen schon da sind; die Unblockbarkeit gilt auch für danach erscheinende eigene Kreaturen in diesem Zug.
 
-**Einschraenkung:** Die Bracket-Zuordnung ist eine regel- und deckbaubasierte Einschaetzung, keine in echten Multiplayer-Partien nachgewiesene Leistungsstufe. Bei Nutzung auf einer Spielplattform sind verdeckte Karten mit notiertem Zaubernamen eindeutig zu kennzeichnen.
+## Bracket und Nachweise
+
+**Game Changers (3):** `Demonic Tutor`, `Gamble`, `Jeska's Will`. `Deflecting Swat` zählt seit der Oktober-2025-Aktualisierung nicht mehr dazu. Keine beabsichtigten wiederholbaren Extrakämpfe/Extrazüge oder Massenlandvernichtung. 36 richtige Länder, ein optionales Land auf `Malakir Rebirth`.
+
+Aktuelle Regelquellen: [Commander-Format](https://magic.wizards.com/en/formats/commander), [Bracket-Update 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026).
+
+Das ist eine **Kartentext-/Deckbauoptimierung**, keine durch gespielte Commander-Partien bewiesene Winrate. CI und vollständige Oracle-Prüfung sind unabhängig von der hier kontrollierten 100-Karten-/Singleton-Struktur.
