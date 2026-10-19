@@ -1,54 +1,72 @@
-# Magar - Slotanalyse und kritische Entscheidungen
+# Magar of the Magic Strings – Optimierung V2
 
-**Stand:** 19.10.2026. **Designziel:** hoechstmoegliche Zuverlaessigkeit innerhalb Bracket 3 ohne Frueh-Kombos.
+**Stand:** 2026-10-19. **Commander:** Magar of the Magic Strings. **Bracket:** 3 / Upgraded. **Mission:** Eine echte Magar-Puppe möglichst früh sicher zum Gegner bringen und mit wiederholbaren Großzaubern gewinnen.
 
-## Deckstruktur (100 Karten)
+## Exakt acht V1 → V2 Änderungen
+
+| Raus | Rein | Warum und Gegenargument |
+|---|---|---|
+| Bone Miser | **Monument to Endurance** | Drei statt fünf Mana; Discard produziert eine Karte, Schatz oder 3 Lebensverlust pro Gegner. Begrenzung: jede Option nur einmal pro Zug, daher bei riesigen Wheels weniger explosiv als Bone Miser. |
+| Guttersnipe | **Illusionist's Bracers** | Für Equip {3} an Magar vervielfacht die Ausrüstung seine aktivierte Fähigkeit; aus einer Aktivierung entstehen **zwei verschiedene** Spruch-Puppen. Guttersnipe war günstiger und lieferte direkt 2 Schaden pro gewirktem Spruch an alle Gegner, ist ohne wiederholte Casts aber unterdurchschnittlich. |
+| Strionic Resonator | **Glaring Spotlight** | {3} + Opfer macht alle eigenen Kreaturen für einen Zug unblockbar und verleiht bestehenden Kreaturen Hexproof. Die alte Karte kopierte einen gelungenen Schadens-Trigger für {2}, war aber nutzlos, falls keine Puppe überhaupt durchkam. Spotlight ist einmalig, nicht wiederholbar. |
+| Brotherhood Regalia | **Silver Shroud Costume** | Neues Equipment kostet {2}, **Flash**, sofortiges Anlegen beim ETB, temporäres Shroud, dauerhafte Unblockbarkeit. Regalia hatte dauerhaft Ward {2}, aber bei einer nichtlegendären Puppe Equip {3}; späteres Umrüsten kostet auch beim Costume {3}. |
+| Explosive Singularity | **Sorin's Vengeance** | Gleiche relevante Menge Direktschaden an Spieler/Planeswalker (**10**) und zusätzlich **10 Lebenspunkte** für uns; sieben statt zehn Mana falls einmal normal zu wirken. Verlust: kann nicht mehr auf Kreaturen zielen. |
+| Shizo, Death's Storehouse | **Flamekin Village** | Shizo kann nur dem legendären **Magar**, nicht seinen namenlosen Puppen, Fear geben. Flamekin Village gibt jeder Puppe gegen {R}, Tap Eile und liefert selbst {R}. Risiko: ohne Elemental-Karte fast immer getappt. |
+| Buried Alive | **Final Parting** | Sucht **beliebige** zwei Karten: beispielsweise Breach the Multiverse direkt in den Friedhof und Silver Shroud Costume oder Key to the City auf die Hand. Anders als Buried Alive ist es auch als Magar-Ziel für wiederholtes Suchen brauchbar. Nachteil: {3}{B}{B} statt {2}{B}; Anger+Filth auf einen Schlag in den Friedhof zu legen geht nicht mehr. |
+| Fevered Suspicion | **Vandalblast** | Von der Hand einmal für {R} gezielte Artefaktantwort oder für {4}{R} alle gegnerischen Artefakte räumen. Der alte Achtmana-Zufallszauber war als Puppe spannend (bis drei fremde Karten) aber ohne Rebound bei kostenloser Magar-Kopie, und in der Hand schwer zu wirken. Wichtige Grenze: Magar kann Vandalblast nur **ohne Overload** kostenlos wirken. |
+
+**Echte historische V1:** [versions/2026-10-19-b3-v1.txt](versions/2026-10-19-b3-v1.txt). Nur die bestehende `current.txt` wird als V2 aktiv gepflegt.
+
+## Formale Struktur, aktuelle Liste
 
 | Kategorie | Anzahl |
 |---|---:|
 | Commander | 1 |
-| Sonstige Kreaturen | 12 |
-| Artefakte | 16 |
+| Kreaturen außer Commander | 10 |
+| Artefakte | 18 |
 | Verzauberungen | 6 |
-| Haymaker-Instants/Sorceries | 10 |
-| Setup-Instants/Sorceries | 12 |
-| Interaktion inklusive Malakir Rebirth | 7 |
-| Echte Landkarten | 36 |
+| Magar-Haymaker mit hohem Impact | 9 |
+| Setup, Discard und Tutoren | 12 |
+| Flexible Interaktion einschließlich Vandalblast und Malakir Rebirth | 8 |
+| Echte Länder | 36 |
 | **Gesamt** | **100** |
 
-`Malakir Rebirth` ist zusaetzlich ein bedingt getapptes Land (`Malakir Mire`), kein 37. festes Land. `Blightstep Pathway` ist als Vorderseite einer legalen Modal-Landkarte notiert.
+`Malakir Rebirth` hat die `Malakir Mire` Landrückseite und ist **kein** 37. dediziertes Land. `Flamekin Village` ist ein Land und ersetzt genau ein Land. Die Kategorien sind Deckbaurollen, keine automatisch ermittelten Oracle-Typen: `Vandalblast` ist beispielsweise auch eine Sorcery, wird hier als Interaktion eingeordnet.
 
-## Game Changers (3/3)
+## Die neun Haymaker
 
-`Gamble` sucht jeden noetigen Baustein und legt durch zufaelliges Abwerfen gelegentlich genau den richtigen Spruch in den Friedhof. `Demonic Tutor` sucht Schutz, Evasion oder Engine. `Jeska's Will` erzeugt Mana und Kartenzugang, um in einem Zug mehrere Aktivierungen oder Spielzuege zu finanzieren. `Deflecting Swat` ist laut Update vom 21.10.2025 nicht mehr Game Changer; `Wheel of Fortune` ebenfalls nicht auf der aktuellen Liste. Verzichte auf `Ancient Tomb`, `Mana Vault` oder `Vampiric Tutor`, da sie einen vierten GC belegen wuerden.
+- `Brass's Bounty`: wiederholbare Schatzskalierung mit eigener Länderzahl, Treasures kommen **ungetappt**.
+- `Breach the Multiverse`: je Spieler 10 Karten millen und aus jedem Friedhof einen Planeswalker oder eine Kreatur holen.
+- `Rise of the Dark Realms`: gewinnt Kreaturen aus sämtlichen Friedhöfen unter unserer Kontrolle.
+- `In Garruk's Wake`: zerstört nur gegnerische Kreaturen und Planeswalker, schützt somit die eigenen 3/3.
+- `Blood for the Blood God!`: Hand abwerfen, 8 ziehen, **jedem Gegner 8 Schaden**, danach wird die **gewirkte Kopie** exiliert, nicht die ursprüngliche Puppe.
+- `Hit the Mother Lode`: Discover 10; restliche Mana-Wert-Differenz als **getappte** Treasures für Folgerunden.
+- `Sorin's Vengeance`: 10 an Spieler/Planeswalker und 10 Lebenspunkte für uns. Mit `Berserkers' Onslaught` wird bei zwei ungeblockten Kampfschadensschritten dieselbe kopierte Sorcery zweimal gewirkt.
+- `Peer into the Abyss`: sehr viele Karten auf Kosten der Hälfte der Lebenspunkte; Lebensmanagement wichtig.
+- `Disrupt Decorum`: Goad aller gegnerischen Kreaturen. **Beim Treffer in unserem Kampf** ändert Goad den bereits abgeschlossenen Blocker-Schritt nicht und hilft erst in den folgenden Angriffen; primär Politik und Absicherung gegen Gegenschläge.
 
-## Funktionsblöcke
+**Rollen-Abgrenzung:** `Final Parting` und `Vandalblast` sind zusätzliche sinnvolle Magar-Ziele, aber ihre Aufgabe ist Suchen bzw. Interaktion, nicht der direkte Sieg. `Final Parting` kostet ohne Kopie fünf Mana, um zwei Karten zu tutorieren. `Vandalblast` kann kostenlos nur eine gegnerische Artefakt-Permanente zerstören, nicht überladen werden.
 
-**Ziele fuer Magar (10):** `Brass's Bounty`, `Breach the Multiverse`, `Rise of the Dark Realms`, `In Garruk's Wake`, `Blood for the Blood God!`, `Fevered Suspicion`, `Hit the Mother Lode`, `Explosive Singularity`, `Peer into the Abyss`, `Disrupt Decorum`. Sie sind alle ohne variable X-Kosten nutzbar. `In Garruk's Wake` zerstoert keine eigenen Magar-Puppen. `Breach the Multiverse` fuellt zudem Friedhoefe.
+## Wichtigste Engpass-Funktionen
 
-**Friedhofsfutter:** `Entomb` und `Unmarked Grave` koennen gezielt Haymaker ablegen. `Buried Alive` findet im passenden Zustand `Anger` und `Filth` (beide muessen wirklich im Friedhof sein). `Faithless Looting`, `Cathartic Reunion`, `Thrill of Possibility`, `Demand Answers`, `Big Score`, `Wheel of Fortune`, `Anje Falkenrath`, `Glint-Horn Buccaneer` und `Key to the City` sorgen fuer selektives oder breites Discard. `Oriq Loremage` ist langsamer, aber wiederholbar. `Doom Whisperer` surveilt gegen Lebenspunkte ohne Kartendiscard.
+**Friedhof vorbereiten:** Faithless Looting, Cathartic Reunion, Thrill of Possibility, Demand Answers, Big Score, Anje Falkenrath, Key to the City, Ripples of Undeath, Doom Whisperer, Geier Reach Sanitarium und Wheel of Fortune. `Entomb`, `Unmarked Grave`, `Final Parting` suchen gezielt, `Gamble` kann zufällig auch das gewünschte Ziel abwerfen. `Monument to Endurance` macht bewusstes Abwerfen zum direkten Vorteil.
 
-**Evasion und Schutz:** `Key to the City` (auch Discard), `Brotherhood Regalia`, `Whispersilk Cloak`, `Thieves' Tools`, `Dauthi Embrace`, `Bedlam`, `Access Tunnel`, `Rogue's Passage`, `The Black Gate` (nur gegen einen gewaehlten Spieler mit den meisten bzw. gleich vielen Lebenspunkten) und `Filth` mit `Urborg`. Schutz ueber `Lightning Greaves`, `Swiftfoot Boots`, `Mithril Coat`, `Deflecting Swat`, `Malakir Rebirth`, `Plaza of Heroes`. `Whispersilk Cloak` verleiht Shroud: andere Faehigkeiten nicht mehr auf dieselbe Kreatur zielen lassen.
+**Eile:** `Anger` im Friedhof **und** eigenes Mountain, `Chainer, Nightmare Adept`, `Bitter Reunion`, `Flamekin Village`. Magar selbst braucht zum Aktivieren keine Eile, aber frisch durch Magar erzeugte 3/3 brauchen sie zum sofortigen Angriff.
 
-**Mana:** 36 Laender, sieben fruehe 2-Mana-Rocks bzw. Sol Ring (`Sol Ring`, `Arcane Signet`, `Rakdos Signet`, `Talisman of Indulgence`, `Fellwar Stone`, `Mind Stone`, `Liquimetal Torque`). `Black Market Connections`, `Storm-Kiln Artist`, `Big Score`, `Jeska's Will`, `Brass's Bounty` und `Hit the Mother Lode` erweitern die Manaquellen. **Hit the Mother Lode erzeugt getappte Schaetze**, die erst nach dem Enttappen Mana geben. Jede Magar-Aktivierung kostet exakt {1}{B}{R}.
+**Evasion:** `Key to the City`, `Whispersilk Cloak`, `Silver Shroud Costume`, `Thieves' Tools`, `Dauthi Embrace`, `Glaring Spotlight`, `Bedlam`, `Access Tunnel`, `Rogue's Passage`, `The Black Gate` (nur Spieler mit den meisten bzw. gleich vielen Lebenspunkten), `Filth` + ein Swamp (ideal mit `Urborg, Tomb of Yawgmoth`). Beachte: Brotherhood Regalia ist seit V2 **nicht mehr** enthalten.
 
-**Zusatznutzen:** `Chainer, Nightmare Adept` laesst die neu als Nichttoken-Kreaturen eintretenden Friedhofszauber eilig angreifen. `Anger` und `Bitter Reunion` sind andere Haste-Linien. `Berserkers' Onslaught` und `Strionic Resonator` verdoppeln einzelne Ausloesungen auf unterschiedliche Weise. `Guttersnipe` und `Storm-Kiln Artist` reagieren auf die per Magar tatsaechlich gewirkten Kopien. `Bone Miser` macht das Discard nutzbringend. `Professional Face-Breaker` profitiert von Kampftreffern.
+**Schutz:** `Lightning Greaves`, `Swiftfoot Boots`, `Mithril Coat`, `Deflecting Swat`, `Malakir Rebirth` auf den ursprünglichen Magar, `Plaza of Heroes`, temporäres Shroud von `Silver Shroud Costume` und `Glaring Spotlight`. Magar-Puppen selbst haben beim Verlassen des Spielfelds eine **Exil-statt-anderen-Zielort**-Ersatzwirkung: Wiederbelebung derselben Puppe durch Malakir Rebirth funktioniert nicht.
 
-## Begruendet nicht enthalten
+**Ressourcen:** 36 Lands (+ Malakir Mire optional), sieben effiziente Mana-Artefakte einschließlich Sol Ring, dazu Storm-Kiln Artist, Professional Face-Breaker, Big Score, Jeska's Will und Brass's Bounty. Magar benötigt für **jede Aktivierung {1}{B}{R}**. Mehr Puppen kosten entsprechend mehr Mana und brauchen separat Evasion — genau deshalb sind Bracers und Spotlight als Paar stärker als einzeln.
 
-- **Savage Beating**, `Final Fortune`, `Last Chance`, `Sundial of the Infinite`: das Deck soll keine beabsichtigten wiederholbaren Extrakampf-/Extrazug-Endlosschleifen besitzen. Besonders `Savage Beating` als Magar-Puppe birgt einen unmittelbar wiederholbaren Extra-Combat-Pfad.
-- **Roaming Throne**, `Spark Double`, `Rite of Replication`, `Brudiclad, Telchor Engineer`: Kopien von Magars verdeckten Kreaturen kopieren nicht die notierte Zauberkarte. Zudem sind die verdeckten 3/3 typelos.
-- **Exsanguinate**, `Torment of Hailfire`, `Crackle with Power`: bei kostenlosen Kopien ist `X=0`; fuer diesen Commander sind feste grosse Effekte besser.
-- **Blasphemous Act**, `Decree of Pain`: treffen die eigenen 3/3 und verlieren dadurch ihre gesicherten Zauberquellen. `In Garruk's Wake` beseitigt nur gegnerische Kreaturen und Planeswalker.
-- **Necropotence**: verwirft Karten in das Exil statt in den Friedhof und belegt zusaetzlich einen Game-Changer-Slot.
-- **Anfangskosten-/Discard-Zauber als Puppe:** `Cathartic Reunion`, `Thrill of Possibility`, `Big Score` und `Fire Covenant` bleiben als Setup bzw. Kontrolle im Deck, sind aber wegen ihrer zusaetzlichen Kosten oft schlechte Magar-Ziele.
+## Grenzen und stärkstes Gegenargument
 
-## Hauptrisiken und spaetere Optimierung
+Das Deck verliert durch V2 **zwei unterstützende Kreaturen** und eine zuverlässige eigenständige direkte Schadensquelle (`Guttersnipe`). `Illusionist's Bracers` kann auf einer leeren Friedhofslage keine zwei unterschiedlichen Puppen erzeugen; der Ausrüstungsaufwand ist hoch. `Silver Shroud Costume` hat nur am ETB einmal gratis Attach, danach Equip {3}, während `Brotherhood Regalia` auch später Ward gab. `Flamekin Village` ist im Gegensatz zum entfernten Shizo praktisch sicher getappt. Dieser Trade lohnt nur, wenn der Druck der ersten ein bis zwei Magar-Treffer entscheidender ist als langfristige Einzelkarteneffizienz.
 
-1. **Friedhofshass:** Ein gegnerisches `Rest in Peace` oder `Dauthi Voidwalker` schneidet die Hauptengine ab. `Withering Torment`, `Chaos Warp` oder `Rakdos Charm` koennen teils intervenieren, reichen nicht gegen jedes Hate-Permanent. Bei viel Graveyard-Hate mehr Enchantment-/Artifact-Removal einbauen.
-2. **Puppen ohne Evasion:** Ein 3/3 ohne Haste und unblockbare Route bewirkt oft einen kompletten Zug lang nichts; deshalb sind Equipments und Laender mit Evasion relativ dicht besetzt.
-3. **Tempo und Farbmana:** Mit 36 Landkarten und sieben Rocks sind wiederholte Magar-Aktivierungen plausibel; mehrfarbige Utility-Landentscheidungen koennen aber farbige Quellen verknappen. Kein Anspruch auf simulierte Winrate.
-4. **Interaktion:** `In Garruk's Wake` ist eine Reaktionslinie, die erst bei einem Treffer gratis wird. Das Deck besitzt ansonsten nur selektive Antworten. Falls die Spielgruppe sehr schnell ist, einen Haymaker gegen `Toxic Deluge` oder weitere billige Interaktion tauschen.
-5. **Lebenspunkte:** `Peer into the Abyss`, `Doom Whisperer`, `Black Market Connections`, `Fire Covenant` und einige Schock-/Painlands koennen zusammen viel Leben kosten. `Peer into the Abyss` nur mit gutem Schutz/Finishernutzung einsetzen.
+**Nicht als Optimierung enthalten:** `Savage Beating` und wiederholbare Extra-Combat-/Extra-Turn-Loops, `Torment of Hailfire`/andere X-Zauber (bei kostenloser Kopie X=0), `Roaming Throne` für typelose Puppen, `Insurrection` als Magar-Ziel (wird **erst nach Kampfschaden** gewirkt, für die bereits erfolgte Angriffsdeklaration zu spät), `Necropotence` (verbannt abgeworfene Karten statt sie in den Friedhof zu legen und ist Game Changer). `Volcanic Vision` wäre ein möglicher Ersatz für einen weiteren Haymaker, braucht jedoch zusätzliche **andere** hochwertige Spell-Karten im Friedhof als Ziele — diese sind durch Magars Aktivierung oft bereits zu Puppen geworden.
 
-Wichtig: Nachweise fuer 100-Karten-Struktur, aktuelle Bannliste und einzelne Kartentexte werden durch spaetere valide Oracle-/CI-Checks besser; diese Dokumentation behauptet keine gespielten Partien und keine gemessene Siegwahrscheinlichkeit.
+**Weiter zu beobachten:** Eine Hand ohne schwarzen + roten Manaquellen; nur ein Haymaker im Friedhof, sodass Bracers effektiv nur einen Token schafft; Massenremoval, Graveyard-Hate und Enchantment-Hate. Verbesserungen sollten nach echten 4-Spieler-Partien an diesen Problemen priorisiert werden, nicht anhand der bloßen Zahl „explosiver“ Karten.
+
+**Offizielle Referenz:** https://magic.wizards.com/en/formats/commander — Commander/Brackets; https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 — Game Changers. Bracket 3 erlaubt maximal drei Game Changers. V2 verwendet weiterhin **Demonic Tutor, Gamble und Jeska's Will**.
+
+**Prüfumfang:** Kartenänderungen und neue Einzelkartentexte manuell abgeglichen; 100 Karten/36 Länder/Singleton direkt an den Branch-Daten zählbar. Weder eine vollständige Oracle-Prüfung aller 100 Karten noch reale Partietests oder eine belegte Winrate sind mit diesem Text behauptet.
