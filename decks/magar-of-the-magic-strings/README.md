@@ -1,40 +1,45 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Stand:** V4, 19. Oktober 2026 · **Commander:** Magar of the Magic Strings · **Rakdos** (Schwarz/Rot) · **Bracket 3 / Upgraded**.
+**Aktuelle Liste:** Commander, Bracket 3 / Upgraded · **V5 (19.10.2026)** · Rakdos (Schwarz/Rot) · keine Budgetbeschränkung.
 
-- [current.txt](current.txt): aktuelle 100-Karten-Liste, eine Zeile pro Karteneintrag.
-- [analysis.md](analysis.md): V4-Entscheidungen, konkrete Gegenargumente und historische Analysen.
-- [versions/2026-10-19-b3-v1.txt](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt): tatsächliche, bytegetreu archivierte frühere Listen.
+- [current.txt](current.txt) — einzige aktuelle, importierbare 100-Karten-Liste.
+- [analysis.md](analysis.md) — aktuelle Bewertung, drei V5-Kartenwechsel, Gegenargumente und historische Änderungen.
+- **Tatsächliche Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt). Historische Analysen verweisen auf diese Snapshots, **nicht** auf die wechselnde `current.txt`.
 
-## Der Regelvorteil: Magar kann im gegnerischen Zug aktivieren
+## Magar – das wichtigste Timing
 
-Magars aktivierte Fähigkeit kostet **{1}{B}{R}**, aber **kein {T}** und trägt **keine Sorcery-Timing-Einschränkung**. Du kannst sie daher auch im Endsegment des Gegners aktivieren, dessen Zug direkt vor deinem kommt. Die dadurch ins Spiel gebrachte verdeckte 3/3 ist bereits seit Beginn deines folgenden Zuges unter deiner Kontrolle und darf **ohne Eile** angreifen. Das spart in normalen Spielen eine separate Haste-Karte.
+`Magar of the Magic Strings` hat für {1}{B}{R} eine **aktivierte Fähigkeit ohne Tappkosten und ohne Sorcery-Timing-Beschränkung**. Du kannst daher im gegnerischen Endsegment unmittelbar vor deinem Zug einen zuvor abgeworfenen oder gemillten Instant/Sorcery in eine echte, verdeckte 3/3-Kreaturenkarte verwandeln. Sie steht seit Beginn deines nächsten Zuges unter deiner Kontrolle und darf **ohne Eile** angreifen. Ein früher Angriffsversuch im selben Zug benötigt dagegen Eile, z. B. `Lightning Greaves`, `Swiftfoot Boots` oder das Opfer von `Bitter Reunion`.
 
-Aktivierung: Eine Instant- oder Sorcery-Karte aus **dem eigenen Friedhof** wird als **echte Karte**, nicht als Token, verdeckt zur 3/3-Kreatur. Ihre gedruckten Eigenschaften sind verdeckt nicht vorhanden; sie ist namenlos, farblos, hat keine Kreaturentypen und Manawert 0. Bei **Kampfschaden an einem Spieler** darf eine Kopie der notierten Zauberkarte kostenlos **gewirkt** werden, auch wenn es eine Hexerei ist. Die Puppe wird exiliert, wenn sie das Spielfeld verlassen würde.
+Beim Kampfschaden **an einem Spieler** darfst du eine Kopie der notierten Karte **wirken, ohne ihre Manakosten zu bezahlen**. Sorceries dürfen dadurch während des Kampfs gewirkt werden; zusätzliche Kosten sind weiter zu bezahlen. Die 3/3 ist **kein Token**. Sie besitzt verdeckt keine Farbe, keinen Namen, keine Kreaturentypen und Manawert 0. Sie wird ins Exil geschickt, wenn sie das Schlachtfeld verlassen würde.
 
-- Der notierte Kartenname ist **nicht kopierbar**: Fables `Reflection of Kiki-Jiki` kann zwar eine 3/3-Puppe kopieren, der entstandene Token besitzt jedoch **keinen** notierten Namen und kann daher keinen notierten Zauber kopieren. Das ist ausdrücklich **kein** Plan für dieses Deck.
-- Auch bei kostenlosen Spruchkopien müssen zusätzliche Kosten bezahlt werden. `Cathartic Reunion` und `Big Score` sind deswegen primär Setup, keine Finisher; `Vandalblast` kann über Magar **nicht** mit Overload gewirkt werden.
-- Shroud/H​​exproof schützen nur im vorgesehenen Rahmen. `Whispersilk Cloak` verleiht Shroud, daher danach keine eigenen gezielten Ausrüstungs- oder Zaubereffekte mehr auf diese Puppe anwenden.
+**Wichtig:** Ein Klon der verdeckten 3/3 bekommt die notierte Karteninformation **nicht**. `Fable of the Mirror-Breaker` / `Reflection of Kiki-Jiki` sollte daher `Vile Entomber`, `Mirkwood Bats` oder andere normale Nichtlegendäre kopieren, nicht eine Magar-Puppe.
 
-## So spielen wir V4
+## Spielplan
 
-1. **Erste Züge:** Farbquellen, Sol Ring oder 2-Mana-Artefakte entwickeln. `Faithless Looting`, `Ransack the Lab`, `Cathartic Reunion`, `Anje Falkenrath` und `Fable of the Mirror-Breaker` filtern Karten und befördern große Zauber in den Friedhof.
-2. **Gezielt suchen:** `Entomb`, `Unmarked Grave`, `Vile Entomber` und `Final Parting` befördern gezielt einen benötigten Spell in den Friedhof. `Vile Entomber` funktioniert sofort beim Eintritt, statt auf das Enttappen von `Oriq Loremage` warten zu müssen. `Buried Alive` kann `Anger` und `Filth` gleichzeitig in den Friedhof legen; beide helfen nur unter ihren gedruckten Landbedingungen.
-3. **Magar-Puppe einrichten:** Im gegnerischen Endsegment direkt vor deinem Zug {1}{B}{R} für den wichtigsten Spell bezahlen. Alternativ am eigenen Zug eine Puppe erzeugen und mit `Anger`, `Chainer`, `Lightning Greaves`, `Swiftfoot Boots` oder `Bitter Reunion` Eile verleihen.
-4. **Treffer sichern:** `Key to the City`, `Silver Shroud Costume`, `Prowler's Helm`, `Whispersilk Cloak`, `Thieves' Tools`, `Dauthi Embrace`, `Access Tunnel`, `Rogue's Passage` sowie bedingt `The Black Gate`. `Filth` und `Urborg, Tomb of Yawgmoth` ermöglichen Swampwalk gegen Spieler mit Sümpfen.
-5. **Kampfschaden vervielfachen:** `Embercleave` kann im Blockerdeklarieren-Schritt **vor dem Erstschlagschaden** gewirkt werden, kommt mit automatischer Ausrüstung ins Spiel und verleiht +1/+1, Doppelschlag und Trampelschaden. Die Kosten betragen bei genau einer angreifenden Kreatur {3}{R}{R}; bei zwei Angreifern {2}{R}{R}. Trifft eine Puppe in beiden Kampfschadenssegmenten, wird der notierte Spell **zweimal** gewirkt. `Berserkers' Onslaught` ist eine weitere Doppelschlagquelle; Doppelschlag stapelt sich nicht.
-6. **Sieg:** `Blood for the Blood God!` fügt jedem Gegner acht Schaden zu; `Sorin's Vengeance` fügt einem Ziel zehn Schaden zu und gewinnt zehn Leben; `Brass's Bounty` macht riesige Mengen ungetappter Schätze; `Breach the Multiverse` und `Rise of the Dark Realms` holen Kreaturen zurück; `In Garruk's Wake` räumt nur gegnerische Kreaturen und Planeswalker; `Call Forth the Tempest` triggert durch das **Wirken** der Kopie zweimal Cascade und erzeugt zusätzlichen Kreaturenschaden.
+1. **Mana und Zauber vorbereiten:** Länder und Mana-Artefakte entwickeln. `Faithless Looting`, `Cathartic Reunion`, `Ransack the Lab`, `Anje Falkenrath`, `Fable of the Mirror-Breaker` oder `Ripples of Undeath` legen teure Zauber in den Friedhof. `Entomb`, `Unmarked Grave` und `Vile Entomber` suchen sie gezielt; `Final Parting` beschafft gleichzeitig Friedhofsziel und passende Handkarte.
+2. **Gezielter Spielzug am gegnerischen Zugende:** {1}{B}{R} zahlen und den wertvollsten Spell als echte, verdeckte 3/3 aufs Feld holen. Besonders gute Ziele: `Blood for the Blood God!`, `Brass's Bounty`, `Breach the Multiverse`, `Call Forth the Tempest`, `In Garruk's Wake` oder `Sorin's Vengeance`.
+3. **Unblockbaren Ersttreffer erzwingen:** `Key to the City`, `Whispersilk Cloak`, `Prowler's Helm`, `Silver Shroud Costume`, `Thieves' Tools`, `Dauthi Embrace`, `Rogue's Passage`, `Access Tunnel` oder eingeschränkt `The Black Gate`; `Filth` im Friedhof plus gegnerische Sümpfe (häufig über `Urborg, Tomb of Yawgmoth`) ist die Evasion-Speziallinie.
+4. **Treffer vervielfachen oder schützen:** `Embercleave` kann im Kampf nach den Blockern, aber vor Kampfschaden mit Flash direkt an eine Puppe angelegt werden, gibt Doppelschlag und Trampelschaden. Alternativ gibt `Berserkers' Onslaught` angreifenden Kreaturen Doppelschlag. Beide Effekte addieren sich **nicht**. Magar schützen `Lightning Greaves`, `Swiftfoot Boots`, `Deflecting Swat`, `Plaza of Heroes` und situativ `Malakir Rebirth` auf dem **echten Commander**.
+5. **Neues V5-Finale:** `Mirkwood Bats` lässt bei **jedem eigenen erzeugten oder geopferten Token** jeden Gegner 1 Leben verlieren. `Brass's Bounty` erzeugt pro kontrolliertem Land einen Schatz: Bei sechs Ländern verlieren alle Gegner **sechs Leben durch die Erzeugung** und **weitere sechs**, wenn wir alle sechs Schätze später opfern. Auch Schätze von `Professional Face-Breaker`, `Black Market Connections`, `Fable` und `Big Score` zählen.
+6. **Aus dem Friedhof Nachschub:** `Stinkweed Imp` hat Dredge 5. Wird es abgeworfen, kann ein späteres tatsächliches Ziehen ersetzt werden: fünf Karten vom Deck in den Friedhof legen und das Imp zurück auf die Hand nehmen. Besonders effizient: `Anje Falkenrath` wirft das Imp als Aktivierungskosten ab, danach kannst du Anjes Ziehen sofort durch Dredge ersetzen. `Key to the City` kann den wiedergewonnenen Imp erneut abwerfen.
 
-### Fable richtig einsetzen
+## V5: Dark Deal und Ressourcen
 
-Kapitel I macht einen angreifenden Goblin, der Schätze erzeugen kann; Kapitel II wirft gezielt bis zu zwei Karten ab und zieht entsprechend. Nach Kapitel III lässt sich `Reflection of Kiki-Jiki` für {1} und Tappen auf **andere nichtlegendäre echte Kreaturen** richten: Eine Tokenkopie von `Vile Entomber` hat den Eintrittstrigger für ein weiteres gezieltes Entomb. Eine Kopie einer Magar-Puppe übernimmt den **notierten Kartennamen nicht**, daher vermeiden.
+`Dark Deal` ({2}{B}) lässt jeden Spieler seine Hand abwerfen und anschließend **eine Karte weniger** nachziehen, als er abgeworfen hat. Dadurch befördern wir in einem Zug mehrere Zauber in den Friedhof, schaffen neues Material und lösen `Monument to Endurance` aus. Das Monument darf jede seiner drei Optionen **höchstens einmal je Zug** wählen; bei vier oder mehr gleichzeitig abgeworfenen Karten entstehen **nicht vier Monument-Effekte**.
 
-### Absicherung und Mana
+Vorteile gegenüber `Buried Alive`: Direkter Instant-/Sorcery-Friedhofszugang aus unserer Hand und neuer Kartenzugang, ohne drei Kreaturen zu suchen. Der Nachteil ist real: Das Wheel zwingt auch Gegner zum neuen Kartenziehen, und wir können dabei Schutz/Evasion abwerfen, die wir lieber behalten hätten.
 
-`Deflecting Swat`, `Lightning Greaves`, `Swiftfoot Boots`, `Malakir Rebirth` (für den **echten Magar**, nicht für die exilierende Puppe) und `Plaza of Heroes` sichern den Commander. 36 feste Länder und sieben Artefakt-Manaquellen unterstützen die wiederholten {1}{B}{R}-Aktivierungen. `Blazemire Verge` kommt ungetappt und gibt immer {B}; {R} nur bei eigenem Swamp oder Mountain. Es ist selbst **kein** Swamp/Mountain.
+## Wichtige Karteninteraktionen und Grenzen
 
-**Game Changers (genau drei):** `Demonic Tutor`, `Gamble`, `Jeska's Will`. Keine beabsichtigte frühe Zwei-Karten-Endlosschleife, keine Extra-Turn-Kette, keine Massenlandvernichtung.
+- **`Thieves' Tools` + `Embercleave`:** Die Stärkegrenze 3 gilt bei der **Blockerdeklaration**. Eine dann unblockbare 3/3 bleibt ungeblockt, wenn `Embercleave` erst danach ihre Stärke auf 4 erhöht. Das ist bewusst ein Grund, `Thieves' Tools` in V5 **nicht** zu entfernen.
+- **`Mask of Memory` nicht enthalten:** Es wäre preiswertes Draw 2/Discard 1 nach einem Treffer, würde aber einen wertvollen Evasion-Slot für den **ersten** erfolgreichen Magar-Kampfschaden kosten.
+- **`Stinkweed Imp`:** Dredge 5 ersetzt **ein tatsächliches Kartenziehen**, nicht eine Karte, die ohne Ziehen auf die Hand genommen wird. Es benötigt mindestens fünf Karten in der Bibliothek.
+- **`Filth`:** Im eigenen Friedhof und ein eigener Swamp nötig; Gegner müssen für Swampwalk einen Swamp kontrollieren. `Urborg, Tomb of Yawgmoth` gibt allen Ländern den Typ Swamp; `Blazemire Verge` ist selbst **kein** Swamp.
+- **`Call Forth the Tempest`:** Eine von Magar gewirkte Kopie löst beide Cascade-Fähigkeiten aus. `Vandalblast` lässt sich dagegen durch Magars kostenlose Kopie **nicht überladen** (alternative Kosten).
+- **`Malakir Rebirth`:** Auf einer verdeckten Magar-Puppe führt die eigene Exil-Ersatzwirkung dazu, dass sie **nicht zurückkehrt**. Magar selbst kann damit geschützt werden.
+- **`The Black Gate`:** Blockierverbot ist auf den gewählten Spieler mit den meisten bzw. gleich vielen Lebenspunkten eingeschränkt.
+- **Schwachstelle:** Friedhofshass, frühe Kreaturenzerstörung und Evasion-Mangel können das Deck stoppen. `Mirkwood Bats` ist eine zusätzliche, aber ebenfalls zerstörbare Siegroute. Keine gemessene Winrate oder vollständig automatisch geprüfte 100-Karten-Oracle-Analyse behauptet.
 
-**Risiken:** Friedhofsexil oder ein früh getöteter Magar können den Hauptplan blockieren. Die Karte `Fable` und billige Instants/Sorceries halten das Deck auch ohne erfolgreiche Puppentreffer spielbar. V4 ist eine anhand überprüfter Karteninteraktionen erstellte Optimierung, **keine** gemessene Multiplayer-Winrate oder vollständig Oracle-geprüfte 100-Karten-Garantie.
+**Bracket 3:** Genau drei Game Changers: `Demonic Tutor`, `Gamble`, `Jeska's Will`. Bewusst keine beabsichtigte frühe Zwei-Karten-Endloskombination, keine Extra-Turn-Kette oder Massenlandvernichtung.
 
-Quellen: [Commander/Brackets](https://magic.wizards.com/en/formats/commander) · [WotC-Ankündigung vom 12.10.2026](https://magic.wizards.com/en/news/announcements/banned-and-restricted-october-12-2026).
+**Regel-/Formatquellen:** [Magar-Kartentext und Rulings](https://mtg.wtf/card/unf/514/Magar-of-the-Magic-Strings) · [WotC: Thieves' Tools](https://magic.wizards.com/en/news/feature/adventures-forgotten-realms-release-notes-2021-07-09) · [WotC: Commander Brackets, Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) · [WotC: B&R 12. Oktober 2026](https://www.magic.wizards.com/en/news/announcements/banned-and-restricted-october-12-2026).
