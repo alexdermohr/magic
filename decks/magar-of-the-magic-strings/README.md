@@ -1,59 +1,40 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Aktuell:** Bracket 3 / Upgraded · **Version:** V3, 19. Oktober 2026 · **Farbidentität:** Rakdos · **Commander:** Magar of the Magic Strings.
+**Stand:** V4, 19. Oktober 2026 · **Commander:** Magar of the Magic Strings · **Rakdos** (Schwarz/Rot) · **Bracket 3 / Upgraded**.
 
-- [current.txt](current.txt): einzige aktuelle, importierbare 100-Karten-Liste.
-- [versions/2026-10-19-b3-v1.txt](versions/2026-10-19-b3-v1.txt): unveränderte echte V1 vor acht gezielten V2-Wechseln.
-- [versions/2026-10-19-b3-v2.txt](versions/2026-10-19-b3-v2.txt): unveränderte historische V2 vor sechs neuen V3-Wechseln.
-- [analysis.md](analysis.md): V1–V3-Tausche, Alternativen, Risiken und Regeln.
+- [current.txt](current.txt): aktuelle 100-Karten-Liste, eine Zeile pro Karteneintrag.
+- [analysis.md](analysis.md): V4-Entscheidungen, konkrete Gegenargumente und historische Analysen.
+- [versions/2026-10-19-b3-v1.txt](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt): tatsächliche, bytegetreu archivierte frühere Listen.
 
-**Ziel:** Möglichst hohe Spielstärke innerhalb Bracket 3 ohne beabsichtigte frühe Zweikarten-Endloskombos, Extra-Turn-Ketten oder Massenlandvernichtung. Kein Budgetlimit.
+## Der Regelvorteil: Magar kann im gegnerischen Zug aktivieren
 
-## Was Magar wirklich macht
+Magars aktivierte Fähigkeit kostet **{1}{B}{R}**, aber **kein {T}** und trägt **keine Sorcery-Timing-Einschränkung**. Du kannst sie daher auch im Endsegment des Gegners aktivieren, dessen Zug direkt vor deinem kommt. Die dadurch ins Spiel gebrachte verdeckte 3/3 ist bereits seit Beginn deines folgenden Zuges unter deiner Kontrolle und darf **ohne Eile** angreifen. Das spart in normalen Spielen eine separate Haste-Karte.
 
-Magar kostet {1}{B}{R}. Seine aktivierte Fähigkeit kostet {1}{B}{R}, **nicht Tap**: Nimm eine angezielte Instant-/Sorcery-Karte aus **deinem Friedhof**, notiere ihren Namen und lege die **echte Karte** verdeckt als 3/3-Kreatur aufs Feld. Die Karte ist **kein Token** und hat verdeckt keinen Namen, keine Farbe, keinen Kreaturentyp und Manawert 0.
+Aktivierung: Eine Instant- oder Sorcery-Karte aus **dem eigenen Friedhof** wird als **echte Karte**, nicht als Token, verdeckt zur 3/3-Kreatur. Ihre gedruckten Eigenschaften sind verdeckt nicht vorhanden; sie ist namenlos, farblos, hat keine Kreaturentypen und Manawert 0. Bei **Kampfschaden an einem Spieler** darf eine Kopie der notierten Zauberkarte kostenlos **gewirkt** werden, auch wenn es eine Hexerei ist. Die Puppe wird exiliert, wenn sie das Spielfeld verlassen würde.
 
-Nach Kampfschaden an **einem Spieler** darf diese Kreatur eine Kopie der **notierten Karte** kostenlos wirken. Auch Hexereien dürfen dabei während des Kampfschadensegments gewirkt werden. Verlässt die 3/3 das Spielfeld, wird sie statt eines anderen Zielorts ins Exil geschickt. Der notierte Name ist **kein kopierbarer Wert**: Clone-/Token-Kopien dieser Puppe kennen ihn nicht, erhalten also keinen brauchbaren Zauberbezug.
+- Der notierte Kartenname ist **nicht kopierbar**: Fables `Reflection of Kiki-Jiki` kann zwar eine 3/3-Puppe kopieren, der entstandene Token besitzt jedoch **keinen** notierten Namen und kann daher keinen notierten Zauber kopieren. Das ist ausdrücklich **kein** Plan für dieses Deck.
+- Auch bei kostenlosen Spruchkopien müssen zusätzliche Kosten bezahlt werden. `Cathartic Reunion` und `Big Score` sind deswegen primär Setup, keine Finisher; `Vandalblast` kann über Magar **nicht** mit Overload gewirkt werden.
+- Shroud/H​​exproof schützen nur im vorgesehenen Rahmen. `Whispersilk Cloak` verleiht Shroud, daher danach keine eigenen gezielten Ausrüstungs- oder Zaubereffekte mehr auf diese Puppe anwenden.
 
-**Zusatzkosten werden beim kostenlosen Wirken nicht erlassen**: Ein auf diese Weise gewirktes `Big Score` benötigt weiterhin den verlangten Discard. `Vandalblast` kann beim kostenlosen Wirken **nicht überladen** werden, weil Overload ein alternatives Wirken ist.
+## So spielen wir V4
 
-## Spielplan und Prioritäten
+1. **Erste Züge:** Farbquellen, Sol Ring oder 2-Mana-Artefakte entwickeln. `Faithless Looting`, `Ransack the Lab`, `Cathartic Reunion`, `Anje Falkenrath` und `Fable of the Mirror-Breaker` filtern Karten und befördern große Zauber in den Friedhof.
+2. **Gezielt suchen:** `Entomb`, `Unmarked Grave`, `Vile Entomber` und `Final Parting` befördern gezielt einen benötigten Spell in den Friedhof. `Vile Entomber` funktioniert sofort beim Eintritt, statt auf das Enttappen von `Oriq Loremage` warten zu müssen. `Buried Alive` kann `Anger` und `Filth` gleichzeitig in den Friedhof legen; beide helfen nur unter ihren gedruckten Landbedingungen.
+3. **Magar-Puppe einrichten:** Im gegnerischen Endsegment direkt vor deinem Zug {1}{B}{R} für den wichtigsten Spell bezahlen. Alternativ am eigenen Zug eine Puppe erzeugen und mit `Anger`, `Chainer`, `Lightning Greaves`, `Swiftfoot Boots` oder `Bitter Reunion` Eile verleihen.
+4. **Treffer sichern:** `Key to the City`, `Silver Shroud Costume`, `Prowler's Helm`, `Whispersilk Cloak`, `Thieves' Tools`, `Dauthi Embrace`, `Access Tunnel`, `Rogue's Passage` sowie bedingt `The Black Gate`. `Filth` und `Urborg, Tomb of Yawgmoth` ermöglichen Swampwalk gegen Spieler mit Sümpfen.
+5. **Kampfschaden vervielfachen:** `Embercleave` kann im Blockerdeklarieren-Schritt **vor dem Erstschlagschaden** gewirkt werden, kommt mit automatischer Ausrüstung ins Spiel und verleiht +1/+1, Doppelschlag und Trampelschaden. Die Kosten betragen bei genau einer angreifenden Kreatur {3}{R}{R}; bei zwei Angreifern {2}{R}{R}. Trifft eine Puppe in beiden Kampfschadenssegmenten, wird der notierte Spell **zweimal** gewirkt. `Berserkers' Onslaught` ist eine weitere Doppelschlagquelle; Doppelschlag stapelt sich nicht.
+6. **Sieg:** `Blood for the Blood God!` fügt jedem Gegner acht Schaden zu; `Sorin's Vengeance` fügt einem Ziel zehn Schaden zu und gewinnt zehn Leben; `Brass's Bounty` macht riesige Mengen ungetappter Schätze; `Breach the Multiverse` und `Rise of the Dark Realms` holen Kreaturen zurück; `In Garruk's Wake` räumt nur gegnerische Kreaturen und Planeswalker; `Call Forth the Tempest` triggert durch das **Wirken** der Kopie zweimal Cascade und erzeugt zusätzlichen Kreaturenschaden.
 
-1. **Mana + Auswahl:** Bis Zug 3 Magar, ein 2-Mana-Manaartefakt und Discard/Entomb vorbereiten. `Faithless Looting`, `Cathartic Reunion`, `Thrill of Possibility`, `Anje Falkenrath`, `Key to the City` oder `Ripples of Undeath` legen teure Ziele in den Friedhof.
-2. **Ziel suchen:** `Entomb` und `Unmarked Grave` legen sofort passende Karten ab; `Final Parting` sucht gleichzeitig den Magar-Zauber für den Friedhof und eine Evasion-/Schutzkarte auf die Hand. `Gamble` und `Demonic Tutor` bleiben flexibel.
-3. **Sichere Puppe erzeugen:** Magar aktivieren. `Fervor` verleiht den eigenen Puppen dauerhaft Eile. Alternativ funktionieren `Anger` im Friedhof **und** ein eigenes Mountain, `Chainer, Nightmare Adept` oder `Flamekin Village` ({R}, {T}: Eile; das Land kommt ohne Elementals zum Vorzeigen getappt) sowie einmalig `Bitter Reunion`.
-4. **Treffer garantieren:** `Key to the City`, `Dauthi Embrace`, `Whispersilk Cloak`, `Thieves' Tools`, `Silver Shroud Costume`, `Prowler's Helm` (nur Walls dürfen blocken), `Access Tunnel`, `Rogue's Passage` oder `Bedlam`. `Glaring Spotlight`: {3} + opfern macht alle eigenen bestehenden Kreaturen für den Zug unblockbar und gibt ihnen Hexproof — einmaliger Zug zum Durchbruch.
-5. **Zauberkopien ausnutzen:** `Blood for the Blood God!` = 8 Schaden an jedem Gegner, Karten nachziehen; `Sorin's Vengeance` = 10 Schaden an einem Spieler/Planeswalker und 10 Leben; `Brass's Bounty` = Länderanzahl Schätze; `Call Forth the Tempest` = **zweimal Cascade** beim kostenlosen Wirken der Magar-Kopie und danach Schaden an allen gegnerischen Kreaturen entsprechend den Manawerten der zuvor gewirkten anderen Sprüche; `Breach the Multiverse` oder `Rise of the Dark Realms` = breite Kreaturenübernahme. `In Garruk's Wake` schont unsere Puppen.
-6. **Mehr aus einer Puppe:** `Berserkers' Onslaught` lässt ungeblockte angreifende Puppen zweimal Kampfschaden verursachen. Als günstigere, wiederholbare Alternative verleiht `Fireshrieker` einer ausgerüsteten Puppe Doppelschlag (Ausspielen {3}, Ausrüsten {2}). Eine Puppe kann bei erfolgreichem Erstschlag- **und** normalem Kampfschaden denselben Spruch zweimal kostenlos wirken. Zwei Quellen für Doppelschlag stapeln sich **nicht**.
+### Fable richtig einsetzen
 
-## V3: Sicherer Ersttreffer statt großer Vorabinvestition
+Kapitel I macht einen angreifenden Goblin, der Schätze erzeugen kann; Kapitel II wirft gezielt bis zu zwei Karten ab und zieht entsprechend. Nach Kapitel III lässt sich `Reflection of Kiki-Jiki` für {1} und Tappen auf **andere nichtlegendäre echte Kreaturen** richten: Eine Tokenkopie von `Vile Entomber` hat den Eintrittstrigger für ein weiteres gezieltes Entomb. Eine Kopie einer Magar-Puppe übernimmt den **notierten Kartennamen nicht**, daher vermeiden.
 
-Die sechs gezielten Änderungen sind [in der Analyse](analysis.md) mit Gegenargumenten dokumentiert. **V3 gewinnt keine pauschal höhere Stärke:** Der Plan setzt weniger auf das Vervielfachen vieler Puppen (Bracers) und eine globale Alles-ist-unblockbar-Verzauberung (Bedlam), sondern auf ein **früh angreifendes, geschütztes Einzelziel**, das seinen Großzauber idealerweise mit Doppelschlag zweimal wirkt.
+### Absicherung und Mana
 
-- **Prowler's Helm** ({2}, Equip {2}) ersetzt Mithril Coat und macht eine Puppe gegen alle Nicht-Walls unblockbar. Magar verliert dabei einen Indestructible-Schutz; Boots, Greaves, Deflecting Swat, Malakir Rebirth und Plaza of Heroes bleiben.
-- **Fireshrieker** ersetzt die vorbereitungsintensiven Illusionist's Bracers und vervielfacht erfolgreiche Magar-Schadenstrigger auf einer Puppe. Es braucht separat einen Weg vorbei an Blockern.
-- **Fervor** ersetzt das symmetrische Bedlam: Alle eigenen Puppen greifen mit Eile an, aber Gegner können weiterhin blocken. Für einen seltenen Mehrfachangriff bleibt **Glaring Spotlight** erhalten.
-- **Ransack the Lab** ({1}{B}) ersetzt Glint-Horn Buccaneer: zwei Karten von drei gehen gezielt in den Friedhof, die dritte kommt auf die Hand; auch als Magar-Kopie ohne zusätzliche Discardkosten gut.
-- **Call Forth the Tempest** ersetzt Hit the Mother Lode. Zweimal Cascade sind zwei separate Trigger beim Wirken, keine garantierten Treffer (die Kaskaden-Spells bleiben von der Deckzusammensetzung abhängig). Der spätere Flächenschaden trifft nur gegnerische Kreaturen.
-- **Raucous Theater** statt Tainted Peak: getapptes, aber fetchbares Swamp/Mountain mit Surveil 1. Gegenüber dem manchmal ungetappten Tainted Peak kostet das Tempo, erleichtert aber die Farbversorgung und ist gleichzeitig Filth-/Anger-Unterstützung.
+`Deflecting Swat`, `Lightning Greaves`, `Swiftfoot Boots`, `Malakir Rebirth` (für den **echten Magar**, nicht für die exilierende Puppe) und `Plaza of Heroes` sichern den Commander. 36 feste Länder und sieben Artefakt-Manaquellen unterstützen die wiederholten {1}{B}{R}-Aktivierungen. `Blazemire Verge` kommt ungetappt und gibt immer {B}; {R} nur bei eigenem Swamp oder Mountain. Es ist selbst **kein** Swamp/Mountain.
 
-V1 und V2 stehen weiterhin als echte historische Snapshots unter `versions/`; dieses Dokument beschreibt ausschließlich die aktuelle V3.
+**Game Changers (genau drei):** `Demonic Tutor`, `Gamble`, `Jeska's Will`. Keine beabsichtigte frühe Zwei-Karten-Endlosschleife, keine Extra-Turn-Kette, keine Massenlandvernichtung.
 
-## Karten, die man nicht falsch spielen sollte
+**Risiken:** Friedhofsexil oder ein früh getöteter Magar können den Hauptplan blockieren. Die Karte `Fable` und billige Instants/Sorceries halten das Deck auch ohne erfolgreiche Puppentreffer spielbar. V4 ist eine anhand überprüfter Karteninteraktionen erstellte Optimierung, **keine** gemessene Multiplayer-Winrate oder vollständig Oracle-geprüfte 100-Karten-Garantie.
 
-- Die neue `Flamekin Village` ist kein verlässliches ungetapptes Erstland, aber eine zusätzliche Eile-Quelle.
-- `The Black Gate` kann nur einen gewählten Spieler mit den meisten oder gleich vielen Lebenspunkten von Blocks ausschließen. Es macht nicht gegen **jeden** Gegner unblockbar.
-- `Filth` benötigt den eigenen Friedhof **und** ein eigenes Swamp. `Urborg, Tomb of Yawgmoth` verwandelt alle Länder in Swamps und ermöglicht dann Swampwalk gegen jeden Gegner mit Land.
-- Die V3 spielt **kein** `Hit the Mother Lode` mehr. `Call Forth the Tempest` erhält seine beiden Cascade-Trigger, weil Magars erzeugte Spruchkopie ausdrücklich **gewirkt** wird.
-- `Malakir Rebirth` eignet sich als Absicherung des echten Magar, rettet aber eine bereits verdeckte Magar-Puppe wegen deren eigener Exil-Ersatzwirkung nicht.
-- `Whispersilk Cloak` verleiht Shroud; nach dem Anlegen kann man die Puppe nicht ohne Weiteres mit eigenen Ziel-Fähigkeiten weiter ausrüsten.
-- `Berserkers' Onslaught` hilft nur bei Kampfschaden — jede erfolgreiche Puppe löst ihren Schadenstrigger selbst aus. Eine beliebig erzeugte Kopie einer verdeckten Puppe hat nicht deren notierten Kartennamen.
-- `Glaring Spotlight` verleiht Hexproof nur Kreaturen, die beim Verrechnen schon da sind; die Unblockbarkeit gilt auch für danach erscheinende eigene Kreaturen in diesem Zug.
-
-## Bracket und Nachweise
-
-**Game Changers (3):** `Demonic Tutor`, `Gamble`, `Jeska's Will`. `Deflecting Swat` zählt seit der Oktober-2025-Aktualisierung nicht mehr dazu. Keine beabsichtigten wiederholbaren Extrakämpfe/Extrazüge oder Massenlandvernichtung. 36 richtige Länder, ein optionales Land auf `Malakir Rebirth`.
-
-Aktuelle Regelquellen: [Commander-Format](https://magic.wizards.com/en/formats/commander), [Bracket-Update 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026).
-
-Das ist eine **Kartentext-/Deckbauoptimierung**, keine durch gespielte Commander-Partien bewiesene Winrate. CI und vollständige Oracle-Prüfung sind unabhängig von der hier kontrollierten 100-Karten-/Singleton-Struktur.
+Quellen: [Commander/Brackets](https://magic.wizards.com/en/formats/commander) · [WotC-Ankündigung vom 12.10.2026](https://magic.wizards.com/en/news/announcements/banned-and-restricted-october-12-2026).
