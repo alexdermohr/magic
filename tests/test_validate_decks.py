@@ -141,17 +141,26 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
-    def test_multiline_html_comment_hides_example_not_later_link(self) -> None:
+    def test_multiline_html_comment_missing_reference_is_reported(self) -> None:
         (self.root / "decks" / "sample" / "analysis.md").write_text("# OK\n")
         self.write_index(
             "<!--\n[example](sample/missing.md)\n-->\n"
             "[real](sample/analysis.md)\n"
         )
-        self.assertEqual(len(validate_repository(self.root)), 1)
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
 
-    def test_html_comment_is_not_a_reference(self) -> None:
+    def test_html_comment_local_paths_are_checked_conservatively(self) -> None:
         self.write_index("<!-- [example](sample/missing.md) -->\n")
-        self.assertEqual(len(validate_repository(self.root)), 1)
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_inline_code_comment_delimiters_cannot_hide_live_links(self) -> None:
+        self.write_index(chr(96) + "<!--" + chr(96) +
+                         " [live](sample/missing.md) " +
+                         chr(96) + "-->" + chr(96) + "\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
 
     def test_local_link_cannot_escape_repository(self) -> None:
         self.write_index("[bad](../../outside.md)\n")

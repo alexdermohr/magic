@@ -81,43 +81,24 @@ def validate_list(path: Path) -> str:
 
 
 def visible_index_source(markdown: str) -> str:
-    """Exclude fenced examples and HTML comments without conflating their delimiters."""
+    """Ignore fenced examples; scan other text conservatively, including comments."""
     lines: list[str] = []
     fence: tuple[str, int] | None = None
-    in_comment = False
     for line in markdown.splitlines():
+        marker = FENCE.match(line)
         if fence is not None:
-            marker = FENCE.match(line)
             if marker:
                 run = marker.group(1)
                 if run[0] == fence[0] and len(run) >= fence[1] and not line[marker.end():].strip():
                     fence = None
             continue
-        if not in_comment:
-            marker = FENCE.match(line)
-            if marker:
-                run = marker.group(1)
-                fence = (run[0], len(run))
-                continue
-        visible: list[str] = []
-        pos = 0
-        while pos < len(line):
-            if in_comment:
-                end = line.find("-->", pos)
-                if end < 0:
-                    break
-                in_comment = False
-                pos = end + 3
-            else:
-                start = line.find("<!--", pos)
-                if start < 0:
-                    visible.append(line[pos:])
-                    break
-                visible.append(line[pos:start])
-                in_comment = True
-                pos = start + 4
-        lines.append("".join(visible))
+        if marker:
+            run = marker.group(1)
+            fence = (run[0], len(run))
+            continue
+        lines.append(line)
     return "\n".join(lines)
+
 
 def local_index_references(markdown: str, index: Path, root: Path) -> list[Path]:
     """Resolve documented link forms, not arbitrary rendered Markdown text."""
