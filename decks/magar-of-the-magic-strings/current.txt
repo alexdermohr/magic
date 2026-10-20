@@ -1,6 +1,5 @@
 1 Magar of the Magic Strings
 1 Stinkweed Imp
-1 Traitor's Clutch
 1 Anje Falkenrath
 1 Vile Entomber
 1 Storm-Kiln Artist
@@ -32,17 +31,18 @@
 1 Black Market Connections
 1 Fable of the Mirror-Breaker
 1 Bloodchief Ascension
+1 Liliana's Caress
 1 Brass's Bounty
 1 Breach the Multiverse
-1 Rise of the Dark Realms
 1 In Garruk's Wake
 1 Blood for the Blood God!
+1 Incendiary Command
 1 Call Forth the Tempest
 1 Increasing Ambition
 1 Peer into the Abyss
 1 Disrupt Decorum
+1 Traitor's Clutch
 1 Faithless Looting
-1 Cathartic Reunion
 1 Demand Answers
 1 Big Score
 1 Wheel of Fortune
