@@ -1,7 +1,6 @@
 1 Magar of the Magic Strings
 1 Stinkweed Imp
 1 Traitor's Clutch
-1 Mirkwood Bats
 1 Anje Falkenrath
 1 Vile Entomber
 1 Storm-Kiln Artist
@@ -16,6 +15,7 @@
 1 Mind Stone
 1 Liquimetal Torque
 1 Key to the City
+1 Mask of Memory
 1 Whispersilk Cloak
 1 Thieves' Tools
 1 Lightning Greaves
