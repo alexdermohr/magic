@@ -86,7 +86,7 @@
 
 # Magar of the Magic Strings – Commander Bracket 3, V12
 
-**Historischer Stand V12: 20. Oktober 2026.** Maßgebliche historische Liste: [V12-Snapshot](versions/2026-10-20-b3-v12.txt), nicht mehr current.txt; die aktuelle [current.txt](current.txt) ist inzwischen **V13**. Historischer gemergter Ausgangspunkt: [V11](versions/2026-10-20-b3-v11.txt). **Exakt ein** tatsächlicher Kartentausch; alle übrigen 99 Karten sind gegenüber V11 unverändert.
+**Historischer Stand V12: 20. Oktober 2026.** Maßgebliche historische Liste: [V12-Snapshot](versions/2026-10-20-b3-v12.txt), nicht mehr current.txt; die aktuelle [current.txt](current.txt) ist inzwischen **V14**. Historischer gemergter Ausgangspunkt: [V11](versions/2026-10-20-b3-v11.txt). **Exakt ein** tatsächlicher Kartentausch; alle übrigen 99 Karten sind gegenüber V11 unverändert.
 
 ## V11 → V12: Funkenspalter heraus
 
