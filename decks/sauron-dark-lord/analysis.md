@@ -119,7 +119,7 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 | Call of the Ring | 2.0 | Regelmäßiges Tempt jeder Upkeep auch ohne kampfbereite Army. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | March from the Black Gate | 2.0 | When this enchantment enters and whenever an Army you control attacks, amass Orcs 1. (Put a +1/+1 counter on an Army you cont | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Cool but Rude | 2.0 | Für 1R Level 2 kaufen: JEDE abgeworfene Karte verursacht jedem Gegner zwei Schaden. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
-| Birthday Escape | 1.0 | Einmana-Cantrip mit anschliessender Ring-Versuchung; wiederholbare Draw-Engine mit Sauron | Ohne Sauron nur ein Cantrip, nicht wiederholbar |
+| Birthday Escape | 1.0 | Einmaliger Einmana-Cantrip mit anschließender Ring-Versuchung; bei Sauron genau ein optionaler Hand-Refill je erfolgreichem Wirken | Keine eigene Wiederholung; ohne Sauron eine Karte plus einmaliges Tempt |
 | The Ozolith | 1.0 | Konserviert +1/+1-Marken aus einer Army, Neuübertragung erst nächster Combat. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | My Precious | 3.0 | Hobbit-Equipment: Hexproof und unblockbar, Equip {2} plus 2 Leben; Adventure kann Draw liefern | Teurer als Goblin Plate Mail, kein Amass-ETB |
 | Brotherhood Regalia | 2.0 | Unblockbar und Ward2, Equip an legendärem Ringbearer kostet 1. | Braucht zusätzliche Equip-Aktionen und eine geeignete Army |
@@ -185,3 +185,31 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 Es gibt weiterhin keine real gespielten Viererpartien und keinen vollstaendigen Combo-Datenbank-Abgleich. Die angenommene Staerkesteigerung der v4 folgt aus Kartentext, Kosten und Synergie, nicht aus einer Messung.
 
 Keine gespielten Partien, keine gemessene Siegquote, kein vollständiger Combo-Datenbankvergleich. Oracle und Game-Changer-Flags sind ein zeitpunktbezogener Live-Check; spätere Regelupdates erfordern Nachprüfung.
+
+
+## Integrations- und Review-Nachprüfung vom 20.10.2026
+
+Main wurde normal integriert. Die zentralen READMEs, der Workflow mit
+PR-Merge-Checkout und der Scope-Guard entsprechen unverändert Main. Die aktive
+100-Karten-v4 und sämtliche v1–v3-Snapshots bleiben byteidentisch.
+
+Eine neue Scryfall-Collection-Prüfung bestätigt 100 eindeutige Oracle-Identitäten,
+Commander-Legalität und Grixis-Farbidentität, genau Demonic Tutor, Orcish Bowmasters
+und Rhystic Study als Game Changer sowie 62 Nichtländer ohne Commander mit Ø MV
+2,726. Bei den vier digitalen Standardtreffern (Badlands, Underground Sea,
+Volcanic Island und Wheel of Fortune) wurden Papierdrucke getrennt über die
+Oracle-IDs nachgewiesen.
+
+Die alte Einzelzeile zu Birthday Escape war trotz korrigierter Strategie noch
+widersprüchlich und beschreibt jetzt ebenfalls den einmaligen Effekt. Echo bleibt
+historisch als Nicht-Discard gekennzeichnet; Cipher-Casts und Sarumans Amass 4,
+Saurons optionale Refill-Trigger, Phial/Teferi (9 oder 10), Dauthis ausschließlich
+künftige Exil-Einträge und Monuments Lebensverlust ohne Heilung wurden erneut am
+Oracle-Text geprüft. Es wurde kein neuer Infinite- oder Extrazug-Siegpfad ergänzt.
+
+Belege: [Birthday Escape](https://scryfall.com/card/ltr/43/birthday-escape),
+[Whispering Madness](https://scryfall.com/card/c16/229/whispering-madness),
+[Phial of Galadriel](https://scryfall.com/card/ltr/248/phial-of-galadriel),
+[Teferi's Ageless Insight](https://scryfall.com/card/mkc/119/teferis-ageless-insight),
+[Monument to Endurance](https://scryfall.com/card/dft/237/monument-to-endurance),
+[Dauthi Voidwalker](https://scryfall.com/card/tdc/176/dauthi-voidwalker).
