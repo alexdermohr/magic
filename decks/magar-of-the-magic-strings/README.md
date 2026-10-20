@@ -1,13 +1,22 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Aktueller Stand:** 20. Oktober 2026 · **V11** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
+**Aktueller Stand:** 20. Oktober 2026 · **V12** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
 
 - [current.txt](current.txt) — einzige aktuelle, direkt importierbare 100-Karten-Liste.
-- [analysis.md](analysis.md) — V11: Anger, Tutoren, Schutz, Manabasis; ältere V10/V9-Analysen.
-- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt), [V11](versions/2026-10-20-b3-v11.txt).
+- [analysis.md](analysis.md) — V12-Funkenspalter-Tausch, priorisierte Streichkandidaten und historisch erhaltene V11/V10/V9-Analysen.
+- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt), [V11](versions/2026-10-20-b3-v11.txt), [V12](versions/2026-10-20-b3-v12.txt).
 
 
-## V11 – Früherer Puppentreffer und höhere Zuverlässigkeit
+## V12 – Funkenspalter raus, Twinferno rein
+
+**Genau ein Tausch zur V11:** Embercleave (Funkenspalter, {4}{R}{R}, Equip {3}) weicht **Twinferno** ({1}{R}, Instant). Twinferno gibt einer eigenen Puppe für diesen Zug Doppelschlag **oder** kopiert unseren nächsten gewirkten Instant-/Sorcery-Zauber des Zuges, insbesondere eine kostenlose Magar-Kopie nach erfolgreichem Kampfschaden. Dafür verlieren wir Embercleaves dauerhaften Doppelschlag und Trampelschaden. Den einmaligen Twinferno-Spruch rechtzeitig vor dem relevanten Kampfschaden spielen.
+
+**Die weiteren Karten bleiben vorerst:** Big Score, Prowler's Helm, Bojuka Bog, Doom Whisperer und Dauthi Embrace sind die ersten Prüfslots; Increasing Ambition, Final Parting und Whispersilk Cloak sind teurer, haben aber deutlich einzigartigere Funktionen. Sämtliche Gegenargumente, Kosten, sinnvolle Alternativen und die Schutz-/Tutor-/Evasion-Abhängigkeiten sind in [analysis.md](analysis.md) dokumentiert.
+
+**Unverändert:** Anger, Disrupt Decorum, Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Breach the Multiverse, Rise of the Dark Realms, sieben frühe Manaartefakte und die übrige Evasion. **Genau 100 Karten**, 36 Länder, drei Game Changers. Die [V11](versions/2026-10-20-b3-v11.txt) bleibt als echte historische Liste erhalten; [V12](versions/2026-10-20-b3-v12.txt) ist byteidentisch zu [current.txt](current.txt).
+
+---
+## Historische V11 – Früherer Puppentreffer und höhere Zuverlässigkeit
 
 **Vier Tauschpaare zur V10:**
 1. **Peer into the Abyss → Anger:** Anger im Friedhof + kontrollierter Mountain gibt allen eigenen Puppen **Haste**, sodass sie auch dann noch im selben Zug zuschlagen können, wenn Magar sie erst im eigenen Zug erzeugt.
@@ -19,7 +28,7 @@
 
 **Schutz und Suche:** Greaves, Boots, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Deflecting Swat bleiben; Untimely ergänzt flexible Reaktion und Evasion. Grim Tutor ergänzt Demonic Tutor/Gamble/Final Parting/Increasing Ambition. **Ransack the Lab bleibt**: Es kostet {1}{B}, nicht drei Mana, und bereitet den Friedhof mit zwei Karten für nur zwei Mana vor.
 
-**Unberührt:** Disrupt Decorum (Goad), Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Blood for the Blood God!, Breach the Multiverse, Rise of the Dark Realms, Mask of Memory und die gesamte übrige Evasion-Engine. Keine neue frühe Infinite-Combo, genau drei Game Changers. Exakt **100 Karten**, **36 Länder**. V10 bleibt als [byteidentischer Snapshot](versions/2026-10-20-b3-v10.txt) erhalten; [V11-Snapshot](versions/2026-10-20-b3-v11.txt) entspricht current.txt.
+**Unberührt:** Disrupt Decorum (Goad), Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Blood for the Blood God!, Breach the Multiverse, Rise of the Dark Realms, Mask of Memory und die gesamte übrige Evasion-Engine. Keine neue frühe Infinite-Combo, genau drei Game Changers. Exakt **100 Karten**, **36 Länder**. V10 bleibt als [byteidentischer Snapshot](versions/2026-10-20-b3-v10.txt) erhalten; [V11-Snapshot](versions/2026-10-20-b3-v11.txt) ist die damalige V11-Liste; die aktive current.txt bezeichnet seit V12 die neue Version.
 
 **PR-Review-Korrektur:** Die ältere Analyse unterschätzte Undying Malice/Feign Death: Magar stirbt auch beim Opfern oder bei tödlicher Toughness-Reduktion und kommt nach Auslösen des Rückkehr-Triggers grundsätzlich zurück, sofern kein Exilersatz greift. Die neue Analyse behebt diese Fehlaussage. Details, Gegenargumente und Erweiterter Kreis in [analysis.md](analysis.md).
 
