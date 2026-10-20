@@ -1,13 +1,31 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Aktueller Stand:** 20. Oktober 2026 · **V10** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
+**Aktueller Stand:** 20. Oktober 2026 · **V11** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
 
 - [current.txt](current.txt) — einzige aktuelle, direkt importierbare 100-Karten-Liste.
-- [analysis.md](analysis.md) — V10-Kandidatenmatrix, Schutz, alle Regeln und historisch erhaltene V9-Analyse.
-- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt).
+- [analysis.md](analysis.md) — V11: Anger, Tutoren, Schutz, Manabasis; ältere V10/V9-Analysen.
+- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt), [V11](versions/2026-10-20-b3-v11.txt).
 
 
-## V10 – Waste Not und Rise of the Dark Realms
+## V11 – Früherer Puppentreffer und höhere Zuverlässigkeit
+
+**Vier Tauschpaare zur V10:**
+1. **Peer into the Abyss → Anger:** Anger im Friedhof + kontrollierter Mountain gibt allen eigenen Puppen **Haste**, sodass sie auch dann noch im selben Zug zuschlagen können, wenn Magar sie erst im eigenen Zug erzeugt.
+2. **Call Forth the Tempest → Grim Tutor:** Universaltutor zum zuverlässigen Finden von Anger-Setup, Schutz, Evasion oder Discard statt eines weiteren teuer zu wirkenden Haymakers. Die zwei verlorenen Big-Spells sind im [erweiterten Kreis](analysis.md) vermerkt.
+3. **Vandalblast → Untimely Malfunction:** {1}{R} für zielgenaue Umleitung, Artefaktentfernung oder bis zu zwei nichtblockende Kreaturen. **Vor der Blockerdeklaration** wirken; gegnerische Artefakt-Boards können jetzt nicht mehr für {4}{R} einseitig gewiped werden.
+4. **Rogue's Passage → Mount Doom:** immer ungetapptes Land für {B}/{R} gegen 1 Leben, keine Artefaktvoraussetzung; verliert die teure, aber universelle Evasion-Aktivierung.
+
+**Beste Magar-Linie:** Magar T3 mit fixiertem Schwarz-Rot; Anger über Unmarked Grave, Entomb oder Looting in den Friedhof; in unserem Zug {1}{B}{R} für eine große Sorcery-Puppe aus dem Friedhof bezahlen; dank Mountain sofort mit Key to the City/Key to the Side-Door/Silver Shroud Costume für den ersten kostenlosen Copy-Cast angreifen. Alternativ wie bisher im gegnerischen Endsegment aktivieren und im folgenden Zug regulär angreifen; in dieser Linie bringt Haste keine zusätzliche Runde.
+
+**Schutz und Suche:** Greaves, Boots, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Deflecting Swat bleiben; Untimely ergänzt flexible Reaktion und Evasion. Grim Tutor ergänzt Demonic Tutor/Gamble/Final Parting/Increasing Ambition. **Ransack the Lab bleibt**: Es kostet {1}{B}, nicht drei Mana, und bereitet den Friedhof mit zwei Karten für nur zwei Mana vor.
+
+**Unberührt:** Disrupt Decorum (Goad), Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Blood for the Blood God!, Breach the Multiverse, Rise of the Dark Realms, Mask of Memory und die gesamte übrige Evasion-Engine. Keine neue frühe Infinite-Combo, genau drei Game Changers. Exakt **100 Karten**, **36 Länder**. V10 bleibt als [byteidentischer Snapshot](versions/2026-10-20-b3-v10.txt) erhalten; [V11-Snapshot](versions/2026-10-20-b3-v11.txt) entspricht current.txt.
+
+**PR-Review-Korrektur:** Die ältere Analyse unterschätzte Undying Malice/Feign Death: Magar stirbt auch beim Opfern oder bei tödlicher Toughness-Reduktion und kommt nach Auslösen des Rückkehr-Triggers grundsätzlich zurück, sofern kein Exilersatz greift. Die neue Analyse behebt diese Fehlaussage. Details, Gegenargumente und Erweiterter Kreis in [analysis.md](analysis.md).
+
+---
+
+## Historische V10 – Waste Not und Rise of the Dark Realms
 
 **Genau zwei Änderungen an V9:** **Brass's Bounty → Waste Not**, **In Garruk's Wake → Rise of the Dark Realms**. **Incendiary Command, Liliana's Caress, Bloodchief Ascension und Disrupt Decorum bleiben.** Das defensive Goad, alle Evasion- und aktuell verfügbaren Schutzmittel, die sieben Mana-Artefakte und 36 Länder bleiben erhalten.
 
