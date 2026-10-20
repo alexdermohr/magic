@@ -40,7 +40,7 @@ Andere Game Changer (z. B. Teferi's Protection, Smothering Tithe, Worldly Tutor 
 
 **Züge 1–3:** Eine Hand mit zwei bis drei Ländern, grünem Zugang und mindestens einer Beschleunigung bevorzugen. Gilded Goose, Birds of Paradise, Sakura-Tribe Elder oder die billigen Landramp-Zauber liefern Gahiji früh und fixieren Farben. Ocelot Pride oder Yoshimaru sind gute frühe Bedrohungen.
 
-**Züge 3–5:** Scute Swarm, Felidar Retreat oder Esika's Chariot aufbauen und mit Guardian Project, Toski oder Skullclamp den Kartennachschub sicherstellen. Gahiji am besten legen, wenn sofort Tiere angreifen können oder Schutz bereitsteht. Nightpack Ambusher produziert auch an gegnerischen Endsegmenten Wölfe, solange in diesem Spielerzug kein eigener Zauber gewirkt wurde.
+**Züge 3–5:** Scute Swarm, Felidar Retreat oder Esika's Chariot aufbauen und mit Guardian Project, Toski oder Skullclamp den Kartennachschub sicherstellen. Gahiji am besten legen, wenn sofort Tiere angreifen können oder Schutz bereitsteht. Nightpack Ambusher erzeugt nur zu Beginn des eigenen Endsegments einen Wolf, sofern in diesem eigenen Zug kein Zauber gewirkt wurde; in gegnerischen Endsegmenten löst diese Fähigkeit nicht aus.
 
 **Mitte/Ende:** Gegenspieler über Marisi und Gahiji gegeneinander kämpfen lassen; mit Mirri weniger Blocker zulassen. Auf breite Tierherden wirken Beastmaster Ascension, Jetmir und Akroma's Will besonders stark. Mit Gaea's Cradle oder einem günstigen Opfer für Natural Order Craterhoof Behemoth finden; alternativ Finale of Devastation als Tutor/Finisher. Etali, Ghalta und Terastodon sind eigenständig gefährliche große Tiere.
 
