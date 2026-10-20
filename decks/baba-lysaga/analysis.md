@@ -1,68 +1,88 @@
-# Baba Lysaga, Night Witch — Die Hexenküche
+# Baba Lysaga, Night Witch — Die Hexenküche (Bracket 3, V3)
 
-**Stand:** 2026-10-19 · **Format:** Commander · **Ziel:** Bracket 3 / Upgraded · **Farben:** Golgari (BG) · **Budget:** unbegrenzt.
+**Stand:** 2026-10-20 · **Format:** Commander / Bracket-3-Ziel (Upgraded) · **Farben:** Schwarz/Grün · **Budget:** unbegrenzt. Dies ist eine **gezielte Weiterentwicklung** der ursprünglichen Version aus PR #35, kein neues Deckkonzept.
 
-## Liste und Validierung
+## Kartenanzahl, Regelkonformität und Bracket
 
-- Datei: `current.txt`, importierbar als `Anzahl englischer Oracle-Kartenname` pro Zeile.
-- **100 Karten einschließlich Commander**: 1 Commander, 26 weitere Kreaturen, 10 Artefakte, 10 Verzauberungen, 8 Spontanzauber, 6 Hexereien, 2 Planeswalker, **37 Länder** (davon 6 Standardländer).
-- **Genau drei Game Changers:** **Seedborn Muse**, **Crop Rotation**, **Demonic Tutor**. Maßstab: offizielle aktuelle Commander-/Game-Changers-Seite https://magic.wizards.com/en/formats/commander .
-- Keine bewusst eingebauten frühen Zwei-Karten-Endlosschleifen, keine Extrazug-Ketten, keine Massenlandverwehrung. Die Bracket-3-Einordnung ist die Deckbauabsicht und keine gemessene Spielstärke; frühzeitige Partiensiege wurden nicht praktisch getestet.
+- **100 Karten inklusive Commander:** 1 Commander, 25 andere Kreaturen, 9 Artefakte, 12 Verzauberungen, 8 Spontanzauber, 7 Hexereien, 1 Planeswalker, **37 Länder** (3 Forest, 3 Swamp).
+- **Genau drei Game Changers:** **Seedborn Muse, Crop Rotation, Demonic Tutor**. Es wurden keine weiteren aufgenommen.
+- Keine bewusst eingebauten frühen Zwei-Karten-Endlosschleifen, Extrazugketten oder Massenlandzerstörung. Das Spieltempo und die tatsächliche Gewinnquote wurden **nicht** durch Partien nachgewiesen.
+- Die importierbare Liste `current.txt` enthält je Zeile Anzahl und englischen Oracle-Namen; sie wird vor Veröffentlichung gegen die aktuelle Kartendatenbank geprüft.
 
-## Zentrales Regelprinzip
+## Was sich von V2 zu V3 ändert (7 Austausche)
 
-Baba Lysaga aktiviert für `{T}` und opfert **bis zu drei Permanents** als Kosten. Wenn unter den geopferten Objekten beim Opfern **mindestens drei unterschiedliche Kartentypen** vertreten waren, verliert **jeder** Gegner 3 Lebenspunkte, du erhältst 3 Lebenspunkte und ziehst 3 Karten. Es müssen **nicht drei Karten** geopfert werden; ein einziges mehrfach getyptes Permanent reicht. Typen, nicht Untertypen (Food, Forest, Assembly-Worker), sind maßgeblich. Aktivierung erfolgt mit normalem Instant-Timing, sobald Baba getappt werden darf. Sie kostet kein Mana und zielt nicht.
+| Heraus (V2) | Hinein (V3) | Begründung |
+| --- | --- | --- |
+| Sakura-Tribe Elder | **Spelunking** | Beim ETB Karte ziehen und bei Bedarf ein Land direkt ins Spiel bringen; danach kommen unsere Länder ungetappt ins Spiel, besonders nützlich für zurückkehrende geearthbenderte Länder und World Shaper. Dafür geht garantierte 2-Mana-Ramp aus der Bibliothek verloren. |
+| Azusa, Lost but Seeking | **Burgeoning** | Für nur {G} lassen sich Länder während der gegnerischen Züge ins Spiel bringen und Landfall auslösen. Abhängig davon, dass Gegner tatsächlich Länder **spielen** und wir Länder auf der Hand haben. |
+| Eternal Witness | **Six** | Land beim Angriff aus den obersten drei Karten zurücknehmen; während unseres Zuges wiederholt nichtlandige Permanents mit Retrace aus dem Friedhof wirken, indem wir Länder abwerfen. Der Rückkauf von Spontanzaubern/Hexereien durch Witness entfällt. |
+| Mirkwood Bats | **Psychosis Crawler** | Jede Baba-Aktivierung zieht drei Karten, die Crawler in **weitere drei Lebenspunkteverlust für jeden Gegner** umsetzt. Fünf statt vier Mana, dafür Kreatur **und** Artefakt. |
+| Agent of the Iron Throne | **Eusocial Engineering** | Jeder Landfall erschafft eine **2/2-Artefaktkreatur** mit zwei Kartentypen; zusammen mit einem geopferten Land erfüllt der Token die Baba-Bedingung. Als Warp-Zauber schon für {1}{G} vorübergehend einsetzbar, später regulär für {3}{G}{G}. Verloren geht ein passiver Aristocrats-Trigger. |
+| Magewright's Stone | **Sting, the Glinting Dagger** | Enttappt die ausgerüstete Baba **zu Beginn jeder Kampfphase**, auch bei Gegnern und ohne Angriffsdeklaration. Verleiht Eile. Mehrmaliges Aktivieren setzt genügend Opfermaterial voraus. |
+| Lightning Greaves | **Swiftfoot Boots** | Eile und Schutz bleiben, aber **Fluchsicherheit statt Verhüllung**: Unsere eigenen Untapper wie Thousand-Year Elixir, Quirion Ranger und Scryb Ranger können Baba weiterhin anzielen. Nachteil: Ausrüsten kostet {1} statt {0}. |
 
-**Ein-Permanent-Aktivierungen:**
+**V1 → V2 (12 frühere Tausche):** schnellere Manaelfen und Wild Growth; zusätzliche Landspiele/Rezirkulation; Springheart Nantuko und Blossoming Tortoise; Llanowar Loamspeaker; Finale of Devastation; Inkmoth Nexus und Valgavoth's Lair. Für das Kartenregel-Puzzle wichtig: **Liquimetal Torque wurde durch Liquimetal Coating ersetzt**, weil nur Coating auch Länder zu Artefakten machen kann. V1 bleibt über die ursprüngliche Git-Revision zugänglich; V2 wurde vor der Veröffentlichung weiter zur V3 verbessert.
 
-1. **Mishra's Factory / Mishra's Foundry / Blinkmoth Nexus:** durch eigene Animation jeweils gleichzeitig Artefakt + Kreatur + Land; als **ein** Opfer drei Typen. Factory-Animation `{1}`, Foundry `{2}`, Nexus `{1}`. Sie gehen regulär in den Friedhof und lassen sich via Crucible of Worlds/Ramunap Excavator/Life from the Loam zurückholen.
-2. **Badgermole Cub / Earthbender Ascension / Ba Sing Se + Artefaktland**: Earthbend auf Tree of Tales, Vault of Whispers, Darksteel Citadel oder Darkmoss Bridge erzeugt ein Artefakt-Land-Kreatur-Permanent. Wenn es durch Babas Opferkosten stirbt oder ins Exil geht, kehrt es durch Earthbend getappt ins Spiel zurück. Wichtig: Die Land-Rückkehr erfolgt über einen ausgelösten Effekt **nach** dem Opfern, das Opfer zählt für Baba dennoch. **Ba Sing Se aktiviert Earthbend ausschließlich wie eine Hexerei**; die vorbereitete Kreatur darf später auf anderen Zügen für Baba geopfert werden. Earthbend verändert nach Rückkehr das Land nicht dauerhaft; für einen erneuten dreifachen Typenbedarf muss es wieder animiert/earthbent werden.
-3. **Ygra, Eater of All + Verzauberungskreatur:** Ygra macht andere Kreaturen auf dem Schlachtfeld zu Nahrungsartefakten. Beispielsweise **Dryad of the Ilysian Grove**, **Gloomshrieker** und bei aktiver Kreaturenform **Overlord of the Hauntwoods** sind dann Artefakt + Verzauberung + Kreatur. Gloomshrieker wird statt zu sterben exiliert; für Babas Typenzählung funktioniert das trotzdem, aber nicht für echte Dies-Trigger.
-4. **Andere drei Typen durch mehrere Opfer**: Artefaktland (Artefakt/Land) + Kreatur, oder Verzauberungskreatur (Kreatur/Verzauberung) + beliebiges Artefakt/Land. Fast jede Runde sollte eine flexible Kombination verfügbar sein. Die drei Typen müssen nicht vom selben Objekt kommen.
+## Kernregel: 1 Permanent kann alle drei Kartentypen liefern
 
-## Turn 1–3: Baba zuverlässig ausspielen
+**Baba Lysaga:** `{T}, Sacrifice up to three permanents`. Bei insgesamt **drei oder mehr verschiedenen Kartentypen unter den geopferten Permanents** verlieren alle Gegner jeweils 3 Leben, wir erhalten 3 und ziehen 3 Karten. **Legendary** ist ein Supertyp, **Food** und **Forest** sind Untertypen, **Token** bezeichnet keinen zusätzlichen Kartentyp.
 
-**Landplanung:** 37 Länder, etliche von ihnen mit Zusatzfunktion. Standardländer werden wegen Earthbender Ascension, Nature's Lore, Three Visits sowie Ba Sing Se bewusst nicht auf null gesenkt. Eine gute Starthand hat 2–3 Länder inklusive grünem Mana, frühe Beschleunigung und nach Möglichkeit ein mehrfach getyptes Opfer oder eine Untap-Option.
+**Einzelopfer mit drei Typen:**
 
-**Anfangszüge:** Sol Ring, Arcane Signet, Talisman of Resilience, Delighted Halfling und Sakura-Tribe Elder stabilisieren den Plan; Nature's Lore und Three Visits holen Waldtypen, darunter Overgrown Tomb, Bayou und Underground Mortuary. Bereits vor Baba lassen sich Mishra's Factory, Nexus und Artefaktländer auslegen, damit die erste Aktivierung vorbereitet ist.
+1. **Mishra's Factory, Inkmoth Nexus und Blinkmoth Nexus** sind Länder. Ihre Eigenanimation gibt ihnen **Artefakt + Kreatur**, sodass sie als einzelnes Objekt drei Typen tragen. Animieren kostet jeweils {1}; Blossoming Tortoise reduziert diese Kosten um {1}, sodass sie bei vorhandenem Tortoise kostenlos werden.
+2. **Artefaktländer + Earthbend** (Tree of Tales, Vault of Whispers, Darksteel Citadel, Darkmoss Bridge): Das Land wird Kreatur und ist nun Artefakt/Land/Kreatur. Wird eine durch Earthbend animierte **Landkarte** zerstört oder geopfert, kehrt sie getappt als Land zurück. Dabei löst sie wieder Landfall aus; die Earthbend-Animation wird nach dem Zonenwechsel nicht beibehalten.
+3. **Valgavoth's Lair oder Urza's Saga + Liquimetal Coating:** Diese Permanents sind bereits **Verzauberung/Land**. Coating gibt zusätzlich den Kartentyp **Artefakt**. Das ist genau ein Opfer für drei Typen; Coating selber bleibt zum weiteren Verwenden im Spiel.
+4. **Dryad Arbor + Liquimetal Coating:** Dryad Arbor ist **Kreatur/Land**; Coating macht daraus zusätzlich ein Artefakt.
+5. **Ygra, Eater of All + Springheart Nantuko/Dryad of the Ilysian Grove:** Ygra macht die **anderen Kreaturen** zusätzlich zu Nahrungsartefakten. Eine Verzauberungskreatur ist dann Artefakt/Verzauberung/Kreatur. Bei Overlord of the Hauntwoods zählt die Kreatureneigenschaft nur, wenn der Overlord tatsächlich eine Kreatur ist (nicht während seiner Impending-Phase).
 
-**Starthände, die zu wenig machen:** viele reine Untap-Karten ohne Opferquellen; teure Karten ohne Grünzugang; Fetchländer/Opferländer ohne Recursion und ohne Mana. Bewusst ist nicht jedes Permanent sofort ein dreifacher Typ: erst Opfermaterial sicherstellen, dann die Untap-Engine ausbauen.
+**Zwei Opfer statt eines:** Artefaktland (Artefakt+Land) **plus** beliebige Kreatur; Artefaktkreatur-Token von Eusocial Engineering (Artefakt+Kreatur) **plus** Land; Verzauberungskreatur (Verzauberung+Kreatur) **plus** Artefakt oder Land. Ein Land, das durch Baba geopfert wird, kann nicht gleichzeitig zur Bezahlung einer anderen Opferfähigkeit verwendet werden. Das Opfern ist Teil der Aktivierungskosten, kein Effekt, auf den der Gegner nachträglich mit Removal reagieren kann.
 
-## Turns 3–6: Wiederholte Aktivierung und Absicherung
+**Auren:** Rancor ist billiges, sich wieder auf die Hand zurückholendes Verzauberungsopfer. Ordeal of Nylea sucht beim Opfern bis zu zwei Standardländer aus der Bibliothek. Beide zählen nur für Baba, **wenn die Aura tatsächlich unter den von Baba geopferten Permanents war** — nicht, wenn sie bloß wegen des Todes ihrer verzauberten Kreatur abfällt.
 
-- **Untaps auf eigenem Zug:** Tyvar, Jubilant Brawler, Thousand-Year Elixir, Magewright's Stone, Patriar's Seal, Quirion Ranger, Scryb Ranger, Nature's Chosen, Instill Energy und Saryth, the Viper's Fang. Einige benötigen zusätzlich Mana/Tap oder haben `once each turn`-Grenzen, entsprechend keine impliziten Endlosaktivierungen. Tyvar und Thousand-Year Elixir erleichtern Aktivierungen auch nach frisch gespielter Baba.
-- **Gegnerische Züge:** **Seedborn Muse** enttappt Baba während **jedes** anderen Enttappsegments. Unterstützt mit Schlangen-/Eldrazi-Spielsteinen und vorbereiteten Artefaktländern zusätzliche Aktivierungen. Die Muse erzeugt selbst keine Opfer-Objekte, nicht automatisch vier volle Baba-Auslösungen ohne Material.
-- **Schutz:** Lightning Greaves, Sylvan Safekeeper, Heroic Intervention, Tamiyo's Safekeeping, Veil of Summer und Kaya's Ghostform. Bei Sylvan Safekeeper kann ein Land im Notfall zugleich Titania/The Gitrog Monster/World Shaper vorbereiten. Achtung: **Lightning Greaves** gibt Shroud; eigene zielende Enttapp-Fähigkeiten und Auren können dann nicht Baba zum Ziel wählen. Für diese Sequenzen die Ausrüstung gegebenenfalls vorher umlegen.
-- **Kartennachschub:** Eine erfolgreiche Baba-Aktivierung zieht drei Karten; Überfluss in der Hand wird in mehrere Länder pro Zug und Recursion umgesetzt. Baba nicht bloß für ein schwaches Opfer aufwenden, wenn ein zusätzlicher Typ die volle Aktivierung ermöglicht.
+## Spielplan und Musterzüge
 
-## Rückgewinnung und Opfermaterial
+### Frühspiel, Zug 1–3
+Auf zwei bis drei Länder mit Grün und Schwarz, frühe Beschleunigung und mindestens eine nutzbare Drei-Typen-Quelle mulliganen. **Delighted Halfling, Birds of Paradise, Elves of Deep Shadow und Wild Growth** erlauben Baba unter passenden Farben/Ländern schon im zweiten Zug. Sol Ring, Arcane Signet, Talisman of Resilience, Nature's Lore und Three Visits sichern weitere Starts.
 
-- **Land-Recursion:** Ramunap Excavator / Crucible of Worlds erlauben Landspiele aus dem Friedhof; Life from the Loam holt bis zu drei Länder auf die Hand; Undergrowth Recon bringt jede eigene Upkeep ein Land getappt ins Spiel. World Shaper bringt bei Tod sämtliche Länder aus dem Friedhof getappt zurück. Titania, Protector of Argoth liefert für eigene sterbende Länder 5/3-Elementare; The Gitrog Monster sorgt für Karten bei Landtod und zusätzlichen Landdrop.
-- **Beschleunigung durch Opfer:** Tireless Provisioner erzeugt Food oder Treasure mit Landfall; Academy Manufactor wandelt Food/Clue/Treasure-Erzeugung jeweils in alle drei Tokentypen; Pitiless Plunderer erzeugt Treasure bei Kreaturentod. Ba Sing Se/Earthbender Ascension und Badgermole Cub halten Artefaktländer im Umlauf, ohne sie dauerhaft einzubüßen.
-- **Mehr-Typen-Verbrauch:** Rancor und Nature's Chosen sind billige Verzauberungen, können zusammen mit Land/Artefakt zusätzliche Typen bereitstellen; Rancor kommt vom Friedhof wieder auf die Hand, wenn es regulär vom Battlefield dorthin geht. Ordeal of Nylea kann als geopferte Aura nach eigenem Opfer zwei Standardländer suchen. Gloomshrieker reholt beim ETB ein Permanent auf die Hand; Chthonian Nightmare, Eternal Witness, Reanimate und Kaya's Ghostform erweitern die Rückgewinnung. Grist, the Hunger Tide ist auf dem Schlachtfeld ein **Planeswalker**, kein Kreaturentyp; bei Opferung liefert er deshalb einen **anderen** Typ.
-- **Tokens:** Ophiomancer produziert wiederholt Schlangen, sofern du keine kontrollierst; Awakening Zone liefert Spawn. Diese kleinen Permanents sind vor allem flexibles drittes Opfer zu einem Artefaktland oder zu einer Verzauberungskreatur.
+**Burgeoning** ist besonders gut auf Zug 1, wenn Gegner in ihren ersten Zügen Länder spielen und wir weitere Länder auf der Hand haben. Der Effekt wird **nicht** durch ein Land ausgelöst, das Gegner nur per Zauber/Fähigkeit ins Spiel legen. **Spelunking** zieht sofort eine Karte, bringt bei Bedarf ein Land aus der Hand ins Spiel und macht spätere Landrückführungen wesentlich produktiver.
 
-## Gewinnwege
+### Mittelspiel, Zug 3–6
+Die erste volle Baba-Aktivierung möglichst über eine bereits animierte Artefaktland-Kreatur mit bereitstehender Rekursion oder zwei billige mehrtypige Permanents vorbereiten, statt die eigene Manabasis blind zu opfern. Mit zusätzlichem Material gewinnt jede weitere Aktivierung drei Karten und Lebenspunkte.
 
-1. **Wiederholter Baba-Drain:** Bei drei Gegnern bedeutet jede volle Aktivierung zusammen neun gegnerische Lebenspunkte Verlust und drei gezogene Karten. Mit mehrfachen Untaps und Seedborn Muse skaliert das schnell, braucht aber anhaltendes Material.
-2. **Aristocrats und Token:** Mirkwood Bats bestraft erzeugte/geopferte Schätze und Food; Zulaport Cutthroat und Agent of the Iron Throne bestrafen sterbende Kreaturen bzw. Artefakt/Kreatur-Friedhofseintritte nach ihren genauen Oracle-Bedingungen. Marionette Apprentice ergänzt den Opfer-Plan. Artefakttoken allein gewinnen nicht durch Baba, werden aber zu zusätzlichem Druck.
-3. **Land-Value / Kreaturenangriffe:** Titania erschafft 5/3-Token, der Rest des Boards wird durch The Gitrog Monster, Overlord of the Hauntwoods und recycelte Länder gespeist. Ein stabilisiertes Land-Ressourcensystem sichert das Spätspiel, auch wenn Baba wiederholt entfernt wird.
+- **Sting, the Glinting Dagger** enttappt Baba zu Beginn **jeder** Kampfphase – auch wenn niemand angreift. Baba kann vorher und nachher aktiviert werden. Bei vier Spielern gibt es normalerweise vier reguläre Kampfphasen je Tischrunde.
+- **Seedborn Muse** enttappt alle unsere Permanents während der gegnerischen Enttappsegmente. Mit Sting werden auf gegnerischen Zügen zusätzliche Aktivierungsfenster möglich, **ohne** dass sich dadurch automatisch Opfernachschub generiert.
+- **Thousand-Year Elixir, Tyvar, Quirion Ranger, Scryb Ranger und Instill Energy** liefern weitere Eile-/Enttappoptionen. Instill Energy erlaubt einmal **während unseres Zuges** kostenloses Enttappen; seine Formulierung „kann angreifen, als hätte es Eile“ macht Babas Tappfähigkeit **nicht** unmittelbar nach dem Wirken allein aktivierbar.
+- **Swiftfoot Boots** lässt unsere eigenen gezielten Untapper weiterhin auf Baba wirken. Das verhindert die früheren Konflikte mit der Verhüllung von Lightning Greaves.
+- **Burgeoning** kann während gegnerischer Landplays sofort eigenen Landfall erzeugen: Springheart Nantuko liefert einen Insekt-Kreaturenspielstein, Tireless Provisioner Food/Schatz, Eusocial Engineering eine Artefaktkreatur. Dieser Materialnachschub hilft besonders bei Sting-Aktivierungen zwischen den eigenen Zügen.
 
-## Slot-Entscheidungen und Gegenargumente
+### Rekursion und Mana
+**Life from the Loam, Crucible of Worlds und Ramunap Excavator** nutzen geopferte und abgeworfene Länder erneut. **Undergrowth Recon** bringt in jedem unserer Upkeeps ein Land getappt zurück. **Blossoming Tortoise** millt je ETB/Angriff drei Karten, bringt ein Land getappt zurück und macht aktivierte Landfähigkeiten günstiger. **World Shaper** bringt beim Sterben alle Landkarten aus dem Friedhof getappt zurück. **The Gitrog Monster** erlaubt einen zusätzlichen Landdrop und zieht bei Landkarten, die in unseren Friedhof gelegt werden. Diese Redundanz bleibt bewusst bestehen, weil die Zahl echter Opferländer der zentrale Flaschenhals ist.
 
-- **Crop Rotation (Game Changer)** statt weiterer generischer Tutoren: findet Ba Sing Se, Mishra's Factory, Urza's Saga, Phyrexian Tower oder eine dringende Interaktionslandkarte; geopfertes Land ist für Gitrog/Titania ein Plus.
-- **Demonic Tutor (Game Changer)** über weniger effiziente Allzwecktutoren; findet die aktuell fehlende Art von Engine: Earthbend, Rekursion, Muse oder Schutz.
-- **Seedborn Muse (Game Changer)** besitzt die höchste Multiplikation bei der eigentlichen Commander-Fähigkeit; die dritte Wahl wird also nicht für generische Mana-Beschleunigung verbraucht.
-- **Bewusst nicht:** Field of the Dead (Game Changer), Gaea's Cradle (Game Changer), Worldly Tutor (Game Changer), Vampiric Tutor (Game Changer), Natural Order (Game Changer). Keine frühen Endlosschleifen mit Ashaya/Quirion Ranger, kein Massen-Landlock.
-- **Schwächstes strukturelles Risiko:** Baba kostet für die Aktivierung zwar nur `{T}`, zieht aber erst **nach erfolgreicher Drei-Typen-Bedingung** Karten. Ohne vorbereitete mehrfach getypte Opferquellen frisst jede Aktivierung zu viel Board; ohne Baba sind mehrere Enttapper unergiebig. Der Bau priorisiert deshalb 37 Länder, mehrere eingebaute Artefakt-Länder, Earthbend, Recursion und Schutz statt weiterer Mana-Value-Finisher.
-- **Starkes Gegenargument:** Wiederholtes Opfern echter Länder kann Tempo kosten, besonders falls Gegner die Recursion exilieren oder Baba zweimal entfernen. Deshalb besser **Earthbend-Land, das getappt zurückkehrt**, vor normalen Artefaktländern opfern, wenn es sich einrichten lässt. Für das Midgame echte Landopfer bevorzugt erst mit Titania, Gitrog, Crucible/Ramunap oder Life from the Loam.
+**Spelunking: offizielle Interaktion.** Wenn der Effekt bereits auf dem Schlachtfeld liegt, können unsere Länder **ungetappt** ins Spiel kommen, auch wenn sie durch World Shaper oder Earthbend ausdrücklich getappt zurückgelegt werden. Hat das einzelne Land eine eigene „kommt getappt ins Spiel“-Ersatzwirkung, dürfen wir die Reihenfolge wählen. Spelunking, das **gleichzeitig** mit den Ländern ins Spiel kommt, hilft dagegen nicht. Quelle: [The Lost Caverns of Ixalan Release Notes](https://magic.wizards.com/en/news/feature/the-lost-caverns-of-ixalan-release-notes).
 
-## Regel- und Quellenbelege
+**Six** erweitert den Friedhof zur Hand für Nichtland-Permanents **nur während unseres Zuges**. Die benötigte Landkarte wird als zusätzlicher Retrace-Preis abgeworfen und kann anschließend über Loam/Crucible wiederverwendet werden. Six ersetzt **nicht** Eternal Witness für Spontanzauber/Hexereien; das ist der wichtigste Recursion-Kompromiss.
 
-- Offizielle Commander-, Game-Changers- und Bracket-3-Regeln: https://magic.wizards.com/en/formats/commander
-- Bracket-Guidance/Spielgefühl und frühe Siege: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
-- Baba Lysaga: https://magic.wizards.com/en/news/feature/commander-legends-battle-baldurs-gate-release-notes-2022-06-01
-- Earthbend, Ba Sing Se, Badgermole Cub: https://magic.wizards.com/en/news/feature/avatar-the-last-airbender-release-notes
-- Mishra's Foundry: https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes
+## Siegbedingungen
 
-**Prüfgrenze:** Statische Listen- und Synergieprüfung; keine simulierten Eröffnungshände oder echten Partietests. Die Spielstärke und Konsistenz müssen am Tisch beziehungsweise im Simulator weiter überprüft werden.
+1. **Baba + Psychosis Crawler**: Eine volle Baba-Aktivierung lässt jeden Gegner 3 Leben verlieren und zieht drei Karten. Crawler löst **dreimal** aus und lässt jeden Gegner **weitere 3 Leben** verlieren — in Summe **6 Lebenspunkte pro Gegner** pro Aktivierung (ohne andere Trigger). Crawler ist zugleich Artefaktkreatur und damit flexibles Zweitypenopfer, falls nötig.
+2. **Token-Schwarm / Finale of Devastation**: Springheart Nantuko, Eusocial Engineering, Titania und Ophiomancer erzeugen Kreaturen. Finale sucht bei kleinem X wichtige Kreaturen; ab X ≥ 10 wird die gesamte Kreaturenarmee zu einem gefährlichen Haste-Finisher mit +X/+X.
+3. **Aristocrats-Restengine**: Marionette Apprentice löst bei eigenen Artefakten/Kreaturen aus, die tatsächlich in den Friedhof gehen. Artefaktland-Kreaturen zählen für diese Fähigkeit auch dann **nur einmal je Permanent**, nicht einmal für jeden Kartentyp. Token von Eusocial Engineering und Tireless Provisioner liefern zusätzliches Opfermaterial.
+
+## Risiken, Gegenprobe, Erweiterter Kreis
+
+- **Top-End:** Psychosis Crawler und Eusocial Engineering kosten jeweils fünf Mana; sie spielen sich deutlich schlechter als frühe Ramp-Karten, wenn Baba nicht zuverlässig aktivierbar ist. Darum wurden keine weiteren teuren Payoffs aufgenommen.
+- **Langsamerer Start ohne Sakura-Tribe Elder:** Spelunking beschleunigt nur dann direkt, wenn ein Land auf der Hand liegt. Burgeoning kann frühe Landplays ausnutzen, ist aber vom Gegner abhängig. Die Startkonsistenz ist **nicht** goldfish-getestet.
+- **Weniger generische Wiederverwertung:** Eternal Witness konnte auch Sorceries/Instants zurückholen, Six ausschließlich nichtlandige Permanents mit Retrace und nur im eigenen Zug.
+- **Exile-/Graveyard-Hate:** Ist Life from the Loam/Crucible/Ramunap blockiert, verschleißen Baba-Landopfer die Manabasis. In solchen Partien bevorzugt mehrtypige Robot-/Kreaturenspielsteine sowie Rancor/Ordeal in den Opferkosten verwenden.
+- **Erweiterter Kreis:** Walking Atlas (Artefaktkreatur und zusätzliche Landdrops per Tapp auf gegnerischen Zügen, aber langsam und summoning-sickness-abhängig), Aftermath Analyst (Explosions-Rekursion für 4 Mana Aktivierung), Animate Dead (günstigerer einmaliger Reanimate-Effekt), Sanctum Weaver (Enchantress-Ramp), Skullclamp (bei höherer 1/1-Dichte), Sting-Alternative Thornbite Staff (bei vielen Kreaturentoden, teurer auszurüsten).
+- **Nicht spielbar:** Hearthhull, the Worldseed besitzt **Rot** in der Farbidentität und ist deshalb in Baba-Lysaga-Golgari nicht Commander-legal, auch wenn sein Landopfer-Effekt thematisch perfekt wäre.
+
+## Prüfung und Quellen
+
+- [Wizards: Commander-Format, Brackets & Game Changers](https://magic.wizards.com/en/formats/commander)
+- [Wizards: Commander-Brackets-Update (Februar 2026)](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026)
+- [Wizards: The Lost Caverns of Ixalan Release Notes – Spelunking](https://magic.wizards.com/en/news/feature/the-lost-caverns-of-ixalan-release-notes)
+- [Wizards: Modern Horizons 3 Release Notes – Six](https://magic.wizards.com/en/news/feature/modern-horizons-3-release-notes)
+- [Scryfall Karten-Datenbank](https://scryfall.com) für exakte Namen, Oracle-Texte, Commander-Legalität, Farbidentität und Game-Changer-Markierung.
+
+**Grenze:** Statische Kartenlegalitäts- und Regelsynergieprüfung plus Commit-/PR-Abgleich. Kein Simulator- oder Realpartientest; besonders das Verhältnis von frühem Mana zu dauerhaftem Opfermaterial sollte praktisch erprobt werden.
