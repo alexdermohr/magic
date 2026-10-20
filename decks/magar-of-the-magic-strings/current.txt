@@ -1,5 +1,4 @@
 1 Magar of the Magic Strings
-1 Kaya's Ghostform
 1 Anger
 1 Anje Falkenrath
 1 Vile Entomber
@@ -21,12 +20,12 @@
 1 Lightning Greaves
 1 Swiftfoot Boots
 1 Key to the Side-Door
-1 Burning Inquiry
 1 Monument to Endurance
 1 Silver Shroud Costume
+1 Conqueror's Flail
 1 Bitter Reunion
 1 Bedlam
-1 Conqueror's Flail
+1 Kaya's Ghostform
 1 Ripples of Undeath
 1 Black Market Connections
 1 Fable of the Mirror-Breaker
@@ -53,6 +52,7 @@
 1 Final Parting
 1 Ransack the Lab
 1 Dark Deal
+1 Burning Inquiry
 1 Chaos Warp
 1 Withering Torment
 1 Rakdos Charm
@@ -82,9 +82,9 @@
 1 Polluted Delta
 1 Marsh Flats
 1 Scalding Tarn
+1 Wooded Foothills
 1 Prismatic Vista
 1 Urborg, Tomb of Yawgmoth
-1 Wooded Foothills
 1 Access Tunnel
 1 Mount Doom
 1 The Black Gate
