@@ -1,70 +1,40 @@
-# Magar of the Magic Strings — V5-Optimierungsanalyse
+# Magar of the Magic Strings — Bracket 3, V6
 
-**Stand:** 19. Oktober 2026 · **Aktiv:** [current.txt](current.txt) · **Format:** Commander Bracket 3, Rakdos · **Ziel:** deutlich mehr erfolgreiche und gewinnbringende Magar-Treffer, keine beabsichtigten frühen Zweikarten-Infinite-Loops.
+**20. Oktober 2026.** Aktuelle Deckliste: [current.txt](current.txt). [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt) und [V5](versions/2026-10-19-b3-v5.txt) sind echte historische Snapshots. Dies ist die **V6**-Analyse; frühere Analysen bleiben über Git verfügbar.
 
-## Drei gezielte Änderungen V4 → V5
+## Drei V5 → V6 Änderungen: belegter Mechanismus gegen Gegenargument
 
-| Heraus | Hinein | Bewertung | Stärkstes Gegenargument |
+| Heraus | Hinein | Warum | Was verloren geht |
 |---|---|---|---|
-| **Anger** | **Stinkweed Imp** | Statt einer nur im Friedhof mit Mountain wirksamen Eilequelle erhalten wir **Dredge 5** für wiederholte echte Friedhofsfüllung und einen fliegenden defensiven Körper. Magar kann bereits im Endsegment vor unserem Zug aktivieren, deshalb ist Eile weniger zwingend. | Wenn eine Puppe **noch im eigenen Zug** ohne Eile erzeugt werden muss, fehlt Anger. Außerdem ersetzt Dredge das Ziehen einer unbekannten Handkarte und kann wertvolle Nichtzauber millen. |
-| **Chainer, Nightmare Adept** | **Mirkwood Bats** | Kosten beide vier Mana. Chainer bot Haste und situative Kreaturen-Reanimation; Bats verwandelt `Brass's Bounty` + Schatzopfer in große **wiederholbare Lebensverlust-Ereignisse für sämtliche Gegner**. Außerdem unterstützen `Big Score`, `Black Market Connections`, `Professional Face-Breaker` und `Fable of the Mirror-Breaker` die Fledermäuse. | Chainer war nützlich, wenn Magar spät im eigenen Zug aktiviert werden sollte und für erneut gewirkte `Vile Entomber`; Bats ist ohne Token-Engine nur eine mäßige 2/3-Fliegerkreatur. |
-| **Buried Alive** | **Dark Deal** | Beide kosten drei Mana. `Buried Alive` findet **nur Kreaturen**, nicht die Instants/Sorceries für Magar. `Dark Deal` wirft unsere gesamte Hand ab, füllt sie mit einer Karte weniger wieder auf und aktiviert `Monument to Endurance`. Damit entstehen in der Praxis häufiger zauberfähige Magar-Friedhofsziele. | Die Suche nach `Anger`/`Filth` entfällt; durch das Wheel werden auch gegnerische Hände neu gefüllt, und eigene Schutzkarten können verloren gehen. |
+| **Filth** | **Traitor's Clutch** | {1}{B} Flashback aus unserem durch Rummage/Dredge gefüllten Friedhof gibt einer 3/3 **Shadow** bis Zugende. Funktioniert ohne Swamp beim Gegner, solange dieser keinen Shadow-Blocker hat. | Filth gewährte aus dem Friedhof bei eigenem Swamp unseren **allen** Kreaturen Swampwalk gegen Spieler mit Swamps; besonders stark mit Urborg. Traitor's Clutch ist einmalig und kostet aus der Hand {4}{B}. |
+| **Berserkers' Onslaught** | **Conqueror's Flail** | {2} + Equip {2} statt {3}{R}{R}: Das Equipment verbietet **gegnerische Zauber während unseres eigenen Zuges**, solange es an einer Kreatur befestigt ist. Wichtiger Schutz in der Angriffsphase; `Embercleave` liefert weiter Doppelschlag. | Onslaught gab dauerhaft **allen** Angreifern Doppelschlag, ohne ausgerüstete Kreatur. Flail stoppt keine Fähigkeiten, reagierende Gegner können vor dem Anlegen oder in ihren eigenen Zügen handeln. |
+| **Sorin's Vengeance** | **Increasing Ambition** | Normale {4}{B}-Hexerei sucht eine Karte. Durch Magars Kampfschadensfähigkeit **aus dem Friedhof gewirkte Kopie** erfüllt die Bedingung für zwei Karten. Ein wiederholter Tutor ist in langen Partien vielseitiger als wiederholte 10 Schaden an einem Ziel. | Sorin's Vengeance brachte jedes Mal 10 Lebenspunkte und konnte einen Spieler direkt beenden. Increasing Ambition alleine verursacht keinen Schaden; braucht weitere Karten zum tatsächlichen Sieg. |
 
-**Wichtige Priorität:** `Thieves' Tools` blieb bewusst **im Deck**. Sein Unblockbar-Effekt für Stärke höchstens 3 wird nur in der Blockerdeklaration geprüft. Danach angelegtes `Embercleave` (+1/+1, Double Strike, Trample) macht eine zuvor ungeblockte Puppe nicht nachträglich blockbar. Deshalb wäre ein Wechsel zu `Mask of Memory` zwar besseres Draw nach einem Treffer, aber zunächst eine Verschlechterung bei der Sicherheit des ersten Treffers.
+**Disrupt Decorum ist unverhandelbarer Kern:** Wiederholtes Goad sorgt dafür, dass gegnerische Kreaturen, soweit möglich, andere Spieler angreifen und unsere Aufbauphase entlasten. Der Zauber ist außerdem ein wirksames Ziel für Magars Puppen. `Cosmotronic Wave` kann diesen fortlaufenden politischen Effekt nicht ersetzen.
 
-## Neue Kombinationen, exakt abgegrenzt
+## V6: Struktur und Legality-Rahmen
 
-### Stinkweed Imp + Anje / Key to the City
+- 100 Karten, darunter **1 Commander, 8 weitere Kreaturen, 18 Artefakte, 5 Verzauberungen, 32 Spontanzauber/Hexereien und 36 echte Länder**. `Malakir Rebirth` zählt hier als Instant mit optionaler Landrückseite.
+- Drei geplante Game Changers: **Demonic Tutor, Gamble, Jeska's Will**. Keine absichtliche frühe Zweikarten-Endlosschleife, keine Extrazugkette oder Massenlandvernichtung.
+- Neue Karten `Traitor's Clutch` (schwarz), `Conqueror's Flail` (farblos) und `Increasing Ambition` (schwarz) sind Commander-legal. Keine ungewöhnlichen Farbsymbole außerhalb Rakdos.
+- Ursprüngliche Kopierverbote beachten: Der notierte Name einer Magar-3/3 wird von Kreaturenkopien nicht übernommen. `Fable of the Mirror-Breaker` kopiert vorzugsweise `Vile Entomber`.
 
-`Anje Falkenrath` discards den Imp als Kosten und würde danach eine Karte ziehen. Da der Imp **bereits im Friedhof liegt**, kann dieses Ziehen durch Dredge 5 ersetzt werden: Die obersten fünf Bibliothekskarten gehen in den Friedhof, der Imp auf unsere Hand zurück. Der Effekt verbraucht **ein Tap von Anje** und ersetzt Karten-Nachziehen, ist also kein unbeschränkter Loop. Weitere Discard-Outlets wie `Key to the City` können den Imp in späteren Zügen erneut abwerfen. `Monument to Endurance` belohnt das Abwerfen unabhängig von seiner Rolle im Dredge-Plan.
+## Schlüsselinteraktionen und Grenzen
 
-### Mirkwood Bats + Brass's Bounty / Treasures
+**Traitor's Clutch** muss für den Durchbruch **vor der Blockerdeklaration** aus dem Friedhof via Flashback für {1}{B} gewirkt werden. Das Spruchziel erhält Shadow (nur Shadow-Kreaturen können es blocken). Anders als `Outmaneuver` funktioniert die Karte schon im Friedhof nach Selbstmill, während dessen X in kostenlos gewirkten Magar-Kopien gleich 0 wäre. Traitor's Clutch hilft bei der Vorbereitung des Treffers; als von Magar nach einem bereits erfolgreichen Treffer gewirkte Kopie wäre ihre Evasion für diesen Treffer zu spät.
 
-`Mirkwood Bats` ({3}{B}) sorgt für **einen Lebensverlust pro erstelltem oder geopfertem Token und Gegner**. `Brass's Bounty` erzeugt pro Land ein eigenes Treasure. Mit **sechs Ländern** und einem erfolgreich gewirkten Bounty ergeben sich **sechs Lebensverlust pro Gegner** beim Erzeugen der Tokens; werden anschließend alle sechs Schätze geopfert, kommen **sechs weitere** hinzu. Das sind **12 pro Gegner**, noch ohne sonstigen Schaden durch Kampftreffer, andere Schätze oder `Blood for the Blood God!`. Die Tokens liefern zugleich Mana für weitere {1}{B}{R}-Aktivierungen. `Professional Face-Breaker` ermöglicht außerdem Value durch das Opfern der Treasures.
+**Conqueror's Flail** ist am echten `Magar` meist am besten aufgehoben: Das +1/+1 für jede Farbe unter unseren Permanents macht aus einer 3/3-Puppe schnell eine 5/5, wodurch `Thieves' Tools` oder `Access Tunnel` wegen ihrer Stärke-3-Grenzen nicht mehr helfen. Sobald das Flail befestigt ist, können Gegner in unserem Zug keine Zauber wirken; bereits auf dem Stapel liegende Sprüche, aktivierte Fähigkeiten und Effekte in gegnerischen Zügen bleiben möglich. Das verhindert auch gegnerische spontane Antworten auf `Increasing Ambition`-Kopien, sofern das Equipment weiterhin befestigt ist.
 
-### Dark Deal + Monument to Endurance
+**Increasing Ambition** lautet: „If this spell was cast from a graveyard, instead search ... for two cards.“ Bei Magar wird eine **Kopie einer notierten Karte** erzeugt und aus deren letztem bekanntem Kartenursprung (Friedhof) gewirkt; die ungewöhnliche Interaktion ist mit CR 707.12/707.14 und einer [konkreten Regeldiskussion](https://www.reddit.com/r/mtgrules/comments/14sbe6w/) abgeglichen. Bei digitalen Simulatoren die Implementation explizit kontrollieren. Von der Hand kostet die Karte {4}{B} für nur **eine** Karte, alternativ Flashback {7}{B} aus dem Friedhof für zwei. Sie ist daher kein kostenloser Tutor ohne erfolgreiche Magar-Engine.
 
-`Dark Deal` ({2}{B}) wirft jede Spielerhand ab und lässt jeden anschließend entsprechend viele Karten **minus eine** nachziehen. Das ist ein echter Friedhofs-Setup-Zauber, der von Magar nach einem erfolgreichen Kampftreffer ebenfalls kopiert und gewirkt werden kann (wobei auch die Gegner neue Hände bekommen). `Monument to Endurance` triggert beim Discard jeder Karte; jede seiner drei Optionen darf aber nur **einmal pro Zug** gewählt werden. `Dark Deal` mit fünf Discards erzeugt deswegen **maximal drei unterschiedliche wirksame Monument-Modi in diesem Zug**, keinen unbegrenzten Schaden.
+**Mirkwood Bats + Brass's Bounty** bleiben eine Siegroute. Die Bats lösen **für jeden** erzeugten oder geopferten Treasure aus. Sechs erzeugte Schätze und sechs spätere Opfer sind bis zu zwölf Lebensverlust pro Gegner. `Storm-Kiln Artist` und `Professional Face-Breaker` erzeugen ebenfalls Treasures. `Blood for the Blood God!`, `Breach the Multiverse`, `Rise of the Dark Realms`, `In Garruk's Wake`, `Call Forth the Tempest` und `Peer into the Abyss` bleiben erhalten.
 
-## Aktuelle Struktur: 100 Karten
+**Nicht geändert:** `Key to the City`, `Dauthi Embrace`, `Whispersilk Cloak`, `Silver Shroud Costume`, `Prowler's Helm`, `Thieves' Tools`, `Access Tunnel`, `Rogue's Passage`, `The Black Gate`; die ersten vier sind besonders gute Grundbausteine für Evasion. `Disrupt Decorum` bleibt Teil der Kontrolle, `Embercleave` der Doppelschlag-Finisher.
 
-| Abschnitt | Karten |
-|---|---:|
-| Commander | 1 |
-| Sonstige Kreaturen | 9 |
-| Artefakte | 17 |
-| Verzauberungen | 6 |
-| Haymaker-Instants/Sorceries | 9 |
-| Discard-/Setup-/Tutor-Instants/Sorceries | 14 |
-| Interaktion (einschließlich Malakir Rebirth als MDFC) | 8 |
-| Länder (nur Landkarten) | 36 |
-| **Summe** | **100** |
+## Gegenprobe: Warum nicht Outmaneuver, Cosmotronic Wave oder War Cadence?
 
-36 feste Länder + `Malakir Rebirth` als optionales getapptes `Malakir Mire`. Im aktiven Deck sind genau drei Game Changers: **Demonic Tutor, Gamble, Jeska's Will**. Die neuen Karten sind Rakdos-kompatibel und Commander-legal. Keine Bracket-Veränderung oder unerwünschte Massenlandzerstörung.
+`Outmaneuver` (X R) kann mit X=1 für {1}{R} **eine bereits geblockte** Puppe Spieler-Kampfschaden zufügen lassen. Als Magar-Kopie mit kostenloser X-Wahl ist X jedoch 0, außerdem hat die Karte kein Flashback: Selbstmill verliert dort einen echten Hand-Kampftrick. `Traitor's Clutch` nutzt die bestehende Selfmill/Discard-Engine besser. `Cosmotronic Wave` verschafft vorübergehend einen global ungehinderten Angriff, aber nicht Disrupt Decorums wiederholtes Goad. `War Cadence` ist wiederholbare Blocksteuer, kostet jedoch viel Mana, während vorhandene Ausstattung bereits zahlreiche alternative Durchbruchwege bietet.
 
-## Belastbarer Gegencheck
+**Hauptrisiko nach V6:** Ohne Schutz/Timing verliert Magar immer noch gegen schnellen Friedhofshass und Removal; Flail schützt nicht am gegnerischen Zugende. Der Verlust der beiden V5-Stärken (globales Swampwalk und globaler Doppelschlag) ist in manchen Tischen ein Rückschritt. Höhere tatsächliche Siegquoten sind nicht gemessen. **Keine vollständige automatische 100-Karten-Oracle-Prüfung oder Partietests behauptet.**
 
-**Größtes Risiko der V5:** Drei Veränderungen opfern einen Teil der explosiven Haste-/Reanimationslinie. Schlägt ein Gegner die direkt vor dem eigenen Zug erzeugte Puppe nach Magars Aktivierung mit Removal, können wir nicht ohne Weiteres im eigenen Zug eine neue ohne Eile angreifen lassen. Außerdem benötigt `Mirkwood Bats` Tokenproduzenten im Spiel; ein einzelnes `Bats` gewinnt nicht unabhängig. Ein langsames Reanimator-Meta könnte die frühere Chainer-Variante bevorzugen.
-
-**Warum dennoch diese Richtung:** V1–V4 besitzen bereits zahlreiche Wege zu unblockbaren Treffern, Eile über `Lightning Greaves`, `Swiftfoot Boots` und `Bitter Reunion`. Die genaue Zahl der Evasion-Quellen hängt davon ab, ob bedingte Länder oder Filth mitgezählt werden. V5 verbessert die andere Hälfte des Problems: in der **richtigen Zone tatsächlich einen wichtigen Spruch bereitzustellen** und nach einem Bounty-Treffer schneller die ganze Viererrunde zu besiegen. Zahlen zu Turn-5-Quoten sind ohne reproduzierbare Partietests nicht belegt.
-
-**Bewusst nicht geändert:** `Whispersilk Cloak`, `Silver Shroud Costume`, `Prowler's Helm`, `Thieves' Tools`, `Key to the City` und `Dauthi Embrace` sichern weiterhin Durchkommen; `Embercleave` und `Berserkers' Onslaught` geben Doppelschlag. `Final Parting` und `Vile Entomber` legen gewünschten Magar-Zielzauber direkt in den Friedhof. `Doom Whisperer` bleibt ein zuverlässiger Surveil-Motor trotz fünf Mana.
-
-## Historische Versionen (fest archiviert)
-
-**Jede Verlinkung auf eine frühere Liste verweist ausdrücklich auf deren Snapshot – nicht auf `current.txt`.** Die früheren Änderungsanalysen sind in der Git-Historie des PR nachlesbar; hier folgt der knappe Änderungsverlauf:
-
-- [**V1**](versions/2026-10-19-b3-v1.txt): Ausgangsliste, Magar-Big-Spells und grundlegende Evasion.
-- [**V2**](versions/2026-10-19-b3-v2.txt): 8 Änderungen: Bone Miser → Monument to Endurance, Guttersnipe → Illusionist's Bracers, Strionic Resonator → Glaring Spotlight, Brotherhood Regalia → Silver Shroud Costume, Explosive Singularity → Sorin's Vengeance, Shizo → Flamekin Village, Buried Alive → Final Parting, Fevered Suspicion → Vandalblast.
-- [**V3**](versions/2026-10-19-b3-v3.txt): 6 Änderungen: Glint-Horn Buccaneer → Ransack the Lab, Illusionist's Bracers → Fireshrieker, Mithril Coat → Prowler's Helm, Bedlam → Fervor, Hit the Mother Lode → Call Forth the Tempest, Tainted Peak → Raucous Theater.
-- [**V4**](versions/2026-10-19-b3-v4.txt): 5 Änderungen: Oriq Loremage → Vile Entomber, Fervor → Buried Alive, Glaring Spotlight → Fable of the Mirror-Breaker, Fireshrieker → Embercleave, Flamekin Village → Blazemire Verge. `Ransack the Lab` wurde als Sorcery in den Setup-Abschnitt einsortiert.
-- **V5** ist ausschließlich die aktuelle [current.txt](current.txt), mit den oben aufgeführten drei Kartenwechseln.
-
-Der vorherige automatische PR-Reviewhinweis, dass die historische V3-Analyse fälschlich auf `current.txt` zeigte, ist durch die spezifischen Snapshot-Links und das Entfernen veralteter „aktuelle V3“-Aussagen behoben.
-
-## Prüfung und offener Nachweis
-
-- Die vollständige 100-Karten-Liste, Commander-Position, Singleton-Ausnahmen, Landzahl und die **drei beabsichtigten** Game Changers sind direkt aus dem veröffentlichten PR-Head reproduzierbar. Die Identität aller historischen Snapshots wird über ihre Git-Blob-SHAs abgeglichen.
-- **Neuer Karten-Oracle:** [Stinkweed Imp](https://mtg.wtf/card?q=%21Stinkweed+Imp), [Mirkwood Bats](https://mtg.wtf/card?q=%21Mirkwood+Bats), [Dark Deal](https://mtg.wtf/card/frf/66/Dark-Deal); [Magar](https://mtg.wtf/card/unf/514/Magar-of-the-Magic-Strings); [Thieves' Tools – offizielle Rulings](https://magic.wizards.com/en/news/feature/adventures-forgotten-realms-release-notes-2021-07-09).
-- **Format:** [WotC Commander-Format](https://magic.wizards.com/en/formats/commander), [Bracket-Update Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026), [B&R 12. Oktober 2026](https://www.magic.wizards.com/en/news/announcements/banned-and-restricted-october-12-2026).
-- **Kein vollständiger unabhängiger Oracle-Batchscan aller 100 Karten, keine Partietests und keine gemessene Winrate** behauptet. GitHub-Pflicht-CI und Review-Gates dürfen nicht umgangen werden.
+**Quellen:** [Magar](https://mtg.wtf/card/unf/514/Magar-of-the-Magic-Strings), [Traitor's Clutch](https://mtg.wtf/card/tsp/137/Traitors-Clutch), [Conqueror's Flail](https://mtg.wtf/card/c16/53/Conquerors-Flail), [Increasing Ambition](https://mtg.wtf/card/dka/69/Increasing-Ambition), [WotC Commander](https://magic.wizards.com/en/formats/commander).
