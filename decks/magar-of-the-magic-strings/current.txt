@@ -20,7 +20,7 @@
 1 Thieves' Tools
 1 Lightning Greaves
 1 Swiftfoot Boots
-1 Expedition Map
+1 Key to the Side-Door
 1 Prowler's Helm
 1 Monument to Endurance
 1 Embercleave
@@ -89,7 +89,7 @@
 1 Rogue's Passage
 1 The Black Gate
 1 Plaza of Heroes
-1 Geier Reach Sanitarium
+1 Cavern of Souls
 1 Takenuma, Abandoned Mire
 1 Sokenzan, Crucible of Defiance
 1 Blazemire Verge
