@@ -1,0 +1,98 @@
+# HISTORISCHES ARCHIV: früherer Deck-Index
+
+Unveränderter Markdown-Quelltext von `decks/README.md` vor der Stabilisierung am 20.10.2026, aus Commit `351195da57223e86f2fc8387965d0b7a210d919d`.
+
+**Nur historisch:** Decklisten, Kartenstände, Versionsangaben und damalige Prüfbehauptungen können überholt oder ungültig sein. Sie sind keine aktuellen Konventionen und kein Nachweis der heutigen Legalität.
+
+[Originalfassung im damaligen Pfad](https://github.com/alexdermohr/magic/blob/351195da57223e86f2fc8387965d0b7a210d919d/decks/README.md) · [Archivübersicht](README.md)
+
+Die Verweise im folgenden Quelltext beziehen sich auf den damaligen Originalpfad. Der zusätzliche Zeilenumbruch vor der schließenden Code-Markierung gehört zur Archivhülle.
+
+```markdown
+# Deck-Struktur und Versionierung
+
+Jeder Commander besitzt einen eigenen Ordner unter `decks/`.
+
+## Ruxa
+
+- `decks/ruxa/current.txt`: aktuelle 100-Karten-Liste.
+- `decks/ruxa/versions/`: datierte historische Snapshots.
+- `analysis.md` / `DESIGN_PRINCIPLES.md`: Analyse und Regeln.
+
+## Mishra (bewusste Ausnahme: eine B3-Version)
+
+- **Einzige gepflegte B3-Liste:** `decks/mishra/current.txt`.
+- **Separate B4-Liste:** `decks/mishra/versions/2026-10-07-optimized-b4-v1.txt`.
+- `decks/mishra/analysis.md`: Mana- und Synergiebegründung.
+- Keine zusätzliche Mishra-B3-Datei, keine datierten B3-Snapshots. Verbesserungen werden in `current.txt` übernommen.
+- Historische B3-Fassungen sind aus dem aktuellen Baum gelöscht, über Git-Historie aber weiterhin verfügbar.
+
+Damit liegt für jeden der beiden Mishra-Brackets exakt **eine importierbare 100-Karten-Liste** vor.
+
+## Ian Malcolm (Bracket 3)
+
+- `decks/ian-malcolm/current.txt`: aktive 100-Karten-Liste.
+- `decks/ian-malcolm/analysis.md`: Spielplan und Bracket-Begründung.
+- `decks/ian-malcolm/versions/`: datierte Snapshots ab 2026-10-08.
+- Die Mishra-Regel (nur eine B3-Liste) gilt nicht für Ian.
+
+## Kinnan (Bracket 3)
+
+- `decks/kinnan/current.txt`: aktuelle 100-Karten-Liste; keine getrennten Versionen vorhanden.
+
+## Yuriko (Bracket 3)
+
+- `decks/yuriko/current.txt`: V3, aktuelle importierbare 100-Karten-Liste.
+- `decks/yuriko/versions/2026-10-08-b3-v1.txt` bis `2026-10-08-b3-v3.txt`: historische Decklisten.
+
+## Winota (Bracket 3)
+
+- `decks/winota/current.txt`: V3, aktuelle importierbare 100-Karten-Liste.
+- `decks/winota/versions/2026-10-08-b3-v1.txt` bis `2026-10-08-b3-v3.txt`: historische Decklisten.
+
+## Themendecks (Bracket 3)
+
+- **Teysa, Opulent Oligarch – Die Oligarchie:** decks/teysa-opulent-oligarch/current.txt und analysis.md.
+- **Kynaios and Tiro – commonThing: Die Allmende:** decks/kynaios-and-tiro/current.txt und analysis.md.
+- Jeweils genau eine aktuelle 100-Karten-Liste; spätere Versionen bei Bedarf unter versions/ archivieren.
+
+Die angegebene Bracket-Stufe ist ein Deckbauziel; tatsächliche Spielgeschwindigkeit wurde nicht durch Partietests verifiziert.
+
+## Marchesa, the Black Rose (Bracket 3)
+
+- `decks/marchesa/current.txt`: aktuelle 100-Karten-Liste (v4.2).
+- `decks/marchesa/analysis.md`: Spielplan, Änderungen und Bracket-Einordnung.
+- `decks/marchesa/versions/`: historische Snapshots der v2-, v3-, v4-, v4.1- und v4.2-Liste.
+
+Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
+
+## Tom Bombadil — Lieder von Mittelerde (Bracket 3)
+
+- `decks/tom-bombadil/current.txt`: aktive importierbare 100-Karten-Liste.
+- `decks/tom-bombadil/analysis.md`: Sagen-Spielplan, Game Changer, Manabasis und Risiken.
+- Eigenständiger Commander-Ordner; nachfolgende Optimierungen ersetzen `current.txt`.
+
+## Treebeard, Eldest of Ents — Der Aufstand der Ents (Bracket 3)
+
+- `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
+- `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Magar of the Magic Strings (Bracket 3)
+
+- Aktuell: `decks/magar-of-the-magic-strings/current.txt` (V11, 2026-10-20).
+- Historische echte Deck-Snapshots: `decks/magar-of-the-magic-strings/versions/` (V1–V11; V9 und V10 vor V11 byteidentisch gesichert).
+- Spielplan: `decks/magar-of-the-magic-strings/README.md`; Kandidaten-/Bracket-/Regelanalyse: `decks/magar-of-the-magic-strings/analysis.md`.
+- Die aktuelle V11 ersetzt V10 und V9 nicht in der Versionshistorie. Weitere Vorschläge verbleiben dokumentiert im erweiterten Kreis.
+
+## Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer (Bracket 3)
+
+- `decks/malcolm-breeches-pirates/current.txt`: aktive 100-Karten-Liste mit zwei Partner-Commandern, 35 Ländern und drei Game Changern.
+- `decks/malcolm-breeches-pirates/analysis.md`: Piraten-, Schadens-, Treasure-, Schutz- und Bracket-Analyse samt erweitertem Kreis.
+- Folgeoptimierungen ersetzen `current.txt`; echte ältere Fassungen können nach Bedarf unter `versions/` gesichert werden.
+
+## Sidar Jabari of Zhalfir — Die Ritterschaft von Zhalfir (Bracket 3)
+
+- Aktuelle optimierte Bracket-3-V3-Liste (100 Karten; 32 weitere Kreaturen, 30 andere Zauber, 37 Länder): [decks/sidar-jabari-knights/current.txt](sidar-jabari-knights/current.txt).
+- [decks/sidar-jabari-knights/analysis.md](sidar-jabari-knights/analysis.md): Ritter-/Reanimation-/Combat-Plan, drei Game Changer, Mana, Risiken.
+- Folgende Optimierungen pflegen die aktuelle Liste; historische Snapshots nur bei tatsächlich neuen Versionen.
+```
