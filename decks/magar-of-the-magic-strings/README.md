@@ -35,7 +35,7 @@
 
 **Warum kein Mithril Coat?** Greaves, Boots, Deflecting Swat, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Silver Shroud Costume sichern bereits mehrere Situationen ab. Coat gibt dauerhafte Unzerstörbarkeit an Magar, schützt aber weder vor Exil/Opfern/-X/-X noch über seinen ETB-Trigger die nichtlegendären Puppen. Ohne einen nachweislich schwächeren Slot werden weder zusätzliche Evasion noch Big Score oder Black Market Connections geopfert. **Mithril Coat und Imp's Mischief bleiben im erweiterten Kreis.**
 
-**Bracket 3:** 100 Karten, 36 Länder, 29 Instants/Sorceries, genau drei bekannte Game Changers (Demonic Tutor, Gamble, Jeska's Will). Keine neue frühe 2-Karten-Infinite Combo. **Keine reale Multiplayer-Winrate verifiziert.** Details einschließlich aller zehn Kandidaten, Manaprüfung, Kosten/Regeln und Gegenargumente stehen in [analysis.md](analysis.md). V9 bleibt als [historischer Snapshot](versions/2026-10-20-b3-v9.txt) byteidentisch; [V10](versions/2026-10-20-b3-v10.txt) spiegelt die aktuelle Liste.
+**Bracket 3:** 100 Karten, 36 Länder, 29 Instants/Sorceries, genau drei bekannte Game Changers (Demonic Tutor, Gamble, Jeska's Will). Keine neue frühe 2-Karten-Infinite Combo. **Keine reale Multiplayer-Winrate verifiziert.** Details einschließlich aller zehn Kandidaten, Manaprüfung, Kosten/Regeln und Gegenargumente stehen in [analysis.md](analysis.md). V9 bleibt als [historischer Snapshot](versions/2026-10-20-b3-v9.txt) byteidentisch; [V10](versions/2026-10-20-b3-v10.txt) ist die unveränderte **historische V10-Liste**. Die einzige aktuelle Deckliste ist V11 in [current.txt](current.txt).
 
 ---
 
