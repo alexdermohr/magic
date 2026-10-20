@@ -1,0 +1,96 @@
+1 Baba Lysaga, Night Witch
+1 Delighted Halfling
+1 Elvish Reclaimer
+1 Sylvan Safekeeper
+1 Badgermole Cub
+1 Haywire Mite
+1 Quirion Ranger
+1 Scryb Ranger
+1 Marionette Apprentice
+1 Tireless Provisioner
+1 Dryad of the Ilysian Grove
+1 Ophiomancer
+1 Ramunap Excavator
+1 Six
+1 Ygra, Eater of All
+1 Psychosis Crawler
+1 Overlord of the Hauntwoods
+1 Seedborn Muse
+1 Titania, Protector of Argoth
+1 The Gitrog Monster
+1 World Shaper
+1 Birds of Paradise
+1 Elves of Deep Shadow
+1 Springheart Nantuko
+1 Blossoming Tortoise
+1 Llanowar Loamspeaker
+1 Sol Ring
+1 Arcane Signet
+1 Talisman of Resilience
+1 Liquimetal Coating
+1 Thousand-Year Elixir
+1 Sting, the Glinting Dagger
+1 Swiftfoot Boots
+1 Crucible of Worlds
+1 Expedition Map
+1 Spelunking
+1 Burgeoning
+1 Instill Energy
+1 Rancor
+1 Earthbender Ascension
+1 Chthonian Nightmare
+1 Eusocial Engineering
+1 Undergrowth Recon
+1 Ordeal of Nylea
+1 Kaya's Ghostform
+1 Wild Growth
+1 Exploration
+1 Crop Rotation
+1 Assassin's Trophy
+1 Beast Within
+1 Tear Asunder
+1 Deadly Rollick
+1 Heroic Intervention
+1 Tamiyo's Safekeeping
+1 Veil of Summer
+1 Demonic Tutor
+1 Nature's Lore
+1 Three Visits
+1 Life from the Loam
+1 Reanimate
+1 Toxic Deluge
+1 Finale of Devastation
+1 Tyvar, Jubilant Brawler
+1 Ba Sing Se
+1 Mishra's Factory
+1 Blinkmoth Nexus
+1 Tree of Tales
+1 Vault of Whispers
+1 Darksteel Citadel
+1 Darkmoss Bridge
+1 Urza's Saga
+1 Dryad Arbor
+1 Command Tower
+1 Overgrown Tomb
+1 Bayou
+1 Undergrowth Stadium
+1 Woodland Cemetery
+1 Llanowar Wastes
+1 Twilight Mire
+1 Nurturing Peatland
+1 Blooming Marsh
+1 Underground Mortuary
+1 Boseiju, Who Endures
+1 Takenuma, Abandoned Mire
+1 Yavimaya, Cradle of Growth
+1 Urborg, Tomb of Yawgmoth
+1 Phyrexian Tower
+1 Bojuka Bog
+1 Verdant Catacombs
+1 Polluted Delta
+1 Wooded Foothills
+1 Prismatic Vista
+3 Forest
+3 Swamp
+1 Inkmoth Nexus
+1 Valgavoth's Lair
