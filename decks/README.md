@@ -72,3 +72,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 - Historische echte Deck-Snapshots: `decks/magar-of-the-magic-strings/versions/` (V1–V13; V9–V12 unverändert archiviert und V13 byteidentisch mit current.txt).
 - Spielplan: `decks/magar-of-the-magic-strings/README.md`; Kandidaten-/Bracket-/Regelanalyse: `decks/magar-of-the-magic-strings/analysis.md`.
 - Die aktuelle V13 ersetzt V12–V1 nicht in der Versionshistorie. Fünf nach Risiko bewertete Tauschpaare und weitere Erweiterungs-Kandidaten stehen in der Analyse.
+
+## Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer (Bracket 3)
+
+- `decks/malcolm-breeches-pirates/current.txt`: aktive 100-Karten-Liste mit zwei Partner-Commandern, 35 Ländern und drei Game Changern.
+- `decks/malcolm-breeches-pirates/analysis.md`: Piraten-, Schadens-, Treasure-, Schutz- und Bracket-Analyse samt erweitertem Kreis.
+- Folgeoptimierungen ersetzen `current.txt`; echte ältere Fassungen können nach Bedarf unter `versions/` gesichert werden.

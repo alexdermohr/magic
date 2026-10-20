@@ -40,6 +40,13 @@ Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfe
 
 - Aktuelle Liste: [decks/kinnan/current.txt](decks/kinnan/current.txt)
 
+## Chatterfang, Squirrel General — Eichhörnchen-Invasion
+
+**Bracket 3 / Upgraded:** Schwarz-grünes Eichhörnchen-Tribal mit breiter Token-Produktion, Opfermechaniken und starken, endlichen Kampf-/Drain-Finishern. Drei Game Changer: Gaea's Cradle, Natural Order, Demonic Tutor.
+
+- Aktuelle 100-Karten-Liste: [decks/chatterfang/current.txt](decks/chatterfang/current.txt)
+- Spielplan, Bracket-3-Prüfung und Risiken: [decks/chatterfang/analysis.md](decks/chatterfang/analysis.md)
+
 ## Yuriko, the Tiger's Shadow
 
 **Bracket 3 / Upgraded:** Dimir-Ninja-Tempo und Bibliothekskontrolle.
@@ -119,3 +126,10 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 - **V12:** Funkenspalter / Embercleave → Twinferno ({1}{R}); priorisierte weitere Streichkandidaten in [Magar-Analyse](decks/magar-of-the-magic-strings/analysis.md). V11–V9 sind erhalten. [V12-Snapshot](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v12.txt).
 
 - **V13:** Doom Whisperer → Oriq Loremage; Dauthi Embrace → Bedlam; Prowler's Helm → Burning Inquiry; Stinkweed Imp → Kaya's Ghostform; Bojuka Bog → Wooded Foothills. Goad, Anger, Wheels und alle drei Game Changers bleiben. [V13-Snapshot](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v13.txt) · [vollständige Analyse](decks/magar-of-the-magic-strings/analysis.md).
+
+## Malcolm, Keen-Eyed Navigator & Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
+
+**Bracket 3 / Upgraded (2026-10-20):** Izzet-Partner-Deck mit 25 Piraten inkl. Commander, Treasure-Engine, Bibliotheksplünderung, Evasion und Schiff The Indomitable. 100 Karten, 35 Länder, drei Game Changer (Rhystic Study, Fierce Guardianship, Cyclonic Rift). Bewusst ohne frühe Malcolm/Glint-Horn-Buccaneer-Endlosschleife.
+
+- Aktuelle importierbare Liste: [decks/malcolm-breeches-pirates/current.txt](decks/malcolm-breeches-pirates/current.txt)
+- Spielplan, Bracket und Kandidaten: [decks/malcolm-breeches-pirates/analysis.md](decks/malcolm-breeches-pirates/analysis.md)
