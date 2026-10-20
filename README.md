@@ -109,8 +109,9 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## Magar of the Magic Strings - Puppentheater der unmoeglichen Zauber
 
-**Bracket 3 / Upgraded (V9, 20.10.2026):** Rakdos-Friedhofszauber als verdeckte 3/3-Kreaturen, wiederholte freie Spruchkopien nach Kampfschaden, gezieltes Evasion-/Haste-/Schutzpaket.
+**Bracket 3 / Upgraded (V11, 20.10.2026):** Rakdos-Friedhofszauber als verdeckte 3/3-Kreaturen, wiederholte freie Spruchkopien nach Kampfschaden, gezieltes Evasion-/Haste-/Schutzpaket.
 
 - Aktuelle 100-Karten-Liste: [decks/magar-of-the-magic-strings/current.txt](decks/magar-of-the-magic-strings/current.txt)
 - Spielplan und Regeln: [decks/magar-of-the-magic-strings/README.md](decks/magar-of-the-magic-strings/README.md)
 - Bracket-, Karten- und Risikoanalyse: [decks/magar-of-the-magic-strings/analysis.md](decks/magar-of-the-magic-strings/analysis.md)
+- **V11:** Anger statt Peer into the Abyss; Grim Tutor statt Call Forth the Tempest; Untimely Malfunction statt Vandalblast; Mount Doom statt Rogue's Passage. V10 hatte zuvor Waste Not und Rise of the Dark Realms aufgenommen. Disrupt Decorum und die komplette Wheel-/Schutz-/Evasion-Engine bleiben. [V9](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v9.txt) · [V10](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v10.txt) · [V11](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v11.txt).

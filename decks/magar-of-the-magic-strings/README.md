@@ -1,10 +1,45 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Aktueller Stand:** 20. Oktober 2026 · **V9** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
+**Aktueller Stand:** 20. Oktober 2026 · **V11** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
 
 - [current.txt](current.txt) — einzige aktuelle, direkt importierbare 100-Karten-Liste.
-- [analysis.md](analysis.md) — V9 mit Liliana's Caress und Incendiary Command; Blut-/Discard-Synergien und historische Trade-offs.
-- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt).
+- [analysis.md](analysis.md) — V11: Anger, Tutoren, Schutz, Manabasis; ältere V10/V9-Analysen.
+- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt), [V11](versions/2026-10-20-b3-v11.txt).
+
+
+## V11 – Früherer Puppentreffer und höhere Zuverlässigkeit
+
+**Vier Tauschpaare zur V10:**
+1. **Peer into the Abyss → Anger:** Anger im Friedhof + kontrollierter Mountain gibt allen eigenen Puppen **Haste**, sodass sie auch dann noch im selben Zug zuschlagen können, wenn Magar sie erst im eigenen Zug erzeugt.
+2. **Call Forth the Tempest → Grim Tutor:** Universaltutor zum zuverlässigen Finden von Anger-Setup, Schutz, Evasion oder Discard statt eines weiteren teuer zu wirkenden Haymakers. Die zwei verlorenen Big-Spells sind im [erweiterten Kreis](analysis.md) vermerkt.
+3. **Vandalblast → Untimely Malfunction:** {1}{R} für zielgenaue Umleitung, Artefaktentfernung oder bis zu zwei nichtblockende Kreaturen. **Vor der Blockerdeklaration** wirken; gegnerische Artefakt-Boards können jetzt nicht mehr für {4}{R} einseitig gewiped werden.
+4. **Rogue's Passage → Mount Doom:** immer ungetapptes Land für {B}/{R} gegen 1 Leben, keine Artefaktvoraussetzung; verliert die teure, aber universelle Evasion-Aktivierung.
+
+**Beste Magar-Linie:** Magar T3 mit fixiertem Schwarz-Rot; Anger über Unmarked Grave, Entomb oder Looting in den Friedhof; in unserem Zug {1}{B}{R} für eine große Sorcery-Puppe aus dem Friedhof bezahlen; dank Mountain sofort mit Key to the City/Key to the Side-Door/Silver Shroud Costume für den ersten kostenlosen Copy-Cast angreifen. Alternativ wie bisher im gegnerischen Endsegment aktivieren und im folgenden Zug regulär angreifen; in dieser Linie bringt Haste keine zusätzliche Runde.
+
+**Schutz und Suche:** Greaves, Boots, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Deflecting Swat bleiben; Untimely ergänzt flexible Reaktion und Evasion. Grim Tutor ergänzt Demonic Tutor/Gamble/Final Parting/Increasing Ambition. **Ransack the Lab bleibt**: Es kostet {1}{B}, nicht drei Mana, und bereitet den Friedhof mit zwei Karten für nur zwei Mana vor.
+
+**Unberührt:** Disrupt Decorum (Goad), Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Blood for the Blood God!, Breach the Multiverse, Rise of the Dark Realms, Mask of Memory und die gesamte übrige Evasion-Engine. Keine neue frühe Infinite-Combo, genau drei Game Changers. Exakt **100 Karten**, **36 Länder**. V10 bleibt als [byteidentischer Snapshot](versions/2026-10-20-b3-v10.txt) erhalten; [V11-Snapshot](versions/2026-10-20-b3-v11.txt) entspricht current.txt.
+
+**PR-Review-Korrektur:** Die ältere Analyse unterschätzte Undying Malice/Feign Death: Magar stirbt auch beim Opfern oder bei tödlicher Toughness-Reduktion und kommt nach Auslösen des Rückkehr-Triggers grundsätzlich zurück, sofern kein Exilersatz greift. Die neue Analyse behebt diese Fehlaussage. Details, Gegenargumente und Erweiterter Kreis in [analysis.md](analysis.md).
+
+---
+
+## Historische V10 – Waste Not und Rise of the Dark Realms
+
+**Genau zwei Änderungen an V9:** **Brass's Bounty → Waste Not**, **In Garruk's Wake → Rise of the Dark Realms**. **Incendiary Command, Liliana's Caress, Bloodchief Ascension und Disrupt Decorum bleiben.** Das defensive Goad, alle Evasion- und aktuell verfügbaren Schutzmittel, die sieben Mana-Artefakte und 36 Länder bleiben erhalten.
+
+**Waste Not** (2 Mana) erzeugt aus gegnerischen Discards bei unseren drei Wheels und wiederholten kostenlosen Wheel-Kopien je nach Kartentyp 2/2 Zombies, je Landkarte {B}{B} oder je Nichtland-/Nichtkreaturenkarte eine gezogene Karte. Ohne gegnerischen Discard tut es nichts. Nach einem Wheel im Kampfschadensschritt schwarzes Mana bei verfügbarem rotem Mana **noch im Schritt** in Magar-Aktivierungen investieren; ungenutztes Mana verfällt beim Schrittwechsel. Die neue Puppe kann erst später angreifen.
+
+**Rise of the Dark Realms** (neun Mana normal) bringt **alle** Kreaturenkarten aller Friedhöfe unter unsere Kontrolle zurück und lässt sich als Magar-Puppe kostenlos wiederholt wirken. Das passt zu durch Disrupt Decorum gestorbenen Kreaturen und Breach the Multiverse. **In Garruk's Wake** war stattdessen ein einseitiger Kreaturen-/Planeswalker-Wipe; Verlust ist gegen große Boards relevant, aber Fire Covenant/Call Forth the Tempest/Deadly Rollick und die gesamte Evasion bleiben. Rise wird durch leere oder exilierte Friedhöfe stark geschwächt.
+
+**Warum kein Mithril Coat?** Greaves, Boots, Deflecting Swat, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Silver Shroud Costume sichern bereits mehrere Situationen ab. Coat gibt dauerhafte Unzerstörbarkeit an Magar, schützt aber weder vor Exil/Opfern/-X/-X noch über seinen ETB-Trigger die nichtlegendären Puppen. Ohne einen nachweislich schwächeren Slot werden weder zusätzliche Evasion noch Big Score oder Black Market Connections geopfert. **Mithril Coat und Imp's Mischief bleiben im erweiterten Kreis.**
+
+**Bracket 3:** 100 Karten, 36 Länder, 29 Instants/Sorceries, genau drei bekannte Game Changers (Demonic Tutor, Gamble, Jeska's Will). Keine neue frühe 2-Karten-Infinite Combo. **Keine reale Multiplayer-Winrate verifiziert.** Details einschließlich aller zehn Kandidaten, Manaprüfung, Kosten/Regeln und Gegenargumente stehen in [analysis.md](analysis.md). V9 bleibt als [historischer Snapshot](versions/2026-10-20-b3-v9.txt) byteidentisch; [V10](versions/2026-10-20-b3-v10.txt) ist die unveränderte **historische V10-Liste**. Die einzige aktuelle Deckliste ist V11 in [current.txt](current.txt).
+
+---
+
+## Historische V7–V9-Entwicklung
 
 ## V7 – Zwei überprüfte Anpassungen
 
@@ -76,9 +111,9 @@ Verursacht sie **Kampfschaden an einem Spieler**, kannst du eine Kopie der notie
 
 `Disrupt Decorum` ist ein **Kernelement der defensiven Politik** und bleibt unverändert. Alle gegnerischen Kreaturen werden goaded und müssen soweit möglich andere Gegner angreifen. Als Magar-Puppe immer wieder ausgelöst hält der Zauber die Gegner beschäftigt, damit wir Ressourcen und sichere Angriffe vorbereiten können. Das ersetzt weder Unblockbarkeit für unseren unmittelbaren Angriff noch verhindert Goad bereits deklarierte Blocker.
 
-## Increasing Ambition: ungewöhnlicher Magar-Doppeltutor
+## Increasing Ambition: Tutorkopie mit offener Herkunftsfrage
 
-`Increasing Ambition` ist eine Hexerei für {4}{B}, die aus der Hand **eine** beliebige Karte sucht. **Wenn sie aus dem Friedhof gewirkt wurde**, sucht sie **zwei beliebige Karten**. Die per Magar beim Treffer **gewirkte Kartenkopie** erfüllt laut den Kartenkopie-Regeln für die Erstellung aus dem letzten bekannten Friedhofs-Ursprung diese Bedingung. Wiederholte Puppentreffer liefern deshalb wiederholt zwei gezielte Karten auf die Hand, z. B. `Key to the City` plus `Embercleave` oder geeignete Schutz- und Evasion-Karten. `Increasing Ambition` besitzt außerdem Flashback {7}{B}, falls sie normal im Friedhof liegt. Das ist eine ungewöhnliche Regelinteraktion: Eine digitale Plattform muss die Kopie als aus dem Friedhof gewirkt behandeln; bei Abweichungen Plattform-Regelumsetzung gesondert prüfen.
+`Increasing Ambition` ist eine Hexerei für {4}{B}, die aus der Hand **eine** beliebige Karte sucht. **Wenn sie aus dem Friedhof gewirkt wurde**, sucht sie **zwei beliebige Karten**. Ob eine spezielle **Magar-Kopie** dabei als **aus dem Friedhof gewirkt** gilt, ist aus der ausdrücklich herangezogenen CR 707.14 allein nicht sicher: Die Regel legt ihre kopierten Eigenschaften anhand ihres letzten Zustands im Friedhof fest, bestimmt aber die Kopie-Entstehungszone nicht ausdrücklich. Den **zweifachen Tutor deshalb nicht als bestätigt einplanen**, bis ein regelkundiger Judge die Interaktion eindeutig geklärt hat. Ein sicherer einzelner Tutor pro Treffer bleibt dennoch stark. `Increasing Ambition` besitzt außerdem Flashback {7}{B}, falls sie normal im Friedhof liegt. Der Flashback-Fall beim tatsächlichen Wirken der Originalkarte aus dem Friedhof ist davon getrennt; eine konkrete digitale Plattform ist kein ausreichender Beleg für den Zwei-Karten-Bonus der Magar-Kopie.
 
 ## Risiken und Grenzen
 
