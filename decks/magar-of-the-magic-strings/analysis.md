@@ -67,7 +67,7 @@ Das bereits vorhandene V10-Review wies korrekt darauf hin: **Undying Malice und 
 
 # Magar of the Magic Strings – Bracket 3, V10
 
-**Stand:** 20. Oktober 2026 · **Aktive Liste:** [current.txt](current.txt) · **Commander:** Magar of the Magic Strings · Rakdos · Ziel **Bracket 3**, ohne Budgetgrenze. **Herkunft:** main ca085ba77fe27988043743da3bd547d1d08e1b4b (V9).
+**Historischer Stand V10:** 20. Oktober 2026 · **Zugehörige Liste:** [versions/2026-10-20-b3-v10.txt](versions/2026-10-20-b3-v10.txt) (**nicht** das inzwischen aktualisierte current.txt) · **Commander:** Magar of the Magic Strings · Rakdos · Ziel **Bracket 3**, ohne Budgetgrenze. **Herkunft:** main ca085ba77fe27988043743da3bd547d1d08e1b4b (V9).
 
 ## Entscheidung und exakt zwei Kartenwechsel
 
@@ -147,11 +147,11 @@ Relative Beurteilung ohne behauptete Partietests: **+++** sehr hoch; **++** hoch
 
 ## Archiv: vollständige unveränderte V9-Analyse
 
-Die folgende historische Dokumentation beschreibt **V9**, nicht den neuen V10-Kartenstand. Die byteidentische V9-Liste steht unter [versions/2026-10-20-b3-v9.txt](versions/2026-10-20-b3-v9.txt).
+Die folgende historische Dokumentation beschreibt **V9**, nicht den neuen V11-Kartenstand. Die byteidentische V9-Liste steht unter [versions/2026-10-20-b3-v9.txt](versions/2026-10-20-b3-v9.txt).
 
 # Magar of the Magic Strings – Bracket 3, V9
 
-**Stand:** 20. Oktober 2026 · **Aktive Liste:** [current.txt](current.txt) · **Commander:** Magar of the Magic Strings · **Rakdos** · **Bracket 3**, ohne Budgetgrenze.
+**Historischer Stand V9:** 20. Oktober 2026 · **Zugehörige Liste:** [versions/2026-10-20-b3-v9.txt](versions/2026-10-20-b3-v9.txt) (**nicht** das inzwischen aktualisierte current.txt) · **Commander:** Magar of the Magic Strings · **Rakdos** · **Bracket 3**, ohne Budgetgrenze.
 
 Die historisch letzte gemergte V8-Liste wurde vor den Änderungen **byteidentisch** archiviert: [versions/2026-10-20-b3-v8.txt](versions/2026-10-20-b3-v8.txt). Die vollständige Einzelbewertung der **32 ursprünglichen Instants/Sorceries** ist in der [V8-Analyse auf GitHub](https://github.com/alexdermohr/magic/blob/cec24c621e1157cdd3ea33cb803ec34a82dab761/decks/magar-of-the-magic-strings/analysis.md) nachlesbar.
 
