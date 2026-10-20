@@ -1,3 +1,70 @@
+# Magar of the Magic Strings – Commander Bracket 3, V11 (2026-10-20)
+
+**V11-Liste:** [current.txt](current.txt) · **Snapshot:** [versions/2026-10-20-b3-v11.txt](versions/2026-10-20-b3-v11.txt) · **V10 byteidentisch bewahrt:** [versions/2026-10-20-b3-v10.txt](versions/2026-10-20-b3-v10.txt). Grundlage: V10-Branch aus PR #41, nicht die noch unveränderte main-V9.
+
+## Ziel und Entscheidung
+
+Das Deck priorisiert **Manafarbverfügbarkeit, zielgenaue Suche, Schutz und garantierte Kampftreffer** vor weiterer großer Zauberspruch-Dichte. Magars Goad-/Wheel-/Bloodchief-Identität bleibt intakt; es handelt sich um **vier begründete Tauschpaare**, nicht einen Neuaufbau.
+
+| V10 heraus | V11 hinein | Funktion und erwarteter Gewinn | Stärkstes Gegenargument |
+|---|---|---|---|
+| Peer into the Abyss | **Anger** | Anger im Friedhof + eigener Mountain gibt **allen** eigenen Kreaturen Eile, einschließlich **im eigenen Zug** erzeugter Magar-Puppen. Für den entscheidenden ersten Treffer entfällt dann oft ein kompletter Zug Wartezeit. **Unmarked Grave**, Entomb, Vile Entomber und Final Parting können Anger gezielt in den Friedhof legen. | Peer war ein starker einmaliger Mass-Draw- oder Halbierungs-Zauber als kostenlose Magar-Kopie; Anger ohne Mountain oder Friedhofszugang ist eine teure 2/2-Kreatur. |
+| Call Forth the Tempest | **Grim Tutor** | Universaltutor für {1}{B}{B} sucht zuverlässig jede fehlende Karte – von Schutz oder Farbquelle bis Discard-/Evasion-Engine. Im Gegensatz zu zufälligen Topkarten verbessert er Konsistenz. Als Magar-Kopie wiederholbar; 3 Lebensverlust pro Cast bleiben. | Call Forth war ein einzigartiger **Cascade, cascade**-Haymaker und ein einseitiger Board-Sweeper. Wir verlieren eine spektakuläre, wiederholbare Siegoption. |
+| Vandalblast | **Untimely Malfunction** | {1}{R}-Instant kombiniert Artefaktzerstörung, **Umleitung genau eines gezielten Zaubers/einer Fähigkeit**, oder verhindert, dass bis zu zwei Zielkreaturen blocken. Schützt Magar oder ebnet **vor Blockerdeklaration** den Puppen den Weg. | Vandalblast überladen für {4}{R} zerstört sämtliche gegnerischen Artefakte – ein in artefaktlastigen Runden bedeutender einmaliger Vorsprung. Diese Fähigkeit geht verloren. |
+| Rogue's Passage | **Mount Doom** | Untappt und **zuverlässig {B} oder {R} gegen 1 Leben**; kein Artefakt als Voraussetzung. Ermöglicht regelmäßiger die {1}{B}{R}-Magar-Aktivierung als eine farblose Quelle mit vier Mana teurer Evasion. | Verlust einer absolut universellen, wenn auch teuren, Unblockbar-Landfähigkeit; Mount Doom ist **kein Mountain** und aktiviert Anger selbst nicht. |
+
+## Anger-Timing – nicht pauschal ein ganzer Zug schneller
+
+- Magar darf für {1}{B}{R} auch im gegnerischen Endsegment aktiviert werden. Eine dort entstandene Puppe darf im nächsten eigenen Zug bereits **ohne Anger** angreifen.
+- **Anger verbessert das andere Zeitfenster entscheidend:** Werden durch Magar erst **während des eigenen Zugs** eine oder mehrere Puppen erzeugt, können sie mit Anger + Mountain **noch in diesem Zug** angreifen. Ohne Haste müssten sie bis zum nächsten eigenen Zug warten.
+- Die aktuelle Manabasis enthält **sechs echte Mountain-Karten**: Badlands, Blood Crypt, Smoldering Marsh, Raucous Theater und 2× Mountain. Vier Fetchlands können gezielt Mountain-Duals finden (Bloodstained Mire, Polluted Delta, Marsh Flats, Scalding Tarn); Prismatic Vista kann einen Basis-Mountain suchen. Mount Doom besitzt keinen Mountain-Subtyp.
+- Anger ist **Kreatur**, kein Magar-Puppenziel. Sie muss über Anger selbst, Faithless Looting, Anje, Mask of Memory, Bitter Reunion, Fable, Big Score, Demand Answers, Wheels, Dredge oder Friedhofstutoren im Friedhof liegen. Wenn Gegner den eigenen Friedhof exilieren, endet ihre Haste-Wirkung.
+- **Ransack the Lab bleibt bewusst:** Es kostet richtig **{1}{B} (zwei Mana)**, schaut drei Karten an, nimmt eine auf die Hand und legt zwei in den Friedhof. Die frühe Fremdbehauptung, es koste drei Mana, war falsch. Gerade mit Anger und mehreren Spells als Friedhofszielen wäre sein Verlust schlecht. Grim Tutor ersetzt ausdrücklich **nicht** Ransack.
+
+## Prioritäten und bewusst erhaltene Pakete
+
+**Mana:** 36 feste Länder, sieben frühe Mana-Artefakte, Jet/Mox-Beschleuniger mit möglichen Game-Changer- oder Farbproblemen nicht blind aufnehmen. Mount Doom erhöht die Verfügbarkeit der beiden Farben ohne Reduktion der Länderanzahl; Jeska's Will, Birgi, Storm-Kiln Artist, Big Score, Waste Not, Face-Breaker und Black Market Connections bleiben als Beschleunigungs-Engines.
+
+**Suchen/Setup:** Demonic Tutor, Gamble, Grim Tutor (universell); Entomb, Unmarked Grave, Vile Entomber, Final Parting (Friedhof); Increasing Ambition (als Magar-Kopie mindestens ein Tutor); Faithless Looting, Ransack the Lab, Doom Whisperer, Ripples of Undeath, Stinkweed Imp, Anje und Mask of Memory als Kartenauswahl/Friedhofsvorbereitung.
+
+**Schutz:** Lightning Greaves, Swiftfoot Boots, Deflecting Swat, Malakir Rebirth, Plaza of Heroes, Silver Shroud Costume und ausgerüstetes Conqueror's Flail bleiben. Untimely Malfunction erweitert den Schutz gegen **einzelne zielende gegnerische Zauber oder Fähigkeiten**, nicht gegen nichtzielendes Removal/Wraths. Cavern of Souls schützt das farbentsprechend bezahlte Wirken des Minotaur-Kommandeurs, nicht die aktivierte Fähigkeit. Kaya's Ghostform (Tod **und** Exil) und Mithril Coat (dauerhaft gegen Zerstörung) bleiben Kandidaten, aber es wird kein bewährter Evasion-Slot für redundanten Schutz geopfert.
+
+**Evasion und Goad:** Key to the City, Key to the Side-Door, Thieves' Tools, Prowler's Helm, Whispersilk Cloak, Silver Shroud Costume, Dauthi Embrace, Traitor's Clutch, Access Tunnel, The Black Gate und Embercleave bleiben; Untimely kommt zusätzlich hinzu. **Disrupt Decorum ist unantastbar.** Magars verdeckte Puppen besitzen Stärke 3, und Verstärkungen darüber können Thieves' Tools und Access Tunnel unbrauchbar machen.
+
+**Wincons:** Incendiary Command + Wheel of Fortune + Dark Deal + Waste Not + Liliana's Caress + Bloodchief Ascension; Blood for the Blood God!; Breach the Multiverse und Rise of the Dark Realms; Disrupt Decorum als stetige Goad-/Politik-Engine. Beide entfernten teuren Zauber werden als bewusst verlorene, bedingt wiederaufzunehmende Alternativen geführt. Mirkwood Bats und Mindcrank bleiben ausgeschlossen.
+
+## Formale Daten und Bracket 3
+
+**100 Karten**: Magar + 8 weitere Kreaturen + 19 Artefakte + 8 Verzauberungen + 28 Instant/Sorcery + 36 feste Länder; Malakir Rebirth ist als Instant/MDFC gezählt. Singleton außer 3 Swamp und 2 Mountain. **Game Changers unverändert: Demonic Tutor, Gamble, Jeska's Will (3/3).** Die vier Neuzugänge sind Rakdos-kompatibel, Commander-legal und nach der aktuellen offiziellen Einordnung keine Game Changers. Keine beabsichtigten frühen 2-Karten-Infinite-Combos, Massenlandzerstörung, Extra-Turn- oder Extra-Combat-Schleifen. Die strukturelle GitHub-CI prüft nicht vollautomatisch Oracle/Bracket/Partie-Winrate.
+
+## Codex-Review #41: Sachfehler korrigiert
+
+Das bereits vorhandene V10-Review wies korrekt darauf hin: **Undying Malice und Feign Death schützen Magar auch vor Opferung und tödlicher Widerstandsreduktion, wenn Magar dadurch tatsächlich stirbt** (er landet im Friedhof). Die Rückkehr ist gegebenenfalls gegen andauerndes -X/-X instabil. Sie retten ihn **nicht vor Exil** und nicht vor dem Exilersatz der Magar-Puppen. Die folgenden historischen V10-Absätze wurden an dieser Stelle inhaltlich korrigiert; es handelt sich ausdrücklich nicht um eine neue Deckkarte.
+
+**Regelgrenzen:** Untimely Malfunction muss seinen „can't block“-Modus **vor der Blockerdeklaration** wirksam machen; als durch Kampfschaden erst nach dem Blocken ausgelöste Magar-Kopie verhindert es denselben Block nicht nachträglich. Die Umleitung funktioniert nur für einen Zauber/eine Fähigkeit mit **genau einem Ziel**. Anger gewährt Haste lediglich, solange es im Friedhof und ein Mountain unter eigener Kontrolle ist.
+
+**Quellen:** [Anger](https://mtg.wtf/card/jud/77/Anger), [Grim Tutor](https://mtg.wtf/card/m21/103/Grim-Tutor), [Untimely Malfunction](https://mtg.wtf/card/dsk/161/Untimely-Malfunction), [Mount Doom](https://mtg.wtf/card/ltr/258/Mount-Doom), [Ransack the Lab](https://mtg.wtf/card/mh1/103/Ransack-the-Lab), [offizieller Commander-Bracket-Standard](https://magic.wizards.com/en/formats/commander).
+
+## Erweiterter Kreis (derzeit nicht eingebaut)
+
+1. **Kaya's Ghostform:** {B}, einmaliger Schutz vor Sterben oder Exil des Magar. Negativpunkt: Vorab-Aura, Shroud-Konflikt, kein Schutz vor Bounce; erst bei Removal-lastiger Meta zusätzlich.
+2. **Mithril Coat:** {3} Flash, dauerhafte Unzerstörbarkeit gegen zerstörende Wipes. Kein Exil-/Opfer-/Toughness-Schutz; erst bei häufigen Wraths.
+3. **Imp's Mischief / Undying Malice / Feign Death:** günstige andere Schutzprofile; nicht blind vervielfachen.
+4. **Dark Ritual:** kurzfristiger {B}{B}{B}-Schub für einen Turn-2-Magar, aber kein dauerhafter Ramp, rotes Mana bleibt erforderlich und es erzeugt keine Friedhofsziele.
+5. **Spire of Industry:** bessere Alternative zu Rogue's Passage als farblose Utility-Länder, aber farbiges Mana nur mit eigenem Artefakt; Mount Doom ist für unseren Plan zuverlässiger.
+6. **Grenzo, Havoc Raiser:** 2-Mana-Goad und fremde Bibliothekskarten nach Treffern. Stark, wenn der Kernplan schon funktioniert, aber nicht als erster Ermöglicher.
+7. **Vandalblast:** bei Artefakt-Metas wieder aufnehmen; Untimely ersetzt ausdrücklich nicht den Overload-Masseneffekt.
+8. **Call Forth the Tempest:** bei Bedarf mehr Spektakel/höheres Ceiling statt früherer Suche; Cascade, cascade bleibt einzigartig.
+9. **Peer into the Abyss:** optionales hochriskantes Riesenziehen; aufgrund des neuen Haste-Enablers entbehrlicher.
+10. **Reforge the Soul, Syphon Mind, Delirium Skeins:** zusätzliche Wheel-/Discard-Dichte erst bei nachgewiesen zu wenigen Auslösern.
+11. **Lizard Blades:** Doppelschlag ohne Powerboost, aber Embercleave liefert gleichzeitig Trample/Flash; erst nach Matchup-Daten.
+12. **Mindcrank und Mirkwood Bats:** weiterhin ausgeschlossen.
+
+---
+
+## Historische, korrigierte V10-Analyse (unterhalb nur zur Nachvollziehbarkeit)
+
+
 # Magar of the Magic Strings – Bracket 3, V10
 
 **Stand:** 20. Oktober 2026 · **Aktive Liste:** [current.txt](current.txt) · **Commander:** Magar of the Magic Strings · Rakdos · Ziel **Bracket 3**, ohne Budgetgrenze. **Herkunft:** main ca085ba77fe27988043743da3bd547d1d08e1b4b (V9).
@@ -22,7 +89,7 @@ Relative Beurteilung ohne behauptete Partietests: **+++** sehr hoch; **++** hoch
 | 1 | **Waste Not** | +++ | früh, 2; ohne Wheel zunächst 0 | andersartige Ressourcenauszahlung, überschneidet sich mit Treasure-Mana | 0 | zulässig, 0 GC | **Einbauen statt Brass's Bounty** |
 | 2 | **Mithril Coat** | ++ | mittel, 3 mit Flash; später Equip 3 | Greaves, Boots, Malakir Rebirth, Plaza of Heroes | ++ gegen Zerstörung/Wipes; 0 gegen Exil | zulässig, 0 GC | **Beobachten**, aktuell kein klar überlegenes Opfer |
 | 3 | **Rise of the Dark Realms** | +++ | hart 9, als Magar-Kopie 0 | Breach reanimiert nur begrenzt, Rise alle Kreaturen | + indirekt durch Board | zulässig, 0 GC | **Einbauen statt In Garruk's Wake** |
-| 4 | **Undying Malice / Feign Death** | ++ | früh, 1 | Malakir Rebirth; ein Einmal-Schutz mehr | ++ nur gegen Sterben, nicht Exil/Sacrifice/Negativstärke; keine Rettung der Puppen bei Exilersatz | zulässig, 0 GC | Beobachten; möglicher Big-Score-Slot zu teuer im Engine-Verlust |
+| 4 | **Undying Malice / Feign Death** | ++ | früh, 1 | Malakir Rebirth; ein Einmal-Schutz mehr | ++ bei tatsächlichem **Sterben** auch durch Opfern oder Widerstand 0; nicht gegen Exil oder Magar-Puppen-Exilersatz; anhaltendes -X/-X beachten | zulässig, 0 GC | Beobachten; möglicher Big-Score-Slot zu teuer im Engine-Verlust |
 | 5 | **Imp's Mischief** | ++ | früh, 2 + Lebensverlust | Deflecting Swat, einzelne Boots/Schutzoptionen | ++ auf Einzelzielzauber, 0 auf Sweeper/Abilities | zulässig, 0 GC | Beobachten gegen Counter-/Target-Meta |
 | 6 | **Delirium Skeins** | ++ | mittel, 3, eigener Discard 3 | Wheel-/Discard-Paket | 0 | zulässig, 0 GC | Erweiterter Kreis, mangels Nachziehen riskant |
 | 7 | **Syphon Mind** | ++ | mittel, 4 | Kartenziehen/Discard-Slots | 0 | zulässig, 0 GC | Erweiterter Kreis; ohne mehrere Gegner begrenzt |
