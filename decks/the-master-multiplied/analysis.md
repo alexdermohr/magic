@@ -2,7 +2,7 @@
 
 ## Ziel, Faktenlage, Scope
 
-Die zuletzt publizierte V4 wurde gezielt auf **Commander Bracket 3 (Upgraded)** optimiert. V1–V4 sind als tatsächlich existierende Listen archiviert. Liste und Versionen sind im selben Ordner. Drei Game Changer: **Ancient Tomb, Demonic Tutor, Jeska's Will**. Keine angezielte, schnelle deterministische Zwei-Karten-Endloskombination, kein Mass-Land-Denial, keine Extra-Turn-Kette. Stärke gegen typische Vierergruppen, keine unbewiesenen Winraten.
+Die aktive V5 baut auf der gezielt auf **Commander Bracket 3 (Upgraded)** optimierten V4 auf. V1–V4 sind als tatsächlich existierende Listen archiviert. Liste und Versionen sind im selben Ordner. Drei Game Changer: **Ancient Tomb, Demonic Tutor, Jeska's Will**. Keine angezielte, schnelle deterministische Zwei-Karten-Endloskombination, kein Mass-Land-Denial, keine Extra-Turn-Kette. Stärke gegen typische Vierergruppen, keine unbewiesenen Winraten.
 
 **Regelanker:** Offizielle Doctor-Who-Release-Notes https://magic.wizards.com/en/news/feature/magic-the-gathering-doctor-who-release-notes · Commander-Brackets-Original https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta · offizielle Bracket-Aktualisierungen https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 · Live-Scryfall-Daten über validate.py.
 
@@ -11,7 +11,7 @@ Die zuletzt publizierte V4 wurde gezielt auf **Commander Bracket 3 (Upgraded)** 
 | Heraus | Hinein | Begründung und stärkstes Gegenargument |
 |---|---|---|
 | **Grenzo, Havoc Raiser** | **Ingris Stingerquill** | Ingris (Manakosten **{B}{R}{R}**) verursacht bei **jedem deklarierten eigenen Angreifer** durch diesen Angreifer je **1 Schaden an jedem Gegner**. Das braucht keinen Treffer und skaliert bei späteren Master-Angriffen extrem stark; der Commander kann aus 3 Mana eine eigenständige Gruppenangriffs-Engine machen, besonders mit **Ob Nixilis, Captive Kingpin**. Ingris ist legendär und hat Stärke 1 (Imperial Recruiter findet sie). **Gegenargument:** Grenzo kostet zwei statt drei Mana, kann wiederholt fremde Karten zugänglich machen und Goad-Politik erzeugen; die höhere doppelt-rote Farbanforderung kann in Starthänden bremsen. |
-| **Feldon of the Third Path** | **Saw in Half** | Feldon braucht Kreaturen im **eigenen Friedhof**, Aktivierung für {2}{R} und sofortiges Tappen. **Saw in Half ({2}{B}, Spontanzauber)** verdoppelt jetzt jede *eigene* geopferte/zuvor zerstörbare Kreaturen-ETB-Wirkung (z. B. Gray Merchant, Massacre Wurm) auch ohne Master: Nur wenn das Ziel tatsächlich stirbt, entstehen zwei permanent bestehende Tokenkopien mit halbierter Stärke und Widerstandskraft, jeweils aufgerundet. Zwei Master-Tokens behalten untereinander ihre statischen Fähigkeiten. **Gegenargument:** Das Original wird zerstört (auch ggf. der echte Commander), Saw scheitert als Doppelung an Unzerstörbarkeit und ist nur einmal nutzbar. Feldon hätte über mehrere Züge wiederholt Kreaturen zurückholen können. |
+| **Feldon of the Third Path** | **Saw in Half** | Feldon braucht Kreaturen im **eigenen Friedhof**, Aktivierung für {2}{R} und sofortiges Tappen. **Saw in Half ({2}{B}, Spontanzauber)** zerstört im eigenen Plan eine noch auf dem Spielfeld befindliche Kreatur (z. B. Gray Merchant, Massacre Wurm), um ihre ETB-Wirkung auch ohne Master doppelt zu erhalten: Nur wenn das Ziel durch diesen Effekt stirbt, erzeugt sein Beherrscher zwei permanent bestehende Tokenkopien mit halbierter Stärke und Widerstandskraft, jeweils aufgerundet. Bereits geopferte oder vorher zerstörte Kreaturen sind keine legalen Ziele mehr. Zwei Master-Tokens behalten untereinander ihre statischen Fähigkeiten. **Gegenargument:** Das Original wird zerstört (auch ggf. der echte Commander), Saw scheitert als Doppelung an Unzerstörbarkeit und ist nur einmal nutzbar. Feldon hätte über mehrere Züge wiederholt Kreaturen zurückholen können. |
 | **Dolmen Gate** | **Liquimetal Torque** | Acht statt sieben tatsächliche Mana-Artefakte und die zusätzliche Zweimana-Rampe beschleunigen das Erreichen bzw. erneute Wirken des **Sechs-Mana-Commanders**. Torque produziert farbloses Mana, kann aber alternativ ein gegnerisches **Nichtland-Permanent** zu einem Artefakt machen, das danach Vandalblast entfernt. **Gegenargument:** Dolmen Gate verhindert beim Angriff Kampfschaden an eigenen Angreifern; dieser Schutz für das *Original* geht verloren. Die bereits durch Myriad erhaltenen Master-Tokens schützen einander jedoch vor ausgelösten Exil-/Opfertriggers, wenn das Original im Kampf stirbt; vor Exil-Wipes schützt das nicht. |
 | **Feed the Swarm** | **Withering Torment** | Gegen Kreaturen und Verzauberungen gleiche Zielklassen, aber für **{2}{B} als Spontanzauber** statt Hexerei. Der Lebensverlust ist fix 2 statt abhängig vom Manawert; erlaubt auch Antworten im gegnerischen Zug. **Gegenargument:** Ein Mana teurer, schlechter beim Entfernen sehr günstiger Verzauberungen bei bereits gefährlich niedrigem Leben. |
 
@@ -221,3 +221,42 @@ python3 decks/the-master-multiplied/validate.py --oracle
 ```
 
 Diese Tests validieren importierbare Listen, V1/V2/V3/V4-Archivierung und aktuelle Oracle-Namen, Commander-Legalität, Farbidentität, Landzählung, Game-Changer-Flags und Manakurve. Sie simulieren weder einen vollständigen Magic-Priority-/State-Based-Action-Stack noch echte Multiplayer-Partien. Ohne solche Partietests werden keine Kampfabläufe als end-to-end „getestet“ bezeichnet.
+
+
+## Integrations- und Review-Nachprüfung vom 20.10.2026
+
+Main wurde normal integriert; beide zentralen READMEs, der zentrale Workflow mit
+PR-Merge-Checkout und der Scope-Guard stammen unverändert aus Main. Die aktuelle
+100-Karten-V5 und alle historischen V1–V4-Snapshots bleiben byteidentisch.
+
+Der eigene Validator mit `--oracle` bestätigt erneut Rakdos-Commander-Legalität,
+36 Land-Vorderseiten plus Malakir als MDFC, acht Manaartefakte und genau Ancient
+Tomb, Demonic Tutor und Jeska's Will als Game Changer. Die 100 Slots enthalten
+96 verschiedene Namen; der Oracle-Ausgabetext nennt jetzt beide Zahlen korrekt.
+Papierdrucke wurden ergänzend über Oracle-IDs nachgewiesen, wenn Scryfall einen
+digitalen Standarddruck geliefert hat (Badlands und Wheel of Fortune).
+
+Die fünf bisherigen Reviewkorrekturen wurden erneut geprüft: Great Train Heist
+kostet für den Extrakampf {2}{R}{R}; Orthion darf den legendären Master kopieren;
+Bats reagiert auf Erzeugen/Opfern statt beliebiges Sterben; Shredder erzeugt Kopien
+nur beim Angriff auf Spieler; die Draw-Alternative verwendet aktuelle Slots.
+Ingris sieht deklarierte Angreifer, keine angreifend eintretenden Myriad-Tokens;
+ein solches Schadensereignis an mehreren Gegnern löst Ob Nixilis nur einmal aus.
+Ingris' vorhandene {4}-Fähigkeit gibt nach der Cadet-Erzeugung allen eigenen
+Kreaturen Eile. Saw in Half benötigt ein noch vorhandenes Ziel und einen Tod durch
+seinen Zerstörungseffekt; es verwertet keine bereits geopferte Kreatur.
+
+Die endliche Myriad-/Stormsinger-Entwicklung und permanenten Master-Kopien bleiben
+erhalten. Aggravated Assault kostet pro Aktivierung {3}{R}{R}; wiederholte Kämpfe
+benötigen erneut finanzierte Aktivierungen. Ein ausgebautes Master-/Goldlust-Board
+kann genügend Treasure nachliefern; dies ist kein Beleg für eine stets endliche
+Kampfkette. Es wurde keine Beschleunigung oder Tutorplanung für einen frühen
+Infinite-Abschluss ergänzt. Die Bracket-Grenze bleibt bei der unabhängigen
+High-Critical-Nachprüfung zu berücksichtigen.
+
+Belege: [The Master](https://scryfall.com/card/who/146/the-master-multiplied),
+[Ingris](https://scryfall.com/card/fra/137/ingris-stingerquill),
+[Saw in Half](https://scryfall.com/card/unf/88/saw-in-half),
+[Great Train Heist](https://scryfall.com/card/otj/125/great-train-heist),
+[Aggravated Assault](https://scryfall.com/card/ons/185/aggravated-assault),
+[Goldlust Triad](https://scryfall.com/card/tdc/34/goldlust-triad).

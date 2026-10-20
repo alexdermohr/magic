@@ -129,7 +129,7 @@ def main() -> int:
     assert_ok(actual_lands==36,f"Expected 36 lands, found {actual_lands}")
     assert_ok("Malakir Rebirth" in found and "Land" in found["Malakir Rebirth"]["type_line"],
               "Expected dual-faced utility land Malakir Rebirth")
-    print("ORACLE PASS: live Scryfall: 100 names, Commander legal, Rakdos identities")
+    print(f"ORACLE PASS: live Scryfall: {len(current)} cards, {len(found)} unique names, Commander legal, Rakdos identities")
     print(f"LANDS PASS: {actual_lands} cards with land-front; Malakir Rebirth is a spell/land MDFC")
     print("GAME CHANGERS PASS:",", ".join(sorted(gc)))
     print("NONLAND MANA CURVE (unique cards):",json.dumps(sorted(nonland_mana.items())))
