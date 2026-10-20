@@ -1,6 +1,60 @@
+# Magar of the Magic Strings – Commander Bracket 3, V12
+
+**Stand: 20. Oktober 2026.** Aktive Liste: [current.txt](current.txt), byteidentisch mit [V12](versions/2026-10-20-b3-v12.txt). Historischer gemergter Ausgangspunkt: [V11](versions/2026-10-20-b3-v11.txt). **Exakt ein** tatsächlicher Kartentausch; alle übrigen 99 Karten sind gegenüber V11 unverändert.
+
+## V11 → V12: Funkenspalter heraus
+
+| Heraus | Hinein | Gewinn | Wichtigster Verlust |
+|---|---|---|---|
+| **Embercleave (Funkenspalter)** – {4}{R}{R}, Reduktion je Angreifer, Equip {3} | **Twinferno** – {1}{R}, Instant | Einmaliger Doppelschlag für eine eigene Puppe **oder** Kopie des nächsten in diesem Zug gewirkten Instant-/Sorcery-Zaubers. Damit kann die durch einen Treffer kostenlos **gewirkte** Magar-Kopie ebenfalls kopiert werden. Keine Erhöhung der 3/3-Stärke, also keine Spannung mit Access Tunnel und Thieves' Tools. | Funkenspalter verlieh dauerhaft Doppelschlag **und Trampelschaden** und konnte jede Runde umgerüstet werden. Twinferno ist nur ein einmaliger Effekt. |
+
+**Wirkzeitpunkt:** Um zwei Magar-Schadenstrigger zu bekommen, Twinferno vor dem ersten Kampfschadensschritt und nur für eine Puppe mit tatsächlich möglichem Spieler-Kampfschaden einsetzen. Der Doppelschlag gewährt keine Unblockbarkeit. Für den Kopiermodus Twinferno vor dem Magar-Kampfschaden wirken und keinen anderen Instant-/Sorcery-Zauber dazwischenschalten; Magars kostenlos erzeugte Kopie wird tatsächlich **gewirkt** und ist damit der nächste Spruch. Die zusätzliche Kopie von Twinferno wird selbst nicht gewirkt und erzeugt keinen weiteren Cast-Trigger.
+
+## Priorisierte weitere Streichkandidaten – alle derzeit bewusst noch enthalten
+
+Bewertung 1–5: je höher, desto unverzichtbarer die Karte für Mana, Suche/Friedhof, Magar-Schutz und sichere Treffer. **Keine** der folgenden Karten wird in V12 entfernt; das sind überprüfbare Hypothesen, keine gemessenen Winrates.
+
+| Rang | Karte | Unverzichtbarkeit | Grund für Streichprüfung | Gegenargument / Bedingung |
+|---:|---|---:|---|---|
+| 1 | **Big Score** | 3/5 | {3}{R} und eine zusätzliche Karte abwerfen: spät, gerade wenn Magar schon liegt; als kopierter Zauber bleibt die Abwurf-Zusatzkostenpflicht. | Liefert zwei **farbige Schätze**, zwei Karten und legt gezielt Anger oder einen Großzauber in den Friedhof. Erst gegen einen konkreten schnelleren Ramp-/Discard-Slot wie Burning Inquiry oder Dark Ritual tauschen. |
+| 2 | **Prowler's Helm** | 3/5 | {2} + Equip {2} für Evasion, die von vielen vorhandenen Karten ebenfalls geliefert wird. | Gegen Nicht-Walls praktisch zuverlässige Unblockbarkeit. Seine Entfernung reduziert die Dichte garantierter Kampftreffer – nur mit Ersatz für diese Rolle riskieren. |
+| 3 | **Bojuka Bog** | 3/5 | Kommt getappt; das Exilieren eines gegnerischen Friedhofs nimmt Rise of the Dark Realms mögliche Reanimationsziele. | Notfallantwort gegen Friedhofskombos. Rakdos Charm liefert eine zweite Friedhofsantwort. Zusätzlicher **Mountain** statt Bog würde Tempo und Anger-Mountain-Wahrscheinlichkeit verbessern. |
+| 4 | **Doom Whisperer** | 3/5 | Fünf Mana, bevor seine wiederholbare Surveil-2-Engine zur Verfügung steht; viele billigere Selfmill-/Tutor-Effekte vorhanden. | Wiederholbares Surveil 2 gegen zwei Leben, jederzeit und ohne Tap, kann Magars Friedhof sehr gezielt vorbereiten. Nicht ohne Ersatz früh aussortieren. |
+| 5 | **Dauthi Embrace** | 3/5 | {2}{B} + {1}{B} je Shadow-Nutzung kann in mehreren Zügen viel schwarzes Mana binden. | Wiederholbare, flexible Fast-Unblockbarkeit für beliebige Puppen; nur weg, wenn die übrige Evasion in echten Spielen genügt. |
+| 6 | **Increasing Ambition** | 4/5 | Fünfmana-Universaltutor konkurriert mit Demonic Tutor, Gamble und Grim Tutor. | Als Magar-Puppe wiederholt kostenlos mindestens **eine** beliebige Karte; ein Zweifach-Tutorbonus der Spezialkopie ist nicht als gesichert angesetzt. |
+| 7 | **Final Parting** | 4/5 | Fünf Mana sind für eine frühe Vorbereitung langsam. | Tutort **gleichzeitig** eine Karte zur Hand und eine in den Friedhof: besonders stark für Anger plus Schutz/Evasion. |
+| 8 | **Whispersilk Cloak** | 4/5 | {3} + Equip {2}; Shroud verhindert danach auch unsere eigenen Zielzauber auf die Puppe. | Unblockbarkeit **und Shroud** in einem Slot schützt Puppen und treibt zuverlässig Treffer durch. Nicht ohne gleichwertigen Schutz streichen. |
+| 9 | **Traitor's Clutch** | 4/5 | Aus der Hand fünf Mana; ein einmaliger Shadow-Effekt. | Aus dem Friedhof nur {1}{B} Flashback, ein wichtiges günstiges Angriffsfenster; mit Anger/Discard-Plänen kompatibel. |
+| 10 | **Stinkweed Imp** | 4/5 | Drei Mana, und Dredge 5 ersetzt einen Draw, statt Karten auf die Hand zu bringen. | Wiederholtes Friedhofsfüllen für Anger und große Magar-Sprüche. Mit Doom Whisperer/Ripples nicht gleichzeitig die Setup-Engine ausdünnen. |
+| 11 | **Liquimetal Torque** | 4/5 | Erzeugt nur farbloses Mana, während jede Magar-Aktivierung {B}{R} benötigt. | Bleibt einer der nur sieben günstigen Manaartefakte, beschleunigt immerhin das generische {1}. Nur gegen bessere permanente **farbige** Beschleunigung tauschen. |
+| 12 | **Conqueror's Flail** | 4/5 | Setup {2}+Equip {2}, Schutz nur während des eigenen Zuges, und der Powerbonus kann Stärke-3-Evasion ausschalten. | An **Magar** ausgerüstet verbietet er gegnerische Zauber während unseres Angriffs einschließlich Counterspells gegen die kostenlosen Magar-Kopien. Deshalb trotz Kosten vorrangig behalten. |
+
+## Erweiterter Kreis: mögliche Neuaufnahmen statt weiterer teurer Karten
+
+| Karte | Kosten | Potenzieller Gewinn | Noch nicht eingebaut wegen |
+|---|---|---|---|
+| **Burning Inquiry** | {R} | Jeder zieht drei und wirft drei Karten **zufällig** ab. Bei drei Gegnern mit jeweils drei Discards entstehen neun gegnerische Auslöser für Liliana's Caress, Waste Not und bei drei Quest-Marken Bloodchief Ascension. Einmana-Hexerei ist auch gutes Magar-Ziel. | Eigene Schlüsselkarten werden ebenfalls zufällig abgeworfen; kann gegnerische Friedhöfe füllen. |
+| **Kaya's Ghostform** | {B} | Schützt Magar bei **Tod oder Exil** nach vorherigem Verzaubern. | Shroud durch Lightning Greaves hindert Anlegen; bei Wahl der Kommandozone statt Friedhof/Exil kann Ghostform ihn nicht zurückholen. |
+| **Dark Ritual** | {B} | {B}{B}{B}, bis zu zwei Mana Nettobeschleunigung; frühe Magar-Aktivierung/Cast mit passendem {R}. | Einmalig, nur schwarzes Mana, keine dauerhafte Manaquelle oder Friedhofsvorbereitung. |
+| **Lizard Blades** | {1}{R}, Reconfigure {2} | Dauerhaft **wiederholbarer** Doppelschlag ohne Powerbonus, falls Twinferno als Einmal-Zauber zu wenig ist. | Bis zum ersten Anlegen insgesamt vier Mana; Reconfigure nur zu Hexerei-Zeiten, kein Kopiermodus. |
+| **Imp's Mischief** | {1}{B} | Umlenkung eines gegnerischen Einzielzaubers, einschließlich mancher Counterspells. | Lebensverlust und Überschneidung mit Deflecting Swat sowie Untimely Malfunction. |
+| **Mithril Coat** | {3} | Dauerhafte Unzerstörbarkeit für Magar gegen Zerstörung und passende Wraths. | Hilft nicht gegen Exil, Opfern, Bounce oder anhaltendes -X/-X. |
+| **Reforge the Soul** | {3}{R}{R} | Zusätzlicher Wheel-Effekt mit Miracle {1}{R}, wiederholt als Magar-Puppe gut mit Waste Not und Caress. | Fünfmana-Hand-Cast und symmetrische Kartenausbeute. |
+
+## Fixpunkte, Legalität und Verifikation
+
+**Nicht streichen ohne neuen gewichtigen Grund:** Disrupt Decorum; Anger; Bloodchief Ascension; Liliana's Caress; Waste Not; Wheel of Fortune, Dark Deal und Incendiary Command; Breach the Multiverse; Rise of the Dark Realms; Blood for the Blood God!; Mask of Memory; Key to the City; Key to the Side-Door; Thieves' Tools; Silver Shroud Costume; Lightning Greaves; Swiftfoot Boots; Entomb; Unmarked Grave. Mirkwood Bats und Mindcrank bleiben ausgeschlossen.
+
+**Deckstruktur V12:** genau 100 Karten, 1 Commander + 8 andere Kreaturen + **18 Artefakte** + 8 Verzauberungen + **29 Instants/Sorceries** + 36 feste Länder. Malakir Rebirth zählt als Instant-MDFC, nicht als festes Land. Singleton außer Swamp und Mountain. Rakdos-Farbidentität und **exakt drei** Game Changers: Demonic Tutor, Gamble, Jeska's Will. Twinferno ist kein Game Changer, keine neue frühe Zwei-Karten-Infinite-Combo. Der lokale GitHub-Validator prüft Kartenanzahl, Duplikate und Dokumentationslinks, nicht die komplette Oracle-Legalität oder reale Gewinnwahrscheinlichkeit.
+
+**Regelquellen:** [Embercleave](https://mtg.wtf/card/eld/120/Embercleave), [Twinferno](https://mtg.wtf/card/dmu/149/Twinferno), [Burning Inquiry](https://mtg.wtf/card/m10/128/Burning-Inquiry), [Lizard Blades](https://mtg.wtf/card/neo/153/Lizard-Blades) und [Wizards Commander-Format](https://magic.wizards.com/en/formats/commander).
+
+---
+
+## Historische V11-Analyse (gemergter Ausgangspunkt)
 # Magar of the Magic Strings – Commander Bracket 3, V11 (2026-10-20)
 
-**V11-Liste:** [current.txt](current.txt) · **Snapshot:** [versions/2026-10-20-b3-v11.txt](versions/2026-10-20-b3-v11.txt) · **V10 byteidentisch bewahrt:** [versions/2026-10-20-b3-v10.txt](versions/2026-10-20-b3-v10.txt). Grundlage: V10-Branch aus PR #41, nicht die noch unveränderte main-V9.
+**Historische V11-Liste:** [versions/2026-10-20-b3-v11.txt](versions/2026-10-20-b3-v11.txt) · **Snapshot:** [versions/2026-10-20-b3-v11.txt](versions/2026-10-20-b3-v11.txt) · **V10 byteidentisch bewahrt:** [versions/2026-10-20-b3-v10.txt](versions/2026-10-20-b3-v10.txt). Grundlage: V10-Branch aus PR #41, nicht die noch unveränderte main-V9.
 
 ## Ziel und Entscheidung
 
