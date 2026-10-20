@@ -109,7 +109,7 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## Jon Irenicus, Shattered One — Das vergiftete Geschenk
 
-**Bracket 3 / Upgraded (V6):** Dimir-Geschenke mit Jon-Kopien, Skullclamp-Tokenkartenvorteil, Vampire-Hexmage/Archfiend-Interaktion, Maze-of-Ith-Duellschutz und eigenständigen Attrition-/X-Spell-Finishern. Exakt drei Game Changer; echte Versionen V1–V5 archiviert.
+**Bracket 3 / Upgraded (V7):** Dimir-Geschenke mit Wretched Anurid und Ebon Drake als zusätzlichen dauerhaften Nachteilen, Jon-Kopien, Skullclamp-Tokenkartenvorteil, Maze-of-Ith-Duellschutz und eigenständigen Attrition-/X-Spell-Finishern. Exakt drei Game Changer; echte Versionen V1–V6 archiviert.
 
 - [Aktuelle 100-Karten-Liste](decks/jon-irenicus/current.txt)
 - [Strategie und kritische Regeln](decks/jon-irenicus/README.md)

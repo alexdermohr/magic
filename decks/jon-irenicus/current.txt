@@ -7,7 +7,7 @@
 1 Desecration Elemental
 1 Ebonblade Reaper
 1 Thought Eater
-1 Vampire Hexmage
+1 Wretched Anurid
 1 Flesh Reaver
 1 Grid Monitor
 1 Faerie Mastermind
@@ -25,6 +25,7 @@
 1 Crypt Ghast
 1 Spark Double
 1 Sakashima of a Thousand Faces
+1 Ebon Drake
 1 Sol Ring
 1 Arcane Signet
 1 Dimir Signet
@@ -38,7 +39,6 @@
 1 Bloodchief Ascension
 1 Bitterblossom
 1 Black Market Connections
-1 Windfall
 1 Bitterthorn, Nissa's Animus
 1 Irenicus's Vile Duplication
 1 Despotic Scepter
