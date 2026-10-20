@@ -31,6 +31,7 @@
 1 Ripples of Undeath
 1 Black Market Connections
 1 Fable of the Mirror-Breaker
+1 Bloodchief Ascension
 1 Brass's Bounty
 1 Breach the Multiverse
 1 Rise of the Dark Realms
@@ -42,7 +43,6 @@
 1 Disrupt Decorum
 1 Faithless Looting
 1 Cathartic Reunion
-1 Thrill of Possibility
 1 Demand Answers
 1 Big Score
 1 Wheel of Fortune
