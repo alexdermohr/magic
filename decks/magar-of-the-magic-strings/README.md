@@ -1,10 +1,27 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Aktueller Stand:** 20. Oktober 2026 · **V9** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
+**Aktueller Stand:** 20. Oktober 2026 · **V10** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
 
 - [current.txt](current.txt) — einzige aktuelle, direkt importierbare 100-Karten-Liste.
-- [analysis.md](analysis.md) — V9 mit Liliana's Caress und Incendiary Command; Blut-/Discard-Synergien und historische Trade-offs.
-- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt).
+- [analysis.md](analysis.md) — V10-Kandidatenmatrix, Schutz, alle Regeln und historisch erhaltene V9-Analyse.
+- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt).
+
+
+## V10 – Waste Not und Rise of the Dark Realms
+
+**Genau zwei Änderungen an V9:** **Brass's Bounty → Waste Not**, **In Garruk's Wake → Rise of the Dark Realms**. **Incendiary Command, Liliana's Caress, Bloodchief Ascension und Disrupt Decorum bleiben.** Das defensive Goad, alle Evasion- und aktuell verfügbaren Schutzmittel, die sieben Mana-Artefakte und 36 Länder bleiben erhalten.
+
+**Waste Not** (2 Mana) erzeugt aus gegnerischen Discards bei unseren drei Wheels und wiederholten kostenlosen Wheel-Kopien je nach Kartentyp 2/2 Zombies, je Landkarte {B}{B} oder je Nichtland-/Nichtkreaturenkarte eine gezogene Karte. Ohne gegnerischen Discard tut es nichts. Nach einem Wheel im Kampfschadensschritt schwarzes Mana bei verfügbarem rotem Mana **noch im Schritt** in Magar-Aktivierungen investieren; ungenutztes Mana verfällt beim Schrittwechsel. Die neue Puppe kann erst später angreifen.
+
+**Rise of the Dark Realms** (neun Mana normal) bringt **alle** Kreaturenkarten aller Friedhöfe unter unsere Kontrolle zurück und lässt sich als Magar-Puppe kostenlos wiederholt wirken. Das passt zu durch Disrupt Decorum gestorbenen Kreaturen und Breach the Multiverse. **In Garruk's Wake** war stattdessen ein einseitiger Kreaturen-/Planeswalker-Wipe; Verlust ist gegen große Boards relevant, aber Fire Covenant/Call Forth the Tempest/Deadly Rollick und die gesamte Evasion bleiben. Rise wird durch leere oder exilierte Friedhöfe stark geschwächt.
+
+**Warum kein Mithril Coat?** Greaves, Boots, Deflecting Swat, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Silver Shroud Costume sichern bereits mehrere Situationen ab. Coat gibt dauerhafte Unzerstörbarkeit an Magar, schützt aber weder vor Exil/Opfern/-X/-X noch über seinen ETB-Trigger die nichtlegendären Puppen. Ohne einen nachweislich schwächeren Slot werden weder zusätzliche Evasion noch Big Score oder Black Market Connections geopfert. **Mithril Coat und Imp's Mischief bleiben im erweiterten Kreis.**
+
+**Bracket 3:** 100 Karten, 36 Länder, 29 Instants/Sorceries, genau drei bekannte Game Changers (Demonic Tutor, Gamble, Jeska's Will). Keine neue frühe 2-Karten-Infinite Combo. **Keine reale Multiplayer-Winrate verifiziert.** Details einschließlich aller zehn Kandidaten, Manaprüfung, Kosten/Regeln und Gegenargumente stehen in [analysis.md](analysis.md). V9 bleibt als [historischer Snapshot](versions/2026-10-20-b3-v9.txt) byteidentisch; [V10](versions/2026-10-20-b3-v10.txt) spiegelt die aktuelle Liste.
+
+---
+
+## Historische V7–V9-Entwicklung
 
 ## V7 – Zwei überprüfte Anpassungen
 
@@ -76,9 +93,9 @@ Verursacht sie **Kampfschaden an einem Spieler**, kannst du eine Kopie der notie
 
 `Disrupt Decorum` ist ein **Kernelement der defensiven Politik** und bleibt unverändert. Alle gegnerischen Kreaturen werden goaded und müssen soweit möglich andere Gegner angreifen. Als Magar-Puppe immer wieder ausgelöst hält der Zauber die Gegner beschäftigt, damit wir Ressourcen und sichere Angriffe vorbereiten können. Das ersetzt weder Unblockbarkeit für unseren unmittelbaren Angriff noch verhindert Goad bereits deklarierte Blocker.
 
-## Increasing Ambition: ungewöhnlicher Magar-Doppeltutor
+## Increasing Ambition: Tutorkopie mit offener Herkunftsfrage
 
-`Increasing Ambition` ist eine Hexerei für {4}{B}, die aus der Hand **eine** beliebige Karte sucht. **Wenn sie aus dem Friedhof gewirkt wurde**, sucht sie **zwei beliebige Karten**. Die per Magar beim Treffer **gewirkte Kartenkopie** erfüllt laut den Kartenkopie-Regeln für die Erstellung aus dem letzten bekannten Friedhofs-Ursprung diese Bedingung. Wiederholte Puppentreffer liefern deshalb wiederholt zwei gezielte Karten auf die Hand, z. B. `Key to the City` plus `Embercleave` oder geeignete Schutz- und Evasion-Karten. `Increasing Ambition` besitzt außerdem Flashback {7}{B}, falls sie normal im Friedhof liegt. Das ist eine ungewöhnliche Regelinteraktion: Eine digitale Plattform muss die Kopie als aus dem Friedhof gewirkt behandeln; bei Abweichungen Plattform-Regelumsetzung gesondert prüfen.
+`Increasing Ambition` ist eine Hexerei für {4}{B}, die aus der Hand **eine** beliebige Karte sucht. **Wenn sie aus dem Friedhof gewirkt wurde**, sucht sie **zwei beliebige Karten**. Ob eine spezielle **Magar-Kopie** dabei als **aus dem Friedhof gewirkt** gilt, ist aus der ausdrücklich herangezogenen CR 707.14 allein nicht sicher: Die Regel legt ihre kopierten Eigenschaften anhand ihres letzten Zustands im Friedhof fest, bestimmt aber die Kopie-Entstehungszone nicht ausdrücklich. Den **zweifachen Tutor deshalb nicht als bestätigt einplanen**, bis ein regelkundiger Judge die Interaktion eindeutig geklärt hat. Ein sicherer einzelner Tutor pro Treffer bleibt dennoch stark. `Increasing Ambition` besitzt außerdem Flashback {7}{B}, falls sie normal im Friedhof liegt. Das ist eine ungewöhnliche Regelinteraktion: Eine digitale Plattform muss die Kopie als aus dem Friedhof gewirkt behandeln; bei Abweichungen Plattform-Regelumsetzung gesondert prüfen.
 
 ## Risiken und Grenzen
 
