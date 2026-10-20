@@ -24,7 +24,7 @@
 
 **Unverändert:** Twinferno statt Funkenspalter aus V12, Anger, Disrupt Decorum, sieben frühe Manaartefakte, Entomb/Unmarked Grave/Final Parting, Mask of Memory, Key to the City, Key to the Side-Door, Silver Shroud Costume, übrige Evasion, alle drei Wheels, Waste Not, Bloodchief Ascension, Liliana's Caress, Incendiary Command, Breach the Multiverse und Rise of the Dark Realms.
 
-**Formale Prüfung:** 100 Karten, 36 feste Länder, Rakdos, Singleton außer Standardländern; drei unveränderte Game Changers (Demonic Tutor, Gamble, Jeska's Will). [V12-Snapshot](versions/2026-10-20-b3-v12.txt) bleibt unverändert; [V13-Snapshot](versions/2026-10-20-b3-v13.txt) entspricht [current.txt](current.txt). [Komplette Analyse, weitere Kandidaten und Rückwechselkriterien](analysis.md). Keine reale Winrate nachgewiesen.
+**Formale Prüfung:** 100 Karten, 36 feste Länder, Rakdos, Singleton außer Standardländern; drei unveränderte Game Changers (Demonic Tutor, Gamble, Jeska's Will). [V12-Snapshot](versions/2026-10-20-b3-v12.txt) bleibt unverändert; [V13-Snapshot](versions/2026-10-20-b3-v13.txt) ist die **historische** V13-Liste; nur der [V14-Snapshot](versions/2026-10-20-b3-v14.txt) entspricht [current.txt](current.txt). [Komplette Analyse, weitere Kandidaten und Rückwechselkriterien](analysis.md). Keine reale Winrate nachgewiesen.
 
 ---
 ## Historische V12 – Funkenspalter raus, Twinferno rein
