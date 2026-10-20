@@ -66,6 +66,19 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
 
+## Magar of the Magic Strings (Bracket 3)
+
+- Aktuell: `decks/magar-of-the-magic-strings/current.txt` (V11, 2026-10-20).
+- Historische echte Deck-Snapshots: `decks/magar-of-the-magic-strings/versions/` (V1–V11; V9 und V10 vor V11 byteidentisch gesichert).
+- Spielplan: `decks/magar-of-the-magic-strings/README.md`; Kandidaten-/Bracket-/Regelanalyse: `decks/magar-of-the-magic-strings/analysis.md`.
+- Die aktuelle V11 ersetzt V10 und V9 nicht in der Versionshistorie. Weitere Vorschläge verbleiben dokumentiert im erweiterten Kreis.
+
+## Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer (Bracket 3)
+
+- `decks/malcolm-breeches-pirates/current.txt`: aktive 100-Karten-Liste mit zwei Partner-Commandern, 35 Ländern und drei Game Changern.
+- `decks/malcolm-breeches-pirates/analysis.md`: Piraten-, Schadens-, Treasure-, Schutz- und Bracket-Analyse samt erweitertem Kreis.
+- Folgeoptimierungen ersetzen `current.txt`; echte ältere Fassungen können nach Bedarf unter `versions/` gesichert werden.
+
 ## Captain America, Team Leader — Die Liga der Superhelden (Bracket 3)
 
 - `decks/captain-america-heroes/current.txt`: 100-Karten-Hero-Commander-Deck (Jeskai, v3, 38 Kreaturen inkl. Commander, 26 weitere Zauber, 36 Länder).
