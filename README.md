@@ -106,3 +106,11 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Magar of the Magic Strings - Puppentheater der unmoeglichen Zauber
+
+**Bracket 3 / Upgraded (V6, 20.10.2026):** Rakdos-Friedhofszauber als verdeckte 3/3-Kreaturen, wiederholte freie Spruchkopien nach Kampfschaden, gezieltes Evasion-/Haste-/Schutzpaket.
+
+- Aktuelle 100-Karten-Liste: [decks/magar-of-the-magic-strings/current.txt](decks/magar-of-the-magic-strings/current.txt)
+- Spielplan und Regeln: [decks/magar-of-the-magic-strings/README.md](decks/magar-of-the-magic-strings/README.md)
+- Bracket-, Karten- und Risikoanalyse: [decks/magar-of-the-magic-strings/analysis.md](decks/magar-of-the-magic-strings/analysis.md)
