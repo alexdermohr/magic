@@ -8,7 +8,7 @@ Stand 2026-10-18. v1, v2 und v3 sind tatsaechlich entstandene, unveraendert arch
 |---|---|---|
 | Nightscape Familiar | Rakdos Signet | Früher echter Grixis-Ramp statt Kostenreduktion, die farbige Sauron-Pips nicht bezahlt. |
 | Dreadhorde Invasion | Cool but Rude | Auf Stufe 2 jeder Discard zwei Schaden an jeden Gegner, sehr starker Tempt-/Wheel-Abschluss. |
-| Widespread Brutality | Monument to Endurance | Wiederholbare Treasure-/Draw-/Drain-Value statt selbstzerstörendem Kreaturen-Wipe. |
+| Widespread Brutality | Monument to Endurance | Wiederholbare Schatz-, Karten- und gegnerische Lebensverlust-Effekte statt selbstzerstörendem Kreaturen-Wipe. |
 | Trailblazer's Boots | Key to the Side-Door | Für zwei Aktivierungsmana sichere Army-Unblockbarkeit statt abhängigem Nonbasic-Landwalk. |
 | Living Death | Sauron's Ransom | Instant-Cardflow plus Ring-Tempt statt symmetrischer Fünfmana-Reanimation. |
 | Psychosis Crawler | Phial of Galadriel | Mana-Fixing und im Ring-Wheel aus leerer Hand insgesamt fünf Karten statt vier. |
@@ -113,7 +113,7 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 | Rielle, the Everwise | 3.0 | Erster Discard-Vorgang jedes Zugs zieht X Karten zusätzlich. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
 | Roaming Throne | 4.0 | Als Horror bestimmt, verdoppelt es sämtliche ausgelösten Sauron-Fähigkeiten. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
 | Herald of Secret Streams | 4.0 | Alle +1/+1-Counter-Kreaturen können nicht geblockt werden. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
-| Dauthi Voidwalker | 2.0 | Shadow-Ringtraeger, exiliert Gegnergraveyards und kann kostenlos einen gegnerischen Spell wirken | Verliert Baleful-Strix-ETB-Karte; stoert Reanimate auf gegnerische Ziele |
+| Dauthi Voidwalker | 2.0 | Shadow-Ringtraeger; ersetzt nur künftige gegnerische Friedhofseinträge durch Exilieren, nicht bereits liegende Karten; kann einen exilierten gegnerischen Spell kostenlos wirken | Verliert Baleful-Strix-ETB-Karte; stoert Reanimate auf gegnerische Ziele |
 | Orcish Bowmasters | 2.0 | GC-ETB und Extra-Draw-Amass, wächst Army und pings. | Anfällig für Kreaturenwipes; nur bei wiederholtem Nutzen behalten |
 | Great Goblin, Foul-Hearted | 5.0 | Amass Goblins 3 bei ETB oder Attack, allen Army-Kreaturen Trample. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
 | Call of the Ring | 2.0 | Regelmäßiges Tempt jeder Upkeep auch ohne kampfbereite Army. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
@@ -140,7 +140,7 @@ Alle fuenf Neuzugaenge sind im Scryfall-Kandidatenabgleich als Commander-legal u
 | Reanimate | 1.0 | Ein Mana für bedrohte oder abgeworfene Engines aus jedem Graveyard. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Toxic Deluge | 3.0 | Flexible -X/-X gegen ganze Kreaturenfront; kostet Leben und eigene Army. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Blasphemous Act | 9.0 | Multipler großer Creature-Wipe, kostet dank Gegnerkreaturen oft nur {R} und raeumt das Board. | Hohe Manakosten und anfällig für Removal; gegen günstigere Engine abwägen |
-| Monument to Endurance | 3.0 | Bei bis zu drei Discards je Zug je einen der unterschiedlichen Modi Draw, Treasure, Drain 3. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
+| Monument to Endurance | 3.0 | Bei bis zu drei Discards je Zug unterschiedliche Modi: eine Karte ziehen, einen Schatz erzeugen oder jeden Gegner 3 Leben verlieren lassen (ohne eigenen Lebensgewinn). | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Mana Drain | 2.0 | Counter target spell. At the beginning of your next main phase, add an amount of {C} equal to that spell's mana value. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Arcane Denial | 2.0 | Counter target spell. Its controller may draw up to two cards at the beginning of the next turn's upkeep. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
 | Swan Song | 1.0 | Counter target enchantment, instant, or sorcery spell. Its controller creates a 2/2 blue Bird creature token with flying. | Slot gegen günstigere flexible Interaktion bzw. direkten Ring-Support prüfen |
