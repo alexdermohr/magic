@@ -23,7 +23,6 @@
 1 Key to the Side-Door
 1 Prowler's Helm
 1 Monument to Endurance
-1 Embercleave
 1 Silver Shroud Costume
 1 Bitter Reunion
 1 Dauthi Embrace
@@ -58,6 +57,7 @@
 1 Withering Torment
 1 Rakdos Charm
 1 Untimely Malfunction
+1 Twinferno
 1 Deflecting Swat
 1 Deadly Rollick
 1 Malakir Rebirth
