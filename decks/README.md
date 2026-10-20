@@ -65,3 +65,10 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 - `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
 - `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
+
+## Magar of the Magic Strings (Bracket 3)
+
+- Aktuell: `decks/magar-of-the-magic-strings/current.txt` (V10, 2026-10-20).
+- Historische echte Deck-Snapshots: `decks/magar-of-the-magic-strings/versions/` (V1–V10; V9 vor V10 byteidentisch gesichert).
+- Spielplan: `decks/magar-of-the-magic-strings/README.md`; Kandidaten-/Bracket-/Regelanalyse: `decks/magar-of-the-magic-strings/analysis.md`.
+- Die aktuelle Version ersetzt V9 nicht in der Versionshistorie. Weitere Vorschläge verbleiben dokumentiert im erweiterten Kreis.
