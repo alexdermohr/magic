@@ -1,12 +1,12 @@
 1 Magar of the Magic Strings
-1 Stinkweed Imp
+1 Kaya's Ghostform
 1 Anger
 1 Anje Falkenrath
 1 Vile Entomber
 1 Storm-Kiln Artist
 1 Professional Face-Breaker
 1 Birgi, God of Storytelling
-1 Doom Whisperer
+1 Oriq Loremage
 1 Sol Ring
 1 Arcane Signet
 1 Rakdos Signet
@@ -21,11 +21,11 @@
 1 Lightning Greaves
 1 Swiftfoot Boots
 1 Key to the Side-Door
-1 Prowler's Helm
+1 Burning Inquiry
 1 Monument to Endurance
 1 Silver Shroud Costume
 1 Bitter Reunion
-1 Dauthi Embrace
+1 Bedlam
 1 Conqueror's Flail
 1 Ripples of Undeath
 1 Black Market Connections
@@ -84,7 +84,7 @@
 1 Scalding Tarn
 1 Prismatic Vista
 1 Urborg, Tomb of Yawgmoth
-1 Bojuka Bog
+1 Wooded Foothills
 1 Access Tunnel
 1 Mount Doom
 1 The Black Gate
