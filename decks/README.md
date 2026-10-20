@@ -68,7 +68,7 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 
 ## Magar of the Magic Strings (Bracket 3)
 
-- Aktuell: `decks/magar-of-the-magic-strings/current.txt` (V10, 2026-10-20).
-- Historische echte Deck-Snapshots: `decks/magar-of-the-magic-strings/versions/` (V1–V10; V9 vor V10 byteidentisch gesichert).
+- Aktuell: `decks/magar-of-the-magic-strings/current.txt` (V11, 2026-10-20).
+- Historische echte Deck-Snapshots: `decks/magar-of-the-magic-strings/versions/` (V1–V11; V9 und V10 vor V11 byteidentisch gesichert).
 - Spielplan: `decks/magar-of-the-magic-strings/README.md`; Kandidaten-/Bracket-/Regelanalyse: `decks/magar-of-the-magic-strings/analysis.md`.
-- Die aktuelle Version ersetzt V9 nicht in der Versionshistorie. Weitere Vorschläge verbleiben dokumentiert im erweiterten Kreis.
+- Die aktuelle V11 ersetzt V10 und V9 nicht in der Versionshistorie. Weitere Vorschläge verbleiben dokumentiert im erweiterten Kreis.
