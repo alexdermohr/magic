@@ -48,7 +48,7 @@ UPKEEP_PAYOFFS = {
     "Ring of Valkas", "Ring of Evos Isle", "Super Intelligence",
     "Bitterblossom", "Rousing Refrain", "Profane Tutor",
 }
-# Token-Schaden benötigt Tokenquellen; er ist KEIN eigener Upkeep-Trigger.
+# Token-Lebensverlust benötigt Tokenquellen; er ist KEIN eigener Upkeep-Trigger.
 TOKEN_SOURCES = {
     "Court of Embereth", "Bitterblossom", "Replicating Ring",
     "Mechanized Production", "Court of Vantress", "Ravenloft Adventurer",

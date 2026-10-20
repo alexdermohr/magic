@@ -147,3 +147,21 @@ Mit **Bitterblossom** zusätzlich kommen je Upkeep noch eine Faerie und ein weit
 **Wichtige Interpretation:** Die reine Upkeep-Kartenzählung sinkt leicht, weil die ehemalige Virtue einen direkten Upkeep-Trigger hatte, Mirkwood Bats dagegen auf **Token-Erzeugung oder Opferung** reagiert und daher richtigerweise **nicht** als eigene Upkeep-Fähigkeit gezählt wird. Das neue Mana/Token-Paket ist in V7 real früher und flexibler, sein tatsächlicher Siegquoten-Effekt ist jedoch mangels Vier-Spieler-Test nicht belegt. Die Werte für V1–V6 wurden mit derselben Klassifizierung wie zuvor berechnet; historische Karten behalten ihren korrekten Upkeep-Payoff-Status.
 
 **Leistungsabwägung:** V7 konzentriert sich stärker auf eine breite, selbstverstärkende Treasure-/Token-Engine und hat keine 7-Mana-Karte mehr. Sie erhält sechs Courts, die komplette Evasion-Struktur, die Hauptcounter, alle drei Game Changer und alle bisherigen Haupt-Siegbedingungen. Der Nachteil bleibt die Token-/Commander-Abhängigkeit und das Geschenk gegnerischer Treasures. Für maximal gesicherte Obeka-Starthände ist die bereits gute V6-Evasion-Struktur unverändert. Clout of the Dominus (+2/+2, Haste, Shroud für {U/R}) wurde geprüft und **bewusst nicht** aufgenommen: Shroud verhindert das spätere Anlegen der vielen weiteren Auren und Ausrüstungen an Obeka; der zusätzliche frühe Power-Schub ist den Synergiebruch hier nicht wert.
+
+
+## 9. Integrationsprüfung vom 20.10.2026
+
+Main wurde normal integriert; beide zentralen READMEs sowie der zentrale
+PR-Merge-Checkout-Workflow und Scope-Guard stammen unverändert aus Main.
+`current.txt` und alle historischen V1–V7-Snapshots bleiben byteidentisch.
+Der eigene Prüflauf mit `--oracle` und 100.000 Stichproben je Version bestand:
+100/100 aktuelle Karten Commander-legal, Grixis, genau Ancient Tomb, Demonic Tutor
+und Fierce Guardianship als Game Changer; die dokumentierte MDFC-Kurve ist bestätigt.
+Replicated-Ring-Finish, Ring-Upkeeps und Evasion bleiben erhalten. Zusätzliche
+Upkeeps erzeugen eine endliche Zahl von Schritten; keine Extrazug- oder frühe
+Endlosschleife wurde ergänzt.
+
+Die README präzisiert Mirkwood Bats als Lebensverlust und den legalen Eintritt
+von Aura-Kopien ohne Zielwahl nach [CR 303.4f–g](https://magic.wizards.com/en/rules).
+Oracle-Belege: [Mirkwood Bats](https://scryfall.com/card/ltr/95/mirkwood-bats),
+[Court of Vantress](https://scryfall.com/search?q=%21%22Court+of+Vantress%22).
