@@ -78,3 +78,9 @@ Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
 - `decks/malcolm-breeches-pirates/current.txt`: aktive 100-Karten-Liste mit zwei Partner-Commandern, 35 Ländern und drei Game Changern.
 - `decks/malcolm-breeches-pirates/analysis.md`: Piraten-, Schadens-, Treasure-, Schutz- und Bracket-Analyse samt erweitertem Kreis.
 - Folgeoptimierungen ersetzen `current.txt`; echte ältere Fassungen können nach Bedarf unter `versions/` gesichert werden.
+
+## Sidar Jabari of Zhalfir — Die Ritterschaft von Zhalfir (Bracket 3)
+
+- Aktuelle optimierte Bracket-3-V3-Liste (100 Karten; 32 weitere Kreaturen, 30 andere Zauber, 37 Länder): [decks/sidar-jabari-knights/current.txt](sidar-jabari-knights/current.txt).
+- [decks/sidar-jabari-knights/analysis.md](sidar-jabari-knights/analysis.md): Ritter-/Reanimation-/Combat-Plan, drei Game Changer, Mana, Risiken.
+- Folgende Optimierungen pflegen die aktuelle Liste; historische Snapshots nur bei tatsächlich neuen Versionen.
