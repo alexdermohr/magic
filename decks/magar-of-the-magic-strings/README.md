@@ -1,10 +1,10 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Aktueller Stand:** 20. Oktober 2026 · **V7** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
+**Aktueller Stand:** 20. Oktober 2026 · **V8** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
 
 - [current.txt](current.txt) — einzige aktuelle, direkt importierbare 100-Karten-Liste.
-- [analysis.md](analysis.md) — aktive V7-Entscheidungen, Regeln und Gegenargumente.
-- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt).
+- [analysis.md](analysis.md) — V8 mit Bloodchief Ascension, vollständiger Zauberprüfung und weiteren Kandidaten.
+- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt).
 
 ## V7 – Zwei überprüfte Anpassungen
 
@@ -20,13 +20,32 @@
 **Unverändert:** `Disrupt Decorum` bleibt als Goad-/Politik-Kern; `Mask of Memory`, `Traitor's Clutch`, `Conqueror's Flail`, alle weiteren Evasion-Ausrüstungen und alle übrigen Karten bleiben. `Mirkwood Bats` wird nicht wieder eingeführt.
 
 
+## V8 – Bloodchief Ascension für günstiges Looting eingebaut
+
+**Einziger neuer Kartentausch:** `Thrill of Possibility` ({1}{R}, Instant) **raus**, `Bloodchief Ascension` ({B}, Enchantment) **rein**. `Demand Answers` ist ein weitgehend funktional überlegenes, ebenfalls enthaltenes Instant: gleicher Preis und Draw-2, aber zusätzlich die Option, anstelle von Discard ein Artefakt zu opfern. Faithless Looting, Cathartic Reunion, Ransack the Lab, Dark Deal, Fable, Anje und Mask of Memory liefern weiter ausreichend Friedhofsvorbereitung. Die günstige Ascension bringt erstmals einen eigenständigen, skalierbaren Lebensgewinn-Motor.
+
+**Regeln:** Am Beginn **jedes** Endsegments gibt es **maximal eine** Quest-Marke, wenn in diesem Zug ein *einzelner* Gegner mindestens zwei Lebenspunkte verloren hat. Zwei Gegner mit je einem verlorenen Leben genügen nicht. Ab **drei Marken**: Jede echte Karte, die aus beliebiger Zone in den Friedhof **eines Gegners** gelangt, lässt diesen Gegner auf Wunsch zwei Leben verlieren und dich zwei Leben erhalten. Eigener Selbstmill, Tokensterben ohne echte Karten und das Exilieren fremder Karten liefern keine Ascension-Auslöser. Eine Verzauberung ist **kein** Magar-Puppenziel; wird sie selbst gemillt, fehlt im aktuellen Deck eine direkte Rückholung.
+
+**Konkrete Abkürzungen:**
+- **`Disrupt Decorum` bleibt:** gegnerische Kämpfe können für drei unterschiedliche gegnerische Endsegmente Quest-Marken liefern, sogar ohne dass wir selbst angreifen.
+- **`Breach the Multiverse`:** Ein Treffer millt pro Gegner zehn Karten. Bei drei Gegnern mit je mindestens zehn Karten und aktivierter Ascension entsteht **20 Lebensverlust pro Gegner und 60 Lebensgewinn insgesamt** (30 echte Karten, 30 Trigger). Reanimation kommt zusätzlich hinzu.
+- **`Wheel of Fortune` / `Dark Deal`:** Die gegnerischen Handkarten gelangen in die Friedhöfe. Eine Ascension mit drei Marken löst für **jede tatsächlich abgeworfene** gegnerische Karte separat aus; das Nachziehen selbst nicht.
+- **`In Garruk's Wake`:** Zerstörte gegnerische Nichttoken-Kreaturen und Planeswalker geben Ascension-Auslöser, falls die Karten wirklich in die Friedhöfe gelangen. Eigene Puppen bleiben verschont. Wird Ascension selbst gleichzeitig zerstört, löst sie für dasselbe Ereignis nicht nachträglich aus.
+
+**Bracket 3:** Ascension ist legal und **kein Game Changer**. Weiterhin exakt Demonic Tutor, Gamble und Jeska's Will als drei Game Changers. **Mindcrank** wird bewusst **nicht** hinzugefügt, denn zusammen mit aktiver Ascension bildet es eine frühe Zweikarten-Endlosschleife, die nicht dem Bracket-3-Auftrag entspricht.
+
+Alle anderen Karten, insbesondere `Disrupt Decorum`, `Mask of Memory`, `Key to the Side-Door`, `Conqueror's Flail` und die Evasion-Länder, bleiben unverändert. `Mirkwood Bats` bleibt draußen.
+
+**Vollständige Bewertung aller 32 vorherigen Instants und Sorceries, auch der nicht geänderten Karten:** [analysis.md](analysis.md).
+
+
 ## Grundprinzip
 
 Magars Fähigkeit kostet {1}{B}{R}, aber kein Tappen und ist nicht auf Hexerei-Geschwindigkeit beschränkt. **Aktiviere Magar möglichst im gegnerischen Endsegment unmittelbar vor deinem Zug.** Die so aus dem Friedhof verdeckt aufs Feld gebrachte Instant-/Sorcery-Karte ist eine echte **3/3-Kreatur**, kein Token. Sie darf im nächsten eigenen Zug ohne Eile angreifen.
 
 Verursacht sie **Kampfschaden an einem Spieler**, kannst du eine Kopie der notierten Karte kostenlos **wirken** – auch eine Hexerei mitten im Kampf. **Zusätzliche Kosten** gelten weiterhin, und ein alternatives Wirken wie Overload lässt sich nicht gleichzeitig mit dem kostenlosen Wirken wählen. Eine Magar-Puppe ist farblos, namenlos, typelos und Manawert 0. Die notierte Information ist **nicht kopierbar**; die Reflection of Kiki-Jiki soll deshalb eher `Vile Entomber` als eine Magar-Puppe kopieren. Die Puppe geht beim Verlassen des Spielfelds ins Exil.
 
-## Ablauf V7
+## Ablauf V8
 
 1. **Mana und Friedhof:** 36 feste Länder, Sol Ring und sechs weitere frühe Mana-Artefakte. `Faithless Looting`, `Anje Falkenrath`, `Dark Deal`, `Ransack the Lab`, `Ripples of Undeath`, `Stinkweed Imp` und `Fable of the Mirror-Breaker` füllen den Friedhof. `Entomb`, `Unmarked Grave`, `Vile Entomber` und `Final Parting` legen gezielt den benötigten Spruch dort ab.
 2. **Puppe aufbauen:** End-Step-Aktivierung {1}{B}{R} auf `Blood for the Blood God!`, `Brass's Bounty`, `Breach the Multiverse`, `Rise of the Dark Realms`, `In Garruk's Wake`, `Call Forth the Tempest`, `Peer into the Abyss`, `Increasing Ambition` oder `Disrupt Decorum`. `Bitter Reunion` und beide Boots ermöglichen bei Bedarf Angriffe mit einer erst im eigenen Zug entstandenen Puppe.
