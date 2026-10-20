@@ -17,7 +17,6 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           # Die Merge-Base braucht bei PRs beide vollständigen Historien.
           fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
       - name: Deck-PRs von zentralen README-Änderungen trennen

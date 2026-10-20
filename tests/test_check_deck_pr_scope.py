@@ -15,6 +15,26 @@ sys.path.insert(0, str(SCRIPT.parent))
 from check_deck_pr_scope import ScopeCheckError, changed_paths, check_scope
 
 
+class WorkflowContractTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.workflow = (ROOT / ".github/workflows/deck-validation.yml").read_text(encoding="utf-8")
+
+    def test_checkout_uses_default_event_ref(self) -> None:
+        # Auch andere Werte, zitierte Schlüssel und Inline-Mappings dürfen ref nicht setzen.
+        self.assertNotRegex(self.workflow, r"(?m)(?:^|[{,])\s*['\"]?ref['\"]?\s*:")
+        self.assertIn("uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683", self.workflow)
+        self.assertIn("persist-credentials: false", self.workflow)
+        self.assertIn("fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}",
+                      self.workflow)
+
+    def test_scope_guard_keeps_original_event_shas(self) -> None:
+        self.assertIn("  validate-decks:\n", self.workflow)
+        self.assertIn("if: github.event_name == 'pull_request'", self.workflow)
+        self.assertIn("PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}", self.workflow)
+        self.assertIn("PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}", self.workflow)
+        self.assertIn("run: python3 scripts/check_deck_pr_scope.py", self.workflow)
+
+
 class ScopeClassificationTests(unittest.TestCase):
     def test_local_readmes_and_snapshots_are_deck_files(self) -> None:
         for path in ("decks/new/README.md", "decks/new/analysis.md",
@@ -132,6 +152,28 @@ class GitScopeTests(unittest.TestCase):
         self.assertEqual(self.run_guard(self.base, head).returncode, 0)
         self.assertEqual(self.git("status", "--porcelain"), before)
         self.assertEqual(self.git("rev-parse", "HEAD"), self.base)
+
+    def test_synthetic_merge_checkout_keeps_original_event_diff(self) -> None:
+        for kind, pr_path, base_path in (
+            ("deck", "decks/sample/current.txt", "README.md"),
+            ("docs", "README.md", "decks/sample/current.txt"),
+        ):
+            with self.subTest(kind=kind):
+                self.git("switch", "-c", f"{kind}-pr", self.base)
+                head = self.commit({pr_path: "PR-Änderung\n"})
+                self.git("switch", "-c", f"{kind}-base", self.base)
+                base = self.commit({base_path: "Neue Basis\n"})
+                self.git("merge", "--no-ff", "-m", "Synthetischer PR-Merge", head)
+                merge = self.git("rev-parse", "HEAD")
+                self.git("switch", "--detach", merge)
+                self.assertEqual(self.git("rev-parse", "HEAD^1"), base)
+                self.assertEqual(self.git("rev-parse", "HEAD^2"), head)
+                self.assertEqual(set(changed_paths(self.root, self.base, merge)),
+                                 {pr_path, base_path})
+                self.assertEqual(changed_paths(self.root, base, head), [pr_path])
+                result = self.run_guard(base, head)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(self.git("rev-parse", "HEAD"), merge)
 
     def test_reverted_deck_changes_do_not_block_docs_pr(self) -> None:
         self.commit({"decks/sample/current.txt": "Zwischenstand\n"})
