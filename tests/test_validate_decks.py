@@ -95,6 +95,38 @@ class DeckValidationTests(unittest.TestCase):
         self.write_index('[analysis](<sample/notes file.md> "details")\n')
         self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_balanced_parentheses_in_valid_inline_link(self) -> None:
+        (self.root / "decks" / "sample" / "foo(bar(1)).md").write_text("OK\n")
+        self.write_index("[analysis](sample/foo(bar(1)).md)\n")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_missing_balanced_parenthesis_link_is_rejected(self) -> None:
+        (self.root / "decks" / "sample" / "foo(1").write_text("truncated")
+        self.write_index("[analysis](sample/foo(1).md)\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_escaped_parentheses_in_valid_inline_link(self) -> None:
+        (self.root / "decks" / "sample" / "foo(1).md").write_text("OK\n")
+        self.write_index(r"[analysis](sample/foo\(1\).md)" + "\n")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_list_contained_fence_does_not_hide_following_live_link(self) -> None:
+        ticks = chr(96) * 3
+        self.write_index("- " + ticks + "python\n"
+                         "  example\n"
+                         "  " + ticks + "\n"
+                         "[real](sample/missing.md)\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_list_contained_fence_example_links_are_ignored(self) -> None:
+        ticks = chr(96) * 3
+        self.write_index("- " + ticks + "python\n"
+                         "  [example](sample/missing.md)\n"
+                         "  " + ticks + "\n")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_existing_directory_link_without_slash(self) -> None:
         (self.root / "decks" / "sample" / "versions").mkdir()
         self.write_index("[versions](sample/versions)\n")

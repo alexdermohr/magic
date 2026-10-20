@@ -22,14 +22,14 @@ BASICS = frozenset({
 })
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # The two indexes use ordinary inline links plus plain deck paths.
-INLINE_LINK = re.compile(
-    r'\[(?P<label>[^\]\n]*)\]\(\s*'
-    r'(?:<(?P<angle>[^>\n]+)>|(?P<plain>[^\s)]+))'
-    r'\s*(?:"[^"\n]*"|\'[^\'\n]*\'|\([^)\n]*\))?\s*\)'
+INLINE_LINK_START = re.compile(r"\[(?P<label>[^\]\n]*)\]\(\s*")
+INLINE_LINK_END = re.compile(
+    r"""\s*(?:"[^"\n]*"|'[^'\n]*'|\([^)\n]*\))?\s*\)"""
 )
 LITERAL_PATH = re.compile(r"(?<![\w/.-])decks/[\w.+/-]+")
 EXTERNAL = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 FENCE = re.compile(r"^ {0,3}(\x60{3,}|~{3,})")
+LIST_FENCE = re.compile(r"^ {0,3}(?:[-+*]|\d+[.)]) +(?P<rest>.*)$")
 
 
 class DeckValidationError(ValueError):
@@ -85,17 +85,20 @@ def visible_index_source(markdown: str) -> str:
     lines: list[str] = []
     fence: tuple[str, int] | None = None
     for line in markdown.splitlines():
-        marker = FENCE.match(line)
+        # A fence can start on a Markdown list item ("- \`\`\`python").
+        item = LIST_FENCE.match(line)
+        candidate = item.group("rest") if item else line
+        marker = FENCE.match(candidate)
         if fence is not None:
             if marker:
                 run = marker.group(1)
-                if run[0] == fence[0] and len(run) >= fence[1] and not line[marker.end():].strip():
+                if run[0] == fence[0] and len(run) >= fence[1] and not candidate[marker.end():].strip():
                     fence = None
             continue
         if marker:
             run = marker.group(1)
             # Backticks in a backtick-fence info string invalidate the opener.
-            if run[0] != chr(96) or chr(96) not in line[marker.end():]:
+            if run[0] != chr(96) or chr(96) not in candidate[marker.end():]:
                 fence = (run[0], len(run))
                 continue
         lines.append(line)
@@ -118,11 +121,50 @@ def local_index_references(markdown: str, index: Path, root: Path) -> list[Path]
         elif path:
             targets.append(base / path)
 
-    def replace_link(match: re.Match[str]) -> str:
-        record(match.group("angle") or match.group("plain"), index.parent)
-        return match.group("label")
-
-    text = INLINE_LINK.sub(replace_link, source)
+    # Scan plain destinations with balanced parentheses instead of stopping
+    # at the first ")" (and honor backslash-escaped parentheses).
+    parts: list[str] = []
+    last = 0
+    for match in INLINE_LINK_START.finditer(source):
+        if match.start() < last:
+            continue
+        pos = match.end()
+        if pos >= len(source):
+            continue
+        if source[pos] == "<":
+            end = source.find(">", pos + 1)
+            if end < 0 or "\n" in source[pos:end]:
+                continue
+            destination, pos = source[pos + 1:end], end + 1
+        else:
+            begin, depth = pos, 0
+            while pos < len(source):
+                char = source[pos]
+                if char == "\\" and pos + 1 < len(source) and source[pos + 1] != "\n":
+                    pos += 2
+                elif char == "(":
+                    depth += 1
+                    pos += 1
+                elif char == ")":
+                    if depth == 0:
+                        break
+                    depth -= 1
+                    pos += 1
+                elif char.isspace():
+                    break
+                else:
+                    pos += 1
+            if depth or begin == pos:
+                continue
+            destination = re.sub(r"\\([\\()])", r"\1", source[begin:pos])
+        suffix = INLINE_LINK_END.match(source, pos)
+        if suffix is None:
+            continue
+        record(destination, index.parent)
+        parts.extend((source[last:match.start()], match.group("label")))
+        last = suffix.end()
+    parts.append(source[last:])
+    text = "".join(parts)
     # Avoid treating literal external URL path components as local references.
     text = re.sub(r"(?i)(?:https?://|//|www\.)[^\s<>]+", "", text)
     for match in LITERAL_PATH.finditer(text):
