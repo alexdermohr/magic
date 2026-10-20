@@ -40,6 +40,13 @@ Frühere Mishra-Konzept- und B3-Versionen sind aus dem aktuellen Dateibaum entfe
 
 - Aktuelle Liste: [decks/kinnan/current.txt](decks/kinnan/current.txt)
 
+## Chatterfang, Squirrel General — Eichhörnchen-Invasion
+
+**Bracket 3 / Upgraded:** Schwarz-grünes Eichhörnchen-Tribal mit breiter Token-Produktion, Opfermechaniken und starken, endlichen Kampf-/Drain-Finishern. Drei Game Changer: Gaea's Cradle, Natural Order, Demonic Tutor.
+
+- Aktuelle 100-Karten-Liste: [decks/chatterfang/current.txt](decks/chatterfang/current.txt)
+- Spielplan, Bracket-3-Prüfung und Risiken: [decks/chatterfang/analysis.md](decks/chatterfang/analysis.md)
+
 ## Yuriko, the Tiger's Shadow
 
 **Bracket 3 / Upgraded:** Dimir-Ninja-Tempo und Bibliothekskontrolle.
@@ -106,6 +113,22 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 - Aktuelle importierbare 100-Karten-Liste: [decks/treebeard-ents/current.txt](decks/treebeard-ents/current.txt)
 - Spielplan und verifizierte Bracket-3-Analyse: [decks/treebeard-ents/analysis.md](decks/treebeard-ents/analysis.md)
+
+## Magar of the Magic Strings - Puppentheater der unmoeglichen Zauber
+
+**Bracket 3 / Upgraded (V11, 20.10.2026):** Rakdos-Friedhofszauber als verdeckte 3/3-Kreaturen, wiederholte freie Spruchkopien nach Kampfschaden, gezieltes Evasion-/Haste-/Schutzpaket.
+
+- Aktuelle 100-Karten-Liste: [decks/magar-of-the-magic-strings/current.txt](decks/magar-of-the-magic-strings/current.txt)
+- Spielplan und Regeln: [decks/magar-of-the-magic-strings/README.md](decks/magar-of-the-magic-strings/README.md)
+- Bracket-, Karten- und Risikoanalyse: [decks/magar-of-the-magic-strings/analysis.md](decks/magar-of-the-magic-strings/analysis.md)
+- **V11:** Anger statt Peer into the Abyss; Grim Tutor statt Call Forth the Tempest; Untimely Malfunction statt Vandalblast; Mount Doom statt Rogue's Passage. V10 hatte zuvor Waste Not und Rise of the Dark Realms aufgenommen. Disrupt Decorum und die komplette Wheel-/Schutz-/Evasion-Engine bleiben. [V9](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v9.txt) · [V10](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v10.txt) · [V11](decks/magar-of-the-magic-strings/versions/2026-10-20-b3-v11.txt).
+
+## Malcolm, Keen-Eyed Navigator & Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
+
+**Bracket 3 / Upgraded (2026-10-20):** Izzet-Partner-Deck mit 25 Piraten inkl. Commander, Treasure-Engine, Bibliotheksplünderung, Evasion und Schiff The Indomitable. 100 Karten, 35 Länder, drei Game Changer (Rhystic Study, Fierce Guardianship, Cyclonic Rift). Bewusst ohne frühe Malcolm/Glint-Horn-Buccaneer-Endlosschleife.
+
+- Aktuelle importierbare Liste: [decks/malcolm-breeches-pirates/current.txt](decks/malcolm-breeches-pirates/current.txt)
+- Spielplan, Bracket und Kandidaten: [decks/malcolm-breeches-pirates/analysis.md](decks/malcolm-breeches-pirates/analysis.md)
 
 ## Gev, Scaled Scorch — Echsen-Schwarm
 
