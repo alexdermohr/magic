@@ -109,7 +109,7 @@ Bracket- und Bannlisten-Referenz: https://magic.wizards.com/en/formats/commander
 
 ## Magar of the Magic Strings - Puppentheater der unmoeglichen Zauber
 
-**Bracket 3 / Upgraded (V5, 19.10.2026):** Rakdos-Friedhofszauber als verdeckte 3/3-Kreaturen, wiederholte freie Spruchkopien nach Kampfschaden, gezieltes Evasion-/Haste-/Schutzpaket.
+**Bracket 3 / Upgraded (V6, 20.10.2026):** Rakdos-Friedhofszauber als verdeckte 3/3-Kreaturen, wiederholte freie Spruchkopien nach Kampfschaden, gezieltes Evasion-/Haste-/Schutzpaket.
 
 - Aktuelle 100-Karten-Liste: [decks/magar-of-the-magic-strings/current.txt](decks/magar-of-the-magic-strings/current.txt)
 - Spielplan und Regeln: [decks/magar-of-the-magic-strings/README.md](decks/magar-of-the-magic-strings/README.md)
