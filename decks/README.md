@@ -1,86 +1,32 @@
-# Deck-Struktur und Versionierung
+# Deck-Konventionen
 
-Jeder Commander besitzt einen eigenen Ordner unter `decks/`.
+Die [Deckordnerliste](./) zeigt auf GitHub automatisch die vorhandenen Unterordner des gewählten Branches. Ein neues Deck benötigt nur einen eigenen Ordner mit `current.txt`; zentrale README-Einträge sind nicht nötig.
 
-## Ruxa
+## Dateien und Versionierung
 
-- `decks/ruxa/current.txt`: aktuelle 100-Karten-Liste.
-- `decks/ruxa/versions/`: datierte historische Snapshots.
-- `analysis.md` / `DESIGN_PRINCIPLES.md`: Analyse und Regeln.
+- Pro Deck ein eigener Ordner mit einem dauerhaften Slug; Deckinhalte bleiben ausschließlich in diesem Ordner.
+- `current.txt` enthält die aktive, importierbare Liste. `analysis.md` für Spielplan, Quellen und Risiken sowie eine lokale `README.md` sind optional.
+- Historische Snapshots bleiben unverändert erhalten, üblicherweise unter `versions/`. Optimierungen ersetzen `current.txt`; echte ältere Fassungen können dort archiviert werden.
+- **Mishra-Ausnahme:** genau eine aktive B3-Liste in `current.txt`; keine zusätzlichen B3-Dateien oder datierten B3-Snapshots anlegen. B4 bleibt separat. Bereits überlieferte Historie bleibt erhalten, auch in Git.
 
-## Mishra (bewusste Ausnahme: eine B3-Version)
+## Listenformat und Commander-Regeln
 
-- **Einzige gepflegte B3-Liste:** `decks/mishra/current.txt`.
-- **Separate B4-Liste:** `decks/mishra/versions/2026-10-07-optimized-b4-v1.txt`.
-- `decks/mishra/analysis.md`: Mana- und Synergiebegründung.
-- Keine zusätzliche Mishra-B3-Datei, keine datierten B3-Snapshots. Verbesserungen werden in `current.txt` übernommen.
-- Historische B3-Fassungen sind aus dem aktuellen Baum gelöscht, über Git-Historie aber weiterhin verfügbar.
+- Genau **100 Karten einschließlich aller Commander**: normalerweise 99 plus ein Commander, bei einer regelkonformen Kombination zweier Commander 98 plus zwei.
+- Eine Zeile pro Karte im Format `ANZAHL Englischer Kartenname`, Commander zuerst. Optional sind die Abschnittsüberschriften `Commander` und `Deck` erlaubt. Leerzeilen sind erlaubt.
+- Singleton gilt mit der Standardlandausnahme: Standardländer dürfen mehrfach vorkommen, einschließlich verschneiter Standardländer und Wastes. Andere Länder sind nicht allein aufgrund ihres Landtyps ausgenommen.
+- Kartentext kann weitere Mengen-Ausnahmen erlauben; der strukturelle Validator unterstützt diese derzeit nicht. Solche Listen brauchen eine gesonderte Anpassung des Validators und Prüfung der Regeln.
+- Commander-Eignung, Farbidentität, Oracle-Kartentext und Bannliste müssen gesondert anhand offizieller Quellen geprüft werden: [Commander-Regeln und Bannlistenverweis](https://magic.wizards.com/en/formats/commander), [Gatherer-Kartendatenbank](https://gatherer.wizards.com/).
 
-Damit liegt für jeden der beiden Mishra-Brackets exakt **eine importierbare 100-Karten-Liste** vor.
+## Bracket-Ziel und Prüfgrenzen
 
-## Ian Malcolm (Bracket 3)
+**Bracket 3 / Upgraded ist der Standard**, mit maximal drei Karten aus der jeweils geltenden [Wizards-Liste der Game Changers](https://magic.wizards.com/en/formats/commander). Eine andere Zielstufe wird im eigenen Deckordner begründet und klar getrennt dokumentiert.
 
-- `decks/ian-malcolm/current.txt`: aktive 100-Karten-Liste.
-- `decks/ian-malcolm/analysis.md`: Spielplan und Bracket-Begründung.
-- `decks/ian-malcolm/versions/`: datierte Snapshots ab 2026-10-08.
-- Die Mishra-Regel (nur eine B3-Liste) gilt nicht für Ian.
+Die Game-Changer-Zahl allein belegt keine Bracket-Eignung. Auch Spieltempo, Zweikarten-Endlosschleifen, Extrazüge und Massen-Landverweigerung müssen anhand der [Wizards-Bracket-Leitlinien](https://magic.wizards.com/en/formats/commander) beurteilt werden. Brackets dienen der Spielabsprache; sie ersetzen weder die Commander-Legalität noch Partietests oder das Gespräch vor dem Spiel.
 
-## Kinnan (Bracket 3)
+Die Offline-CI prüft ausschließlich Listenstruktur, Kartenanzahl, unterstützte Singleton-Regeln und lokale Verweise der zentralen READMEs. Sie validiert **keine Oracle-Namen oder -Texte, Commander-Eignung, Farbidentität, Bannlisten, Game Changers oder Bracket-Legalität**. Ein grüner Check ist kein Nachweis dafür.
 
-- `decks/kinnan/current.txt`: aktuelle 100-Karten-Liste; keine getrennten Versionen vorhanden.
+## Beiträge und Historie
 
-## Yuriko (Bracket 3)
+Für Deck-PRs gelten die [Beitragsregeln](../CONTRIBUTING.md). Sobald ein PR Dateien unterhalb dieses Verzeichnisses außer dieser Konventionsseite ändert, dürfen weder diese Seite noch die Root-README im PR-Diff geändert sein.
 
-- `decks/yuriko/current.txt`: V3, aktuelle importierbare 100-Karten-Liste.
-- `decks/yuriko/versions/2026-10-08-b3-v1.txt` bis `2026-10-08-b3-v3.txt`: historische Decklisten.
-
-## Winota (Bracket 3)
-
-- `decks/winota/current.txt`: V3, aktuelle importierbare 100-Karten-Liste.
-- `decks/winota/versions/2026-10-08-b3-v1.txt` bis `2026-10-08-b3-v3.txt`: historische Decklisten.
-
-## Themendecks (Bracket 3)
-
-- **Teysa, Opulent Oligarch – Die Oligarchie:** decks/teysa-opulent-oligarch/current.txt und analysis.md.
-- **Kynaios and Tiro – commonThing: Die Allmende:** decks/kynaios-and-tiro/current.txt und analysis.md.
-- Jeweils genau eine aktuelle 100-Karten-Liste; spätere Versionen bei Bedarf unter versions/ archivieren.
-
-Die angegebene Bracket-Stufe ist ein Deckbauziel; tatsächliche Spielgeschwindigkeit wurde nicht durch Partietests verifiziert.
-
-## Marchesa, the Black Rose (Bracket 3)
-
-- `decks/marchesa/current.txt`: aktuelle 100-Karten-Liste (v4.2).
-- `decks/marchesa/analysis.md`: Spielplan, Änderungen und Bracket-Einordnung.
-- `decks/marchesa/versions/`: historische Snapshots der v2-, v3-, v4-, v4.1- und v4.2-Liste.
-
-Die Mishra-Ausnahmeregel zur B3-Versionierung gilt nicht für Marchesa.
-
-## Tom Bombadil — Lieder von Mittelerde (Bracket 3)
-
-- `decks/tom-bombadil/current.txt`: aktive importierbare 100-Karten-Liste.
-- `decks/tom-bombadil/analysis.md`: Sagen-Spielplan, Game Changer, Manabasis und Risiken.
-- Eigenständiger Commander-Ordner; nachfolgende Optimierungen ersetzen `current.txt`.
-
-## Treebeard, Eldest of Ents — Der Aufstand der Ents (Bracket 3)
-
-- `decks/treebeard-ents/current.txt`: aktuelle Commander-Liste mit 100 Karten (Oracle-Name des Commanders: Doran, the Siege Tower; offizielle Baumbart-Alternativdruckversion).
-- `decks/treebeard-ents/analysis.md`: Spielplan, Synergien, aktuell drei Game Changer, Prüfung der Commander-Legalität und Risiken.
-
-## Magar of the Magic Strings (Bracket 3)
-
-- Aktuell: `decks/magar-of-the-magic-strings/current.txt` (V11, 2026-10-20).
-- Historische echte Deck-Snapshots: `decks/magar-of-the-magic-strings/versions/` (V1–V11; V9 und V10 vor V11 byteidentisch gesichert).
-- Spielplan: `decks/magar-of-the-magic-strings/README.md`; Kandidaten-/Bracket-/Regelanalyse: `decks/magar-of-the-magic-strings/analysis.md`.
-- Die aktuelle V11 ersetzt V10 und V9 nicht in der Versionshistorie. Weitere Vorschläge verbleiben dokumentiert im erweiterten Kreis.
-
-## Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer (Bracket 3)
-
-- `decks/malcolm-breeches-pirates/current.txt`: aktive 100-Karten-Liste mit zwei Partner-Commandern, 35 Ländern und drei Game Changern.
-- `decks/malcolm-breeches-pirates/analysis.md`: Piraten-, Schadens-, Treasure-, Schutz- und Bracket-Analyse samt erweitertem Kreis.
-- Folgeoptimierungen ersetzen `current.txt`; echte ältere Fassungen können nach Bedarf unter `versions/` gesichert werden.
-
-## Gev, Scaled Scorch — Echsen-Schwarm (Bracket 3)
-
-- `decks/gev-lizards/current.txt`: aktuelle 100-Karten-Liste (Rakdos, Lizard-Tribal).
-- `decks/gev-lizards/analysis.md`: Spielplan, Kartensynergien, Game Changer und Prüfgrenzen.
-- Spätere Optimierungen ersetzen `current.txt`; historische Stände gegebenenfalls unter `versions/`.
+Frühere zentrale Deckbeschreibungen und Kartenstände sind über die [historische Archivübersicht](../docs/archive/README.md) erhalten.
