@@ -14,7 +14,7 @@ Der Kern bleibt ein aggressives Piraten-Deck, das bereits vor erfolgreichen Kamp
 
 | Raus (V1) | Rein (V2) | Strategische Begründung |
 | --- | --- | --- |
-| Corsair Captain | **Captain Vargus Wrath** | Kostet nur zwei Mana; gibt angreifenden Piraten +1/+1 je bislang aus der Kommandozone gewirktem Commander. Bei beiden erstmaligen Casts normalerweise +2/+2 statt statischem +1/+1. Verliert einen einmaligen Schatz. |
+| Corsair Captain | **Captain Vargus Wrath** | Kostet zwei Mana. **Nur wenn Vargus selbst angreift**, erhalten **alle** eigenen Piraten bis Zugende +1/+1 je bisherigem Wirken eines Commanders aus der Kommandozone. Nach beiden ersten Commander-Casts meist +2/+2; ohne Vargus-Angriff kein Bonus. Der einmalige Schatz entfällt. |
 | Goldspan Dragon | **Gemcutter Buccaneer** | Vier statt fünf Mana; selbst Pirat, erzeugt bei jedem eigenen Piraten-ETB einen getappten Schatz, verwandelt Schätze zusätzlich in für Piraten ausrüstbare +2/+0-Equipment. Dafür entfällt Goldspans Schatz-Mana-Verdopplung. |
 | Relentless Assault | **Fathom Fleet Swordjack** | Als Pirat verursacht er bereits beim Angreifen Nichtkampfschaden in Höhe deiner Artefakte (auch Schätze/Clues/Food). Malcolm/Breeches triggern vor den Blockern; Encore erzeugt zwar späte angreifende Pirate-Kopien, aber deren Angriffsauslöser werden durch das bloße Ins-Spiel-Kommen angreifend **nicht** ausgelöst. Der zusätzliche Kampfzug entfällt, Port Razer bleibt. |
 | Mask of Memory | **Breeches, the Blastmaker** | Ein weiterer echter Pirat mit Menace. Der zweite gewirkte Spruch pro Zug ermöglicht gegen Artefaktopfer eine Münzwurfentscheidung: Spruchkopie oder Direktschaden durch einen Piraten, der Malcolm/Breeches auslösen kann. Varianz statt planbarem Looting. |
@@ -32,7 +32,7 @@ Der Kern bleibt ein aggressives Piraten-Deck, das bereits vor erfolgreichen Kamp
 - **Lightning-Rig Crew + Malcolm + Breeches:** Die Crew tappt für je 1 Schaden an jeden Gegner. Bei drei Gegnern entstehen drei Schätze und drei Exil-Karten; Curiosity auf der Crew erlaubt bis zu drei Zieh-Auslöser. Durch weitere **gewirkte** Piraten wird die Crew wieder enttappt. Token-Piraten, die nur ins Spiel kommen, lösen diesen Untap-Trigger nicht aus.
 - **Fathom Fleet Swordjack + Schätze/Clues:** Schadenshöhe = Zahl aller eigenen Artefakte beim Auflösen seines Angriffstriggers. Als Pirat verursacht er den Schaden **ohne** erfolgreichen Kampftreffer und aktiviert damit Malcolm/Breeches. Mit Academy Manufactor kann die Artefaktzahl stark steigen. **Wichtig:** Seine durch Encore direkt angreifend ins Spiel kommenden Kopien lösen seinen eigenen \"Whenever this creature attacks\"-Auslöser nicht aus; sie können aber regulär Kampfschaden verursachen.
 - **Gemcutter Buccaneer + Academy Manufactor:** Jede neue eigene Piraten-Kreatur erzeugt Treasure-Nachschub; Manufactor ersetzt Treasure-Erzeugung durch Treasure, Food und Clue. Auch Daring-Piracy-Token sind Piraten und erfüllen den ETB-Auslöser.
-- **Captain Vargus Wrath + Commander-Casts:** Beide regelmäßig gewirkten Partner-Commander zählen einzeln. Der Buff gilt nur für angreifende Piraten während dieses Kampfes und macht kleine Flieger/Sprinter bedrohlich.
+- **Captain Vargus Wrath + Commander-Casts:** Beide gewirkten Partner-Commander zählen einzeln. **Erst wenn Vargus selbst als Angreifer deklariert wird**, bekommen alle eigenen Piraten (auch nicht angreifende) bis zum Ende des Zuges den Bonus. Er bleibt bis Zugende bestehen, selbst wenn Vargus danach stirbt.
 - **Breeches, the Blastmaker + Schatzreserve:** Bei zweitem Spruch im Zug kann ein überschüssiges Artefakt geopfert werden. Bei verlorenem Münzwurf kann der Blastmaker den Schaden selbst an einen Gegner verursachen; er ist ein Pirat. Bei gewonnenem Wurf entsteht eine Kopie des Spruchs.
 - **Guild Artisan:** Belohnt Angriffe auf Spieler, die im Vergleich zu anderen Gegnern den höchsten Lebenspunktestand haben, ohne dass die Commander durchkommen müssen. Die erzeugten Schätze finanzieren Schutz oder weitere Piraten.
 - **Kediss, Emberclaw Familiar:** Wenn Malcolm oder Breeches Kampfschaden macht, teilt dieser Commander auch anderen Gegnern Nichtkampfschaden aus – wodurch die Piraten-Schatz-/Exil-Auslöser zusätzliche Gegner erfassen. Kediss-Schaden zählt nicht als Commander-*Kampfschaden* für die 21-Schaden-Regel.
@@ -44,7 +44,7 @@ Der Kern bleibt ein aggressives Piraten-Deck, das bereits vor erfolgreichen Kamp
 1. **Züge 1–2:** Billige Piraten (Spyglass Siren, Siren Stormtamer, Spectral Sailor, Impulsive Pilferer, Ragavan, Fanatical Firebrand) und ggf. Sol Ring/Signets etablieren. Mystic Remora kann früh mehrere Karten ziehen. Hände ohne farbige Länder oder frühe Piraten konservativ mulliganen.
 2. **Züge 3–4:** Malcolm bevorzugt zuerst wirken; ihn schützen, wenn relevant. Breeches folgt mit verfügbaren Schätzen. Aqueous Form bevorzugt auf Breeches oder blockierbaren wichtigen Piraten, Frostcliff Siege je nach Hand als Temur-Tempo oder Jeskai-Draw.
 3. **Mittelspiel:** Schäden möglichst über **verschiedene Gegner** verteilen. Lightning-Rig Crew, Broadside Bombardiers und Fathom Fleet Swordjack liefern Noncombat-Triggersicherheit; Gemcutter, Captain Storm und Academy Manufactor skalieren Schätze.
-4. **Abschluss:** Shared Animosity oder Captain Vargus Wrath verstärken einen breiten Angriff. Port Razer ermöglicht mit echtem Kampfschaden zusätzliche Kampfphasen. Cyberdrive Awakener verwandelt übriggebliebene Nichtkreatur-Artefakte für den Zug in fliegende 4/4-Kreaturen – daher nicht alle Schätze vorher opfern.
+4. **Abschluss:** Shared Animosity oder ein **selbst mitangreifender** Captain Vargus Wrath verstärken einen breiten Angriff. Port Razer ermöglicht mit echtem Kampfschaden zusätzliche Kampfphasen. Cyberdrive Awakener verwandelt übriggebliebene Nichtkreatur-Artefakte für den Zug in fliegende 4/4-Kreaturen – daher nicht alle Schätze vorher opfern.
 
 ## Schutz und Interaktion
 
@@ -63,6 +63,8 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 | Nichtkreatur-Artefakte | 12 | **9** |
 | Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | **2,462** |
 | Game Changer | 3 | **3** |
+
+**Manawert-Gegenrechnung:** Bei 65 Nichtlandkarten beträgt die Summe der Manawerte in V1 **166**. Die zehn entfernten Karten summieren sich auf **32**, die zehn neuen auf **26**. Daher: **166 − 32 + 26 = 160**, und **160 / 65 = 2,462** (auf drei Nachkommastellen gerundet).
 
 **Scryfall Collection API:** Für V1 und V2 je **92 unterschiedliche Kartenbezeichnungen** (Standardländer mehrfach), 100 Karten inklusive beider Commander; alle gefundenen Namen sind als Commander-legal markiert und ihre Farbidentität ist Teilmenge von Blau/Rot. Es sind jeweils genau **Rhystic Study, Fierce Guardianship und Cyclonic Rift** als Game Changer ausgewiesen. Diese Erhebung ist ein reproduzierbarer Oracle-/Legality-Momentabgleich, kein Partietest. Die Bracket-3-Zuordnung ist zusätzlich anhand der Spielabsicht zu prüfen.
 
