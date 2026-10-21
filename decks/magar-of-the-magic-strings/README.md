@@ -1,3 +1,29 @@
+# Magar of the Magic Strings — V16 · wiederholbare Puppen-Evasion
+
+**Aktuelle Commander-Bracket-3-Liste, 21.10.2026:** [current.txt](current.txt) ist byteidentisch zu [V16](versions/2026-10-21-b3-v16.txt). Die bereits gemergte [V15](versions/2026-10-21-b3-v15.txt) und alle älteren historischen Versionen bleiben unverändert.
+
+## V15 → V16: genau ein Kartentausch
+
+| Heraus | Hinein | Vorteil | Verlust |
+|---|---|---|---|
+| **Traitor's Clutch** — {4}{B}, Flashback {1}{B}, nur ein Shadow-Angriffsfenster | **Prowler's Helm** — {2}, Ausrüsten {2} | Dauerhafte Evasion für beliebige Magar-Puppen: Nur Kreaturen mit dem Typ **Wall** können blocken. Nach dem Anlegen fallen für spätere Angriffe derselben Puppe keine neuen Aktivierungskosten an. | 4 Gesamtmana vor dem ersten Treffer; Equip nur zu Hexerei-Zeiten; kein Sofortzauber für {1}{B} aus dem Friedhof und kein Schutz gegen Removal. Walls dürfen weiterhin blocken. |
+
+**Warum der Helm trotz früherer Streichung?** Der historische Tausch Prowler's Helm → Burning Inquiry schuf den nötigen frühen Wheel-/Discard-Platz. Jetzt wird stattdessen ausdrücklich **Traitor's Clutch** entfernt; **Burning Inquiry bleibt**. Damit erhalten wir einen unabhängig vom Friedhof funktionierenden, wiederholbaren Trefferweg. Die vorherige Clutch gibt außerdem +1/+0 und kann dadurch mit Stärke-3-Bedingungen von Thieves' Tools und Access Tunnel kollidieren; Helm verändert die Stärke nicht.
+
+Im eigenen Hauptsegment eine durch Magar im vorherigen gegnerischen Endsegment geschaffene 3/3-Puppe ausrüsten, dann ungeblockt außer von Walls angreifen. Der Helm kostet pro neu auszurüstender Puppe erneut {2}, aber nicht für jeden Folgeangriff derselben Puppe. Helm ist kein Magar-Friedhofsziel und gibt weder Hexproof noch Haste; dafür bleiben Lightning Greaves, My Precious, Anger und die weiteren Schutz-/Evasionstücke erhalten.
+
+**Gegenkandidaten:** Trailblazer's Boots kostet ebenfalls 2+2, scheitert aber gegen Gegner ohne Nichtstandardland. War Cadence verlangt zusätzliche {X}{R}-Zahlungen und Gegner dürfen Blockkosten bezahlen. Dauthi Embrace verlangt {B}{B} je Benutzung; Dauthi Trapper ist eine verletzliche tappende Kreatur. Bei keinem ist der erste und jeder weitere Treffer ohne weitere Voraussetzungen verlässlicher.
+
+**Unverändert:** Big Score, Disrupt Decorum, Anger, In Garruk's Wake, Twinferno, sämtliche Wheel-/Waste-Not-/Bloodchief-Karten, 36 Länder und sieben Manaartefakte. Die 100 Karten enthalten nun **18 Artefakte und 29 Instants/Hexereien**. Von den 64 Nichtländern inklusive Commander sinkt die Summe der Manawerte von V15 184 auf **V16 181**. Drei Game Changers bleiben Demonic Tutor, Gamble und Jeska's Will; Prowler's Helm ist kein Game Changer. Keine bewusste frühe Infinite-Combo.
+
+[Oracle: Helm](https://mtg.wtf/card/ths/219/Prowlers-Helm) · [Oracle: Clutch](https://mtg.wtf/card/tsp/137/Traitors-Clutch) · [Magar-Rulings](https://www.mtg.wtf/card/unf/171/Magar-of-the-Magic-Strings) · [Commander-Brackets](https://magic.wizards.com/en/formats/commander). Die Bewertung ist keine gemessene Multiplayer-Winrate und keine vollständige Live-Oracle-Prüfung aller Karten.
+
+---
+
+# Historische V15-README unverändert
+
+Alle historischen Versions- und Git-Status-Angaben ab hier gelten nur für ihren damaligen Stand; aktive Version ist V16 oben.
+
 # Magar of the Magic Strings — V15 · früher zum geschützten Puppentreffer
 
 **Aktueller Stand: 21. Oktober 2026 · V15 · Rakdos · Ziel oberer Bracket-3-Rand.** [Aktive 100 Karten](current.txt) = [byteidentischer V15-Snapshot](versions/2026-10-21-b3-v15.txt). [V14](versions/2026-10-20-b3-v14.txt) bleibt unverändert. Die [vollständige V15-Analyse](analysis.md) enthält den V14/V15-Kostenvergleich, 42 konkrete Kandidaten und eine neue Matrix mit **100 einzeln bewerteten Slots einschließlich aller Basics**.

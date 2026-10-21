@@ -1,3 +1,47 @@
+# Magar of the Magic Strings — V16: Traitor's Clutch heraus
+
+**Version:** 21. Oktober 2026, Bracket 3. Ausgangspunkt: tatsächlich bestätigter GitHub-main-Commit dc5d56c27f80bcc1dcb7e113af26c1be714435df, aktuelle V15 [Git-Blob 9d149dc37d32cf6138e1eaceeb461f7b8bf889b5](versions/2026-10-21-b3-v15.txt). Die aktive Liste [current.txt](current.txt) ist identisch mit dem **neuen** [V16-Snapshot](versions/2026-10-21-b3-v16.txt). Historische V15 und ältere Dokumentation bleiben als vollständiger byteidentischer Anhang erhalten.
+
+## Entscheidung und Gegenargument
+
+**Genau ein 1:1-Tausch, 99 Slots unverändert: Traitor's Clutch → Prowler's Helm.** Magars kostenlose Zauberkopien erfordern tatsächlich zugefügten Kampfschaden durch seine verdeckten 3/3-Kreaturen. Shadow aus Clutch ist nur einmalig; aus der Hand kostet es 5 Mana, aus dem Friedhof via Flashback nur {1}{B}, wofür es zuvor im Friedhof sein muss. Der Effekt ist nicht vollständig unblockbar (Shadow-Kreaturen dürfen blocken). Danach ist der Flashback-Zauber exiliert. Clutch erhöht die Stärke von 3 auf 4 und kollidiert möglicherweise mit Thieves' Tools; Access Tunnel kann die Puppe bei Stärke 4 nicht mehr als legales Ziel wählen.
+
+**Prowler's Helm:** Einmal {2} ausspielen und {2} im eigenen Hauptsegment ausrüsten, dann kann die ausgerüstete Puppe von nichts außer Kreaturen des Typs **Wall** geblockt werden. Nicht alle Kreaturen mit Defender sind Walls. Für den nächsten Angriff derselben Puppe muss man keine Manakosten erneut zahlen. Eine neue Puppe kostet erneut Equip {2}; der Helm verleiht keinen Schutz vor Removal, keine Eile und keinerlei Fähigkeit, einen gegnerischen Wall zu umgehen. Equipment-Timing ist langsamer als Clutch als Instant. Das sind konkrete Nachteile.
+
+**Gegenprobe:** Clutch ist aus dem Friedhof im Angriffsfenster für {1}{B} schneller, besonders nach Faithless Looting oder Big Score. Helm verlangt vier Mana über frühe Züge, ist als Artefakt entfernbar und keine Instant-/Sorcery-Puppe. Deshalb ist der Tausch nicht in jeder denkbaren Hand schneller. Im wiederholten typischen Magar-Spiel macht die dauerhafte Evasion ohne weitere farbige Aktivierungsgebühr oder Friedhofssetup jedoch den ersten und weitere Treffer konsistenter.
+
+| Kandidat | Gesamtkosten vor erstem Nutzen | Befund |
+|---|---|---|
+| **Prowler's Helm – gewählt** | {2} + Equip {2} = 4, danach 0 solange angelegt | Funktioniert unabhängig von gegnerischen Nonbasic-Ländern, verliert nur gegen Walls |
+| Trailblazer's Boots | {2} + Equip {2} = 4 | Nonbasic-Landwalk scheitert gegen Spieler nur mit Basic-Ländern |
+| Brotherhood Regalia | {2} + Equip {3} = 5 für die **nichtlegendäre** Magar-Puppe | Ward 2, aber ein Mana teurer; My Precious/Silver Shroud Costume schützen bereits |
+| Dauthi Embrace | {2}{B} + {B}{B} je Puppe und Angriff | Kostet wiederholt Schwarz statt Magars nächsten {1}{B}{R} zu finanzieren |
+| War Cadence | {2}{R} + {X}{R} pro Angriffsfenster | Gegner dürfen für Blocker bezahlen, keine garantierte Unblockbarkeit |
+| Dauthi Trapper | {2}{B}, dann {T} | Verletzliche 1/1, Wartezeit ohne Haste, nur Shadow |
+| Thrill of Possibility / Electric Revelation | {1}{R} plus Discard | Verbessert Friedhofsaufbau, ersetzt aber keine Evasion; bestehende Looting-/Big-Score-Engine bleibt |
+
+**Historische Entscheidung ausdrücklich berücksichtigt:** Prowler's Helm wurde in V13 **für Burning Inquiry** gestrichen. Burning Inquiry bleibt hier ebenso wie alle anderen Wheel-/Discard-Payoffs erhalten; stattdessen geht die vom Nutzer gestrichene Clutch. Das ist ein neuer Slot und kein rückwirkendes Verwerfen der Wheel-Entscheidung.
+
+## V16-Deckmatrix und formale Auswirkungen
+
+| Slot | Heraus (historische V15-Matrix) | Hinein (V16) | Rolle / Magar-Synergie | Unverzichtbarkeit | Schwäche und Vergleich |
+|---:|---|---|---|---:|---|
+| 42 | Traitor's Clutch, MV 5, Flashback {1}{B} | **Prowler's Helm, MV 2, Cast {2}, Equip {2}** | Wiederholbare Nichtblockbarkeit einer Puppe außer durch Walls, ohne deren Stärke 3 zu verändern | 4/5 | 4 Mana vor erstem Treffer, Sorcery-Equip, kein Hexproof, Walls und Artefakt-Removal; nächster Ersatz Trailblazer's Boots |
+
+Die historische vollständige V15-Bewertung aller 100 Slots bleibt unten wortwörtlich erhalten. In V16 ersetzt obige Matrix genau Slot 42; die übrigen **99 Slots** bleiben unverändert. Eine neue vollständige 100-Zeilen-Matrix wäre inhaltlich redundant und würde die historische Begründung unnötig duplizieren.
+
+**Deckstruktur:** 1 Commander, 7 weitere Kreaturen, **18 Artefakte**, 9 Verzauberungen, **29 Instants/Hexereien**, 36 feste Länder = 100. Die 64 Nichtländer inklusive Commander haben Manawertsumme **181** statt V15 **184**, Durchschnitt **181/64 = 2,828125**. Die sieben Manaartefakte, roten/schwarzen Quellen, Tutoren, Schutzkarten und übrigen Evasionstücke bleiben unverändert. Der Helm ist kein Manaartefakt für Ramp.
+
+**Bracket:** Magar Rakdos, keine neue andersfarbige Karte, 3 bestehende Game Changers (Demonic Tutor, Gamble, Jeska's Will), keine geplanten frühen Zweikarten-Endlosschleifen, Extrazugketten oder Massenlandzerstörung. Prowler's Helm ist nach Oracle Commander-legal und kein Game Changer. Keiner der früheren Ausschlüsse Mindcrank/Mirkwood Bats wird rückgängig gemacht. Disrupt Decorum, Anger, In Garruk's Wake, Twinferno, Big Score und die vollständige Wheel-Engine bleiben.
+
+Quellen: [Prowler's Helm](https://mtg.wtf/card/ths/219/Prowlers-Helm), [Traitor's Clutch](https://mtg.wtf/card/tsp/137/Traitors-Clutch), [Magars face-down Regeltext](https://www.mtg.wtf/card/unf/171/Magar-of-the-Magic-Strings), [Wizards Commander Brackets](https://magic.wizards.com/en/formats/commander). Formale Deckprüfungen belegen keine reale Multiplayer-Winrate und keinen vollständigen Oracle-Scan aller 100 Karten.
+
+---
+
+# Historische vollständige V15-Analyse unverändert
+
+Die frühere Kartenmatrix und Git-/Versionsangaben sind historische V15-Aussagen. Nur die V16-Differenz oben beschreibt die aktuelle Karte in Slot 42.
+
 # Magar of the Magic Strings – V15 · früher ins geschützte Puppenspiel
 
 **Stand: 21.10.2026.** Aktive Liste: [current.txt](current.txt), byteidentisch zum [V15-Snapshot](versions/2026-10-21-b3-v15.txt). Ausgangspunkt dieser Korrektur ist der zu Bearbeitungsbeginn saubere lokale Branch `deck/magar-b3-v15-20261021` an HEAD **4b74fc76a3d991432677fe846999f5ca84c810c4**. Der Kartenvergleich erfolgt gegen die V14; `b5e926ca40ed62444e6513dd6f77d4044da6064e` bezeichnet die frühere V14-Basis, nicht den aktuellen HEAD. Der [V14-Snapshot](versions/2026-10-20-b3-v14.txt) bleibt unverändert. Die gesamte bisherige Analyse steht unten als unveränderter historischer Anhang; ihre Aussagen über „current“, frühere Slots und damalige Prüfungen gelten jeweils für ihren damaligen Stand.
