@@ -7,7 +7,10 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from validate_decks import DeckValidationError, validate_list, validate_repository
+from validate_decks import (
+    COPY_LIMITS, INTERCHANGEABLE_NAMES, DeckValidationError,
+    validate_list, validate_repository,
+)
 
 
 class DeckValidationTests(unittest.TestCase):
@@ -64,6 +67,76 @@ class DeckValidationTests(unittest.TestCase):
         self.write_deck("1 Sample Commander\n2 Sol Ring\n97 Plains\n")
         with self.assertRaisesRegex(DeckValidationError, "nonbasic"):
             validate_list(self.deck)
+
+    def test_either_interchangeable_name_alone_is_accepted(self) -> None:
+        for pair in INTERCHANGEABLE_NAMES:
+            for name in pair:
+                with self.subTest(name=name):
+                    self.write_deck(f"1 Sample Commander\n1 {name}\n98 Plains\n")
+                    self.assertEqual(validate_list(self.deck), "Sample Commander")
+
+    def test_interchangeable_names_share_singleton_limit_in_both_orders(self) -> None:
+        for pair in INTERCHANGEABLE_NAMES:
+            for first, second in (pair, pair[::-1]):
+                with self.subTest(first=first, second=second):
+                    self.write_deck(f"1 Sample Commander\n1 {first}\n1 {second}\n97 Plains\n")
+                    with self.assertRaisesRegex(DeckValidationError, "maximum 1"):
+                        validate_list(self.deck)
+
+    def test_interchangeable_commander_and_deck_card_share_limit(self) -> None:
+        self.write_deck("Commander\n1 Rick, Steadfast Leader\nDeck\n"
+                        "1 greymond, avacyn's stalwart\n98 Plains\n")
+        with self.assertRaisesRegex(DeckValidationError, "maximum 1"):
+            validate_list(self.deck)
+
+    def test_identical_interchangeable_name_twice_is_rejected(self) -> None:
+        for name in INTERCHANGEABLE_NAMES[0]:
+            with self.subTest(name=name):
+                self.write_deck(f"1 Sample Commander\n2 {name}\n97 Plains\n")
+                with self.assertRaisesRegex(DeckValidationError, "maximum 1"):
+                    validate_list(self.deck)
+
+    def test_dfc_front_and_full_interchangeable_names_share_limit(self) -> None:
+        self.write_deck("1 Sample Commander\n1 Hawkins National Laboratory\n"
+                        "1 Havengul Laboratory // Havengul Mystery\n97 Plains\n")
+        with self.assertRaisesRegex(DeckValidationError, "maximum 1"):
+            validate_list(self.deck)
+
+    def test_distinct_functional_reprints_are_not_aliased(self) -> None:
+        self.write_deck("1 Sample Commander\n1 Evolving Wilds\n"
+                        "1 Terramorphic Expanse\n97 Plains\n")
+        self.assertEqual(validate_list(self.deck), "Sample Commander")
+
+    def test_all_documented_copy_allowances_accept_multiple_copies(self) -> None:
+        for name, limit in COPY_LIMITS.items():
+            quantity = 99 if limit is None else limit
+            with self.subTest(name=name):
+                self.write_deck(f"1 Sample Commander\n{quantity} {name}\n"
+                                + (f"{99 - quantity} Plains\n" if quantity < 99 else ""))
+                self.assertEqual(validate_list(self.deck), "Sample Commander")
+
+    def test_fixed_copy_limits_reject_one_over_limit(self) -> None:
+        for name, limit in (("Nazgûl", 9), ("Seven Dwarves", 7)):
+            with self.subTest(name=name):
+                self.write_deck(f"1 Sample Commander\n{limit + 1} {name}\n{98 - limit} Plains\n")
+                with self.assertRaisesRegex(DeckValidationError, f"maximum {limit}"):
+                    validate_list(self.deck)
+
+    def test_copy_limits_aggregate_split_case_and_unicode_spellings(self) -> None:
+        self.write_deck("1 Sample Commander\n4 NAZGÛL\n5 Nazgu\u0302l\n90 Plains\n")
+        self.assertEqual(validate_list(self.deck), "Sample Commander")
+        self.write_deck("1 Sample Commander\n4 NAZGÛL\n6 Nazgu\u0302l\n89 Plains\n")
+        with self.assertRaisesRegex(DeckValidationError, "maximum 9"):
+            validate_list(self.deck)
+
+    def test_any_number_exception_still_requires_100_cards(self) -> None:
+        self.write_deck("1 Sample Commander\n100 Relentless Rats\n")
+        with self.assertRaisesRegex(DeckValidationError, "expected 100"):
+            validate_list(self.deck)
+
+    def test_basic_land_names_are_case_insensitive(self) -> None:
+        self.write_deck("1 Sample Commander\n49 Plains\n50 plains\n")
+        self.assertEqual(validate_list(self.deck), "Sample Commander")
 
     def test_malformed_card_line_is_rejected(self) -> None:
         self.write_deck("1 Sample Commander\n1Sol Ring\n98 Plains\n")
