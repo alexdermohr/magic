@@ -1,3 +1,37 @@
+# Magar of the Magic Strings — V15 · früher zum geschützten Puppentreffer
+
+**Aktueller Stand: 21. Oktober 2026 · V15 · Rakdos · Ziel oberer Bracket-3-Rand.** [Aktive 100 Karten](current.txt) = [byteidentischer V15-Snapshot](versions/2026-10-21-b3-v15.txt). [V14](versions/2026-10-20-b3-v14.txt) bleibt unverändert. Die [vollständige V15-Analyse](analysis.md) enthält den V14/V15-Kostenvergleich, 42 konkrete Kandidaten und eine neue Matrix mit **100 einzeln bewerteten Slots einschließlich aller Basics**.
+
+**Vier Änderungen am bestehenden V14-Deck:**
+
+| Heraus | Hinein | Zweck und Preis |
+|---|---|---|
+| Oriq Loremage | Dragon's Rage Channeler | Frühes Surveil für R statt vier Mana und Tap-Wartezeit; verliert genaue wiederholbare GY-Suche. |
+| Big Score | Dark Ritual | Sofort +2 Nettomana; verliert Draw, gezielten Discard und zwei Schätze. Ritual erzeugt nur Schwarz. |
+| Liquimetal Torque | Coldsteel Heart | Weiterhin sieben frühe Manaartefakte, eine gewählte echte Farbe statt C; kommt getappt. |
+| Increasing Ambition | Shred Memory | Transmute für 1BB findet 24 andere MV-2-Karten; alternativ GY-Exil. Enger als ein Universaltutor. |
+
+36 feste Länder bleiben; die MV-Summe sinkt 190 → 181, der Durchschnitt ohne Länder inklusive Commander 2,969 → 2,828. Alle verbindlichen Karten bleiben: **Disrupt Decorum, Anger, In Garruk's Wake, Twinferno sowie Wheel of Fortune, Dark Deal, Incendiary Command, Burning Inquiry, Liliana's Caress, Waste Not und Bloodchief Ascension**. Mindcrank und Mirkwood Bats bleiben draußen. Bedlam, Cloak und Final Parting bleiben nach Kosten-/Funktionsvergleich bewusst erhalten.
+
+**Playplan:** Frühe B/R-Quellen und Schutz bereitlegen, mit Entomb/Unmarked Grave, Looting oder anderem Discard eine große Instant/Sorcery in den Friedhof bringen. Magar kostet **1BR**, jede Aktivierung nochmals **1BR**, ohne Tap und zu Instant-Speed. Im letzten gegnerischen Endsegment eine Puppe bauen und im eigenen Zug Evasion vor der Blockerdeklaration einsetzen. Alternativ erlauben **Anger im GY + eigener Mountain** oder andere Eile auch frisch im eigenen Zug erzeugten Puppen den Angriff. Der erste Spielerhit ermöglicht eine kostenlose **gewirkte** Zauberkopie; Wheels, Schätze und Waste Not finanzieren danach weitere endliche Puppen. Das ist ein Setupplan, keine belegte Turn-X-Siegrate.
+
+**Regelrelevante Grenzen:**
+
+- Puppen sind farblose, namenlose, nichtlegendäre **3/3-Karten ohne Kreaturentyp**, keine Tokens. Ihr Exilersatz greift beim Verlassen des Felds, **nicht** automatisch nach dem Treffer. Double Strike kann zwei Spielerhits und zwei Magar-Trigger liefern. Neue Puppen werden nicht nachträglich Angreifer eines laufenden Kampfs.
+- Kopien werden gewirkt und sind counterbar; Zusatzkosten wie Discard/Opfer bleiben fällig. Eine Shred-Copy transmutiert nicht. Increasing Ambitions GY-Bonus ist weiterhin nicht als gesichert angesetzt. Caverns Spezialmana finanziert passende Kreaturencasts, für Magars Aktivierung nur ihr C-Modus; Plaza liefert mit Magar auf dem Feld auch B/R für seine Fähigkeit.
+- Greaves/Cloak-Shroud blockiert auch eigene Zielzauber und Equip. Tools/Tunnel benötigen die passende Stärke; Flail bevorzugt an Magar. Bedlam verhindert dauerhaft **auch unsere Blocks**; Goad ersetzt Evasion nicht und schützt im Duell nicht verlässlich.
+- Rise reanimiert auch Anger und beendet dessen Friedhofs-Haste. Bereits angreifende Puppen bleiben im Kampf; neu reanimierte Kreaturen brauchen andere Eile, z. B. Bitter Reunion. Ghostform/Rebirth auf Magar verlangen, dass er für die Rückkehr in der betreffenden Zone bleibt; Wahl der Kommandozone verhindert die Rückkehr. Der Puppen-Exilersatz verhindert Todesschutz-Rückkehr.
+
+**Echte Checks und Grenzen:** Struktur, Singleton, Snapshot-/Historien-Identität, Matrixabgleich, Repo-Tests, `git diff --check` und die exakte Vier-Dateien-Grenze sind lokal bestanden (**70 Repo-Tests**); Belege und Prüfgrenzen stehen in der Analyse. Manuelle Farb-/Combo-Prüfung: Rakdos, keine identifizierte frühe Zweikarten-Infinite, keine Extrazugschleife oder Landverweigerungsstrategie. Incendiary Commands Nonbasic-Modus ist eine Einzelantwort, kein wiederholter Mana-Lock.
+
+Nach den tatsächlich abgerufenen offiziellen [GC-/Bracket-Belegen Oktober 2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025) und [Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) bleiben **Demonic Tutor, Gamble und Jeska's Will (3)** die GC. Die [aktuelle Wizards-Seite](https://magic.wizards.com/en/formats/commander) ist erreichbar, ihre vollständige Accordion-Liste war im Textabruf nicht extrahierbar. Scryfall/API scheiterte mit Fehlern/403 bzw. Shell-DNS; **kein vollständiger Live-Oracle-, Bannlisten- oder Live-GC-Datenbankcheck wird behauptet**. Kartenersatzbelege, B3-Tempo-Abwägung und verbleibende Unsicherheiten sind in [analysis.md](analysis.md) dokumentiert. Keine realen Playtests oder Winrates behauptet. Kein Commit, Push, PR oder Merge; Publikation durch den Controller nach unabhängiger Prüfung.
+
+---
+
+# Historische README – vollständige bisherige Fassung unverändert
+
+Ab hier gelten Versionsbezeichnungen, „aktuell“-Verweise und Prüfbehauptungen nur für die jeweiligen historischen Stände; aktive Liste und maßgebliche Zusammenfassung sind die V15-Angaben oben.
+
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
 **Aktueller Stand:** 20. Oktober 2026 · **V14** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
