@@ -1,71 +1,101 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**Stand:** 2026-10-20 · **Ziel:** Commander Bracket 3 (Upgraded) · **Farben:** Blau/Rot · **Budget:** offen.
+**V2 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · kein Budgetlimit**
 
-## Spielidee
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1 vom 20.10.2026](versions/2026-10-20-b3-v1.txt) · [V2 vom 21.10.2026](versions/2026-10-21-b3-v2.txt). Die Snapshots sind unveränderliche vollständige 100-Karten-Listen, einschließlich beider Partner-Commander.
 
-Malcolm ({2}{U}) und Breeches ({3}{R}) besitzen beide **Partner**: zwei Commander und 98 weitere Karten. Das Deck will mit kleinen, evasiven Piraten früh Schaden anrichten, Schätze produzieren und mit Breeches gegnerische Bibliotheken plündern. Die Schätze finanzieren die im selben Zug exilierten Karten. Entscheidend: Beide Commander reagieren auf **beliebigen Schaden**, den Piraten gegnerischen Spielern zufügen, nicht nur auf Kampfschaden.
+## Deckziel und Grundmechanik
 
-Ein Pirat, der gleichzeitig allen drei Gegnern Schaden zufügt, löst Malcolm und Breeches jeweils einmal aus: insgesamt drei Schätze und die oberste Karte jeder gegnerischen Bibliothek im Exil, spielbar nur in diesem Zug. Mehrere Piraten, die gleichzeitig demselben Gegner Schaden zufügen, erzeugen nicht automatisch mehrere Trigger. Getrennte Schadensereignisse können erneut auslösen.
+Beide Commander haben **Partner**: 2 Commander plus 98 weitere Karten. Malcolm erzeugt Schätze, Breeches lässt dich Karten aus gegnerischen Bibliotheken noch **im selben Zug** spielen. Beide Fähigkeiten reagieren auf **Schaden durch einen oder mehrere Piraten**, ausdrücklich auch auf Nichtkampfschaden. Trifft eine Schadensquelle gleichzeitig drei Gegner (z. B. Lightning-Rig Crew), lösen Malcolm und Breeches je **einmal** aus, aber ihr Effekt berücksichtigt **alle drei** betroffenen Gegner: drei Schätze und Zugriff auf drei gegnerische Karten. Gleichzeitiger Schaden mehrerer Piraten am selben Gegner vervielfacht die Auslöser nicht. Roaming Throne verdoppelt die Auslöser der gewählten Piraten.
 
-## Kerneinheiten
+Der Kern bleibt ein aggressives Piraten-Deck, das bereits vor erfolgreichen Kampftreffern Ressourcen erzeugen kann. Schutz und günstige Evasion halten Malcolm und Breeches aktiv; die zusätzlichen Schätze finanzieren Mehrfachzauber und gestohlene Karten.
 
-- **Frühe Piraten:** Spyglass Siren, Siren Stormtamer, Spectral Sailor, Impulsive Pilferer, Ragavan, Fanatical Firebrand. Malcolm wird so möglichst früh relevant.
-- **Wiederholbarer Nichtkampfschaden:** Lightning-Rig Crew schädigt alle Gegner für je eins. Jeder weitere gewirkte Pirat enttappt die Crew. Curiosity an der Crew kann Karten für jeden tatsächlich geschädigten Gegner ziehen.
-- **Zusätzliche Reichweite:** Kediss, Emberclaw Familiar verteilt den Kampfschaden eines Commanders zusätzlich an die anderen Gegner. Die neuen Schadensereignisse stammen weiterhin von Malcolm bzw. Breeches als Piraten.
-- **Wertskalierung:** Roaming Throne (Pirate wählen) verdoppelt ausgelöste Fähigkeiten anderer Piraten. Spark Double kann Malcolm ohne Legendenkonflikt kopieren. Double Down kopiert gewirkte Piraten, auch wenn Kopien legendärer Piraten wegen der Legendenregel unmittelbar wieder verschwinden.
-- **Plünderung:** Breeches, Eager Pillager, Professional Face-Breaker, Malcolm, Alluring Scoundrel, Dire Fleet Daredevil und Storm the Vault erweitern Kartenauswahl und Mana. Passionate Archaeologist gibt den Commandern Auslöser beim Wirken von Zaubersprüchen aus dem Exil; der dadurch verursachte Kommanderschaden kann Malcolm/Breeches erneut auslösen.
-- **Angriff ermöglichen:** Flugfähigkeit, Menace, Storm Fleet Sprinter, Warkite Marauder, Merchant Raiders, Kitesail Larcenist und ggf. March of Swirling Mist. Rising of the Day gibt allen eigenen Kreaturen Eile.
-- **Absicherung:** Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Deflecting Swat, Swan Song, An Offer You Can't Refuse, Mana Drain; March of Swirling Mist phast mehrere Kreaturen gegen Removal aus.
-- **Themenflotte:** The Indomitable zieht durch Kampfschaden Karten und kann unter Bedingungen aus dem Friedhof gewirkt werden.
+## V1 → V2: Zehn gezielte Kartentausche
 
-## Gewinnwege
+| Raus (V1) | Rein (V2) | Strategische Begründung |
+| --- | --- | --- |
+| Corsair Captain | **Captain Vargus Wrath** | Kostet nur zwei Mana; gibt angreifenden Piraten +1/+1 je bislang aus der Kommandozone gewirktem Commander. Bei beiden erstmaligen Casts normalerweise +2/+2 statt statischem +1/+1. Verliert einen einmaligen Schatz. |
+| Goldspan Dragon | **Gemcutter Buccaneer** | Vier statt fünf Mana; selbst Pirat, erzeugt bei jedem eigenen Piraten-ETB einen getappten Schatz, verwandelt Schätze zusätzlich in für Piraten ausrüstbare +2/+0-Equipment. Dafür entfällt Goldspans Schatz-Mana-Verdopplung. |
+| Relentless Assault | **Fathom Fleet Swordjack** | Als Pirat verursacht er bereits beim Angreifen Nichtkampfschaden in Höhe deiner Artefakte (auch Schätze/Clues/Food). Malcolm/Breeches triggern vor den Blockern; Encore erzeugt zwar späte angreifende Pirate-Kopien, aber deren Angriffsauslöser werden durch das bloße Ins-Spiel-Kommen angreifend **nicht** ausgelöst. Der zusätzliche Kampfzug entfällt, Port Razer bleibt. |
+| Mask of Memory | **Breeches, the Blastmaker** | Ein weiterer echter Pirat mit Menace. Der zweite gewirkte Spruch pro Zug ermöglicht gegen Artefaktopfer eine Münzwurfentscheidung: Spruchkopie oder Direktschaden durch einen Piraten, der Malcolm/Breeches auslösen kann. Varianz statt planbarem Looting. |
+| Herald's Horn | **Mystic Remora** | Deutlich günstigerer Kartenvorteil; besonders gegen viele Nichtkreatur-Zauber. Cumulative-Upkeep-Kosten bedeuten häufig, dass sie nur kurz liegen bleibt. |
+| Urza's Incubator | **Patchwork Banner** | Drei-Mana-Rock in beliebiger Farbe plus dauerhafter +1/+1-Bonus für gewählte Piraten; flexibler als eine ausschließlich auf Piratenzauber beschränkte Kostenreduktion. |
+| Storm the Vault | **Guild Artisan** | Zwei statt vier Mana, verleiht **beiden** Commandern Angriffstrigger für jeweils zwei Schätze gegen einen Gegner mit maximalen Lebenspunkten. Funktioniert schon **beim Angriff**, ohne Kampfschaden. |
+| Rising of the Day | **Frostcliff Siege** | Für drei Mana: Temur-Modus gibt allen Kreaturen Haste, Trample und +1/+0; alternativ Jeskai-Modus zieht für Kampfschaden an verschiedenen Spielern bis zu drei Karten. Die Moduswahl gilt beim Eintritt. |
+| Double Down | **Daring Piracy** | Erzeugt in jeder eigenen Kampfphase einen temporären 1/1-Piraten mit Haste und Menace; arbeitet ohne zusätzliche Zaubersprüche wiederholt mit Malcolm, Breeches, Gemcutter Buccaneer, Coercive Recruiter und Kindred Discovery. |
+| Springleaf Drum | **Aqueous Form** | Ein blaues Mana verschafft Malcolm oder Breeches garantierte Unblockbarkeit und Scry beim Angriff. Verzicht auf den frühen, aber mit Attacken konkurrierenden Creature-Tap-Ramp. |
 
-1. **Breite Piratenangriffe:** Shared Animosity verstärkt eine Piratenflotte massiv; Relentless Assault ermöglicht einen zweiten entscheidenden Kampfschritt.
-2. **Schatz-Armada:** Cyberdrive Awakener verwandelt angesammelte Nichtkreatur-Artefakte (auch Schatz-, Food- und Clue-Spielsteine) bis zum Zugende in fliegende 4/4-Artefaktkreaturen. Nicht vorher alle Schätze ausgeben.
-3. **Überwältigender Ressourcen- und Kartenwert:** Wiederholter Pinger-Schaden, Breeches-Karten, Kindred Discovery/Rhystic Study und evtl. zweimal Malcolm erzeugen einen Vorteil, der sich über mehrere Züge in Kampfschaden umsetzen lässt. Es ist keine frühe deterministische Kombo geplant.
+**Bewusste Abwägung:** Das Upgrade erhöht die Zahl gedruckter Piraten von 25 auf 28 und senkt zugleich die mittleren Nichtland-Manakosten, opfert aber einen Teil der allgemeinen Manaexplosivität von Goldspan Dragon und Urza's Incubator sowie den sofortigen Kartenvorteil von Mask of Memory. Bracket-3-Grenzen bleiben unverändert.
 
-## Bracket-3-Einordnung
+## Die wichtigsten Wertmaschinen
 
-**Exakt drei vorgesehene Game Changer:** Rhystic Study, Fierce Guardianship, Cyclonic Rift. Die aktualisierte offizielle Übersicht ist unter https://magic.wizards.com/en/formats/commander verlinkt; Stand der maßgeblichen Listenänderungen: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026.
+- **Lightning-Rig Crew + Malcolm + Breeches:** Die Crew tappt für je 1 Schaden an jeden Gegner. Bei drei Gegnern entstehen drei Schätze und drei Exil-Karten; Curiosity auf der Crew erlaubt bis zu drei Zieh-Auslöser. Durch weitere **gewirkte** Piraten wird die Crew wieder enttappt. Token-Piraten, die nur ins Spiel kommen, lösen diesen Untap-Trigger nicht aus.
+- **Fathom Fleet Swordjack + Schätze/Clues:** Schadenshöhe = Zahl aller eigenen Artefakte beim Auflösen seines Angriffstriggers. Als Pirat verursacht er den Schaden **ohne** erfolgreichen Kampftreffer und aktiviert damit Malcolm/Breeches. Mit Academy Manufactor kann die Artefaktzahl stark steigen. **Wichtig:** Seine durch Encore direkt angreifend ins Spiel kommenden Kopien lösen seinen eigenen \"Whenever this creature attacks\"-Auslöser nicht aus; sie können aber regulär Kampfschaden verursachen.
+- **Gemcutter Buccaneer + Academy Manufactor:** Jede neue eigene Piraten-Kreatur erzeugt Treasure-Nachschub; Manufactor ersetzt Treasure-Erzeugung durch Treasure, Food und Clue. Auch Daring-Piracy-Token sind Piraten und erfüllen den ETB-Auslöser.
+- **Captain Vargus Wrath + Commander-Casts:** Beide regelmäßig gewirkten Partner-Commander zählen einzeln. Der Buff gilt nur für angreifende Piraten während dieses Kampfes und macht kleine Flieger/Sprinter bedrohlich.
+- **Breeches, the Blastmaker + Schatzreserve:** Bei zweitem Spruch im Zug kann ein überschüssiges Artefakt geopfert werden. Bei verlorenem Münzwurf kann der Blastmaker den Schaden selbst an einen Gegner verursachen; er ist ein Pirat. Bei gewonnenem Wurf entsteht eine Kopie des Spruchs.
+- **Guild Artisan:** Belohnt Angriffe auf Spieler, die im Vergleich zu anderen Gegnern den höchsten Lebenspunktestand haben, ohne dass die Commander durchkommen müssen. Die erzeugten Schätze finanzieren Schutz oder weitere Piraten.
+- **Kediss, Emberclaw Familiar:** Wenn Malcolm oder Breeches Kampfschaden macht, teilt dieser Commander auch anderen Gegnern Nichtkampfschaden aus – wodurch die Piraten-Schatz-/Exil-Auslöser zusätzliche Gegner erfassen. Kediss-Schaden zählt nicht als Commander-*Kampfschaden* für die 21-Schaden-Regel.
+- **Passionate Archaeologist:** Aus dem Exil gewirkte Sprüche durch Breeches lösen Schaden der eigenen Commander aus; dieser Schaden durch die Commander als Piraten kann weitere Malcolm-/Breeches-Trigger erzeugen. Kein kostenloses Wirken und keine eingebaute Endlosschleife.
+- **The Indomitable:** Ständiger Kartennachschub durch Kampfschaden eigener Kreaturen, auch wenn das Schiff gerade **nicht** bemannt ist. Crew 3 eröffnet zusätzliche Angriffe.
 
-**Bewusst ausgeschlossen:** Glint-Horn Buccaneer + Malcolm, da die bekannte frühe Zweikarten-Endlosschleife nicht zur Bracket-3-Spielabsicht passt; Aggravated Assault als potenzielle Wiederholungs-Kampf-Engine mit Treasures; Mana-Crypt-/Dockside-artige illegale Beschleunigung. Kein absichtlicher früher Zweikarten-Sofortsieg, keine Massenlandzerstörung oder Extrazug-Kette.
+## Spielplan
 
-Die Bracket-Angabe beschreibt den Deckbauplan und ist kein Nachweis aus echten gespielten Partien. Das Deck kann in einzelnen Spielen durch sehr gute Schätze-/Exilketten erheblich stärker aussehen.
+1. **Züge 1–2:** Billige Piraten (Spyglass Siren, Siren Stormtamer, Spectral Sailor, Impulsive Pilferer, Ragavan, Fanatical Firebrand) und ggf. Sol Ring/Signets etablieren. Mystic Remora kann früh mehrere Karten ziehen. Hände ohne farbige Länder oder frühe Piraten konservativ mulliganen.
+2. **Züge 3–4:** Malcolm bevorzugt zuerst wirken; ihn schützen, wenn relevant. Breeches folgt mit verfügbaren Schätzen. Aqueous Form bevorzugt auf Breeches oder blockierbaren wichtigen Piraten, Frostcliff Siege je nach Hand als Temur-Tempo oder Jeskai-Draw.
+3. **Mittelspiel:** Schäden möglichst über **verschiedene Gegner** verteilen. Lightning-Rig Crew, Broadside Bombardiers und Fathom Fleet Swordjack liefern Noncombat-Triggersicherheit; Gemcutter, Captain Storm und Academy Manufactor skalieren Schätze.
+4. **Abschluss:** Shared Animosity oder Captain Vargus Wrath verstärken einen breiten Angriff. Port Razer ermöglicht mit echtem Kampfschaden zusätzliche Kampfphasen. Cyberdrive Awakener verwandelt übriggebliebene Nichtkreatur-Artefakte für den Zug in fliegende 4/4-Kreaturen – daher nicht alle Schätze vorher opfern.
 
-## Manabasis und Konsistenz
+## Schutz und Interaktion
 
-- **35 Länder** (25 verschiedene Nichtstandardländer, 7 Island, 3 Mountain). Fetchländer finden passende Island-/Mountain-Duals.
-- **12 Artefakte** einschließlich früher Manasteine, Springleaf Drum, Schutz-/Angriffs-Equipment, Herald's Horn und Urza's Incubator.
-- **25 Piraten einschließlich beider Commander**; zusätzlich Roaming Throne (als Pirat, sobald Pirat gewählt wird). Mit den frühen Spielzügen Piraten verteilen, damit Malcolm und Breeches unterschiedliche Gegner treffen.
-- **30 Kreaturen außerhalb der Kommandozone**, 8 Verzauberungen, 10 Spontanzauber, 3 Hexereien.
-- Starthand bevorzugt 2–3 Länder, einen frühen Piraten, einen Mana-Stein und ggf. Schutz. Malcolm kommt gewöhnlich vor Breeches ins Spiel.
+Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Deflecting Swat, Swan Song, An Offer You Can't Refuse, Mana Drain sowie March of Swirling Mist sichern Commander oder Angriffe. Chaos Warp, Pongify, Vandalblast und Untimely Malfunction sind flexible Antworten. Merchant Scroll sucht insbesondere blaue Instants wie Cyclonic Rift oder Schutz. Unblockbare/flugfähige Piraten bleiben wichtiger als große Bodenangreifer.
 
-## Risiken und getestete Grenzen
+**Praktisches Timing:** Breeches erlaubt das Spielen der gegnerischen Exil-Karten nur im aktuellen Zug und verlangt weiterhin tatsächliche Manakosten; fremdfarbiges Mana darf für die gestohlenen Sprüche ausgegeben werden, als sei es die benötigte Farbe. Ein zusätzliches Land kann nur nach normalen Land-Spielregeln gelegt werden.
 
-- Breeches erlaubt das Spielen exilierter gegnerischer Karten **nur im selben Zug**. Für fremde Zaubersprüche darf Mana wie Mana beliebiger Farbe ausgegeben werden; das ändert nicht die normalen Regeln fürs Spielen von Ländern.
-- Lightning-Rig Crew benötigt ohne Eile einen Zug, bevor sie tappen kann. Rising of the Day verbessert dieses Tempo; gegnerisches Removal bleibt relevant.
-- Viele starke Karten kosten vier oder mehr Mana. Schätze sind die Hauptbrücke, daher können Angriffsstopper/Artefakthass das Spiel deutlich verlangsamen.
-- Cyberdrive Awakener kann durch das Ausgeben von Schätzen beim Wirken weniger Schätze für seinen Angriff übrig haben; den Timing-Effekt berücksichtigen.
-- Das Repository prüft offline primär 100 Karten, Singleton und gültige Dateiverweise. **Separater Scryfall-Collection-Abgleich am 20.10.2026:** 92 verschiedene Kartennamen erkannt (darunter Island/Mountain); alle als Commander-legal ausgewiesen, Farbidentität jeweils innerhalb Blau/Rot und genau drei als Game Changer markiert (Rhystic Study, Fierce Guardianship, Cyclonic Rift). Die Ausführung ersetzt keinen Praxistest und keine Bewertung unentdeckter Mehrkartenkombos. **Keine Partietests oder Wahrscheinlichkeits-Simulationen durchgeführt.**
+## Deckstatistik und Bracket-Regeln (Scryfall-Abgleich 21.10.2026)
 
-## Erweiterter Kreis (bewusst nicht enthalten)
+| Merkmal | V1 | V2 |
+| --- | ---: | ---: |
+| Karten einschließlich 2 Commandern | 100 | 100 |
+| Länder | 35 | 35 |
+| Kreaturen einschließlich Commandern | 32 | **34** |
+| Gedruckte Piraten einschließlich Commandern | 25 | **28** |
+| Nichtkreatur-Artefakte | 12 | **9** |
+| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | **2,462** |
+| Game Changer | 3 | **3** |
 
-| Karte | Begründung |
+**Scryfall Collection API:** Für V1 und V2 je **92 unterschiedliche Kartenbezeichnungen** (Standardländer mehrfach), 100 Karten inklusive beider Commander; alle gefundenen Namen sind als Commander-legal markiert und ihre Farbidentität ist Teilmenge von Blau/Rot. Es sind jeweils genau **Rhystic Study, Fierce Guardianship und Cyclonic Rift** als Game Changer ausgewiesen. Diese Erhebung ist ein reproduzierbarer Oracle-/Legality-Momentabgleich, kein Partietest. Die Bracket-3-Zuordnung ist zusätzlich anhand der Spielabsicht zu prüfen.
+
+**Bewusst keine** frühe Zweikarten-Endlosschleife (insbesondere Malcolm + Glint-Horn Buccaneer), massenhafte Landzerstörung oder aufeinander gekettete Extrazüge. Die Kombinationen können dennoch starke Ressourcenüberschüsse erzeugen; ein Bracket-3-Deck ist nicht automatisch für jede Spielrunde passend.
+
+## Risiken / nicht gemessene Ergebnisse
+
+- Trotz günstigerer Kurve hängt das Deck stark von Malcolm, Evasion und eigenen Piraten ab. Boardwipes entfernen wiederholt die günstigen Angreifer.
+- Der Wechsel von Goldspan Dragon/Urza's Incubator auf günstigere Wertkarten kann bei ungehindertem Mana-Aufbau weniger explosiv sein, verbessert aber Farben und Piraten-Synergien.
+- Mystic Remora hat cumulative upkeep; Breeches, the Blastmaker ist münzwurfabhängig. Aqueous Form ist eine einzelne Aura und kann mit dem Träger entfernt werden.
+- Cyberdrive Awakener braucht einen Restbestand an Artefakten; bei Treasure-Überverbrauch fällt der Finisher kleiner aus.
+- **Keine Partien, Mulligan-Simulationen oder statistischen Siegquoten erhoben.** Eine rein strukturell und nach Oracle geprüfte Liste ist nicht praktisch optimal bewiesen.
+
+## Erweiterter Kreis / bewusst zurückgestellte Alternativen
+
+| Kandidat | Warum vorerst nicht enthalten |
 | --- | --- |
-| Sakashima of a Thousand Faces | Zusätzlicher Malcolm-Kopierer; gegen niedrigere Kurve und echtes Piratenverhältnis abgewogen. |
-| The Belligerent | Themenpassender zweiter Vehicle-Finisher, aber Crew-Kosten und redundant zu The Indomitable. |
-| Coastal Piracy / Reconnaissance Mission | Gut, jedoch durch Kindred Discovery, Rhystic Study und The Indomitable bei begrenzten Slots ersetzt. |
-| Molten Echoes | Starke nichtlegendäre ETB-Kopien, aber vier Mana konkurrieren mit Double Down. |
-| Jeska's Will / Ancient Tomb | Beide Game Changer; hierfür müsste einer der drei gewählten weichen. |
-| Glint-Horn Buccaneer | Frühe zweikartenbasierte Malcolm-Endlosschleife: absichtlich nicht Bracket 3. |
-| Aggravated Assault | Risiko einer frühen oder häufigen Extrakampf-Endlosschleife mit Schätzen und Multiplikatoren. |
-| Reckless Fireweaver + Maskwood Nexus | Kann mit Malcolm eine deterministische Schadens-/Schatzschleife erzeugen; nicht Kernkonzept. |
-| Kari Zev, Skyship Raider | Guter früher Pirat, aber der erzeugte Affe ist kein Pirat; schwächer als reine Engine-Plätze. |
+| **Vaan, Street Thief** | Weitere gegnerische Bibliothekskarten und Team-Counter, aber selbst kein Pirat; Breeches und Blastmaker liefern hier bereits Wert. |
+| **Imperial Recruiter** | Zuverlässige Suche nach Lightning-Rig Crew/Kediss/Academy Manufactor, kostet aber drei Mana und ist ebenfalls kein Pirat; möglicher Konsistenz-Tausch für später. |
+| **Sakashima of a Thousand Faces** | Verdoppelt Malcolm und hebt die Legendenregel auf, benötigt jedoch vier Mana; Spark Double übernimmt bereits den Klon-Slot. |
+| **Emberwilde Captain** | Monarch- und Angriffsbestrafung als Pirate, vier Mana und politischer Zusatzplan statt Tempo. |
+| **Amphin Mutineer** | Wiederverwendbarer ETB-Exil-Removal-Pirat (Encore), aber mit vier Mana langsamer als Pongify/Chaos Warp. |
+| **Zara, Renegade Recruiter** | Atmosphärische Kreaturendiebstähle, kostet fünf Mana und benötigt Angriff. |
+| **Coastal Piracy / Reconnaissance Mission** | Mehr Combat-Draw; aktuell Kindred Discovery, Mystic Remora, The Indomitable und Frostcliff Siege als Kartenvorteil. |
+| **Jeska's Will / Ancient Tomb** | Beide Game Changer: Nur möglich nach Austausch eines der drei aktuellen Game Changer. Könnten Tempo erhöhen, senken aber den gewählten Schutz-/Kontrollrahmen. |
+| **Glint-Horn Buccaneer** | Entfesselt zusammen mit Malcolm eine frühe deterministische Schatz-/Schadenschleife; bewusst außerhalb des Bracket-3-Plans. |
+| **Aggravated Assault** | Potenziell wiederholbare Zusatzkampfschleifen mit Treasure-Engine. |
+| **Reckless Fireweaver + Maskwood Nexus** | Kann mit Malcolm eine deterministische Schadens-/Schatz-Endlosschleife erzeugen; keine Absicht für Bracket 3. |
+
+Die zehn entfernten V1-Karten bleiben im unveränderten V1-Snapshot dokumentiert; es werden keine früheren Entscheidungen unbemerkt verworfen.
 
 ## Quellen
 
-- Partner/Oracle Malcolm: https://mtg.wtf/card/spg/2/Malcolm-Keen-Eyed-Navigator
-- Partner/Oracle Breeches: https://mtg.wtf/card/spg/6/Breeches-Brazen-Plunderer
-- Aktuelle Commander-Regeln/Brackets: https://magic.wizards.com/en/formats/commander
-- Offizielle aktualisierte Bracket-Philosophie: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
+- Offizielle Commander-Regeln und aktuelle Bracket-/Game-Changer-Liste: https://magic.wizards.com/en/formats/commander
+- Oracle-Texte, Farbidentitäten und Spiellegalität: https://scryfall.com/
+- Commander-Piraten-Synergien (Nutzerdecks, keine Regelnachweise): https://edhrec.com/commanders/breeches-brazen-plunderer-malcolm-keen-eyed-navigator/pirates
