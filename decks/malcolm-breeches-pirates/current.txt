@@ -13,7 +13,7 @@ Deck
 1 Malcolm, Alluring Scoundrel
 1 Warkite Marauder
 1 Departed Deckhand
-1 Dire Fleet Daredevil
+1 Oaken Siren
 1 Breeches, Eager Pillager
 1 Captain Lannery Storm
 1 Captain Vargus Wrath
@@ -21,14 +21,14 @@ Deck
 1 Lightning-Rig Crew
 1 Broadside Bombardiers
 1 Storm Fleet Sprinter
-1 Merchant Raiders
+1 Reckless Lackey
 1 Kitesail Larcenist
 1 Coercive Recruiter
 1 Port Razer
 1 Kediss, Emberclaw Familiar
 1 Roaming Throne
 1 Academy Manufactor
-1 Professional Face-Breaker
+1 Daring Piracy
 1 Gemcutter Buccaneer
 1 Spark Double
 1 Cyberdrive Awakener
@@ -36,14 +36,14 @@ Deck
 1 Arcane Signet
 1 Izzet Signet
 1 Talisman of Creativity
-1 Fellwar Stone
+1 Mox Amber
 1 Aqueous Form
 1 Lightning Greaves
 1 Swiftfoot Boots
 1 Mystic Remora
-1 Patchwork Banner
+1 Springleaf Drum
 1 The Indomitable
-1 Breeches, the Blastmaker
+1 Hawkeye's Bow
 1 Rhystic Study
 1 Kindred Discovery
 1 Shared Animosity
@@ -51,7 +51,7 @@ Deck
 1 Frostcliff Siege
 1 Passionate Archaeologist
 1 Guild Artisan
-1 Daring Piracy
+1 Mox Opal
 1 Fierce Guardianship
 1 Cyclonic Rift
 1 Deflecting Swat
