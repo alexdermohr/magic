@@ -4,7 +4,8 @@
 Index contract: ordinary inline Markdown links/images and literal decks/...
 file/directory mentions in README.md and decks/README.md. This deliberately
 does not attempt to implement GitHub Flavored Markdown rendering.
-No Oracle, color-identity, ban-list, or Commander-bracket legality checks.
+Only the documented offline copy-limit/name exceptions are checked; this is
+not a full Oracle, color-identity, ban-list, or Commander-bracket legality check.
 """
 from __future__ import annotations
 
@@ -20,6 +21,64 @@ BASICS = frozenset({
     "Snow-Covered Plains", "Snow-Covered Island", "Snow-Covered Swamp",
     "Snow-Covered Mountain", "Snow-Covered Forest", "Snow-Covered Wastes",
 })
+# Bounded, source-backed snapshot; see deck-card-rules.md before updating.
+# None means any number (still subject to the 100-card deck size).
+COPY_LIMITS = {
+    "Cid, Timeless Artificer": None,
+    "Dragon's Approach": None,
+    "Hare Apparent": None,
+    "Nazgûl": 9,
+    "Persistent Petitioners": None,
+    "Rat Colony": None,
+    "Relentless Rats": None,
+    "Seven Dwarves": 7,
+    "Shadowborn Apostle": None,
+    "Slime Against Humanity": None,
+    "Sphinx's Approach": None,
+    "Tempest Hawk": None,
+    "Templar Knight": None,
+}
+INTERCHANGEABLE_NAMES = (
+    ("Rick, Steadfast Leader", "Greymond, Avacyn's Stalwart"),
+    ("Daryl, Hunter of Walkers", "Hansk, Slayer Zealot"),
+    ("Glenn, the Voice of Calm", "Gregor, Shrewd Magistrate"),
+    ("Michonne, Ruthless Survivor", "Enkira, Hostile Scavenger"),
+    ("Negan, the Cold-Blooded", "Malik, Grim Manipulator"),
+    ("Lucille", "Gisa's Favorite Shovel"),
+    ("Chief Jim Hopper", "Sophina, Spearsage Deserter"),
+    ("Dustin, Gadget Genius", "Hargilde, Kindly Runechanter"),
+    ("Eleven, the Mage", "Cecily, Haunted Mage"),
+    ("Lucas, the Sharpshooter", "Bjorna, Nightfall Alchemist"),
+    ("Max, the Daredevil", "Elmar, Ulvenwald Informant"),
+    ("Mike, the Dungeon Master", "Othelm, Sigardian Outcast"),
+    ("Will the Wise", "Wernog, Rider's Chaplain"),
+    ("Mind Flayer, the Shadow", "Arvinox, the Mind Flail"),
+    ("Hawkins National Laboratory // The Upside Down",
+     "Havengul Laboratory // Havengul Mystery"),
+    ("E. Honda, Sumo Champion", "Baldin, Century Herdmaster"),
+    ("Ryu, World Warrior", "Vikya, Scorching Stalwart"),
+    ("Ken, Burning Brawler", "Aisha of Sparks and Smoke"),
+    ("Blanka, Ferocious Friend", "The Howling Abomination"),
+    ("Guile, Sonic Soldier", "Immard, the Stormcleaver"),
+    ("Zangief, the Red Cyclone", "Maarika, Brutal Gladiator"),
+    ("Dhalsim, Pliable Pacifist", "Tadeas, Juniper Ascendant"),
+    ("Chun-Li, Countless Kicks", "Zethi, Arcane Blademaster"),
+)
+
+
+def normalized_name(name: str) -> str:
+    return unicodedata.normalize("NFC", name.casefold())
+
+
+# The full DFC import name and its front-face name identify the same card.
+NAME_ALIASES = {
+    normalized_name(spelling): normalized_name(pair[1].split(" // ")[0])
+    for pair in INTERCHANGEABLE_NAMES
+    for name in pair
+    for spelling in (name, name.split(" // ")[0])
+}
+BASIC_KEYS = frozenset(normalized_name(name) for name in BASICS)
+COPY_LIMIT_KEYS = {normalized_name(name): limit for name, limit in COPY_LIMITS.items()}
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # The two indexes use ordinary inline links plus plain deck paths.
 INLINE_LINK_START = re.compile(r"\[(?P<label>[^\]\n]*)\]\(\s*")
@@ -71,12 +130,15 @@ def validate_list(path: Path) -> str:
 
     seen: Counter[str] = Counter()
     for quantity, name in cards:
-        if name not in BASICS and quantity != 1:
-            raise DeckValidationError(f"{path}: nonbasic card {name!r} has quantity {quantity}")
-        key = unicodedata.normalize("NFC", name.casefold())
+        key = normalized_name(name)
+        key = NAME_ALIASES.get(key, key)
         seen[key] += quantity
-        if name not in BASICS and seen[key] != 1:
-            raise DeckValidationError(f"{path}: duplicate nonbasic card {name!r}")
+        limit = None if key in BASIC_KEYS else COPY_LIMIT_KEYS.get(key, 1)
+        if limit is not None and seen[key] > limit:
+            raise DeckValidationError(
+                f"{path}: duplicate nonbasic card {name!r}: "
+                f"{seen[key]} copies, maximum {limit} (including interchangeable names)"
+            )
     return cards[0][1]
 
 
