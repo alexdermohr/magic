@@ -1,3 +1,43 @@
+# Magar of the Magic Strings — V15 · früher zum geschützten Puppentreffer
+
+**Aktueller Stand: 21. Oktober 2026 · V15 · Rakdos · Ziel oberer Bracket-3-Rand.** [Aktive 100 Karten](current.txt) = [byteidentischer V15-Snapshot](versions/2026-10-21-b3-v15.txt). [V14](versions/2026-10-20-b3-v14.txt) bleibt unverändert. Die [vollständige V15-Analyse](analysis.md) enthält den V14/V15-Kostenvergleich, 42 konkrete Kandidaten und eine neue Matrix mit **100 einzeln bewerteten Slots einschließlich aller Basics**.
+
+**Genau vier Änderungen am bestehenden V14-Deck; 96 Slots unverändert:**
+
+| Heraus | Hinein | Zweck und Preis |
+|---|---|---|
+| Oriq Loremage | Dragon's Rage Channeler | Frühes Surveil für R statt vier Mana und Tap-Wartezeit; verliert genaue wiederholbare GY-Suche. |
+| Liquimetal Torque | Coldsteel Heart | Weiterhin sieben frühe Manaartefakte, eine gewählte echte Farbe statt C; kommt getappt. |
+| Increasing Ambition | Shred Memory | Transmute für 1BB findet 24 andere MV-2-Karten; alternativ GY-Exil. Enger als ein Universaltutor. |
+| Whispersilk Cloak | [My Precious](https://mtg.wtf/card/hob/271a/My-Precious) | Gleiche {3}+Equip {2} = 5 Mana, **2 Leben je Equip**. Hexproof statt Shroud erlaubt eigene Zielzauber; optional Adventure und legendäres Opfer für Mount Doom. |
+
+36 feste Länder und 17 Artefakte bleiben; die MV-Summe sinkt 190 → 184: 64 Nichtländer inklusive Commander, Ø MV 184/64 = 2,875; ohne Commander 181/63 = 2,87301587. Alle verbindlichen Karten bleiben: **Disrupt Decorum, Anger, In Garruk's Wake, Twinferno sowie Wheel of Fortune, Dark Deal, Incendiary Command, Burning Inquiry, Liliana's Caress, Waste Not und Bloodchief Ascension**. Mindcrank und Mirkwood Bats bleiben draußen. Bedlam und Final Parting bleiben nach Kosten-/Funktionsvergleich bewusst erhalten. My Precious verbessert bei gleicher Evasion-/Schutzdichte die eigene Zielbarkeit; 2 Leben bei jedem Equip/Umrüsten belasten das Budget neben Black Market Connections und Painlands zusätzlich.
+
+**Big Score bleibt verbindlich erhalten.** Für {3}{R} plus eine Karte abwerfen als zusätzliche Kosten legt es gezielt einen großen Instant/Sorcery oder Anger in den Friedhof, zieht zwei neue Karten und erzeugt zwei Schätze, die jeweils B oder R liefern können. Auch jede kostenlose Magar-Copy verlangt weiterhin eine Abwurfkarte; vier Mana aus der Hand bleiben ein realer Preis. Der recherchierte Kandidat **Dark Ritual wird abgelehnt und ist nicht enthalten**: B → BBB bringt +2 Nettomana als Einmaltempo, aber kein Rot. Dafür gingen wiederholbares Looting, Schatz-Fixing und die tiefe Setup-Synergie von Big Score verloren. Die Version bleibt V15; es entsteht keine V16.
+
+**Playplan:** Frühe B/R-Quellen und Schutz bereitlegen, mit Entomb/Unmarked Grave, Looting oder anderem Discard eine große Instant/Sorcery in den Friedhof bringen. Magar kostet **1BR**, jede Aktivierung nochmals **1BR**, ohne Tap und zu Instant-Speed. Im letzten gegnerischen Endsegment eine Puppe bauen und im eigenen Zug Evasion vor der Blockerdeklaration einsetzen. Alternativ erlauben **Anger im GY + eigener Mountain** oder andere Eile auch frisch im eigenen Zug erzeugten Puppen den Angriff. Der erste Spielerhit ermöglicht eine kostenlose **gewirkte** Zauberkopie; Wheels, Schätze und Waste Not finanzieren danach weitere endliche Puppen. Das ist ein Setupplan, keine belegte Turn-X-Siegrate.
+
+**Regelrelevante Grenzen:**
+
+- Puppen sind farblose, namenlose, nichtlegendäre **3/3-Karten ohne Kreaturentyp**, keine Tokens. Ihr Exilersatz greift beim Verlassen des Felds, **nicht** automatisch nach dem Treffer. Double Strike kann zwei Spielerhits und zwei Magar-Trigger liefern. Neue Puppen werden nicht nachträglich Angreifer eines laufenden Kampfs.
+- Kopien werden gewirkt und sind counterbar; Zusatzkosten wie Discard/Opfer bleiben fällig. Eine Shred-Copy transmutiert nicht. Increasing Ambitions GY-Bonus ist weiterhin nicht als gesichert angesetzt. Caverns Spezialmana finanziert passende Kreaturencasts, für Magars Aktivierung nur ihr C-Modus; Plaza liefert mit Magar auf dem Feld auch B/R für seine Fähigkeit.
+- **My Precious: Hexproof + unblockbar** sperrt gegnerische Ziele auf die ausgerüstete Kreatur und erlaubt eigene Twinferno-, Traitor's-Clutch-, Malakir-Rebirth- und Equip-Ziele. Zusätzliches Greaves-/Costume-Shroud blockiert eigene Ziele weiterhin. Rebirth holt Puppen wegen ihres Exilersatzes dennoch nicht zurück. Hexproof/Shroud verhindern keine nichtzielenden Wipes; das Equipment selbst bleibt angreifbar. Tools/Tunnel benötigen die passende Stärke; Flail bevorzugt an Magar. Bedlam verhindert dauerhaft **auch unsere Blocks**; Goad ersetzt Evasion nicht und schützt im Duell nicht verlässlich.
+- [Allure of Power](https://mtg.wtf/card/hob/271b/Allure-of-Power): optionaler Instant für **{1}{B} plus Kreaturopfer als zusätzliche Kosten**, Draw 2; bevorzugt entbehrlichen Körper statt Payload-Puppe opfern. Nach erfolgreichem Adventure Equipment später regulär aus dem Exil wirken; kein kostenloses Anlegen. Im GY ist My Precious Artefakt MV 3, **kein Magar-Ziel** ([offizielle Adventure-Regeln](https://magic.wizards.com/en/news/feature/the-hobbit-release-notes)).
+- **Mount-Doom-Reserve:** {5}{B}{R}, {T}, Mount Doom und ein legendäres Artefakt opfern, **nur zu Hexerei-Zeiten**. My Precious erfüllt das Opfer, Cloak nicht. Bis zu zwei Kreaturen bei Auflösung **nichtzielend** auswählen, Rest zerstören; auch eigene übrige Puppen werden dadurch exiliert, Unzerstörbarkeit verhindert Zerstörung. Sieben Mana aus anderen Quellen plus Land und Equipment: teurer Backup-Wipe, kein Hauptplan ([offizielle LTR-Regelklärung](https://magic.wizards.com/en/news/feature/the-lord-of-the-rings-tales-of-middle-earth-release-notes), [Kartentext](https://mtg.wtf/card/ltr/343/Mount-Doom)).
+- Rise reanimiert auch Anger und beendet dessen Friedhofs-Haste. Bereits angreifende Puppen bleiben im Kampf; neu reanimierte Kreaturen brauchen andere Eile, z. B. Bitter Reunion. Ghostform/Rebirth auf Magar verlangen, dass er für die Rückkehr in der betreffenden Zone bleibt; Wahl der Kommandozone verhindert die Rückkehr. Der Puppen-Exilersatz verhindert Todesschutz-Rückkehr.
+
+**Echte Checks und Grenzen:** Struktur, Singleton, Snapshot-/Historien-Identität, Matrixabgleich, Repo-Tests, `git diff --check` und die exakte Vier-Dateien-Grenze sind lokal bestanden (**70 Repo-Tests**); Belege und Prüfgrenzen stehen in der Analyse. Manuelle Farb-/Combo-Prüfung: Rakdos, keine identifizierte frühe Zweikarten-Infinite, keine Extrazugschleife oder Landverweigerungsstrategie. Incendiary Commands Nonbasic-Modus ist eine Einzelantwort, kein wiederholter Mana-Lock.
+
+Nach den erneut geöffneten offiziellen [GC-/Bracket-Belegen Oktober 2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025) und [Februar 2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026) bleiben im manuellen Abgleich **Demonic Tutor, Gamble und Jeska's Will (3)** die GC. Die [aktuelle Wizards-Seite](https://magic.wizards.com/en/formats/commander) bestätigt maximal drei GC in B3, ihre vollständige Accordion-Liste war im Textabruf nicht extrahierbar. Der gezielte [Big-Score-Kartentext](https://mtg.wtf/card/j22/498/Big-Score) wurde gelesen; Scryfall lieferte erneut 403. **Kein vollständiger Live-Oracle-, Bannlisten- oder Live-GC-Datenbankcheck wird behauptet**. Quellen, Prüfgrenzen und die beiden durchgerechneten Big-Score-Linien stehen in [analysis.md](analysis.md). Keine realen Playtests oder Winrates behauptet.
+
+**Git-/PR-Nachweis:** Die Beibehaltung von **Big Score** anstelle von Dark Ritual ist in [Commit ed088f87](https://github.com/alexdermohr/magic/commit/ed088f87aec3b56627c1cb56c35e81f31c5f2794) eingecheckt und auf dem GitHub-Branch deck/magar-b3-v15-20261021 veröffentlicht. Sie ist Bestandteil von [PR #48](https://github.com/alexdermohr/magic/pull/48). Diese Angaben bestätigen den veröffentlichten Kartenstand, nicht einen bereits erfolgten Merge; der aktuelle PR-/main-Status muss gesondert live geprüft werden. Die historische Ritual-Fassung ist nicht die aktive V15-Liste.
+
+---
+
+# Historische README – vollständige bisherige Fassung unverändert
+
+Ab hier gelten Versionsbezeichnungen, „aktuell“-Verweise und Prüfbehauptungen nur für die jeweiligen historischen Stände; aktive Liste und maßgebliche Zusammenfassung sind die V15-Angaben oben.
+
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
 **Aktueller Stand:** 20. Oktober 2026 · **V14** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
