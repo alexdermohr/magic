@@ -16,7 +16,7 @@ Deck
 1 Dire Fleet Daredevil
 1 Breeches, Eager Pillager
 1 Captain Lannery Storm
-1 Corsair Captain
+1 Captain Vargus Wrath
 1 Captain Storm, Cosmium Raider
 1 Lightning-Rig Crew
 1 Broadside Bombardiers
@@ -29,7 +29,7 @@ Deck
 1 Roaming Throne
 1 Academy Manufactor
 1 Professional Face-Breaker
-1 Goldspan Dragon
+1 Gemcutter Buccaneer
 1 Spark Double
 1 Cyberdrive Awakener
 1 Sol Ring
@@ -37,21 +37,21 @@ Deck
 1 Izzet Signet
 1 Talisman of Creativity
 1 Fellwar Stone
-1 Springleaf Drum
+1 Aqueous Form
 1 Lightning Greaves
 1 Swiftfoot Boots
-1 Herald's Horn
-1 Urza's Incubator
+1 Mystic Remora
+1 Patchwork Banner
 1 The Indomitable
-1 Mask of Memory
+1 Breeches, the Blastmaker
 1 Rhystic Study
 1 Kindred Discovery
 1 Shared Animosity
 1 Curiosity
-1 Rising of the Day
+1 Frostcliff Siege
 1 Passionate Archaeologist
-1 Storm the Vault
-1 Double Down
+1 Guild Artisan
+1 Daring Piracy
 1 Fierce Guardianship
 1 Cyclonic Rift
 1 Deflecting Swat
@@ -64,7 +64,7 @@ Deck
 1 March of Swirling Mist
 1 Vandalblast
 1 Merchant Scroll
-1 Relentless Assault
+1 Fathom Fleet Swordjack
 1 Command Tower
 1 Volcanic Island
 1 Steam Vents
