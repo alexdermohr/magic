@@ -1,13 +1,42 @@
 # Magar of the Magic Strings — Puppentheater der unmöglichen Zauber
 
-**Aktueller Stand:** 20. Oktober 2026 · **V11** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
+**Aktueller Stand:** 20. Oktober 2026 · **V14** · Rakdos Commander · **Bracket 3 / Upgraded** · kein Budgetlimit.
 
 - [current.txt](current.txt) — einzige aktuelle, direkt importierbare 100-Karten-Liste.
-- [analysis.md](analysis.md) — V11: Anger, Tutoren, Schutz, Manabasis; ältere V10/V9-Analysen.
-- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt), [V11](versions/2026-10-20-b3-v11.txt).
+- [analysis.md](analysis.md) — V14: Auf Garruks Pfad statt Feuriges Abkommen; V13-Gesamtprüfung und historische V12–V9-Analysen.
+- **Echte Snapshots:** [V1](versions/2026-10-19-b3-v1.txt), [V2](versions/2026-10-19-b3-v2.txt), [V3](versions/2026-10-19-b3-v3.txt), [V4](versions/2026-10-19-b3-v4.txt), [V5](versions/2026-10-19-b3-v5.txt), [V6](versions/2026-10-20-b3-v6.txt), [V7](versions/2026-10-20-b3-v7.txt), [V8](versions/2026-10-20-b3-v8.txt), [V9](versions/2026-10-20-b3-v9.txt), [V10](versions/2026-10-20-b3-v10.txt), [V11](versions/2026-10-20-b3-v11.txt), [V12](versions/2026-10-20-b3-v12.txt), [V13](versions/2026-10-20-b3-v13.txt), [V14](versions/2026-10-20-b3-v14.txt).
 
 
-## V11 – Früherer Puppentreffer und höhere Zuverlässigkeit
+## V14 – Auf Garruks Pfad zurück ins Puppentheater
+
+**Fire Covenant / Feuriges Abkommen raus; In Garruk's Wake / Auf Garruks Pfad rein.** Die Hexerei für `{7}{B}{B}` zerstört alle gegnerischen Kreaturen und Planeswalker, lässt unsere Puppen und Magar aber stehen. Als erfolgreich notierter Magar-Zauber lässt sie sich nach jedem Treffer **kostenlos als Kopie wirken**. Sterbende gegnerische Kreaturen können für **Rise of the Dark Realms** zurückgeholt werden und **Bloodchief Ascension** auslösen.
+
+**Trade-off:** Statt frühzeitigem flexibel verteiltem Instant-Schaden durch Fire Covenant haben wir einen neunmana-teuren Zauber auf der Hand, wenn das Magar-Setup fehlt. Die beim Kampfschaden gewirkte Kopie entfernt erst **nach** dem Treffer das gegnerische Board; sie räumt nicht rückwirkend vorherige Blocker aus dem Weg. Bedlam erleichtert den Treffer, macht aber auch unsere Blocker unbrauchbar; Disrupt Decorum hält gegnerische Kreaturen beschäftigt, bis Wake sie beseitigt.
+
+**Unverändert:** Anger, Oriq Loremage, Bedlam, Burning Inquiry, Kaya's Ghostform, Wooded Foothills, Twinferno, 36 feste Länder, sieben günstige Mana-Artefakte, die bestehenden Tutoren und alle drei vorhandenen Game Changers (Demonic Tutor, Gamble, Jeska's Will). Keine beabsichtigte frühe Infinite-Combo. Die [V13-Liste](versions/2026-10-20-b3-v13.txt) bleibt unverändert, [V14](versions/2026-10-20-b3-v14.txt) entspricht der aktiven [current.txt](current.txt). Details und Risiken in [analysis.md](analysis.md).
+
+---
+## Historische V13 – Friedhof, Evasion und Schutz gezielt verstärkt
+
+**Fünf konkrete Tausche zur historischen V12:** Doom Whisperer → **Oriq Loremage** (wiederholbarer präziser Friedhofstutor für vier Mana); Dauthi Embrace → **Bedlam** (alle eigenen Puppen unblockbar, allerdings kann auch niemand für uns blocken); Prowler's Helm → **Burning Inquiry** (ein rotes Mana, Discard-Auslöser auch bei leeren Gegnerhänden); Stinkweed Imp → **Kaya's Ghostform** (ein schwarzes Mana, Magar-Rückkehr beim Sterben oder direkten Exil); Bojuka Bog → **Wooded Foothills** (Landtempo, rotes/schwarzes Fixing und Mountain-Zugang für Anger).
+
+**Begründete Risiken:** Bedlam ist *symmetrisch*: Ohne Goad und bei nur einem Gegner ist es gefährlich. Es ersetzt zwei einzelne Evasionquellen nicht in jeder Partie. Oriq Loremage kann als Kreatur entfernt werden, bevor es mit {T} eine Karte in den Friedhof sucht; Doom Whisperer konnte ohne Tap wiederholt Surveil 2 leisten. Kaya's Ghostform ersetzt nicht den Dredge-5-Motor von Stinkweed Imp und schützt nicht vor Bounce. Wooded Foothills ersetzt eine eigenständige Friedhofsantwort; Rakdos Charm ist weiterhin vorhanden.
+
+**Unverändert:** Twinferno statt Funkenspalter aus V12, Anger, Disrupt Decorum, sieben frühe Manaartefakte, Entomb/Unmarked Grave/Final Parting, Mask of Memory, Key to the City, Key to the Side-Door, Silver Shroud Costume, übrige Evasion, alle drei Wheels, Waste Not, Bloodchief Ascension, Liliana's Caress, Incendiary Command, Breach the Multiverse und Rise of the Dark Realms.
+
+**Formale Prüfung:** 100 Karten, 36 feste Länder, Rakdos, Singleton außer Standardländern; drei unveränderte Game Changers (Demonic Tutor, Gamble, Jeska's Will). [V12-Snapshot](versions/2026-10-20-b3-v12.txt) bleibt unverändert; [V13-Snapshot](versions/2026-10-20-b3-v13.txt) ist die **historische** V13-Liste; nur der [V14-Snapshot](versions/2026-10-20-b3-v14.txt) entspricht [current.txt](current.txt). [Komplette Analyse, weitere Kandidaten und Rückwechselkriterien](analysis.md). Keine reale Winrate nachgewiesen.
+
+---
+## Historische V12 – Funkenspalter raus, Twinferno rein
+
+**Genau ein Tausch zur V11:** Embercleave (Funkenspalter, {4}{R}{R}, Equip {3}) weicht **Twinferno** ({1}{R}, Instant). Twinferno gibt einer eigenen Puppe für diesen Zug Doppelschlag **oder** kopiert unseren nächsten gewirkten Instant-/Sorcery-Zauber des Zuges, insbesondere eine kostenlose Magar-Kopie nach erfolgreichem Kampfschaden. Dafür verlieren wir Embercleaves dauerhaften Doppelschlag und Trampelschaden. Den einmaligen Twinferno-Spruch rechtzeitig vor dem relevanten Kampfschaden spielen.
+
+**Die weiteren Karten bleiben vorerst:** Big Score, Prowler's Helm, Bojuka Bog, Doom Whisperer und Dauthi Embrace sind die ersten Prüfslots; Increasing Ambition, Final Parting und Whispersilk Cloak sind teurer, haben aber deutlich einzigartigere Funktionen. Sämtliche Gegenargumente, Kosten, sinnvolle Alternativen und die Schutz-/Tutor-/Evasion-Abhängigkeiten sind in [analysis.md](analysis.md) dokumentiert.
+
+**Unverändert:** Anger, Disrupt Decorum, Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Breach the Multiverse, Rise of the Dark Realms, sieben frühe Manaartefakte und die übrige Evasion. **Genau 100 Karten**, 36 Länder, drei Game Changers. Die [V11](versions/2026-10-20-b3-v11.txt) bleibt als echte historische Liste erhalten; [V12](versions/2026-10-20-b3-v12.txt) ist die damalige historische V12-Liste; die aktive [current.txt](current.txt) ist seit V13 aktualisiert.
+
+---
+## Historische V11 – Früherer Puppentreffer und höhere Zuverlässigkeit
 
 **Vier Tauschpaare zur V10:**
 1. **Peer into the Abyss → Anger:** Anger im Friedhof + kontrollierter Mountain gibt allen eigenen Puppen **Haste**, sodass sie auch dann noch im selben Zug zuschlagen können, wenn Magar sie erst im eigenen Zug erzeugt.
@@ -19,7 +48,7 @@
 
 **Schutz und Suche:** Greaves, Boots, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Deflecting Swat bleiben; Untimely ergänzt flexible Reaktion und Evasion. Grim Tutor ergänzt Demonic Tutor/Gamble/Final Parting/Increasing Ambition. **Ransack the Lab bleibt**: Es kostet {1}{B}, nicht drei Mana, und bereitet den Friedhof mit zwei Karten für nur zwei Mana vor.
 
-**Unberührt:** Disrupt Decorum (Goad), Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Blood for the Blood God!, Breach the Multiverse, Rise of the Dark Realms, Mask of Memory und die gesamte übrige Evasion-Engine. Keine neue frühe Infinite-Combo, genau drei Game Changers. Exakt **100 Karten**, **36 Länder**. V10 bleibt als [byteidentischer Snapshot](versions/2026-10-20-b3-v10.txt) erhalten; [V11-Snapshot](versions/2026-10-20-b3-v11.txt) entspricht current.txt.
+**Unberührt:** Disrupt Decorum (Goad), Bloodchief Ascension, Liliana's Caress, Waste Not, Wheel of Fortune, Dark Deal, Incendiary Command, Blood for the Blood God!, Breach the Multiverse, Rise of the Dark Realms, Mask of Memory und die gesamte übrige Evasion-Engine. Keine neue frühe Infinite-Combo, genau drei Game Changers. Exakt **100 Karten**, **36 Länder**. V10 bleibt als [byteidentischer Snapshot](versions/2026-10-20-b3-v10.txt) erhalten; [V11-Snapshot](versions/2026-10-20-b3-v11.txt) ist die damalige V11-Liste; die aktive current.txt bezeichnet seit V13 die neue Version.
 
 **PR-Review-Korrektur:** Die ältere Analyse unterschätzte Undying Malice/Feign Death: Magar stirbt auch beim Opfern oder bei tödlicher Toughness-Reduktion und kommt nach Auslösen des Rückkehr-Triggers grundsätzlich zurück, sofern kein Exilersatz greift. Die neue Analyse behebt diese Fehlaussage. Details, Gegenargumente und Erweiterter Kreis in [analysis.md](analysis.md).
 
@@ -35,7 +64,7 @@
 
 **Warum kein Mithril Coat?** Greaves, Boots, Deflecting Swat, Malakir Rebirth, Plaza of Heroes, Conqueror's Flail und Silver Shroud Costume sichern bereits mehrere Situationen ab. Coat gibt dauerhafte Unzerstörbarkeit an Magar, schützt aber weder vor Exil/Opfern/-X/-X noch über seinen ETB-Trigger die nichtlegendären Puppen. Ohne einen nachweislich schwächeren Slot werden weder zusätzliche Evasion noch Big Score oder Black Market Connections geopfert. **Mithril Coat und Imp's Mischief bleiben im erweiterten Kreis.**
 
-**Bracket 3:** 100 Karten, 36 Länder, 29 Instants/Sorceries, genau drei bekannte Game Changers (Demonic Tutor, Gamble, Jeska's Will). Keine neue frühe 2-Karten-Infinite Combo. **Keine reale Multiplayer-Winrate verifiziert.** Details einschließlich aller zehn Kandidaten, Manaprüfung, Kosten/Regeln und Gegenargumente stehen in [analysis.md](analysis.md). V9 bleibt als [historischer Snapshot](versions/2026-10-20-b3-v9.txt) byteidentisch; [V10](versions/2026-10-20-b3-v10.txt) ist die unveränderte **historische V10-Liste**. Die einzige aktuelle Deckliste ist V11 in [current.txt](current.txt).
+**Bracket 3:** 100 Karten, 36 Länder, 29 Instants/Sorceries, genau drei bekannte Game Changers (Demonic Tutor, Gamble, Jeska's Will). Keine neue frühe 2-Karten-Infinite Combo. **Keine reale Multiplayer-Winrate verifiziert.** Details einschließlich aller zehn Kandidaten, Manaprüfung, Kosten/Regeln und Gegenargumente stehen in [analysis.md](analysis.md). V9 bleibt als [historischer Snapshot](versions/2026-10-20-b3-v9.txt) byteidentisch; [V10](versions/2026-10-20-b3-v10.txt) ist die unveränderte **historische V10-Liste**. Die historische V11-Liste liegt in [versions/2026-10-20-b3-v11.txt](versions/2026-10-20-b3-v11.txt); die einzige aktive Deckliste ist V14 in [current.txt](current.txt).
 
 ---
 
