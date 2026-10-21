@@ -2,6 +2,8 @@
 
 **Commander:** Jon Irenicus, Shattered One · **Dimir (U/B)** · **Commander Bracket 3 / Upgraded** · **Version 7 (20.10.2026)**
 
+**Game Changer:** Rhystic Study, Demonic Tutor, Cyclonic Rift (3/3). **Deadly Rollick ist trotz Commander-kostenlosem Wirken kein Game Changer.** Ausschlaggebend ist die offizielle individuelle Liste, nicht der komplette Commander-2020-Freizauberzyklus; [Wizards-Liste vom 21.10.2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025) und [aktuelle Regelergänzungen vom 09.02.2026](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026).
+
 - [Aktuelle, geprüfte 100-Karten-Deckliste](current.txt)
 - [Einzelbewertung, V4–V7-Kartenwechsel und Risiken](analysis.md)
 - Echte Vorgänger: [V1](versions/2026-10-18-b3-v1.txt) · [V2](versions/2026-10-18-b3-v2.txt) · [V3](versions/2026-10-18-b3-v3.txt) · [V4](versions/2026-10-18-b3-v4.txt) · [V5](versions/2026-10-18-b3-v5.txt) · [V6](versions/2026-10-18-b3-v6.txt)
