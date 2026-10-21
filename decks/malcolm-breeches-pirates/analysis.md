@@ -1,10 +1,41 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V5 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V6 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt). Alle Snapshots sind vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt). Alle Snapshots sind vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
 
-## V5 – Mystic Remora raus: beste zusätzliche Funktion statt 1:1-Card-Draw-Ersatz
+## V6 – Urza's Saga statt einem Island; Three Tree City bleibt
+
+**Einziger Tausch auf ausdrücklichen Wunsch:** **1 Island → Urza's Saga**. **Three Tree City bleibt erhalten.** Die Deckliste hat weiterhin **35 Länder** (jetzt **6 Island und 3 Mountain** statt 7/3); damit verliert sie eine eigenständige blaue Manaquelle und bekommt ein zusätzliches farbloses Utility-Land. Urza's Saga ist nur vorübergehend ein Mana produzierendes Land, denn nach Kapitel III wird sie geopfert. Für Malcolm, doppelt blaue Gegenzauber und die frühe Farbentwicklung ist dieser Verlust der zentrale Preis.
+
+### Warum dieser Tausch?
+
+Das Deck enthält bereits viele Artefakte/Schatz-Spielsteine, jedoch keine andere Möglichkeit, aus einem Land gezielt ein günstiges Mana-Artefakt direkt aufs Spielfeld zu bringen. Kapitel III bietet vier tatsächlich legale Suchziele in der aktuellen Liste:
+
+| Artefakt | Gedruckte Manakosten | Funktion |
+| --- | --- | --- |
+| **Sol Ring** | {1} | Sofort nutzbare farblose Beschleunigung für große Zauber, Equipment oder Saga-Nachzug. |
+| **Springleaf Drum** | {1} | Farbfixing schon mit einem frisch ausgespielten Piraten; eine mit Hawkeye's Bow ausgerüstete Kreatur kann durch das Tappen Schaden verursachen. |
+| **Mox Amber** | {0} | Kostenloses farbiges Mana, sofern eine passende Legende (insbesondere Malcolm/Breeches) im Spiel ist. |
+| **Mox Opal** | {0} | Kostenloses Farb-Mana bei Metalcraft (mindestens drei Artefakte). |
+
+**Nicht suchbar:** **Hawkeye's Bow**, obwohl er Manawert 1 hat, denn seine **tatsächlichen Manakosten sind {R}**. Die Suche bezieht sich auf die **Manakosten {0} oder {1}**, nicht auf den Manawert. Auch Lightning Greaves und Swiftfoot Boots kosten {2} und sind keine Saga-Suchziele. Die Regel ist ausdrücklich in Wizards' [Modern Horizons 2 Release Notes](https://magic.wizards.com/en/news/feature/modern-horizons-2-release-notes-2021-06-04) erläutert.
+
+**Construct-Synergie:** Ab Kapitel II erhält die Saga eine {2}, {T}-Fähigkeit, einen Construct-Artefaktkreaturenspielstein zu erzeugen. Er wächst mit **allen** eigenen Artefakten einschließlich Schätzen, Clues, Food und Moxen. Er unterstützt Artefakt-ETB-Karten wie **Captain Storm, Cosmium Raider** und den fliegenden Artefaktangriff von **Cyberdrive Awakener**. Der Spielstein ist selbst **kein Pirat**, sofern kein zusätzlicher Kreaturentyp-Effekt vorliegt. Urza's Saga selbst ist ein **Verzauberungsland und kein Artefakt**; sie zählt ohne Typänderung nicht für Mox Opals Metalcraft.
+
+### Abwägung gegenüber Three Tree City und den Standardländern
+
+- **Three Tree City bleibt:** Früh produziert es zwar nur farbloses Mana, doch seine {2}, {T}-Fähigkeit erzeugt bei einer breiten Piratenflotte viel farbiges Mana. Diese starke spätspielorientierte Manaquelle soll ausdrücklich im Deck bleiben.
+- **Access Tunnel bleibt:** Er kann etwa einen unverbesserten Breeches (3/3) ungeblockt angreifen lassen und dabei Malcolm/Breeches-Trigger ermöglichen, wenn ausreichend Mana vorhanden ist. Die Aktivierung kostet {3}, {T}, aber Evasion ist für das Deck wichtig.
+- **Eine Island weicht:** Statt 7 Island und 3 Mountain enthält das Deck jetzt 6 Island und 3 Mountain. Das erhält alle drei Mountains für rote 1-Drops und rote Piraten, vermindert aber reine blaue Landstarts. Unclaimed Territory und Secluded Courtyard bleiben für die Piraten-Commander als Farbquellen erhalten; gegen Island ist Saga in der **frühen blauen** Manaversorgung eindeutig schwächer. Wer in praktischen Händen zu oft blaue Kosten nicht bezahlen kann, sollte diesen Tausch rückgängig machen.
+
+**Kritische Schwäche:** Urza's Saga ersetzt nun eine **permanent blaue Manaquelle**; sie erzeugt nur farbloses Mana und wird im dritten Kapitel geopfert. Bleibt die Hand ohne ausreichend blaue Länder/Schätze, kann dieser Tausch den Spielaufbau verzögern. Gegen Landzerstörung bzw. wenn der gesuchte Mana-Stein später zerstört wird, ist der Landverlust besonders spürbar. In Kapitel III kann man bei Bedarf noch vor dessen Auflösung die auf dem Land liegende Construct-Fähigkeit aktivieren und/oder Mana erzeugen. Ein Saga-Tutor für **Sol Ring** oder einen aktiv nutzbaren **Mox** kann den Landverlust häufig ausgleichen, ist aber kein Garant für dauerhaftes Farb-Mana. Bei gleichzeitig liegender **Blood Moon** gelten gesonderte Interaktionsregeln; kein bewiesener Spieltest.
+
+**Bracket/Legalität:** Urza's Saga ist Commander-legal, hat farblose Farbidentität und ist **kein Game Changer**. Die drei Game Changer **Rhystic Study, Fierce Guardianship und Cyclonic Rift** bleiben unverändert. V6 enthält weiterhin exakt **100 Karten** und **35 Länder**. Es werden keine frühen Zweikarten-Infinite-Kombos hinzugefügt.
+
+**Erfolgskriterium:** Der Tausch verbessert den situativen Zugang zu Sol Ring, Springleaf Drum und Moxen **bei Erhalt von Three Tree City**. Er kostet aber eine Island und damit eine farbige Manaquelle. Ob der Toolboxgewinn das Risiko früher fehlender blauer Quellen tatsächlich aufwiegt, ist offen; **keine Partietests durchgeführt**.
+
+## Historisch V5 – Mystic Remora raus: beste zusätzliche Funktion statt 1:1-Card-Draw-Ersatz
 
 **Kartentausch:** **Mystic Remora (1 Mana, unabhängiger Kartennachschub)** → **Imperial Recruiter (3 Mana, Kreaturentutor)**. Die angefragte neue Karte wird ausdrücklich **nicht** danach ausgewählt, wie ähnlich sie der entfernten Verzauberung ist. Entscheidend ist, welche bisher fehlende Funktion die stärkste Verbesserung der gesamten Malcolm-/Breeches-Maschine darstellt.
 
@@ -29,7 +60,7 @@ Malcolm und Breeches sind durch die Kommandozone planbar verfügbar; für ihre b
 
 | Kandidat | Warum nicht im geöffneten V5-Slot? |
 | --- | --- |
-| **Urza's Saga** | Mächtiges Land/Artifact-Toolbox für **Sol Ring**, **Springleaf Drum**, **Mox Amber** und **Mox Opal**. **Kann jedoch Hawkeye's Bow nicht holen:** Der Bogen kostet {R}, und Urza's Saga sucht nur Artefakte mit **tatsächlichen Manakosten {0} oder {1}**, nicht beliebige Artefakte mit Manawert 1. Die Saga erzeugt ausschließlich farbloses Mana und opfert sich nach Kapitel III; für Malcolm/Breeches ist frühes blaues/rotes Mana wichtiger. |
+| **Urza's Saga (historischer V5-Vergleich)** | Im V5-Slot wurde Imperial Recruiter bevorzugt. **V6 nimmt Urza's Saga stattdessen für eine Island als Landtausch auf**; Three Tree City bleibt, dafür geht eine blaue Manaquelle verloren. Sie kann Sol Ring, Springleaf Drum und beide Moxe suchen, aber nicht Hawkeye's Bow mit Manakosten {R}. |
 | **Sting, the Glinting Dagger** | Haste und Enttappen zu Beginn jeder Kampfphase, stark mit Lightning-Rig Crew und Hawkeye's Bow, aber 2 Mana plus 2 Equip und benötigt bereits eine geeignete Kreatur/Equipmentkombination. Sie sucht diese Schlüsselkarten nicht. |
 | **Goldspan Dragon** | Explosiver Schatz-Mana-Multiplikator mit Flugfähigkeit und Eile; fünf Mana und kein Pirat. Sobald die vorhandene Engine bereits funktioniert, sehr stark, aber vor ihrem Aufbau weniger zuverlässig als der Tutor. |
 | **Disrupt Decorum** | Räumt gegnerische Angriffe für einen Zug zur Seite und lenkt sie um, schützt damit indirekt. Vier Mana und ein einmaliger Effekt, der auf wenig gegnerischen Kreaturen selten hilft; keine Suche nach Engine-Bausteinen. |
@@ -148,16 +179,16 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 
 ## Deckstatistik und Bracket-Regeln (Scryfall-Abgleich 21.10.2026)
 
-| Merkmal | V1 | V2 | V3 | V4 | V5 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Karten einschließlich 2 Commandern | 100 | 100 | 100 | 100 | **100** |
-| Länder | 35 | 35 | 35 | 35 | **35** |
-| Kreaturen einschließlich Commandern | 32 | 34 | 33 | 32 | **33** |
-| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | 27 | **27** |
-| Nichtkreatur-Artefakte | 12 | 9 | 11 | 11 | **11** |
-| Summe der Nichtland-Manawerte | 166 | 160 | 150 | 148 | **150** |
-| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | 2,277 | **2,308** |
-| Game Changer | 3 | 3 | 3 | 3 | **3** |
+| Merkmal | V1 | V2 | V3 | V4 | V5 | V6 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Karten einschließlich 2 Commandern | 100 | 100 | 100 | 100 | 100 | **100** |
+| Länder | 35 | 35 | 35 | 35 | 35 | **35** |
+| Kreaturen einschließlich Commandern | 32 | 34 | 33 | 32 | 33 | **33** |
+| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | 27 | 27 | **27** |
+| Nichtkreatur-Artefakte | 12 | 9 | 11 | 11 | 11 | **11** |
+| Summe der Nichtland-Manawerte | 166 | 160 | 150 | 148 | 150 | **150** |
+| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | 2,277 | 2,308 | **2,308** |
+| Game Changer | 3 | 3 | 3 | 3 | 3 | **3** |
 
 **Manawert-Gegenrechnung:** V1: 166 / 65 = 2,554. V2: 166 − 32 + 26 = 160, also 160 / 65 = 2,462. V3: 160 − 14 + 4 = 150, also 150 / 65 = 2,308. V4: 150 − 6 + 4 = 148, also 148 / 65 = 2,277. **V5:** Mystic Remora (1) weicht Imperial Recruiter (3): 148 − 1 + 3 = **150**, mithin **150 / 65 = 2,308**. Ohne unabhängige Partietests ist daraus weder eine höhere Siegquote noch ein zuverlässigerer Mulligan abzuleiten.
 
@@ -189,7 +220,7 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 | **Aggravated Assault** | Potenziell wiederholbare Zusatzkampfschleifen mit Treasure-Engine. |
 | **Reckless Fireweaver + Maskwood Nexus** | Kann mit Malcolm eine deterministische Schadens-/Schatz-Endlosschleife erzeugen; keine Absicht für Bracket 3. |
 
-Die historisch entfernten Karten aus V1 bis V4 bleiben in unveränderten Snapshots dokumentiert. V4 holte Springleaf Drum und Daring Piracy zurück, V5 tauscht Mystic Remora bewusst gegen Imperial Recruiter. Weitere Kandidaten werden nicht ohne belegbar bessere Deckfunktion reintegriert.
+Die historischen Kartenstände aus V1 bis V5 bleiben in unveränderten Snapshots dokumentiert. V4 holte Springleaf Drum und Daring Piracy zurück, V5 tauschte Mystic Remora gegen Imperial Recruiter. **V6 ersetzt ausschließlich ein Island durch Urza's Saga und behält Three Tree City**. Weitere Kandidaten werden nicht ohne nachvollziehbaren Zusatznutzen eingebaut.
 
 ## Quellen
 
