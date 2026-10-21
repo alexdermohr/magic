@@ -87,8 +87,9 @@ Deck
 1 Sokenzan, Crucible of Defiance
 1 Cavern of Souls
 1 Three Tree City
+1 Urza's Saga
 1 Access Tunnel
 1 Unclaimed Territory
 1 Secluded Courtyard
-7 Island
+6 Island
 3 Mountain
