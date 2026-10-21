@@ -1,8 +1,41 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V4 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V5 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt). Alle vier Snapshots sind vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt). Alle Snapshots sind vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V5 – Mystic Remora raus: beste zusätzliche Funktion statt 1:1-Card-Draw-Ersatz
+
+**Kartentausch:** **Mystic Remora (1 Mana, unabhängiger Kartennachschub)** → **Imperial Recruiter (3 Mana, Kreaturentutor)**. Die angefragte neue Karte wird ausdrücklich **nicht** danach ausgewählt, wie ähnlich sie der entfernten Verzauberung ist. Entscheidend ist, welche bisher fehlende Funktion die stärkste Verbesserung der gesamten Malcolm-/Breeches-Maschine darstellt.
+
+### Warum Imperial Recruiter?
+
+Malcolm und Breeches sind durch die Kommandozone planbar verfügbar; für ihre beste Synergie fehlen jedoch häufig einzelne unterstützende Kreaturen. **Imperial Recruiter** sucht beim Ins-Spiel-Kommen **eine Kreatur mit Stärke 2 oder weniger** auf die Hand. Dabei ist entscheidend, dass ihre **gedruckte Stärke in der Bibliothek** höchstens 2 beträgt:
+
+| Suchziel im Deck | Konkreter Zweck |
+| --- | --- |
+| **Lightning-Rig Crew (0/5)** | Nichtkampfschaden an **alle** Gegner; mit Hawkeye's Bow zwei separate Schadensereignisse pro eigener Crew-Aktivierung. Trifft ohne Kampfschaden. |
+| **Kediss, Emberclaw Familiar (1/1)** | Verteilt erfolgreichen Commander-Kampfschaden zusätzlich an die übrigen Gegner. Dadurch werden die Malcolm-/Breeches-Auslöser auf den ganzen Tisch ausgedehnt. |
+| **Academy Manufactor (1/3)** | Vergrößert **jede** Malcolm-/Gemcutter-Treasure-Erzeugung zu Treasure + Clue + Food; verbessert Metalcraft und Cyberdrive-Awakener-Optionen. |
+| **Siren Stormtamer (1/1)** | 1-Mana-Pirat mit gezieltem Schutz gegen einen auf uns oder eigene Kreaturen zielenden Spruch bzw. Fähigkeit. |
+| **Oaken Siren (1/2)** | Fliegender Pirate-Artefaktmana-Träger, zusammen mit Hawkeye's Bow selbst eine wiederholbare Schadensquelle beim tatsächlichen Tappen. |
+| **Broadside Bombardiers (2/2)** | Früh bedrohlicher Pirat mit Eile, Menace und Opfer-/Direktschaden über seine Boast-Fähigkeit. |
+
+**Richtige Auswahl in der Partie:** Ist das Board offen und Malcolm schlagfähig, oft Kediss. Sind die Gegner mit Blockern zu, Lightning-Rig Crew. Gibt es bereits wiederholt Schätze oder Gemcutter, Academy Manufactor. Bei drohendem Spot-Removal Siren Stormtamer. Der Tutor löst kein Mana-/Treasure-Problem unmittelbar; das gesuchte Ziel muss normalerweise zusätzlich gewirkt werden.
+
+**Aufwand und Grenzen:** Recruiter kostet {2}{R}, ist selbst **kein Pirat**, erzeugt beim Eintritt keine Schätze und reduziert im Gegensatz zu Remora den unabhängigen frühzeitigen Kartennachschub. Die Konsistenzsteigerung beruht auf konkreten Suchzielen; ohne Zeit, den zweiten Zauber zu wirken, ist sie geringer. Die Kartenwahl ist qualitativ begründet, **nicht durch Partietests bestätigt**.
+
+### Geprüfte Alternativen und stärkstes Gegenargument
+
+| Kandidat | Warum nicht im geöffneten V5-Slot? |
+| --- | --- |
+| **Urza's Saga** | Mächtiges Land/Artifact-Toolbox für **Sol Ring**, **Springleaf Drum**, **Mox Amber** und **Mox Opal**. **Kann jedoch Hawkeye's Bow nicht holen:** Der Bogen kostet {R}, und Urza's Saga sucht nur Artefakte mit **tatsächlichen Manakosten {0} oder {1}**, nicht beliebige Artefakte mit Manawert 1. Die Saga erzeugt ausschließlich farbloses Mana und opfert sich nach Kapitel III; für Malcolm/Breeches ist frühes blaues/rotes Mana wichtiger. |
+| **Sting, the Glinting Dagger** | Haste und Enttappen zu Beginn jeder Kampfphase, stark mit Lightning-Rig Crew und Hawkeye's Bow, aber 2 Mana plus 2 Equip und benötigt bereits eine geeignete Kreatur/Equipmentkombination. Sie sucht diese Schlüsselkarten nicht. |
+| **Goldspan Dragon** | Explosiver Schatz-Mana-Multiplikator mit Flugfähigkeit und Eile; fünf Mana und kein Pirat. Sobald die vorhandene Engine bereits funktioniert, sehr stark, aber vor ihrem Aufbau weniger zuverlässig als der Tutor. |
+| **Disrupt Decorum** | Räumt gegnerische Angriffe für einen Zug zur Seite und lenkt sie um, schützt damit indirekt. Vier Mana und ein einmaliger Effekt, der auf wenig gegnerischen Kreaturen selten hilft; keine Suche nach Engine-Bausteinen. |
+| **Goblin Matron** | Sucht Lightning-Rig Crew und Goblin-Piraten, aber nicht Kediss, Academy Manufactor, Oaken Siren oder Siren Stormtamer. Bei gleichen drei Manakosten ist Imperial Recruiter deutlich vielseitiger. |
+
+**Bracket 3:** Imperial Recruiter ist Commander-legal mit roter Farbidentität und kein Game Changer. Die bisherigen **Rhystic Study, Fierce Guardianship und Cyclonic Rift** bleiben als einzige drei Game Changer. Keine neue geplante frühe Zweikarten-Endloskombination.
 
 ## Deckziel und Grundmechanik
 
@@ -10,7 +43,7 @@ Beide Commander haben **Partner**: 2 Commander plus 98 weitere Karten. Malcolm e
 
 Der Kern bleibt ein aggressives Piraten-Deck, das bereits vor erfolgreichen Kampftreffern Ressourcen erzeugen kann. Schutz und günstige Evasion halten Malcolm und Breeches aktiv; die zusätzlichen Schätze finanzieren Mehrfachzauber und gestohlene Karten.
 
-## V4 – Prüfung sämtlicher 15 entfernter Karten aus V1–V3
+## Historie: V4 – Prüfung sämtlicher 15 entfernter Karten aus V1–V3
 
 **Entscheidung:** Zwei Karten waren zu vorschnell gestrichen worden und kehren zurück; sieben bleiben ernsthafte Kandidaten für spätere Partietests. Ziel ist nicht die niedrigste theoretische Manakurve, sondern eine zuverlässig funktionsfähige Treasure-/Piraten-Engine. Es wurden keine Siegquoten gemessen.
 
@@ -32,7 +65,7 @@ Der Kern bleibt ein aggressives Piraten-Deck, das bereits vor erfolgreichen Kamp
 | Corsair Captain | Bleibt draußen | Einmaliger Schatz und statischer Buff sind gut, aber Captain Vargus Wrath hat nach Commander-Casts mehr Schadenspotenzial, sobald Vargus selbst angreift. |
 | Goldspan Dragon | **Ernsthafter Kandidat** | Ein 5-Mana-Flieger mit Eile, der allen Schätzen effektiv zwei Mana entlockt. Sehr stark mit Malcolm und Academy Manufactor, aber selbst kein Pirat und schwerer zu spielen als der Vier-Mana-Gemcutter. |
 | Relentless Assault | Bleibt draußen | Noch ein Kampfsegment ist mächtig, aber sorcery-speed, teuer und ohne Angreifer wenig wert. Port Razer ist bereits ein Pirat mit Extrakampf-Potenzial. |
-| Mask of Memory | Kandidat | Auf fliegenden/unblockbaren Piraten ein effizienter Nachschub: zwei ziehen, eine abwerfen. Konkurrenz zu Curiosity, Mystic Remora, Kindred Discovery und The Indomitable. |
+| Mask of Memory | Kandidat | Auf fliegenden/unblockbaren Piraten effizient: zwei ziehen, eine abwerfen. Konkurrenz zu Curiosity, Kindred Discovery und The Indomitable; durch den Wegfall von Mystic Remora in V5 etwas interessanter. |
 | Herald's Horn | Bleibt draußen | Mit nur 27 gedruckten Piraten ist der Upkeep-Treffer nicht verlässlich genug für drei Mana; die Kostensenkung ist nur {1}. |
 | Urza's Incubator | Kandidat | Die Reduktion um {2} hilft auch beim wiederholten Wirken der Partner-Commander und großer Piraten; ist aber symmetrisch und bei vielen billigen/farbpiplastigen Piraten nicht voll nutzbar. |
 | Storm the Vault | Kandidat | Kann mit mindestens fünf Artefakten am Endsegment zu Vault of Catlacan werden und später viel blaues Mana je Artefakt liefern. Kostet aber vier Mana und verzögert den Engine-Start; kein zwingender Soforttausch. |
@@ -69,7 +102,7 @@ Das Ziel ist **nicht** eine höhere Zahl großer Kreaturen, sondern weniger Züg
 
 ### Damalige Abwägung bei V3 (vor dem neuen Cut-Audit)
 
-Der erwartete zusätzliche Nutzen einer sechsten oder siebten Änderung ist kleiner und unsicherer: **The Indomitable**, **Coercive Recruiter**, **Gemcutter Buccaneer**, **Kindred Discovery**, **Roaming Throne** und die vorhandenen Schutz-/Evasion-Karten bleiben bewusst im Deck. **Imperial Recruiter**, Sword of the Animist, Tandem Lookout und Inspiring Statuary sind Kandidaten für spätere Partietests, aber keine nachgewiesenen Pflicht-Swaps.
+**Historischer V3-Stand:** Die Karten The Indomitable, Coercive Recruiter, Gemcutter Buccaneer, Kindred Discovery und Roaming Throne blieben gesetzt. Damals wurden Imperial Recruiter, Sword of the Animist, Tandem Lookout und Inspiring Statuary als spätere Kandidaten beurteilt. **Imperial Recruiter wird in V5 bewusst aufgenommen**, da sein flexibles Suchspektrum gegenüber zusätzlichem allgemeinem Kartenziehen nun den größeren Nutzen verspricht.
 
 ## Historischer Vergleich V1 → V2: zehn frühere Kartentausche
 
@@ -115,20 +148,20 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 
 ## Deckstatistik und Bracket-Regeln (Scryfall-Abgleich 21.10.2026)
 
-| Merkmal | V1 | V2 | V3 | Aktuell V4 |
-| --- | ---: | ---: | ---: | ---: |
-| Karten einschließlich 2 Commandern | 100 | 100 | 100 | **100** |
-| Länder | 35 | 35 | 35 | **35** |
-| Kreaturen einschließlich Commandern | 32 | 34 | 33 | **32** |
-| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | **27** |
-| Nichtkreatur-Artefakte | 12 | 9 | 11 | **11** |
-| Summe der Nichtland-Manawerte | 166 | 160 | 150 | **148** |
-| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | **2,277** |
-| Game Changer | 3 | 3 | 3 | **3** |
+| Merkmal | V1 | V2 | V3 | V4 | V5 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Karten einschließlich 2 Commandern | 100 | 100 | 100 | 100 | **100** |
+| Länder | 35 | 35 | 35 | 35 | **35** |
+| Kreaturen einschließlich Commandern | 32 | 34 | 33 | 32 | **33** |
+| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | 27 | **27** |
+| Nichtkreatur-Artefakte | 12 | 9 | 11 | 11 | **11** |
+| Summe der Nichtland-Manawerte | 166 | 160 | 150 | 148 | **150** |
+| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | 2,277 | **2,308** |
+| Game Changer | 3 | 3 | 3 | 3 | **3** |
 
-**Manawert-Gegenrechnung:** V1: 166 / 65 = 2,554. V2: 166 − 32 + 26 = 160, also 160 / 65 = 2,462. V3: 160 − 14 + 4 = 150, also 150 / 65 = 2,308. **V4:** Patchwork Banner (3) und Professional Face-Breaker (3) weichen für Springleaf Drum (1) und Daring Piracy (3), also **150 − 6 + 4 = 148** und **148 / 65 = 2,277**. Der Wert allein berücksichtigt weder verfügbares Mana, Evasion noch tatsächliche Spielstärke.
+**Manawert-Gegenrechnung:** V1: 166 / 65 = 2,554. V2: 166 − 32 + 26 = 160, also 160 / 65 = 2,462. V3: 160 − 14 + 4 = 150, also 150 / 65 = 2,308. V4: 150 − 6 + 4 = 148, also 148 / 65 = 2,277. **V5:** Mystic Remora (1) weicht Imperial Recruiter (3): 148 − 1 + 3 = **150**, mithin **150 / 65 = 2,308**. Ohne unabhängige Partietests ist daraus weder eine höhere Siegquote noch ein zuverlässigerer Mulligan abzuleiten.
 
-**Scryfall Collection API (erneuter V3/V4-Abgleich am 21.10.2026):** Beide Fassungen haben 100 Karten einschließlich zweier Partner-Commander und je 92 unterschiedliche Kartennamen (mehrfache Standardländer). Die gefundenen Karten sind Commander-legal und haben Farbidentität ausschließlich innerhalb Blau/Rot. Genau **Rhystic Study, Fierce Guardianship und Cyclonic Rift** sind Game Changer; Springleaf Drum und Daring Piracy zählen nicht dazu. Die Bracket-3-Einordnung bleibt eine Deckbau- und Spielabsprache, **kein** durch Decktestergebnisse bestätigter Leistungsbeweis.
+**Scryfall Collection API (21.10.2026, erneute Vollprüfung):** V4 und V5 umfassen jeweils **100 Karten / 92 unterschiedliche Kartennamen**, **35 Länder**, korrekte Partner-Commander-Struktur und ausschließlich Commander-legale Karten innerhalb blauer/roter Farbidentität. Exakt **Rhystic Study, Fierce Guardianship und Cyclonic Rift** sind als Game Changer markiert; **Imperial Recruiter** ist keiner. Die sechs angegebenen Recruiter-Suchziele wurden einzeln anhand ihrer Stärke kontrolliert. Die Bracket-3-Einordnung bleibt eine Deckbau- und Spielabsprache, **kein** Partietestbeweis.
 
 **Bewusst keine** frühe Zweikarten-Endlosschleife (insbesondere Malcolm + Glint-Horn Buccaneer), massenhafte Landzerstörung oder aufeinander gekettete Extrazüge. Die Kombinationen können dennoch starke Ressourcenüberschüsse erzeugen; ein Bracket-3-Deck ist nicht automatisch für jede Spielrunde passend.
 
@@ -136,7 +169,7 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 
 - Trotz günstigerer Kurve hängt das Deck stark von Malcolm, Evasion und Piraten ab. Boardwipes entfernen frühe Angreifer; Hawkeye's Bow benötigt eine tatsächlich getappte ausgerüstete Kreatur. Springleaf Drum benötigt ebenfalls eine ungetappte Kreatur und kann sonst kein Mana erzeugen.
 - Die beiden Moxe verbessern das Tempo **nur bedingt**: Mox Amber braucht eine legendäre Kreatur, Mox Opal Metalcraft. Goldspan Dragon und Urza's Incubator aus V1 fehlen weiterhin, sodass ungehinderte Spätspiel-Explosionen schwächer sein können.
-- Mystic Remora hat cumulative upkeep. Der frühere Breeches, the Blastmaker und seine Münzwurf-Spruchkopien wurden zugunsten von Bow entfernt. Aqueous Form bleibt eine Aura mit dem üblichen Risiko von 2-für-1-Removal.
+- **Mystic Remora wurde auf ausdrücklichen Wunsch in V5 entfernt**; damit sinkt der frühe unabhängige Kartennachschub. Der historische Breeches, the Blastmaker und seine Münzwurf-Spruchkopien wurden zugunsten von Hawkeye's Bow entfernt. Aqueous Form bleibt eine Aura mit dem üblichen Risiko von 2-für-1-Removal.
 - Cyberdrive Awakener braucht übriggebliebene Nichtkreatur-Artefakte; bei Treasure-Überverbrauch fällt der Finisher kleiner aus. Daring Piracy ist wieder da, Merchant Raiders bleibt draußen; gegnerische Blocker müssen daher weiterhin über Aqueous Form, Goad/Manipulation und gezielten Kampf umgangen werden.
 - **Keine Partien, Mulligan-Simulationen oder statistischen Siegquoten erhoben.** Eine rein strukturell und nach Oracle geprüfte Liste ist nicht praktisch optimal bewiesen.
 
@@ -145,23 +178,25 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 | Kandidat | Warum vorerst nicht enthalten |
 | --- | --- |
 | **Vaan, Street Thief** | Weitere gegnerische Bibliothekskarten und Team-Counter, aber selbst kein Pirat; die beiden Commander erzeugen bereits viele Exil-Karten, die alle bezahlt und rechtzeitig gespielt werden müssen. |
-| **Imperial Recruiter** | Zuverlässige Suche nach Lightning-Rig Crew/Kediss/Academy Manufactor, kostet aber drei Mana und ist ebenfalls kein Pirat; möglicher Konsistenz-Tausch für später. |
+| **Goblin Matron** | Sucht Goblin-Piraten wie Lightning-Rig Crew, erreicht jedoch Kediss, Academy Manufactor, Oaken Siren und Siren Stormtamer nicht; Imperial Recruiter ist die breitere Wahl. |
 | **Sakashima of a Thousand Faces** | Verdoppelt Malcolm und hebt die Legendenregel auf, benötigt jedoch vier Mana; Spark Double übernimmt bereits den Klon-Slot. |
 | **Emberwilde Captain** | Monarch- und Angriffsbestrafung als Pirate, vier Mana und politischer Zusatzplan statt Tempo. |
 | **Amphin Mutineer** | Wiederverwendbarer ETB-Exil-Removal-Pirat (Encore), aber mit vier Mana langsamer als Pongify/Chaos Warp. |
 | **Zara, Renegade Recruiter** | Atmosphärische Kreaturendiebstähle, kostet fünf Mana und benötigt Angriff. |
-| **Coastal Piracy / Reconnaissance Mission** | Mehr Combat-Draw; aktuell Kindred Discovery, Mystic Remora, The Indomitable und Frostcliff Siege als Kartenvorteil. |
+| **Coastal Piracy / Reconnaissance Mission** | Zusätzlicher Combat-Draw; weiterhin Kindred Discovery, Curiosity, The Indomitable und Frostcliff Siege im Deck. Nach Wegfall von Mystic Remora erneut interessante Kartenzieh-Alternativen, aktuell aber weniger wichtig als die Tutor-Funktion. |
 | **Jeska's Will / Ancient Tomb** | Beide Game Changer: Nur möglich nach Austausch eines der drei aktuellen Game Changer. Könnten Tempo erhöhen, senken aber den gewählten Schutz-/Kontrollrahmen. |
 | **Glint-Horn Buccaneer** | Entfesselt zusammen mit Malcolm eine frühe deterministische Schatz-/Schadenschleife; bewusst außerhalb des Bracket-3-Plans. |
 | **Aggravated Assault** | Potenziell wiederholbare Zusatzkampfschleifen mit Treasure-Engine. |
 | **Reckless Fireweaver + Maskwood Nexus** | Kann mit Malcolm eine deterministische Schadens-/Schatz-Endlosschleife erzeugen; keine Absicht für Bracket 3. |
 
-Die entfernten Karten aus V1 bis V3 bleiben in den unveränderten Snapshots dokumentiert. V4 holt Springleaf Drum und Daring Piracy bewusst zurück; weitere Kandidaten werden nicht ohne überzeugenden neuen Nutzen reintegriert.
+Die historisch entfernten Karten aus V1 bis V4 bleiben in unveränderten Snapshots dokumentiert. V4 holte Springleaf Drum und Daring Piracy zurück, V5 tauscht Mystic Remora bewusst gegen Imperial Recruiter. Weitere Kandidaten werden nicht ohne belegbar bessere Deckfunktion reintegriert.
 
 ## Quellen
 
 - Offizielle Commander-Regeln und aktuelle Bracket-/Game-Changer-Liste: https://magic.wizards.com/en/formats/commander
 - Oracle-Texte, Farbidentitäten und Spiellegalität: https://scryfall.com/
+- Imperial Recruiter, Suchziel-Stärkeschwelle und Farbidentität: https://scryfall.com/card/mh2/281/imperial-recruiter
+- Urza's Saga, offizielles Ruling zur **gedruckten** Manakostenschwelle {0} oder {1}: https://magic.wizards.com/en/news/feature/modern-horizons-2-release-notes-2021-06-04
 - Wizards of the Coast, Marvel Super Heroes Release Notes, S. 26 (Hawkeye's Bow; tatsächliches Tappen): https://media.wizards.com/2026/downloads/MSH_Release_Notes_N6hMZoes90/zfGb4BJ8Bf_EN_MTGMSH_ReleaseNotes_20260513.pdf
 - Springleaf Drum, Kartentext und Oracle-Regelhinweis vom 07.08.2020: https://mtg.wtf/card/ecl/260/Springleaf-Drum
 - Daring Piracy, Oracle-Text und Commander-Legalität: https://mtg.wtf/card/j22/33/Daring-Piracy
