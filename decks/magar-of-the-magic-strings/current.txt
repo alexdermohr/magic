@@ -39,7 +39,7 @@
 1 Incendiary Command
 1 Shred Memory
 1 Disrupt Decorum
-1 Traitor's Clutch
+1 Prowler's Helm
 1 Faithless Looting
 1 Demand Answers
 1 Big Score
