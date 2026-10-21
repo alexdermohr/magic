@@ -40,7 +40,7 @@ Die ebenfalls enthaltene **Captain Sisay** ist eine andere Karte: Ihre Suche kos
 
 ## Konkreter Spielplan
 
-1. **Züge 1–3:** Grüne Quellen, Fetch-/Shocklands, Nature's Lore, Three Visits, Farseek, Sol Ring, Arcane Signet und Farbfixing. Zweifarbige Legende (Shanna, Niambi, Zimone, Black Panther, Shuri) möglichst vor oder kurz nach Sisay legen.
+1. **Züge 1–3:** Grüne Quellen, Fetch-/Shocklands, Nature's Lore, Three Visits, Farseek, Sol Ring, Arcane Signet und Farbfixing. Zweifarbige Legende (Shanna, Niambi, Zimone oder Black Panther) möglichst vor oder kurz nach Sisay legen. **Shuri, Wakandan Inventor ist nur blau** und erhöht Sisays Stärke allein lediglich auf 3; für die Suchschwelle Stärke 4 und damit Manawert 3 braucht es eine zweifarbige andere Legende oder einen weiteren Farbbonus.
 2. **Sisay schützen:** Nicht planlos in offenes Removal spielen. `Swan Song`, `Dovin's Veto`, `Heroic Intervention` und `Clever Concealment` dienen der Absicherung. `Flowering of the White Tree` bietet +2 Stärke, Ward {1} und damit höhere Suchreichweite.
 3. **Sisay-Engine:** WUBRG pro Commander-Suche sichern; Dynaheir kann eine bezahlte Suche kopieren. Tyvar unterstützt Captain Sisays Tap-Suche, Kiora und Teferi können Manaquellen enttappen. Danach je nach Board wertstarke Legenden suchen. Bei fünf verschiedenen Manasymbolen entscheiden verfügbare Farben und gegnerische Interaktion.
 4. **Kartenvorteil:** King T'Challa, Mangara, Tymna, Aminatou (Surveil/Mirakulum), Rhystic Study, Mystic Remora, Sylvan Library. Smothering Tithe und Mirari's Wake beschaffen Mana für spätere WUBRG-Aktivierungen.
