@@ -40,7 +40,7 @@ Deck
 1 Aqueous Form
 1 Lightning Greaves
 1 Swiftfoot Boots
-1 Mystic Remora
+1 Imperial Recruiter
 1 Springleaf Drum
 1 The Indomitable
 1 Hawkeye's Bow
