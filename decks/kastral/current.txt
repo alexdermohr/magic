@@ -1,0 +1,91 @@
+1 Kastral, the Windcrested
+1 Healer's Hawk
+1 Battlefield Raptor
+1 Judge's Familiar
+1 Mockingbird
+1 Watcher of the Spheres
+1 Ledger Shredder
+1 Plumecreed Escort
+1 Jackdaw Savior
+1 Cartographer's Hawk
+1 Esior, Wardwing Familiar
+1 Harrier Strix
+1 Stormscape Familiar
+1 Thrummingbird
+1 Aven Mindcensor
+1 Aven Interrupter
+1 Warden of Evos Isle
+1 Empyrean Eagle
+1 Gwaihir the Windlord
+1 Kangee, Sky Warden
+1 Kangee's Lieutenant
+1 Nesting Dovehawk
+1 Steel-Plume Marshal
+1 Senu, Keen-Eyed Protector
+1 Shrike Force
+1 The Lord of the Eagles
+1 Wingmate Roc
+1 Aerial Extortionist
+1 Falcon and Redwing
+1 Mind Stone
+1 Wan Shi Tong, Librarian
+1 Eagle of Deliverance
+1 Roaming Throne
+1 Skycoach Conductor
+1 Curiosity Crafter
+1 Sol Ring
+1 Arcane Signet
+1 Azorius Signet
+1 Talisman of Progress
+1 Fellwar Stone
+1 Sword of the Animist
+1 Urza's Incubator
+1 Patchwork Banner
+1 Murmuration
+1 Kindred Discovery
+1 Reconnaissance Mission
+1 Rhystic Study
+1 Duelist's Heritage
+1 Teferi's Protection
+1 Swords to Plowshares
+1 Path to Exile
+1 Generous Gift
+1 Strix Serenade
+1 Swan Song
+1 The Eagles Are Coming!
+1 Dovin's Veto
+1 Cyclonic Rift
+1 Akroma's Will
+1 Flawless Maneuver
+1 Dazzling Denial
+1 March of Swirling Mist
+1 Battle Screech
+1 Migratory Route
+1 Raise the Palisade
+1 Command Tower
+1 Hallowed Fountain
+1 Meticulous Archive
+1 Sea of Clouds
+1 Adarkar Wastes
+1 Deserted Beach
+1 Glacial Fortress
+1 Prairie Stream
+1 Tundra
+1 Seachrome Coast
+1 Floodfarm Verge
+1 Mystic Gate
+1 Port Town
+1 Hengegate Pathway
+1 Cavern of Souls
+1 Path of Ancestry
+1 Lupinflower Village
+1 Restless Anchorage
+1 Otawara, Soaring City
+1 Eiganjo, Seat of the Empire
+1 Minas Tirith
+1 Flooded Strand
+1 Prismatic Vista
+1 Three Tree City
+1 Windbrisk Heights
+6 Plains
+5 Island
