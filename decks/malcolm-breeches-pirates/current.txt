@@ -28,7 +28,7 @@ Deck
 1 Kediss, Emberclaw Familiar
 1 Roaming Throne
 1 Academy Manufactor
-1 Professional Face-Breaker
+1 Daring Piracy
 1 Gemcutter Buccaneer
 1 Spark Double
 1 Cyberdrive Awakener
@@ -41,7 +41,7 @@ Deck
 1 Lightning Greaves
 1 Swiftfoot Boots
 1 Mystic Remora
-1 Patchwork Banner
+1 Springleaf Drum
 1 The Indomitable
 1 Hawkeye's Bow
 1 Rhystic Study
