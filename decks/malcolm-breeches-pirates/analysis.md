@@ -1,10 +1,45 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V7 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V8 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt). Alle Snapshots sind vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
 
-## V7 – Captain Vargus Wrath weicht einem Piraten mit eigenständiger Engine
+## V8 – Mehr Exil-Karten und zusätzliche Land-Drops; Marys Discard als Pirate-Schadensquelle
+
+Die ursprüngliche Frage nach Zusatzland-Spielen mit **Breeches, Brazen Plunderer** führte zu einer Neubewertung von Landdrop-Ausrüstung, mehrmalig nutzbarem Nichtkampfschaden und den tatsächlich verzichtbaren Kartenslots. **Zwei konkrete Tausche**, ausdrücklich kein Austausch von Commander, Game Changern, Landbasis oder großem Schutzkern:
+
+| V7 raus | V8 rein | Warum die neue Karte stärker sein kann |
+| --- | --- | --- |
+| **Untimely Malfunction** ({1}{R}) | **Sword of Forge and Frontier** ({3}; Equip {2}) | Belohnt jeden erfolgreichen Kampftreffer mit den obersten **zwei eigenen** Exil-Karten (in diesem Zug spielbar) **und einem zusätzlichen Land-Drop**. Mehrere Kampftreffer mit dem Schwert in einem Zug gewähren kumulativ weitere Land-Drops. Das hilft insbesondere bei von Breeches aufgedeckten gegnerischen Ländern, ohne alle Gegner wie Ghirapur Orrery zu beschleunigen. |
+| **Fathom Fleet Swordjack** ({3}{R}) | **Magmakin Artillerist** ({2}{R}) | Ebenfalls ein **Pirate**, aber günstiger und wiederholt: Jedes Abwerfen von einer oder mehreren Karten löst Schaden in dieser Anzahl an **allen Gegnern** aus, auch ohne Angriff. Mary Read and Anne Bonny und Malcolm, Alluring Scoundrel sind bereits vorhandene wiederholbare Abwurfquellen. |
+
+### 1. Magmakin Artillerist als Pirate-Engine
+
+- **Mary Read and Anne Bonny** ({T}: ziehe eine Karte, dann wirf eine ab) löst beim Abwerfen eines einzelnen Blatts den Artillerist aus. **Magmakin** verursacht als **kontrollierter Pirate** dann je 1 Schaden an allen drei Gegnern: Malcolm erzeugt drei Treasures; Breeches gewährt Zugriff auf je eine gegnerische Karte – unabhängig davon, ob Mary angegriffen hat. Wenn Mary gleichzeitig mit **Hawkeye's Bow** ausgerüstet ist, erzeugt ihr Tappen ein **separates, erstes** Schadensereignis; Magmakins Abwurf ist ein zweites. Mit beiden Partner-Commandern sind so potenziell sechs Schätze und sechs gegnerische Exil-Karten aus einem Mary-Tap möglich (bei drei Gegnern und ohne weitere Trigger-Verdopplungen).
+- **Malcolm, Alluring Scoundrel** zieht bei erfolgreichem Kampfschaden eine Karte und wirft danach eine ab. Dieser Abwurf löst ebenfalls Magmakin aus, selbst wenn die Scoundrel-Trigger anschließend eine abgeworfene Karte kostenlos spielen dürfen.
+- **Imperial Recruiter** kann Magmakin **direkt aus der Bibliothek holen**, denn Magmakin hat gedruckte Stärke **1** (1/4). Das steigert die Verlässlichkeit der bereits zuvor optimierten Kreaturentutor-Engine.
+- **Cycling {1}{R}** erlaubt es, Magmakin bei schlechter Hand gegen eine neue Karte zu tauschen und dabei jedem Gegner 1 Schaden zuzufügen. **Wichtige Regelgrenze:** Die beim Cycling aus der Nichtspielfeldzone ausgelöste Schadensfähigkeit stammt dann **nicht von einem Pirate, den du kontrollierst**; Malcolm und Breeches profitieren davon also *nicht* automatisch. Für diese Commander-Trigger muss Magmakin **als Kreatur unter deiner Kontrolle im Spiel liegen**.
+- **Verzicht auf Swordjack:** Der entfernte Pirate konnte beim Angreifen einem einzelnen Gegner explosiven Nichtkampfschaden entsprechend deiner Artefakte zufügen und war damit ein situativer Finisher. Magmakin tauscht diesen **einmalig hohen Wert** gegen eine günstigere wiederkehrende Engine an **allen Gegnern**. Das ist eine Deckbauhypothese, kein tatsächlicher Siegquotennachweis.
+
+### 2. Sword of Forge and Frontier gegen das Landdrop-Problem
+
+- **Nach dem Kampftreffer**, z. B. durch den unblockbaren **Storm Fleet Sprinter**, Malcolm mit Flugfähigkeit oder einen mit **Aqueous Form** unterstützten Angreifer, gewährt das Schwert den **zusätzlichen Land-Drop** und Zugriff auf zwei Karten **unserer eigenen Bibliothek**, die nur in diesem Zug gespielt werden dürfen. Breeches' gegnerische Land-Karten dürfen damit ebenfalls regulär in der zweiten Hauptphase gespielt werden. Die üblichen Land-Spielregeln und Spruchkosten bleiben in Kraft.
+- **Mehrere Kampfsegmente mit Port Razer** können dasselbe Schwert erneut auslösen und zusätzliche Land-Drops **kumulativ** gewähren. Kediss' durch Commander-Kampfschaden ausgelöster Schaden an übrigen Spielern ist dagegen **Nichtkampfschaden** und löst das Schwert nicht gesondert aus.
+- Auch über das Schwert aus dem Exil **gewirkte** Sprüche aktivieren **Passionate Archaeologist**. Diese erzeugte Commander-Schadensquelle kann weitere Malcolm-/Breeches-Trigger ermöglichen. Das **Spielen eines Landes** ist kein Wirken eines Zauberspruchs und löst Passionate Archaeologist nicht aus.
+- **Schutz** vor Rot und Grün hilft bei Treffern gegen diese Farben und verleiht +2/+2. **Hawkeye's Bow kostet {R} und ist ein rotes Artefakt**: Er kann nicht zugleich an **derselben** Kreatur wie Sword of Forge and Frontier angelegt bleiben, weil Schutz vor Rot die Ausrüstung ablösen würde. Die Ausrüstungen auf **verschiedene** Pirates verteilen. Auch **Lightning Greaves** verleiht Shroud; zum Umrüsten die Greaves gegebenenfalls umlegen.
+- **Verzicht auf Untimely Malfunction:** Der flexible Instant konnte Artefakte zerstören, Einzelziele umlenken oder zwei Blocker ausschalten. In V8 übernehmen bei Artefakten vor allem **Vandalblast/Chaos Warp**, beim Schutz **Fierce Guardianship, Deflecting Swat, Siren Stormtamer** und beim Durchkommen Flugfähigkeit, Storm Fleet Sprinter, Aqueous Form und Access Tunnel. Das Schwert ist langsamer und benötigt 3+2 Mana sowie einen Treffer: Bei fehlenden Kreaturen ist Untimely Malfunction klar besser.
+
+### Alternativen überprüft – derzeit kein weiterer Tausch
+
+- **Vaan, Street Thief:** Weitere gegnerische Exil-Karten nach Pirates-Kampfschaden, alternative Treasures wenn ein exilierter Spruch nicht gewirkt wird, und +1/+1-Marken auf alle Pirates beim Wirken fremder Zauber. Extrem stimmig, kostet aber drei Mana, ist **selbst kein Pirate** und überschneidet sich mit dem bereits massiven Kartenanfall durch Breeches. Die genaue Abwägung gegen einen weiteren Slot ist noch nicht ausreichend eindeutig.
+- **Grenzo, Havoc Raiser:** Zwei Mana, noch mehr Gegnerbibliotheks-Exil und Goad, jedoch ebenfalls kein Pirate und fordert {R}{R}; Land-Karten aus diesem Exil können nicht gewirkt werden.
+- **Wild-Magic Sorcerer:** Der erste aus dem Exil gewirkte Spruch in jedem Zug erhält Cascade. Starke Exil-Synergie mit Breeches, aber vier Mana für eine Nichtpiraten-Kreatur ohne unmittelbaren Schutz/Angriffs-Trigger.
+- **Ghirapur Orrery / Storm Cauldron:** Zusätzliche Land-Drops sind **symmetrisch** und können Gegner stärken; Storm Cauldron zwingt beim Tappen Länder zurück auf die Hand. Schwert bietet denselben gewünschten Zusatznutzen ohne diese Symmetrie.
+- **Goldspan Dragon / Merchant Raiders / Mask of Memory / Fellwar Stone:** bleiben aus den in früheren Versionen gründlich geprüften Gründen mögliche, aber nicht zwingende Wiedereinstiegskandidaten.
+
+**Bracket-3-Bewertung:** Exakt **Rhystic Study, Fierce Guardianship und Cyclonic Rift** bleiben die drei Game Changer. Beide neuen Karten sind Commander-legal in Izzet und keine Game Changer. Keine absichtliche frühe Zweikarten-Endloskombination. Die zusätzliche Menge Exil-Karten erfordert realistisch verfügbares Mana; nicht jede Karte lässt sich im selben Zug spielen.
+
+## Historisch V7 – Captain Vargus Wrath weicht einem Piraten mit eigenständiger Engine
 
 **Einziger Tausch:** **Captain Vargus Wrath ({U}{R}, Orc Pirate)** → **Mary Read and Anne Bonny ({1}{U}{R}, legendärer Human Assassin Pirate)**. Beide sind Pirate-Kreaturen, also bleiben gedruckte Piratenzahl, Partner-Identität und die Pirate-ETB-Synergien erhalten. Der Wunsch nach einem Piraten als Ersatz ist erfüllt.
 
@@ -183,7 +218,7 @@ Das Ziel ist **nicht** eine höhere Zahl großer Kreaturen, sondern weniger Züg
 ## Die wichtigsten Wertmaschinen
 
 - **Lightning-Rig Crew + Malcolm + Breeches + Hawkeye's Bow:** Die Crew verursacht beim Bezahlen der Tap-Kosten ihrer eigenen Fähigkeit 1 Schaden an jedem Gegner; ein ausgerüsteter Bow lässt **dieselbe Crew** ein zweites, separates Schadensereignis auslösen. Daraus können sechs Schätze und sechs Exil-Karten entstehen. Curiosity zieht für beide Crew-Schadensereignisse insgesamt bis zu sechs Karten. Weitere **gewirkte** Piraten enttappen die Crew; Piraten-Token, die nur ins Spiel kommen, enttappen sie nicht. **Springleaf Drum** kann die Crew auch vor dem ersten eigenen Aktivieren tappen, verursacht dann aber nur den Bow-Schaden, nicht gleichzeitig den Crew-Aktivierungsschaden.
-- **Fathom Fleet Swordjack + Schätze/Clues:** Schadenshöhe = Zahl aller eigenen Artefakte beim Auflösen seines Angriffstriggers. Als Pirat verursacht er den Schaden **ohne** erfolgreichen Kampftreffer und aktiviert damit Malcolm/Breeches. Mit Academy Manufactor kann die Artefaktzahl stark steigen. **Wichtig:** Seine durch Encore direkt angreifend ins Spiel kommenden Kopien lösen seinen eigenen \"Whenever this creature attacks\"-Auslöser nicht aus; sie können aber regulär Kampfschaden verursachen.
+- **Magmakin Artillerist + Mary/Alluring Scoundrel:** Das wiederholte Abwerfen einzelner Karten lässt den im Spiel liegenden Magmakin allen Gegnern Pirate-Schaden zufügen und aktiviert Malcolm/Breeches ohne erfolgreichen Kampftreffer. Imperial Recruiter (Stärke-Grenze 2) findet Magmakin (1/4). **Historisch V2–V7:** Fathom Fleet Swordjack war ein stärkerer einmaliger Artefakt-Angriffsschaden, wurde aber in V8 für den günstigeren wiederholbaren Multiplayer-Trigger entfernt.
 - **Gemcutter Buccaneer + Academy Manufactor + Daring Piracy:** Jeder eintretende eigene Pirat (einschließlich der zurückgeholten Piracy-Token) erzeugt einen getappten Schatz; Academy Manufactor ersetzt jede Schatz-Erzeugung durch Treasure, Food und Clue. Daring Piracy erzeugt diesen Piraten in jeder eigenen Kampfphase ohne weiteren Zauber.
 - **Mary Read and Anne Bonny + Hawkeye's Bow:** Das Tappen durch Marys Haste-fähige Loot-Funktion löst Bow-Schaden an allen Gegnern aus; Mary ist Pirate und verursacht den Schaden selbst. Das triggert Malcolm/Breeches auch ohne erfolgreichen Kampftreffer. Bei Abwerfen einer Island-/Pirate-/Vehicle-Karte erzeugt Mary zusätzlich einen **getappten** Treasure.
 - **Oaken Siren + Hawkeye's Bow:** Der günstige, fliegende Pirat kann sich nach dem Ausrüsten durch seine Tap-Manafähigkeit selbst in einen Pinger für alle Gegner verwandeln. Wegen Vigilance reicht seine Angriffsdeklaration für den Bow **nicht**. Mit Springleaf Drum kann auch eine noch einsatzverzögerte Siren für Bow-Schaden getappt werden.
@@ -196,31 +231,31 @@ Das Ziel ist **nicht** eine höhere Zahl großer Kreaturen, sondern weniger Züg
 
 1. **Züge 1–2:** Günstige Piraten (Spyglass Siren, Siren Stormtamer, Spectral Sailor, Impulsive Pilferer, Ragavan, Fanatical Firebrand, Reckless Lackey, Oaken Siren) priorisieren. Sol Ring/Signets oder Springleaf Drum beschleunigen. **Eine Ein-Mana-Kreatur in Zug 1 und die Trommel in Zug 2 ergeben allein noch nicht die drei Mana für Malcolm in Zug 2** (nach dem Trommel-Cast bleibt nur ein Land plus ein Mana durch die Trommel übrig). Ab Zug 3 können die Trommel und drei Länder allerdings vier Mana bereitstellen, sofern ein Pirat ungetappt ist; dies erleichtert zusätzlichen Schutz oder Breeches.  Hawkeye's Bow ist für spätere Schadensmaschinen relevant. Mox Amber/Opal helfen nur bei erfüllter Bedingung; keine Hand allein wegen eines noch inaktiven Mox behalten.
 2. **Züge 3–4:** Malcolm bevorzugt zuerst wirken; Hawkeye's Bow an Malcolm, Lightning-Rig Crew, Oaken Siren **oder Mary Read and Anne Bonny** anlegen. Die legendäre Mary kann schon im Eintrittszug looten und mit Bow jeden Gegner treffen. Breeches folgt mit verfügbaren Schätzen. Daring Piracy ist eine langfristige Nebenmaschine, darf den ersten Malcolm-Cast aber nicht unnötig verzögern. Aqueous Form unterstützt blockierbare Piraten; Frostcliff Siege wahlweise Temur-Tempo oder Jeskai-Draw.
-3. **Mittelspiel:** Schaden über **mehrere Gegner** verteilen und ausgerüstete Piraten gezielt durch Springleaf Drum oder eigene Fähigkeiten tappen lassen. Lightning-Rig Crew, Hawkeye's Bow, Broadside Bombardiers und Fathom Fleet Swordjack erzeugen Auslöser ohne erfolgreichen Kampftreffer. Daring Piracy produziert wiederkehrende Piraten für Gemcutter, Coercive Recruiter, Captain Storm und Kindred Discovery.
-4. **Abschluss:** Shared Animosity verstärkt eine breite Pirate-Flotte. Port Razer ermöglicht mit echtem Kampfschaden zusätzliche Kampfphasen. Mary mit Bow und Lightning-Rig Crew ermöglichen wiederholten Nichtkampfschaden sowie den daraus folgenden Karten-/Treasure-Vorteil. Cyberdrive Awakener verwandelt übriggebliebene Nichtkreatur-Artefakte für den Zug in fliegende 4/4-Kreaturen – daher nicht alle Schätze vorher opfern.
+3. **Mittelspiel:** Schaden über **mehrere Gegner** verteilen und ausgerüstete Pirates gezielt durch Springleaf Drum oder eigene Fähigkeiten tappen lassen. Lightning-Rig Crew, Hawkeye's Bow, Broadside Bombardiers und nun **Magmakin Artillerist** mit Mary/Alluring-Discard erzeugen Auslöser ohne erfolgreichen Kampftreffer. Daring Piracy produziert wiederkehrende Pirates für Gemcutter, Coercive Recruiter, Captain Storm und Kindred Discovery.
+4. **Abschluss:** Shared Animosity verstärkt breite Piratenangriffe. **Sword of Forge and Frontier** auf einem evasiven Pirate ermöglicht weitere Exil-Karten und Land-Drops; mit **Port Razer** können zusätzliche Kampfphasen die Schwertauslöser vervielfachen. Mary mit Bow, Lightning-Rig Crew und Magmakin Artillerist erzeugen wiederholte Nichtkampfschäden und Treasure-/Exil-Kartenvorteile. **Cyberdrive Awakener** verwandelt übriggebliebene Nichtkreatur-Artefakte für den Zug in fliegende 4/4-Kreaturen – nicht alle Schätze vorher opfern.
 
 ## Schutz und Interaktion
 
-Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Deflecting Swat, Swan Song, An Offer You Can't Refuse, Mana Drain sowie March of Swirling Mist sichern Commander oder Angriffe. Chaos Warp, Pongify, Vandalblast und Untimely Malfunction sind flexible Antworten. Merchant Scroll sucht insbesondere blaue Instants wie Cyclonic Rift oder Schutz. Unblockbare/flugfähige Piraten bleiben wichtiger als große Bodenangreifer.
+Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Deflecting Swat, Swan Song, An Offer You Can't Refuse, Mana Drain sowie March of Swirling Mist sichern Commander oder Angriffe. **Chaos Warp**, **Pongify** und **Vandalblast** decken wichtige Removal-Rollen; **Untimely Malfunction wurde in V8 zugunsten des Schwerts gestrichen**, wodurch ein flexibler Einzelziel-Redirect und situative Blocker-Ausschaltung fehlen. Merchant Scroll findet blaue Instants wie Cyclonic Rift oder Schutz. Die verbleibenden fliegenden/unblockbaren Pirates bleiben entscheidend.
 
-**Praktisches Timing:** Breeches erlaubt das Spielen der gegnerischen Exil-Karten nur im aktuellen Zug und verlangt weiterhin tatsächliche Manakosten; fremdfarbiges Mana darf für die gestohlenen Sprüche ausgegeben werden, als sei es die benötigte Farbe. Ein zusätzliches Land kann nur nach normalen Land-Spielregeln gelegt werden.
+**Praktisches Timing:** Breeches erlaubt das Spielen gegnerischer Exil-Karten nur im aktuellen Zug und verlangt weiterhin tatsächliche Manakosten; fremdfarbiges Mana darf für die gestohlenen Sprüche ausgegeben werden, als sei es die benötigte Farbe. Ein Land aus Breeches' Exil kostet den normalen Land-Drop, sofern **Sword of Forge and Frontier** nicht durch Kampfschaden bereits einen zusätzlichen Land-Drop ermöglicht hat. Deshalb nach Möglichkeit den normalen Land-Drop bis zur zweiten Hauptphase zurückhalten.
 
 ## Deckstatistik und Bracket-Regeln (Scryfall-Abgleich 21.10.2026)
 
-| Merkmal | V1 | V2 | V3 | V4 | V5 | V6 | V7 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Karten einschließlich 2 Commandern | 100 | 100 | 100 | 100 | 100 | 100 | **100** |
-| Länder | 35 | 35 | 35 | 35 | 35 | 35 | **35** |
-| Kreaturen einschließlich Commandern | 32 | 34 | 33 | 32 | 33 | 33 | **33** |
-| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | 27 | 27 | 27 | **27** |
-| Nichtkreatur-Artefakte | 12 | 9 | 11 | 11 | 11 | 11 | **11** |
-| Summe der Nichtland-Manawerte | 166 | 160 | 150 | 148 | 150 | 150 | **151** |
-| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | 2,277 | 2,308 | 2,308 | **2,323** |
-| Game Changer | 3 | 3 | 3 | 3 | 3 | 3 | **3** |
+| Merkmal | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Karten einschließlich 2 Commandern | 100 | 100 | 100 | 100 | 100 | 100 | 100 | **100** |
+| Länder | 35 | 35 | 35 | 35 | 35 | 35 | 35 | **35** |
+| Kreaturen einschließlich Commandern | 32 | 34 | 33 | 32 | 33 | 33 | 33 | **33** |
+| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | 27 | 27 | 27 | 27 | **27** |
+| Nichtkreatur-Artefakte | 12 | 9 | 11 | 11 | 11 | 11 | 11 | **12** |
+| Summe der Nichtland-Manawerte | 166 | 160 | 150 | 148 | 150 | 150 | 151 | **151** |
+| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | 2,277 | 2,308 | 2,308 | 2,323 | **2,323** |
+| Game Changer | 3 | 3 | 3 | 3 | 3 | 3 | 3 | **3** |
 
-**Manawert-Gegenrechnung:** V1: 166 / 65 = 2,554. V2: 166 − 32 + 26 = 160, also 160 / 65 = 2,462. V3: 160 − 14 + 4 = 150, also 150 / 65 = 2,308. V4: 150 − 6 + 4 = 148, also 148 / 65 = 2,277. V5: Mystic Remora (1) weicht Imperial Recruiter (3): 148 − 1 + 3 = 150. V6: Island gegen Urza's Saga verändert die Summe der Nichtland-Manawerte nicht. **V7:** Captain Vargus Wrath (Manawert 2) → Mary Read and Anne Bonny (Manawert 3): **150 − 2 + 3 = 151**, also **151 / 65 = 2,323**. Das ist kein Ersatz für echte Partietests.
+**Manawert-Gegenrechnung:** V1: 166 / 65 = 2,554. V2: 166 − 32 + 26 = 160, also 160 / 65 = 2,462. V3: 160 − 14 + 4 = 150, also 150 / 65 = 2,308. V4: 150 − 6 + 4 = 148, also 148 / 65 = 2,277. V5: Mystic Remora (1) weicht Imperial Recruiter (3), daher 150. V6: Island gegen Urza's Saga verändert die Nichtland-Manawerte nicht. V7: Captain Vargus Wrath (2) weicht Mary Read and Anne Bonny (3), daher 151. **V8:** Untimely Malfunction (2) und Fathom Fleet Swordjack (4) weichen Sword of Forge and Frontier (3) und Magmakin Artillerist (3). **151 − 2 − 4 + 3 + 3 = 151**, somit **151 / 65 = 2,323**. Die erhaltene Manakurve beweist keine höhere Gewinnquote.
 
-**Scryfall Collection API (21.10.2026, erneute Vollprüfung):** V4 und V5 umfassen jeweils **100 Karten / 92 unterschiedliche Kartennamen**, **35 Länder**, korrekte Partner-Commander-Struktur und ausschließlich Commander-legale Karten innerhalb blauer/roter Farbidentität. Exakt **Rhystic Study, Fierce Guardianship und Cyclonic Rift** sind als Game Changer markiert; **Imperial Recruiter** ist keiner. Die sechs angegebenen Recruiter-Suchziele wurden einzeln anhand ihrer Stärke kontrolliert. Die Bracket-3-Einordnung bleibt eine Deckbau- und Spielabsprache, **kein** Partietestbeweis.
+**Scryfall Collection API (21.10.2026, vollständige V7/V8-Neuprüfung):** Jeweils **100 Karten, 93 unterschiedliche Kartennamen, 35 Länder (6 Island, 3 Mountain), 27 gedruckte Pirates inklusive Commandern, 3 Game Changer**. Alle Karten sind als Commander-legal ausgewiesen und besitzen ausschließlich blaue/rote oder farblose Farbidentität. Die einzigen Game Changer sind **Rhystic Study, Fierce Guardianship und Cyclonic Rift**; **Sword of Forge and Frontier** und **Magmakin Artillerist** gehören nicht dazu. Dies ist ein regelbasierter Deckabgleich, keine Simulation realer Partien. Vorherige Archivzahlen bleiben als frühere Fassungen dokumentiert.
 
 **Bewusst keine** frühe Zweikarten-Endlosschleife (insbesondere Malcolm + Glint-Horn Buccaneer), massenhafte Landzerstörung oder aufeinander gekettete Extrazüge. Die Kombinationen können dennoch starke Ressourcenüberschüsse erzeugen; ein Bracket-3-Deck ist nicht automatisch für jede Spielrunde passend.
 
@@ -248,12 +283,15 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 | **Aggravated Assault** | Potenziell wiederholbare Zusatzkampfschleifen mit Treasure-Engine. |
 | **Reckless Fireweaver + Maskwood Nexus** | Kann mit Malcolm eine deterministische Schadens-/Schatz-Endlosschleife erzeugen; keine Absicht für Bracket 3. |
 
-Die historischen Kartenstände aus V1 bis V6 bleiben in unveränderten Snapshots dokumentiert. V4 holte Springleaf Drum und Daring Piracy zurück, V5 tauschte Mystic Remora gegen Imperial Recruiter, V6 ein Island gegen Urza's Saga bei Erhalt von Three Tree City. **V7 ersetzt Captain Vargus Wrath durch Mary Read and Anne Bonny**. Weitere Kandidaten werden nicht ohne nachvollziehbaren Zusatznutzen eingebaut.
+Die historischen Kartenstände aus V1 bis V7 bleiben unverändert im Deckordner. V4 holte Springleaf Drum und Daring Piracy zurück; V5 tauschte Mystic Remora gegen Imperial Recruiter; V6 ersetzte ein Island durch Urza's Saga bei Erhalt von Three Tree City; V7 ersetzte Captain Vargus Wrath durch Mary Read and Anne Bonny. **V8** ergänzt Sword of Forge and Frontier und Magmakin Artillerist für Untimely Malfunction und Fathom Fleet Swordjack. Weitere Kandidaten werden nur bei nachvollziehbar stärkerer Deckfunktion reintegriert.
 
 ## Quellen
 
 - Offizielle Commander-Regeln und aktuelle Bracket-/Game-Changer-Liste: https://magic.wizards.com/en/formats/commander
 - Oracle-Texte, Farbidentitäten und Spiellegalität: https://scryfall.com/
+- Sword of Forge and Frontier, Kartentext und kumulierende Land-Drop-Rulings: https://scryfall.com/card/one/244/sword-of-forge-and-frontier
+- Magmakin Artillerist, Scryfall-Suche nach Oracle und Commander-Legalität: https://scryfall.com/search?q=%21%22Magmakin%20Artillerist%22
+- Wizards Commander-Bracket-Regeln und bis zu drei Game Changer in Bracket 3: https://magic.wizards.com/en/formats/commander
 - Mary Read and Anne Bonny, {1}{U}{R}, Haste/Tap-Loot/Treasure, Commander-Legalität: https://mtg.wtf/card/acr/61/Mary-Read-and-Anne-Bonny
 - Merchant Raiders, Pirate-ETB-basiertes Offenhalten von Blockern: https://mtg.wtf/card/cmr/81/Merchant-Raiders
 - Imperial Recruiter, Suchziel-Stärkeschwelle und Farbidentität: https://scryfall.com/card/mh2/281/imperial-recruiter

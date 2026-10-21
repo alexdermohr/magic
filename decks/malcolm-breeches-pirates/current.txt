@@ -60,11 +60,11 @@ Deck
 1 Mana Drain
 1 Chaos Warp
 1 Pongify
-1 Untimely Malfunction
+1 Sword of Forge and Frontier
 1 March of Swirling Mist
 1 Vandalblast
 1 Merchant Scroll
-1 Fathom Fleet Swordjack
+1 Magmakin Artillerist
 1 Command Tower
 1 Volcanic Island
 1 Steam Vents
