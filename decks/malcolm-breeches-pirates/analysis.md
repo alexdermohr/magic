@@ -1,10 +1,38 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V6 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V7 · 21.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt). Alle Snapshots sind vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt). Alle Snapshots sind vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
 
-## V6 – Urza's Saga statt einem Island; Three Tree City bleibt
+## V7 – Captain Vargus Wrath weicht einem Piraten mit eigenständiger Engine
+
+**Einziger Tausch:** **Captain Vargus Wrath ({U}{R}, Orc Pirate)** → **Mary Read and Anne Bonny ({1}{U}{R}, legendärer Human Assassin Pirate)**. Beide sind Pirate-Kreaturen, also bleiben gedruckte Piratenzahl, Partner-Identität und die Pirate-ETB-Synergien erhalten. Der Wunsch nach einem Piraten als Ersatz ist erfüllt.
+
+### Warum Mary Read and Anne Bonny?
+
+- **Eile und planbarer Kartendurchsatz:** Eine 3/3 mit Haste; {T} zieht eine Karte und wirft danach eine Karte ab. Sie kann diese Fähigkeit unmittelbar im Eintrittszug einsetzen. Das ist Kartenauswahl, **kein echter Kartengewinn**.
+- **Schatztrigger:** Wenn eine **Island-, Pirate- oder Vehicle-Karte** abgeworfen wird, entsteht ein **getappter** Treasure. Das zählt auch beim eigenen Loot-Effekt und hilft Academy Manufactor/Mox Opal. Der Treasure ist aufgrund des Getapptkommens zunächst nicht als Mana einsetzbar.
+- **Hawkeye's Bow:** Ist der Bogen an Mary ausgerüstet, verursacht Mary beim **tatsächlichen Tappen** durch ihre Loot-Fähigkeit 1 Schaden an **jedem Gegner**. Weil die Schadensquelle Mary selbst (Pirate) ist, lösen Malcolm und Breeches für die getroffenen Gegner aus – auch ohne Kampfschaden. Eine typische Viererpartie ergibt aus diesem Bow-Ereignis drei zusätzliche Schätze und drei Exil-Karten, die noch in diesem Zug gespielt werden dürfen. Die Bow-Fähigkeit benötigt kein abgeworfenes Pirate-/Island-Kartenglied.
+- **Mox Amber:** Mary ist legendär und hat blaue/rote Farbidentität. Mit ihr auf dem Spielfeld kann Mox Amber blaues oder rotes Mana erzeugen; dies ist auch ohne die Partner-Commander möglich.
+- **Piraten-ETB:** Gemcutter Buccaneer erzeugt beim Eintritt Marys ebenfalls einen Schatz; Kindred Discovery auf Pirate zieht. Mary kann selbst mit Daring Piracy und den sonstigen Piraten zusammen angreifen.
+
+**Aktivierungsentscheidung:** Eine zum Looting getappte Mary kann normalerweise in diesem Kampf **nicht zugleich angreifen**, sofern sie nicht vorher enttappt wird. Auch der Bogen muss regulär zu Hexerei-Geschwindigkeit ausgerüstet werden; Haste setzt diese Equip-Einschränkung nicht außer Kraft. Ihre Tap-Fähigkeit ist ohne Bow in erster Linie Filtering und potenzieller Treasure-Erzeuger, kein Direktschaden. Sie ist durch Imperial Recruiter **nicht suchbar**, da ihre gedruckte Stärke **3** beträgt (Recruiter erlaubt nur Stärke 2 oder weniger).
+
+**Verzicht auf Vargus:** Vargus kostet nur **{U}{R}**, ist selbst Pirate und kann nach mehrfach gewirkten Partner-Commandern einen sehr hohen +1/+1-Angriffsbonus erzeugen. Dafür muss er persönlich als Angreifer deklariert werden, benötigt ohne zusätzliche Haste-Hilfe einen weiteren Zug und hat nur 1/1. Der Bonus vervielfacht die Zahl der Malcolm-/Breeches-Auslöser pro getroffenem Gegner **nicht**. V7 priorisiert stattdessen Kartenfilterung, Manaoptionen und mögliche Trigger ohne erfolgreichen Kampfschaden. Ein höherer Sieganteil ist ohne Partietests **nicht** bewiesen.
+
+### Andere geprüfte Pirate-Kandidaten
+
+| Karte | Einordnung |
+| --- | --- |
+| **Merchant Raiders** ({3}{U}) | Sehr gute zweite Wahl: Jeder neue Pirate tappt einen gegnerischen Blocker und hält ihn bei liegenden Raiders am Enttappen. Mit Daring Piracy entsteht das wiederholt schon zu Kampfbeginn. Kostet jedoch vier Mana, hat keinen eigenen Treasure-/Loot-/Bow-Tap-Auslöser und ist stärker vom übrigen Board abhängig. |
+| **Amphin Mutineer** ({3}{U}) | Exiliert beim Eintritt eine gegnerische Nicht-Salamander-Kreatur gegen einen 4/3-Salamander-Spielstein, später Encore für mehrere ETBs. Mächtiges Removal, aber vier Mana und ein 4/3-Blocker können die Angriffsstrategie ausbremsen. |
+| **Corsair Captain** ({2}{U}) | Bei Eintritt Schatz + statischer +1/+1-Bonus für andere eigene Pirates. Solide, aber weniger individuell spielentscheidend als wiederholtes Bow-getriebenes Schaden/Filtering. Er war bereits in V1 und wurde bewusst erneut geprüft. |
+| **Emberwilde Captain** ({3}{R}) | Gibt Monarch und bestraft gegnerische Angriffe durch Pirate-Nichtkampfschaden. Nützlich für politisches und defensives Spiel, jedoch vier Mana und weniger Fokus auf eigene frühe Angriffs-/Treasure-Engine. |
+| **Glint-Horn Buccaneer** ({2}{R}) | Pirate und extrem explosiv, doch mit Malcolm besteht eine frühe deterministische Schatz-/Schadenschleife. Für unser Bracket-3-Spielziel weiter ausgeschlossen. |
+
+**Bracket:** Mary Read and Anne Bonny ist als Commander-Karte legal, besitzt ausschließlich blau-rote Farbidentität und wird von Scryfall **nicht** als Game Changer ausgewiesen. Genau drei Game Changer bleiben im Deck: **Rhystic Study, Fierce Guardianship, Cyclonic Rift**. Keine absichtlich eingebaute frühe Zweikarten-Endlosschleife.
+
+## Historischer V6-Stand – Urza's Saga statt einem Island; Three Tree City bleibt
 
 **Einziger Tausch auf ausdrücklichen Wunsch:** **1 Island → Urza's Saga**. **Three Tree City bleibt erhalten.** Die Deckliste hat weiterhin **35 Länder** (jetzt **6 Island und 3 Mountain** statt 7/3); damit verliert sie eine eigenständige blaue Manaquelle und bekommt ein zusätzliches farbloses Utility-Land. Urza's Saga ist nur vorübergehend ein Mana produzierendes Land, denn nach Kapitel III wird sie geopfert. Für Malcolm, doppelt blaue Gegenzauber und die frühe Farbentwicklung ist dieser Verlust der zentrale Preis.
 
@@ -93,7 +121,7 @@ Der Kern bleibt ein aggressives Piraten-Deck, das bereits vor erfolgreichen Kamp
 
 | Aus V1/V2 entfernt | Stand V4 | Warum? |
 | --- | --- | --- |
-| Corsair Captain | Bleibt draußen | Einmaliger Schatz und statischer Buff sind gut, aber Captain Vargus Wrath hat nach Commander-Casts mehr Schadenspotenzial, sobald Vargus selbst angreift. |
+| Corsair Captain | Bleibt draußen (historisch V4, erneut in V7 geprüft) | Einmaliger Schatz und statischer Piratenbonus. V4 hielt Vargus wegen möglichem großem Angriffsbonus für besser. V7 ersetzt Vargus stattdessen durch Mary Read and Anne Bonny; Corsair Captain bleibt trotz erneuter Prüfung außerhalb. |
 | Goldspan Dragon | **Ernsthafter Kandidat** | Ein 5-Mana-Flieger mit Eile, der allen Schätzen effektiv zwei Mana entlockt. Sehr stark mit Malcolm und Academy Manufactor, aber selbst kein Pirat und schwerer zu spielen als der Vier-Mana-Gemcutter. |
 | Relentless Assault | Bleibt draußen | Noch ein Kampfsegment ist mächtig, aber sorcery-speed, teuer und ohne Angreifer wenig wert. Port Razer ist bereits ein Pirat mit Extrakampf-Potenzial. |
 | Mask of Memory | Kandidat | Auf fliegenden/unblockbaren Piraten effizient: zwei ziehen, eine abwerfen. Konkurrenz zu Curiosity, Kindred Discovery und The Indomitable; durch den Wegfall von Mystic Remora in V5 etwas interessanter. |
@@ -157,7 +185,7 @@ Das Ziel ist **nicht** eine höhere Zahl großer Kreaturen, sondern weniger Züg
 - **Lightning-Rig Crew + Malcolm + Breeches + Hawkeye's Bow:** Die Crew verursacht beim Bezahlen der Tap-Kosten ihrer eigenen Fähigkeit 1 Schaden an jedem Gegner; ein ausgerüsteter Bow lässt **dieselbe Crew** ein zweites, separates Schadensereignis auslösen. Daraus können sechs Schätze und sechs Exil-Karten entstehen. Curiosity zieht für beide Crew-Schadensereignisse insgesamt bis zu sechs Karten. Weitere **gewirkte** Piraten enttappen die Crew; Piraten-Token, die nur ins Spiel kommen, enttappen sie nicht. **Springleaf Drum** kann die Crew auch vor dem ersten eigenen Aktivieren tappen, verursacht dann aber nur den Bow-Schaden, nicht gleichzeitig den Crew-Aktivierungsschaden.
 - **Fathom Fleet Swordjack + Schätze/Clues:** Schadenshöhe = Zahl aller eigenen Artefakte beim Auflösen seines Angriffstriggers. Als Pirat verursacht er den Schaden **ohne** erfolgreichen Kampftreffer und aktiviert damit Malcolm/Breeches. Mit Academy Manufactor kann die Artefaktzahl stark steigen. **Wichtig:** Seine durch Encore direkt angreifend ins Spiel kommenden Kopien lösen seinen eigenen \"Whenever this creature attacks\"-Auslöser nicht aus; sie können aber regulär Kampfschaden verursachen.
 - **Gemcutter Buccaneer + Academy Manufactor + Daring Piracy:** Jeder eintretende eigene Pirat (einschließlich der zurückgeholten Piracy-Token) erzeugt einen getappten Schatz; Academy Manufactor ersetzt jede Schatz-Erzeugung durch Treasure, Food und Clue. Daring Piracy erzeugt diesen Piraten in jeder eigenen Kampfphase ohne weiteren Zauber.
-- **Captain Vargus Wrath + Commander-Casts:** Beide gewirkten Partner-Commander zählen einzeln. **Erst wenn Vargus selbst als Angreifer deklariert wird**, bekommen alle eigenen Piraten (auch nicht angreifende) bis zum Ende des Zuges den Bonus. Er bleibt bis Zugende bestehen, selbst wenn Vargus danach stirbt.
+- **Mary Read and Anne Bonny + Hawkeye's Bow:** Das Tappen durch Marys Haste-fähige Loot-Funktion löst Bow-Schaden an allen Gegnern aus; Mary ist Pirate und verursacht den Schaden selbst. Das triggert Malcolm/Breeches auch ohne erfolgreichen Kampftreffer. Bei Abwerfen einer Island-/Pirate-/Vehicle-Karte erzeugt Mary zusätzlich einen **getappten** Treasure.
 - **Oaken Siren + Hawkeye's Bow:** Der günstige, fliegende Pirat kann sich nach dem Ausrüsten durch seine Tap-Manafähigkeit selbst in einen Pinger für alle Gegner verwandeln. Wegen Vigilance reicht seine Angriffsdeklaration für den Bow **nicht**. Mit Springleaf Drum kann auch eine noch einsatzverzögerte Siren für Bow-Schaden getappt werden.
 - **Guild Artisan:** Belohnt Angriffe auf Spieler, die im Vergleich zu anderen Gegnern den höchsten Lebenspunktestand haben, ohne dass die Commander durchkommen müssen. Die erzeugten Schätze finanzieren Schutz oder weitere Piraten.
 - **Kediss, Emberclaw Familiar:** Wenn Malcolm oder Breeches Kampfschaden macht, teilt dieser Commander auch anderen Gegnern Nichtkampfschaden aus – wodurch die Piraten-Schatz-/Exil-Auslöser zusätzliche Gegner erfassen. Kediss-Schaden zählt nicht als Commander-*Kampfschaden* für die 21-Schaden-Regel.
@@ -167,9 +195,9 @@ Das Ziel ist **nicht** eine höhere Zahl großer Kreaturen, sondern weniger Züg
 ## Spielplan
 
 1. **Züge 1–2:** Günstige Piraten (Spyglass Siren, Siren Stormtamer, Spectral Sailor, Impulsive Pilferer, Ragavan, Fanatical Firebrand, Reckless Lackey, Oaken Siren) priorisieren. Sol Ring/Signets oder Springleaf Drum beschleunigen. **Eine Ein-Mana-Kreatur in Zug 1 und die Trommel in Zug 2 ergeben allein noch nicht die drei Mana für Malcolm in Zug 2** (nach dem Trommel-Cast bleibt nur ein Land plus ein Mana durch die Trommel übrig). Ab Zug 3 können die Trommel und drei Länder allerdings vier Mana bereitstellen, sofern ein Pirat ungetappt ist; dies erleichtert zusätzlichen Schutz oder Breeches.  Hawkeye's Bow ist für spätere Schadensmaschinen relevant. Mox Amber/Opal helfen nur bei erfüllter Bedingung; keine Hand allein wegen eines noch inaktiven Mox behalten.
-2. **Züge 3–4:** Malcolm bevorzugt zuerst wirken; bei Gelegenheit Hawkeye's Bow an Malcolm, Lightning-Rig Crew oder Oaken Siren anlegen. Breeches folgt mit verfügbaren Schätzen. Daring Piracy ist eine langfristige Nebenmaschine, darf den ersten Malcolm-Cast aber nicht unnötig verzögern. Aqueous Form unterstützt blockierbare Piraten; Frostcliff Siege wahlweise Temur-Tempo oder Jeskai-Draw.
+2. **Züge 3–4:** Malcolm bevorzugt zuerst wirken; Hawkeye's Bow an Malcolm, Lightning-Rig Crew, Oaken Siren **oder Mary Read and Anne Bonny** anlegen. Die legendäre Mary kann schon im Eintrittszug looten und mit Bow jeden Gegner treffen. Breeches folgt mit verfügbaren Schätzen. Daring Piracy ist eine langfristige Nebenmaschine, darf den ersten Malcolm-Cast aber nicht unnötig verzögern. Aqueous Form unterstützt blockierbare Piraten; Frostcliff Siege wahlweise Temur-Tempo oder Jeskai-Draw.
 3. **Mittelspiel:** Schaden über **mehrere Gegner** verteilen und ausgerüstete Piraten gezielt durch Springleaf Drum oder eigene Fähigkeiten tappen lassen. Lightning-Rig Crew, Hawkeye's Bow, Broadside Bombardiers und Fathom Fleet Swordjack erzeugen Auslöser ohne erfolgreichen Kampftreffer. Daring Piracy produziert wiederkehrende Piraten für Gemcutter, Coercive Recruiter, Captain Storm und Kindred Discovery.
-4. **Abschluss:** Shared Animosity oder ein **selbst mitangreifender** Captain Vargus Wrath verstärken einen breiten Angriff. Port Razer ermöglicht mit echtem Kampfschaden zusätzliche Kampfphasen. Cyberdrive Awakener verwandelt übriggebliebene Nichtkreatur-Artefakte für den Zug in fliegende 4/4-Kreaturen – daher nicht alle Schätze vorher opfern.
+4. **Abschluss:** Shared Animosity verstärkt eine breite Pirate-Flotte. Port Razer ermöglicht mit echtem Kampfschaden zusätzliche Kampfphasen. Mary mit Bow und Lightning-Rig Crew ermöglichen wiederholten Nichtkampfschaden sowie den daraus folgenden Karten-/Treasure-Vorteil. Cyberdrive Awakener verwandelt übriggebliebene Nichtkreatur-Artefakte für den Zug in fliegende 4/4-Kreaturen – daher nicht alle Schätze vorher opfern.
 
 ## Schutz und Interaktion
 
@@ -179,18 +207,18 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 
 ## Deckstatistik und Bracket-Regeln (Scryfall-Abgleich 21.10.2026)
 
-| Merkmal | V1 | V2 | V3 | V4 | V5 | V6 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Karten einschließlich 2 Commandern | 100 | 100 | 100 | 100 | 100 | **100** |
-| Länder | 35 | 35 | 35 | 35 | 35 | **35** |
-| Kreaturen einschließlich Commandern | 32 | 34 | 33 | 32 | 33 | **33** |
-| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | 27 | 27 | **27** |
-| Nichtkreatur-Artefakte | 12 | 9 | 11 | 11 | 11 | **11** |
-| Summe der Nichtland-Manawerte | 166 | 160 | 150 | 148 | 150 | **150** |
-| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | 2,277 | 2,308 | **2,308** |
-| Game Changer | 3 | 3 | 3 | 3 | 3 | **3** |
+| Merkmal | V1 | V2 | V3 | V4 | V5 | V6 | V7 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Karten einschließlich 2 Commandern | 100 | 100 | 100 | 100 | 100 | 100 | **100** |
+| Länder | 35 | 35 | 35 | 35 | 35 | 35 | **35** |
+| Kreaturen einschließlich Commandern | 32 | 34 | 33 | 32 | 33 | 33 | **33** |
+| Gedruckte Piraten einschließlich Commandern | 25 | 28 | 27 | 27 | 27 | 27 | **27** |
+| Nichtkreatur-Artefakte | 12 | 9 | 11 | 11 | 11 | 11 | **11** |
+| Summe der Nichtland-Manawerte | 166 | 160 | 150 | 148 | 150 | 150 | **151** |
+| Durchschnittlicher Manawert der Nichtlandkarten, inklusive Commander | 2,554 | 2,462 | 2,308 | 2,277 | 2,308 | 2,308 | **2,323** |
+| Game Changer | 3 | 3 | 3 | 3 | 3 | 3 | **3** |
 
-**Manawert-Gegenrechnung:** V1: 166 / 65 = 2,554. V2: 166 − 32 + 26 = 160, also 160 / 65 = 2,462. V3: 160 − 14 + 4 = 150, also 150 / 65 = 2,308. V4: 150 − 6 + 4 = 148, also 148 / 65 = 2,277. **V5:** Mystic Remora (1) weicht Imperial Recruiter (3): 148 − 1 + 3 = **150**, mithin **150 / 65 = 2,308**. Ohne unabhängige Partietests ist daraus weder eine höhere Siegquote noch ein zuverlässigerer Mulligan abzuleiten.
+**Manawert-Gegenrechnung:** V1: 166 / 65 = 2,554. V2: 166 − 32 + 26 = 160, also 160 / 65 = 2,462. V3: 160 − 14 + 4 = 150, also 150 / 65 = 2,308. V4: 150 − 6 + 4 = 148, also 148 / 65 = 2,277. V5: Mystic Remora (1) weicht Imperial Recruiter (3): 148 − 1 + 3 = 150. V6: Island gegen Urza's Saga verändert die Summe der Nichtland-Manawerte nicht. **V7:** Captain Vargus Wrath (Manawert 2) → Mary Read and Anne Bonny (Manawert 3): **150 − 2 + 3 = 151**, also **151 / 65 = 2,323**. Das ist kein Ersatz für echte Partietests.
 
 **Scryfall Collection API (21.10.2026, erneute Vollprüfung):** V4 und V5 umfassen jeweils **100 Karten / 92 unterschiedliche Kartennamen**, **35 Länder**, korrekte Partner-Commander-Struktur und ausschließlich Commander-legale Karten innerhalb blauer/roter Farbidentität. Exakt **Rhystic Study, Fierce Guardianship und Cyclonic Rift** sind als Game Changer markiert; **Imperial Recruiter** ist keiner. Die sechs angegebenen Recruiter-Suchziele wurden einzeln anhand ihrer Stärke kontrolliert. Die Bracket-3-Einordnung bleibt eine Deckbau- und Spielabsprache, **kein** Partietestbeweis.
 
@@ -220,12 +248,14 @@ Siren Stormtamer, Lightning Greaves, Swiftfoot Boots, Fierce Guardianship, Defle
 | **Aggravated Assault** | Potenziell wiederholbare Zusatzkampfschleifen mit Treasure-Engine. |
 | **Reckless Fireweaver + Maskwood Nexus** | Kann mit Malcolm eine deterministische Schadens-/Schatz-Endlosschleife erzeugen; keine Absicht für Bracket 3. |
 
-Die historischen Kartenstände aus V1 bis V5 bleiben in unveränderten Snapshots dokumentiert. V4 holte Springleaf Drum und Daring Piracy zurück, V5 tauschte Mystic Remora gegen Imperial Recruiter. **V6 ersetzt ausschließlich ein Island durch Urza's Saga und behält Three Tree City**. Weitere Kandidaten werden nicht ohne nachvollziehbaren Zusatznutzen eingebaut.
+Die historischen Kartenstände aus V1 bis V6 bleiben in unveränderten Snapshots dokumentiert. V4 holte Springleaf Drum und Daring Piracy zurück, V5 tauschte Mystic Remora gegen Imperial Recruiter, V6 ein Island gegen Urza's Saga bei Erhalt von Three Tree City. **V7 ersetzt Captain Vargus Wrath durch Mary Read and Anne Bonny**. Weitere Kandidaten werden nicht ohne nachvollziehbaren Zusatznutzen eingebaut.
 
 ## Quellen
 
 - Offizielle Commander-Regeln und aktuelle Bracket-/Game-Changer-Liste: https://magic.wizards.com/en/formats/commander
 - Oracle-Texte, Farbidentitäten und Spiellegalität: https://scryfall.com/
+- Mary Read and Anne Bonny, {1}{U}{R}, Haste/Tap-Loot/Treasure, Commander-Legalität: https://mtg.wtf/card/acr/61/Mary-Read-and-Anne-Bonny
+- Merchant Raiders, Pirate-ETB-basiertes Offenhalten von Blockern: https://mtg.wtf/card/cmr/81/Merchant-Raiders
 - Imperial Recruiter, Suchziel-Stärkeschwelle und Farbidentität: https://scryfall.com/card/mh2/281/imperial-recruiter
 - Urza's Saga, offizielles Ruling zur **gedruckten** Manakostenschwelle {0} oder {1}: https://magic.wizards.com/en/news/feature/modern-horizons-2-release-notes-2021-06-04
 - Wizards of the Coast, Marvel Super Heroes Release Notes, S. 26 (Hawkeye's Bow; tatsächliches Tappen): https://media.wizards.com/2026/downloads/MSH_Release_Notes_N6hMZoes90/zfGb4BJ8Bf_EN_MTGMSH_ReleaseNotes_20260513.pdf
