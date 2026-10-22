@@ -1,8 +1,42 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V11 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V12 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V12 – Ancient Tomb wird durch Jeska's Will ersetzt (22.10.2026)
+
+**Verbindlicher Änderungswunsch:** **1 Ancient Tomb (Land und Game Changer) raus → 1 Jeska's Will ({2}{R}, Sorcery und Game Changer) rein.** Es handelt sich bewusst um einen **exakten 1:1-Tausch**: Die übrigen 99 Karten bleiben unverändert, ohne zusätzlichen Cut für ein Ersatzland. Die daraus entstehende Manabasis mit **34 statt 35 Ländern** ist ein offengelegter Nachteil, keine übersehene Nebenwirkung. Besonders frühe blaue Kosten (Malcolm, The Indomitable, Mana Drain) und bereits vorhandene farblose Spezialländer bleiben zu beobachten.
+
+### Warum Jeska's Will hier gut passt
+
+- **Explosiver Ressourcen- und Exil-Zug:** Jeska's Will erlaubt die Wahl von (a) {R} für jede Karte auf der Hand eines **bestimmten gegnerischen Spielers** oder (b) den obersten **drei eigenen Karten im Exil**, die noch **im selben Zug** gespielt werden dürfen. **Kontrollierst du beim Wirken einen Commander**, darfst du **beide Modi** wählen. Es ist keine Garantie, viel Mana zu erzeugen, weil der Zielgegner wenige Handkarten haben kann.
+- **Passionate Archaeologist:** Jeder aus dem Exil **gewirkte** Spruch kann eine durch unsere Commander gewährte Schadensfähigkeit auslösen. Verursacht ein kontrollierter **Piraten-Commander** auf diese Weise Schaden an einem Gegner, können Malcolm und Breeches entsprechend weitere Schätze beziehungsweise fremde Exil-Karten ermöglichen. **Jeska's Will selbst**, wenn aus der Hand gewirkt, löst Passionate Archaeologist nicht bereits durch seine eigene Exil-Fähigkeit aus; erst der folgende aus dem Exil gewirkte Spruch. Die exilierten Länder sind keine gewirkten Zauber.
+- **Sword of Forge and Frontier:** Das Schwert kann nach erfolgreichem Kampfschaden weitere Land-Drops im **laufenden Zug** ermöglichen. Diese können auch für von Jeska's Will oder Breeches exilierte Länder genutzt werden; die normalen Landspielzeitpunkte bleiben unverändert.
+- **Kartennachschub und Tempo:** Der Zauber stellt eigenen impulsiven Kartenvorteil neben Breeches, The Indomitable, Kindred Discovery und Curiosity bereit. Mit genügend Handkarten beim Gegner kann er größere Folgezüge mit mehreren Pirates, Equipment, Schutzzaubern und dem frisch erzeugten Treasure-Mana ermöglichen. **Rotes Mana allein** kann die blauen Mana-Symbole nicht bezahlen; blaue Länder und Treasure-Farbmana bleiben dafür wichtig.
+- **Keine bewusst neue Infinite-Kombo:** Jeska's Will ist ein einmaliger Sorcery-Effekt. Es werden keine früh deterministischen Schleifen oder weitere Game Changer aufgenommen.
+
+### Was Ancient Tomb besser konnte
+
+**Ancient Tomb** gab bei jedem Tappen dauerhaft **{C}{C}** gegen zwei Lebenspunkte und konnte die generischen Kosten eines frühen Malcolm, von Ausrüstungen, Fahrzeugen und weiteren Zaubern bereits **vor** dem Eintreffen eines Commanders beschleunigen. **Jeska's Will** ist in der Starthand zunächst ein 3-Mana-Spruch und liefert die besonders attraktive Doppelwahl erst, wenn ein eigener Commander bereits auf dem Spielfeld ist. Der Tausch verschiebt Tempo **vom frühen Aufbau in explosive Folgerunden**, entfernt eine potenziell dauerhafte Manaquelle und senkt die rohe Länderzahl. Ein zusätzliches Island wäre nur unter Streichung einer **weiteren** existierenden Karte möglich; das wurde nicht ohne gesonderten Anlass vorgenommen.
+
+### Aktueller Bracket- und Strukturstand
+
+| Kennzahl | V11 | V12 |
+| --- | ---: | ---: |
+| Gesamtkarten / Commander | 100 / 2 | **100 / 2** |
+| Länder (Island / Mountain) | 35 (6 / 3) | **34 (6 / 3)** |
+| Nichtlandkarten | 65 | **66** |
+| Nichtland-Manawertsumme | 153 | **156** |
+| Durchschnittlicher Manawert der Nichtländer | 2,354 | **2,364** |
+| Gedruckte Pirates einschließlich Commander | 27 | **27** |
+| Kreaturen einschließlich Commander | 34 | **34** |
+| Nichtkreatur-Artefakte | 13 | **13** |
+| Game Changer | 3 | **3** |
+
+**Die drei Game Changer in V12:** **Jeska's Will**, **Fierce Guardianship**, **Cyclonic Rift**. Nach der aktuellen Scryfall-Oracle/Commander-Legalität sind beide Karten des Tauschs legal, passend zur Farbidentität und Game Changer; der dritte Slot wird lediglich neu besetzt. Mystic Remora bleibt draußen, Rhystic Study bleibt draußen; **The Indomitable, Frostcliff Siege, Spark Double, Sting, Captain of Umbar, Trinket Mage, Three Tree City und Urza's Saga** bleiben erhalten.
+
+**Offenes Restrisiko:** Nur **34 Länder**, davon mehrere Spezialländer, können trotz Sol Ring, Signets, beiden Moxen, Springleaf Drum und Malcolm-Treasures häufiger frühe Starthände ohne ausreichend farbiges Mana erzeugen. Weder eine höhere Siegquote noch verlässlichere Starts sind ohne tatsächliche Partietests belegt. Dieser einzelne Tausch wird daher als bewusstes Bracket-3-Tempo-/Synergieexperiment dokumentiert. Die folgenden V11- und älteren Abschnitte beschreiben historische Deckversionen, **nicht** die aktuelle V12-GC-Auswahl.
 
 ## V11 – Mehr Piraten-Tempo, Fahrzeug-Kartenvorteil und ein neuer Game Changer (22.10.2026)
 
