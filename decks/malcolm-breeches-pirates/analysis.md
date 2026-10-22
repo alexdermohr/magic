@@ -6,7 +6,7 @@
 
 ## V19 – Eine zusätzliche flexible Landoption und ein Pirate-Equipment-Tutor (22.10.2026)
 
-**Verifizierter Ausgangspunkt:** V18 auf GitHub-main \`504388ea520bb6205f40ea014149c93ff117a928\`, PR #64. Genau zwei Nichtpiraten-Slots werden verändert; alle ausdrücklich gewünschten Pirates und ungewöhnlichen Engines bleiben erhalten. Die 33 vorhandenen Länder sowie die Archivversionen V1–V18 bleiben unverändert.
+**Verifizierter Ausgangspunkt:** V18 auf GitHub-main `504388ea520bb6205f40ea014149c93ff117a928`, PR #64. Genau zwei Nichtpiraten-Slots werden verändert; alle ausdrücklich gewünschten Pirates und ungewöhnlichen Engines bleiben erhalten. Die 33 vorhandenen Länder sowie die Archivversionen V1–V18 bleiben unverändert.
 
 | V18 raus | V19 rein | Begründung | Bedeutendster Preis |
 | --- | --- | --- | --- |
