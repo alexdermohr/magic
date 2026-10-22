@@ -30,6 +30,7 @@ Deck
 1 Academy Manufactor
 1 Daring Piracy
 1 Gemcutter Buccaneer
+1 Spark Double
 1 Cyberdrive Awakener
 1 Sol Ring
 1 Arcane Signet
@@ -42,14 +43,13 @@ Deck
 1 Imperial Recruiter
 1 Trinket Mage
 1 Springleaf Drum
-1 The Indomitable
 1 Hawkeye's Bow
 1 Sting, the Glinting Dagger
+1 Sword of Forge and Frontier
 1 Rhystic Study
 1 Kindred Discovery
 1 Shared Animosity
 1 Curiosity
-1 Frostcliff Siege
 1 Passionate Archaeologist
 1 Guild Artisan
 1 Mox Opal
