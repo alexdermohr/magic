@@ -1,8 +1,75 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V12 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V13 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V13 – Cyberdrive Awakener raus, 35. Land zurück; vollständiger Pirate-Cut-Audit (22.10.2026)
+
+**Entscheidung:** **1 Cyberdrive Awakener ({5}{U}; kein Pirate) → +1 Island.** Das Deck wird damit auf die vor dem Jeska's-Will-Landtausch übliche Zahl von **35 Ländern** zurückgeführt, ohne die 27 gedruckten Pirates zu verkleinern. 6 Island werden zu 7 Island, 3 Mountain und sämtliche Spezialländer bleiben erhalten. **Keinen Pirate vorzeitig gestrichen:** Die fraglichen 1- und 2-Mana-Piraten halten Malcolm früh funktionsfähig; ein besserer Ersatz muss deren Evasion oder frühe Schäden tatsächlich aufwiegen.
+
+### Warum der sechsmanaige Cyberdrive-Finisher im konkreten Deck stört
+
+1. **Alle eigenen Nichtkreatur-Artefakte werden bis zum Ende des Zuges 4/4-Artefaktkreaturen** – das umfasst Treasure-Token, Springleaf Drum, Sol Ring, Moxe **und unsere Ausrüstungen**. Cyberdrive verleiht eigenen anderen Artefaktkreaturen Flugfähigkeit. Die angreifenden 4/4 sind aber **keine Pirates**, lösen also ohne zusätzliche Typänderungen weder Malcolm noch Breeches durch ihren Schaden aus.
+2. **Hawkeye's Bow, Sting, Sword of Forge and Frontier, Lightning Greaves und Swiftfoot Boots werden als Kreaturen abgelöst.** Nach der Equipment-Regel 301.5c kann ein Equipment, das gleichzeitig Kreatur ist, ohne Reconfigure nicht angelegt bleiben. Cyberdrive entfernt damit mitten im geplanten Abschlusszug unsere wertvollen Equipment-Buffs und die tapbasierten Bow-Auslöser an Pirates. Dasselbe gilt für Treasures, die durch Gemcutter Buccaneer Equipment sind.
+3. **Gerade in diesem Zug erzeugte Treasures** können nach ihrer Animierung normalerweise **nicht für ihre {T}-Manafähigkeit getappt** werden und nicht angreifen, falls sie keine Eile besitzen und nicht seit Zugbeginn unter unserer Kontrolle liegen. **Frostcliff Siege im Temur-Modus** kann mit globaler Eile aushelfen, muss dafür aber im passenden Modus bereits liegen; zugleich verhindert es das Equipment-Ablösen nicht.
+4. **Sechs Mana und vorhandene Boardpräsenz nötig**: Bei leerem Board ist Cyberdrive nur eine 4/4-Fliegerkreatur für sechs Mana ohne Pirate-Triggers. Als spektakulärer Artifact-Finisher bleibt er spielbar, doch **Shared Animosity, Port Razer, The Indomitable, Broadside Bombardiers sowie Magmakin/Bow-Nichtkampfschaden** bieten bereits unterschiedliche Abschlusswege.
+5. **Zusätzliches Island verbessert unabhängig vom Board** die frühen blauen Quellen für Malcolm, Trinket Mage, The Indomitable mit {U}{U}, Mana Drain mit {U}{U} und Schutzzauber. Es gleicht den Verlust des 35. Lands durch **Ancient Tomb → Jeska's Will in V12** teilweise aus, ohne wieder zwei Schaden durch Ancient Tomb zu bezahlen.
+
+**Primäre Regelnachweise:** Wizards, *Comprehensive Rules Changes* zur Equipment-Regel 301.5c (https://magic.wizards.com/en/news/announcements/comprehensive-rules-changes-2-9-22); *Murders at Karlov Manor Release Notes* (https://magic.wizards.com/en/news/feature/murders-at-karlov-manor-release-notes) bestätigen, dass Kreaturen-Equipment ohne Reconfigure nicht angelegt bleibt. *The Brothers' War Release Notes* (https://magic.wizards.com/en/news/feature/the-brothers-war-release-notes) erläutern die Einsatzverzögerung von Artefakten, die im Zug ihres Eintritts zu Kreaturen werden. Die Karte selbst: https://scryfall.com/search?q=%21%22Cyberdrive%20Awakener%22.
+
+### Sämtliche 27 gedruckten Pirates: tatsächlicher Grenznutzen
+
+| Pirat (V12, weiterhin V13) | Cut-Priorität | Deckt genau welche Rolle ab? |
+| --- | --- | --- |
+| **Malcolm, Keen-Eyed Navigator** (Commander) | Unantastbar | Wiederholte Treasures aus verteiltem Pirate-Schaden, auch außerhalb des Kampfs. |
+| **Breeches, Brazen Plunderer** (Commander) | Unantastbar | Gegnerische Karten einschließlich Länder aus Pirate-Schadensereignissen. |
+| Spyglass Siren | Behalten | Für {U} fliegender Pirate plus Map-Artefakt-ETB, unterstützt Captain Storm/Metalcraft. |
+| Siren Stormtamer | Behalten | Für {U} fliegender Pirate mit tatsächlicher Schutzinteraktion. |
+| **Spectral Sailor** | **B – Ersatz prüfen** | Günstiger Flash-/Flying-Pirate; Nachziehfähigkeit {3}{U} ist spät teuer. Ein früher blauer Angreifer bleibt wertvoll. |
+| **Impulsive Pilferer** | **B – Ersatz prüfen** | Als 1/1 ohne Evasion früh schwach; Tod erzeugt Treasure, Encore {3}{R} schafft spät Pirate-ETBs für Gemcutter/Captain Storm und Todes-Treasures. |
+| Ragavan, Nimble Pilferer | Behalten | Früher Mana-/Exil-Vorteil, später dank Dash Haste. |
+| **Fanatical Firebrand** | **A – zuerst vergleichen** | Ein roter Pirate für ein Mana mit Haste, aber {T}+Opfer liefert nur **einmalig** einen Schaden an ein Ziel. Kann gezielt Malcolm-/Breeches-Triggers ohne erfolgreichen Kampf aktivieren; das bewahrt einen eigenständigen Wert. |
+| Staunch Crewmate | Behalten | Früh für {1}{U} vier Karten tief nach Pirates oder Artefakten suchen, darunter den Bow. |
+| Malcolm, the Eyes | Behalten | Günstiger Flying-/Haste-Pirate mit wiederholten Clues beim zweiten Spruch. |
+| Malcolm, Alluring Scoundrel | Behalten | Flying/Flash, nach Kampfschaden Loot für Magmakin und langfristig kostenfreie gewirkte Karten. |
+| **Warkite Marauder** | **B – Ersatz prüfen** | Zweimanaslot mit Flugfähigkeit, entfernt bei Angriff Fähigkeiten eines gegnerischen Blockers/Engine-Teils und macht ihn 0/1. |
+| **Departed Deckhand** | **A – zuerst vergleichen** | Von Nicht-Spirits kaum blockbarer 2-Mana-Pirate, verteilt für {3}{U} Evasion an andere. **Wenn er Ziel eines Zaubers wird**, muss er geopfert werden; **Equip-Fähigkeiten sind Fähigkeiten, keine Zaubersprüche**. Ein Ausstieg kostet die zuverlässige Sword-/Breeches-Trefferlinie. |
+| Oaken Siren | Behalten | Flying/Vigilance als Artifact-Pirate, {T} für artefaktbezogenes blaues Mana und Bow-Schaden. |
+| Breeches, Eager Pillager | Behalten | Pirate-Angriffsoptionen für Schatz, Blockerverhinderung oder eigene Exil-Karten. |
+| **Captain Lannery Storm** | **B – Ersatz prüfen** | Mit Haste schon beim Angriff Treasure; durch Schatzopfer steigender Schaden. Solide, aber auf Angriffe konzentriert. |
+| Mary Read and Anne Bonny | Behalten | Haste, Tap-Loot für Magmakin/Bow und bei passenden Abwürfen Treasure. |
+| Captain Storm, Cosmium Raider | Behalten | Jede Artefakt-ETB-Instanz erzeugt einen +1/+1-Counter für einen Pirate. |
+| Lightning-Rig Crew | Behalten | Zentraler Nichtkampfschaden an alle Gegner, enttappt durch **gewirkte** Pirate-Spells. |
+| Broadside Bombardiers | Behalten | Pirate mit Haste/Menace und gezieltem Nichtkampfschaden per Boast/Artefaktopfer. |
+| Storm Fleet Sprinter | Behalten | Haste und Unblockbarkeit machen Breeches/Sword/The Indomitable zuverlässig. |
+| Captain of Umbar | Behalten | Weitere wiederholte {1}, {T}-Loot-/Magmakin-/Bow-Maschine, ausdrücklich gewünscht. |
+| Kitesail Larcenist | Behalten | Flying/Ward und vergleichsweise effiziente Entfernung gegnerischer Kreaturen-/Artefaktfähigkeiten. |
+| **Coercive Recruiter** | **B – später prüfen** | Fünf Mana, aber jede weitere Pirate-ETB, besonders Daring Piracy, kann gegnerische Kreaturen mit Haste stehlen und Blocker entfernen. Ein bewusst außergewöhnlicher Top-End-Slot. |
+| Port Razer | Behalten | Zusätzliche Kampfphasen, Enttappen eigener Kreaturen, zusätzliche Pirate-/Sword-Ketten. |
+| Gemcutter Buccaneer | Behalten | Wiederkehrende tapped Treasures bei Pirate-ETBs und Treasure-basierte +2/+0-Ausrüstung; stark mit Daring Piracy. |
+| Magmakin Artillerist | Behalten | Abwürfe verursachen als Pirate Nichtkampfschaden an **alle** Gegner. Suchbar mit Imperial Recruiter. |
+
+**Ergebnis:** Unter den **25 Pirates im Hauptdeck** sind **Fanatical Firebrand und Departed Deckhand** die ersten Kandidaten für echte Alternativtests, gefolgt von **Impulsive Pilferer, Spectral Sailor, Captain Lannery Storm, Warkite Marauder und Coercive Recruiter**. Die übrigen Pirates haben entweder eine besonders günstige Kurve, direkte wiederholbare Schadens-/Treasure-Synergien oder schwer ersetzbare Evasion und Interaktion. Ihre Anzahl pauschal zu verkleinern wäre gegen den Malcolm/Breeches-Spielplan gerichtet.
+
+### Ernsthafte mögliche Nachfolger für Pirate-Slots (heute bewusst noch kein automatischer Tausch)
+
+| Kandidat | Passender Prüfschnitt | Stärkstes Argument und Gegenargument |
+| --- | --- | --- |
+| **Scrounging Skyray** ({1}{U}; Flying Pirate, 1/2, Cycling {2}) | Gegen Departed Deckhand | Dauerhafte +1/+1-Counter bei eigenen Abwürfen mit Mary/Captain/Alluring Scoundrel; verbessert Flying-Body und kostet ebenso zwei Mana. **Verlust:** Deckhands eingeschränkte Unblockbarkeit und aktive Evasion-Vergabe an andere Pirates. |
+| **Marauding Mako** ({R}; Shark Pirate, Cycling {2}) | Gegen Fanatical Firebrand | Gleiche frühen Piratenkosten, dauerhafte +1/+1-Counter aus Abwürfen, besonders mit Frostcliff-Siege-Trample. **Verlust:** Haste und direkter, sofortiger einmaliger Pirate-Nichtkampfschaden des Firebrands. |
+| **Merchant Raiders** ({3}{U}; 2/4 Pirate) | Gegen einen langsameren Vier-/Fünf-Mana-Slot | Wiederholte Blockerkontrolle bei Pirate-ETBs; Daring Piracy lässt in jeder eigenen Kampfphase einen weiteren Blocker tappen und festhalten, solange Raiders bleibt. **Verlust:** vier Mana ohne eigenen Treasure-/Bow-Tap-Auslöser, weitere Boardabhängigkeit. |
+| **Fathom Fleet Swordjack** ({3}{R}; Pirate) | Gegen einen überschüssigen Finisher | Angriff verursacht Nichtkampfschaden an **dem angegriffenen Spieler** nach eigener Artefaktzahl, unabhängig vom späteren Block. Mit Treasure-Bestand starker Burst. **Achtung:** Encore-Kopien werden lediglich *angreifend ins Spiel gebracht*; sie wurden nicht als Angreifer deklariert und bekommen **keine** eigenen Angriffstrigger. |
+| **Emberwilde Captain** ({3}{R}; Pirate) | Gegen einen eher passiven Value-Slot | Monarch als zusätzlicher Draw; bestraft Angriffe gegen den Monarchen durch **Pirate-Nichtkampfschaden** und kann Malcolm/Treasure auch im Gegnerzug auslösen. **Verlust:** vier Mana, nur 4/2 und Gegner entscheiden, wann sie dich angreifen. |
+| **Fearless Swashbuckler** ({1}{U}{R}; Pirate) | Gegen einen spezifischen Vehicle-Subplan | Haste für Vehicles; wenn **Pirate und Vehicle angreifen**, ziehe drei und wirf zwei ab – 2 Magmakin-Flächenschaden und Handfilterung. **Grenze:** derzeit nur The Indomitable als Vehicle, daher keine ausreichend zuverlässige zentrale Engine. |
+
+### Unveränderte Schutz-/Gewinn-Engine und V13-Struktur
+
+- Alle **27 Pirates einschließlich Commander** und sämtliche Game Changer (**Jeska's Will, Fierce Guardianship, Cyclonic Rift**) bleiben unverändert. Die vorhandenen 35-Land-Spezialinteraktionen (Three Tree City, Urza's Saga, Minamo) bleiben erhalten.
+- **Gewinnwege** ohne Cyberdrive: Shared Animosity und Frostcliff Siege für Trample-/Haste-Flottenangriffe, Port-Razer-Zusatzkämpfe und Untaps, The Indomitable als wiederholtes Combat-Draw/6/6-Fahrzeug, Broadside Bombardiers, Lightning-Rig Crew mit Bow sowie Magmakin-Artillerist-Discard-Schadensketten. Ein alternativer Artifact-Alpha-Strike entfällt als Verlust.
+- **Tempo und Farbe:** Wieder sieben Island und drei Mountain. Das neu aufgenommene Island erzeugt *unbedingtes blaues Mana* ohne zusätzliche Kosten oder Lebenspunktverlust. Eine doppelseitige Alternative wie Sink into Stupor // Soporific Springs könnte ein späterer testbarer 35. Blau-Landslot sein, würde aber für ungetapptes Spielen gewöhnlich 3 Leben kosten und ist kein einfaches fetchbares Standardland.
+- **Zahlen:** 100 Karten / 2 Commander; **35 Länder** (V12: 34); **65 Nichtländer** (V12: 66); gedruckte Pirates **27**; Kreaturen inklusive Commandern **33** (V12: 34); Nichtkreatur-Artefakte **13**, Nichtland-Manawertsumme **150** (V12: 156), Durchschnitt **2,308** (V12: 2,364), **3 Game Changer**.
+- **Keine empirische Leistungsbehauptung:** Ohne reale Partien ist die Wiederherstellung der Mana-/Startkonsistenz eine begründete, aber nicht spielstatistisch bewiesene Verbesserung. Kein bewusster Einbau einer frühen deterministischen Infinite-Kombination. **Alle V1–V12-Snapshots bleiben unangetastet.** Die nachfolgenden Abschnitte dokumentieren jeweils historische Deckstände.
 
 ## V12 – Ancient Tomb wird durch Jeska's Will ersetzt (22.10.2026)
 
