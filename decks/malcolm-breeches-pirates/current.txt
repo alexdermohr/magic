@@ -36,7 +36,7 @@ Deck
 1 Izzet Signet
 1 Talisman of Creativity
 1 Mox Amber
-1 Aqueous Form
+1 Departed Deckhand
 1 Thousand-Year Elixir
 1 Swiftfoot Boots
 1 Imperial Recruiter
@@ -52,12 +52,12 @@ Deck
 1 Passionate Archaeologist
 1 Jeska's Will
 1 Frostcliff Siege
-1 Mox Opal
+1 Coercive Recruiter
 1 Fierce Guardianship
 1 Cyclonic Rift
 1 Deflecting Swat
 1 Swan Song
-1 An Offer You Can't Refuse
+1 Warkite Marauder
 1 Mana Drain
 1 Chaos Warp
 1 Fathom Fleet Swordjack
