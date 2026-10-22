@@ -46,12 +46,12 @@ Deck
 1 Hawkeye's Bow
 1 Sting, the Glinting Dagger
 1 Sword of Forge and Frontier
-1 Rhystic Study
+1 The Indomitable
 1 Kindred Discovery
 1 Shared Animosity
 1 Curiosity
 1 Passionate Archaeologist
-1 Guild Artisan
+1 Frostcliff Siege
 1 Mox Opal
 1 Fierce Guardianship
 1 Cyclonic Rift
@@ -88,8 +88,8 @@ Deck
 1 Cavern of Souls
 1 Three Tree City
 1 Urza's Saga
-1 Access Tunnel
-1 Unclaimed Territory
+1 Ancient Tomb
+1 Minamo, School at Water's Edge
 1 Secluded Courtyard
 6 Island
 3 Mountain
