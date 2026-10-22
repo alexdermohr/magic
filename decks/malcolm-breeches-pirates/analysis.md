@@ -1,8 +1,49 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V9 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V10 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V10 – Spark Double und Sword kehren zurück; Captain und Sting bleiben (22.10.2026)
+
+**Entscheidung:** Sowohl **Spark Double** als auch **Sword of Forge and Frontier** kehren zurück, ohne die **Captain of Umbar + Sting + Magmakin Artillerist**-Schadensmaschine wieder zu zerlegen. Kein Mana-Rock und kein Land wird gestrichen: Die Partner-Commander erfordern früh {U} und {R}, mehrere Spezialländer sind farblos, und Mox Amber, Mox Opal sowie Springleaf Drum sind nur bedingt nutzbar.
+
+| V9 raus | V10 rein | Begründung und Verlust |
+| --- | --- | --- |
+| **The Indomitable** ({2}{U}{U}; Vehicle 6/6) | **Sword of Forge and Frontier** ({3}; Equip {2}) | Beide verlangen für ihren zentralen Kartenvorteil im Regelfall **Kampfschaden**, aber das Schwert liefert zusätzlich einen Land-Drop für Breeches' gestohlene Länder und zwei eigene Exil-Karten. The Indomitable erforderte doppeltes Blau und bot dafür potentiell mehr Karten bei mehreren erfolgreichen Kreaturentreffern sowie Friedhofs-Rekursion bei drei getappten Pirates und/oder Vehicles. Das 6/6-Trample-Fahrzeug und seine Wiederverwendbarkeit entfallen. |
+| **Frostcliff Siege** ({1}{U}{R}) | **Spark Double** ({3}{U}) | Statt wahlweise **Jeskai-Kampfschaden-Kartenziehen** (höchstens einmal je getroffenem Spieler und Schadensereignis) oder **Temur-Team-Eile/Trample/+1/+0** kann Spark Double die entscheidende eigene Engine-Kreatur kopieren. Beispiele: Malcolm (zusätzliche Treasure-Trigger), Breeches (zusätzliche Gegner-Exil-Karten), Magmakin Artillerist (weitere Pirate-Multiplayer-Schadensereignisse nach Abwurf), Lightning-Rig Crew (zweiter tappend aktivierbarer Pirate) oder Academy Manufactor (mehr Artefakt-Token). Spark Double ist über Imperial Recruiter suchbar (gedruckte Stärke 0). Der teamweite Tempo-/Trample- und flexible Jeskai-Modus gehen verloren. |
+
+### Bewusst behaltene V9-Karten und Mana
+
+- **Sting, the Glinting Dagger:** Ausrüsten kostet {2}, verleiht +1/+1 und Eile, enttappt die ausgerüstete Kreatur **zu Beginn jeder Kampfphase**. Vor allem **Lightning-Rig Crew** mit **Hawkeye's Bow** kann damit pro erneuter Crew-Aktivierung **zwei separate** Pirate-Schadensereignisse an allen Gegnern erzeugen. Das Enttappen selbst verursacht **keinen** Schaden und erzeugt keine Endlosschleife. Auch Mary oder Captain können wiederholt looten.
+- **Captain of Umbar:** {2}{U}, Pirate mit Stärke 2; **{1}, {T}: eine ziehen, eine abwerfen**. Jeder solche Abwurf lässt einen kontrollierten **Magmakin Artillerist** je einen Pirate-Schaden an **alle** Gegner verteilen. Ein an Captain angelegter **Hawkeye's Bow** verursacht beim Tappen einen **separaten** Pirate-Schaden an alle Gegner. Sting kann die nächste Loot-Aktivierung bereits zum nächsten Kampf eröffnen, das zusätzliche {1} bleibt nötig. Imperial Recruiter kann Captain suchen. Gegenüber Mary hat der Captain weder eigene Eile noch einen kostenlosen Tap-Loot, aber er verdoppelt die Zahl unabhängiger Pirate-Loot-Einheiten.
+- **Trinket Mage:** Sucht Hawkeye's Bow, Sol Ring, Springleaf Drum, Mox Amber oder Mox Opal (alle Artefakte mit Manawert 1 oder weniger); er ist als 2/2 über Imperial Recruiter suchbar. **Urza's Saga** findet den **roten** Hawkeye's Bow nicht, weil sie nach tatsächlichen Artefakt-Manakosten {0} oder {1} statt nur nach Manawert sucht.
+- **Izzet Signet und übrige Beschleunigung:** Signet braucht {1} zum Aktivieren und ist weniger flexibel als Arcane Signet oder Talisman of Creativity. Es funktioniert aber ohne legendäre Kreatur (anders als Mox Amber), ohne Metalcraft (Mox Opal) und ohne ungetappte Kreatur (Springleaf Drum). Die **35 Länder** und alle Mana-Artefakte bleiben. Sol Ring allein erzeugt keine benötigten farbigen Pips. Gerade weil zwei Value-4-Drops zurückkehren, wäre das Kürzen zuverlässigen Ramps eine riskante Kompensation.
+
+### Genaue Regelinteraktionen
+
+1. **Spark Double als Malcolm:** Die Kopie ist **nicht legendär** und **nicht selbst Commander**; sie verursacht folglich keinen eigenen Commander-Kampfschaden und erhält keine auf Commander-Kreaturen bezogenen Background-Fähigkeiten. Ihre kopierte Malcolm-Triggerfähigkeit funktioniert jedoch: Pro Pirate-Schadensereignis können Original und Kopie je separat Schätze für die getroffenen Gegner erzeugen.
+2. **Spark Double als Breeches:** Beide gleichartigen, getrennten ausgelösten Fähigkeiten exilieren jeweils Karten aus den entsprechenden gegnerischen Bibliotheken. Ein einziger Trigger wird nicht allein durch mehrere Pirates vervielfacht, die denselben Gegner gleichzeitig treffen. Kopiert Spark Double Magmakin, sind Original und Kopie auf dem Spielfeld Pirates und erzeugen bei jedem Abwurf getrennte Flächenschäden.
+3. **Sword und zusätzlicher Land-Drop:** Nur **tatsächlicher Kampfschaden der ausgerüsteten Kreatur an einem Spieler** löst das Schwert aus. Kediss' verteilter Nichtkampfschaden oder Hawkeye's Bow sind dafür nicht ausreichend. Mehrere erfolgreiche Schwert-Treffer über Port Razer können zusätzliche Land-Drops **kumulieren**; normale Landspielzeiten und das Limit des jeweiligen Zugs bleiben maßgeblich. Aus dem Exil **gewirkte** Schwert-Sprüche aktivieren Passionate Archaeologist, **Länder spielen** nicht.
+4. **Ausrüstungskonflikt:** Sword verleiht Schutz vor **Rot** und **Grün**. Hawkeye's Bow ist rot und fällt ab, falls der Träger Schutz vor Rot erhält. Bow und Sword auf verschiedene Pirates verteilen; Sting ist farblos und kann mit Bow kombiniert werden.
+5. **Sting außerhalb des eigenen Zuges:** Es entstehen unter Umständen Schätze durch Malcolm und Flächenschaden durch Magmakin. Durch Breeches in einem gegnerischen Zug exilierte normale Kreaturen, Hexereien und Länder bleiben mangels Erlaubnis für den Spielzeitpunkt meist **nicht** spielbar.
+
+### Strukturvergleich und verbleibende Risiken
+
+| Merkmal | V9 | V10 |
+| --- | ---: | ---: |
+| Karten / Partner-Commander | 100 / 2 | **100 / 2** |
+| Länder (Island/Mountain) | 35 (6/3) | **35 (6/3)** |
+| Gedruckte Pirates inkl. Commander | 27 | **27** |
+| Kreaturen inkl. Commander | 33 | **34** |
+| Nichtkreatur-Artefakte | 12 | **12** |
+| Summe Nichtland-Manawerte | 151 | **151** |
+| Durchschnitt Nichtland-Manawert | 2,323 | **2,323** |
+| Game Changer | 3 | **3** |
+
+Das Schwert benötigt effektiv **fünf Mana vor dem ersten Treffer** und einen evasiven Träger, Spark Double ein wertvolles Kopierziel und Captain/Sting/Magmakin genügend Board und Mana. Dafür sinkt die farbige Last gegenüber The Indomitable (doppeltes Blau) und Frostcliff Siege (Blau/Rot) zugunsten des farblosen Swords und Spark Double mit nur einem blauen Symbol. Der flexible globale Eile-/Trample-Effekt der Siege sowie der wiederkehrende Combat-Draw von The Indomitable entfallen; Curiosity, Kindred Discovery, Rhystic Study, Breeches und Schwert-Exil bleiben als Ressourcenquellen. Drei Game Changer unverändert **Rhystic Study, Fierce Guardianship und Cyclonic Rift**. Keine neue frühe deterministische Infinite-Kombo beabsichtigt.
+
+**Evidenzgrenze:** Qualitative Oracle-/Synergieabwägung, keine gemessenen Partien oder Gewinnquoten. **Alle V1–V9-Snapshots bleiben unverändert.** Die nachfolgenden V9- und älteren Abschnitte dokumentieren historische Deckstände und sind nicht die aktuelle V10-Kartenverteilung.
 
 ## V9 – Zwei suchbare Pirate-/Artefaktlinien und wiederholtes Enttappen (22.10.2026)
 
