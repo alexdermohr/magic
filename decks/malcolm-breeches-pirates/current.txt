@@ -21,7 +21,7 @@ Deck
 1 Lightning-Rig Crew
 1 Broadside Bombardiers
 1 Storm Fleet Sprinter
-1 Reckless Lackey
+1 Captain of Umbar
 1 Kitesail Larcenist
 1 Coercive Recruiter
 1 Port Razer
@@ -30,7 +30,6 @@ Deck
 1 Academy Manufactor
 1 Daring Piracy
 1 Gemcutter Buccaneer
-1 Spark Double
 1 Cyberdrive Awakener
 1 Sol Ring
 1 Arcane Signet
@@ -41,9 +40,11 @@ Deck
 1 Lightning Greaves
 1 Swiftfoot Boots
 1 Imperial Recruiter
+1 Trinket Mage
 1 Springleaf Drum
 1 The Indomitable
 1 Hawkeye's Bow
+1 Sting, the Glinting Dagger
 1 Rhystic Study
 1 Kindred Discovery
 1 Shared Animosity
@@ -60,7 +61,6 @@ Deck
 1 Mana Drain
 1 Chaos Warp
 1 Pongify
-1 Sword of Forge and Frontier
 1 March of Swirling Mist
 1 Vandalblast
 1 Merchant Scroll
