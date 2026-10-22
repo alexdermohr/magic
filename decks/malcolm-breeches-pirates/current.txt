@@ -35,6 +35,8 @@ Deck
 1 Arcane Signet
 1 Izzet Signet
 1 Talisman of Creativity
+1 Urza's Incubator
+1 Patchwork Banner
 1 Mox Amber
 1 Departed Deckhand
 1 Thousand-Year Elixir
@@ -90,5 +92,5 @@ Deck
 1 Urza's Saga
 1 Minamo, School at Water's Edge
 1 Secluded Courtyard
-7 Island
-3 Mountain
+6 Island
+2 Mountain

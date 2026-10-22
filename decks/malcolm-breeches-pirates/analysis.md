@@ -1,8 +1,66 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V17 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V18 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V18 – Zwei Länder weniger; tribal-basierte Beschleunigung (22.10.2026)
+
+**Verbindliche Optimierung:** Die von V17 übernommene Liste verliert **ein Island (7 → 6)** und **ein Mountain (3 → 2)**. Sie gewinnt **Urza's Incubator** und **Patchwork Banner**. Damit sinkt die Länderzahl **35 → 33**, ohne die wichtigen Spezialländer (Three Tree City, Urza's Saga, Minamo, Cavern of Souls, Secluded Courtyard), einen Pirate, eine Schutzkarte oder die bisherige Treasure-/Damage-Engine zu streichen. **Exactly two land cuts, no other cards changed.**
+
+### Warum Breeches weniger Länder ermöglicht – und wo die Regelgrenze liegt
+
+**Breeches, Brazen Plunderer** schickt nach eigenem Pirate-Schaden die oberste Karte der Bibliothek *jedes tatsächlich getroffenen Gegners* ins Exil. Man darf diese Karte **nur während des betreffenden Zugs** unter den **normalen Timing- und Landspielregeln** spielen. Ein aus dem Exil zugängliches Land darf also nur bei noch nicht verbrauchtem Land-Drop gespielt werden; wenn die Karte außerhalb des eigenen Zugs aufgedeckt wird, ist sie in der Regel nicht als Land spielbar. **Breeches gewährt keine zusätzlichen Land-Drops**. Ein Kampftreffer von **Sword of Forge and Frontier** gewährt dagegen einen zusätzlichen Land-Drop für den aktuellen Zug und kann das Landstehlen erst effektiv machen. Offizielle Wizards-Notizen: https://magic.wizards.com/en/news/feature/the-lost-caverns-of-ixalan-release-notes (Breeches: normales Timing/Land-Limit und nur derselbe Zug).
+
+Damit bleibt die Deckkürzung ein kalkuliertes Risiko: Breeches ist **vier Mana teuer**, muss liegen, und zunächst muss ein eigener Pirate tatsächlich einem Gegner Schaden zufügen. Vorher gewährt Breeches weder Karten noch Länder. Auch mögliche Treffer durch Lightning-Rig Crew während fremder Züge ersetzen keine fehlenden eigenen Land-Drops.
+
+### Die zwei bewussten Land-/Nichtland-Tausche
+
+| V17 entfernt | V18 hinzugefügt | Grenznutzen und Preis |
+| --- | --- | --- |
+| **1 Island** (von 7 auf 6) | **Urza's Incubator** ({3}; Artefakt) | Wähle **Pirate**: **Creature spells** dieses Typs kosten **{2} weniger**. Das schließt unsere beiden Pirate-Commander aus der Kommandozone ein: Malcolm kostet ohne Commander-Steuer effektiv **{U}**, Breeches **{1}{R}**; bereits angefallene **generische Commander-Steuer** kann ebenfalls durch diesen Rabatt reduziert werden. Coercive Recruiter kostet nur noch **{2}{R}**, Merchant Raiders **{1}{U}**, Zephyr Singer **{U}{U}**, Fathom Fleet Swordjack **{1}{R}** und Captain of Umbar **{U}**. Durch den hohen Anteil echter Pirates (32 inklusive Partnern) ist der Nachlass oft besser als ein zusätzlicher später Land-Drop. **Preis:** Incubator liefert selbst **kein Mana**, kostet zunächst drei Mana und hilft bei fehlendem drittem Land nicht. Farbige Manasymbole müssen immer vollständig bezahlt werden. Er vergünstigt auch **gegnerische Pirate-Creature-Spells**; Daring-Piracy-Token werden nicht gewirkt und erhalten keinen Kostennachlass. Auch Artefaktfahrzeug The Indomitable und sonstige Nichtkreatur-Sprüche profitieren nicht. |
+| **1 Mountain** (von 3 auf 2) | **Patchwork Banner** ({3}; Artefakt) | Wähle **Pirate**: Alle eigenen Pirates bekommen **+1/+1**, und das Banner kann **jede Runde wiederholt Mana beliebiger Farbe** produzieren, auch ohne eigene Kreaturen. Das hilft den blauen Kosten von The Indomitable, Mana Drain und Zephyr Singer sowie roten Pirate-Spells trotz geringerer Landzahl. Der Anthem-Bonus verbessert Pirate-Kampfschaden, **Shared Animosity**, **Fathom Fleet Swordjack** nach Beschleunigung durch andere Treasures sowie die Zuverlässigkeit, mit Malcolm/Breeches Schaden durchzubringen. Das Banner ist außerdem ein zusätzliches Artefakt für **Fathom Fleet Swordjacks Zählung** und kann durch sein ETB Captain Storm, Cosmium Raider auslösen. **Preis:** Ein Dreimana-Mana-Artefakt ersetzt keinen frühen eigenen zweiten Land-Drop; Artefakt-Removal und Counterspells können es treffen. Der Verlust eines echten Mountain kann bei frühen rotlastigen Händen auftreten. |
+
+### Ausgangshand-Risiko in überprüfbaren Zahlen
+
+In diesem Deck beginnen **zwei Partner-Commander in der Kommandozone**; die Bibliothek enthält darum **98 Karten**. Ohne Mulligans, Ramp, zusätzliche Karten oder andere Einflüsse ergibt reine hypergeometrische Landwahrscheinlichkeit:
+
+| Ereignis | V17 mit 35 Ländern | V18 mit 33 Ländern |
+| --- | ---: | ---: |
+| Mindestens 2 Länder in den ersten 7 Karten | 78,81 % | **75,26 %** |
+| Mindestens 3 Länder in 10 gesehenen Karten (bis einschließlich Zug 3 im Multiplayer) | 76,72 % | **72,16 %** |
+| Mindestens 4 Länder in 11 gesehenen Karten (bis einschließlich Zug 4) | 60,27 % | **54,29 %** |
+
+Diese Zahlen sind reine **Rohland-Wahrscheinlichkeiten**, **keine** Gewinne, Cast-on-Curve-Wahrscheinlichkeiten oder Simulationen der tatsächlichen Partien. Besonders die Wahrscheinlichkeit eines vierten natürlichen Landes bis Zug 4 sinkt um knapp sechs Prozentpunkte. **Patchwork Banner + Urza's Incubator kompensieren Mana und Kosten erst ab einer tatsächlich erreichbaren Drei-Mana-Situation**. Ein gegnerisches frühes Removal von Malcolm oder den Mana-Artefakten kann den Plan weiterhin ausbremsen.
+
+### Untersuchte Alternativen und warum noch keine zusätzlichen Slots verändert wurden
+
+- **Corsair Captain** ({2}{U}; Pirate) wäre die nächste, Piratenzahlen erhöhende Alternative: eigener Pirate mit Treasure beim ETB und **+1/+1 für andere Pirates**. Wegen der beabsichtigten 33 Länder erhält das **repeatable colored mana** von Patchwork Banner den Vorzug gegenüber einem einmaligen Treasure, besonders nach Boardwipes.
+- **Herald's Horn** ({3}) reduziert Pirate-Creature-Spells nur um **{1}** und ermöglicht bei Pirate-Karte oben gelegentlich zusätzliches Ziehen. Urza's Incubator bevorzugt beim aktuellen Piratenaufkommen den unmittelbaren **{2}-Rabatt**.
+- **Sword of the Animist** ({2}, Equip {2}) holt mit angreifender ausgerüsteter Kreatur wiederholt **getappte Basics** direkt aufs Spielfeld und könnte eine niedrigere Länderzahl zusätzlich abfedern. Es kostet aber insgesamt vier Mana vor dem ersten Angriff, konkurriert mit Bow/Sting/Sword/Boots und wurde daher noch nicht aufgenommen.
+- **Mask of Memory** ({2}, Equip {1}) lässt nach erfolgreichem Combat-Damage zwei Karten ziehen und eine abwerfen: interessant für Marauding Mako, Scrounging Skyray und Magmakin Artillerist. Stützt aber **nicht** den frühen Manaaufbau; der nächste ernsthafte Kandidat für einen späteren freien Slot.
+- **Key to the City** ({2}) ermöglicht wiederholte Unblockbarkeit gegen einen Discard, triggert dadurch Magmakin und lässt beim Untappen gegen {2} eine Karte nachziehen. Es ist eine weitere interessante Discard-/Evasion-Option, keine dauerhafte Manaquelle. Aqueous Form und Departed Deckhand bleiben vorerst erhalten.
+- **Cursed Mirror**, **Prismari Command**, **Curse of Opulence** und **Fellwar Stone** hätten ebenfalls Tempo-/Discard-/Artefakt-Synergien. Keine davon ersetzt die Kombination aus permanent farbigem Ramp/Team-Pump und Zwei-Mana-Pirate-Discount derzeit eindeutig.
+- **Kein weiterer Land-Cut auf 32**: Das würde die frühen Ländergebnisse weiter verschlechtern. Nur eine fehlende Landquelle nach tatsächlichen Testpartien rechtfertigt den gegenteiligen Schritt zurück zu 34–35, zum Beispiel über ein Basic; kein früherer Snapshot wird gelöscht.
+
+### Erhaltene Entscheidungen, Bracket und Deckstruktur
+
+**Alle 32 gedruckten Pirates inklusive Malcolm/Breeches bleiben**: unter anderem Coercive Recruiter, Merchant Raiders, Departed Deckhand, Warkite Marauder, Emberwilde Captain, Zephyr Singer, Captain Ripley Vance, Scrounging Skyray, Marauding Mako, Fathom Fleet Swordjack und Captain of Umbar. **Ebenso bleiben** Hawkeye's Bow, Sting, Thousand-Year Elixir, Aqueous Form, Curiosity, The Indomitable, Frostcliff Siege, Shared Animosity, Sword of Forge and Frontier, Kediss, Daring Piracy, Academy Manufactor, alle Schutz-/Counterspells und die bisherigen Mana-Artefakte. **Dramatic Reversal, Fanatical Firebrand, Captain Lannery Storm, Cyberdrive Awakener, Springleaf Drum, Mox Opal und Ancient Tomb bleiben draußen.**
+
+| Kennzahl | V17 | V18 |
+| --- | ---: | ---: |
+| Karten / Commander | 100 / 2 | **100 / 2** |
+| Länder | 35 (7 Island, 3 Mountain) | **33 (6 Island, 2 Mountain)** |
+| Gedruckte Pirates inklusive Commander | 32 | **32** |
+| Kreaturen inklusive Commander | 38 | **38** |
+| Nichtkreatur-Artefakte | 11 | **13** |
+| Summe Nichtland-Manawerte | 164 | **170** |
+| Durchschnitt Nichtland-Manawert | 2,523 | **2,537** |
+| Game Changer | 3 | **3** |
+
+Die **drei** Game Changer bleiben **Jeska's Will, Fierce Guardianship und Cyclonic Rift**. Urza's Incubator und Patchwork Banner sind per aktuellem Oracle/Scryfall legal in Commander, farbidentitätskonform, **nicht** als Game Changer eingestuft und führen keine beabsichtigte frühe deterministische Infinite-Combo ein. **Alle V1–V17-Archive bleiben unverändert.** Historische Kapitel der Analyse beziehen sich weiterhin nur auf frühere Deckfassungen.
+
+**Evidenzgrenze:** Regel-/Deckanalyse und exakt berechnete Rohlandwahrscheinlichkeiten, keine gespielten Partien und keine empirisch gemessenen Siegraten. Der neue Mana- und Farbplan muss in echten Starthänden und gegen Artefaktremoval beobachtet werden.
 
 ## V17 – Aqueous Form zurück, Springleaf Drum entfernt (22.10.2026)
 
