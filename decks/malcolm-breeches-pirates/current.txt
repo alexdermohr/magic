@@ -41,7 +41,7 @@ Deck
 1 Swiftfoot Boots
 1 Imperial Recruiter
 1 Trinket Mage
-1 Springleaf Drum
+1 Aqueous Form
 1 Hawkeye's Bow
 1 Sting, the Glinting Dagger
 1 Sword of Forge and Frontier

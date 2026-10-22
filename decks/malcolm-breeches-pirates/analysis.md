@@ -1,8 +1,45 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V16 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V17 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V17 – Aqueous Form zurück, Springleaf Drum entfernt (22.10.2026)
+
+**Direkter Nutzerwunsch:** **1 Aqueous Form ({U}; Aura) rein** und **1 Springleaf Drum ({1}; Artefakt) raus**. Ausgangspunkt ist die live bestätigte **V16 aus PR #62 auf main**. Die Änderung ist ein **einziger exakter 1:1-Tausch**: alle 32 gedruckten Pirates einschließlich der Partner, die 35 Länder und die in V15/V16 ausdrücklich zurückgeholten Karten bleiben unverändert.
+
+### Warum dieser Tausch hier vertretbar ist
+
+**Aqueous Form macht die verzauberte Kreatur dauerhaft unblockbar** und bietet bei jedem Angriff **Scry 1**, auch wenn aus irgendeinem Grund kein Kampfschaden entsteht. Besonders auf **Breeches, Brazen Plunderer** oder einem anderen geeigneten Pirate ohne vorhandene Evasion kann dies wiederholbar Malcolm-/Breeches-Schadensauslösungen und den Kartennachschub von **The Indomitable** absichern. Ein Träger mit **Sword of Forge and Frontier** bekommt bei Kampfschaden am Spieler zusätzlich **zwei eigene Exil-Karten und einen weiteren Land-Drop**; die blaue Aqueous-Form-Aura ist mit dem rot/grünen Schutz des Swords regeltechnisch kompatibel. Mit **Kediss, Emberclaw Familiar** lässt Kampfschaden eines ausgerüsteten Piraten-Commanders auch andere Gegner als **Nichtkampfschaden dieses Pirate-Commanders** treffen, woraus weitere Treasure-/Breeches-Ereignisse entstehen können. Die Scry-Funktion hilft außerdem, kommende Draws etwas besser vorzubereiten, insbesondere nach dem Entfernen von Rhystic Study.
+
+**Springleaf Drum ist dabei keineswegs schwach**: Für {1} ist es sehr frühes farbflexibles Mana. Es kann mit seiner eigenen {T}-Fähigkeit eine **andere ungetappte kontrollierte Kreatur** als zusätzliche Kosten tappen, auch wenn die Kreatur wegen Einsatzverzögerung ihre **eigene** Tap-Fähigkeit noch nicht aktivieren dürfte. Trägt der damit getappte Pirate **Hawkeye's Bow**, löst **das tatsächliche Tappen** den Bow aus. Das ist ein weiteres **Pirate-Nichtkampfschadensereignis an allen Gegnern**, wodurch Malcolm Treasures und Breeches gegnerische Exil-Karten generieren können. Die Drum konnte über **Urza's Saga** (gedruckte Manakosten {1}) und **Trinket Mage** (Manawert 1) gesucht werden. Mit dieser Änderung verliert das Deck einen preiswerten, suchbaren Ramp-/Bow-Tap-Auslöser.
+
+Der Ausstieg bleibt vertretbar, weil **35 Länder**, **Sol Ring**, **Arcane Signet**, **Izzet Signet**, **Talisman of Creativity** und **Mox Amber** sowie eingeschränkt **Oaken Siren**, Malcolm-Treasures und **Jeska's Will** als Manaquellen erhalten sind. Für das Tappen eigener Pirates zur Bow-Engine bleiben **Lightning-Rig Crew**, **Mary Read and Anne Bonny**, **Captain of Umbar** und **Oaken Siren** sowie über **Sting, the Glinting Dagger**, **Thousand-Year Elixir** und **Minamo, School at Water's Edge** diverse Wiederholungsmöglichkeiten verfügbar. **Minamo kann nur legendäre Permanents** enttappen, nicht die nichtlegendäre Crew oder Captain of Umbar.
+
+### Wichtige Ausrüstungs- und Zielregeln
+
+- **Aqueous Form auf Breeches oder geeignete Sword-Pirates:** Für {U} geht die verzauberte Kreatur durch Blocker hindurch. **Sword of Forge and Frontier** gewährt Schutz vor Rot und Grün, **Aqueous Form ist blau** und bleibt daher auch am Sword-Träger angelegt. **Hawkeye's Bow hingegen ist rot** und fällt bei Sword-Schutz vor Rot von demselben Träger ab.
+- **Aqueous Form NICHT auf Departed Deckhand wirken:** Deckhands „Whenever this creature becomes the target of a spell, sacrifice it“ wird ausgelöst, wenn Deckhand Ziel des Aura-Zaubers wird. Die Aura landet dann normalerweise im Friedhof, da ihr einziges Ziel nicht mehr vorhanden ist. **Das Ausrüsten mit Equip-Fähigkeiten** ist dagegen keine Zauberspruch-Zielwahl; dies löst den Opfertrigger nicht selbst aus.
+- **Mögliches 2-zu-1-Risiko:** Aqueous Form ist eine Aura; wird der Träger entfernt, verliert man typischerweise auch die Aura. **Swiftfoot Boots** schützen durch Hexproof gegen gegnerisches gezieltes Removal, werden durch eigenes Anlegen/Enchant nicht behindert. Eine Kreatur mit bereits vorhandenem Hexproof unter eigener Kontrolle darf von der eigenen Aura verzaubert werden.
+- **Kein Verlust an früher 1-Mana-Piratenzahl:** Die neu aufgenommene Aura hat denselben Manawert wie Drum, ist jedoch **kein Ramp**. Frühe Hände brauchen daher weiterhin passende Länder, Rocks oder Malcolm-Schatz-Mana, bevor mehrere Ausrüstungen und teure Pirates gespielt werden können. Aqueous ist ein Zugangs-/Combat-Konsistenz-Tool, **kein Manaersatz im technischen Sinn**.
+- **Kein neuer Game Changer und keine Infinite-Combo:** Aqueous Form ist legal in Commander und farbidentitätskonform; Springleaf Drum ebenfalls. Die drei Game Changer bleiben **Jeska's Will, Fierce Guardianship und Cyclonic Rift**. **Dramatic Reversal**, Cyberdrive Awakener, Fanatical Firebrand und Captain Lannery Storm bleiben draußen.
+
+### Unveränderte User-Entscheidungen, Zahlen und Evidenz
+
+**Insbesondere weiter enthalten:** Coercive Recruiter, Departed Deckhand, Warkite Marauder, Emberwilde Captain, Zephyr Singer, Captain Ripley Vance, Scrounging Skyray, Marauding Mako, Merchant Raiders, Fathom Fleet Swordjack, Thousand-Year Elixir, Captain of Umbar, Lightning-Rig Crew, Hawkeye's Bow, Sting, The Indomitable, Frostcliff Siege, Spark Double, Sword of Forge and Frontier, Kediss, Curiosity, die 35 Länder und die Mana-/Schutzkernreste.
+
+| Kennzahl | V16 | V17 |
+| --- | ---: | ---: |
+| Karten / Partner-Commander | 100 / 2 | **100 / 2** |
+| Länder (Island / Mountain) | 35 (7 / 3) | **35 (7 / 3)** |
+| Gedruckte Pirates inklusive Commander | 32 | **32** |
+| Kreaturen inklusive Commander | 38 | **38** |
+| Nichtkreatur-Artefakte | 12 | **11** |
+| Andere Nichtland-Permanents: Aura statt Drum | 0 | **1 Aqueous Form** |
+| Nichtland-Manawertsumme / Durchschnitt | 164 / 2,523 | **164 / 2,523** |
+| Game Changer | 3 | **3** |
+
+**Grenze der Aussage:** Das ist ein plausibler, gezielter Gewinn an verlässlichem Combat-Damage und Karten-/Sword-Triggern zum Preis frühen Manas und eines multifunktionalen Bow-Tap-Outlets. **Keine tatsächlichen Partien, simulierten Starthände oder Gewinnquoten vorliegend.** Die nachfolgenden V16- und älteren Analysen sind historische Bewertungen der jeweiligen Version, nicht die aktuelle V17-Liste; alle V1–V16-Snapshots bleiben unverändert.
 
 ## V16 – Drei Piraten kehren zurück; alle V15-Piraten bleiben (22.10.2026)
 
