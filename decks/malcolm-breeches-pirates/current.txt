@@ -7,7 +7,7 @@ Deck
 1 Spectral Sailor
 1 Impulsive Pilferer
 1 Ragavan, Nimble Pilferer
-1 Fanatical Firebrand
+1 Reckless Lackey
 1 Staunch Crewmate
 1 Malcolm, the Eyes
 1 Malcolm, Alluring Scoundrel

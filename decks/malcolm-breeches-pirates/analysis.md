@@ -1,8 +1,55 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V13 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V14 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V14 – Fanatical Firebrand wird durch Reckless Lackey ersetzt (22.10.2026)
+
+**Live-Ausgangspunkt:** GitHub main V13 aus PR #59. **Cyberdrive Awakener war schon in V13 für ein Island entfernt** und bleibt entfernt. Auf ausdrücklichen Wunsch wird jetzt **Fanatical Firebrand ({R}) durch Reckless Lackey ({R})** ersetzt; alle übrigen 99 Karten, einschließlich Captain Lannery Storm, Captain of Umbar und der Mana-/Schutz-Engine, bleiben erhalten.
+
+### Abwägung des konkreten Ein-Mana-Piraten-Slots
+
+| V13 raus | V14 rein | Grenznutzen und echter Trade-off |
+| --- | --- | --- |
+| **Fanatical Firebrand** ({R}; 1/1 Goblin Pirate, Haste) | **Reckless Lackey** ({R}; 1/1 Goblin Pirate, First Strike, Haste) | Der Lackey erhält **Erstschlag** und kann später für **{2}{R}, opfern** eine **Karte ziehen und einen Treasure erzeugen**; das ist zusätzliches Mana/Handkarten-Value für Academy Manufactor, Mox Opal und Artefakt-ETB-Karten. Der frühe Piratenslot und die sofortige Angriffsmöglichkeit bleiben erhalten. **Verlust:** Firebrands eigene {T}-Opferfähigkeit verursachte ohne Kampfschaden 1 Pirate-Schaden an ein beliebiges Ziel. Bei Malcolm und Breeches konnte dieser einmalige Ping direkte Commander-Trigger liefern, beim Tappen mit Hawkeye's Bow auch ein separates Flächenschadenereignis. Lackey kann ohne Bow selbst **keinen Nichtkampfschaden** erzeugen. Sein Card-Draw-/Treasure-Opfer ist ebenfalls nur einmalig und kostet drei weitere Mana. |
+
+**Historische Entscheidung nachvollziehbar, kein Hin und Her:** Reckless Lackey war früher im Deck und wurde in V9 zugunsten der wertvolleren dauerhaften Discard-Maschine **Captain of Umbar** gestrichen. **Captain bleibt selbstverständlich im Deck**; der jetzige freie Firebrand-Slot ermöglicht die Rückkehr des günstigen Pirates, ohne die frühere Captain-Entscheidung umzukehren. First Strike kann den Pirate-Kampfschaden zeitlich vor dem regulären Kampfschadensegment auslösen und damit Malcolm-/Breeches-Ressourcen früh im Kampf bereitstellen. Reckless Lackey ist durch Imperial Recruiter als Stärke-1-Kreatur suchbar, wie Firebrand ebenfalls.
+
+### Captain Lannery Storm: geprüft und bewusst behalten
+
+**Captain Lannery Storm** ({2}{R}; 2/2 Human Pirate, Haste) produziert **beim Angreifen**, auch ohne durchzukommen, einen **ungetappten Treasure**. Jedes Opfern eines Treasure erhöht Lannerys Stärke bis Zugende um 1. Mit **Malcolm**, **Academy Manufactor**, **Frostcliff Siege (Temur: Trample)** und **Port Razer** ist das eine mehrfach nutzbare Schatz- und Schadensoption, die nicht auf erfolgreiche gegnerische Treffer angewiesen ist.
+
+Der Vergleich zeigt keinen eindeutig besseren Dreimana-Slot: **Captain Ripley Vance** ({2}{R}) kann wiederholt Nichtkampfschaden als Pirate verursachen, braucht aber jeweils **den dritten tatsächlich gewirkten Spruch pro Zug**; deutlich unzuverlässiger bei langsamen Händen und nach Boardwipes. **Emberwilde Captain** ({3}{R}) gibt Monarch und Nichtkampfschaden bei Angriffen gegen den Monarchen, kostet aber vier Mana, ist mit 4/2 verletzlich und überlässt die Triggerhäufigkeit den Gegnern. **Merchant Raiders** ({3}{U}) setzt mit **Daring Piracy** wiederholt Blocker fest, ist jedoch vier Mana und braucht weitere Pirate-ETBs. **Fathom Fleet Swordjack** ({3}{R}) kann beim Angriffsdeklarieren einem Gegner großen Pirate-Schaden entsprechend eigener Artefakte zufügen, hat aber keine Eile und keinen Treasure-Trigger; bloß angreifend eintretende Encore-Kopien werden nicht als Angreifer deklariert und lösen ihn nicht aus. **Zephyr Singer** ({2}{U}{U}) bringt Convoke und permanente Flying-Marken für die tatsächlich beim Convoke getappten Kreaturen, benötigt jedoch UU und nimmt diesen Kreaturen zunächst Angriffsoptionen. **Lannery bleibt daher.**
+
+### Weitere Piraten-Tausche gründlich geprüft, nicht automatisch umgesetzt
+
+| Kandidat | Alternative zum aktuellen Slot | Wert und Gegenargument |
+| --- | --- | --- |
+| **Scrounging Skyray** ({1}{U}; 1/2 Flying Pirate, Cycling {2}) | **Departed Deckhand** | Stärkt die **Mary/Captain of Umbar/Malcolm-Alluring-Discard-Engine** durch dauerhafte +1/+1-Marken je abgeworfene Karte. Als spät gecycelte Handkarte kann Skyray mit liegendem **Magmakin Artillerist** dessen Flächenschaden auslösen. **Deckhand** liefert aber schon ab dem ersten Treffer häufig nahezu unblockbaren 2/2-Pirateschaden und kann für {3}{U} einem weiteren Pirate schwer blockbare Angriffe ermöglichen; das verstärkt Breeches und Sword verlässlich. Deckhands Opfertrigger greift bei Ziel eines **Zaubers**, nicht bei bloßer Equip-*Fähigkeit*. Dieser Ausstieg ist deshalb nicht eindeutig stärker und benötigt Partietests. |
+| **Marauding Mako** ({R}; 1/1 Pirate, Cycling {2}) | Ursprünglicher Firebrand-Slot | Wächst durch Discards langfristig, benötigt aber Mary/Captain/Alluring oder andere Abwurfquellen und hat **weder Haste noch Evasion** aus sich heraus. Lackey ist bereits in Zug 1 ein Haste-Pirate, behält Erstschlag und spätes Draw/Treasure. |
+| **Goblin Tomb Raider** ({R}; 1/1 Pirate) | Firebrand-Slot | Mit kontrolliertem Artefakt 2/1 und Haste, aber ohne Artefakt nur 1/1 ohne Haste; Lackey verfügt unabhängig von weiteren Karten über Haste/First Strike und späteren Wert. |
+| **Kari Zev, Skyship Raider** ({1}{R}; 1/3 Pirate) | Schwächerer Zwei-Mana-Slot | First Strike + Menace und 2/1 Ragavan-Monkey bei jedem Angriff; jener Spielstein ist **kein Pirate** und löst Malcolm/Breeches nicht aus. Keine eindeutige Verbesserung gegenüber eigenen günstigen fliegenden/evasiven Piraten. |
+| **Protean Raider** ({1}{U}{R}; Pirate) | Spezifischer Drei-Mana-Value-Slot | Kann nach zuvor deklariertem Angriff als Kopie etwa von **Lightning-Rig Crew** oder **Magmakin Artillerist** eintreten. Unterliegt beim Kopieren legendärer Commander jedoch der Legendenregel und erbt deren ursprünglichen Kreaturentyp; übermütige Kopien können deshalb das Pirate-Thema verlieren. Interessant, aber board- und Raid-abhängiger als Lannery. |
+| **Captain Ripley Vance / Emberwilde Captain / Merchant Raiders** | Höherer Pirate-Slot | Alle bieten eine passende Spezialfunktion; keiner schlägt derzeit zugleich Lannerys zuverlässigen sofortigen Treasure und ihre explosive Treasure-Sacrifice-Skalierung. |
+
+**Weitere Nichtpiraten-Kandidaten:** **Thousand-Year Elixir** kann Crew, Mary, Captain und Oaken Siren mit ihren Tap-Fähigkeiten sofort nutzbar machen und ein weiteres Mal enttappen, konkurriert aber mit **Sting und Minamo** und braucht einen verantwortbaren Nichtpiraten-Slot. **Dramatic Reversal** enttappt alle eigenen Nichtland-Permanents einmalig und kann von Merchant Scroll gesucht werden; effizienter mit mehreren gleichzeitig liegenden Tap-Engines, aber keine stabile neue Ressource ohne diese. **Wheel of Fortune** ist in der derzeitigen Klassifizierung kein Game Changer und könnte mit Magmakin vollen Hand-Discard in Pirate-Schaden verwandeln, füllt ohne ihn jedoch auch die Gegnerhände. **Secluded Courtyard → City of Brass** würde die Farbverfügbarkeit bei Nichtpiraten-Spells verbessern, verursacht aber häufig wiederholten Lebensverlust, der nach bewusster Ancient-Tomb-Streichung nicht ohne klare Notwendigkeit hinzugefügt wird. Alle werden dokumentiert, nicht blind übernommen.
+
+### Konservative Umsetzung, Bracket und Zahlen
+
+**Bewusst nicht entfernt:** Captain Lannery Storm, Captain of Umbar, Lightning-Rig Crew, Hawkeye's Bow, Sting, Mary Read and Anne Bonny, Magmakin Artillerist, Imperial Recruiter, Trinket Mage, Daring Piracy, beide Commander, **alle Schutz- und Manaquellen sowie alle 35 Länder**. **Cyberdrive Awakener bleibt draußen.** Die drei Game Changer sind unverändert **Jeska's Will, Fierce Guardianship und Cyclonic Rift**. Keine absichtlich frühe deterministische Infiniteschleife.
+
+| Kennzahl | V13 | V14 |
+| --- | ---: | ---: |
+| Karten einschließlich Commander | 100 | **100** |
+| Länder (Island/Mountain) | 35 (7/3) | **35 (7/3)** |
+| Gedruckte Pirates einschließlich Commandern | 27 | **27** |
+| Kreaturen einschließlich Commandern | 33 | **33** |
+| Nichtkreatur-Artefakte | 13 | **13** |
+| Nichtland-Manawertsumme / Durchschnitt | 150 / 2,308 | **150 / 2,308** |
+| Game Changer | 3 | **3** |
+
+**Unsicherheit ehrlich benannt:** Es gibt keine tatsächlich gespielten Testpartien und keine gemessenen Siegquoten. Der Firebrand-Ping war ein echter, unmittelbarer Nichtkampfschadens-Trick; die Wahl von Lackey priorisiert dagegen einen wiederholt angreifenden frühen Pirate mit First Strike und dem späteren Draw/Treasure-Ausgang. Das ist eine deckbezogene Hypothese, keine empirisch bewiesene Dominanz. Nachfolgende V13- und ältere Analysen sind historische Deckstände. **V1–V13-Snapshots bleiben unverändert.**
 
 ## V13 – Cyberdrive Awakener raus, 35. Land zurück; vollständiger Pirate-Cut-Audit (22.10.2026)
 
