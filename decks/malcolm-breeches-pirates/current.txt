@@ -5,17 +5,17 @@ Deck
 1 Spyglass Siren
 1 Siren Stormtamer
 1 Spectral Sailor
-1 Impulsive Pilferer
+1 Marauding Mako
 1 Ragavan, Nimble Pilferer
 1 Reckless Lackey
 1 Staunch Crewmate
 1 Malcolm, the Eyes
 1 Malcolm, Alluring Scoundrel
-1 Warkite Marauder
-1 Departed Deckhand
+1 Zephyr Singer
+1 Scrounging Skyray
 1 Oaken Siren
 1 Breeches, Eager Pillager
-1 Captain Lannery Storm
+1 Captain Ripley Vance
 1 Mary Read and Anne Bonny
 1 Captain Storm, Cosmium Raider
 1 Lightning-Rig Crew
@@ -23,7 +23,7 @@ Deck
 1 Storm Fleet Sprinter
 1 Captain of Umbar
 1 Kitesail Larcenist
-1 Coercive Recruiter
+1 Merchant Raiders
 1 Port Razer
 1 Kediss, Emberclaw Familiar
 1 Roaming Throne
@@ -37,7 +37,7 @@ Deck
 1 Talisman of Creativity
 1 Mox Amber
 1 Aqueous Form
-1 Lightning Greaves
+1 Thousand-Year Elixir
 1 Swiftfoot Boots
 1 Imperial Recruiter
 1 Trinket Mage
@@ -60,10 +60,10 @@ Deck
 1 An Offer You Can't Refuse
 1 Mana Drain
 1 Chaos Warp
-1 Pongify
+1 Fathom Fleet Swordjack
 1 March of Swirling Mist
 1 Vandalblast
-1 Merchant Scroll
+1 Emberwilde Captain
 1 Magmakin Artillerist
 1 Command Tower
 1 Volcanic Island
