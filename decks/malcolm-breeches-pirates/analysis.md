@@ -1,8 +1,57 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V18 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V19 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt) · [V19](versions/2026-10-22-b3-v19.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V19 – Eine zusätzliche flexible Landoption und ein Pirate-Equipment-Tutor (22.10.2026)
+
+**Verifizierter Ausgangspunkt:** V18 auf GitHub-main \`504388ea520bb6205f40ea014149c93ff117a928\`, PR #64. Genau zwei Nichtpiraten-Slots werden verändert; alle ausdrücklich gewünschten Pirates und ungewöhnlichen Engines bleiben erhalten. Die 33 vorhandenen Länder sowie die Archivversionen V1–V18 bleiben unverändert.
+
+| V18 raus | V19 rein | Begründung | Bedeutendster Preis |
+| --- | --- | --- | --- |
+| **Mox Amber** ({0}) | **Glasspool Mimic // Glasspool Shore** ({2}{U}; Shapeshifter Rogue // blaues, getappt ins Spiel kommendes Land) | Mox ist vor einer legendären Kreatur faktisch inaktiv. **Glasspool Shore** kann bei Ländermangel statt eines Spells als 34. *optionale* Landkarte gespielt werden. **Glasspool Mimic** kann bei genügender Manaentwicklung eine nichtlegendäre Pirate-Engine kopieren: Lightning-Rig Crew, Magmakin Artillerist, Merchant Raiders, Coercive Recruiter, Kitesail Larcenist oder den neuen Quartermaster. | Shore kommt **immer getappt**, beschleunigt als drittes Land auf Zug 3 also Malcolm in diesem Zug nicht. Mimic kostet drei Mana und ist beim Wirken **kein Pirate** (kein Incubator-Rabatt). Mox Amber kostete null, ist nach Ragavan/Commander eine Manaquelle und unterstützt Captain Ripley Vance, Captain Storm und Swordjack. |
+| **Trinket Mage** ({2}{U}; Wizard, 2/2) | **Deadeye Quartermaster** ({3}{U}; Human Pirate, 2/2) | Der neue Pirat findet **jedes Equipment/Vehicle** auf die Hand, etwa Hawkeye's Bow, Sting, Sword of Forge and Frontier, Swiftfoot Boots oder The Indomitable. Anders als der Mage triggert er beim Eintritt Coercive Recruiter/Merchant Raiders, profitiert von Urza's Incubator (dann **{1}{U}**), Patchwork Banner, Staunch Crewmate und Roaming Throne und kann als Pirate selbst Malcolm-/Breeches-Schaden erzeugen. Imperial Recruiter findet weiterhin die 2/2-Tutorkreatur. | Ein Mana langsamer vor Incubator; sucht **nicht Sol Ring oder Mox Amber**. Bow kann weiterhin gesucht werden, aber der frühe Tutoreinsatz wird teurer. |
+
+### Wichtigste Regeln und neue Einsatzlinien
+
+1. **Modal double-faced card:** Glasspool Mimic kann aus der Hand als **Glasspool Shore** gespielt werden, zählt vorab aber nach Vorderseite als Creature-Karte und ist kein Pirate; weder Staunch Crewmate noch Urza's Incubator behandeln die unkopierte Karte als Pirate. Shore ist **kein Island**, nicht per Scalding Tarn/Polluted Delta/Flooded Strand zu suchen, und kommt getappt. Während sie als Land im Spiel liegt, kann man sie nicht einfach als Mimic neu wirken.
+2. **Kopiere Nichtlegenden:** Mimic übernimmt beim Eintritt die kopierbaren Merkmale eines eigenen Creatures zuzüglich Shapeshifter Rogue; beim Kopieren eines Pirates wird die Kopie zum Pirate und kann Bow, Malcolm und Breeches bedienen. Die Kopie hat keine automatische Eile; passende Tap-Fähigkeiten erfordern Einsatzbereitschaft oder Thousand-Year Elixir. Kopien von Malcolm/Breeches sind weiterhin legendär, die **Legendenregel** würde ohne besondere Ausnahme die dauerhafte Doppelbelegung verhindern.
+3. **Quartermaster-Timing:** Equipment/Vehicle kommt auf die Hand und muss regulär gespielt/ausgerüstet werden. Seine Pirate-ETB-Fähigkeit kann durch Roaming Throne auf Pirate zusätzlich ausgelöst werden. Der Tutorgewinn ist breit, kein freies Ins-Spiel-Bringen. Bow hat tatsächliche Manakosten {R} und kann nicht direkt von Urza's Saga gesucht werden.
+4. **Tap-/Damage-Engine:** Ausgerüstete Lightning-Rig Crew verursacht beim tatsächlichen Tappen durch Bow und bei Auflösung der eigenen Tap-Fähigkeit zwei getrennte Flächenschadensereignisse. Eine Crew-Mimic-Kopie ergänzt diese Engine; Quartermaster findet Bow oder Sting. Weder Mimic noch Quartermaster führt eine neue absichtliche Infinite-Schleife ein.
+5. **Breeches** ermöglicht keine Extraland-Drops; gegnerische exilierte Länder können nur zu üblichen Landspielzeiten und während des Zuges gespielt werden. Glasspool Shore ist eine davon unabhängige frühe eigene Landoption.
+
+### Manabasis – Rohzugang statt erfundener Siege
+
+**33 dedizierte Landkarten bleiben bestehen** (sechs Island, zwei Mountain, alle 25 Nichtstandardländer). Daneben gibt es **eine** als Land spielbare MDFC. Die reine Hypergeometrie für die **98 Bibliothekskarten** (zwei Partner in der Kommandozone), ohne Mulligan/Ramp/Sequenzierung:
+
+| Ereignis | 33 reine Länder V18 | 33 Länder + eine MDFC-Landoption V19 |
+| --- | ---: | ---: |
+| Mindestens 2 Landoptionen in 7 gesehenen Karten | 75,26 % | **77,08 %** |
+| Mindestens 3 in 10 gesehenen Karten | 72,16 % | **74,50 %** |
+| Mindestens 4 in 11 gesehenen Karten | 54,29 % | **57,31 %** |
+
+Das sind **keine** Chancen, Malcolm/Breeches tatsächlich im jeweiligen Zug wirken zu können. Glasspool Shore ist getappt und bei Zug-3-Topdeck fürs Turn-3-Casting zu spät. Die modellierte Verbesserung ist gering und muss gegen den Verlust des kostenlosen Mox abgewogen werden. Drei-Mana-Karten wie Incubator und Banner ersetzen den fehlenden zweiten Land-Drop nicht. Farbquellen, Mulligans, gegnerisches Removal, Gegnerfarben für Fellwar Stone und reale Partien wurden nicht simuliert.
+
+### Deckstatistik und Bracket-Prüfung
+
+| Kennzahl | V18 | V19 |
+| --- | ---: | ---: |
+| Karten inklusive 2 Partner-Commander | 100 | **100** |
+| Fest gedruckte Länder / situative MDFC-Länder | 33 / 0 | **33 / 1** |
+| Standardländer Island / Mountain | 6 / 2 | **6 / 2** |
+| Gedruckte Pirates inkl. Commander | 32 | **33** |
+| Kreaturen einschließlich Commander (Vorderseiten) | 38 | **39** |
+| Nichtkreatur-Artefakte | 13 | **12** |
+| Summe Manawerte 67 Nichtländer (Vorderseiten) | 170 | **174** |
+| Ø Manawert 67 Nichtländer (Vorderseiten) | 2,537 | **2,597** |
+| Game Changer | 3 | **3** |
+
+Commander **Bracket 3** erlaubt maximal drei Game Changer; unverändert sind **Jeska's Will, Fierce Guardianship und Cyclonic Rift** die drei belegten Karten. Die beiden Neuzugänge sind legal für die blau-rote Farbidentität, nicht als Game Changer eingestuft und führen keine beabsichtigte frühe deterministische Infinite-Combo ein. **Glint-Horn Buccaneer**, Dramatic Reversal, Captain Lannery Storm, Fanatical Firebrand, Cyberdrive Awakener, Ancient Tomb und Springleaf Drum bleiben draußen. Alle ausdrücklich gewünschten Pirates, Roaming Throne, Academy Manufactor, Aqueous Form, Daring Piracy, Sword, Sting, Elixir, The Indomitable, Frostcliff Siege und Schutz bleiben.
+
+**Nächste Kandidaten, bewusst vorerst zurückgestellt:** **Fellwar Stone** (Zweimana-Ramp, aber Gegnermanafarbe nicht garantiert), **Relic of Legends** (legendäre Pirates tappen für Mana/Bow-Trigger, kostet drei Mana), **Key to the City** (Discard + Unblockbarkeit), **Mask of Memory** (Combat-Draw/Discard; Mana bleibt Engpass), **Shore Up** (Untap + Hexproof) und **Plaza of Heroes** (Legenden-Fixing/Schutz, auf Kosten anderer Länderfunktionen). Diese sind ohne zusätzliche solide Cuts nicht automatisch besser. **Keine weiteren Landcuts.**
+
+**Primärbelege:** Offizielle Commander-Brackets https://magic.wizards.com/en/formats/commander ; Karten-Oracles https://gatherer.wizards.com/ZNR/en-us/60/glasspool-mimic und https://gatherer.wizards.com/XLN/en-us/50/deadeye-quartermaster ; Spielregeln https://magic.wizards.com/en/rules . **Keine tatsächlichen Spieltests oder Siegquoten behauptet**; Wahrscheinlichkeit ist reine Mathematik, die Entscheidung eine qualitative Systemabwägung.
 
 ## V18 – Zwei Länder weniger; tribal-basierte Beschleunigung (22.10.2026)
 

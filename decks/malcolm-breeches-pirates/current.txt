@@ -37,12 +37,12 @@ Deck
 1 Talisman of Creativity
 1 Urza's Incubator
 1 Patchwork Banner
-1 Mox Amber
+1 Glasspool Mimic
 1 Departed Deckhand
 1 Thousand-Year Elixir
 1 Swiftfoot Boots
 1 Imperial Recruiter
-1 Trinket Mage
+1 Deadeye Quartermaster
 1 Aqueous Form
 1 Hawkeye's Bow
 1 Sting, the Glinting Dagger
