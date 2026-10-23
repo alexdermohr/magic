@@ -1,17 +1,26 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V19 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V19 · 22.–23.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
 **Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt) · [V19](versions/2026-10-22-b3-v19.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
 
-## V19 – Eine zusätzliche flexible Landoption und ein Pirate-Equipment-Tutor (22.10.2026)
+## V19 – Flexible Landoption, Pirate-Tutor und Corsair Captain (22.–23.10.2026)
 
-**Verifizierter Ausgangspunkt:** V18 auf GitHub-main `504388ea520bb6205f40ea014149c93ff117a928`, PR #64. Genau zwei Nichtpiraten-Slots werden verändert; alle ausdrücklich gewünschten Pirates und ungewöhnlichen Engines bleiben erhalten. Die 33 vorhandenen Länder sowie die Archivversionen V1–V18 bleiben unverändert.
+**Verifizierter Ausgangspunkt:** V18 auf GitHub-main `504388ea520bb6205f40ea014149c93ff117a928`, PR #64. Zunächst zwei Nichtpiraten-Slots; auf ausdrücklichen Nutzerwunsch am 23.10.2026 kommt ein dritter Nichtpiraten-Slot hinzu; alle ausdrücklich gewünschten Pirates und ungewöhnlichen Engines bleiben erhalten. Die 33 vorhandenen Länder sowie die Archivversionen V1–V18 bleiben unverändert.
 
 | V18 raus | V19 rein | Begründung | Bedeutendster Preis |
 | --- | --- | --- | --- |
 | **Mox Amber** ({0}) | **Glasspool Mimic // Glasspool Shore** ({2}{U}; Shapeshifter Rogue // blaues, getappt ins Spiel kommendes Land) | Mox ist vor einer legendären Kreatur faktisch inaktiv. **Glasspool Shore** kann bei Ländermangel statt eines Spells als 34. *optionale* Landkarte gespielt werden. **Glasspool Mimic** kann bei genügender Manaentwicklung eine nichtlegendäre Pirate-Engine kopieren: Lightning-Rig Crew, Magmakin Artillerist, Merchant Raiders, Coercive Recruiter, Kitesail Larcenist oder den neuen Quartermaster. | Shore kommt **immer getappt**, beschleunigt als drittes Land auf Zug 3 also Malcolm in diesem Zug nicht. Mimic kostet drei Mana und ist beim Wirken **kein Pirate** (kein Incubator-Rabatt). Mox Amber kostete null, ist nach Ragavan/Commander eine Manaquelle und unterstützt Captain Ripley Vance, Captain Storm und Swordjack. |
 | **Trinket Mage** ({2}{U}; Wizard, 2/2) | **Deadeye Quartermaster** ({3}{U}; Human Pirate, 2/2) | Der neue Pirat findet **jedes Equipment/Vehicle** auf die Hand, etwa Hawkeye's Bow, Sting, Sword of Forge and Frontier, Swiftfoot Boots oder The Indomitable. Anders als der Mage triggert er beim Eintritt Coercive Recruiter/Merchant Raiders, profitiert von Urza's Incubator (dann **{1}{U}**), Patchwork Banner, Staunch Crewmate und Roaming Throne und kann als Pirate selbst Malcolm-/Breeches-Schaden erzeugen. Imperial Recruiter findet weiterhin die 2/2-Tutorkreatur. | Ein Mana langsamer vor Incubator; sucht **nicht Sol Ring oder Mox Amber**. Bow kann weiterhin gesucht werden, aber der frühe Tutoreinsatz wird teurer. |
+| **March of Swirling Mist** ({X}{U}; Instant) | **Corsair Captain** ({2}{U}; Human Pirate) | Beim ETB entsteht ein **Treasure**, alle **anderen eigenen Pirates erhalten +1/+1**. Der Captain ist selbst Pirate für Malcolm/Breeches, Kindred Discovery, Tribal-Rabatte und kann mit Daring Piracy sowie Coercive Recruiter/Merchant Raiders interagieren; das Treasure ist ein eigenes Artefakt-ETB für Captain Storm, Cosmium Raider. | Verliert mit **March of Swirling Mist** flexibles, sofortiges Phasing gegen Removal/Boardwipes oder zum Entfernen von Blockern. Das ist ein echter Schutzverlust; der Captain schützt selbst nicht, kostet drei Mana und ist ein etwas schwacher Körper ohne Tribal-Nutzen. |
+
+### Nachtrag vom 23.10.2026 – Korsarenkapitän statt Prozession des wirbelnden Nebels
+
+Auf ausdrücklichen Wunsch wurde **March of Swirling Mist** (deutsch „Prozession des wirbelnden Nebels“) entfernt und **Corsair Captain** (deutsch „Korsarenkapitän“) hinzugefügt, während PR #65 noch offen ist. So gehen keine älteren V1–V18-Snapshots verloren. Corsair Captain erhöht die Pirate-Dichte, bringt ohne Kampfschaden einen Treasure beim Eintritt und verstärkt **andere** Pirates, nicht sich selbst. Sein Eintritt löst Coercive Recruiter und Merchant Raiders aus; Treasure erzeugen weitere Artefakt-Synergien.
+
+**Realer Nachteil:** March konnte für {X}{U} bis zu X Kreaturen gleichzeitig ausphasen lassen und damit eigene Commander und mehrere wertvolle Pirates gegen viele Boardwipes oder gegnerisches Removal retten sowie Blocker kurzzeitig aus dem Spiel nehmen. Die vorhandenen Counterspells, Swiftfoot Boots und Deflecting Swat ersetzen diese Funktion nicht vollständig. Der Tausch priorisiert auf Nutzerwunsch Pirate-/Treasure-/Anthem-Synergie statt maximaler defensiver Redundanz.
+
+Deckstatistik nach dem dritten Tausch: **100 Karten, zwei Commander, 33 feste Länder und eine als Land nutzbare Glasspool-MDFC, 34 gedruckte Pirates inkl. Partner, 40 Kreaturen inkl. Partner, 12 Nichtkreatur-Artefakte, Nichtland-MV-Summe 176 über 67 Vorderseiten-Nichtländer (Durchschnitt 2,627), drei bestehende Game Changer**. Die Landzugangswahrscheinlichkeiten bleiben gegenüber dem ursprünglichen V19-Paket unverändert. Card Oracle, Commander-Legalität, Farbidentität und Game-Changer-Flags wurden auf die aktualisierte Liste erneut geprüft. Keine echten Testpartien oder gemessenen Siege behauptet.
 
 ### Wichtigste Regeln und neue Einsatzlinien
 
@@ -40,14 +49,14 @@ Das sind **keine** Chancen, Malcolm/Breeches tatsächlich im jeweiligen Zug wirk
 | Karten inklusive 2 Partner-Commander | 100 | **100** |
 | Fest gedruckte Länder / situative MDFC-Länder | 33 / 0 | **33 / 1** |
 | Standardländer Island / Mountain | 6 / 2 | **6 / 2** |
-| Gedruckte Pirates inkl. Commander | 32 | **33** |
-| Kreaturen einschließlich Commander (Vorderseiten) | 38 | **39** |
+| Gedruckte Pirates inkl. Commander | 32 | **34** |
+| Kreaturen einschließlich Commander (Vorderseiten) | 38 | **40** |
 | Nichtkreatur-Artefakte | 13 | **12** |
-| Summe Manawerte 67 Nichtländer (Vorderseiten) | 170 | **174** |
-| Ø Manawert 67 Nichtländer (Vorderseiten) | 2,537 | **2,597** |
+| Summe Manawerte 67 Nichtländer (Vorderseiten) | 170 | **176** |
+| Ø Manawert 67 Nichtländer (Vorderseiten) | 2,537 | **2,627** |
 | Game Changer | 3 | **3** |
 
-Commander **Bracket 3** erlaubt maximal drei Game Changer; unverändert sind **Jeska's Will, Fierce Guardianship und Cyclonic Rift** die drei belegten Karten. Die beiden Neuzugänge sind legal für die blau-rote Farbidentität, nicht als Game Changer eingestuft und führen keine beabsichtigte frühe deterministische Infinite-Combo ein. **Glint-Horn Buccaneer**, Dramatic Reversal, Captain Lannery Storm, Fanatical Firebrand, Cyberdrive Awakener, Ancient Tomb und Springleaf Drum bleiben draußen. Alle ausdrücklich gewünschten Pirates, Roaming Throne, Academy Manufactor, Aqueous Form, Daring Piracy, Sword, Sting, Elixir, The Indomitable, Frostcliff Siege und Schutz bleiben.
+Commander **Bracket 3** erlaubt maximal drei Game Changer; unverändert sind **Jeska's Will, Fierce Guardianship und Cyclonic Rift** die drei belegten Karten. Die drei Neuzugänge sind legal für die blau-rote Farbidentität, nicht als Game Changer eingestuft und führen keine beabsichtigte frühe deterministische Infinite-Combo ein. **Glint-Horn Buccaneer**, Dramatic Reversal, Captain Lannery Storm, Fanatical Firebrand, Cyberdrive Awakener, Ancient Tomb und Springleaf Drum bleiben draußen. Alle ausdrücklich gewünschten Pirates, Roaming Throne, Academy Manufactor, Aqueous Form, Daring Piracy, Sword, Sting, Elixir, The Indomitable, Frostcliff Siege und Schutz bleiben.
 
 **Nächste Kandidaten, bewusst vorerst zurückgestellt:** **Fellwar Stone** (Zweimana-Ramp, aber Gegnermanafarbe nicht garantiert), **Relic of Legends** (legendäre Pirates tappen für Mana/Bow-Trigger, kostet drei Mana), **Key to the City** (Discard + Unblockbarkeit), **Mask of Memory** (Combat-Draw/Discard; Mana bleibt Engpass), **Shore Up** (Untap + Hexproof) und **Plaza of Heroes** (Legenden-Fixing/Schutz, auf Kosten anderer Länderfunktionen). Diese sind ohne zusätzliche solide Cuts nicht automatisch besser. **Keine weiteren Landcuts.**
 

@@ -63,7 +63,7 @@ Deck
 1 Mana Drain
 1 Chaos Warp
 1 Fathom Fleet Swordjack
-1 March of Swirling Mist
+1 Corsair Captain
 1 Vandalblast
 1 Emberwilde Captain
 1 Magmakin Artillerist
