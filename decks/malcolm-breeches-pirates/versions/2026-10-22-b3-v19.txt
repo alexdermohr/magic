@@ -41,7 +41,7 @@ Deck
 1 Departed Deckhand
 1 Thousand-Year Elixir
 1 Swiftfoot Boots
-1 Imperial Recruiter
+1 Grim Monolith
 1 Deadeye Quartermaster
 1 Aqueous Form
 1 Hawkeye's Bow
@@ -52,11 +52,11 @@ Deck
 1 Shared Animosity
 1 Curiosity
 1 Passionate Archaeologist
-1 Jeska's Will
+1 Mana Vault
 1 Frostcliff Siege
 1 Coercive Recruiter
-1 Fierce Guardianship
-1 Cyclonic Rift
+1 Jeska's Will
+1 Raise the Palisade
 1 Deflecting Swat
 1 Swan Song
 1 Warkite Marauder
