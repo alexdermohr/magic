@@ -4,16 +4,18 @@ Commander
 Deck
 1 Esper Sentinel
 1 Mother of Runes
+1 Giver of Runes
 1 Skrelv, Defector Mite
 1 Archivist of Oghma
+1 Voice of Victory
 1 Stoneforge Mystic
 1 Recruiter of the Guard
+1 Spellseeker
+1 Ranger-Captain of Eos
 1 Kediss, Emberclaw Familiar
-1 Lae'zel, Vlaakith's Champion
+1 Spark Double
 1 Ledger Shredder
 1 Grand Abolisher
-1 Selfless Spirit
-1 Monastery Mentor
 1 Sol Ring
 1 Arcane Signet
 1 Fellwar Stone
@@ -25,30 +27,29 @@ Deck
 1 Swiftfoot Boots
 1 Mithril Coat
 1 Brotherhood Regalia
-1 Lizard Blades
-1 Inquisitor's Flail
-1 Blackblade Reforged
 1 Shadowspear
 1 Aqueous Form
 1 Mystic Remora
-1 Curiosity
+1 Security Bypass
 1 Combat Research
 1 Duelist's Heritage
 1 Ponder
 1 Preordain
+1 Slip Through Space
 1 Expressive Iteration
 1 Windfall
 1 Psychotic Fury
 1 Boros Charm
 1 Temur Battle Rage
-1 Twinferno
 1 Unleash Fury
+1 Monstrous Rage
+1 Akroma's Will
+1 Shadow Rift
 1 Fierce Guardianship
 1 Teferi's Protection
 1 Deflecting Swat
 1 Flawless Maneuver
 1 Slip Out the Back
-1 Shore Up
 1 March of Swirling Mist
 1 Loran's Escape
 1 Silence
@@ -59,7 +60,6 @@ Deck
 1 Dovin's Veto
 1 Swords to Plowshares
 1 Path to Exile
-1 Pongify
 1 Resculpt
 1 Chaos Warp
 1 Wear // Tear
