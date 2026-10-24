@@ -1,0 +1,102 @@
+Commander
+1 Ishai, Ojutai Dragonspeaker
+1 Jeska, Thrice Reborn
+Deck
+1 Esper Sentinel
+1 Mother of Runes
+1 Skrelv, Defector Mite
+1 Archivist of Oghma
+1 Stoneforge Mystic
+1 Recruiter of the Guard
+1 Kediss, Emberclaw Familiar
+1 Lae'zel, Vlaakith's Champion
+1 Ledger Shredder
+1 Grand Abolisher
+1 Selfless Spirit
+1 Monastery Mentor
+1 Sol Ring
+1 Arcane Signet
+1 Fellwar Stone
+1 Talisman of Progress
+1 Talisman of Conviction
+1 Talisman of Creativity
+1 Azorius Signet
+1 The Ozolith
+1 Swiftfoot Boots
+1 Mithril Coat
+1 Brotherhood Regalia
+1 Lizard Blades
+1 Inquisitor's Flail
+1 Blackblade Reforged
+1 Shadowspear
+1 Aqueous Form
+1 Mystic Remora
+1 Curiosity
+1 Combat Research
+1 Duelist's Heritage
+1 Ponder
+1 Preordain
+1 Expressive Iteration
+1 Windfall
+1 Psychotic Fury
+1 Boros Charm
+1 Temur Battle Rage
+1 Twinferno
+1 Unleash Fury
+1 Fierce Guardianship
+1 Teferi's Protection
+1 Deflecting Swat
+1 Flawless Maneuver
+1 Slip Out the Back
+1 Shore Up
+1 March of Swirling Mist
+1 Loran's Escape
+1 Silence
+1 Mana Drain
+1 Swan Song
+1 An Offer You Can't Refuse
+1 Counterspell
+1 Dovin's Veto
+1 Swords to Plowshares
+1 Path to Exile
+1 Pongify
+1 Resculpt
+1 Chaos Warp
+1 Wear // Tear
+1 Winds of Abandon
+1 Command Tower
+1 Exotic Orchard
+1 City of Brass
+1 Mana Confluence
+1 Reflecting Pool
+1 Plaza of Heroes
+1 Raugrin Triome
+1 Tundra
+1 Hallowed Fountain
+1 Sea of Clouds
+1 Adarkar Wastes
+1 Volcanic Island
+1 Steam Vents
+1 Training Center
+1 Shivan Reef
+1 Plateau
+1 Sacred Foundry
+1 Spectator Seating
+1 Battlefield Forge
+1 Flooded Strand
+1 Scalding Tarn
+1 Arid Mesa
+1 Misty Rainforest
+1 Polluted Delta
+1 Marsh Flats
+1 Windswept Heath
+1 Wooded Foothills
+1 Ancient Tomb
+1 Otawara, Soaring City
+1 Eiganjo, Seat of the Empire
+1 Arena of Glory
+1 Minamo, School at Water's Edge
+1 Sejiri Shelter
+1 Plains
+1 Island
+1 Mountain
