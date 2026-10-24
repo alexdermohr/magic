@@ -26,7 +26,7 @@ Deck
 1 Genji Glove
 1 Brotherhood Regalia
 1 Shadowspear
-1 Golem-Skin Gauntlets
+1 Commander's Plate
 1 Sword of Feast and Famine
 1 Buster Sword
 1 Thran Power Suit
