@@ -1,8 +1,44 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V19 · 22.–23.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V20 · 27.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt) · [V19](versions/2026-10-22-b3-v19.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt) · [V19](versions/2026-10-22-b3-v19.txt) · [V20](versions/2026-10-27-b3-v20.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V20 – Double Down, Cipher und Sakashima bei zwei Landkürzungen (27.10.2026)
+
+**Ausgangszustand:** Offener GitHub-PR #65 mit V19-Head \`48add6f5ea30ed457df94fdc8cea5e99e5b529e3\`; \`current.txt\` war bytegleich mit dem vollständigen V19-Snapshot. Nutzerwunsch: **Double Down, Hidden Strings und Sakashima of a Thousand Faces ins Deck, Grim Monolith heraus. Spark Double soll bleiben; Reckless Lackey nach Möglichkeit ebenfalls. Stattdessen zwei Länder kürzen.** Gewählt werden bewusst ein Island und ein Mountain: 6 → 5 bzw. 2 → 1. Alle einzigartigen Länder, Pirates und bisherigen Schutzkarten bleiben unverändert. V19 und ältere Snapshots werden nicht bearbeitet.
+
+| V19 heraus | V20 hinein | Strategischer Nutzen | Wichtigster Preis |
+| --- | --- | --- | --- |
+| **Grim Monolith** ({2}, Game Changer) | **Double Down** ({3}{U}, Enchantment) | Vervielfacht gewirkte Pirate-/Rogue-/andere Outlaw-Zaubersprüche und damit mehrere unserer Piraten-ETB-/Tap-Engines. Kostspieliger, aber dauerhafter Wertgenerator. | Verlust des frühen farblosen Drei-Mana-Impulses; Double Down kostet vier Mana und hat zunächst keinen Einfluss auf das Spielfeld. |
+| **1 Island** (6 → 5) | **Hidden Strings** ({1}{U}, Sorcery mit Cipher) | Enttappt beim Wirken bzw. bei erfolgreichen kodierten Combat-Hits bis zu zwei Permanente, etwa **Mana Vault**, **Lightning-Rig Crew** oder Länder. Der fliegende Malcolm und unblockbare Pirates verbessern wiederholte Casts. | Deutlich geringere Zuverlässigkeit bei frühen Land-Drops. Cipher benötigt eine Kreatur, die einem Spieler tatsächlich Kampfschaden zufügt; weder zusätzliches Mana noch zusätzliche Länder werden unmittelbar garantiert. |
+| **1 Mountain** (2 → 1) | **Sakashima of a Thousand Faces** ({3}{U}, Human Rogue) | Kopiert ein eigenes Creature-Permanent, verhindert die Legendenregel für alle eigenen Permanents und kann so Malcolm/Breeches neben weiteren legendären Kopien erhalten. Als beim Wirken **Rogue** löst Sakashima **Double Down** aus. | Noch ein Vier-Mana-Spielzug bei dünnerer Manabasis. Ein einzelnes Mountain bleibt; Fetchlands haben dafür weiterhin Volcanic Island/Steam Vents als rot-blaue Ziele. |
+
+### Spielregeln: Was funktioniert – und was nicht
+
+- **Double Down:** Kopiert Outlaw-**Zaubersprüche, die wir wirken**, darunter unsere echten Pirates und Sakashima als Rogue. Die Kopie eines Permanent-Zauberspruchs kommt bei Auflösung als Token-Permanent ins Spiel; das gilt regeltechnisch nicht als „Erzeugen eines Spielsteins“. Pirate-ETBs werden trotzdem ausgelöst. Die durch Daring Piracy erzeugten Pirates sind **nicht gewirkt** und lösen Double Down nicht aus. **Glasspool Mimic** ist beim Wirken ein Rogue und wird durch Double Down kopiert, unabhängig davon, welche Kreatur sie später als ETB-Kopie wird.
+- **Sakashima und Spark Double bleiben parallel enthalten:** Spark Double ist ein unabhängiger Klon, der als Kopie einer legendären Kreatur selbst nichtlegendär ist. Sakashima kopiert eigene Kreaturen und behält insbesondere die Fähigkeit, die Legendenregel für eigene Permanents auszuschalten. Durch Double Down entstehen auf dem Stapel zwei getrennt verrechnete Sakashima-Permanent-Zaubersprüche. Spielstein-Kopien von Malcolm oder Breeches sind **keine Commander** und fügen keinen entsprechenden Commander-Schaden zu.
+- **Hidden Strings:** Die originale Hexerei kann beim Verrechnen auf eine eigene Kreatur mit **Cipher** kodiert werden. Sobald diese Kreatur einem Spieler Kampfschaden zufügt, darf die kodierte Karte aus dem Exil als Kopie **ohne Manakosten** gewirkt werden; man kann für die Kopie neue Ziele bestimmen. Lightning-Rig Crew kann nach Enttappen erneut aktiviert werden, wenn sie einsatzbereit ist, und Mana Vault kann ohne Zahlung von {4} über Hidden Strings enttappt werden. Nichtkampfschaden durch Bow/Lightning-Rig Crew löst **Cipher nicht** aus.
+- **Breeches-Länder:** Nach tatsächlich zugefügtem Pirate-Schaden erlaubt Breeches gegnerische exilierte Länder nur **während dieses Zugs und im Rahmen der normalen Land-Drops und Timing-Regeln** zu spielen. Das ist keine garantierte Manaramp vor dem vierten Zug. Insbesondere sind fremde Länder keine zusätzliche Landspielberechtigung. Hidden Strings enttappt Länder, erlaubt aber ebenso wenig weitere Land-Drops.
+
+### Explizites Tempo-Risiko (98 Bibliothekskarten bei zwei Partnern)
+
+Die folgenden Werte sind **reine hypergeometrische Rohwahrscheinlichkeiten**: feste Länder plus die optionale, getappt eintretende Glasspool-Shore-Landseite zählen als verfügbare *Landoptionen*, ohne Mulligans, Treasure, Landtempo, Farben, Interaktion oder gegnerische Decklisten zu simulieren.
+
+| Landoptionen in der Bibliothek | V19: 33 feste + 1 MDFC = 34 | V20: 31 feste + 1 MDFC = 32 |
+| --- | ---: | ---: |
+| Mindestens zwei in 7 Karten | 77,08 % | **73,35 %** |
+| Mindestens drei in 10 Karten | 74,50 % | **69,70 %** |
+| Mindestens vier in 11 Karten | 57,31 % | **51,20 %** |
+
+Die Daten untermauern **keinen** gleichwertigen Ersatz für zwei Länder durch Breeches. Beide der neuen Vier-Mana-Permanents können bei ungünstigen Starthänden verspätet ins Spiel kommen. Ausdrücklicher Nutzerwunsch rechtfertigt das bewusst aggressivere Deck, nicht eine behauptete Verbesserung aller Matchups. Nach Praxistests vorrangig prüfen, ob die Rate gescheiterter Land-Drops auf Turns 2–4 einen Basic-Land-Rücktausch nahelegt.
+
+### Bracket, Bestand und Validierungsgrenzen
+
+**100 Karten** insgesamt, mit **zwei Partner-Commandern**, **31 feste Länder plus Glasspool Shore**, **34 gedruckte Pirates einschließlich Commander**, **40 Kreaturen einschließlich Commander** (Sakashima zusätzlich zu Spark Double), **13 Nichtkreatur-Artefakte**; Nichtland-Manawertsumme der 69 Nichtländer **184** (Ø **2,667**). Die verbliebenen **zwei Game Changer** sind **Jeska's Will** und **Mana Vault**. Double Down, Hidden Strings und Sakashima sind keine Game Changer. Die Obergrenze drei von Commander Bracket 3 bleibt eingehalten, ohne absichtlich hinzugefügte frühe deterministische Zwei-Karten-Combo. **Fierce Guardianship** bleibt draußen; alle zuvor ausdrücklich geschützten Pirates einschließlich Reckless Lackey, die Tap-/Damage-Engines und die Spezialländer bleiben.
+
+Oracle-Regelreferenzen: https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes (Double Down), https://magic.wizards.com/en/news/feature/the-lost-caverns-of-ixalan-release-notes (Breeches), https://magic.wizards.com/en/formats/commander (Bracket). Die Deckstatistik wird lokal geprüft; dies ist eine strategische Änderung ohne erfasste Spieltests oder empirische Siegrate.
+
 
 ## V19 – Flexible Landoption, Pirate-Tutor und Corsair Captain (22.–23.10.2026)
 

@@ -31,6 +31,7 @@ Deck
 1 Daring Piracy
 1 Gemcutter Buccaneer
 1 Spark Double
+1 Sakashima of a Thousand Faces
 1 Sol Ring
 1 Arcane Signet
 1 Izzet Signet
@@ -41,7 +42,6 @@ Deck
 1 Departed Deckhand
 1 Thousand-Year Elixir
 1 Swiftfoot Boots
-1 Grim Monolith
 1 Deadeye Quartermaster
 1 Aqueous Form
 1 Hawkeye's Bow
@@ -49,8 +49,10 @@ Deck
 1 Sword of Forge and Frontier
 1 The Indomitable
 1 Kindred Discovery
+1 Double Down
 1 Shared Animosity
 1 Curiosity
+1 Hidden Strings
 1 Passionate Archaeologist
 1 Mana Vault
 1 Frostcliff Siege
@@ -92,5 +94,5 @@ Deck
 1 Urza's Saga
 1 Minamo, School at Water's Edge
 1 Secluded Courtyard
-6 Island
-2 Mountain
+5 Island
+1 Mountain
