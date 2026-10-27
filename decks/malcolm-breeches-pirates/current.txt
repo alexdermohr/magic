@@ -7,7 +7,6 @@ Deck
 1 Spectral Sailor
 1 Marauding Mako
 1 Ragavan, Nimble Pilferer
-1 Reckless Lackey
 1 Staunch Crewmate
 1 Malcolm, the Eyes
 1 Malcolm, Alluring Scoundrel
@@ -49,6 +48,7 @@ Deck
 1 Sword of Forge and Frontier
 1 The Indomitable
 1 Kindred Discovery
+1 Rhystic Study
 1 Double Down
 1 Shared Animosity
 1 Curiosity

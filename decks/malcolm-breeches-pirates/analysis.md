@@ -1,8 +1,24 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V20 · 27.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V21 · 27.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt) · [V19](versions/2026-10-22-b3-v19.txt) · [V20](versions/2026-10-27-b3-v20.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt) · [V19](versions/2026-10-22-b3-v19.txt) · [V20](versions/2026-10-27-b3-v20.txt) · [V21](versions/2026-10-27-b3-v21.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V21 – Rhystic Study statt Reckless Lackey (27.10.2026)
+
+**Direkter Nutzerauftrag:** **Reckless Lackey** (der zuvor diskutierte günstige Ein-Mana-Pirat) heraus und **Rhystic Study** als dritten Game Changer hinein. Einziger Kartentausch gegenüber V20, ausgehend vom bestätigten GitHub-PR #65 (Commit `d88842bb68615d120812bed27923f4b37de13c71`). Alle übrigen Karten, insbesondere **Spark Double, Double Down, Hidden Strings, Sakashima of a Thousand Faces und beide Partner**, bleiben. 31 feste Länder einschließlich 5 Island / 1 Mountain sowie die zusätzliche Glasspool-Shore-Landseite bleiben unverändert. V1–V20-Snapshots bleiben unangetastet.
+
+| V20 heraus | V21 hinein | Nutzen und Preis |
+| --- | --- | --- |
+| **Reckless Lackey** ({R}; Pirate) | **Rhystic Study** ({2}{U}; Enchantment, Game Changer) | Wiederholbarer, boardunabhängiger Kartenvorteil bei gegnerischen Zaubersprüchen, selbst nach einem Boardwipe. Hilft, den nächsten Land-Drop zu finden und neue Pirates für Double Down nachzuziehen. Preis: verliert einen frühen Pirate-/Outlaw-Zauber, Haste/First Strike sowie den frühen Druck; Rhystic benötigt drei Mana und zieht keine Karte, falls Gegner jeweils {1} bezahlen. |
+
+**Regeln:** Rhystic Study löst aus, wenn ein Gegner einen Zauberspruch wirkt, unabhängig davon, ob Malcolm/Breeches liegen oder Kampfschaden verursachen. Die Fähigkeit wird auch dann verrechnet, wenn der auslösende Spruch bereits gekontert wurde. Ihre Kartenflut ist gegnerabhängig; sie ist kein Land und beschleunigt unseren zweiten/dritten natürlichen Land-Drop nicht unmittelbar.
+
+**Deckstruktur:** **100 Karten**, zwei Commander, **31 feste Länder + Glasspool Shore**, **33 gedruckte Pirates einschließlich beider Commander** (einer weniger als V20), **39 Kreaturen einschließlich Commander**, **69 Nichtländer**. Der Tausch fügt kein weiteres Removal, keine zusätzliche Manaquelle und keine beabsichtigte frühe Zweikarten-Endlosschleife hinzu. Für die anvisierte Commander-**Bracket 3** sind exakt **drei Game Changer** enthalten: **Jeska's Will, Mana Vault und Rhystic Study**. Fierce Guardianship, Cyclonic Rift, Grim Monolith und Mystic Remora bleiben draußen. Die Anzahl der Länder und das mit 31 Ländern verbundene Starthand-Risiko bleiben unverändert.
+
+**Entscheidungsabwägung:** Rhystic Study war früher bewusst zugunsten von The Indomitable (V11) gestrichen worden. Bei der aktuellen geringen Länderzahl und dem Wunsch nach unabhängiger Kartenzufuhr ist die Rückkehr nun ausdrücklich gewünscht. **The Indomitable bleibt erhalten**, ebenso Kindred Discovery, Curiosity und alle wesentlichen Kopier- und Schadens-Engines. Bisher keine empirischen Partien oder Siegquoten für V21.
+
+Primärquellen: [Wizards – Commander Brackets](https://magic.wizards.com/en/formats/commander), [Wizards – Game Changers](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025), [Rhystic Study Oracle](https://magic.wizards.com/en/news/feature/final-fantasy-release-notes).
 
 ## V20 – Double Down, Cipher und Sakashima bei zwei Landkürzungen (27.10.2026)
 
