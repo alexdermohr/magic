@@ -20,17 +20,17 @@ Deck
 1 Masterwork of Ingenuity
 1 Wrecking Ball Arm
 1 Conqueror's Flail
-1 Inquisitor's Flail
+1 Sentinel's Eyes
 1 Two-Handed Axe
-1 Fireshrieker
+1 Leyline Axe
 1 Genji Glove
 1 Brotherhood Regalia
 1 Shadowspear
 1 Commander's Plate
 1 Sword of Feast and Famine
 1 Buster Sword
-1 Thran Power Suit
-1 Nettlecyst
+1 Pip-Boy 3000
+1 Adaptive Omnitool
 1 Mithril Coat
 1 Robe of Stars
 1 Sunforger
@@ -44,9 +44,9 @@ Deck
 1 Mox Opal
 1 Springleaf Drum
 1 Mox Amber
-1 The One Ring
+1 Jeska's Will
 1 Swords to Plowshares
-1 Path to Exile
+1 Mother of Runes
 1 Generous Gift
 1 Chaos Warp
 1 Wear // Tear
@@ -54,7 +54,7 @@ Deck
 1 Deflecting Swat
 1 Flawless Maneuver
 1 Galadriel's Dismissal
-1 Clever Concealment
+1 Reconnaissance
 1 Blacksmith's Skill
 1 Magnetic Theft
 1 Enlightened Tutor
@@ -63,13 +63,13 @@ Deck
 1 Sigarda's Aid
 1 Fighter Class
 1 Forge Anew
-1 Duelist's Heritage
-1 All That Glitters
+1 Akroma's Will
+1 Skrelv, Defector Mite
 1 Mantle of the Ancients
 1 Jeska, Thrice Reborn
 1 Ancient Tomb
 1 Arid Mesa
-1 Axgard Armory
+1 Witch Enchanter // Witch-Blessed Meadow
 1 Battlefield Forge
 1 Buried Ruin
 1 City of Brass
@@ -94,7 +94,7 @@ Deck
 1 Bloodstained Mire
 1 Sunbaked Canyon
 1 Mistveil Plains
-1 Sunhome, Fortress of the Legion
+1 Legion Leadership // Legion Stronghold
 1 Urza's Saga
 1 Windswept Heath
 1 Wooded Foothills
