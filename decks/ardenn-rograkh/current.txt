@@ -16,6 +16,7 @@ Deck
 1 Cloud, Midgar Mercenary
 1 Halvar, God of Battle
 1 Grand Abolisher
+1 Ranger-Captain of Eos
 1 Colossus Hammer
 1 Masterwork of Ingenuity
 1 Wrecking Ball Arm
@@ -56,7 +57,6 @@ Deck
 1 Galadriel's Dismissal
 1 Reconnaissance
 1 Blacksmith's Skill
-1 Magnetic Theft
 1 Enlightened Tutor
 1 Steelshaper's Gift
 1 Open the Armory
