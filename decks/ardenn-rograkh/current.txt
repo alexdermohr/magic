@@ -71,7 +71,7 @@ Deck
 1 Arid Mesa
 1 Witch Enchanter // Witch-Blessed Meadow
 1 Battlefield Forge
-1 Buried Ruin
+1 Inkmoth Nexus
 1 City of Brass
 1 Clifftop Retreat
 1 Command Tower
