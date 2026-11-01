@@ -14,18 +14,18 @@
 Anstreben: 2–3 nutzbare Länder (frühes **G**, dann **W/U**), frühe Beschleunigung und entweder eine vergünstigte Kreatur mit Manawert mindestens 4 oder eine Enttapp-/Schutzkarte. Das Deck hat viele farbige Quellen und absichtlich keine **Ancient Tomb** (Game Changer).
 
 - **Zug 1:** Birds of Paradise / Noble Hierarch / Avacyn's Pilgrim / Delighted Halfling, gegebenenfalls Wild Growth oder Sol Ring.
-- **Zug 2–3:** Helga ausspielen und mit Lightning Greaves, Instill Energy, Shore Up oder den anderen Schutzmöglichkeiten absichern. Thousand-Year Elixir erlaubt ihre Tappfähigkeit bereits im Eintrittszug.
+- **Zug 2–3:** Helga ausspielen; Lightning Greaves und Shore Up schützen sie, Instill Energy und Thousand-Year Elixir ermöglichen ihre Tappfähigkeit bereits im Eintrittszug.
 - **Ab Zug 3:** Beschleunigung über preiswerte hochrangige Kreaturen: Wavesifter (Evoke), Foundation Breaker (Evoke), Mulldrifter (Evoke), Nulldrifter (Evoke), Solitude/Subtlety (alternative Kosten) und Overlord of the Hauntwoods (Impending). Diese Zauber **werden gewirkt** und lösen Helga aus.
 - **Mittelspiel:** Helga wächst zu einer großen Manaquelle. Zusätzliche Karten liefert sie selbst, unterstützt von Chulane, Beast Whisperer, Up the Beanstalk, Elven Chorus, Vizier of the Menagerie und The Great Henge.
 
 ## Synergien
 
-1. **Chakram Retriever, Intruder Alarm, Instill Energy, Kiora's Follower, Patriar's Seal, Thousand-Year Elixir, Minamo** vervielfachen die Verwendung von Helgas beschränktem Mana. Intruder Alarm enttappt dabei auch gegnerische Kreaturen.
+1. **Chakram Retriever, Intruder Alarm, Instill Energy, Kiora's Follower, Patriar's Seal, Thousand-Year Elixir, Minamo** vervielfachen die Verwendung von Helgas beschränktem Mana. **Achtung:** Intruder Alarm enttappt auch gegnerische Kreaturen **und verhindert das reguläre Enttappen von Kreaturen im Enttappsegment ihres Beherrschers**.
 2. **Seedborn Muse** (Game Changer) wird besonders stark in Kombination mit Yeva, Nature's Herald (grüne Kreaturen mit Flash), Winding Canyons oder Alchemist's Refuge (andere Kreaturen bzw. Zauber mit Flash). Ohne Flash-Quelle ist Seedborn Muse deutlich weniger explosiv.
 3. **Momir Vig, Simic Visionary:** Beim Wirken grün-blauer Kreaturen die grüne Tutor-Fähigkeit zuerst verrechnen lassen und anschließend die blaue Aufdeck-Fähigkeit: so wandert die gesuchte Kreatur direkt auf die Hand.
 4. **Deepglow Skate** verdoppelt +1/+1-Marken auf Helga, **Hardened Scales** sorgt bei Helgas Trigger für eine zusätzliche Marke; **Ouroboroid** verteilt in der Kampfphase weitere Marken an das Team.
 5. **Kwia Vigorbloom** (Reality Fracture, Oktober 2026) erzeugt aus dem Lebensgewinn durch Helgas Cast-Trigger einmal pro Zug einen Lotus-Spielstein, der drei Mana einer Farbe erzeugen kann. Mit Flash-Kreaturen und Seedborn Muse kann dies auch in gegnerischen Zügen geschehen.
-6. **Flickering Hound** blinkt bei Kreaturen-Casts eigene ETB-Kreaturen wie Mulldrifter, Foundation Breaker oder Overlord of the Hauntwoods. Das **Blinken selbst löst Helga nicht aus**; Helga sollte ohne guten Grund nicht geblinkt werden, da ihre Marken verloren gingen.
+6. **Flickering Hound** blinkt bei Kreaturen-Casts eigene ETB-Kreaturen wie Mulldrifter oder Foundation Breaker; Overlord of the Hauntwoods ist nur blinkbar, sobald er tatsächlich eine Kreatur ist (mit Impending zunächst nicht). Das **Blinken selbst löst Helga nicht aus**; Helga sollte ohne guten Grund nicht geblinkt werden, da ihre Marken verloren gingen.
 
 ## Abschlüsse und Kombo-Routen
 
