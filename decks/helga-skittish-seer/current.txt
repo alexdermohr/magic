@@ -32,11 +32,10 @@ Deck
 1 Mulldrifter
 1 Nulldrifter
 1 Foundation Breaker
-1 Wavesifter
+1 Flickering Hound
 1 Solitude
 1 Subtlety
 1 Overlord of the Hauntwoods
-1 Slip Out the Back
 1 Chulane, Teller of Tales
 1 Vizier of the Menagerie
 1 Momir Vig, Simic Visionary
@@ -53,13 +52,12 @@ Deck
 1 Goldvein Hydra
 1 The Goose Mother
 1 Ghalta, Primal Hunger
-1 Tyvar's Stand
+1 Apex Devastator
 
 1 Hardened Scales
 1 Up the Beanstalk
 1 Kozilek's Unsealing
 1 The Great Henge
-1 Elven Chorus
 
 1 Fierce Guardianship
 1 Heroic Intervention
@@ -69,6 +67,8 @@ Deck
 1 Swords to Plowshares
 1 Beast Within
 1 Shore Up
+1 Slip Out the Back
+1 Tyvar's Stand
 1 Akroma's Will
 
 1 Command Tower
