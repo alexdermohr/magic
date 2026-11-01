@@ -14,7 +14,7 @@
 Anstreben: 2–3 nutzbare Länder (frühes **G**, dann **W/U**), frühe Beschleunigung und entweder eine vergünstigte Kreatur mit Manawert mindestens 4 oder eine Enttapp-/Schutzkarte. Das Deck hat viele farbige Quellen und absichtlich keine **Ancient Tomb** (Game Changer).
 
 - **Zug 1:** Birds of Paradise / Noble Hierarch / Avacyn's Pilgrim / Delighted Halfling, gegebenenfalls Wild Growth oder Sol Ring.
-- **Zug 2–3:** Helga ausspielen. Swiftfoot Boots (Ausrüsten {1}) gibt Hexproof und Eile; Instill Energy und Thousand-Year Elixir erlauben das Tappen bereits im Eintrittszug. Shore Up, Tyvar's Stand und Slip Out the Back möglichst als Reaktion auf Removal bereithalten.
+- **Zug 2–3:** Helga ausspielen. **Swiftfoot Boots** (Ausrüsten {1}) verleiht echte Eile und Hexproof; **Thousand-Year Elixir** erlaubt das Aktivieren ihrer {T}-Fähigkeit schon im Eintrittszug. **Instill Energy verleiht keine Eile für Tappfähigkeiten**: Die Aura gestattet lediglich das Angreifen wie mit Eile und später ein zusätzliches Enttappen pro eigenem Zug. Shore Up, Tyvar's Stand und Slip Out the Back möglichst als Reaktion auf Removal bereithalten.
 - **Ab Zug 3:** Beschleunigung über preiswerte hochrangige Kreaturen: Wavesifter (Evoke), Foundation Breaker (Evoke), Mulldrifter (Evoke), Nulldrifter (Evoke), Solitude/Subtlety (alternative Kosten) und Overlord of the Hauntwoods (Impending). Diese Zauber **werden gewirkt** und lösen Helga aus.
 - **Mittelspiel:** Helga wächst zu einer großen Manaquelle. Zusätzliche Karten liefert sie selbst, unterstützt von Chulane, Beast Whisperer, Up the Beanstalk, Elven Chorus, Vizier of the Menagerie und The Great Henge.
 
@@ -28,7 +28,7 @@ Anstreben: 2–3 nutzbare Länder (frühes **G**, dann **W/U**), frühe Beschleu
 
 ## Synergien
 
-1. **Chakram Retriever, Intruder Alarm, Instill Energy, Kiora's Follower, Patriar's Seal, Thousand-Year Elixir, Minamo** vervielfachen die Verwendung von Helgas beschränktem Mana. **Achtung:** Intruder Alarm enttappt auch gegnerische Kreaturen **und verhindert das reguläre Enttappen von Kreaturen im Enttappsegment ihres Beherrschers**.
+1. **Chakram Retriever, Intruder Alarm, Instill Energy, Kiora's Follower, Patriar's Seal, Thousand-Year Elixir, Minamo** vervielfachen die Verwendung von Helgas beschränktem Mana; **Instill Energy** kann eine Kreatur pro eigenem Zug zusätzlich enttappen, hebt aber die Einsatzverzögerung ihrer Tappfähigkeit nicht auf. **Achtung:** Intruder Alarm enttappt auch gegnerische Kreaturen **und verhindert das reguläre Enttappen von Kreaturen im Enttappsegment ihres Beherrschers**.
 2. **Seedborn Muse** (Game Changer) wird besonders stark in Kombination mit Yeva, Nature's Herald (grüne Kreaturen mit Flash), Winding Canyons oder Alchemist's Refuge (andere Kreaturen bzw. Zauber mit Flash). Ohne Flash-Quelle ist Seedborn Muse deutlich weniger explosiv.
 3. **Momir Vig, Simic Visionary:** Beim Wirken grün-blauer Kreaturen die grüne Tutor-Fähigkeit zuerst verrechnen lassen und anschließend die blaue Aufdeck-Fähigkeit: so wandert die gesuchte Kreatur direkt auf die Hand.
 4. **Deepglow Skate** verdoppelt +1/+1-Marken auf Helga, **Hardened Scales** sorgt bei Helgas Trigger für eine zusätzliche Marke; **Ouroboroid** verteilt in der Kampfphase weitere Marken an das Team.
