@@ -14,7 +14,7 @@ Deck
 1 Nature's Lore
 1 Three Visits
 
-1 Lightning Greaves
+1 Swiftfoot Boots
 1 Thousand-Year Elixir
 1 Instill Energy
 1 Patriar's Seal
@@ -36,7 +36,7 @@ Deck
 1 Solitude
 1 Subtlety
 1 Overlord of the Hauntwoods
-1 Flickering Hound
+1 Slip Out the Back
 1 Chulane, Teller of Tales
 1 Vizier of the Menagerie
 1 Momir Vig, Simic Visionary
@@ -53,7 +53,7 @@ Deck
 1 Goldvein Hydra
 1 The Goose Mother
 1 Ghalta, Primal Hunger
-1 Apex Devastator
+1 Tyvar's Stand
 
 1 Hardened Scales
 1 Up the Beanstalk
