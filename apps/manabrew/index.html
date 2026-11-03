@@ -36,11 +36,6 @@
     <!-- Runtime deploy config (relay endpoint). Must load before the app module;
          a classic script runs during parse, ahead of the deferred module. -->
     <script src="/config.js"></script>
-    <script>
-      if ("serviceWorker" in navigator && !("__TAURI_INTERNALS__" in window)) {
-        navigator.serviceWorker.register("/offline-sw.js", { scope: "/" }).catch(console.error);
-      }
-    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

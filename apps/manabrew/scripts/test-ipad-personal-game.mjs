@@ -43,6 +43,7 @@ try {
       partners: saved.filter((s) => s.id.startsWith("github:alexdermohr/magic:") && s.deck.commanders?.length === 2).length,
       valid: saved.every((s) => s.deck.cards?.length + (s.deck.commanders?.length ?? 0) === 100),
       sampleImage: saved[0]?.deck.cards?.[0]?.uris?.normal,
+      sampleCrop: saved[0]?.deck.cards?.[0]?.uris?.art_crop,
     };
   });
   console.log("PERSONAL_DECK_STORAGE:", JSON.stringify(own));
@@ -57,6 +58,20 @@ try {
   console.log("OFFLINE_ARTWORK:", JSON.stringify(imageCheck));
   if (imageCheck.status !== 200 || !imageCheck.type.startsWith("image/") || imageCheck.bytes < 1000)
     throw new Error("Artwork not available offline");
+  if (!own.sampleCrop?.startsWith("/a/") || own.sampleCrop === own.sampleImage)
+    throw new Error("Art crop must have its own locally bundled URL");
+  const cropCheck = await page.evaluate(async (url) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const bitmap = await createImageBitmap(blob);
+    const dimensions = { width: bitmap.width, height: bitmap.height };
+    bitmap.close();
+    return { status: response.status, type: blob.type, bytes: blob.size, ...dimensions };
+  }, own.sampleCrop);
+  console.log("OFFLINE_ART_CROP:", JSON.stringify(cropCheck));
+  if (cropCheck.status !== 200 || cropCheck.type !== "image/jpeg" ||
+      cropCheck.bytes < 1500 || cropCheck.width < 100 || cropCheck.height < 100)
+    throw new Error("Distinct offline artwork crop is missing or undecodable");
 
   await page.getByRole("button", { name: new RegExp("^" + player) }).first().waitFor({ timeout: 45000 });
   await state("PICKER:");

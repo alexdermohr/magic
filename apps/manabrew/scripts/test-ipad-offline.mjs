@@ -28,7 +28,8 @@ try {
   }
 
   const finished = await page.locator("#state").innerText();
-  if (!finished.includes("vollständig gespeichert")) {
+  if (!finished.includes("vollständig gespeichert") &&
+      !finished.includes("vollständig offline gespeichert")) {
     const detail = await page.locator("#detail").innerText();
     throw new Error("Offline-Vorbereitung gescheitert: " + finished + " / " + detail);
   }

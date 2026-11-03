@@ -836,8 +836,9 @@ export class BoardScene {
     button.type = "button";
     button.textContent = "Reset zoom";
     button.setAttribute("aria-label", "Reset board zoom");
+    button.className = "bg-card text-card-foreground border border-border";
     button.style.cssText =
-      "position:absolute;top:12px;right:12px;z-index:3;min-height:44px;padding:10px 14px;background:rgba(28,25,29,.96);color:white;border:1px solid rgba(255,255,255,.35);border-radius:8px;font:600 16px sans-serif;touch-action:manipulation";
+      "position:absolute;top:12px;right:12px;z-index:3;min-height:44px;padding:10px 14px;border-radius:8px;font:600 16px sans-serif;touch-action:manipulation";
     button.addEventListener("click", () => this.resetBoardZoom());
     parent.appendChild(button);
     this.zoomEscapeButton = button;
@@ -1390,6 +1391,10 @@ export class BoardScene {
 
   resize(width: number, height: number): void {
     if (this.destroyed) return;
+    // ResizeObserver runs when it subscribes, even if the size has not changed.
+    // React can re-subscribe after game-state updates: resetting the zoom then
+    // silently removes the only exit control while a pinch is in progress.
+    if (this.canvasW === width && this.canvasH === height) return;
     this.app.renderer.resize(width, height);
     this.dragHandler.setContainerSize(width, height);
     this.canvasW = width;

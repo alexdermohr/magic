@@ -65,7 +65,10 @@ self.addEventListener("fetch", (event) => {
         return (cache && (await cache.match("/offline-assets.json"))) || Response.error();
       }
 
-      if (navigating && (url.pathname === "/" || path === "/offline-setup.html")) {
+      // Normal web builds also include offline-setup.html but have no prepared
+      // assets. Do not hijack their root route with the offline installer.
+      // Staged PWA builds redirect / in index.html until the cache is ready.
+      if (navigating && (path === "/offline-setup.html" || (cache && url.pathname === "/"))) {
         try {
           const latest = await fetch("/offline-setup.html", { cache: "no-store" });
           if (latest.ok) return isolatedNavigation(latest);

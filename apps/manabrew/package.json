@@ -75,7 +75,19 @@
     "test:watch": "vitest",
     "test:e2e:ironsmith": "node tests/e2e-ironsmith/ironsmith-multiplayer.mjs",
     "test:e2e:ironsmith:pair": "node tests/e2e-ironsmith/ironsmith-two-clients.mjs",
-    "test:e2e:engines": "node tests/e2e-ironsmith/other-engines-smoke.mjs"
+    "test:e2e:engines": "node tests/e2e-ironsmith/other-engines-smoke.mjs",
+    "build:ipad-offline": "./scripts/build-ipad-offline.sh",
+    "prepare:ipad-offline": "node scripts/prepare-ipad-dist.mjs",
+    "gen:ipad-decks": "python3 scripts/generate-ipad-personal-decks.py",
+    "gen:ipad-art": "python3 scripts/prepare-ipad-card-art.py",
+    "gen:ipad-symbols": "python3 scripts/prepare-ipad-card-symbols.py",
+    "gen:ipad-assets": "node scripts/generate-offline-assets.mjs",
+    "test:ipad-offline": "node scripts/test-ipad-offline.mjs",
+    "test:ipad-game": "node scripts/test-ipad-full-game-ui.mjs",
+    "test:ipad-relaunch": "node scripts/test-ipad-fast-relaunch.mjs",
+    "test:ipad-zoom": "node scripts/test-ipad-zoom-reset.mjs",
+    "test:ipad-sw": "node scripts/test-ipad-service-worker-cache.mjs && node scripts/test-ipad-standard-web-navigation.mjs",
+    "test:ipad-art-crop": "python3 scripts/test-ipad-art-crop.py"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

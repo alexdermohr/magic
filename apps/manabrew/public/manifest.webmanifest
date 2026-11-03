@@ -2,12 +2,14 @@
   "name": "Manabrew",
   "short_name": "Manabrew",
   "description": "Magic: The Gathering client and paper-play life tracker.",
-  "start_url": "/offline-setup.html",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#1C191D",
   "theme_color": "#1C191D",
-  "categories": ["games"],
+  "categories": [
+    "games"
+  ],
   "icons": [
     {
       "src": "/favicon-128x128.png",

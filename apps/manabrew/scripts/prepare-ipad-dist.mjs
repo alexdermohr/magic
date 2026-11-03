@@ -5,6 +5,12 @@ const root = resolve(process.argv[2] ?? "dist");
 for (const file of ["offline-sw.js", "offline-setup.html", "manifest.webmanifest", "forge-legacy-bridge.worker.js"]) {
   await copyFile(join("public", file), join(root, file));
 }
+// Standard web builds must open the app; only this prepared offline PWA opens
+// the installer from the Home-Screen icon until the local cache is ready.
+const manifestPath = join(root, "manifest.webmanifest");
+const offlineManifest = JSON.parse(await readFile(manifestPath, "utf8"));
+offlineManifest.start_url = "/offline-setup.html";
+await writeFile(manifestPath, JSON.stringify(offlineManifest, null, 2) + "\n");
 
 // This published release loads the hashed worker, while the iPad setup
 // self-test loads the un-hashed copy. They must execute exactly the same bridge.

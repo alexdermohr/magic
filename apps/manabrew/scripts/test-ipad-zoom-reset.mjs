@@ -67,6 +67,14 @@ try {
   console.log("ZOOM_IN", JSON.stringify(expanded));
   assert.equal(expanded.touchAction, "none", "Native scroll/zoom must not capture board touches");
   assert.ok(expanded.resetVisibleAfterRelease, "Pinching in must expose reset zoom");
+  const themed = await page.getByRole("button", { name: "Reset board zoom" }).evaluate(
+    (button) => ["bg-card", "text-card-foreground", "border-border"]
+      .every((token) => button.classList.contains(token)),
+  );
+  assert.ok(themed, "Zoom control must use the current app theme");
+  // A no-op ResizeObserver callback after a React game-state update must not
+  // reset the board and make the escape control disappear.
+  await page.waitForTimeout(700);
   const bounds = await page.getByRole("button", { name: "Reset board zoom" }).boundingBox();
   assert.ok(bounds, "Zoom reset control must be on screen");
   // The click removes its own DOM node immediately. Dispatch a real pointer

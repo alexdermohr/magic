@@ -22,6 +22,14 @@ else
 fi
 
 node node_modules/typescript/bin/tsc -b --pretty false
+
+# Vite clears dist/ on every rebuild. Keep downloaded personal artwork outside
+# that directory so a harmless UI edit never causes thousands of CDN requests.
+art_cache="${MANABREW_ART_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/manabrew-ipad-art}"
+mkdir -p "$art_cache"
+if [[ -d dist/a ]]; then
+  cp -a -n dist/a/. "$art_cache/"
+fi
 VITE_SCRYFALL_ASSET_BASE=/ node node_modules/vite/bin/vite.js build
 node scripts/prepare-ipad-dist.mjs dist
 python3 scripts/generate-ipad-personal-decks.py
@@ -36,7 +44,10 @@ if [[ -n "${MANABREW_ART_SOURCE:-}" ]]; then
   done
 fi
 
+mkdir -p dist/a
+cp -a -n "$art_cache/." dist/a/
 python3 scripts/prepare-ipad-card-art.py dist "${MANABREW_SCRYFALL_CACHE:-$HOME/.cache/manabrew-ipad-scryfall-cards.json}"
+cp -a -n dist/a/. "$art_cache/"
 python3 scripts/prepare-ipad-card-symbols.py dist
 node scripts/generate-offline-assets.mjs dist
 echo "Offline PWA ready in apps/manabrew/dist; launch behind a COOP/COEP HTTPS file server."
