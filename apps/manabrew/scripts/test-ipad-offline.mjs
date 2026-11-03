@@ -5,7 +5,13 @@ const chrome = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE;
 const context = await chromium.launchPersistentContext(process.env.MANABREW_TEST_PROFILE ?? "/tmp/manabrew-ipad-test-profile", {
   headless: true,
   ...(chrome ? { executablePath: chrome } : {}),
-  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  args: [
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
+        ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
+        : []),
+    ],
   serviceWorkers: "allow",
 });
 const page = context.pages()[0] ?? await context.newPage();

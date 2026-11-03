@@ -63,7 +63,19 @@ try {
   await page.getByRole("button", { name: /^KEEP$/i }).waitFor({ timeout: 150000 });
   await page.getByRole("button", { name: /^KEEP$/i }).click();
   await page.getByText(/Game board controls/).first().waitFor({ timeout: 90000 });
-  const expanded = await pinch([[0.40, 0.55], [0.60, 0.55]], [[0.22, 0.55], [0.78, 0.55]]);
+  // The React board controls render before Pixi has finished installing pointer
+  // handlers. An early synthetic pinch is ignored while the canvas initializes.
+  await page.waitForFunction(() => {
+    const canvas = [...document.querySelectorAll(".game-touch-surface canvas")]
+      .find((c) => c.clientWidth > 200 && c.clientHeight > 120);
+    return !!canvas && canvas.width > 500 && canvas.height > 500;
+  }, null, { timeout: 30000 });
+  let expanded;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await page.waitForTimeout(450);
+    expanded = await pinch([[0.40, 0.55], [0.60, 0.55]], [[0.22, 0.55], [0.78, 0.55]]);
+    if (expanded.resetVisibleAfterRelease) break;
+  }
   console.log("ZOOM_IN", JSON.stringify(expanded));
   assert.equal(expanded.touchAction, "none", "Native scroll/zoom must not capture board touches");
   assert.ok(expanded.resetVisibleAfterRelease, "Pinching in must expose reset zoom");

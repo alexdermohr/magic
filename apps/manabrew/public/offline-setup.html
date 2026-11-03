@@ -86,7 +86,7 @@
     const length = response.headers.get("Content-Length");
     if (expectedBytes !== undefined && Number(length) === expectedBytes &&
         !response.headers.get("Content-Encoding")) return expectedBytes;
-    return (await response.blob()).size;
+    return (await response.clone().blob()).size;
   }
 
   async function fetchIntoCache(cache, file, url) {
@@ -209,6 +209,50 @@
       additions.length + " neu · " + replacements.size + " aus GitHub aktualisiert · " +
       protectedCount + " lokale Anpassungen geschützt · " + installed + " insgesamt";
     return true;
+  }
+
+  // An offline upgrade may replace repository decks without replacing locally
+  // edited decks. Keep their old local /a/ images before deleting older package
+  // caches; blindly deleting the caches makes retained cards lose their art.
+  async function preserveSavedDeckArtwork(cache, previousCaches, files) {
+    if (previousCaches.length === 0) return { copied: 0, missing: 0 };
+    const raw = localStorage.getItem("manabrew-deck-storage");
+    if (!raw) return { copied: 0, missing: 0 };
+    const saved = JSON.parse(raw)?.state?.savedDecks;
+    if (!Array.isArray(saved)) throw new Error("Bestehende Deckdaten für die Bildmigration ungültig.");
+    const included = new Set(files.map((file) => file.url));
+    const wanted = new Set();
+    for (const entry of saved) {
+      for (const group of ["cards", "commanders", "sideboard", "maybeboard", "companions",
+                           "attractions", "contraptions", "schemes", "planes"]) {
+        const cards = entry?.deck?.[group];
+        if (!Array.isArray(cards)) continue;
+        for (const card of cards) {
+          for (const face of [card, card?.backFace]) {
+            for (const url of Object.values(face?.uris ?? {})) {
+              if (typeof url === "string" && /^\/a\/[a-z0-9_-]+\.(?:webp|jpe?g|png)$/i.test(url) &&
+                  !included.has(url)) wanted.add(url);
+            }
+          }
+        }
+      }
+    }
+    let copied = 0;
+    let missing = 0;
+    for (const url of wanted) {
+      if (await cache.match(url)) continue;
+      let recovered = false;
+      for (const old of previousCaches) {
+        const image = await old.cache.match(url);
+        if (!image?.ok || !image.headers.get("Content-Type")?.startsWith("image/")) continue;
+        await cache.put(url, image);
+        copied += 1;
+        recovered = true;
+        break;
+      }
+      if (!recovered) missing += 1;
+    }
+    return { copied, missing };
   }
 
   async function ensurePersonalDecks(force = false) {
@@ -454,6 +498,10 @@
       }
       const verification = await checkCached(cache, manifest.files);
       if (!verification.ready || verification.bytes !== manifest.totalBytes) throw new Error("Offline-Paket nicht vollständig gespeichert.");
+      // Copy artwork referenced by pre-existing local decks while old caches are
+      // still intact. If this fails, the old ready package remains available.
+      currentStage = "vorhandene lokale Deckbilder erhalten";
+      const preservedArt = await preserveSavedDeckArtwork(cache, reusable, manifest.files);
       await cache.put("/offline-assets.json", new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
       await cache.put("/offline-ready.json", new Response(manifest.version, { headers: { "Content-Type": "text/plain" } }));
       refreshWorkerCache();
@@ -465,6 +513,11 @@
       } catch (error) {
         $("decks").textContent = "Deckimport fehlgeschlagen: " + String(error) +
           ". Die Programmdateien sind trotzdem gespeichert.";
+      }
+      if (preservedArt.copied || preservedArt.missing) {
+        $("decks").textContent += " · " + preservedArt.copied +
+          " ältere Kartenbilder übernommen" + (preservedArt.missing
+            ? " · " + preservedArt.missing + " zuvor nicht offline gespeicherte Bilder" : "");
       }
       $("progress").value = 100;
       report("Offline-Dateien vollständig gespeichert",

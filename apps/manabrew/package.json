@@ -87,7 +87,8 @@
     "test:ipad-relaunch": "node scripts/test-ipad-fast-relaunch.mjs",
     "test:ipad-zoom": "node scripts/test-ipad-zoom-reset.mjs",
     "test:ipad-sw": "node scripts/test-ipad-service-worker-cache.mjs && node scripts/test-ipad-standard-web-navigation.mjs",
-    "test:ipad-art-crop": "python3 scripts/test-ipad-art-crop.py"
+    "test:ipad-art-crop": "python3 scripts/test-ipad-art-crop.py",
+    "test:ipad-art-upgrade": "node scripts/test-ipad-preserve-local-art.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

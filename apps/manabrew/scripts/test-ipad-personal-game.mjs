@@ -11,7 +11,13 @@ const ctx = await chromium.launchPersistentContext(profile, {
   deviceScaleFactor: 2,
   hasTouch: true,
   isMobile: true,
-  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  args: [
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
+        ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
+        : []),
+    ],
   serviceWorkers: "allow",
 });
 const page = ctx.pages()[0] ?? await ctx.newPage();
@@ -41,7 +47,8 @@ try {
     return {
       count: saved.filter((s) => s.id.startsWith("github:alexdermohr/magic:")).length,
       partners: saved.filter((s) => s.id.startsWith("github:alexdermohr/magic:") && s.deck.commanders?.length === 2).length,
-      valid: saved.every((s) => s.deck.cards?.length + (s.deck.commanders?.length ?? 0) === 100),
+      valid: saved.filter((s) => s.id.startsWith("github:alexdermohr/magic:"))
+        .every((s) => s.deck.cards?.length + (s.deck.commanders?.length ?? 0) === 100),
       sampleImage: saved[0]?.deck.cards?.[0]?.uris?.normal,
       sampleCrop: saved[0]?.deck.cards?.[0]?.uris?.art_crop,
     };

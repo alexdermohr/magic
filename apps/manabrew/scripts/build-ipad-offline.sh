@@ -32,7 +32,8 @@ if [[ -d dist/a ]]; then
 fi
 VITE_SCRYFALL_ASSET_BASE=/ node node_modules/vite/bin/vite.js build
 node scripts/prepare-ipad-dist.mjs dist
-python3 scripts/generate-ipad-personal-decks.py
+scryfall_cache="${MANABREW_SCRYFALL_CACHE:-$HOME/.cache/manabrew-ipad-scryfall-cards.json}"
+python3 scripts/generate-ipad-personal-decks.py ../.. dist/personal-decks.json "$scryfall_cache"
 
 # Reuse previously downloaded artwork when available; new deck cards are
 # resolved against the Scryfall cache and fetched only when necessary.
@@ -46,7 +47,7 @@ fi
 
 mkdir -p dist/a
 cp -a -n "$art_cache/." dist/a/
-python3 scripts/prepare-ipad-card-art.py dist "${MANABREW_SCRYFALL_CACHE:-$HOME/.cache/manabrew-ipad-scryfall-cards.json}"
+python3 scripts/prepare-ipad-card-art.py dist "$scryfall_cache"
 cp -a -n dist/a/. "$art_cache/"
 python3 scripts/prepare-ipad-card-symbols.py dist
 node scripts/generate-offline-assets.mjs dist

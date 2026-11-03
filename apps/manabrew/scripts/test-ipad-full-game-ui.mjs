@@ -13,7 +13,13 @@ const context = await chromium.launchPersistentContext(
     viewport: { width: 1180, height: 820 },
     hasTouch: true,
     isMobile: true,
-    args: ["--no-sandbox", "--disable-dev-shm-usage"],
+    args: [
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
+        ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
+        : []),
+    ],
     serviceWorkers: "allow",
   },
 );
@@ -29,9 +35,12 @@ const state = () =>
       name: m[1],
       amount: Number(m[2]),
     }));
-    const eliminated = body.match(/\bYou: (-?\d+) life(?: \(eliminated\))?/);
-    if (eliminated && !life.some((seat) => seat.name === "you")) {
-      life.push({ name: "you", amount: Number(eliminated[1]) });
+    // Commander damage or poison may eliminate a player above zero life.
+    for (const eliminated of body.matchAll(/\b(You|Forge bot): (-?\d+) life \(eliminated\)/g)) {
+      const name = eliminated[1] === "You" ? "you" : "Forge AI";
+      const existing = life.find((seat) => seat.name === name);
+      if (existing) existing.eliminated = true;
+      else life.push({ name, amount: Number(eliminated[2]), eliminated: true });
     }
     return {
       playing: body.includes("Game board controls"),
@@ -73,7 +82,7 @@ try {
   for (let index = 0; index < 380; index++) {
     const current = await state();
     if (!current.offline) throw new Error("Browser connected during offline game");
-    const defeated = current.life.find((seat) => seat.amount <= 0);
+    const defeated = current.life.find((seat) => seat.amount <= 0 || seat.eliminated);
     if (defeated && !terminal) {
       terminal = { seat: defeated.name, actions, snapshot: current };
       await page.waitForTimeout(5100);
@@ -110,7 +119,10 @@ try {
       await touch(495, 783);
       discards++;
     } else if (current.type === "revealCards") {
-      await touch(508, 638);
+      // The CONTINUE button moves with the reveal dialog width; the fixed
+      // center-screen tap can miss it. Enter confirms this Pixi prompt via
+      // the same user-input handler as the visible button.
+      await page.keyboard.press("Enter");
       reveals++;
     } else if (["chooseAction", "chooseBlockers", "chooseAttackers"].includes(current.type)) {
       await touch(1032, 765);
