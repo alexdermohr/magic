@@ -93,6 +93,19 @@ wird für Nicht-Multiplayer-Partien ausgeblendet. Diese Änderungen wirken
 erst nach **Build und Auslieferung** des geänderten Quellstands. Der
 laufende Dienst zeigt derzeit weiter auf die ältere PWA-Distribution.
 
+### Tatsächliche Linux-Laufzeitkonfiguration
+
+Die bisher nur unter dem Benutzerprofil vorhandenen Linux-Quadlets,
+Desktopstarter, Same-Origin-Caddyfile und OAuth-Anmeldeseite sind jetzt
+als **separat bereinigte Vorlagen** unter
+[ops/local-linux](../../apps/manabrew/ops/local-linux/) versioniert.
+Die beiden aktiven Container besitzen einen gemeinsamen privaten
+Relay-Schlüssel; er wurde **nicht** in das öffentliche Repository
+übernommen. Für die Inbetriebnahme den vorhandenen privaten
+Wert in einer lokalen, nicht versionierten relay.env mit beiden
+Variablennamen bereitstellen. Die bisherigen aktiven Unit-Dateien
+und Container wurden dabei nicht umgestellt.
+
 ## Prüfumfang und Deployment
 
     cd apps/manabrew
@@ -106,6 +119,17 @@ mit lokal installiertem Playwright. Offline-Setup testet allein Cache,
 Service Worker und Kaltstart. Der Full-Game-UI-Test startet ein echtes
 Commander-Duell gegen die Forge-KI, wählt Decks, akzeptiert Mulligan,
 führt Spielaktionen aus und prüft das Verbleiben der Game-Over-Ansicht.
+
+**Realer Regressionstest der vorherigen v2-Veröffentlichung am 3. November
+2026:** In einem frischen Chromium/Playwright-Browserprofil wurde das
+269-MiB-Offlinepaket vorbereitet, der Browser offline geschaltet und die
+Web-App vollständig neu gestartet. Danach startete eine Partie Anowon,
+the Ruin Thief gegen die Forge-KI mit Gahiji, Honored One, bestätigte
+die Starthand (Mulligan-Dialog) und verarbeitete 48 Spielaktionen.
+Nach natürlichem Lebenspunkte-Ende blieb der Spielbildschirm mindestens
+fünf Sekunden sichtbar und konnte verlassen werden (keine Seitenfehler).
+Dies ist ein überprüfter **Test des ausgelieferten Altstands** und
+keinesfalls ein Beweis für eine iPadOS-WebKit-Ausführung des neuen Quellcodes.
 
 Der bestehende iPad-Dienst verwendet noch die Caddydatei im früheren
 Quellklon und ein älteres Dist-Verzeichnis. Die Quellmigration stellt

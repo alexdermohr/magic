@@ -1,0 +1,13 @@
+[Unit]
+Description=Manabrew local multiplayer relay
+[Container]
+EnvironmentFile=%h/.config/manabrew/relay.env
+Image=ghcr.io/witchesofthehill/manabrew-server:latest
+ContainerName=manabrew-local-relay
+PublishPort=127.0.0.1:9443:9443
+PublishPort=127.0.0.1:9444:9444
+Environment=RUST_LOG=manabrew_server=info
+[Service]
+Restart=on-failure
+[Install]
+WantedBy=default.target
