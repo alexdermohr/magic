@@ -55,6 +55,8 @@ In Chrome http://127.0.0.1:8095/offline-setup.html öffnen. Der Preview-Server s
 
 Die Laufzeit-Relay-Schlüssel sind **nicht** im Repository. Die vorhandenen Linux-Web-/Relay-Dienste und Desktopstarter werden durch den Build nicht ausgetauscht.
 
+**Linux-Webclient, 3. November 2026:** Der bestehende `manabrew-local-web.service` blieb auf dem bisherigen Upstream-Stand (Port 8087), ebenso der Relay auf 9443/9444. Der erste Account-API-Test ergab HTTP 502; das Caddy-Journal belegte einen DNS-Timeout für `api.manabrew.app` im alten Container. Ein Neustart **nur** des Linux-Webdiensts mit unveränderter Quadlet-Konfiguration beseitigte den Fehler: Webclient `/` liefert wieder HTTP 200 mit COOP/COEP, `/api/auth/oauth/github/start` nimmt POST an. Ein tatsächlicher POST mit `mode=signin` und `client=desktop` lieferte auf **8087 und 8088 HTTP 200** mit einer HTTPS-GitHub-Autorisierungsadresse. Damit ist der OAuth-Einstieg über beide lokalen Proxys belegt, **nicht** der abgeschlossene Login, der bestehende Account, eine Decksynchronisierung oder Multiplayer. Credentials und Relay-Schlüssel wurden weder ersetzt noch im Repository gespeichert. Die Linux-Web-/Relay-Dienste wurden bewusst nicht auf eine ungeprüfte neue Version umgestellt.
+
 ### Installation der iPad-PWA
 
 Die bereitgestellte HTTPS-Seite /offline-setup.html in Safari öffnen und zum Home-Bildschirm hinzufügen. Den Download aller Offline-Dateien **in der installierten Home-Screen-App** ausführen. Safari und die installierte PWA können getrennte Speicherbereiche haben. Danach WLAN/Mobilfunk ausschalten, die PWA vollständig schließen, wieder öffnen und ein eigenes Commander-Deck gegen die lokale Forge-KI starten.
