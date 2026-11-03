@@ -42,8 +42,9 @@ pub fn wasm_init() {
     web_sys::console::log_1(&"wasm initialized".into());
 }
 
-/// Log a message to the browser console (for debugging).
+/// Browser console helper. This must not be named log: wasm-bindgen
+/// rejects the duplicate exported log symbol in this source combination.
 #[wasm_bindgen]
-pub fn log(msg: &str) {
+pub fn wasm_console_log(msg: &str) {
     web_sys::console::log_1(&msg.into());
 }

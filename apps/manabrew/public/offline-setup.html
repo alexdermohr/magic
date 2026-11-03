@@ -211,6 +211,18 @@
     return true;
   }
 
+  async function ensurePersonalDecks(force = false) {
+    const importKey = "manabrew-ipad-imported-version";
+    if (!force && localStorage.getItem(importKey) === manifest.version &&
+        localStorage.getItem("manabrew-deck-storage")) {
+      $("decks").textContent = "Persönliche GitHub-Decks für diese Version bereits installiert.";
+      return true;
+    }
+    const installed = await installPersonalDecks();
+    if (installed) localStorage.setItem(importKey, manifest.version);
+    return installed;
+  }
+
   async function testForge() {
     if (busy || !manifest || $("play").classList.contains("disabled")) return;
     if (!crossOriginIsolated || typeof SharedArrayBuffer === "undefined") {
@@ -242,7 +254,10 @@
           if (error) reject(error);
           else resolve();
         };
-        child = new Worker("/forge-legacy-bridge.worker.js", { type: "module" });
+        const gameWorker = manifest.files.find((file) =>
+          /^\/assets\/forge-engine\.worker-[A-Za-z0-9_-]+\.js$/.test(file.url),
+        )?.url ?? "/forge-legacy-bridge.worker.js";
+        child = new Worker(gameWorker, { type: "module" });
         child.onerror = (event) => finish(new Error(event.message || "Forge-Worker fehlgeschlagen"));
         child.onmessage = (event) => {
           const data = event.data;
@@ -305,7 +320,7 @@
     }
   }
 
-  async function status() {
+  async function status(forceVerification = false) {
     if (busy) return;
     $("prepare").disabled = true;
     $("play").classList.add("disabled");
@@ -317,9 +332,22 @@
       if (!Array.isArray(manifest.files) || !manifest.version) throw new Error("Dateiliste ungültig.");
       const total = manifest.totalBytes;
       const cache = await caches.open(prefix + manifest.version);
-      const prepared = await checkCached(cache, manifest.files);
       const marker = await cache.match("/offline-ready.json");
-      const ready = prepared.ready && marker && (await marker.text()) === manifest.version;
+      let quickReady = !!marker && (await marker.text()) === manifest.version;
+      if (quickReady) {
+        for (const url of ["/index.html", "/offline-setup.html", "/personal-decks.json",
+                           "/wasm/cardset.manifest.json", "/offline-assets.json"]) {
+          const entry = url === "/offline-assets.json" || manifest.files.some((file) => file.url === url);
+          if (!entry || !(await cache.match(url))) {
+            quickReady = false;
+            break;
+          }
+        }
+      }
+      const prepared = quickReady && !forceVerification
+        ? { ready: true, bytes: total }
+        : await checkCached(cache, manifest.files);
+      const ready = quickReady && prepared.ready;
       $("progress").value = ready ? 100 : Math.round((100 * prepared.bytes) / total);
       $("prepare").disabled = false;
       $("prepare").textContent = ready ? "Offline-Daten erneut prüfen" : "Offline-Daten herunterladen";
@@ -327,7 +355,7 @@
         report("Programmdateien vollständig offline gespeichert", fmt(total) + " in " + manifest.files.length + " Dateien. Dies bestätigt noch kein erfolgreiches Forge-Spiel auf iPadOS.");
         let personalReady = false;
         try {
-          personalReady = await installPersonalDecks();
+          personalReady = await ensurePersonalDecks(forceVerification);
         } catch (error) {
           $("decks").textContent = "Deckimport fehlgeschlagen: " + String(error) +
             ". Vorhandene Decks wurden nicht verändert.";
@@ -433,7 +461,7 @@
         if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
       }
       try {
-        await installPersonalDecks();
+        await ensurePersonalDecks(true);
       } catch (error) {
         $("decks").textContent = "Deckimport fehlgeschlagen: " + String(error) +
           ". Die Programmdateien sind trotzdem gespeichert.";
@@ -457,7 +485,7 @@
   $("engine-probe").addEventListener("click", () => void testForge());
   $("prepare").addEventListener("click", () => {
     if (manifest && $("play").classList.contains("disabled")) void prepare();
-    else void status();
+    else void status(true);
   });
   void status();
 })();

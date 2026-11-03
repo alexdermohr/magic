@@ -140,7 +140,8 @@ export function useGamePrefetch(mode: GamePrefetchMode): void {
     const deckCards = Object.values(decks).flatMap(getDeckCardPool);
     const visibleCards = cardsToPrefetchImmediately(gameView, decks);
     const waitForDeck =
-      mode === "full" && usePreferencesStore.getState().battlefieldCardStyle !== "frame";
+      navigator.onLine && mode === "full" &&
+      usePreferencesStore.getState().battlefieldCardStyle !== "frame";
     const ready = Promise.all([
       prefetchCards(visibleCards).then(renderOpeningCards),
       waitForDeck ? prefetchAllCards(visibleCards, deckCards) : undefined,

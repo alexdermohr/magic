@@ -10,7 +10,6 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from PIL import Image
 
 root = Path(sys.argv[1]).resolve()
 card_cache = json.loads(Path(sys.argv[2]).read_text())
@@ -37,6 +36,7 @@ gate = threading.Lock()
 last_start = 0
 
 def download(item):
+    from PIL import Image
     global last_start
     stem, url = item
     target = art / (stem + ".webp")

@@ -249,6 +249,9 @@ class WorkerBridge {
   private initPromise: Promise<void> | null = null;
 
   workerIsForgeWasm = false;
+  // Before the first playable prompt, Forge may require acknowledgments for
+  // setup-only information. The board cannot display these during startup.
+  private startingForgeGame = false;
   private fallbackWorker: Worker | null = null;
   private localSeat: ForgeSeat | null = null;
   private seatReaders = new Map<ForgeSeat, Worker>();
@@ -411,6 +414,29 @@ class WorkerBridge {
         this.eventBus.emit("game:error", msg.error);
         break;
       case "prompt": {
+        const prompt = msg.prompt as Prompt;
+        const input = prompt?.input;
+        if (this.workerIsForgeWasm && this.startingForgeGame && typeof prompt.promptId === "number") {
+          if (
+            input?.type === "revealCards" &&
+            input.presentation?.title?.startsWith("AI can't play these cards well")
+          ) {
+            this.writeResponse(
+              { type: "revealCards", output: { type: "revealCardsAcknowledged" } },
+              prompt.promptId,
+            );
+            break;
+          }
+          if (input?.type === "diceRolled") {
+            this.writeResponse(
+              { type: "diceRolled", output: { type: "diceRolledAcknowledged" } },
+              prompt.promptId,
+            );
+            break;
+          }
+        }
+        // Normal in-game dice rolls and reveals must still reach the player.
+        this.startingForgeGame = false;
         const w = window as unknown as {
           __respondedAt?: number;
           __promptTimings?: Array<{ ms: number; type?: string }>;
@@ -707,6 +733,7 @@ class WorkerBridge {
    */
   async invoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
     const startsGame = command === "start_game" || command === "start_multiplayer_game";
+    if (startsGame) this.startingForgeGame = true;
     let target: Worker;
     if (
       command.startsWith("limited_") ||

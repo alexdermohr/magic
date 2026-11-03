@@ -1,7 +1,11 @@
 /// <reference types="node" />
 import { execFileSync } from "node:child_process";
 
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
+
+// This reducer test needs no audio backend or DOM. The live renderer is covered
+// by the offline game E2E tests.
+vi.mock("@/lib/soundRuntime", () => ({ playSound: vi.fn() }));
 
 import { applyPrompt, applyState } from "./gameStore.constants";
 import type { GameState } from "./gameStore.types";

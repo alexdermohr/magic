@@ -35,6 +35,15 @@ function crossOriginIsolation(): Plugin {
         next();
       });
     },
+    configurePreviewServer(server) {
+      // Preview runs a built PWA. Without these headers SharedArrayBuffer is
+      // missing, so the local Forge-AI game cannot run.
+      server.middlewares.use((_req, res, next) => {
+        res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+        res.setHeader("Cross-Origin-Embedder-Policy", COEP);
+        next();
+      });
+    },
   };
 }
 

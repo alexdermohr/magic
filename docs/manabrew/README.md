@@ -1,140 +1,76 @@
-# Manabrew iPad/iOS und Linux
+# Manabrew für iPad/iOS und Linux
 
-## Inventar (Stand: 3. November 2026)
+## Bestand und Quellen (3. November 2026)
 
-Der maßgebliche Quellstand liegt ab dieser Arbeitsfassung unter
-[apps/manabrew](../../apps/manabrew/). Die iPad-Version ist eine **Home-Screen-Web-App
-(PWA)** und keine native, signierte iOS-App. Die Linux-Variante ist derzeit eine
-lokale Chrome-App mit Webclient und Relay; daneben liegt Tauri-Desktop-Quellcode
-im importierten Projekt.
+Die Anwendung wird unter [apps/manabrew](../../apps/manabrew/) im Magic-Repository gepflegt. Der iPad-Client ist eine **installierbare Web-App (PWA)**, keine signierte native iOS-App. Linux nutzt bisher einen lokalen Chrome-Webclient und einen Relay; der mitgelieferte Tauri-Quellcode ermöglicht zusätzlich einen nativen Desktop-Build, der hier noch nicht nachgewiesen wurde.
 
-| Variante | Ausgangslage auf dem Heim-PC |
+| Komponente | Belegter bisheriger Heim-PC-Zustand |
 | --- | --- |
-| iPad-PWA | Aktiver Dienst manabrew-ipad-pwa.service, lokaler Port 127.0.0.1:8088, Dist unter ~/.local/share/manabrew-ipad-personal-v2-20261102 |
-| Linux-Web | Aktiver Dienst manabrew-local-web.service; Chrome-Desktopstarter ~/.local/share/applications/manabrew-local.desktop mit http://127.0.0.1:8087/ |
-| Linux-Relay | Aktiver Dienst manabrew-local-relay.service |
-| Entwicklungsquellen | React/TypeScript + PixiJS, Rust-Engine, Forge-WASM, Tauri, Caddy-/Containerbeispiele |
+| iPad-PWA | Aktiver Benutzer-Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; alter Release unter ~/.local/share/manabrew-ipad-personal-v2-20261102 |
+| Linux-Web | Aktiver manabrew-local-web.service auf 127.0.0.1:8087 und Chrome-Desktopstarter manabrew-local.desktop |
+| Linux-Relay | Aktiver manabrew-local-relay.service auf den Loopback-Ports 9443/9444 |
+| Neue Quellen | React/TypeScript, PixiJS, Rust-WASM, Forge-WebImage, Tauri, PWA-Skripte, bereinigte Linux-Betriebsvorlagen |
 
-Die Quellübernahme basiert auf Upstream-Manabrew v3.69.0, Commit
-4f4ed9e784a054f076bd933ba2412c63590e0d3a, einschließlich neun
-lokaler Codeänderungen und achtzehn hinzugefügter iPad-Dateien aus dem
-ursprünglichen Arbeitsbaum /home/alex/repos/manabrew. Insgesamt wurden
-2.923 Quelldateien übernommen. Weggelassen wurden alte Buildpakete
-(je etwa 269 MiB), browserseitige Testprofile, Benutzerdaten, Git-Metadaten
-und fünf temporäre Screenshots unter tmp/.
+Die Quellübernahme basiert auf Manabrew v3.69.0, Upstream-Commit 4f4ed9e784a054f076bd933ba2412c63590e0d3a, einschließlich der neun lokalen Änderungen und achtzehn ergänzten iPad-Dateien des früheren Arbeitsbaums. Es wurden ursprünglich 2.923 Dateien übernommen; persönliche Profile, Secrets, alte Dist-Archive, temporäre Screenshots und Git-Metadaten wurden nicht importiert.
 
-Nicht übernommene Gitlinks: forge und die Editor-Skills unter .claude/skills.
-Die beigefügte .gitmodules-Datei dokumentiert das Upstream-Forge-Submodul,
-initialisiert es aber **nicht** in diesem verschachtelten Magic-Projekt.
-Falls ein Java-Forge-Build verlangt wird, muss die Upstream-Forge-Quelle
-separat bereitgestellt werden. Die Rust-Engine hat laut Upstream selbst
-noch fehlende Regeln. Für die KI-Kompatibilität daher reale Spieltests
-und nicht allein einen erfolgreichen Build verwenden.
+Der nicht als Gitlink importierte Forge-Unterbaum wird vom Skript scripts/bootstrap-forge.sh mit dem exakten Upstream-Commit be9e0c8a5b561ae3e909c2f9a8bdac0a7fa2b097 nachgeladen. Die Java/GraalVM-Forge-WebAssembly-Laufzeit wird **nicht** aus Java-Quellen neu kompiliert, sondern mit scripts/bootstrap-webimage.sh aus dem veröffentlichten Manabrew-Webimage v3.69.0 bezogen, auf einen unveränderlichen OCI-Digest fixiert und per SHA-256 für beide Artefakte geprüft. Die eigene Rust-WASM-Bibliothek und das Frontend werden hingegen aus den hier versionierten Quellen erstellt.
 
-**Lizenz:** Manabrew wird unter AGPL-3.0-or-later bereitgestellt. Lizenztexte
-und THIRD-PARTY-NOTICES.md sind unter apps/manabrew erhalten. Die eigene
-Übernahme befreit nicht von diesen Pflichten.
+Manabrew ist unter AGPL-3.0-or-later lizenziert. Lizenz und Drittanbieterhinweise wurden unter apps/manabrew beibehalten.
 
-## Quellcode pflegen und bauen
+## Reproduzierbarer Offline-Build
 
-Alle Änderungen an der App erfolgen nun im Magic-Repository unter
-apps/manabrew; der ältere Klon bleibt unangetastete Provenienz-/Rückfallquelle.
-Vom Magic-Repository-Stamm aus:
+Vom Stamm des Magic-Repositories:
 
     cd apps/manabrew
-    # Node.js >= 24, Yarn sowie Rust, WebAssembly-Target und Forge-Abhängigkeiten
-    yarn install --frozen-lockfile
-    yarn typecheck
-    yarn test
+    ./scripts/build-ipad-offline.sh
 
-Ein vollständiger Webbuild erfolgt bei vorhandenen WASM- und Forge-Abhängigkeiten
-durch yarn build:web. Für einen Desktop-Client dient src-tauri/ beziehungsweise
-yarn build. Dies baut **nicht automatisch** den tatsächlich eingerichteten
-Linux-Chrome-Starter. Die lokale Hosted-Engine-Umgebung wird in
-compose.local.yml erklärt; Server-/Caddydateien stehen unter ops/.
+Auf dem bereits eingerichteten Heim-PC lässt sich vorhandene Kartenbildkunst ohne erneuten Download verwenden:
 
-### Persönliche Commander-Decks für den Offline-Build
+    MANABREW_ART_SOURCE="$HOME/.local/share/manabrew-ipad-personal-v2-20261102" ./scripts/build-ipad-offline.sh
 
-    cd apps/manabrew
-    python3 scripts/generate-ipad-personal-decks.py
+Voraussetzungen: Node.js ab 24 mit Corepack/Yarn, Rust/Cargo inklusive wasm32-unknown-unknown, Podman, Git, Python 3 und entweder Nix oder wasm-pack samt WebAssembly-Linker. Das Skript stellt über Nix bei Bedarf wasm-pack, Binaryen und lld bereit. Python Pillow wird nur beim **Neudownload** bislang fehlender Kartenbilder benötigt. Beim ersten Build werden Forge, das veröffentlichte WebImage und noch nicht gecachte Scryfall-Daten über das Internet geholt.
 
-Der Generator liest standardmäßig decks/*/current.txt im übergeordneten
-Magic-Stamm und schreibt dist/personal-decks.json. Die Cachedatei liegt
-unter ~/.cache/manabrew-ipad-scryfall-cards.json. Source, Ziel und Cache
-können wie bisher als die drei Positionsargumente übergeben werden.
-Für noch nicht bekannte Karten ist beim Erstellen ein Internetzugang
-zu Scryfall notwendig. Kartenbilder/Kartensymbole werden mit
-prepare-ipad-card-art.py und prepare-ipad-card-symbols.py erzeugt.
+Das Skript führt in einer Reihenfolge aus:
 
-Für eine lokale PWA-Distribution existieren prepare-ipad-dist.mjs,
-patch-ipad-offline-bundle.mjs und generate-offline-assets.mjs.
-Die ersten beiden Skripte unterstützen insbesondere den bereits
-bekannten Legacy-Release-Bundle. Der Legacy-Patcher prüft exakte
-Minifizierungssignaturen und bricht bei einem anderen Upstream-Bundle
-bewusst ab. Ein frischer Source-Build ist langfristig vorzuziehen;
-eine vorhandene Archivkopie des alten Distribution-Builds ist kein
-reproduzierbarer Buildbeweis.
+1. Gepinnte Forge-Quellen und veröffentlichte Forge-WASM-Laufzeit beziehen und verifizieren.
+2. Eingefrorene Yarn-Abhängigkeiten installieren, Rust-Protokolltypen und Rust-WASM mit dem Kartenarchiv bauen, TypeScript prüfen und Vite bauen.
+3. Den neuen Forge-Worker erhalten, Offline-Setup und Service Worker einbauen und die eigenen aktuellen Magic-Commander-Decks einlesen.
+4. Kartenbilder, Mana-Symbole und Kartenrücken aufbereiten; abschließend das inhaltsadressierte Offline-Manifest erzeugen.
 
-### PWA-Installation
+Das Ergebnis liegt in apps/manabrew/dist. Am 3. November 2026 enthielt der geprüfte Build 1.803 Offline-Dateien mit insgesamt 290.796.387 Bytes, 35 eigene Commander-Decks, 1.535 Kartenbilder und ein Forge/Rust-Kartenarchiv mit 33.977 Karten. Deckdaten stammen aus decks/*/current.txt im Magic-Repository und verwenden den Metadatencache ~/.cache/manabrew-ipad-scryfall-cards.json. Beim Quellbuild wird VITE_SCRYFALL_ASSET_BASE=/ gesetzt, damit Mana-Symbole und der Kartenrücken über die bereits heruntergeladenen lokalen Dateien geladen werden.
 
-Die HTTPS-Seite /offline-setup.html in Safari öffnen, zum Home-Bildschirm
-hinzufügen und dann den gesamten Offline-Download **in der installierten
-Web-App** ausführen. Der Safari-Tab und eine installierte Web-App können
-unterschiedliche Webspeicher besitzen. Danach Netzwerkverbindungen
-deaktivieren, die Web-App vollständig schließen und über das Home-Screen-
-Symbol neu starten; Commander-Duell gegen die lokale Forge-KI starten.
-Der erste Download erfordert Internet, danach muss lokales Solospiel ohne
-Heim-PC/öffentlichen Relay funktionieren. iPadOS kann die Daten bei
-Speicherdruck löschen. Das ist im Offlinebereitstellungszustand zu beachten.
+Der frühere Legacy-Patcher scripts/patch-ipad-offline-bundle.mjs bleibt zur Wiederherstellung älterer Release-Bundles erhalten. Er erwartet konkrete Minifizierungssignaturen und ist **nicht** der Quellbuild-Pfad. Das Skript scripts/prepare-ipad-dist.mjs unterstützt dagegen die neue und die ältere Build-Variante.
 
-Im Quellcode sind ein Reset-zoom-Knopf und die Unterdrückung von nativen
-Touch-Gesten für das Spielbrett vorgesehen. Das Offline-Reconnect-Overlay
-wird für Nicht-Multiplayer-Partien ausgeblendet. Diese Änderungen wirken
-erst nach **Build und Auslieferung** des geänderten Quellstands. Der
-laufende Dienst zeigt derzeit weiter auf die ältere PWA-Distribution.
+### Lokal unter Linux starten
 
-### Tatsächliche Linux-Laufzeitkonfiguration
+Nach dem Build kann der Client auf dem Heim-PC ohne zusätzliche Container auf Loopback gestartet werden:
 
-Die bisher nur unter dem Benutzerprofil vorhandenen Linux-Quadlets,
-Desktopstarter, Same-Origin-Caddyfile und OAuth-Anmeldeseite sind jetzt
-als **separat bereinigte Vorlagen** unter
-[ops/local-linux](../../apps/manabrew/ops/local-linux/) versioniert.
-Die beiden aktiven Container besitzen einen gemeinsamen privaten
-Relay-Schlüssel; er wurde **nicht** in das öffentliche Repository
-übernommen. Für die Inbetriebnahme den vorhandenen privaten
-Wert in einer lokalen, nicht versionierten relay.env mit beiden
-Variablennamen bereitstellen. Die bisherigen aktiven Unit-Dateien
-und Container wurden dabei nicht umgestellt.
+    node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 8095
 
-## Prüfumfang und Deployment
+In Chrome http://127.0.0.1:8095/offline-setup.html öffnen. Der Preview-Server setzt die für Forge-WASM nötigen Cross-Origin-Opener-/Embedder-Header. Für einen dauerhaften Linux-Webdienst Caddy bzw. die vorhandenen Quadlets verwenden, nicht den Vite-Preview-Server zum öffentlichen Server erklären. Die bereinigten Laufzeitvorlagen und die bisherige lokale Kontoanmeldung stehen unter [ops/local-linux](../../apps/manabrew/ops/local-linux/).
 
-    cd apps/manabrew
-    node --check scripts/prepare-ipad-dist.mjs
-    node --check scripts/patch-ipad-offline-bundle.mjs
-    node scripts/test-ipad-offline.mjs http://127.0.0.1:8088
-    node scripts/test-ipad-full-game-ui.mjs http://127.0.0.1:8088
+Die Laufzeit-Relay-Schlüssel sind **nicht** im Repository. Die vorhandenen Linux-Web-/Relay-Dienste und Desktopstarter werden durch den Build nicht ausgetauscht.
 
-Die letzten zwei Befehle verlangen eine vollständig vorbereitete PWA
-mit lokal installiertem Playwright. Offline-Setup testet allein Cache,
-Service Worker und Kaltstart. Der Full-Game-UI-Test startet ein echtes
-Commander-Duell gegen die Forge-KI, wählt Decks, akzeptiert Mulligan,
-führt Spielaktionen aus und prüft das Verbleiben der Game-Over-Ansicht.
+### Installation der iPad-PWA
 
-**Realer Regressionstest der vorherigen v2-Veröffentlichung am 3. November
-2026:** In einem frischen Chromium/Playwright-Browserprofil wurde das
-269-MiB-Offlinepaket vorbereitet, der Browser offline geschaltet und die
-Web-App vollständig neu gestartet. Danach startete eine Partie Anowon,
-the Ruin Thief gegen die Forge-KI mit Gahiji, Honored One, bestätigte
-die Starthand (Mulligan-Dialog) und verarbeitete 48 Spielaktionen.
-Nach natürlichem Lebenspunkte-Ende blieb der Spielbildschirm mindestens
-fünf Sekunden sichtbar und konnte verlassen werden (keine Seitenfehler).
-Dies ist ein überprüfter **Test des ausgelieferten Altstands** und
-keinesfalls ein Beweis für eine iPadOS-WebKit-Ausführung des neuen Quellcodes.
+Die bereitgestellte HTTPS-Seite /offline-setup.html in Safari öffnen und zum Home-Bildschirm hinzufügen. Den Download aller Offline-Dateien **in der installierten Home-Screen-App** ausführen. Safari und die installierte PWA können getrennte Speicherbereiche haben. Danach WLAN/Mobilfunk ausschalten, die PWA vollständig schließen, wieder öffnen und ein eigenes Commander-Deck gegen die lokale Forge-KI starten.
 
-Der bestehende iPad-Dienst verwendet noch die Caddydatei im früheren
-Quellklon und ein älteres Dist-Verzeichnis. Die Quellmigration stellt
-den Produktionsdienst **nicht** stillschweigend um. Vor Umschalten sind
-frischer Source-/WASM-Build, Browser-E2E mit offline Mulligan und Aktionen,
-eine Prüfung am realen iPad samt Speicherisolation sowie ein Rückfall-Build
-erforderlich. Linux-Chromium-Tests beweisen nicht das Verhalten von iPad
-WebKit, der installierten PWA oder des Betriebssystem-Touchsystems.
+Das Offline-Solospiel darf nach Installation weder den Heim-PC noch einen öffentlichen Relay benötigen. Online-Multiplayer und Account-Synchronisierung brauchen weiterhin eine Internetverbindung. iPadOS kann den PWA-Cache bei Speicherdruck löschen; bei einem Paket von rund 291 MB bleibt eine echte Speicher-/WebKit-Prüfung auf dem iPad notwendig.
+
+## Tests und nachgewiesene Ergebnisse
+
+Beim Testen des gebauten Webclients sind Cross-Origin-Isolation (COOP/COEP) sowie ein zuvor installierter vollständiger Offline-Cache nötig. Die Playwright-Skripte verwenden PLAYWRIGHT_MODULE, PLAYWRIGHT_CHROMIUM_EXECUTABLE und MANABREW_TEST_PROFILE, wenn diese Umgebungsvariablen gesetzt sind.
+
+    node node_modules/vitest/vitest.mjs run
+    node scripts/test-ipad-service-worker-cache.mjs
+    node scripts/test-ipad-offline.mjs http://127.0.0.1:8095
+    node scripts/test-ipad-fast-relaunch.mjs http://127.0.0.1:8095
+    node scripts/test-ipad-personal-game.mjs http://127.0.0.1:8095
+    node scripts/test-ipad-full-game-ui.mjs http://127.0.0.1:8095
+    node scripts/test-ipad-zoom-reset.mjs http://127.0.0.1:8095
+
+**Frisch aus Magic gebauter und geprüfter Stand, 3. November 2026:** Alle 212 Vitest-Tests erfolgreich. Nach vollständig offline vorbereitetem Cache startete der Chromium-Browser ohne Verbindung und fand 35 GitHub-Decks. Drei wiederholte PWA-Starts verwendeten jeweils sechs Cache-Lookups; die manuelle Vollprüfung untersuchte weiterhin alle 1.803 Dateien. Ein Partner-Duell Ardenn/Rograkh gegen Malcolm/Breeches erreichte Starthand, Mulligan, Spielbrett und weitere Aktionen. Ein vollständiges Solo-Duell Anowon gegen Gahiji endete nach **138 Spielaktionen** durch reguläre Eliminierung, Ergebnisansicht fünf Sekunden erhalten, Rückkehr ins Menü erfolgreich. Der Pinch-Zoom-Test erzeugte den Resetknopf, setzte die Ansicht wieder zurück und bestätigte Touch-Action sowie lokal verfügbare Kartenrückseite (HTTP 200). Keine JavaScript-Seitenfehler bei diesen E2E-Tests.
+
+Die zwei anfangs blockierenden Forge-Informationsprompts (KI-Kartenwarnung und Würfelereignis) werden nur **beim Spielstart** automatisch quittiert. Spätere informative Spielentscheidungen werden weiterhin der Oberfläche übergeben. Der Offline-Vorladevorgang blockiert den Spielfeldstart nicht mehr bis sämtliche Decktexturen fertig sind. Der manuelle Cache-Gesamttest bleibt verfügbar.
+
+**Prüfgrenzen:** Diese Resultate gelten für eine emulierte Touch-Oberfläche in Chromium auf Linux mit dem neu erstellten Build, **nicht** für physisches iPadOS/Safari WebKit. Der iPad-Livedienst auf Port 8088 und die Linux-Produktivdienste zeigen bislang weiterhin auf ihre älteren Artefakte. Vor dem Umschalten müssen der reale iPad-Home-Screen-Offline-Kaltstart, die Persistenz des PWA-Speichers und der Rückfallweg geprüft werden. Auch die native Tauri-Linux-Verpackung und die Online-Account-/Multiplayer-Wege des neuen Builds wurden nicht Ende-zu-Ende getestet.

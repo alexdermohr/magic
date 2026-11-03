@@ -1,4 +1,4 @@
-import { copyFile, readFile, readdir, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 
 const root = resolve(process.argv[2] ?? "dist");
@@ -16,10 +16,11 @@ if (workerAssets.length !== 1) {
 }
 const gameWorker = join(root, "assets", workerAssets[0]);
 const existingWorker = await readFile(gameWorker, "utf8");
-if (!existingWorker.startsWith("// Compatibility worker for the last published")) {
-  throw new Error("Unexpected Manabrew game worker; cannot safely install iPad bridge");
+if (existingWorker.startsWith("// Compatibility worker for the last published")) {
+  await copyFile(join("public", "forge-legacy-bridge.worker.js"), gameWorker);
+} else {
+  console.log("Fresh source-built Forge worker retained");
 }
-await copyFile(join("public", "forge-legacy-bridge.worker.js"), gameWorker);
 
 const cardsetManifest = JSON.parse(await readFile(join(root, "wasm/cardset.manifest.json"), "utf8"));
 const cardset = await readFile(join(root, "wasm", cardsetManifest.archive));
@@ -31,6 +32,7 @@ if (aliases["Wernog, Rider's Chaplain"] !== "Will the Wise" ||
     aliases["Greymond, Avacyn's Stalwart"] !== "Rick, Steadfast Leader") {
   throw new Error("Forge Universes Within aliases missing from the selected cardset");
 }
+await mkdir(join(root, "legacy"), { recursive: true });
 await writeFile(join(root, "legacy/forge-aliases.json"), JSON.stringify(aliases) + "\n");
 
 const indexPath = join(root, "index.html");
@@ -41,6 +43,8 @@ const scripts = [
 ];
 let newIndex = oldIndex;
 for (const script of scripts) {
+  if (script.includes('serviceWorker.register("/offline-sw.js"') &&
+      newIndex.includes('serviceWorker.register("/offline-sw.js"')) continue;
   if (!newIndex.includes(script)) {
     if (!newIndex.includes("</body>")) throw new Error("Expected closing body tag in built index");
     newIndex = newIndex.replace("</body>", "    " + script + "\n  </body>");
