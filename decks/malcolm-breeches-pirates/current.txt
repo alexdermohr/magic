@@ -7,7 +7,6 @@ Deck
 1 Spectral Sailor
 1 Marauding Mako
 1 Ragavan, Nimble Pilferer
-1 Reckless Lackey
 1 Staunch Crewmate
 1 Malcolm, the Eyes
 1 Malcolm, Alluring Scoundrel
@@ -31,39 +30,42 @@ Deck
 1 Daring Piracy
 1 Gemcutter Buccaneer
 1 Spark Double
+1 Sakashima of a Thousand Faces
 1 Sol Ring
 1 Arcane Signet
 1 Izzet Signet
 1 Talisman of Creativity
 1 Urza's Incubator
 1 Patchwork Banner
-1 Mox Amber
+1 Glasspool Mimic
 1 Departed Deckhand
 1 Thousand-Year Elixir
 1 Swiftfoot Boots
-1 Imperial Recruiter
-1 Trinket Mage
+1 Deadeye Quartermaster
 1 Aqueous Form
 1 Hawkeye's Bow
 1 Sting, the Glinting Dagger
 1 Sword of Forge and Frontier
 1 The Indomitable
 1 Kindred Discovery
+1 Rhystic Study
+1 Double Down
 1 Shared Animosity
 1 Curiosity
+1 Hidden Strings
 1 Passionate Archaeologist
-1 Jeska's Will
+1 Mana Vault
 1 Frostcliff Siege
 1 Coercive Recruiter
-1 Fierce Guardianship
-1 Cyclonic Rift
+1 Jeska's Will
+1 Raise the Palisade
 1 Deflecting Swat
 1 Swan Song
 1 Warkite Marauder
 1 Mana Drain
 1 Chaos Warp
 1 Fathom Fleet Swordjack
-1 March of Swirling Mist
+1 Corsair Captain
 1 Vandalblast
 1 Emberwilde Captain
 1 Magmakin Artillerist
@@ -92,5 +94,5 @@ Deck
 1 Urza's Saga
 1 Minamo, School at Water's Edge
 1 Secluded Courtyard
-6 Island
-2 Mountain
+5 Island
+1 Mountain

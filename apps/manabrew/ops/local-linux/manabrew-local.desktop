@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Manabrew (lokal)
-Comment=Magic: The Gathering mit lokalem Manabrew-Client und Relay
+Name=Manabrew (Online / Konto)
+Comment=Online-Client mit Manabrew-Konto, Deck-Synchronisierung und lokalem Relay
 Exec=/home/alex/.nix-profile/bin/google-chrome-stable --app=http://127.0.0.1:8087/
 Icon=applications-games
 Terminal=false

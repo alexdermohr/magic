@@ -1,6 +1,6 @@
-# Helga, Skittish Seer — Bant Creature-Engine (V1, Schutzrevision und Rückkehrer)
+# Helga, Skittish Seer — Bant Creature-Engine (V2, Thorn Mammoth und Schutzrevision)
 
-**Stand:** 1. November 2026. **Ziel:** obere Leistungsgrenze von Commander Bracket 3 (Upgraded). **Budget:** offen.
+**Stand:** 3. November 2026. **Ziel:** obere Leistungsgrenze von Commander Bracket 3 (Upgraded). **Budget:** offen.
 
 ## Deckidentität und Aufbau
 
@@ -42,7 +42,8 @@ Beide Karten sind wieder in der aktiven Liste. Die drei Schutzverbesserungen **S
 4. **Deepglow Skate** verdoppelt +1/+1-Marken auf Helga, **Hardened Scales** sorgt bei Helgas Trigger für eine zusätzliche Marke; **Ouroboroid** verteilt in der Kampfphase weitere Marken an das Team.
 5. **Kwia Vigorbloom** (Reality Fracture, Oktober 2026) erzeugt aus dem Lebensgewinn durch Helgas Cast-Trigger einmal pro Zug einen Lotus-Spielstein, der drei Mana einer Farbe erzeugen kann. Mit Flash-Kreaturen und Seedborn Muse kann dies auch in gegnerischen Zügen geschehen.
 6. **Tyvar's Stand** gibt für {G} (X=0) Hexproof und Unzerstörbarkeit. Zusätzlich investiertes X-Mana steigert Helgas Stärke für den Zug und damit ihre nächste Tapp-Manaproduktion (auch nach Enttappen); dieses Schutzzauber-Mana darf nicht aus Helgas eingeschränkter Fähigkeit stammen.
-7. **Flickering Hound** löst bei jedem nachfolgenden gewirkten Kreaturenzauber das Blinken einer anderen eigenen Kreatur aus, etwa Mulldrifter, Foundation Breaker, Deepglow Skate oder einer bereits zur Kreatur gewordenen Overlord of the Hauntwoods. Exilieren und Zurückbringen selbst lösen Helgas *Cast*-Fähigkeit nicht aus. **Helga nicht blinken**: Ihre +1/+1-Marken gingen verloren.
+7. **Flickering Hound** löst bei jedem nachfolgenden gewirkten Kreaturenzauber das Blinken einer anderen eigenen Kreatur aus, etwa Mulldrifter, Foundation Breaker, Deepglow Skate, Thorn Mammoth oder einer bereits zur Kreatur gewordenen Overlord of the Hauntwoods. Exilieren und Zurückbringen selbst lösen Helgas *Cast*-Fähigkeit nicht aus. **Helga nicht blinken**: Ihre +1/+1-Marken gingen verloren.
+8. **Thorn Mammoth statt Ghalta, Primal Hunger:** Der sieben Mana teure 6/6-Trampler löst Helgas Cast-Fähigkeit aus und kann bei jedem eigenen Kreatureneintritt (einschließlich Tokens) gegen bis zu eine gegnerische Kreatur kämpfen. Mit **Flickering Hound** kann ein später gewirkter Kreaturenzauber den Mammut erst blinken; sowohl seine Rückkehr als auch der Eintritt der gewirkten Kreatur können Fight-Trigger liefern. Bei **Kozilek's Unsealing** erzeugt ein Kreaturenzauber mit Manawert 4 bis 6 zwei Eldrazi-Spawn, deren Eintritt jeweils ebenfalls einen Fight-Trigger liefert. Damit ersetzen wir Ghaltas günstigen großen Körper durch wiederholbare Interaktion mit dem gegnerischen Board.
 
 ## Abschlüsse und Kombo-Routen
 
@@ -66,7 +67,7 @@ Dieselbe Statue-Schleife funktioniert ohne Chakram Retriever: Wenn Ancestral Sta
 - **Venser, Shaper Savant** kann mit Helga (Stärke mindestens 4) und Chakram Retriever wiederholt gewirkt werden und sich beim Eintritt selbst auf die Hand zurückgeben; flexible zweite Rückkehrkarte für die Kreaturen-Cast-Engine.
 - **Craterhoof Behemoth** mit den durch Kozilek's Unsealing erzeugten Eldrazi-Spawn, Manakreaturen und anderen Körpern.
 - **Akroma's Will**: mit Helga im Spiel fliegende, doppelschlagende Angreifer; eine ausreichend große Helga kann dadurch auch 21 Commander-Kampfschaden erreichen.
-- **Hydroid Krasis**, **Goldvein Hydra**, **The Goose Mother** und **Ghalta, Primal Hunger** erlauben starke, faire Siege aus der Mana-Engine heraus.
+- **Hydroid Krasis**, **Goldvein Hydra** und **The Goose Mother** verwerten Helgas Mana für flexible Bedrohungen; **Thorn Mammoth** kontrolliert wiederholt gegnerische Kreaturen und erleichtert den Angriff.
 - **Apex Devastator** (Manawert 10) nutzt Helgas großes, für Kreaturen gebundenes Mana; vier Cascade-Auslöser erzeugen bis zu vier weitere kostenlose Zauber. Daraus gewirkte Kreaturen mit Manawert mindestens 4 lösen Helga erneut aus. Cascade ist keine Endlosschleife und der Ausgang hängt von der verbliebenen Bibliothek ab.
 
 ## Commander Bracket 3
@@ -85,8 +86,9 @@ Die Infinite-Loops bestehen aus mindestens drei unterschiedlichen Karten (einsch
 - Helga benötigt Schutz und möglichst früh Gelegenheit zu tappen. Entfernung setzt ihre +1/+1-Marken zurück; Commandersteuer macht mehrfaches Neuwirken teuer. Slip Out the Back erhält Marken und anliegende Ausrüstung; Helga kehrt vor dem Enttappen im nächsten eigenen Enttappsegment zurück.
 - Helgas Mana darf **nur** für Kreaturenzauber mit Manawert mindestens 4 oder mit X in den Manakosten verwendet werden. Nicht für aktivierte Fähigkeiten von Walking Ballista, für Enttappfähigkeiten oder für Nichtkreaturenzauber.
 - X-Kreaturen können zwar mit Helgas Mana gewirkt werden, lösen **ihre Kartenziehfähigkeit nur dann aus, wenn ihr Manawert auf dem Stapel mindestens 4 beträgt**.
+- **Thorn Mammoth:** Kampfschaden aus mehreren Fight-Effekten bleibt bis zum Ende des Zuges markiert; gegen große Gegner kann der Mammut selbst sterben. Daher Kämpfe gezielt wählen oder auslassen. Fight zählt nicht als Kampfschaden.
 - Intruder Alarm kann Gegner unterstützen; nach einem Boardwipe sind die Dichte an Helga-Auslösern und Rückweg zu einer großen Manaquelle kritisch.
-- Die Liste ist ein durchgearbeiteter V1-Entwurf. Struktur-/Regelvalidierung bedeutet keine belegte Match-Winrate; echte Partietests können noch weitere Tauschentscheidungen nahelegen.
+- Die Liste ist ein durchgearbeiteter V2-Entwurf. Struktur-/Regelvalidierung bedeutet keine belegte Match-Winrate; echte Partietests können noch weitere Tauschentscheidungen nahelegen.
 
 ## Regel- und Kombobelege
 

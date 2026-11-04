@@ -67,6 +67,11 @@ if (/relay:\s*\{\s*host:\s*["']localhost["']/.test(config)) {
 }
 const enableForge = '\nwindow.__MANABREW_RUNTIME__.featureFlags = { ...window.__MANABREW_RUNTIME__.featureFlags, forgeWasm: true };\n';
 if (!config.includes("forgeWasm: true")) config += enableForge;
+// The offline package has its own same-origin /api proxy. Without this
+// runtime override, accounts request the official Hub cross-origin and
+// browsers reject the response, showing "Sign-in methods could not be loaded".
+const hubOnSameOrigin = '\nwindow.__MANABREW_RUNTIME__.hubApiUrl = "/";\n';
+if (!config.includes('window.__MANABREW_RUNTIME__.hubApiUrl = "/"')) config += hubOnSameOrigin;
 await writeFile(configPath, config);
 
 console.log("Offline assets staged. Run: node scripts/generate-offline-assets.mjs " + root);
