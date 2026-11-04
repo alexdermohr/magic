@@ -185,7 +185,8 @@
         }
         continue;
       }
-      if (baseline.sourceHash === sourceHash) continue;
+      // An unchanged decklist can still ship corrected card images or metadata.
+      if (baseline.sourceHash === sourceHash && baseline.deckHash === sourceDeckHash) continue;
       if (currentHash === baseline.deckHash) {
         replacements.set(entry.id, { ...current, deck: entry.deck, savedAt: Date.now() });
         baselines[entry.id] = { sourceHash, deckHash: sourceDeckHash };
