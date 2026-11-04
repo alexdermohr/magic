@@ -47,6 +47,7 @@
     "preview": "vite preview",
     "build:harness": "node scripts/harness.mjs build",
     "test:forge-supervisor": "node --test packages/forge-wasm/forge-engine.worker.test.mjs",
+    "test:forge-legacy": "node scripts/test-forge-legacy.mjs",
     "test:forge-rewind": "node scripts/forge-tests/rewind.mjs",
     "bench:stress": "node scripts/engine-bench/stress.mjs",
     "bench:manabot": "node scripts/engine-bench/manabot-game.mjs",
