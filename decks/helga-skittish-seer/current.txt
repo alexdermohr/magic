@@ -51,7 +51,7 @@ Deck
 1 Hydroid Krasis
 1 Goldvein Hydra
 1 The Goose Mother
-1 Ghalta, Primal Hunger
+1 Thorn Mammoth
 1 Apex Devastator
 
 1 Hardened Scales

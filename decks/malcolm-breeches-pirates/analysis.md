@@ -1,8 +1,139 @@
 # Malcolm, Keen-Eyed Navigator + Breeches, Brazen Plunderer – Die Piraten der endlosen Beute
 
-**V18 · 22.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
+**V21 · 27.10.2026 · Commander Bracket 3 (Upgraded) · Izzet (Blau/Rot) · unbegrenztes Kartenbudget**
 
-**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+**Aktuelle Liste:** [current.txt](current.txt) · **Historie:** [V1](versions/2026-10-20-b3-v1.txt) · [V2](versions/2026-10-21-b3-v2.txt) · [V3](versions/2026-10-21-b3-v3.txt) · [V4](versions/2026-10-21-b3-v4.txt) · [V5](versions/2026-10-21-b3-v5.txt) · [V6](versions/2026-10-21-b3-v6.txt) · [V7](versions/2026-10-21-b3-v7.txt) · [V8](versions/2026-10-21-b3-v8.txt) · [V9](versions/2026-10-22-b3-v9.txt) · [V10](versions/2026-10-22-b3-v10.txt) · [V11](versions/2026-10-22-b3-v11.txt) · [V12](versions/2026-10-22-b3-v12.txt) · [V13](versions/2026-10-22-b3-v13.txt) · [V14](versions/2026-10-22-b3-v14.txt) · [V15](versions/2026-10-22-b3-v15.txt) · [V16](versions/2026-10-22-b3-v16.txt) · [V17](versions/2026-10-22-b3-v17.txt) · [V18](versions/2026-10-22-b3-v18.txt) · [V19](versions/2026-10-22-b3-v19.txt) · [V20](versions/2026-10-27-b3-v20.txt) · [V21](versions/2026-10-27-b3-v21.txt). Alle Snapshots enthalten vollständige 100-Karten-Listen mit beiden Partner-Commandern; ältere Fassungen bleiben unverändert.
+
+## V21 – Rhystic Study statt Reckless Lackey (27.10.2026)
+
+**Direkter Nutzerauftrag:** **Reckless Lackey** (der zuvor diskutierte günstige Ein-Mana-Pirat) heraus und **Rhystic Study** als dritten Game Changer hinein. Einziger Kartentausch gegenüber V20, ausgehend vom bestätigten GitHub-PR #65 (Commit `d88842bb68615d120812bed27923f4b37de13c71`). Alle übrigen Karten, insbesondere **Spark Double, Double Down, Hidden Strings, Sakashima of a Thousand Faces und beide Partner**, bleiben. 31 feste Länder einschließlich 5 Island / 1 Mountain sowie die zusätzliche Glasspool-Shore-Landseite bleiben unverändert. V1–V20-Snapshots bleiben unangetastet.
+
+| V20 heraus | V21 hinein | Nutzen und Preis |
+| --- | --- | --- |
+| **Reckless Lackey** ({R}; Pirate) | **Rhystic Study** ({2}{U}; Enchantment, Game Changer) | Wiederholbarer, boardunabhängiger Kartenvorteil bei gegnerischen Zaubersprüchen, selbst nach einem Boardwipe. Hilft, den nächsten Land-Drop zu finden und neue Pirates für Double Down nachzuziehen. Preis: verliert einen frühen Pirate-/Outlaw-Zauber, Haste/First Strike sowie den frühen Druck; Rhystic benötigt drei Mana und zieht keine Karte, falls Gegner jeweils {1} bezahlen. |
+
+**Regeln:** Rhystic Study löst aus, wenn ein Gegner einen Zauberspruch wirkt, unabhängig davon, ob Malcolm/Breeches liegen oder Kampfschaden verursachen. Die Fähigkeit wird auch dann verrechnet, wenn der auslösende Spruch bereits gekontert wurde. Ihre Kartenflut ist gegnerabhängig; sie ist kein Land und beschleunigt unseren zweiten/dritten natürlichen Land-Drop nicht unmittelbar.
+
+**Deckstruktur:** **100 Karten**, zwei Commander, **31 feste Länder + Glasspool Shore**, **33 gedruckte Pirates einschließlich beider Commander** (einer weniger als V20), **39 Kreaturen einschließlich Commander**, **69 Nichtländer**. Der Tausch fügt kein weiteres Removal, keine zusätzliche Manaquelle und keine beabsichtigte frühe Zweikarten-Endlosschleife hinzu. Für die anvisierte Commander-**Bracket 3** sind exakt **drei Game Changer** enthalten: **Jeska's Will, Mana Vault und Rhystic Study**. Fierce Guardianship, Cyclonic Rift, Grim Monolith und Mystic Remora bleiben draußen. Die Anzahl der Länder und das mit 31 Ländern verbundene Starthand-Risiko bleiben unverändert.
+
+**Entscheidungsabwägung:** Rhystic Study war früher bewusst zugunsten von The Indomitable (V11) gestrichen worden. Bei der aktuellen geringen Länderzahl und dem Wunsch nach unabhängiger Kartenzufuhr ist die Rückkehr nun ausdrücklich gewünscht. **The Indomitable bleibt erhalten**, ebenso Kindred Discovery, Curiosity und alle wesentlichen Kopier- und Schadens-Engines. Bisher keine empirischen Partien oder Siegquoten für V21.
+
+Primärquellen: [Wizards – Commander Brackets](https://magic.wizards.com/en/formats/commander), [Wizards – Game Changers](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025), [Rhystic Study Oracle](https://magic.wizards.com/en/news/feature/final-fantasy-release-notes).
+
+## V20 – Double Down, Cipher und Sakashima bei zwei Landkürzungen (27.10.2026)
+
+**Ausgangszustand:** Offener GitHub-PR #65 mit V19-Head \`48add6f5ea30ed457df94fdc8cea5e99e5b529e3\`; \`current.txt\` war bytegleich mit dem vollständigen V19-Snapshot. Nutzerwunsch: **Double Down, Hidden Strings und Sakashima of a Thousand Faces ins Deck, Grim Monolith heraus. Spark Double soll bleiben; Reckless Lackey nach Möglichkeit ebenfalls. Stattdessen zwei Länder kürzen.** Gewählt werden bewusst ein Island und ein Mountain: 6 → 5 bzw. 2 → 1. Alle einzigartigen Länder, Pirates und bisherigen Schutzkarten bleiben unverändert. V19 und ältere Snapshots werden nicht bearbeitet.
+
+| V19 heraus | V20 hinein | Strategischer Nutzen | Wichtigster Preis |
+| --- | --- | --- | --- |
+| **Grim Monolith** ({2}, Game Changer) | **Double Down** ({3}{U}, Enchantment) | Vervielfacht gewirkte Pirate-/Rogue-/andere Outlaw-Zaubersprüche und damit mehrere unserer Piraten-ETB-/Tap-Engines. Kostspieliger, aber dauerhafter Wertgenerator. | Verlust des frühen farblosen Drei-Mana-Impulses; Double Down kostet vier Mana und hat zunächst keinen Einfluss auf das Spielfeld. |
+| **1 Island** (6 → 5) | **Hidden Strings** ({1}{U}, Sorcery mit Cipher) | Enttappt beim Wirken bzw. bei erfolgreichen kodierten Combat-Hits bis zu zwei Permanente, etwa **Mana Vault**, **Lightning-Rig Crew** oder Länder. Der fliegende Malcolm und unblockbare Pirates verbessern wiederholte Casts. | Deutlich geringere Zuverlässigkeit bei frühen Land-Drops. Cipher benötigt eine Kreatur, die einem Spieler tatsächlich Kampfschaden zufügt; weder zusätzliches Mana noch zusätzliche Länder werden unmittelbar garantiert. |
+| **1 Mountain** (2 → 1) | **Sakashima of a Thousand Faces** ({3}{U}, Human Rogue) | Kopiert ein eigenes Creature-Permanent, verhindert die Legendenregel für alle eigenen Permanents und kann so Malcolm/Breeches neben weiteren legendären Kopien erhalten. Als beim Wirken **Rogue** löst Sakashima **Double Down** aus. | Noch ein Vier-Mana-Spielzug bei dünnerer Manabasis. Ein einzelnes Mountain bleibt; Fetchlands haben dafür weiterhin Volcanic Island/Steam Vents als rot-blaue Ziele. |
+
+### Spielregeln: Was funktioniert – und was nicht
+
+- **Double Down:** Kopiert Outlaw-**Zaubersprüche, die wir wirken**, darunter unsere echten Pirates und Sakashima als Rogue. Die Kopie eines Permanent-Zauberspruchs kommt bei Auflösung als Token-Permanent ins Spiel; das gilt regeltechnisch nicht als „Erzeugen eines Spielsteins“. Pirate-ETBs werden trotzdem ausgelöst. Die durch Daring Piracy erzeugten Pirates sind **nicht gewirkt** und lösen Double Down nicht aus. **Glasspool Mimic** ist beim Wirken ein Rogue und wird durch Double Down kopiert, unabhängig davon, welche Kreatur sie später als ETB-Kopie wird.
+- **Sakashima und Spark Double bleiben parallel enthalten:** Spark Double ist ein unabhängiger Klon, der als Kopie einer legendären Kreatur selbst nichtlegendär ist. Sakashima kopiert eigene Kreaturen und behält insbesondere die Fähigkeit, die Legendenregel für eigene Permanents auszuschalten. Durch Double Down entstehen auf dem Stapel zwei getrennt verrechnete Sakashima-Permanent-Zaubersprüche. Spielstein-Kopien von Malcolm oder Breeches sind **keine Commander** und fügen keinen entsprechenden Commander-Schaden zu.
+- **Hidden Strings:** Die originale Hexerei kann beim Verrechnen auf eine eigene Kreatur mit **Cipher** kodiert werden. Sobald diese Kreatur einem Spieler Kampfschaden zufügt, darf die kodierte Karte aus dem Exil als Kopie **ohne Manakosten** gewirkt werden; man kann für die Kopie neue Ziele bestimmen. Lightning-Rig Crew kann nach Enttappen erneut aktiviert werden, wenn sie einsatzbereit ist, und Mana Vault kann ohne Zahlung von {4} über Hidden Strings enttappt werden. Nichtkampfschaden durch Bow/Lightning-Rig Crew löst **Cipher nicht** aus.
+- **Breeches-Länder:** Nach tatsächlich zugefügtem Pirate-Schaden erlaubt Breeches gegnerische exilierte Länder nur **während dieses Zugs und im Rahmen der normalen Land-Drops und Timing-Regeln** zu spielen. Das ist keine garantierte Manaramp vor dem vierten Zug. Insbesondere sind fremde Länder keine zusätzliche Landspielberechtigung. Hidden Strings enttappt Länder, erlaubt aber ebenso wenig weitere Land-Drops.
+
+### Explizites Tempo-Risiko (98 Bibliothekskarten bei zwei Partnern)
+
+Die folgenden Werte sind **reine hypergeometrische Rohwahrscheinlichkeiten**: feste Länder plus die optionale, getappt eintretende Glasspool-Shore-Landseite zählen als verfügbare *Landoptionen*, ohne Mulligans, Treasure, Landtempo, Farben, Interaktion oder gegnerische Decklisten zu simulieren.
+
+| Landoptionen in der Bibliothek | V19: 33 feste + 1 MDFC = 34 | V20: 31 feste + 1 MDFC = 32 |
+| --- | ---: | ---: |
+| Mindestens zwei in 7 Karten | 77,08 % | **73,35 %** |
+| Mindestens drei in 10 Karten | 74,50 % | **69,70 %** |
+| Mindestens vier in 11 Karten | 57,31 % | **51,20 %** |
+
+Die Daten untermauern **keinen** gleichwertigen Ersatz für zwei Länder durch Breeches. Beide der neuen Vier-Mana-Permanents können bei ungünstigen Starthänden verspätet ins Spiel kommen. Ausdrücklicher Nutzerwunsch rechtfertigt das bewusst aggressivere Deck, nicht eine behauptete Verbesserung aller Matchups. Nach Praxistests vorrangig prüfen, ob die Rate gescheiterter Land-Drops auf Turns 2–4 einen Basic-Land-Rücktausch nahelegt.
+
+### Bracket, Bestand und Validierungsgrenzen
+
+**100 Karten** insgesamt, mit **zwei Partner-Commandern**, **31 feste Länder plus Glasspool Shore**, **34 gedruckte Pirates einschließlich Commander**, **40 Kreaturen einschließlich Commander** (Sakashima zusätzlich zu Spark Double), **13 Nichtkreatur-Artefakte**; Nichtland-Manawertsumme der 69 Nichtländer **184** (Ø **2,667**). Die verbliebenen **zwei Game Changer** sind **Jeska's Will** und **Mana Vault**. Double Down, Hidden Strings und Sakashima sind keine Game Changer. Die Obergrenze drei von Commander Bracket 3 bleibt eingehalten, ohne absichtlich hinzugefügte frühe deterministische Zwei-Karten-Combo. **Fierce Guardianship** bleibt draußen; alle zuvor ausdrücklich geschützten Pirates einschließlich Reckless Lackey, die Tap-/Damage-Engines und die Spezialländer bleiben.
+
+Oracle-Regelreferenzen: https://magic.wizards.com/en/news/feature/outlaws-of-thunder-junction-release-notes (Double Down), https://magic.wizards.com/en/news/feature/the-lost-caverns-of-ixalan-release-notes (Breeches), https://magic.wizards.com/en/formats/commander (Bracket). Die Deckstatistik wird lokal geprüft; dies ist eine strategische Änderung ohne erfasste Spieltests oder empirische Siegrate.
+
+
+## V19 – Flexible Landoption, Pirate-Tutor und Corsair Captain (22.–23.10.2026)
+
+**Verifizierter Ausgangspunkt:** V18 auf GitHub-main `504388ea520bb6205f40ea014149c93ff117a928`, PR #64. Zunächst zwei Nichtpiraten-Slots; auf ausdrücklichen Nutzerwunsch am 23.10.2026 kommt ein dritter Nichtpiraten-Slot hinzu; alle ausdrücklich gewünschten Pirates und ungewöhnlichen Engines bleiben erhalten. Die 33 vorhandenen Länder sowie die Archivversionen V1–V18 bleiben unverändert.
+
+| V18 raus | V19 rein | Begründung | Bedeutendster Preis |
+| --- | --- | --- | --- |
+| **Mox Amber** ({0}) | **Glasspool Mimic // Glasspool Shore** ({2}{U}; Shapeshifter Rogue // blaues, getappt ins Spiel kommendes Land) | Mox ist vor einer legendären Kreatur faktisch inaktiv. **Glasspool Shore** kann bei Ländermangel statt eines Spells als 34. *optionale* Landkarte gespielt werden. **Glasspool Mimic** kann bei genügender Manaentwicklung eine nichtlegendäre Pirate-Engine kopieren: Lightning-Rig Crew, Magmakin Artillerist, Merchant Raiders, Coercive Recruiter, Kitesail Larcenist oder den neuen Quartermaster. | Shore kommt **immer getappt**, beschleunigt als drittes Land auf Zug 3 also Malcolm in diesem Zug nicht. Mimic kostet drei Mana und ist beim Wirken **kein Pirate** (kein Incubator-Rabatt). Mox Amber kostete null, ist nach Ragavan/Commander eine Manaquelle und unterstützt Captain Ripley Vance, Captain Storm und Swordjack. |
+| **Trinket Mage** ({2}{U}; Wizard, 2/2) | **Deadeye Quartermaster** ({3}{U}; Human Pirate, 2/2) | Der neue Pirat findet **jedes Equipment/Vehicle** auf die Hand, etwa Hawkeye's Bow, Sting, Sword of Forge and Frontier, Swiftfoot Boots oder The Indomitable. Anders als der Mage triggert er beim Eintritt Coercive Recruiter/Merchant Raiders, profitiert von Urza's Incubator (dann **{1}{U}**), Patchwork Banner, Staunch Crewmate und Roaming Throne und kann als Pirate selbst Malcolm-/Breeches-Schaden erzeugen. In der damaligen Zwischenfassung konnte Imperial Recruiter die 2/2-Tutorkreatur noch finden; der spätere Mana-Nachtrag entfernt Recruiter ausdrücklich. | Ein Mana langsamer vor Incubator; sucht **nicht Sol Ring oder Mox Amber**. Bow kann weiterhin gesucht werden, aber der frühe Tutoreinsatz wird teurer. |
+| **March of Swirling Mist** ({X}{U}; Instant) | **Corsair Captain** ({2}{U}; Human Pirate) | Beim ETB entsteht ein **Treasure**, alle **anderen eigenen Pirates erhalten +1/+1**. Der Captain ist selbst Pirate für Malcolm/Breeches, Kindred Discovery, Tribal-Rabatte und kann mit Daring Piracy sowie Coercive Recruiter/Merchant Raiders interagieren; das Treasure ist ein eigenes Artefakt-ETB für Captain Storm, Cosmium Raider. | Verliert mit **March of Swirling Mist** flexibles, sofortiges Phasing gegen Removal/Boardwipes oder zum Entfernen von Blockern. Das ist ein echter Schutzverlust; der Captain schützt selbst nicht, kostet drei Mana und ist ein etwas schwacher Körper ohne Tribal-Nutzen. |
+| **Imperial Recruiter** ({2}{R}; Creature) | **Grim Monolith** ({2}; Artifact, **Game Changer**) | Sofortige farblose Beschleunigung um drei Mana pro Tap; relevant für kostspielige Pirates, Equip- und Untap-Kosten. Seine gezielte Verfügbarkeit im frühen Spiel ist wertvoll, obwohl der Mana-Vorteil nur einmal vor bezahltem Untap entsteht. | Imperial Recruiter fand Schlüssel-Kreaturen mit Stärke höchstens 2 wie Lightning-Rig Crew, Captain of Umbar, Kediss, Academy Manufactor und Deadeye Quartermaster. Monolith erzeugt ausschließlich farbloses Mana, enttappt nicht natürlich und benötigt **{4}** für seine aktivierte Enttappfähigkeit. |
+| **Fierce Guardianship** ({2}{U}; Instant, **Game Changer**) | **Mana Vault** ({1}; Artifact, **Game Changer**) | Schon für {1} einmalig drei farblose Mana. **Urza's Saga** kann Vault wegen seiner Manakosten {1} direkt suchen und ins Spiel bringen. Zusammen mit Grim Monolith explosiverer Start für Pirates und Ausrüstungen. | Verliert einen oft kostenlos wirkbaren Schutz-/Counterspell für wichtige Commander und Piraten-Engines. Vault macht nur farbloses Mana, enttappt nicht normal und kann wiederkehrend Schaden verursachen. **Jeska's Will bleibt ausdrücklich enthalten.** |
+| **Cyclonic Rift** ({1}{U}; Instant, **Game Changer**) | **Raise the Palisade** ({4}{U}; Sorcery, kein Game Changer) | Mit Wahl von **Pirate** werden die meisten gegnerischen Kreaturen zurück auf die Hand geschickt, während unsere Pirates liegen bleiben. Erhält Board-Opening für wiederholte Malcolm-/Breeches-Trigger und belegt keinen vierten Game-Changer-Slot. | Kein Instant, nicht gegen Artefakte/Verzauberungen/Planeswalker, nicht früh einzeln nutzbar, fünf Mana fix, trifft auch unsere **nichtpiratischen** Kreaturen wie Kediss und Academy Manufactor; deutlich schwächere Universalantwort als überladener Rift. |
+
+### Nachtrag vom 23.10.2026 – Korsarenkapitän statt Prozession des wirbelnden Nebels
+
+Auf ausdrücklichen Wunsch wurde **March of Swirling Mist** (deutsch „Prozession des wirbelnden Nebels“) entfernt und **Corsair Captain** (deutsch „Korsarenkapitän“) hinzugefügt, während PR #65 noch offen ist. So gehen keine älteren V1–V18-Snapshots verloren. Corsair Captain erhöht die Pirate-Dichte, bringt ohne Kampfschaden einen Treasure beim Eintritt und verstärkt **andere** Pirates, nicht sich selbst. Sein Eintritt löst Coercive Recruiter und Merchant Raiders aus; Treasure erzeugen weitere Artefakt-Synergien.
+
+**Realer Nachteil:** March konnte für {X}{U} bis zu X Kreaturen gleichzeitig ausphasen lassen und damit eigene Commander und mehrere wertvolle Pirates gegen viele Boardwipes oder gegnerisches Removal retten sowie Blocker kurzzeitig aus dem Spiel nehmen. Die vorhandenen Counterspells, Swiftfoot Boots und Deflecting Swat ersetzen diese Funktion nicht vollständig. Der Tausch priorisiert auf Nutzerwunsch Pirate-/Treasure-/Anthem-Synergie statt maximaler defensiver Redundanz.
+
+Deckstatistik nach dem dritten Tausch: **100 Karten, zwei Commander, 33 feste Länder und eine als Land nutzbare Glasspool-MDFC, 34 gedruckte Pirates inkl. Partner, 40 Kreaturen inkl. Partner, 12 Nichtkreatur-Artefakte, Nichtland-MV-Summe 176 über 67 Vorderseiten-Nichtländer (Durchschnitt 2,627), drei bestehende Game Changer**. Die Landzugangswahrscheinlichkeiten bleiben gegenüber dem ursprünglichen V19-Paket unverändert. Card Oracle, Commander-Legalität, Farbidentität und Game-Changer-Flags wurden auf die aktualisierte Liste erneut geprüft. Keine echten Testpartien oder gemessenen Siege behauptet.
+
+### Nachtrag vom 23.10.2026 – Verbindliche Game Changer: Jeska's Will, Mana Vault, Grim Monolith
+
+**Explizite Präzisierung des Nutzers:** Die **einzigen drei Game Changer** in diesem Bracket-3-Deck sollen **Jeska's Will, Mana Vault und Grim Monolith** sein. **Imperial Recruiter muss trotzdem raus.** Die zuvor lokal entworfene Variante, die Jeska's Will für Fierce Guardianship herausgenommen hätte, wurde vor der GitHub-Veröffentlichung verworfen. Es gilt ausdrücklich die neue Präzisierung, nicht der frühere Vorschlag.
+
+**Drei neue Tausche ab der auf GitHub offenen V19-Fassung nach Corsair Captain:**
+
+1. **Imperial Recruiter → Grim Monolith.** Der Tutor für preiswerte Utility-Kreaturen entfällt zugunsten schnellen, farblosen Manas; Grim Monolith ({2}) tappt für {3}, aber enttappt nicht normalerweise und verlangt {4} zum manuellen Enttappen. Die typische Suche nach Lightning-Rig Crew, Captain of Umbar, Academy Manufactor oder Deadeye Quartermaster wird weniger zuverlässig.
+2. **Fierce Guardianship → Mana Vault.** Der freie Counter bei kontrolliertem Commander weicht noch explosiverem Frühmana. Mana Vault ({1}) tappt für {3} **farblos**, wird im normalen Untap-Segment nicht enttappt und verursacht bei fortgesetztem Getapptsein im Ziehsegment Schaden. **Urza's Saga kann Vault direkt suchen**, Grim Monolith nicht. Verloren geht insbesondere die oft kostenlose Schutzmöglichkeit für Malcolm, Breeches und unsere Nichtkampfschadens-Engines.
+3. **Cyclonic Rift → Raise the Palisade.** Das thematische Creature-Bounce-Sorcery ({4}{U}) kann mit Wahl von Pirate gegnerische Nichtpiraten-Kreaturen und unsere eigenen Nichtpiraten (z. B. Kediss, Academy Manufactor) auf die Hand zurückschicken, während Pirates liegen bleiben. Es ersetzt nicht den flexiblen Instant, das einzeln billige Bounce oder das universelle Overload-Bounce anderer Permanenttypen von Rift.
+
+**Jeska's Will bleibt ausdrücklich im Deck.** Es produziert rotes Mana nach gegnerischer Handkartenzahl und kann mit Commander zusätzlich drei Karten vom eigenen Bibliotheksdeck zum Spielen bis zum Ende des Zuges exilieren. Diese rote Beschleunigung und Exil-Nutzung ergänzt die nur **farblosen** Mana-Vault-/Grim-Monolith-Spitzen sinnvoll und unterstützt Captain Ripley Vance sowie Passionate Archaeologist.
+
+**Bracket und Schutz:** Die beiden neuen Artefakte sind offiziell Game Changer, genauso wie Jeska's Will. **Fierce Guardianship und Cyclonic Rift** wurden vollständig entfernt; es verbleiben **genau drei Game Changer**, keine absichtlich hinzugefügte frühe deterministische Infinite-Combo. Der Wechsel kostet merklich Interaktion, insbesondere nach dem bereits vom Nutzer gewünschten Cut von March of Swirling Mist. Erhalten bleiben **Mana Drain, Swan Song, Deflecting Swat, Swiftfoot Boots, Chaos Warp und Vandalblast**. Gegebenenfalls künftig einen effizienten Nicht-GC-Schutzzauber prüfen, aber nicht ohne neuen überzeugenden Cut die Piraten-Engine auseinanderreißen.
+
+**Manabasis und Statistik:** **100 Karten, zwei Partner, 33 gedruckte Länder plus die getappte Glasspool-Shore-Landoption, 34 gedruckte Pirates einschließlich der Commander, 39 Kreaturen einschließlich der Commander, 14 Nichtkreatur-Artefakte**, Summe der Nichtland-Manawerte **176 bei 67 Nichtländern**, Durchschnitt **2,627**. Die drei Game Changer sind **Jeska's Will, Mana Vault und Grim Monolith**. Die zwei gezielt benannten neuen Mana-Artefakte sind roh kombinatorisch in 13,844 % aller Siebener-Starthände mindestens einmal vertreten (98 Bibliothekskarten, keine Mulligans). Das ist keine gemessene Mana-Entwicklung oder Siegquote.
+
+**Live-Regelprüfung:** Die finale Liste wurde vollständig anhand aktueller Scryfall-Oracle- und Legalitätsdaten geprüft; Game-Changer-Obergrenze nach https://magic.wizards.com/en/formats/commander und https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025 . Kein zusätzlicher Landcut und keine Veränderung der historischen V1–V18-Abschnitte. Nach Commit alle Repository-Tests, PR-Scope und aktuelle GitHub-CI erneut prüfen.
+
+### Wichtigste Regeln und neue Einsatzlinien
+
+1. **Modal double-faced card:** Glasspool Mimic kann aus der Hand als **Glasspool Shore** gespielt werden, zählt vorab aber nach Vorderseite als Creature-Karte und ist kein Pirate; weder Staunch Crewmate noch Urza's Incubator behandeln die unkopierte Karte als Pirate. Shore ist **kein Island**, nicht per Scalding Tarn/Polluted Delta/Flooded Strand zu suchen, und kommt getappt. Während sie als Land im Spiel liegt, kann man sie nicht einfach als Mimic neu wirken.
+2. **Kopiere Nichtlegenden:** Mimic übernimmt beim Eintritt die kopierbaren Merkmale eines eigenen Creatures zuzüglich Shapeshifter Rogue; beim Kopieren eines Pirates wird die Kopie zum Pirate und kann Bow, Malcolm und Breeches bedienen. Die Kopie hat keine automatische Eile; passende Tap-Fähigkeiten erfordern Einsatzbereitschaft oder Thousand-Year Elixir. Kopien von Malcolm/Breeches sind weiterhin legendär, die **Legendenregel** würde ohne besondere Ausnahme die dauerhafte Doppelbelegung verhindern.
+3. **Quartermaster-Timing:** Equipment/Vehicle kommt auf die Hand und muss regulär gespielt/ausgerüstet werden. Seine Pirate-ETB-Fähigkeit kann durch Roaming Throne auf Pirate zusätzlich ausgelöst werden. Der Tutorgewinn ist breit, kein freies Ins-Spiel-Bringen. Bow hat tatsächliche Manakosten {R} und kann nicht direkt von Urza's Saga gesucht werden.
+4. **Tap-/Damage-Engine:** Ausgerüstete Lightning-Rig Crew verursacht beim tatsächlichen Tappen durch Bow und bei Auflösung der eigenen Tap-Fähigkeit zwei getrennte Flächenschadensereignisse. Eine Crew-Mimic-Kopie ergänzt diese Engine; Quartermaster findet Bow oder Sting. Weder Mimic noch Quartermaster führt eine neue absichtliche Infinite-Schleife ein.
+5. **Breeches** ermöglicht keine Extraland-Drops; gegnerische exilierte Länder können nur zu üblichen Landspielzeiten und während des Zuges gespielt werden. Glasspool Shore ist eine davon unabhängige frühe eigene Landoption.
+
+### Manabasis – Rohzugang statt erfundener Siege
+
+**33 dedizierte Landkarten bleiben bestehen** (sechs Island, zwei Mountain, alle 25 Nichtstandardländer). Daneben gibt es **eine** als Land spielbare MDFC. Die reine Hypergeometrie für die **98 Bibliothekskarten** (zwei Partner in der Kommandozone), ohne Mulligan/Ramp/Sequenzierung:
+
+| Ereignis | 33 reine Länder V18 | 33 Länder + eine MDFC-Landoption V19 |
+| --- | ---: | ---: |
+| Mindestens 2 Landoptionen in 7 gesehenen Karten | 75,26 % | **77,08 %** |
+| Mindestens 3 in 10 gesehenen Karten | 72,16 % | **74,50 %** |
+| Mindestens 4 in 11 gesehenen Karten | 54,29 % | **57,31 %** |
+
+Das sind **keine** Chancen, Malcolm/Breeches tatsächlich im jeweiligen Zug wirken zu können. Glasspool Shore ist getappt und bei Zug-3-Topdeck fürs Turn-3-Casting zu spät. Die modellierte Verbesserung ist gering und muss gegen den Verlust des kostenlosen Mox abgewogen werden. Drei-Mana-Karten wie Incubator und Banner ersetzen den fehlenden zweiten Land-Drop nicht. Farbquellen, Mulligans, gegnerisches Removal, Gegnerfarben für Fellwar Stone und reale Partien wurden nicht simuliert.
+
+### Deckstatistik und Bracket-Prüfung
+
+| Kennzahl | V18 | V19 |
+| --- | ---: | ---: |
+| Karten inklusive 2 Partner-Commander | 100 | **100** |
+| Fest gedruckte Länder / situative MDFC-Länder | 33 / 0 | **33 / 1** |
+| Standardländer Island / Mountain | 6 / 2 | **6 / 2** |
+| Gedruckte Pirates inkl. Commander | 32 | **34** |
+| Kreaturen einschließlich Commander (Vorderseiten) | 38 | **39** |
+| Nichtkreatur-Artefakte | 13 | **14** |
+| Summe Manawerte 67 Nichtländer (Vorderseiten) | 170 | **176** |
+| Ø Manawert 67 Nichtländer (Vorderseiten) | 2,537 | **2,627** |
+| Game Changer | 3 | **3** |
+
+Commander **Bracket 3** erlaubt maximal drei Game Changer; nach dem Mana-Paket sind es **Jeska's Will, Mana Vault und Grim Monolith** als exakt drei Game Changer. Die sechs V19-Neuzugänge sind Commander-legal und haben blau-rote Farbidentität; Mana Vault und Grim Monolith sind als Game Changer eingestuft, die übrigen V19-Neuzugänge nicht. Keine absichtliche frühe deterministische Infinite-Combo. **Glint-Horn Buccaneer**, Dramatic Reversal, Captain Lannery Storm, Fanatical Firebrand, Cyberdrive Awakener, Ancient Tomb und Springleaf Drum bleiben draußen. Alle ausdrücklich gewünschten Pirates, Roaming Throne, Academy Manufactor, Aqueous Form, Daring Piracy, Sword, Sting, Elixir, The Indomitable, Frostcliff Siege und Schutz bleiben.
+
+**Nächste Kandidaten, bewusst vorerst zurückgestellt:** **Fellwar Stone** (Zweimana-Ramp, aber Gegnermanafarbe nicht garantiert), **Relic of Legends** (legendäre Pirates tappen für Mana/Bow-Trigger, kostet drei Mana), **Key to the City** (Discard + Unblockbarkeit), **Mask of Memory** (Combat-Draw/Discard; Mana bleibt Engpass), **Shore Up** (Untap + Hexproof) und **Plaza of Heroes** (Legenden-Fixing/Schutz, auf Kosten anderer Länderfunktionen). Diese sind ohne zusätzliche solide Cuts nicht automatisch besser. **Keine weiteren Landcuts.**
+
+**Primärbelege:** Offizielle Commander-Brackets https://magic.wizards.com/en/formats/commander ; Karten-Oracles https://gatherer.wizards.com/ZNR/en-us/60/glasspool-mimic und https://gatherer.wizards.com/XLN/en-us/50/deadeye-quartermaster ; Spielregeln https://magic.wizards.com/en/rules . **Keine tatsächlichen Spieltests oder Siegquoten behauptet**; Wahrscheinlichkeit ist reine Mathematik, die Entscheidung eine qualitative Systemabwägung.
 
 ## V18 – Zwei Länder weniger; tribal-basierte Beschleunigung (22.10.2026)
 
