@@ -7,6 +7,7 @@ Die Anwendung wird unter [apps/manabrew](../../apps/manabrew/) im Magic-Reposito
 | Komponente | Belegter Heim-PC-Zustand |
 | --- | --- |
 | iPad-PWA | Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; aktiver Release 127d23bea1447704bce7; aab878beb67218a3c8f2 und a6e3d3cf866fcf4a9e52 bleiben als Rückfallstände erhalten |
+| Linux-Magic-Offline | Zusätzlicher Desktopstarter manabrew-magic-offline.desktop nutzt den aktuellen Magic-PWA-Dienst auf 127.0.0.1:8088 direkt für Offline-Commander gegen Forge-KI; alte Linux-Version bleibt verfügbar |
 | Linux-Web | Aktiver manabrew-local-web.service auf 127.0.0.1:8087 und Chrome-Desktopstarter manabrew-local.desktop |
 | Linux-Relay | Aktiver manabrew-local-relay.service auf den Loopback-Ports 9443/9444 |
 | Neue Quellen | React/TypeScript, PixiJS, Rust-WASM, Forge-WebImage, Tauri, PWA-Skripte, bereinigte Linux-Betriebsvorlagen |
@@ -52,6 +53,8 @@ Nach dem Build kann der Client auf dem Heim-PC ohne zusätzliche Container auf L
     node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 8095
 
 In Chrome http://127.0.0.1:8095/offline-setup.html öffnen. Der Preview-Server setzt die für Forge-WASM nötigen Cross-Origin-Opener-/Embedder-Header. Für einen dauerhaften Linux-Webdienst Caddy bzw. die vorhandenen Quadlets verwenden, nicht den Vite-Preview-Server zum öffentlichen Server erklären. Die bereinigten Laufzeitvorlagen und die bisherige lokale Kontoanmeldung stehen unter [ops/local-linux](../../apps/manabrew/ops/local-linux/).
+
+Zusätzlich kann auf dem Heim-PC der aus Magic gebaute PWA-Client als Linux-Chrome-App gestartet werden: `install -m 644 apps/manabrew/ops/local-linux/manabrew-magic-offline.desktop ~/.local/share/applications/` (vom Repository-Stamm). Der Menüeintrag **Manabrew (Magic offline)** öffnet direkt die Offline-Commander-Deckauswahl über Port 8088. Dieser Weg wurde am 4. November 2026 mit laufendem Live-Dienst, gültiger Desktop-Datei und HTTP 200 geprüft; die Offline-Partien auf diesem Origin sind separat per Browser-E2E nachgewiesen. Das ist keine zusätzliche native Tauri-App und erfordert den lokal laufenden PWA-Dienst auf dem Heim-PC.
 
 Die Laufzeit-Relay-Schlüssel sind **nicht** im Repository. Die vorhandenen Linux-Web-/Relay-Dienste und Desktopstarter werden durch den Build nicht ausgetauscht.
 

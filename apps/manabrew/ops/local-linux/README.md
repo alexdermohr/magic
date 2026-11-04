@@ -42,3 +42,25 @@ Diese Live-Container verwenden upstream Container-Images mit dem Tag latest.
 Das ist ein dokumentierter Altzustand, **keine** reproducibly pinned
 Version. Für eine spätere Umstellung auf aus magic gebaute Images sind
 Build-ID/Digest, Updatepfad, E2E und Rückfallstand vorher nachzuweisen.
+
+
+## Magic-Offlineclient parallel zum bisherigen Linux-Client
+
+Der auf dem Heim-PC bereits laufende `manabrew-ipad-pwa.service` stellt **denselben
+aus alexdermohr/magic gebauten Offline-Client** auch für Linux bereit:
+`http://127.0.0.1:8088/play/offline/constructed`. Dieser Browser-Client
+braucht während einer Partie kein Internet und keinen externen Relay.
+Auf diesem Linux-Rechner läuft weiterhin der lokale Webserver auf Port 8088;
+auf anderen Rechnern ist diese Loopback-Adresse nicht erreichbar.
+
+Der zusätzliche Menüeintrag lässt sich ohne Austausch des bisherigen Clients
+und ohne Änderungen an Relay-Schlüsseln installieren:
+
+    install -m 644 manabrew-magic-offline.desktop ~/.local/share/applications/
+
+Der Eintrag **Manabrew (Magic offline)** öffnet den lokalen Magic-Client direkt
+im Chrome-Appfenster auf der Deckauswahl. Der bisherige Eintrag **Manabrew
+(lokal)** auf Port 8087 bleibt für den bisherigen Web-/Account-/Relay-Betrieb
+unverändert. Der zusätzliche Eintrag verwendet den bereits installierten Chrome
+aus dem Nix-Profil und setzt einen laufenden PWA-Dienst auf Port 8088 voraus.
+Ein nativer Tauri-Build wird dadurch nicht behauptet.
