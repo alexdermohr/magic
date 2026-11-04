@@ -2,8 +2,8 @@
 Version=1.0
 Type=Application
 Name=Manabrew (Magic offline)
-Comment=Eigenen Commander-Decks offline gegen Forge-KI spielen; lokaler PWA-Dienst auf Port 8088
-Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--app=http://127.0.0.1:8088/offline-setup.html?setup=1"
+Comment=Eigene Commander-Decks automatisch offline vorbereiten und gegen Forge-KI spielen
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--app=http://127.0.0.1:8088/offline-setup.html?desktop=1"
 TryExec=/home/alex/.nix-profile/bin/google-chrome-stable
 Icon=applications-games
 Terminal=false

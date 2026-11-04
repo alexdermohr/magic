@@ -22,12 +22,13 @@
     button:disabled, .disabled { opacity: .45; pointer-events: none; }
     progress { display: block; width: 100%; height: 16px; margin: 12px 0; }
     code { overflow-wrap: anywhere; }
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
 <main>
   <h1>Manabrew offline einrichten</h1>
-  <p>Commander gegen KI, ohne Heim-PC-Verbindung beim Spielen. Der vollständige Download muss <strong>in der zum Home-Bildschirm hinzugefügten App</strong> erfolgen. Ein Download nur in Safari reicht dafür nicht zuverlässig aus.</p>
+  <p id="device-intro">Commander gegen KI, ohne Heim-PC-Verbindung beim Spielen. Der vollständige Download muss <strong>in der zum Home-Bildschirm hinzugefügten App</strong> erfolgen. Ein Download nur in Safari reicht dafür nicht zuverlässig aus.</p>
   <section class="box">
     <p class="status" id="state">Prüfe die Offline-Dateien …</p>
     <p id="runtime" class="muted"></p>
@@ -44,11 +45,17 @@
     <button id="engine-probe" disabled>Forge-KI auf diesem iPad testen</button>
     <a id="play" class="action disabled" href="/play/offline/constructed">Manabrew öffnen</a>
   </section>
-  <section class="box">
+  <section class="box" id="ipad-install">
     <h2>Installation auf dem iPad</h2>
     <p>1. Diese Seite in Safari über HTTPS öffnen. 2. „Teilen“ → „Zum Home-Bildschirm“. 3. <strong>Manabrew vom Home-Bildschirm starten</strong>, dort „Offline-Daten herunterladen“ antippen und bis zur Erfolgsmeldung warten. 4. WLAN, Mobilfunk und VPN deaktivieren, die App vollständig schließen und über das Symbol neu starten.</p>
     <p class="muted">Safari und installierte Web-Apps können eigene Speicherbereiche haben. Deshalb ist ein abgeschlossener Download im Safari-Tab kein Nachweis für die installierte App.</p>
     <p class="muted">iPadOS kann Web-App-Daten bei Speicherdruck löschen. Bei fehlenden Dateien die Vorbereitung nach Wiederherstellung der Internetverbindung erneut durchführen. Account-Anmeldung ist für lokales Spielen nicht erforderlich.</p>
+  </section>
+  <section class="box" id="linux-install" hidden>
+    <h2>Linux-Desktop</h2>
+    <p>„Manabrew (Magic offline)“ richtet beim ersten Start automatisch die Forge-KI, deine Commander-Decks und die Kartenbilder ein. Die Vorbereitung bis zur Erfolgsmeldung geöffnet lassen.</p>
+    <p>Danach öffnet sich die Deckauswahl. Bei späteren Starts geht es direkt zum Spiel. Der lokale PWA-Dienst auf Port 8088 muss für diesen Menüeintrag laufen; für die Partie selbst ist keine Internetverbindung nötig.</p>
+    <p class="muted">Der Offline-Cache gehört zu diesem Chrome-Profil. Falls die gespeicherten Dateien gelöscht wurden, werden sie beim nächsten Start erneut eingerichtet. Die bisherige Online-/Relay-Version bleibt getrennt verfügbar.</p>
   </section>
 </main>
 <script>
@@ -58,6 +65,14 @@
   const fmt = (n) => (n / 1024 / 1024).toFixed(1) + " MiB";
   let manifest = null;
   let busy = false;
+  const linuxDesktop = /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent);
+  const desktopLauncher = linuxDesktop && new URLSearchParams(location.search).get("desktop") === "1";
+  if (linuxDesktop) {
+    $("device-intro").textContent = "Commander offline gegen Forge-KI spielen. Auf diesem Linux-Rechner liegen die Dateien nach der Vorbereitung im eigenen Chrome-Cache. Für eine Partie sind weder Internet noch ein öffentlicher Spielserver nötig.";
+    $("ipad-install").hidden = true;
+    $("linux-install").hidden = false;
+    $("engine-probe").textContent = "Forge-KI auf diesem Rechner testen";
+  }
 
   function refreshWorkerCache() {
     navigator.serviceWorker?.controller?.postMessage({ type: "manabrew-cache-changed" });
@@ -506,7 +521,7 @@
           : "Forge-KI wurde auf diesem Gerät noch nicht getestet.";
         const standalone = window.navigator.standalone === true ||
           window.matchMedia("(display-mode: standalone)").matches;
-        if (standalone && personalReady && !new URLSearchParams(location.search).has("setup")) {
+        if ((standalone || desktopLauncher) && personalReady && !new URLSearchParams(location.search).has("setup")) {
           location.replace("/play/offline/constructed");
           return;
         }
@@ -521,7 +536,11 @@
       if (!engineCapable) {
         $("prepare").disabled = true;
         $("play").classList.add("disabled");
-        report("Lokales Forge auf diesem Browser noch nicht möglich", "Safari meldet keine Cross-Origin-Isolation/SharedArrayBuffer. Ein Download allein würde keine spielbare Offline-App ergeben.");
+        report("Lokales Forge auf diesem Browser noch nicht möglich", "Der Browser meldet keine Cross-Origin-Isolation/SharedArrayBuffer. Ein Download allein würde keine spielbare Offline-App ergeben.");
+      } else if (desktopLauncher && !ready && !forceVerification) {
+        // Only an explicit Linux desktop launch starts the large download.
+        // Safari/iPad setup and ordinary browser visits remain opt-in.
+        void prepare();
       }
     } catch (error) {
       report("Offline-Vorbereitung nicht verfügbar", String(error));
@@ -603,8 +622,9 @@
       for (const old of await caches.keys()) {
         if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
       }
+      let personalReady = false;
       try {
-        await ensurePersonalDecks(true);
+        personalReady = await ensurePersonalDecks(true);
       } catch (error) {
         $("decks").textContent = "Deckimport fehlgeschlagen: " + String(error) +
           ". Die Programmdateien sind trotzdem gespeichert.";
@@ -621,6 +641,7 @@
       $("engine-probe").disabled = false;
       $("engine-result").textContent = "Offline-Paket bereit. Forge-KI auf diesem Gerät kann jetzt geprüft werden.";
       $("prepare").textContent = "Offline-Daten erneut prüfen";
+      if (desktopLauncher && personalReady) location.replace("/play/offline/constructed");
     } catch (error) {
       report("Offline-Download unvollständig", (currentFile ? currentFile + " (" + currentStage + "): " : "") +
         String(error) + " · Erneut starten, bereits geladene Dateien bleiben erhalten.");

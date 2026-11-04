@@ -1,7 +1,7 @@
 # Linux-Client, Relay und Kontoanmeldung
 
 Dies sind die **bereinigten Vorlagen** der am 3. November 2026 auf dem Heim-PC
-laufenden lokalen Web- und Relay-Container, des Caddy-Proxys und der beiden
+laufenden lokalen Web- und Relay-Container, des Caddy-Proxys und der drei
 Desktopstarter. Ihre Funktionsweise ist derzeit nachweislich mit HTTP 200
 auf dem Webclient-Port 8087 erreichbar.
 
@@ -59,10 +59,34 @@ und ohne Änderungen an Relay-Schlüsseln installieren:
     install -m 644 manabrew-magic-offline.desktop ~/.local/share/applications/
 
 Der Eintrag **Manabrew (Magic offline)** öffnet die Offline-Vorbereitung
-im Chrome-Appfenster. Beim ersten Start die Offline-Dateien herunterladen,
-danach **Spielen** wählen. Bei erneutem Aufruf prüft die App den fertigen
-Cache schnell und bietet die Spielschaltfläche direkt an. Der bisherige Eintrag **Manabrew
-(lokal)** auf Port 8087 bleibt für den bisherigen Web-/Account-/Relay-Betrieb
-unverändert. Der zusätzliche Eintrag verwendet den bereits installierten Chrome
-aus dem Nix-Profil und setzt einen laufenden PWA-Dienst auf Port 8088 voraus.
+im Chrome-Appfenster mit `?desktop=1`. Beim ersten Start werden die vollständigen
+Offline-Dateien **automatisch** geladen und alle persönlichen Commander-Decks
+installiert; danach öffnet sich die Deckauswahl ohne zusätzlichen Klick.
+Weitere Starts mit fertigem Cache wechseln ebenfalls direkt zur Deckauswahl,
+auch ohne Internet. Der lokale PWA-Dienst auf Port 8088 muss für den
+Menüeintrag erreichbar sein. Die Spieldateien bleiben im lokalen Chrome-Profil.
+
+Der bisherige Eintrag heißt jetzt **Manabrew (Online / Konto)** und verweist
+unverändert auf Port 8087. Er dient der normalen Manabrew-Anmeldung,
+Community und Relay. Der getrennte Starter **Manabrew – Konto anmelden** kann
+weiterhin für den Einmalcode-OAuth-Weg genutzt werden. Keine alten Profile,
+Accounts, Decks oder Schlüssel wurden durch die Umbenennung verändert.
+Die Starter benutzen den vorhandenen Chrome aus dem Nix-Profil.
+
+**Login-DNS-Reparatur, 4. November 2026:** Die Authentifizierungsanbieter ließen
+sich im Offline-PWA-Dienst auf Port 8088 nicht laden (HTTP 502). Das Caddy-Journal
+wies `dial tcp: lookup api.manabrew.app: i/o timeout` aus: Die alte
+Container-Resolverliste enthielt statt des erreichbaren LAN-Routers nur
+öffentliche Ausweich-DNS-Server. Der bisherige Webclient auf Port 8087
+verwendete den Router `192.168.178.1` und lieferte
+`GET /api/auth/providers` mit HTTP 200. Für den iPad-PWA-Dienst wurde deshalb
+nur der Podman-Start um `--dns 192.168.178.1` ergänzt; außerdem setzt der
+Offline-Build jetzt `hubApiUrl: "/"` für den bereits vorhandenen
+same-origin-`/api/*`-Proxy. Beim isolierten Kandidatentest antwortete
+die Provider-API mit HTTP 200 und aktivem GitHub-, Discord- und E-Mail-Login.
+Den aktuellen Router-DNS bei Netzumbau erneut prüfen; lokale Offline-Partien
+funktionieren auch unabhängig von dieser DNS-Auflösung. Ein vollständig
+abgeschlossener OAuth-Login oder eine Decksynchronisierung ist damit noch
+nicht nachgewiesen.
+
 Ein nativer Tauri-Build wird dadurch nicht behauptet.
