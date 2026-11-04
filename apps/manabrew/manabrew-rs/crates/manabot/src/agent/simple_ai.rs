@@ -286,6 +286,25 @@ impl SimpleAi {
             .collect()
     }
 
+    /// Count mana produced by one `Add` clause. Mana choices are alternatives:
+    /// "{U} or {B}" produces one, and "{U}{U}, {U}{B}, or {B}{B}" two.
+    /// In contrast "{W}{U}{B}" produces three simultaneous mana.
+    fn mana_symbols_in_clause(clause: &str) -> i32 {
+        let count = |option: &str| {
+            option
+                .as_bytes()
+                .windows(3)
+                .filter(|part| part[0] == b'{' && b"WUBRGC".contains(&part[1]) && part[2] == b'}')
+                .count() as i32
+        };
+        if clause.contains(" or ") {
+            let options = clause.replace(", or ", ", ").replace(" or ", ", ");
+            options.split(',').map(count).max().unwrap_or(0)
+        } else {
+            count(clause)
+        }
+    }
+
     fn mana_output(card: &CardDto) -> Option<([i32; 5], i32, i32)> {
         let mut colors = [0i32; 5];
         let mut any = 0;
@@ -302,7 +321,7 @@ impl SimpleAi {
         for segment in card.text.split("Add ").skip(1) {
             let clause = segment.split(['.', '\n']).next().unwrap_or("");
             let lower = clause.to_ascii_lowercase();
-            let symbols = clause.matches('{').count() as i32;
+            let symbols = Self::mana_symbols_in_clause(clause);
             let mut produced = 0;
             for symbol in clause.chars() {
                 if let Some(i) = "WUBRG".find(symbol) {
@@ -1796,6 +1815,27 @@ mod color_choice_tests {
     fn non_mana_color_choice_keeps_original_priority() {
         let chosen = SimpleAi::color_choices(&colors(), 1, false, &HashSet::new());
         assert_eq!(chosen.get("White"), Some(&1));
+    }
+
+    #[test]
+    fn dual_lands_produce_one_mana_not_two() {
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{U} or {B}"), 1);
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{W}, {U}, or {B}"), 1);
+    }
+
+    #[test]
+    fn filter_lands_produce_two_mana_not_six() {
+        assert_eq!(
+            SimpleAi::mana_symbols_in_clause("{U}{U}, {U}{B}, or {B}{B}"),
+            2
+        );
+    }
+
+    #[test]
+    fn simultaneous_mana_is_counted_in_full() {
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{C}{C}"), 2);
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{W}{U}{B}{R}{G}"), 5);
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{T}"), 0);
     }
 
     #[test]
