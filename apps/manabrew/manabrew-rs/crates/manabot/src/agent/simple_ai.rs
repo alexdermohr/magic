@@ -887,6 +887,22 @@ impl SimpleAi {
         }
     }
 
+    fn is_mana_color_prompt(
+        &self,
+        title: &str,
+        source_text: &str,
+        source_card: Option<&CardDto>,
+        player_id: &str,
+    ) -> bool {
+        title.to_ascii_lowercase().contains("mana")
+            || source_text.contains("add ")
+            || self.payment_attempt.is_some()
+            || source_card.is_some_and(|card| Self::mana_output(card).is_some())
+            || self.battlefield(player_id).any(|card| {
+                card.identity.name.eq_ignore_ascii_case(title) && Self::mana_output(card).is_some()
+            })
+    }
+
     fn color_choices(
         valid_colors: &[String],
         amount: u32,
@@ -1708,8 +1724,12 @@ impl BotAgent for SimpleAi {
                 }))
             }
             PromptInput::ChooseColor(manabrew_protocol::prompts::choose_color::ChooseColorInput { presentation, valid_colors, amount, repeat_allowed }) => {
-                let mana_choice = presentation.title.to_ascii_lowercase().contains("mana")
-                    || prompt_source_text.contains("add ");
+                let mana_choice = self.is_mana_color_prompt(
+                    &presentation.title,
+                    &prompt_source_text,
+                    prompt.source_card.as_ref(),
+                    &deciding_player_id,
+                );
                 let missing = if mana_choice {
                     self.missing_colors(&deciding_player_id)
                 } else {
@@ -2020,6 +2040,16 @@ mod color_choice_tests {
             bot.pay_mana_cost(&input),
             PayManaCostOutput::Pay { auto: true }
         ));
+    }
+
+    #[test]
+    fn generic_forge_color_prompt_is_mana_during_payment() {
+        let mut bot = SimpleAi::new();
+        assert!(!bot.is_mana_color_prompt("Choose a color", "", None, "player-0"));
+        bot.payment_attempt = Some("card-1".to_string());
+        assert!(bot.is_mana_color_prompt("Choose a color", "", None, "player-0"));
+        bot.payment_attempt = None;
+        assert!(bot.is_mana_color_prompt("Choose mana color", "", None, "player-0"));
     }
 
     #[test]
