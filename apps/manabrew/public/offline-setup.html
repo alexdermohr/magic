@@ -339,14 +339,31 @@
           if (error) reject(error);
           else resolve();
         };
-        const gameWorker = manifest.files.find((file) =>
+        const hashedWorker = manifest.files.find((file) =>
           /^\/assets\/forge-engine\.worker-[A-Za-z0-9_-]+\.js$/.test(file.url),
-        )?.url ?? "/forge-legacy-bridge.worker.js";
-        child = new Worker(gameWorker, { type: "module" });
+        )?.url;
+        const launcher = manifest.files.find((file) =>
+          /^\/assets\/forgeharness-[A-Za-z0-9_-]+\.js$/.test(file.url),
+        )?.url;
+        const wasm = manifest.files.find((file) =>
+          /^\/assets\/forgeharness\.js-[A-Za-z0-9_-]+\.wasm$/.test(file.url),
+        )?.url;
+        if (hashedWorker && (!launcher || !wasm)) {
+          finish(new Error("Forge-Launcher oder WASM fehlt im Offline-Manifest"));
+          return;
+        }
+        const gameWorker = hashedWorker ?? "/forge-legacy-bridge.worker.js";
+        // The production Forge engine uses importScripts(), so it needs a
+        // classic Worker rather than a module Worker.
+        child = new Worker(gameWorker);
         child.onerror = (event) => finish(new Error(event.message || "Forge-Worker fehlgeschlagen"));
         child.onmessage = (event) => {
           const data = event.data;
           if (data?.type === "event" && data.event === "worker:init") {
+            if (data.payload?.stage === "error") {
+              finish(new Error(data.payload?.message || "Forge-Worker konnte nicht starten"));
+              return;
+            }
             if (data.payload?.stage !== "ready") return;
             child.postMessage({
               type: "command",
@@ -357,12 +374,16 @@
                 opponentDecks: [mkDeck("Hearthhull, the Worldseed", "Forest")],
                 startingLife: 40,
                 engine: "Forge",
+                forgeAi: true,
+                forgeLauncherUrl: launcher,
+                forgeWasmUrl: wasm,
               },
             });
           } else if (data?.type === "event" && data.event === "game:sab") {
             const signal = new Int32Array(data.payload.buffer, 0, 2);
             const body = new Uint8Array(data.payload.buffer, 8);
             const decoder = new TextDecoder();
+            const encoder = new TextEncoder();
             reader = setInterval(() => {
               if (Atomics.load(signal, 0) !== 1) return;
               const length = Atomics.load(signal, 1);
@@ -377,11 +398,44 @@
                 finish(error);
                 return;
               }
+              const prompt = message.kind === "prompt" ? message.prompt : null;
+              const input = prompt?.input;
+              if (input?.type === "mulligan") {
+                finish();
+                return;
+              }
+              // Forge sends two informational prompts before the Mulligan.
+              // Acknowledge those only; do not skip actual game decisions.
+              const aiWarning = input?.type === "revealCards" &&
+                input.cards?.length === 0 &&
+                String(input.presentation?.title ?? "").startsWith("AI can't play these cards well");
+              const output = aiWarning
+                ? { type: "revealCardsAcknowledged" }
+                : input?.type === "diceRolled"
+                  ? { type: "diceRolledAcknowledged" }
+                  : null;
+              if (output) {
+                const answer = encoder.encode(JSON.stringify({
+                  kind: "response",
+                  promptId: prompt.promptId,
+                  action: { type: input.type, output },
+                }));
+                if (answer.length > body.length) {
+                  finish(new Error("Forge-Antwort zu groß"));
+                  return;
+                }
+                body.set(answer);
+                Atomics.store(signal, 1, answer.length);
+                Atomics.store(signal, 0, 2);
+                Atomics.notify(signal, 0);
+                return;
+              }
+              if (prompt) {
+                finish(new Error("Unerwarteter Forge-Startprompt: " + input?.type));
+                return;
+              }
               Atomics.store(signal, 0, 3);
               Atomics.notify(signal, 0);
-              if (message.kind === "prompt" && message.prompt?.input?.type === "mulligan") {
-                finish();
-              }
             }, 35);
           } else if (data?.type === "response" && data.error) {
             finish(new Error(data.error));
