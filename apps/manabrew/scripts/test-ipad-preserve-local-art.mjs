@@ -10,7 +10,12 @@ const browser = await chromium.launchPersistentContext(profile, {
   ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
     ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE }
     : {}),
-  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  args: [
+    "--no-sandbox", "--disable-dev-shm-usage",
+    ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
+      ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
+      : []),
+  ],
   serviceWorkers: "allow",
 });
 const page = browser.pages()[0] ?? await browser.newPage();

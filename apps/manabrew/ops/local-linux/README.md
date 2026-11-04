@@ -58,8 +58,10 @@ und ohne Änderungen an Relay-Schlüsseln installieren:
 
     install -m 644 manabrew-magic-offline.desktop ~/.local/share/applications/
 
-Der Eintrag **Manabrew (Magic offline)** öffnet den lokalen Magic-Client direkt
-im Chrome-Appfenster auf der Deckauswahl. Der bisherige Eintrag **Manabrew
+Der Eintrag **Manabrew (Magic offline)** öffnet die Offline-Vorbereitung
+im Chrome-Appfenster. Beim ersten Start die Offline-Dateien herunterladen,
+danach **Spielen** wählen. Bei erneutem Aufruf prüft die App den fertigen
+Cache schnell und bietet die Spielschaltfläche direkt an. Der bisherige Eintrag **Manabrew
 (lokal)** auf Port 8087 bleibt für den bisherigen Web-/Account-/Relay-Betrieb
 unverändert. Der zusätzliche Eintrag verwendet den bereits installierten Chrome
 aus dem Nix-Profil und setzt einen laufenden PWA-Dienst auf Port 8088 voraus.
