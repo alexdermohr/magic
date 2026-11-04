@@ -90,6 +90,40 @@ try {
     }
     const localDescription = editedDeck.deck.description + " · manually edited";
     editedDeck.deck.description = localDescription;
+
+    // Old PWA installations have no GitHub deck baselines. Their only
+    // difference may be the historic full-card art_crop URLs. In contrast,
+    // a real local edit without a baseline must remain protected.
+    const [legacyDeck, editedLegacyDeck] = saved.slice(2, 4);
+    if (!legacyDeck?.id?.startsWith("github:") ||
+        !editedLegacyDeck?.id?.startsWith("github:")) {
+      throw new Error("Legacy GitHub fixture decks missing");
+    }
+    const downgradeLegacyCrops = (entry) => {
+      let changed = 0;
+      for (const group of ["cards", "commanders", "sideboard", "maybeboard",
+                           "companions", "attractions", "contraptions", "schemes", "planes"]) {
+        for (const card of entry.deck[group] ?? []) {
+          for (const face of [card, card.backFace]) {
+            if (face?.uris?.art_crop && face.uris.normal &&
+                face.uris.art_crop !== face.uris.normal) {
+              face.uris.art_crop = face.uris.normal;
+              changed++;
+            }
+          }
+        }
+      }
+      return changed;
+    };
+    const legacyDowngraded = downgradeLegacyCrops(legacyDeck);
+    const legacyEditedDowngraded = downgradeLegacyCrops(editedLegacyDeck);
+    if (!legacyDowngraded || !legacyEditedDowngraded) {
+      throw new Error("Legacy full-scan crop fixture missing");
+    }
+    const legacyEditedDescription = editedLegacyDeck.deck.description + " · local legacy edit";
+    editedLegacyDeck.deck.description = legacyEditedDescription;
+    delete baselines[legacyDeck.id];
+    delete baselines[editedLegacyDeck.id];
     localStorage.setItem(baselineKey, JSON.stringify(baselines));
     saved.push({
       id: "local:fixture-retained-art",
@@ -103,7 +137,9 @@ try {
     await cache.delete("/offline-ready.json");
     navigator.serviceWorker.controller?.postMessage({ type: "manabrew-cache-changed" });
     return { version: currentManifest.version, bytes: photo.size, savedDecks: saved.length,
-      cleanDeckId: cleanDeck.id, editedDeckId: editedDeck.id, localDescription };
+      cleanDeckId: cleanDeck.id, editedDeckId: editedDeck.id, localDescription,
+      legacyDeckId: legacyDeck.id, editedLegacyDeckId: editedLegacyDeck.id,
+      legacyEditedDescription, legacyDowngraded };
   }, { legacy, imagePath });
   console.log("UPGRADE_ART_FIXTURE", JSON.stringify(fixture));
 
@@ -117,7 +153,9 @@ try {
     return state.includes("Offline-Dateien vollständig gespeichert") ||
       state.includes("Offline-Download unvollständig");
   }, null, { timeout: 600000 });
-  const after = await page.evaluate(async ({ legacy, imagePath, cleanDeckId, editedDeckId, localDescription }) => {
+  const after = await page.evaluate(async ({ legacy, imagePath, cleanDeckId, editedDeckId,
+                                       localDescription, legacyDeckId, editedLegacyDeckId,
+                                       legacyEditedDescription }) => {
     const names = await caches.keys();
     const manifest = await (await fetch("/offline-assets.json")).json();
     const cache = await caches.open("manabrew-ipad-offline-" + manifest.version);
@@ -129,6 +167,14 @@ try {
     const cleanGenerated = generated.find(entry => entry.id === cleanDeckId);
     const editedSaved = saved.find(entry => entry.id === editedDeckId);
     const editedGenerated = generated.find(entry => entry.id === editedDeckId);
+    const legacySaved = saved.find(entry => entry.id === legacyDeckId);
+    const legacyGenerated = generated.find(entry => entry.id === legacyDeckId);
+    const legacyEditedSaved = saved.find(entry => entry.id === editedLegacyDeckId);
+    const legacyBaselines = JSON.parse(localStorage.getItem("manabrew-github-deck-baselines-v2") ?? "{}");
+    const cropsUpdated = (oldDeck, freshDeck) => !!oldDeck && !!freshDeck &&
+      ["cards", "commanders"].every(group => oldDeck.deck[group].length === freshDeck.deck[group].length &&
+        oldDeck.deck[group].every((card, index) => card.uris?.art_crop ===
+          freshDeck.deck[group][index].uris?.art_crop));
     return {
       status: document.querySelector("#state")?.textContent,
       detail: document.querySelector("#detail")?.textContent,
@@ -145,14 +191,25 @@ try {
         editedSaved.deck.description === localDescription &&
         editedSaved.deck.cards[0].uris.art_crop === editedSaved.deck.cards[0].uris.normal &&
         editedSaved.deck.cards[0].uris.art_crop !== editedGenerated.deck.cards[0].uris.art_crop,
+      legacyMetadataUpdated: cropsUpdated(legacySaved, legacyGenerated) &&
+        !!legacyBaselines[legacyDeckId],
+      legacyEditPreserved: !!legacyEditedSaved &&
+        legacyEditedSaved.deck.description === legacyEditedDescription &&
+        legacyEditedSaved.deck.cards[0].uris.art_crop ===
+          legacyEditedSaved.deck.cards[0].uris.normal &&
+        !legacyBaselines[editedLegacyDeckId],
     };
   }, { legacy, imagePath, cleanDeckId: fixture.cleanDeckId,
-    editedDeckId: fixture.editedDeckId, localDescription: fixture.localDescription });
+    editedDeckId: fixture.editedDeckId, localDescription: fixture.localDescription,
+    legacyDeckId: fixture.legacyDeckId, editedLegacyDeckId: fixture.editedLegacyDeckId,
+    legacyEditedDescription: fixture.legacyEditedDescription });
   console.log("UPGRADE_ART_VERIFIED", JSON.stringify(after));
   assert.ok(after.status?.includes("vollständig gespeichert"));
   assert.ok(after.ready && after.oldCacheDeleted && after.savedLocalDeck);
   assert.ok(after.cleanMetadataUpdated, "Unmodified GitHub deck must receive new artwork metadata");
   assert.ok(after.localEditsPreserved, "Locally edited GitHub deck must not be overwritten");
+  assert.ok(after.legacyMetadataUpdated, "Unmodified deck without baseline must receive corrected legacy artwork");
+  assert.ok(after.legacyEditPreserved, "Locally edited legacy deck without baseline must remain untouched");
   assert.equal(after.imageBytes, fixture.bytes, "Retained local deck art must survive cache deletion");
 
   await browser.setOffline(true);

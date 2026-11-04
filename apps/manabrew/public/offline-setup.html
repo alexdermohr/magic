@@ -137,6 +137,38 @@
     return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
   }
 
+  // Older offline releases had full-card scans in art_crop and did not store
+  // GitHub import baselines. Correct only that known metadata defect: a user
+  // edit, changed printing, or any other deck difference must still be kept.
+  function normalizeLegacyArtwork(currentDeck, generatedDeck) {
+    const normalized = JSON.parse(JSON.stringify(currentDeck));
+    let corrected = 0;
+    for (const group of ["cards", "commanders", "sideboard", "maybeboard",
+                         "companions", "attractions", "contraptions", "schemes", "planes"]) {
+      const oldCards = normalized[group];
+      const freshCards = generatedDeck[group];
+      if (!Array.isArray(oldCards) || !Array.isArray(freshCards) ||
+          oldCards.length !== freshCards.length) continue;
+      for (let index = 0; index < oldCards.length; index++) {
+        const oldCard = oldCards[index];
+        const freshCard = freshCards[index];
+        for (const [oldFace, newFace] of [[oldCard, freshCard],
+                                         [oldCard?.backFace, freshCard?.backFace]]) {
+          const oldUris = oldFace?.uris;
+          const freshUris = newFace?.uris;
+          if (!oldUris || !freshUris || !oldUris.normal ||
+              oldUris.normal !== freshUris.normal ||
+              oldUris.art_crop !== oldUris.normal ||
+              typeof freshUris.art_crop !== "string" ||
+              freshUris.art_crop === freshUris.normal) continue;
+          oldUris.art_crop = freshUris.art_crop;
+          corrected++;
+        }
+      }
+    }
+    return corrected ? normalized : null;
+  }
+
   async function installPersonalDecks() {
     const response = await fetch("/personal-decks.json");
     if (!response.ok) throw new Error("Persönliche Deckdatei fehlt (HTTP " + response.status + ")");
@@ -181,7 +213,15 @@
         if (currentHash === sourceDeckHash) {
           baselines[entry.id] = { sourceHash, deckHash: sourceDeckHash };
         } else {
-          protectedCount++;
+          // Infer no baseline only when correcting historical full-scan art
+          // makes every other persisted field match the generated source.
+          const normalized = normalizeLegacyArtwork(current.deck, entry.deck);
+          if (normalized && (await deckHash(normalized)) === sourceDeckHash) {
+            replacements.set(entry.id, { ...current, deck: entry.deck, savedAt: Date.now() });
+            baselines[entry.id] = { sourceHash, deckHash: sourceDeckHash };
+          } else {
+            protectedCount++;
+          }
         }
         continue;
       }
