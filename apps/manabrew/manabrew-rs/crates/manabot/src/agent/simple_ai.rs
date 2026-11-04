@@ -348,6 +348,45 @@ impl SimpleAi {
         (amount > 0).then_some((colors, any, amount))
     }
 
+    /// Necessary coloured-mana constraint: one dual land can contribute one
+    /// mana to {U}{B}, not one of each. Test every nonempty subset of colours
+    /// so overlapping flexible sources cannot be spent twice. This stays an
+    /// optimistic check: activated ability costs and conditional mana are
+    /// still settled by the actual engine.
+    fn can_cover_colored_cost(pips: &[i32; 5], sources: &[([i32; 5], i32, i32)]) -> bool {
+        (1u8..32).all(|subset| {
+            let required: i32 = (0..5)
+                .filter(|&i| subset & (1 << i) != 0)
+                .map(|i| pips[i])
+                .sum();
+            if required == 0 {
+                return true;
+            }
+            let available: i32 = sources
+                .iter()
+                .map(|(colors, wildcard, amount)| {
+                    let colored: i32 = (0..5)
+                        .filter(|&i| subset & (1 << i) != 0)
+                        .map(|i| colors[i])
+                        .sum();
+                    (colored + wildcard).min(*amount)
+                })
+                .sum();
+            available >= required
+        })
+    }
+
+    fn colored_mana_sources(&self, player_id: &str) -> Vec<([i32; 5], i32, i32)> {
+        self.battlefield(player_id)
+            .filter(|card| !card.tapped)
+            .filter(|card| {
+                !card.types.iter().any(|ty| ty == "Creature")
+                    || (!card.summoning_sick && card.text.contains("{T}: Add"))
+            })
+            .filter_map(Self::mana_output)
+            .collect()
+    }
+
     fn mana_sources(&self, player_id: &str) -> ([i32; 5], i32, i32) {
         let mut colors = [0i32; 5];
         let mut any = 0;
@@ -388,7 +427,7 @@ impl SimpleAi {
             }
         }
         let short: i32 = (0..5).map(|i| (pips[i] - colors[i]).max(0)).sum();
-        short <= any
+        short <= any && Self::can_cover_colored_cost(&pips, &self.colored_mana_sources(player_id))
     }
 
     fn roles(card: &CardDto) -> Roles {
@@ -1836,6 +1875,53 @@ mod color_choice_tests {
         assert_eq!(SimpleAi::mana_symbols_in_clause("{C}{C}"), 2);
         assert_eq!(SimpleAi::mana_symbols_in_clause("{W}{U}{B}{R}{G}"), 5);
         assert_eq!(SimpleAi::mana_symbols_in_clause("{T}"), 0);
+    }
+
+    #[test]
+    fn two_duals_cannot_pay_four_colored_pips_with_two_colorless_rocks() {
+        let dual = ([0, 1, 1, 0, 0], 0, 1);
+        let colorless = ([0; 5], 0, 1);
+        let sources = [dual, dual, colorless, colorless];
+        assert!(!SimpleAi::can_cover_colored_cost(
+            &[0, 2, 2, 0, 0],
+            &sources
+        ));
+    }
+
+    #[test]
+    fn duals_can_split_colors_between_two_pips() {
+        let dual = ([0, 1, 1, 0, 0], 0, 1);
+        assert!(SimpleAi::can_cover_colored_cost(
+            &[0, 1, 1, 0, 0],
+            &[dual, dual]
+        ));
+    }
+
+    #[test]
+    fn a_fixed_pair_cannot_make_two_mana_of_one_color() {
+        let fixed_pair = ([0, 1, 1, 0, 0], 0, 2);
+        assert!(!SimpleAi::can_cover_colored_cost(
+            &[0, 2, 0, 0, 0],
+            &[fixed_pair]
+        ));
+        assert!(SimpleAi::can_cover_colored_cost(
+            &[0, 1, 1, 0, 0],
+            &[fixed_pair]
+        ));
+    }
+
+    #[test]
+    fn any_color_and_multi_mana_sources_remain_usable() {
+        let any_color = ([0; 5], 1, 1);
+        let double_blue = ([0, 2, 0, 0, 0], 0, 2);
+        assert!(SimpleAi::can_cover_colored_cost(
+            &[0, 2, 1, 0, 0],
+            &[double_blue, any_color]
+        ));
+        assert!(!SimpleAi::can_cover_colored_cost(
+            &[0, 1, 2, 0, 0],
+            &[double_blue, any_color]
+        ));
     }
 
     #[test]
