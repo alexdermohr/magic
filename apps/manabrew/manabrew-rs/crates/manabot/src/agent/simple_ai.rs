@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::{BTreeMap, HashMap, HashSet, VecDeque};
 
 use manabrew_agent_interface::game_view_dto::{
     CardDto, CardView, GameViewDto, StepKind, TargetingIntent, ZoneKind,
@@ -747,9 +747,58 @@ impl SimpleAi {
     }
 
     fn available_mana(&self, player_id: &str) -> i32 {
-        self.battlefield(player_id)
-            .filter(|card| !card.tapped && Self::is_mana_source(card))
-            .count() as i32
+        // X spells need the amount of mana, not the number of untapped permanents:
+        // Sol Ring produces two and a non-summoning-sick mana dork also counts.
+        self.mana_sources(player_id).2
+    }
+
+    fn color_code(name: &str) -> Option<char> {
+        match name.trim().to_ascii_lowercase().as_str() {
+            "w" | "white" => Some('W'),
+            "u" | "blue" => Some('U'),
+            "b" | "black" => Some('B'),
+            "r" | "red" => Some('R'),
+            "g" | "green" => Some('G'),
+            _ => None,
+        }
+    }
+
+    fn color_choices(
+        valid_colors: &[String],
+        amount: u32,
+        repeat_allowed: bool,
+        missing: &HashSet<char>,
+    ) -> BTreeMap<String, u32> {
+        let mut colors = valid_colors.iter().collect::<Vec<_>>();
+        // Stable ordering preserves the engine's default for non-mana choices
+        // and for colors not demanded by the cards in hand / command zone.
+        colors.sort_by_key(|color| {
+            !Self::color_code(color).is_some_and(|code| missing.contains(&code))
+        });
+        let mut chosen = BTreeMap::new();
+        if repeat_allowed {
+            let desired = colors
+                .iter()
+                .take_while(|color| {
+                    Self::color_code(color).is_some_and(|code| missing.contains(&code))
+                })
+                .count()
+                .min(amount as usize);
+            for color in colors.iter().take(desired) {
+                *chosen.entry((**color).clone()).or_insert(0) += 1;
+            }
+            if let Some(first) = colors.first() {
+                let remaining = amount - desired as u32;
+                if remaining > 0 {
+                    *chosen.entry((**first).clone()).or_insert(0) += remaining;
+                }
+            }
+        } else {
+            for color in colors.into_iter().take(amount as usize) {
+                chosen.insert(color.clone(), 1);
+            }
+        }
+        chosen
     }
 
     fn lands_in_play(&self, player_id: &str) -> usize {
@@ -1532,19 +1581,16 @@ impl BotAgent for SimpleAi {
                     chosen_indices,
                 }))
             }
-            PromptInput::ChooseColor(manabrew_protocol::prompts::choose_color::ChooseColorInput { valid_colors, amount, repeat_allowed, .. }) => {
-                let mut chosen: std::collections::BTreeMap<String, u32> = std::collections::BTreeMap::new();
-                if repeat_allowed {
-                    if let Some(c) = valid_colors.first() {
-                        chosen.insert(c.clone(), amount);
-                    }
+            PromptInput::ChooseColor(manabrew_protocol::prompts::choose_color::ChooseColorInput { presentation, valid_colors, amount, repeat_allowed }) => {
+                let mana_choice = presentation.title.to_ascii_lowercase().contains("mana")
+                    || prompt_source_text.contains("add ");
+                let missing = if mana_choice {
+                    self.missing_colors(&deciding_player_id)
                 } else {
-                    for c in valid_colors.iter().take(amount as usize) {
-                        chosen.insert(c.clone(), 1);
-                    }
-                }
+                    HashSet::new()
+                };
                 Some(PromptOutput::ChooseColor(ChooseColorOutput::ColorDecision {
-                    chosen_colors: chosen,
+                    chosen_colors: Self::color_choices(&valid_colors, amount, repeat_allowed, &missing),
                 }))
             }
             PromptInput::ChooseNumber(manabrew_protocol::prompts::choose_number::ChooseNumberInput { presentation, min, max }) => {
@@ -1707,5 +1753,55 @@ impl BotAgent for SimpleAi {
                 DiceRolledOutput::DiceRolledAcknowledged,
             )),
         }
+    }
+}
+
+#[cfg(test)]
+mod color_choice_tests {
+    use super::SimpleAi;
+    use std::collections::HashSet;
+
+    fn colors() -> Vec<String> {
+        ["White", "Blue", "Black", "Red", "Green"]
+            .into_iter()
+            .map(str::to_string)
+            .collect()
+    }
+
+    #[test]
+    fn mana_color_prefers_a_missing_color() {
+        let needed = HashSet::from(['R']);
+        let chosen = SimpleAi::color_choices(&colors(), 1, true, &needed);
+        assert_eq!(chosen.get("Red"), Some(&1));
+        assert_eq!(chosen.len(), 1);
+    }
+
+    #[test]
+    fn multiple_mana_colors_cover_two_missing_colors() {
+        let needed = HashSet::from(['R', 'U']);
+        let chosen = SimpleAi::color_choices(&colors(), 2, true, &needed);
+        assert_eq!(chosen.get("Red"), Some(&1));
+        assert_eq!(chosen.get("Blue"), Some(&1));
+        assert_eq!(chosen.len(), 2);
+    }
+
+    #[test]
+    fn repeated_mana_color_is_allowed_for_one_missing_color() {
+        let needed = HashSet::from(['R']);
+        let chosen = SimpleAi::color_choices(&colors(), 2, true, &needed);
+        assert_eq!(chosen.get("Red"), Some(&2));
+    }
+
+    #[test]
+    fn non_mana_color_choice_keeps_original_priority() {
+        let chosen = SimpleAi::color_choices(&colors(), 1, false, &HashSet::new());
+        assert_eq!(chosen.get("White"), Some(&1));
+    }
+
+    #[test]
+    fn color_codes_distinguish_blue_and_black() {
+        assert_eq!(SimpleAi::color_code("Blue"), Some('U'));
+        assert_eq!(SimpleAi::color_code("Black"), Some('B'));
+        assert_eq!(SimpleAi::color_code("C"), None);
     }
 }

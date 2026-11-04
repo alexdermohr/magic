@@ -41,6 +41,7 @@ const jobs = Number(option("jobs", Math.max(1, Math.floor(cpus().length / 2))));
 const engine = option("engine", "packages/forge-wasm");
 const wasms = option("wasms", "").split(",").filter(Boolean);
 const decks = option("decks", null);
+const personalDecks = option("personal-decks", null);
 const timeout = option("timeout", "420");
 const extra = option("extra", "").split(" ").filter(Boolean);
 const seatCount = Number(option("seats", decks ? decks.split(",").length : 4));
@@ -62,6 +63,7 @@ function plan(index) {
   const b = SEATS.filter((seat) => !a.includes(seat));
   const args = ["--engine", engine, "--seed", String(seed), "--timeout", timeout, ...extra];
   if (decks) args.push("--decks", decks);
+  if (personalDecks) args.push("--personal-decks", personalDecks);
   if (wasms.length === 2) {
     const perSeat = SEATS.map((seat) => (a.includes(seat) ? wasms[0] : wasms[1]));
     args.push("--wasms", perSeat.join(","));
