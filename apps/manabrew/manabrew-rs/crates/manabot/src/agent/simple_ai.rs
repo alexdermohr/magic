@@ -41,6 +41,7 @@ pub struct SimpleAi {
     turn: Option<u32>,
     attempted_actions: HashSet<String>,
     payment_attempt: Option<String>,
+    payment_manual_attempt: Option<String>,
     has_command_cards: bool,
 }
 
@@ -133,6 +134,71 @@ impl SimpleAi {
             .find(|(a, _)| a == card_id)
         {
             self.failed_attack_targets.insert(target_id.clone());
+        }
+    }
+
+    /// Try the engine's normal auto-payment before manually activating mana
+    /// sources with a mana cost. Three Tree City's {2}, {T} ability used to be
+    /// selected first even when ordinary lands and Treasures were available.
+    /// A failed auto payment permits one manual fallback, not an endless loop.
+    fn pay_mana_cost(
+        &mut self,
+        input: &manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput,
+    ) -> PayManaCostOutput {
+        if input.can_confirm_from_pool {
+            self.failed_attack_targets.clear();
+            self.payment_attempt = None;
+            self.payment_manual_attempt = None;
+            return PayManaCostOutput::Pay { auto: false };
+        }
+        let has_usable_action = input.actions.iter().any(|action| {
+            !matches!(
+                &action.kind,
+                manabrew_protocol::prompts::common::PaymentActionKind::UndoMana { .. }
+                    | manabrew_protocol::prompts::common::PaymentActionKind::ReleaseResource { .. }
+            )
+        });
+        let already_manual = self.payment_manual_attempt.as_deref() == Some(input.card_id.as_str());
+        if !has_usable_action || already_manual {
+            self.fail_attack_target(&input.card_id);
+            self.payment_attempt = None;
+            self.payment_manual_attempt = None;
+            return PayManaCostOutput::Cancel;
+        }
+        if self.payment_attempt.as_deref() != Some(input.card_id.as_str()) {
+            self.payment_attempt = Some(input.card_id.clone());
+            return PayManaCostOutput::Pay { auto: true };
+        }
+        let manual_action = input
+            .actions
+            .iter()
+            .find(|action| {
+                matches!(
+                    &action.kind,
+                    manabrew_protocol::prompts::common::PaymentActionKind::UseResource {
+                        resource:
+                            manabrew_protocol::prompts::common::PaymentResourceKind::Waterbend,
+                        ..
+                    }
+                )
+            })
+            .or_else(|| {
+                input.actions.iter().find(|action| matches!(
+                    &action.kind,
+                    manabrew_protocol::prompts::common::PaymentActionKind::ActivateManaAbility(info)
+                        if info.cost.as_deref().is_some_and(|cost|
+                            cost.chars().any(|c| c.is_ascii_digit()))
+                ))
+            });
+        if let Some(action) = manual_action {
+            self.payment_manual_attempt = Some(input.card_id.clone());
+            PayManaCostOutput::Act {
+                action_id: action.id.clone(),
+            }
+        } else {
+            self.fail_attack_target(&input.card_id);
+            self.payment_attempt = None;
+            PayManaCostOutput::Cancel
         }
     }
 
@@ -1289,6 +1355,7 @@ impl BotAgent for SimpleAi {
             self.turn = Some(view.turn);
             self.attempted_actions.clear();
             self.payment_attempt = None;
+            self.payment_manual_attempt = None;
             self.recent_prompts.clear();
             self.failed_attack_targets.clear();
         }
@@ -1376,6 +1443,7 @@ impl BotAgent for SimpleAi {
                     (action.id.clone(), Self::action_key(action))
                 });
                 self.payment_attempt = None;
+                self.payment_manual_attempt = None;
                 if let Some((_, key)) = &pick {
                     self.attempted_actions.insert(key.clone());
                 }
@@ -1715,44 +1783,7 @@ impl BotAgent for SimpleAi {
                 }
                 Some(PromptOutput::ChooseCombatDamageAssignment(ChooseCombatDamageAssignmentOutput::CombatDamageAssignmentDecision { assignments }))
             }
-            PromptInput::PayManaCost(input) => {
-                let manual_action = input.actions.iter().find(|action| {
-                    matches!(
-                        &action.kind,
-                        manabrew_protocol::prompts::common::PaymentActionKind::ActivateManaAbility(
-                            info
-                        ) if info
-                            .cost
-                            .as_deref()
-                            .is_some_and(|cost| cost.chars().any(|c| c.is_ascii_digit()))
-                    ) || matches!(
-                        &action.kind,
-                        manabrew_protocol::prompts::common::PaymentActionKind::UseResource {
-                            resource:
-                                manabrew_protocol::prompts::common::PaymentResourceKind::Waterbend,
-                            ..
-                        }
-                    )
-                });
-                let payment = if input.can_confirm_from_pool {
-                    self.failed_attack_targets.clear();
-                    PayManaCostOutput::Pay { auto: false }
-                } else if let Some(action) = manual_action {
-                    PayManaCostOutput::Act {
-                        action_id: action.id.clone(),
-                    }
-                } else if input.actions.is_empty()
-                    || self.payment_attempt.as_deref() == Some(input.card_id.as_str())
-                {
-                    self.fail_attack_target(&input.card_id);
-                    self.payment_attempt = None;
-                    PayManaCostOutput::Cancel
-                } else {
-                    self.payment_attempt = Some(input.card_id.clone());
-                    PayManaCostOutput::Pay { auto: true }
-                };
-                Some(PromptOutput::PayManaCost(payment))
-            }
+            PromptInput::PayManaCost(input) => Some(PromptOutput::PayManaCost(self.pay_mana_cost(&input))),
             PromptInput::ChooseCards(manabrew_protocol::prompts::choose_cards::ChooseCardsInput {
                 presentation,
                 mut cards,
@@ -1921,6 +1952,73 @@ mod color_choice_tests {
         assert!(!SimpleAi::can_cover_colored_cost(
             &[0, 1, 2, 0, 0],
             &[double_blue, any_color]
+        ));
+    }
+
+    fn expensive_payment_input() -> manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput {
+        use manabrew_protocol::prompts::common::{
+            ActivatableAbilityInfo, PaymentAction, PaymentActionKind, PromptPresentation,
+        };
+        manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput {
+            presentation: PromptPresentation {
+                title: "Pay for Malcolm".to_string(),
+                description: None,
+                text: None,
+                targets: Vec::new(),
+            },
+            card_id: "malcolm".to_string(),
+            card_name: "Malcolm".to_string(),
+            mana_cost: "{2}{U}".to_string(),
+            can_confirm_from_pool: false,
+            actions: vec![PaymentAction {
+                id: "three-tree-city-expensive".to_string(),
+                kind: PaymentActionKind::ActivateManaAbility(ActivatableAbilityInfo {
+                    card_id: "three-tree-city".to_string(),
+                    ability_index: 1,
+                    description: "Add mana".to_string(),
+                    is_mana_ability: true,
+                    level_up: None,
+                    cost: Some("{2}, {T}".to_string()),
+                    produced_mana: None,
+                }),
+            }],
+        }
+    }
+
+    #[test]
+    fn costly_mana_ability_is_not_used_before_auto_payment() {
+        use manabrew_protocol::prompts::pay_mana_cost::PayManaCostOutput;
+        let mut bot = SimpleAi::new();
+        let input = expensive_payment_input();
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Pay { auto: true }
+        ));
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Act { action_id } if action_id == "three-tree-city-expensive"
+        ));
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Cancel
+        ));
+    }
+
+    #[test]
+    fn payment_confirmation_clears_pending_fallback() {
+        use manabrew_protocol::prompts::pay_mana_cost::PayManaCostOutput;
+        let mut bot = SimpleAi::new();
+        let mut input = expensive_payment_input();
+        bot.pay_mana_cost(&input);
+        input.can_confirm_from_pool = true;
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Pay { auto: false }
+        ));
+        input.can_confirm_from_pool = false;
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Pay { auto: true }
         ));
     }
 
