@@ -76,6 +76,14 @@ resumes. `--seats 2 --decks a,b` plays duels, side A alternating seats.
 prompt with the seat's view and the decision as one JSON line on stderr; a
 game the engine ends with an exception reports `outcome.reason` `engine_error`.
 
+## Experimental learned opponent
+
+A fully local, **bench-only** third decision policy can learn cast-vs-cast
+preferences from ManaBot traces and rerank Forge-offered actions. It is not
+enabled in the normal iPad or Linux clients and has not demonstrated a win-rate
+improvement. See [LEARNED_POLICY.md](LEARNED_POLICY.md) for exact commands,
+limitations and first results.
+
 ## A run, not a game
 
 ```sh

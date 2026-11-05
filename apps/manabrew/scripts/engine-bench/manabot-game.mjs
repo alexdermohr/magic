@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { FEATURE_NAMES, castChoices, scoreCastChoices } from "./learned-policy.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const presets = join(root, "public", "preset_decks");
@@ -73,6 +74,21 @@ const forgeAiSeats = option("forge-ai-seats", "").split(",").filter(Boolean).map
 const timeoutS = Number(option("timeout", 300));
 const output = option("out", null);
 const trace = new Set(option("trace", "").split(",").filter(Boolean));
+const traceFile = option("trace-file", null);
+if (traceFile) writeFileSync(resolve(traceFile), "");
+const learnedModelPath = option("learned-model", null);
+const learnedModel = learnedModelPath
+  ? JSON.parse(readFileSync(resolve(learnedModelPath), "utf8"))
+  : null;
+const learnedSeats = new Set(option("learned-seats", "").split(",").filter(Boolean).map(Number));
+if (Boolean(learnedModel) !== (learnedSeats.size > 0) ||
+    (learnedModel && (learnedModel.schemaVersion !== 1 ||
+      JSON.stringify(learnedModel.features) !== JSON.stringify(FEATURE_NAMES) ||
+      !Array.isArray(learnedModel.weights) ||
+      learnedModel.weights.length !== FEATURE_NAMES.length ||
+      !learnedModel.weights.every(Number.isFinite)))) {
+  throw new Error("Specify both --learned-model <policy.json> and --learned-seats <seat-list>, with a valid policy");
+}
 
 if (!existsSync(join(engineDir, "forgeharness.js.wasm"))) {
   throw new Error(`${engineDir} has no Forge WASM engine`);
@@ -129,7 +145,14 @@ const seats = bots.map(() => ({
   paymentCancels: 0,
   failedCastLabels: {},
 }));
+if ([...learnedSeats].some((seat) => !Number.isInteger(seat) || seat < 0 ||
+    seat >= decks.length || forgeAiSeats.includes(seat))) {
+  throw new Error("--learned-seats must contain valid external ManaBot seats");
+}
 const latestViews = decks.map(() => null);
+const learnedTried = decks.map(() => new Set());
+const learnedTurns = decks.map(() => null);
+const learnedStats = decks.map(() => ({ eligible: 0, overrides: 0, fallback: 0 }));
 const pendingCastLabels = decks.map(() => null);
 
 function increment(counts, key) {
@@ -204,10 +227,38 @@ const engine = await createForgeEngine({
     if (prompt.input?.type === "gameOver") terminalPrompts.push({ seat, input: prompt.input });
     const decideStart = performance.now();
     const raw = bots[seat].decide(JSON.stringify(prompt));
-    botMs.push(performance.now() - decideStart);
-    if (!raw) return;
+    if (!raw) {
+      botMs.push(performance.now() - decideStart);
+      return;
+    }
     const action = JSON.parse(raw);
-    const decision = action.output;
+    let decision = action.output;
+    // Experimental learning only reranks Forge-offered, viewer-visible cast
+    // actions. ManaBot retains all other choices and all fallback behavior.
+    if (learnedModel && learnedSeats.has(seat) && prompt.input?.type === "chooseAction") {
+      const observedTurn = latestViews[seat]?.turn ?? turn;
+      if (learnedTurns[seat] !== observedTurn) {
+        learnedTurns[seat] = observedTurn;
+        learnedTried[seat].clear();
+      }
+      const candidates = castChoices(prompt, latestViews[seat]);
+      const teacher = prompt.input.actions?.find((a) => a.id === decision?.actionId);
+      if (decision?.type === "act" && teacher?.type === "cast" &&
+          candidates.some((candidate) => candidate.id === teacher.id)) {
+        learnedStats[seat].eligible++;
+        const untried = candidates.filter((candidate) => !learnedTried[seat].has(candidate.id));
+        const pick = scoreCastChoices(untried, learnedModel);
+        if (pick && pick.id !== teacher.id) {
+          action.output = { type: "act", actionId: pick.id };
+          decision = action.output;
+          learnedStats[seat].overrides++;
+        } else {
+          learnedStats[seat].fallback++;
+        }
+        learnedTried[seat].add(decision.actionId);
+      }
+    }
+    botMs.push(performance.now() - decideStart);
     if (trace.has(prompt.input?.type)) {
       const view = latestViews[seat];
       const cards = Object.fromEntries(
@@ -219,9 +270,9 @@ const engine = await createForgeEngine({
             `${card.identity?.name ?? "?"} ${card.power ?? ""}/${card.toughness ?? ""}${card.tapped ? " T" : ""} ${card.controllerId}${card.attackingPlayerId ? " ->" + card.attackingPlayerId : ""}`,
           ]),
       );
-      process.stderr.write(
-        `${JSON.stringify({ seat, turn, life: view?.players?.map((p) => p.life), prompt, decision, cards, view })}\n`,
-      );
+      const line = `${JSON.stringify({ seat, turn, life: view?.players?.map((p) => p.life), prompt, decision, cards, view })}\n`;
+      if (traceFile) appendFileSync(resolve(traceFile), line);
+      else process.stderr.write(line);
     }
     if (decision?.type === "act") {
       seats[seat].acts += 1;
@@ -373,6 +424,14 @@ const summary = {
   engineWarnings: engineWarnings.slice(-50),
   engineLogTail: finalView?.winnerId ? [] : engineLog.slice(-40),
   seats,
+  ...(learnedModel ? {
+    learned: {
+      policy: learnedModelPath,
+      seats: [...learnedSeats],
+      seatStats: learnedStats,
+      overrides: learnedStats.reduce((sum, seat) => sum + seat.overrides, 0),
+    },
+  } : {}),
   latency: {
     samples: sorted.length,
     p50: Math.round(percentile(0.5)),
