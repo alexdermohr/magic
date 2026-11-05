@@ -259,6 +259,35 @@ impl SimpleAi {
         }
     }
 
+    pub fn reconcile_cast_attempt(
+        &mut self,
+        actions: &[AvailableAction],
+        proposed_id: &str,
+        executed_id: &str,
+    ) -> bool {
+        let Some(proposed) = actions.iter().find(|action| action.id == proposed_id) else {
+            return false;
+        };
+        let Some(executed) = actions.iter().find(|action| action.id == executed_id) else {
+            return false;
+        };
+        if !matches!(&proposed.kind, AvailableActionKind::Cast { .. })
+            || !matches!(&executed.kind, AvailableActionKind::Cast { .. })
+        {
+            return false;
+        }
+        let proposed_key = Self::action_key(proposed);
+        let executed_key = Self::action_key(executed);
+        if !self.attempted_actions.contains(&proposed_key)
+            || self.attempted_actions.contains(&executed_key)
+        {
+            return false;
+        }
+        self.attempted_actions.remove(&proposed_key);
+        self.attempted_actions.insert(executed_key);
+        true
+    }
+
     fn prefers_creatures(&self, player_id: &str) -> bool {
         self.view.as_ref().is_some_and(|view| {
             view.zones
@@ -1892,6 +1921,49 @@ impl BotAgent for SimpleAi {
                 DiceRolledOutput::DiceRolledAcknowledged,
             )),
         }
+    }
+}
+
+#[cfg(test)]
+mod learned_cast_attempt_tests {
+    use super::{AvailableAction, AvailableActionKind, SimpleAi};
+    use manabrew_protocol::prompts::common::PlayCardMode;
+
+    fn cast(id: &str, card: &str) -> AvailableAction {
+        AvailableAction {
+            id: id.to_owned(),
+            kind: AvailableActionKind::Cast {
+                card_id: card.to_owned(),
+                mode: PlayCardMode::Normal,
+                label: format!("Cast {card}"),
+                face_index: None,
+            },
+        }
+    }
+
+    #[test]
+    fn overriding_cast_replaces_attempted_card_but_keeps_proposed_spell_available() {
+        let original = cast("prompt-action-0", "spell-A");
+        let replacement = cast("prompt-action-1", "spell-B");
+        let mut ai = SimpleAi::new();
+        let old_key = SimpleAi::action_key(&original);
+        let new_key = SimpleAi::action_key(&replacement);
+        ai.attempted_actions.insert(old_key.clone());
+
+        assert!(ai.reconcile_cast_attempt(
+            &[original.clone(), replacement.clone()],
+            &original.id,
+            &replacement.id
+        ));
+        assert!(!ai.attempted_actions.contains(&old_key));
+        assert!(ai.attempted_actions.contains(&new_key));
+        assert!(!ai.reconcile_cast_attempt(
+            &[original.clone(), replacement.clone()],
+            &original.id,
+            &replacement.id
+        ));
+        assert!(!ai.reconcile_cast_attempt(&[original, replacement], "missing", "prompt-action-1"));
+        assert_eq!(ai.attempted_actions.len(), 1);
     }
 }
 

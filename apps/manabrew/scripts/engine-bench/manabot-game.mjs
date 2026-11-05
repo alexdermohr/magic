@@ -155,6 +155,11 @@ if ([...learnedSeats].some((seat) => !Number.isInteger(seat) || seat < 0 ||
     seat >= decks.length || forgeAiSeats.includes(seat))) {
   throw new Error("--learned-seats must contain valid external ManaBot seats");
 }
+if (learnedModel && [...learnedSeats].some(
+  (seat) => typeof bots[seat].reconcile_cast_attempt !== "function",
+)) {
+  throw new Error("Learned policy requires ManaBot WASM rebuilt with reconcile_cast_attempt");
+}
 const latestViews = decks.map(() => null);
 const learnedTried = decks.map(() => new Set());
 const learnedTurns = decks.map(() => null);
@@ -233,7 +238,8 @@ const engine = await createForgeEngine({
     }
     if (prompt.input?.type === "gameOver") terminalPrompts.push({ seat, input: prompt.input });
     const decideStart = performance.now();
-    const raw = bots[seat].decide(JSON.stringify(prompt));
+    const promptJson = JSON.stringify(prompt);
+    const raw = bots[seat].decide(promptJson);
     if (!raw) {
       botMs.push(performance.now() - decideStart);
       return;
@@ -254,7 +260,8 @@ const engine = await createForgeEngine({
         learnedStats[seat].eligible++;
         const untried = candidates.filter((candidate) => !learnedTried[seat].has(candidate.cardId));
         const pick = scoreCastChoices(untried, learnedModel);
-        if (pick && pick.id !== teacher.id) {
+        if (pick && pick.id !== teacher.id &&
+            bots[seat].reconcile_cast_attempt(promptJson, teacher.id, pick.id)) {
           action.output = { type: "act", actionId: pick.id };
           decision = action.output;
           learnedStats[seat].overrides++;

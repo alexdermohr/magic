@@ -363,3 +363,35 @@ Smoke check: seed 36121 with personal Anowon/Helga decks ended in
 `game:over`, one learned override; all 248 trace rows carried the ManaBot
 teacher label, one row differed between teacher and executed decision,
 and no labelled action was absent from its prompt. Nine Node tests passed.
+### Correcting ManaBot's attempt memory after a learned override
+
+The optional learned-cast wrapper now requires a **recompiled** ManaBot
+WASM exposing `reconcile_cast_attempt()`. When ManaBot proposes cast A,
+the baseline SimpleAi immediately marks A as attempted. If the learned
+policy replaces A with cast B, the wrapper must atomically remove A and
+record B in SimpleAi's own per-turn attempted-action set. Otherwise A can
+disappear from further proposals for the rest of that turn even though
+it was never played. The override only happens if the reconciler finds
+both cast actions in the current Forge prompt and confirms the change;
+otherwise ManaBot's original decision is executed unchanged. Ordinary
+ManaBot behavior and all other prompt kinds remain unchanged.
+
+Verification with the newly compiled `src/wasm/wasm_bg.wasm`:
+- `cargo test -p manabot --lib`: **23/23 passed**, including the new
+  regression demonstrating that the original spell stays eligible,
+  the executed one is marked, and duplicate/unknown reconciliation
+  is rejected.
+- `rustfmt --check`, **9/9 Node tests**, and the WASM release compilation
+  succeeded; the compiled JS exports the new method.
+- Four previously unseen, seat-rotated Anowon/Helga Commander games
+  (seeds 37221–37224) played the experimental policy against the
+  *same new* unmodified ManaBot build: **4/4 normally completed**,
+  **3:1 wins**, **30 changes among 73 eligible casts**. This is a
+  behavioral smoke test, **not** evidence of better play from only
+  four games.
+
+Use a build with the new interface for both sides of these experiments;
+using the old ManaBot WASM with `--learned-model` now fails visibly
+before the game rather than silently using incorrect anti-loop state.
+This WASM build and these models are local test artifacts only.
+No running iPad/Linux service was modified.
