@@ -165,3 +165,23 @@ Das unter `~/.local/share/manabrew-ipad-magic-1a99374df729354aaccdbe0e35ff60354a
     systemctl --user restart manabrew-ipad-pwa.service
 
 PR #74 und der von ihm abhängige PR #76 waren bei dieser Auslieferung weiterhin offen; ein getesteter Live-Build ist kein GitHub-Merge. Der Konto-/Relay-Dienst auf Port 8087 und die Kontoanmeldung wurden durch dieses Update nicht verändert.
+
+### Produktivrelease 32da4ed mit korrigierten Opferkosten, 5. November 2026
+
+**Build und Karten:** Aus Quellcommit `32da4ed727b40809fdc85184eb7d91391644aa50` wurde die vollständige Offline-PWA mit gepinnter Forge-WebImage, Rust-WASM und 35 persönlichen Commander-Decks neu gebaut. Der unveränderliche Release liegt unter `~/.local/share/manabrew-ipad-magic-32da4ed727b40809fdc85184eb7d91391644aa50/dist`; Manifest `ebea563278331d874713`, **3.346 Dateien**, **393.798.030 Bytes**. Bei der Kopie wurden alle Manifestdateien einzeln anhand Größe und SHA-256 geprüft. Der bisherige produktive Release `1a99374` wurde nicht gelöscht.
+
+**Ursache und Tests:** Der neue X-Mana-Schätzer überschätzte zuvor `Phyrexian Altar`, wenn keine Kreatur zum Opfern vorhanden war. Der Fix ignoriert Ressourcen mit ungesicherten Fremdopfer-, Discard-/Exil- oder sonstigen Zahlungskosten und behält belegbare Selbstopfer-Manaquellen wie Treasure und Lotus Petal. **24/24 Rust-Tests** bestanden. 24 direkte Commander-A/B-Partien gegen den vorigen Bot endeten regulär: mit der persönlichen Marchesa-Liste (enthält Phyrexian Altar) und Helga 8:4, mit Magar und Malcolm/Breeches 6:6, insgesamt **14:10**. Ein statistisch gesicherter allgemeiner Spielstärkenvorteil folgt daraus nicht; die Opferkosten-Schätzung ist bei fremden Opferressourcen bewusst konservativ.
+
+**Vollständiger Nutzerweg:** Die Version wurde im isolierten Caddy-Kandidaten neu installiert, offline kaltgestartet und gegen den über die UI gewählten ManaBot nach **140 regulären Eingaben** bis zur Eliminierung gespielt (fünf Sekunden Ergebnisanzeige, Rückkehr ins Menü, **0 Seitenfehler**). Danach wurden allein die beiden read-only-Release-Mountpfade des bestehenden `manabrew-ipad-pwa.service` auf das neue, vollständig überprüfte Verzeichnis umgestellt; DNS, Caddy-Konfiguration und sonstige Dienste blieben unverändert. Der Dienst war danach `active/running`; Port 8088 lieferte das genaue neue Manifest mit COOP/COEP und die echte Tailnet-HTTPS-/SNI-Adresse war mit HTTP 200 erreichbar.
+
+**Produktive End-to-End-Gegenprobe:** Ein neues Chromium-Profil installierte über `https://heim-pc.tail6dbb90.ts.net:8443` alle Offline-Dateien, startete bei abgeschaltetem Netzwerk neu, zeigte die 35 Commander-Decks und aktivierte ManaBot über die sichtbaren Einstellungen (`aiController=manabot`). Das vollständige Offline-Spiel Anowon gegen Gahiji endete über diese echte HTTPS-Origin nach **87 UI-Aktionen** durch Eliminierung, hielt die Ergebnisansicht fünf Sekunden stabil und kehrte ohne JavaScript-Seitenfehler ins Menü zurück. Der frische Linux-Desktop-Erststart über Port 8088 installierte alle 35 Decks automatisch; Offline-Kaltstart, erneutes Öffnen, korrekte Linux-Installationsansicht und JavaScript-Fehlerfreiheit wurden bestätigt.
+
+**Physisches iPad und Grenzen:** Der gekoppelte Juno-Agent auf dem iPad verifizierte nach dem Update die reale Tailnet-MagicDNS-Auflösung, gültiges HTTPS, COOP/COEP und das exakt passende Manifest `ebea563278331d874713` mit 3.346 Einträgen. **Kein physischer Safari-/WebKit-Home-Screen-Spieltest** wurde ausgeführt; die langfristige Offline-Cachepersistenz auf iPadOS bleibt ungeprüft. GitHub-PR #74 und der davon abhängige PR #76 sind weiterhin offen; ein laufender Produktivrelease ist kein Merge.
+
+**Rückfall:** Die direkte Vorgängerversion `1a99374` und das exakte vorherige Dropin `~/.local/state/manabrew-release-backup/20261105-32da4ed-before.conf` (SHA-256 `61595d488498f57a2477bce36b7c1bf41889af7932c164997b776e73674de21d`) sind erhalten. Bei nachgewiesenem Betriebsproblem nur die frühere Konfiguration wiederherstellen und den PWA-Dienst neu starten:
+
+    cp ~/.local/state/manabrew-release-backup/20261105-32da4ed-before.conf ~/.config/systemd/user/manabrew-ipad-pwa.service.d/10-magic-release.conf
+    systemctl --user daemon-reload
+    systemctl --user restart manabrew-ipad-pwa.service
+
+Der separate Linux-Online-/Account-Client auf Port 8087 und der Relay wurden durch diese PWA-Umschaltung nicht verändert.
