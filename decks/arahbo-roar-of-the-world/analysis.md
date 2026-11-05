@@ -9,7 +9,7 @@ Arahbo gibt vom Kommandobereich aus zu Beginn des eigenen Kampfes einer ANDEREN 
 
 - 100 Karten: 1 Commander, 32 weitere Kreaturen (davon 26 Katzen/Changeling), 32 andere Nichtlandkarten, 35 Länder.
 - Sieben Katzen für ein Mana: Ocelot Pride, Loam Lion, Sacred Cat, Steppe Lynx, Savannah Lions, Jungle Lion, Wild Nacatl.
-- Neun klassische Rampkarten: drei Mana-Kreaturen (Birds, Noble Hierarch, Delighted Halfling), Sol Ring, Arcane Signet, Utopia Sprawl, Wild Growth, Nature's Lore, Three Visits. Dazu Gaea's Cradle, Three Tree City und der Schatz von Jewel Thief.
+- Neun klassische Rampkarten: drei Mana-Kreaturen (Birds, Avacyn's Pilgrim, Delighted Halfling), Sol Ring, Arcane Signet, Utopia Sprawl, Wild Growth, Nature's Lore, Three Visits. Dazu Gaea's Cradle, Three Tree City und der Schatz von Jewel Thief.
 - Frühe Kernkreaturen: Adorned Pouncer (Doppelschlag), Scythecat Cub (Trampelschaden, Landfall), Qasali Pridemage (Removal), Bronzehide Lion (Schutz), Kutzil (Karten und Schutz des eigenen Zuges), Mirri (Blockerbegrenzung).
 - Neuere Karten: Bast, Panther Goddess (2026; unzerstörbar, kampfbezogene Verstärkung) und Solarium Sentry (2026; 3/3 für GW, situativer Lebensgewinn).
 - Zusätzliche Verstärker: Arahbo, the First Fang, King of the Pride, Feline Sovereign, Kaheera, Sovereign Okinec Ahau.
