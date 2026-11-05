@@ -15,7 +15,11 @@ Das Deck zeigt eine **fiktive** Finanzoligarchie aus Ravnicas Orzhov-Milieu: Abg
 
 ## Anpassung vom 05.11.2026
 
-**Drana's Emissary → Sanctum of Stone Fangs.** Der Schrein kostet ein Mana weniger und sorgt bereits als einziger Schrein in der eigenen Hauptphase vor dem Kampf für Lebensverlust bei allen Gegnern, sodass Teysa im Endsegment entsprechend Hinweise erzeugen kann. Die Liste bleibt bei 100 Karten, 36 Ländern und drei Game Changern. Weitere vorgeschlagene Tausche sind nicht umgesetzt.
+**Drana's Emissary → Sanctum of Stone Fangs.** Der Schrein kostet ein Mana weniger und sorgt bereits als einziger Schrein in der eigenen Hauptphase vor dem Kampf für Lebensverlust bei allen Gegnern, sodass Teysa im Endsegment entsprechend Hinweise erzeugen kann.
+
+**Dreg Recycler → Roaming Throne.** Mit gewähltem Kreaturentyp *Mensch* löst Teysas Untersuchen im Endsegment ein zusätzliches Mal aus. Academy Manufactor vervielfacht die daraus entstehenden Hinweise, Speisen und Schätze. Die übrigen Opfermöglichkeiten bleiben erhalten. **Elenda, the Dusk Rose und Marionette Master bleiben im Deck.**
+
+Die Liste bleibt bei 100 Karten, 36 Ländern und drei Game Changern.
 
 ## Optimierung vom 13.10.2026
 
