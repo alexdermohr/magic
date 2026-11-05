@@ -14,7 +14,7 @@ Deck
 1 Lion Sash
 1 Qasali Pridemage
 1 Bronzehide Lion
-1 Solarium Sentry
+1 Skyknight Squire
 1 Fleecemane Lion
 1 Skyhunter Skirmisher
 1 Arahbo, the First Fang
@@ -53,7 +53,7 @@ Deck
 1 Hunter's Insight
 
 1 Heroic Intervention
-1 Flawless Maneuver
+1 Galadriel's Dismissal
 1 Teferi's Protection
 1 Tamiyo's Safekeeping
 1 Tyvar's Stand
