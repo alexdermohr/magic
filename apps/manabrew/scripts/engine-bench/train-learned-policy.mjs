@@ -4,7 +4,7 @@
  * output. Pure Node.js (no model download, Python, PyTorch or GPU required).
  * Trace files stay local; only fixed-size feature weights are written.
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { FEATURE_NAMES, castChoices, scoreCastChoices } from "./learned-policy.mjs";
 
@@ -12,13 +12,40 @@ function option(name, fallback) {
   const index = process.argv.indexOf("--" + name);
   return index < 0 ? fallback : process.argv[index + 1];
 }
-const files = (option("traces", "") ?? "").split(",").filter(Boolean).map((path) => resolve(path));
+const explicitTraces = (option("traces", "") ?? "").split(",").filter(Boolean);
+const traceDir = option("trace-dir", null);
+if (explicitTraces.length && traceDir) {
+  console.error("Use either --traces or --trace-dir, not both.");
+  process.exit(2);
+}
+function finishedPopulationTrace(path) {
+  const resultPath = path.replace(/\.trace\.jsonl$/, ".json");
+  if (!existsSync(resultPath)) return false;
+  try {
+    return JSON.parse(readFileSync(resultPath, "utf8")).outcome?.reason === "game:over";
+  } catch {
+    return false;
+  }
+}
+const candidates = (traceDir
+  ? readdirSync(resolve(traceDir)).filter((name) => /^game-\d+\.trace\.jsonl$/.test(name))
+      .sort((a, b) => Number(a.match(/\d+/)[0]) - Number(b.match(/\d+/)[0]))
+      .map((name) => resolve(traceDir, name))
+  : explicitTraces.map((path) => resolve(path)));
+const files = traceDir ? candidates.filter(finishedPopulationTrace) : candidates;
+const skippedUnfinished = candidates.length - files.length;
+const holdoutOption = option("holdout-games", null);
 const output = option("out", null);
 const epochs = Number(option("epochs", "30"));
 const rate = Number(option("rate", "0.06"));
+const holdoutCount = holdoutOption === null
+  ? (files.length >= 2 ? Math.max(1, Math.ceil(files.length * 0.2)) : 0)
+  : Number(holdoutOption);
 if (!files.length || !output || !Number.isInteger(epochs) || epochs < 1 || epochs > 1000 ||
-    !(rate > 0 && rate <= 1)) {
-  console.error("usage: node train-learned-policy.mjs --traces game1.log,game2.log --out policy.json [--epochs 30 --rate 0.06]");
+    !(rate > 0 && rate <= 1) || !Number.isInteger(holdoutCount) ||
+    holdoutCount < 0 || holdoutCount >= files.length ||
+    (files.length >= 2 && holdoutCount === 0)) {
+  console.error("usage: node train-learned-policy.mjs --traces game1.log,game2.log | --trace-dir /tmp/population --out policy.json [--holdout-games N --epochs 30 --rate 0.06]");
   process.exit(2);
 }
 
@@ -38,9 +65,10 @@ function readTrace(path) {
   return examples;
 }
 const byGame = files.map((path) => ({ path, rows: readTrace(path) }));
-// Hold out complete games, never random decisions from the same game.
-const validation = byGame.length >= 2 ? byGame.at(-1).rows : [];
-const train = byGame.slice(0, byGame.length >= 2 ? -1 : undefined).flatMap((game) => game.rows);
+// Split by complete games only, never random decisions within the same game.
+const split = byGame.length - holdoutCount;
+const train = byGame.slice(0, split).flatMap((game) => game.rows);
+const validation = byGame.slice(split).flatMap((game) => game.rows);
 if (train.length === 0) {
   console.error("No trainable cast-versus-cast decisions. Collect longer traces with --trace chooseAction.");
   process.exit(1);
@@ -98,6 +126,9 @@ model.training = {
   teacher: "ManaBot SimpleAi",
   scope: "chooseAction with >=2 visible cast choices and teacher choosing cast",
   traces: files.length,
+  skippedUnfinished,
+  trainGames: split,
+  validationGames: holdoutCount,
   train: metrics(train),
   validation: metrics(validation),
   validationUnit: "whole trace/game; absent if only one game",

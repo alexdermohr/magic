@@ -35,16 +35,27 @@ function option(name, fallback) {
 
 const summariseDir = option("summarise", null);
 const out = resolve(summariseDir ?? option("out", "target/manabot-pop"));
-const games = Number(option("games", 40));
-const seedBase = Number(option("seed-base", 7000));
+const existingPlanPath = join(out, "population-plan.json");
+const storedPlan = summariseDir && existsSync(existingPlanPath)
+  ? JSON.parse(readFileSync(existingPlanPath, "utf8")) : null;
+const games = Number(option("games", storedPlan?.games ?? 40));
+const seedBase = Number(option("seed-base", storedPlan?.seedBase ?? 7000));
 const jobs = Number(option("jobs", Math.max(1, Math.floor(cpus().length / 2))));
-const engine = option("engine", "packages/forge-wasm");
-const wasms = option("wasms", "").split(",").filter(Boolean);
-const decks = option("decks", null);
-const personalDecks = option("personal-decks", null);
+const engine = option("engine", storedPlan?.engine ?? "packages/forge-wasm");
+const wasms = option("wasms", storedPlan?.wasms?.join(",") ?? "").split(",").filter(Boolean);
+const decks = option("decks", storedPlan?.decks ?? null);
+const personalDecks = option("personal-decks", storedPlan?.personalDecks ?? null);
 const timeout = option("timeout", "420");
 const extra = option("extra", "").split(" ").filter(Boolean);
-const seatCount = Number(option("seats", decks ? decks.split(",").length : 4));
+const learnedModel = option("learned-model", storedPlan?.learnedModel ?? null);
+const tracePrompts = option("trace", null);
+if (wasms.length > 2) {
+  throw new Error("--wasms accepts at most two builds (A and B)");
+}
+if (tracePrompts && !["chooseAction"].includes(tracePrompts)) {
+  throw new Error("--trace currently supports chooseAction only");
+}
+const seatCount = Number(option("seats", storedPlan?.seatCount ?? (decks ? decks.split(",").length : 4)));
 
 const PAIRS =
   seatCount === 2
@@ -70,6 +81,11 @@ function plan(index) {
   } else {
     if (wasms.length === 1) args.push("--wasm", wasms[0]);
     args.push("--forge-ai-seats", b.join(","));
+  }
+  // With one or no --wasms, B is Forge AI; with two, B is ManaBot.
+  if (learnedModel) args.push("--learned-model", learnedModel, "--learned-seats", a.join(","));
+  if (tracePrompts) {
+    args.push("--trace", tracePrompts, "--trace-file", join(out, `game-${seed}.trace.jsonl`));
   }
   return { seed, a, b, args, file: join(out, `game-${seed}.json`) };
 }
@@ -105,6 +121,25 @@ function runOne(game) {
 
 async function runAll() {
   mkdirSync(out, { recursive: true });
+  // Avoid silently resuming games from a different model, engine or deck plan.
+  const manifestPath = join(out, "population-plan.json");
+  const manifest = {
+    schemaVersion: 1, seedBase, games, seatCount, engine: resolve(engine),
+    wasms: wasms.map((path) => resolve(path)),
+    decks, personalDecks: personalDecks ? resolve(personalDecks) : null,
+    timeout, extra, learnedModel: learnedModel ? resolve(learnedModel) : null,
+    learnedModelContent: learnedModel ? readFileSync(resolve(learnedModel), "utf8") : null,
+    tracePrompts,
+  };
+  if (existsSync(manifestPath) &&
+      JSON.stringify(JSON.parse(readFileSync(manifestPath, "utf8"))) !== JSON.stringify(manifest)) {
+    throw new Error(`population configuration changed; use a fresh --out directory: ${out}`);
+  }
+  if (!existsSync(manifestPath) &&
+      readdirSync(out).some((name) => /^game-\d+\.json$/.test(name))) {
+    throw new Error(`existing games without a population manifest; use a fresh --out directory: ${out}`);
+  }
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
   const queue = Array.from({ length: games }, (_, index) => plan(index)).filter(
     (game) => !existsSync(game.file),
   );
@@ -154,6 +189,7 @@ function summarise() {
   const bot = { p50: [], p99: [], totalMs: [], observeMs: [] };
   const turns = [];
   const durations = [];
+  const learned = { eligible: 0, overrides: 0, fallback: 0 };
   for (const result of results) {
     if (result.outcome?.reason !== "game:over" || !result.winnerId) {
       nonResults += 1;
@@ -170,6 +206,11 @@ function summarise() {
     byDeck[deck][winner] += 1;
     turns.push(result.turn);
     durations.push(result.durationMs / 1000);
+    for (const seat of result.learned?.seatStats ?? []) {
+      learned.eligible += seat.eligible ?? 0;
+      learned.overrides += seat.overrides ?? 0;
+      learned.fallback += seat.fallback ?? 0;
+    }
     latency.p50.push(result.latency?.p50);
     latency.p90.push(result.latency?.p90);
     latency.p99.push(result.latency?.p99);
@@ -225,6 +266,7 @@ function summarise() {
       observeMs: median(bot.observeMs),
     },
     perSeatGame: { A: perSeat(sides.A.seats), B: perSeat(sides.B.seats) },
+    ...(learnedModel ? { learned } : {}),
   };
   writeFileSync(join(out, "summary.json"), `${JSON.stringify(summary, null, 2)}\n`);
   return summary;
@@ -242,6 +284,7 @@ console.log(
     `A ${summary.A} - B ${summary.B} (p=${summary.p}); median turn ${summary.medianTurn}, ${summary.medianDurationS}s; latency p50/p90/p99 ${summary.latency.p50}/${summary.latency.p90}/${summary.latency.p99} ms, ${summary.latency.over1s} over 1 s; bot decide p50/p99 ${summary.bot.p50}/${summary.bot.p99} ms, ${summary.bot.totalMs} ms decide + ${summary.bot.observeMs} ms observe per game`,
     line("A"),
     line("B"),
+    ...(summary.learned ? [`  learned eligible ${summary.learned.eligible}, overrides ${summary.learned.overrides}, fallback ${summary.learned.fallback}`] : []),
     ...Object.entries(summary.byDeck).map(([deck, wins]) => `  ${deck}: A ${wins.A} - B ${wins.B}`),
     `  by winning seat: ${summary.bySeat.map((seat, at) => `s${at} A${seat.A}/B${seat.B}`).join(" ")}`,
   ].join("\n"),

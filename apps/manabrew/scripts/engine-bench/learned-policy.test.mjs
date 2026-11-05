@@ -96,3 +96,76 @@ test("offline trainer produces usable weights and holds out a whole trace", () =
     rmSync(root, { recursive: true, force: true });
   }
 });
+
+test("trace directory holds out whole games without mixing training rows", () => {
+  const root = mkdtempSync(join(tmpdir(), "manabrew-pop-training-"));
+  try {
+    const { prompt, view } = fixture();
+    for (let seed = 22001; seed <= 22005; seed++) {
+      const actionId = seed <= 22003 ? "cast-1" : "cast-2";
+      const record = JSON.stringify({
+        prompt, view, decision: { type: "act", actionId },
+      }) + "\n";
+      writeFileSync(join(root, "game-" + seed + ".trace.jsonl"),
+        record.repeat(seed <= 22003 ? 1 : 2));
+      writeFileSync(join(root, "game-" + seed + ".json"),
+        JSON.stringify({ outcome: { reason: "game:over" } }));
+    }
+    writeFileSync(join(root, "game-invalid.trace.jsonl"), "{not a game}");
+    writeFileSync(join(root, "game-22006.trace.jsonl"),
+      JSON.stringify({ prompt, view, decision: { type: "act", actionId: "cast-2" } }));
+    writeFileSync(join(root, "game-22006.json"),
+      JSON.stringify({ outcome: { reason: "timeout" } }));
+    const out = join(root, "policy.json");
+    const call = spawnSync(process.execPath, [
+      new URL("./train-learned-policy.mjs", import.meta.url).pathname,
+      "--trace-dir", root, "--holdout-games", "2", "--out", out,
+      "--epochs", "4",
+    ], { encoding: "utf8" });
+    assert.equal(call.status, 0, call.stderr);
+    const model = JSON.parse(readFileSync(out, "utf8"));
+    assert.equal(model.training.traces, 5);
+    assert.equal(model.training.skippedUnfinished, 1);
+    assert.equal(model.training.trainGames, 3);
+    assert.equal(model.training.validationGames, 2);
+    assert.equal(model.training.train.decisions, 3);
+    assert.equal(model.training.validation.decisions, 4);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("population summary restores seed and seat rotation from saved plan", () => {
+  const root = mkdtempSync(join(tmpdir(), "manabrew-pop-summary-"));
+  try {
+    writeFileSync(join(root, "population-plan.json"), JSON.stringify({
+      schemaVersion: 1, seedBase: 23011, games: 2, seatCount: 2,
+      learnedModel: "/tmp/example-model.json",
+    }));
+    for (let i = 0; i < 2; i++) {
+      writeFileSync(join(root, "game-" + (23011 + i) + ".json"),
+        JSON.stringify({
+          seed: 23011 + i,
+          outcome: { reason: "game:over" },
+          winnerId: "player-" + i,
+          decks: ["personal:anowon-rogues", "personal:helga-skittish-seer"],
+          turn: 12, durationMs: 1800,
+          seats: [{ prompts: 2 }, { prompts: 2 }],
+          learned: { seatStats: [{ eligible: 2, overrides: 1, fallback: 1 }] },
+        }));
+    }
+    const call = spawnSync(process.execPath, [
+      new URL("./manabot-pop.mjs", import.meta.url).pathname,
+      "--summarise", root,
+    ], { encoding: "utf8" });
+    assert.equal(call.status, 0, call.stderr);
+    const summary = JSON.parse(readFileSync(join(root, "summary.json"), "utf8"));
+    assert.equal(summary.decided, 2);
+    assert.equal(summary.A, 2);
+    assert.equal(summary.B, 0);
+    assert.deepEqual(summary.learned, { eligible: 4, overrides: 2, fallback: 2 });
+    assert.deepEqual(summary.bySeat, [{ A: 1, B: 0 }, { A: 1, B: 0 }]);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
