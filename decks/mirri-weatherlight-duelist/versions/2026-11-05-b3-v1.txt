@@ -1,0 +1,92 @@
+1 Mirri, Weatherlight Duelist
+1 Ocelot Pride
+1 Leonin Vanguard
+1 Adorned Pouncer
+1 Qasali Pridemage
+1 Lion Sash
+1 Whitemane Lion
+1 King of the Pride
+1 Feline Sovereign
+1 Kutzil, Malamet Exemplar
+1 Brimaz, King of Oreskos
+1 Pride Sovereign
+1 Realmwalker
+1 Skyhunter Strike Force
+1 Prowling Serpopard
+1 Skyhunter Skirmisher
+1 Sovereign Okinec Ahau
+1 Leonin Warleader
+1 Jazal Goldmane
+1 Qasali Slingers
+1 Regal Caracal
+1 Keeper of Fables
+1 Arahbo, Roar of the World
+1 Nacatl War-Pride
+1 Soul Warden
+1 Esper Sentinel
+1 Mother of Runes
+1 Giver of Runes
+1 Ranger-Captain of Eos
+1 Toski, Bearer of Secrets
+1 Craterhoof Behemoth
+1 Stoneforge Mystic
+1 Delighted Halfling
+1 Sol Ring
+1 Arcane Signet
+1 Utopia Sprawl
+1 Wild Growth
+1 Nature's Lore
+1 Three Visits
+1 Springleaf Drum
+1 Earthcraft
+1 Relic of Legends
+1 Lightning Greaves
+1 Swiftfoot Boots
+1 Dolmen Gate
+1 Reconnaissance
+1 Heroic Intervention
+1 Flawless Maneuver
+1 Teferi's Protection
+1 Glare of Subdual
+1 Unlicensed Hearse
+1 Skullclamp
+1 Mask of Memory
+1 Deafening Silence
+1 The Great Henge
+1 Return of the Wildspeaker
+1 Swords to Plowshares
+1 Path to Exile
+1 Aura Shards
+1 Beast Within
+1 Beastmaster Ascension
+1 Akroma's Will
+1 Felidar Retreat
+1 Eladamri's Call
+1 Finale of Devastation
+1 Command Tower
+1 Savannah
+1 Temple Garden
+1 Bountiful Promenade
+1 Brushland
+1 Horizon Canopy
+1 Razorverge Thicket
+1 Lush Portico
+1 Windswept Heath
+1 Wooded Foothills
+1 Verdant Catacombs
+1 Misty Rainforest
+1 Marsh Flats
+1 Flooded Strand
+1 Arid Mesa
+1 Prismatic Vista
+1 Gaea's Cradle
+1 Three Tree City
+1 Cavern of Souls
+1 Boseiju, Who Endures
+1 Eiganjo, Seat of the Empire
+1 Yavimaya, Cradle of Growth
+1 Plaza of Heroes
+1 Survivors' Encampment
+1 Minas Tirith
+6 Forest
+4 Plains
