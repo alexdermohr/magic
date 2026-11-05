@@ -13,6 +13,14 @@ Das Deck zeigt eine **fiktive** Finanzoligarchie aus Ravnicas Orzhov-Milieu: Abg
 
 **Nicht verifiziert:** Spielgeschwindigkeit und tatsächliche Tischbalance; die Bracket-Einschätzung bezieht sich auf Liste und Deckbauabsicht.
 
+## Anpassung vom 05.11.2026
+
+**Drana's Emissary → Sanctum of Stone Fangs.** Der Schrein kostet ein Mana weniger und sorgt bereits als einziger Schrein in der eigenen Hauptphase vor dem Kampf für Lebensverlust bei allen Gegnern, sodass Teysa im Endsegment entsprechend Hinweise erzeugen kann.
+
+**Dreg Recycler → Roaming Throne.** Mit gewähltem Kreaturentyp *Mensch* löst Teysas Untersuchen im Endsegment ein zusätzliches Mal aus. Academy Manufactor vervielfacht die daraus entstehenden Hinweise, Speisen und Schätze. Die übrigen Opfermöglichkeiten bleiben erhalten. **Elenda, the Dusk Rose und Marionette Master bleiben im Deck.**
+
+Die Liste bleibt bei 100 Karten, 36 Ländern und drei Game Changern.
+
 ## Optimierung vom 13.10.2026
 
 Nach Gegenprüfung bleiben **vier der sieben ursprünglichen Tausche** bestehen. **Crypt Ghast, Thran Turbine und Debt to the Deathless sind wieder im Deck**. Wernog, Rider's Chaplain und Umbral Collar Zealot bleiben als Clue-/Opfermotoren; dafür weichen Austere Command und Victory Chimes. Fokus: verlässlicher Lebensverlust, Clue-Produktion, Kartenziehen, schwarzes Mana und starke X-Finisher. **36 Länder und drei Game Changer bleiben unverändert.**
