@@ -137,10 +137,6 @@ impl SimpleAi {
         }
     }
 
-    /// Try the engine's normal auto-payment before manually activating mana
-    /// sources with a mana cost. Three Tree City's {2}, {T} ability used to be
-    /// selected first even when ordinary lands and Treasures were available.
-    /// A failed auto payment permits one manual fallback, not an endless loop.
     fn pay_mana_cost(
         &mut self,
         input: &manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput,
@@ -352,9 +348,6 @@ impl SimpleAi {
             .collect()
     }
 
-    /// Count mana produced by one `Add` clause. Mana choices are alternatives:
-    /// "{U} or {B}" produces one, and "{U}{U}, {U}{B}, or {B}{B}" two.
-    /// In contrast "{W}{U}{B}" produces three simultaneous mana.
     fn mana_symbols_in_clause(clause: &str) -> i32 {
         let count = |option: &str| {
             option
@@ -414,11 +407,6 @@ impl SimpleAi {
         (amount > 0).then_some((colors, any, amount))
     }
 
-    /// Necessary coloured-mana constraint: one dual land can contribute one
-    /// mana to {U}{B}, not one of each. Test every nonempty subset of colours
-    /// so overlapping flexible sources cannot be spent twice. This stays an
-    /// optimistic check: activated ability costs and conditional mana are
-    /// still settled by the actual engine.
     fn can_cover_colored_cost(pips: &[i32; 5], sources: &[([i32; 5], i32, i32)]) -> bool {
         (1u8..32).all(|subset| {
             let required: i32 = (0..5)
@@ -871,8 +859,6 @@ impl SimpleAi {
     }
 
     fn available_mana(&self, player_id: &str) -> i32 {
-        // X spells need the amount of mana, not the number of untapped permanents:
-        // Sol Ring produces two and a non-summoning-sick mana dork also counts.
         self.mana_sources(player_id).2
     }
 
@@ -910,8 +896,6 @@ impl SimpleAi {
         missing: &HashSet<char>,
     ) -> BTreeMap<String, u32> {
         let mut colors = valid_colors.iter().collect::<Vec<_>>();
-        // Stable ordering preserves the engine's default for non-mana choices
-        // and for colors not demanded by the cards in hand / command zone.
         colors.sort_by_key(|color| {
             !Self::color_code(color).is_some_and(|code| missing.contains(&code))
         });
