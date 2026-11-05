@@ -29,7 +29,7 @@ Deck
 1 Bast, Panther Goddess
 1 Jewel Thief
 
-1 Noble Hierarch
+1 Avacyn's Pilgrim
 1 Birds of Paradise
 1 Delighted Halfling
 1 Esper Sentinel
