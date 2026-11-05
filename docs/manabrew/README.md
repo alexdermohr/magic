@@ -149,3 +149,19 @@ Falls auch 1ededb tatsächlich fehlschlägt, kann durch denselben Austausch zun�
     systemctl --user restart manabrew-ipad-pwa.service
 
 Der bisherige Linux-Online-Client (8087), Relay, Accountdaten und persönliche Deckspeicher wurden durch das Release nicht umgestellt.
+
+### Produktivrelease 1a99374 mit Netto-X-Mana, 5. November 2026
+
+Der im [ManaBot-PR #76](https://github.com/alexdermohr/magic/pull/76) veröffentlichte Quellstand `1a99374df729354aaccdbe0e35ff60354adb6428` behebt zusätzlich die Überschätzung kostenpflichtig erzeugten Manas bei X-Zaubern (zum Beispiel bei Signets). **22/22 Rust-Tests** bestanden; in **24/24** direkten A/B-Commander-Partien gab es reguläre Ergebnisse (14:10 Siege für den neuen Bot, keine statistisch gesicherte allgemeine Spielstärkensteigerung). Ein vollständig aus den Quellen neu gebauter PWA-Kandidat wurde im isolierten Caddy-Browser offline installiert, einschließlich eines regulär beendeten ManaBot-Solospiels nach **161 UI-Aktionen**. Ein anderer Zufallsdurchlauf überschritt die sechsminütige Testgrenze, ohne eine bestimmte KI-Ursache nachzuweisen.
+
+Das unter `~/.local/share/manabrew-ipad-magic-1a99374df729354aaccdbe0e35ff60354adb6428/dist` unveränderlich abgelegte Release enthält **3.346 einzeln SHA-256-geprüfte Offline-Dateien**, **393.797.601 Bytes**, Manifestkennung `f62fdd1039d42fc1230e` und 35 persönliche Commander-Decks. Die bestehende Caddy-Konfiguration und der DNS-Proxy blieben unverändert. Nach atomarem Wechsel ausschließlich der beiden read-only-Mountpfade des `manabrew-ipad-pwa.service` bestätigten systemd (`active/running`), Port 8088 und die echte TLS-/SNI-Origin `https://heim-pc.tail6dbb90.ts.net:8443` die neue Version mit HTTP 200 und COOP/COEP.
+
+**Frischer E2E auf dem produktiven HTTPS-Ursprung:** Eine vollständige Neuinstallation in Chromium mit darauf folgendem Offline-Kaltstart bestand ohne Seitenfehler. Über die sichtbare Settings-Oberfläche wurde `aiController=manabot` gesetzt und mit der Manifestversion abgeglichen. Eine anschließend vollständig offline gespielte Commander-Partie Anowon gegen Gahiji endete nach **100 UI-Aktionen** regulär durch Eliminierung, mit fünf Sekunden erhaltener Ergebnisanzeige, Menürückkehr und **0 JavaScript-Seitenfehlern**. Ein frisches Linux-Chrome-App-Profil bereitete alle 35 GitHub-Decks automatisch vor und bestand den Offline-Kaltstart und erneutes Offline-Öffnen. Die Cacheupgrade-Regression bewahrte zwei lokale Deckänderungen, ein eigenes Deck und dessen altes **38.180-Byte-Kartenbild**. Der gekoppelte physische iPad-Agent löste den Tailnet-Namen auf und bestätigte die neue Version samt Manifest über natives, zertifikatsgeprüftes HTTPS; **eine Safari-/Home-Screen-Partie und die langfristige WebKit-Cachepersistenz sind weiterhin nicht bestätigt**.
+
+**Rückfall auf den unmittelbar zuvor geprüften Release `32e6d40`:** Das exakte vorherige systemd-Dropin liegt unter `~/.local/state/manabrew-release-backup/20261105-1a99374-before.conf` (SHA-256 `c1ac7b9a63d454300d88e805db9c8f4e775fcd0e1fb3d11d0a7f1e79cfffd968`). Nur bei nachgewiesenem Fehler zurückkopieren und ausschließlich den PWA-Dienst neu laden:
+
+    cp ~/.local/state/manabrew-release-backup/20261105-1a99374-before.conf ~/.config/systemd/user/manabrew-ipad-pwa.service.d/10-magic-release.conf
+    systemctl --user daemon-reload
+    systemctl --user restart manabrew-ipad-pwa.service
+
+PR #74 und der von ihm abhängige PR #76 waren bei dieser Auslieferung weiterhin offen; ein getesteter Live-Build ist kein GitHub-Merge. Der Konto-/Relay-Dienst auf Port 8087 und die Kontoanmeldung wurden durch dieses Update nicht verändert.
