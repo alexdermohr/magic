@@ -142,6 +142,7 @@ test("population summary restores seed and seat rotation from saved plan", () =>
     writeFileSync(join(root, "population-plan.json"), JSON.stringify({
       schemaVersion: 1, seedBase: 23011, games: 2, seatCount: 2,
       learnedModel: "/tmp/example-model.json",
+      forgeTeacherTrace: true,
     }));
     for (let i = 0; i < 2; i++) {
       writeFileSync(join(root, "game-" + (23011 + i) + ".json"),
@@ -153,6 +154,7 @@ test("population summary restores seed and seat rotation from saved plan", () =>
           turn: 12, durationMs: 1800,
           seats: [{ prompts: 2 }, { prompts: 2 }],
           learned: { seatStats: [{ eligible: 2, overrides: 1, fallback: 1 }] },
+          forgeTeacher: { samples: 3, rejected: 1 },
         }));
     }
     const call = spawnSync(process.execPath, [
@@ -165,6 +167,7 @@ test("population summary restores seed and seat rotation from saved plan", () =>
     assert.equal(summary.A, 2);
     assert.equal(summary.B, 0);
     assert.deepEqual(summary.learned, { eligible: 4, overrides: 2, fallback: 2 });
+    assert.deepEqual(summary.forgeTeacher, { samples: 6, rejected: 2 });
     assert.deepEqual(summary.bySeat, [{ A: 1, B: 0 }, { A: 1, B: 0 }]);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -222,4 +225,22 @@ test("Forge teacher model provenance rejects mixed games", () => {
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
+});
+
+test("cast retry tracking uses card identity, not reused Forge prompt positions", () => {
+  const { view, prompt } = fixture();
+  const attemptedCards = new Set([castChoices(prompt, view)[0].cardId]);
+  const shifted = {
+    ...prompt,
+    input: {
+      ...prompt.input,
+      actions: [
+        { id: "cast-1", type: "cast", cardId: "instant", label: "Cast Test Instant" },
+        { id: "cast-2", type: "cast", cardId: "creature", label: "Cast Test Creature" },
+      ],
+    },
+  };
+  const candidates = castChoices(shifted, view);
+  assert.deepEqual(candidates.map((c) => c.id), ["cast-1", "cast-2"]);
+  assert.deepEqual(candidates.filter((c) => !attemptedCards.has(c.cardId)).map((c) => c.id), ["cast-1"]);
 });

@@ -1,10 +1,3 @@
-/**
- * Experimental, dependency-free learned reranker for *cast-versus-cast* choices.
- *
- * Forge provides available actions. ManaBot keeps mana, combat, targeting,
- * optional choices and all fallback behavior. This module never invents an action.
- * Use only the active seat's viewer-filtered gameView.
- */
 export const FEATURE_NAMES = Object.freeze([
   "land", "creature", "instant", "sorcery", "artifact", "enchantment",
   "planeswalker", "commander", "graveyard", "cmc", "power", "toughness",
@@ -14,10 +7,6 @@ export const FEATURE_NAMES = Object.freeze([
 
 const cap = (n, max) => Math.max(0, Math.min(max, Number(n) || 0));
 
-/**
- * Both training and inference use this exact function. Unknown/hidden cards
- * are not eligible for learned overrides.
- */
 export function castChoices(prompt, view) {
   if (prompt?.input?.type !== "chooseAction" || !Array.isArray(view?.zones)) return [];
   const actions = (prompt.input.actions ?? []).filter(
@@ -63,7 +52,7 @@ export function castChoices(prompt, view) {
       Number(!land && !enough),
       Number(/gain \d+ life|lifelink/.test(lower)),
     ];
-    return [{ id: action.id, label: action.label ?? "", features }];
+    return [{ id: action.id, cardId: action.cardId, label: action.label ?? "", features }];
   });
 }
 

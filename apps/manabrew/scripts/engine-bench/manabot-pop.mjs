@@ -49,7 +49,7 @@ const timeout = option("timeout", "420");
 const extra = option("extra", "").split(" ").filter(Boolean);
 const learnedModel = option("learned-model", storedPlan?.learnedModel ?? null);
 const tracePrompts = option("trace", null);
-const forgeTeacherTrace = option("forge-teacher-trace", "false") === "true";
+const forgeTeacherTrace = option("forge-teacher-trace", String(storedPlan?.forgeTeacherTrace ?? false)) === "true";
 if (wasms.length > 2) {
   throw new Error("--wasms accepts at most two builds (A and B)");
 }

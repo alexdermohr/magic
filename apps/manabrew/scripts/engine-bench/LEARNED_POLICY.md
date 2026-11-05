@@ -348,3 +348,18 @@ viewer-visible card references, and opponent-hand identity leakage:
 **0 invalid actions and 0 opponent-hand identities**. This verifies
 these recorded examples; it is not a guarantee about every future card
 mechanic or WebImage build.
+### Review follow-up: stable cast identities and trace provenance
+
+The learned retry guard now records the card ID, not Forge's positional
+`prompt-action-N` ID. Reordered actions do not suppress unattempted cards.
+Traces captured with both `--learned-model` and `--trace chooseAction`
+record the **original ManaBot choice** under `decision`, its source as
+`teacher: "manabot"`, and the action actually submitted to Forge under
+`executedDecision`. The trainer only learns from `decision`.
+A `--summarise` run restores `forgeTeacherTrace` from the saved population
+plan rather than silently dropping its metrics.
+
+Smoke check: seed 36121 with personal Anowon/Helga decks ended in
+`game:over`, one learned override; all 248 trace rows carried the ManaBot
+teacher label, one row differed between teacher and executed decision,
+and no labelled action was absent from its prompt. Nine Node tests passed.

@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-/**
- * Learn cast-action preferences from ManaBot's existing --trace chooseAction
- * output. Pure Node.js (no model download, Python, PyTorch or GPU required).
- * Trace files stay local; only fixed-size feature weights are written.
- */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { FEATURE_NAMES, castChoices, scoreCastChoices } from "./learned-policy.mjs";
@@ -88,7 +83,6 @@ function random() {
   return (seed >>> 0) / 0x100000000;
 }
 for (let epoch = 0; epoch < epochs; epoch++) {
-  // Deterministic Fisher-Yates shuffle.
   const order = train.map((_, i) => i);
   for (let j = order.length - 1; j > 0; j--) {
     const k = Math.floor(random() * (j + 1));

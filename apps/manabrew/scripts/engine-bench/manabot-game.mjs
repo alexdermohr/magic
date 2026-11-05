@@ -240,8 +240,7 @@ const engine = await createForgeEngine({
     }
     const action = JSON.parse(raw);
     let decision = action.output;
-    // Experimental learning only reranks Forge-offered, viewer-visible cast
-    // actions. ManaBot retains all other choices and all fallback behavior.
+    const teacherDecision = decision;
     if (learnedModel && learnedSeats.has(seat) && prompt.input?.type === "chooseAction") {
       const observedTurn = latestViews[seat]?.turn ?? turn;
       if (learnedTurns[seat] !== observedTurn) {
@@ -253,7 +252,7 @@ const engine = await createForgeEngine({
       if (decision?.type === "act" && teacher?.type === "cast" &&
           candidates.some((candidate) => candidate.id === teacher.id)) {
         learnedStats[seat].eligible++;
-        const untried = candidates.filter((candidate) => !learnedTried[seat].has(candidate.id));
+        const untried = candidates.filter((candidate) => !learnedTried[seat].has(candidate.cardId));
         const pick = scoreCastChoices(untried, learnedModel);
         if (pick && pick.id !== teacher.id) {
           action.output = { type: "act", actionId: pick.id };
@@ -262,7 +261,7 @@ const engine = await createForgeEngine({
         } else {
           learnedStats[seat].fallback++;
         }
-        learnedTried[seat].add(decision.actionId);
+        learnedTried[seat].add(candidates.find((candidate) => candidate.id === decision.actionId).cardId);
       }
     }
     botMs.push(performance.now() - decideStart);
@@ -277,7 +276,7 @@ const engine = await createForgeEngine({
             `${card.identity?.name ?? "?"} ${card.power ?? ""}/${card.toughness ?? ""}${card.tapped ? " T" : ""} ${card.controllerId}${card.attackingPlayerId ? " ->" + card.attackingPlayerId : ""}`,
           ]),
       );
-      const line = `${JSON.stringify({ seat, turn, life: view?.players?.map((p) => p.life), prompt, decision, cards, view })}\n`;
+      const line = `${JSON.stringify({ seat, turn, life: view?.players?.map((p) => p.life), prompt, decision: teacherDecision, executedDecision: decision, teacher: "manabot", cards, view })}\n`;
       if (traceFile) appendFileSync(resolve(traceFile), line);
       else process.stderr.write(line);
     }
