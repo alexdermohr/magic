@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { FEATURE_NAMES, castChoices, scoreCastChoices } from "./learned-policy.mjs";
+import { TEACHER_PREFIX, parseForgeTeacherEvent } from "./forge-teacher-trace.mjs";
 
 function fixture() {
   const view = {
@@ -90,7 +91,7 @@ test("offline trainer produces usable weights and holds out a whole trace", () =
     const model = JSON.parse(readFileSync(result, "utf8"));
     assert.equal(model.training.train.decisions, 12);
     assert.equal(model.training.validation.decisions, 4);
-    assert.equal(model.training.validation.agreementWithManaBot, 1);
+    assert.equal(model.training.validation.agreementWithTeacher, 1);
     assert.equal(scoreCastChoices(castChoices(prompt, view), model).id, "cast-1");
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -165,6 +166,59 @@ test("population summary restores seed and seat rotation from saved plan", () =>
     assert.equal(summary.B, 0);
     assert.deepEqual(summary.learned, { eligible: 4, overrides: 2, fallback: 2 });
     assert.deepEqual(summary.bySeat, [{ A: 1, B: 0 }, { A: 1, B: 0 }]);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("Forge teacher event requires visible legal cast alternatives and chosen action", () => {
+  const { prompt, view } = fixture();
+  const example = {
+    teacher: "forge-ai",
+    seat: 0,
+    prompt,
+    view,
+    decision: { type: "act", actionId: "cast-1" },
+  };
+  const source = { text: TEACHER_PREFIX + JSON.stringify(example) };
+  const captured = parseForgeTeacherEvent("forge:log", source);
+  assert.equal(captured.sample.teacher, "forge-ai");
+  assert.deepEqual(captured.sample.decision, example.decision);
+  assert.equal(parseForgeTeacherEvent("other", source), null);
+  assert.equal(parseForgeTeacherEvent("forge:log", { text: TEACHER_PREFIX + "{" }).error,
+    "malformed_json");
+  assert.equal(parseForgeTeacherEvent("forge:log", {
+    text: TEACHER_PREFIX + JSON.stringify({ ...example, decision: { type: "act", actionId: "hidden" } }),
+  }).error, "no_visible_teacher_choice");
+  assert.equal(parseForgeTeacherEvent("forge:log", {
+    text: TEACHER_PREFIX + JSON.stringify({ ...example, seat: 1 }),
+  }).error, "invalid_teacher_sample");
+});
+
+test("Forge teacher model provenance rejects mixed games", () => {
+  const root = mkdtempSync(join(tmpdir(), "forge-teacher-trainer-"));
+  try {
+    const { prompt, view } = fixture();
+    for (const [name, teacher] of [["forge.jsonl", "forge-ai"], ["manabot.jsonl", null]]) {
+      writeFileSync(join(root, name), JSON.stringify({
+        prompt, view, decision: { type: "act", actionId: "cast-1" },
+        ...(teacher ? { teacher } : {}),
+      }) + "\n");
+    }
+    const executable = new URL("./train-learned-policy.mjs", import.meta.url).pathname;
+    const forgeOut = join(root, "forge-model.json");
+    const forge = spawnSync(process.execPath, [
+      executable, "--traces", join(root, "forge.jsonl"), "--out", forgeOut,
+    ], { encoding: "utf8" });
+    assert.equal(forge.status, 0, forge.stderr);
+    assert.equal(JSON.parse(readFileSync(forgeOut, "utf8")).training.teacher, "Forge AI");
+
+    const mixed = spawnSync(process.execPath, [
+      executable, "--traces", join(root, "forge.jsonl") + "," + join(root, "manabot.jsonl"),
+      "--out", join(root, "mixed-model.json"),
+    ], { encoding: "utf8" });
+    assert.notEqual(mixed.status, 0);
+    assert.match(mixed.stderr, /no mixed or empty/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

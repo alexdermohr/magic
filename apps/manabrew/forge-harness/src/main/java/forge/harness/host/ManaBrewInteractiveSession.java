@@ -110,6 +110,7 @@ public final class ManaBrewInteractiveSession {
     private volatile long stateRevision;
     private volatile boolean snapshotRecording;
     private boolean checkpointMetricsEnabled;
+    private boolean forgeTeacherTraceEnabled;
     private final List<long[]> checkpointTimings = new ArrayList<>();
     private boolean priorityPromptOpen;
     private Set<Integer> botSeats = Set.of();
@@ -189,6 +190,14 @@ public final class ManaBrewInteractiveSession {
 
     public String getSessionId() {
         return sessionId;
+    }
+
+    void enableForgeTeacherTrace(final boolean enabled) {
+        forgeTeacherTraceEnabled = enabled;
+    }
+
+    boolean forgeTeacherTraceEnabled() {
+        return forgeTeacherTraceEnabled;
     }
 
     public static void setBridge(final InteractiveBridge value) {

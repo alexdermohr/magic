@@ -3,6 +3,7 @@ import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { FEATURE_NAMES, castChoices, scoreCastChoices } from "./learned-policy.mjs";
+import { parseForgeTeacherEvent } from "./forge-teacher-trace.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const presets = join(root, "public", "preset_decks");
@@ -76,6 +77,11 @@ const output = option("out", null);
 const trace = new Set(option("trace", "").split(",").filter(Boolean));
 const traceFile = option("trace-file", null);
 if (traceFile) writeFileSync(resolve(traceFile), "");
+const forgeTeacherTraceFile = option("forge-teacher-trace-file", null);
+if (forgeTeacherTraceFile && !forgeAiSeats.length) {
+  throw new Error("--forge-teacher-trace-file requires at least one --forge-ai-seats seat");
+}
+if (forgeTeacherTraceFile) writeFileSync(resolve(forgeTeacherTraceFile), "");
 const learnedModelPath = option("learned-model", null);
 const learnedModel = learnedModelPath
   ? JSON.parse(readFileSync(resolve(learnedModelPath), "utf8"))
@@ -177,6 +183,7 @@ let lastResponseAt = null;
 const terminalPrompts = [];
 const engineLog = [];
 const engineWarnings = [];
+const forgeTeacher = { samples: 0, rejected: 0 };
 let engineError = null;
 let finish;
 const startedAt = performance.now();
@@ -367,6 +374,18 @@ const engine = await createForgeEngine({
         );
       }
     }
+    if (forgeTeacherTraceFile) {
+      const teacher = parseForgeTeacherEvent(event, payload);
+      if (teacher) {
+        if (teacher.sample) {
+          appendFileSync(resolve(forgeTeacherTraceFile), JSON.stringify(teacher.sample) + "\n");
+          forgeTeacher.samples++;
+        } else {
+          forgeTeacher.rejected++;
+        }
+        return;
+      }
+    }
     if (event === "forge:log") {
       const line = `${payload.level} ${String(payload.text).slice(0, 400)}`;
       engineLog.push(line);
@@ -386,6 +405,7 @@ await engine.startMultiplayerGame({
   commanderNames: decks.map((deck) => deck.commanders[0]?.name ?? null),
   enginePlayerIndex,
   forgeAiSeats,
+  forgeTeacherTrace: Boolean(forgeTeacherTraceFile),
   // Every other SAB seat is a bot, as at a solo pod in the browser.
   botSeats: decks
     .map((_, index) => index)
@@ -407,6 +427,10 @@ if (engineError && outcome.reason === "game:over") {
   outcome.reason = "engine_error";
   outcome.error = engineError;
 }
+if (forgeTeacherTraceFile && !forgeTeacher.samples && outcome.reason === "game:over") {
+  outcome.reason = "teacher_trace_empty";
+  outcome.error = "No eligible Forge AI teacher sample was emitted; verify a rebuilt Java Forge WebImage containing forgeTeacherTrace";
+}
 const summary = {
   seed,
   format,
@@ -424,6 +448,7 @@ const summary = {
   engineWarnings: engineWarnings.slice(-50),
   engineLogTail: finalView?.winnerId ? [] : engineLog.slice(-40),
   seats,
+  ...(forgeTeacherTraceFile ? { forgeTeacher } : {}),
   ...(learnedModel ? {
     learned: {
       policy: learnedModelPath,

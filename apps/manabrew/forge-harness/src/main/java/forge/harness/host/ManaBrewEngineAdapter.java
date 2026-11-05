@@ -165,6 +165,7 @@ public final class ManaBrewEngineAdapter {
         final Match match = new Match(rules, registeredPlayers, "ManaBrew");
         final Game game = match.createGame();
         session.attach(match, game, botSeats, request.isSnapshotRecording());
+        session.enableForgeTeacherTrace(request.forgeTeacherTrace);
         new CardCosmeticBindings(game, deckEntries, request.getPlayers());
         if (request.checkpointMetrics) {
             session.enableCheckpointMetrics();
@@ -578,6 +579,7 @@ public final class ManaBrewEngineAdapter {
                 gameId, variant, startingLife, seed, snapshotRecording, players);
         request.startingLifeSpecified = root.has("startingLife");
         request.checkpointMetrics = root.has("checkpointMetrics") && root.get("checkpointMetrics").getAsBoolean();
+        request.forgeTeacherTrace = root.has("forgeTeacherTrace") && root.get("forgeTeacherTrace").getAsBoolean();
         request.journalRewind = root.has("journalRewind") && root.get("journalRewind").getAsBoolean();
         if (root.has("replaySnapshot")) {
             request.replaySnapshot = root.remove("replaySnapshot").getAsJsonObject();
@@ -648,6 +650,7 @@ public final class ManaBrewEngineAdapter {
         private final long seed;
         private final boolean snapshotRecording;
         private boolean checkpointMetrics;
+        private boolean forgeTeacherTrace;
         private String journalStart;
         private boolean journalCommitBarrier;
         private final List<PlayerConfig> players;

@@ -25,6 +25,8 @@ PRESETS = os.path.join(ROOT, "public", "preset_decks")
 ap = argparse.ArgumentParser()
 ap.add_argument("--seats", type=int, default=4)
 ap.add_argument("--decks", default="kaalia_regression_commander,starter_deck_animar,real_teval_commander,neheb_minotaur_commander")
+ap.add_argument("--personal-decks", default=os.path.join(ROOT, "dist", "personal-decks.json"),
+                help="JSON export with personal:<slug> Commander decks and partners")
 ap.add_argument("--jar", default=os.path.join(ROOT, "forge-harness", "target", "forge-harness-jar-with-dependencies.jar"))
 ap.add_argument("--forge-home", default=os.path.join(ROOT, "forge", "forge-gui"))
 ap.add_argument("--java", default=os.environ.get("JAVA_HOME", "") + "/bin/java" if os.environ.get("JAVA_HOME") else "java")
@@ -44,6 +46,8 @@ ap.add_argument("--timeout", type=int, default=1800)
 ap.add_argument("--seed", type=int, default=42)
 ap.add_argument("--policy", default="pass", choices=["pass", "greedy"],
                 help="greedy plays a land, casts what auto-pay covers and attacks, as the wasm driver does")
+ap.add_argument("--forge-teacher-trace", action="store_true",
+                help="capture opt-in Forge AI cast-choice examples to a sibling .teacher.jsonl file")
 ap.add_argument("--counters", action="store_true",
                 help="count engine work per decision (#817) instead of only timing it")
 args = ap.parse_args()
@@ -55,8 +59,40 @@ def front_face(name):
 
 
 def load_deck(basename):
-    """A preset flattened the way the wasm worker flattens it: one entry per copy."""
-    raw = json.load(open(os.path.join(PRESETS, f"{basename}.json")))
+    """Expand presets or personal Commander decks, preserving partner commanders."""
+    if basename.startswith("personal:"):
+        slug = basename.split(":", 1)[1]
+        with open(args.personal_decks, encoding="utf8") as stream:
+            collection = json.load(stream)
+        saved = next((row for row in collection.get("decks", []) if row.get("slug") == slug), None)
+        if saved is None:
+            raise ValueError(f"No personal deck {slug} in {args.personal_decks}")
+        deck = saved["deck"]
+        if deck.get("format") != "commander":
+            raise ValueError(f"Personal deck {slug} is not Commander")
+        def card(entry):
+            identity = entry.get("identity", entry)
+            result = {"name": front_face(identity["name"])}
+            if identity.get("setCode"):
+                result["setCode"] = identity["setCode"]
+            if identity.get("cardNumber"):
+                result["collectorNumber"] = identity["cardNumber"]
+            return result
+        cards = [card(entry) for entry in deck["cards"] for _ in range(entry.get("count", 1))]
+        commanders = [front_face(entry["identity"]["name"]) for entry in deck["commanders"]]
+        # The Forge harness moves commander *deck entries* into the command zone.
+        # The personal JSON export keeps commanders separate from its 99 cards.
+        # Add one copy of each missing commander, including both partner cards.
+        names = {entry["name"] for entry in cards}
+        for commander in deck["commanders"]:
+            entry = card(commander)
+            if entry["name"] not in names:
+                cards.append(entry)
+                names.add(entry["name"])
+        return cards, commanders
+
+    with open(os.path.join(PRESETS, f"{basename}.json"), encoding="utf8") as stream:
+        raw = json.load(stream)
     cards = []
     for c in raw["cards"]:
         entry = {"name": front_face(c["name"])}
@@ -65,18 +101,18 @@ def load_deck(basename):
         if c.get("cardNumber"):
             entry["collectorNumber"] = c["cardNumber"]
         cards.extend([entry] * c.get("count", 1))
-    return cards, front_face(raw["commander"])
+    return cards, [front_face(raw["commander"])]
 
 
 deck_names = args.decks.split(",")
 players = []
 for i in range(args.seats):
-    cards, commander = load_deck(deck_names[i % len(deck_names)])
+    cards, commanders = load_deck(deck_names[i % len(deck_names)])
     players.append({
         "name": "You" if i == 0 else ("Forge AI" if i == 1 else f"Forge AI {i}"),
         "ai": i != 0,
         "deck": cards,
-        "commanderNames": [commander],
+        "commanderNames": commanders,
     })
 
 request = {
@@ -86,6 +122,8 @@ request = {
     "seed": args.seed,
     "players": players,
 }
+if args.forge_teacher_trace:
+    request["forgeTeacherTrace"] = True
 
 sysprops = list(args.sysprop)
 if args.counters:
@@ -113,8 +151,9 @@ if args.jfr:
             f"-XX:StartFlightRecording=settings=profile,filename={args.jfr},dumponexit=true"]
 cmd += ["-jar", args.jar, "--interactive-server", "--forge-home", args.forge_home]
 
+stderr_path = args.out.replace(".jsonl", ".stderr")
 proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                        stderr=open(args.out.replace(".jsonl", ".stderr"), "w"), text=True, bufsize=1)
+                        stderr=open(stderr_path, "w"), text=True, bufsize=1)
 
 
 def call(body):
@@ -315,3 +354,23 @@ print(f"\ndone: {decisions} decisions over {int(time.time() - started)}s, turn {
 proc.stdin.write('{"command":"quit"}\n')
 proc.stdin.flush()
 proc.wait(timeout=120)
+
+if args.forge_teacher_trace:
+    teacher_path = args.out.replace(".jsonl", ".teacher.jsonl")
+    prefix = "[forge-teacher] "
+    samples = 0
+    with open(stderr_path, encoding="utf8", errors="replace") as stream, open(teacher_path, "w") as capture:
+        for line in stream:
+            if prefix not in line:
+                continue
+            try:
+                sample = json.loads(line.partition(prefix)[2])
+                if sample.get("teacher") != "forge-ai":
+                    continue
+                capture.write(json.dumps(sample) + "\n")
+                samples += 1
+            except (ValueError, AttributeError):
+                continue
+    print(f"Forge teacher trace: {samples} candidate samples at {teacher_path}")
+    if samples == 0:
+        raise SystemExit("no Forge teacher samples; check the rebuilt harness and whether any cast-vs-cast choices occurred")

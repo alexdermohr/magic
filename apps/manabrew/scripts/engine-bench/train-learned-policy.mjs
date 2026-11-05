@@ -60,11 +60,17 @@ function readTrace(path) {
     const choices = castChoices(prompt, view);
     const chosen = choices.findIndex((choice) => choice.id === decision.actionId);
     if (choices.length < 2 || chosen < 0) continue;
-    examples.push({ choices, chosen });
+    examples.push({ choices, chosen, teacher: entry.teacher ?? "manabot" });
   }
   return examples;
 }
 const byGame = files.map((path) => ({ path, rows: readTrace(path) }));
+const teacherSources = new Set(byGame.flatMap((game) => game.rows.map((row) => row.teacher)));
+if (teacherSources.size !== 1 || !["manabot", "forge-ai"].includes([...teacherSources][0])) {
+  console.error("Expected one teacher source (manabot or forge-ai), no mixed or empty training batches");
+  process.exit(1);
+}
+const teacher = [...teacherSources][0] === "forge-ai" ? "Forge AI" : "ManaBot SimpleAi";
 // Split by complete games only, never random decisions within the same game.
 const split = byGame.length - holdoutCount;
 const train = byGame.slice(0, split).flatMap((game) => game.rows);
@@ -118,12 +124,12 @@ function metrics(rows) {
   }
   return {
     decisions: rows.length,
-    agreementWithManaBot: rows.length ? +(learnedCorrect / rows.length).toFixed(4) : null,
+    agreementWithTeacher: rows.length ? +(learnedCorrect / rows.length).toFixed(4) : null,
     firstCastBaseline: rows.length ? +(firstCorrect / rows.length).toFixed(4) : null,
   };
 }
 model.training = {
-  teacher: "ManaBot SimpleAi",
+  teacher,
   scope: "chooseAction with >=2 visible cast choices and teacher choosing cast",
   traces: files.length,
   skippedUnfinished,

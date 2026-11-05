@@ -49,8 +49,12 @@ const timeout = option("timeout", "420");
 const extra = option("extra", "").split(" ").filter(Boolean);
 const learnedModel = option("learned-model", storedPlan?.learnedModel ?? null);
 const tracePrompts = option("trace", null);
+const forgeTeacherTrace = option("forge-teacher-trace", "false") === "true";
 if (wasms.length > 2) {
   throw new Error("--wasms accepts at most two builds (A and B)");
+}
+if (forgeTeacherTrace && (wasms.length === 2 || tracePrompts)) {
+  throw new Error("--forge-teacher-trace true requires Forge AI seats and cannot combine with --trace");
 }
 if (tracePrompts && !["chooseAction"].includes(tracePrompts)) {
   throw new Error("--trace currently supports chooseAction only");
@@ -86,6 +90,9 @@ function plan(index) {
   if (learnedModel) args.push("--learned-model", learnedModel, "--learned-seats", a.join(","));
   if (tracePrompts) {
     args.push("--trace", tracePrompts, "--trace-file", join(out, `game-${seed}.trace.jsonl`));
+  }
+  if (forgeTeacherTrace) {
+    args.push("--forge-teacher-trace-file", join(out, `game-${seed}.trace.jsonl`));
   }
   return { seed, a, b, args, file: join(out, `game-${seed}.json`) };
 }
@@ -129,7 +136,7 @@ async function runAll() {
     decks, personalDecks: personalDecks ? resolve(personalDecks) : null,
     timeout, extra, learnedModel: learnedModel ? resolve(learnedModel) : null,
     learnedModelContent: learnedModel ? readFileSync(resolve(learnedModel), "utf8") : null,
-    tracePrompts,
+    tracePrompts, forgeTeacherTrace,
   };
   if (existsSync(manifestPath) &&
       JSON.stringify(JSON.parse(readFileSync(manifestPath, "utf8"))) !== JSON.stringify(manifest)) {
@@ -190,6 +197,7 @@ function summarise() {
   const turns = [];
   const durations = [];
   const learned = { eligible: 0, overrides: 0, fallback: 0 };
+  const teacher = { samples: 0, rejected: 0 };
   for (const result of results) {
     if (result.outcome?.reason !== "game:over" || !result.winnerId) {
       nonResults += 1;
@@ -206,6 +214,8 @@ function summarise() {
     byDeck[deck][winner] += 1;
     turns.push(result.turn);
     durations.push(result.durationMs / 1000);
+    teacher.samples += result.forgeTeacher?.samples ?? 0;
+    teacher.rejected += result.forgeTeacher?.rejected ?? 0;
     for (const seat of result.learned?.seatStats ?? []) {
       learned.eligible += seat.eligible ?? 0;
       learned.overrides += seat.overrides ?? 0;
@@ -267,6 +277,7 @@ function summarise() {
     },
     perSeatGame: { A: perSeat(sides.A.seats), B: perSeat(sides.B.seats) },
     ...(learnedModel ? { learned } : {}),
+    ...(forgeTeacherTrace ? { forgeTeacher: teacher } : {}),
   };
   writeFileSync(join(out, "summary.json"), `${JSON.stringify(summary, null, 2)}\n`);
   return summary;
@@ -285,6 +296,7 @@ console.log(
     line("A"),
     line("B"),
     ...(summary.learned ? [`  learned eligible ${summary.learned.eligible}, overrides ${summary.learned.overrides}, fallback ${summary.learned.fallback}`] : []),
+    ...(summary.forgeTeacher ? [`  forge teacher samples ${summary.forgeTeacher.samples}, rejected ${summary.forgeTeacher.rejected}`] : []),
     ...Object.entries(summary.byDeck).map(([deck, wins]) => `  ${deck}: A ${wins.A} - B ${wins.B}`),
     `  by winning seat: ${summary.bySeat.map((seat, at) => `s${at} A${seat.A}/B${seat.B}`).join(" ")}`,
   ].join("\n"),
