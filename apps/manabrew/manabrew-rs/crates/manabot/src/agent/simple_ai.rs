@@ -858,8 +858,54 @@ impl SimpleAi {
                 && card.text.to_ascii_lowercase().contains("{t}: add"))
     }
 
+    fn net_mana_from_text(text: &str) -> i32 {
+        let mut best = 0;
+        for line in text.lines() {
+            let Some((cost, produced)) = line.split_once(": Add ") else {
+                continue;
+            };
+            let clause = produced.split('.').next().unwrap_or("");
+            let lower = clause.to_ascii_lowercase();
+            let nominal =
+                Self::mana_symbols_in_clause(clause).max(if lower.starts_with("three mana") {
+                    3
+                } else if lower.starts_with("two mana") {
+                    2
+                } else if lower.contains("one mana") || lower.contains("any color") {
+                    1
+                } else {
+                    0
+                });
+            let mut activation_mana = 0;
+            for part in cost.split('{').skip(1) {
+                let symbol = part.split('}').next().unwrap_or("");
+                if let Ok(generic) = symbol.parse::<i32>() {
+                    activation_mana += generic;
+                } else if symbol.len() == 1 && "WUBRGC".contains(symbol) {
+                    activation_mana += 1;
+                } else if symbol.contains('/') && symbol.chars().any(|c| "WUBRGC".contains(c)) {
+                    activation_mana += 1;
+                }
+            }
+            best = best.max((nominal - activation_mana).max(0));
+        }
+        best
+    }
+
     fn available_mana(&self, player_id: &str) -> i32 {
-        self.mana_sources(player_id).2
+        self.battlefield(player_id)
+            .filter(|card| !card.tapped)
+            .filter(|card| {
+                !card.types.iter().any(|ty| ty == "Creature")
+                    || (!card.summoning_sick && card.text.contains("{T}: Add"))
+            })
+            .map(|card| {
+                let baseline = card.subtypes.iter().any(|subtype| {
+                    ["Plains", "Island", "Swamp", "Mountain", "Forest"].contains(&subtype.as_str())
+                });
+                Self::net_mana_from_text(&card.text).max(i32::from(baseline))
+            })
+            .sum()
     }
 
     fn color_code(name: &str) -> Option<char> {
@@ -2034,6 +2080,32 @@ mod color_choice_tests {
         assert!(bot.is_mana_color_prompt("Choose a color", "", None, "player-0"));
         bot.payment_attempt = None;
         assert!(bot.is_mana_color_prompt("Choose mana color", "", None, "player-0"));
+    }
+
+    #[test]
+    fn x_mana_estimate_subtracts_paid_activation_costs() {
+        assert_eq!(SimpleAi::net_mana_from_text("{1}, {T}: Add {U}{B}."), 1);
+        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {C}{C}."), 2);
+        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {B}."), 1);
+        assert_eq!(SimpleAi::net_mana_from_text("{2}, {T}: Add {G}{G}{G}."), 1);
+    }
+
+    #[test]
+    fn x_mana_estimate_uses_best_single_ability_per_permanent() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}."
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add three mana of any one color."),
+            3
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add one mana of any color."),
+            1
+        );
     }
 
     #[test]
