@@ -887,12 +887,38 @@ impl SimpleAi {
                 && card.text.to_ascii_lowercase().contains("{t}: add"))
     }
 
-    fn net_mana_from_text(text: &str) -> i32 {
+    fn net_mana_from_text(text: &str, source_name: &str) -> i32 {
         let mut best = 0;
         for line in text.lines() {
             let Some((cost, produced)) = line.split_once(": Add ") else {
                 continue;
             };
+            // Quoted mana abilities are granted to other objects, not this source.
+            // For example, Alchemist's Talent grants Treasures a two-mana ability.
+            if cost.bytes().filter(|byte| *byte == b'"').count() % 2 != 0 {
+                continue;
+            }
+            let lower_cost = cost.to_ascii_lowercase();
+            let self_sacrifice = lower_cost.contains("sacrifice this")
+                || lower_cost.contains(&format!("sacrifice {}", source_name.to_ascii_lowercase()));
+            if (lower_cost.contains("sacrifice") && !self_sacrifice)
+                || lower_cost
+                    .split(|character: char| !character.is_ascii_alphabetic())
+                    .any(|word| word == "tap")
+                || ["discard ", "exile ", "remove ", "pay "]
+                    .iter()
+                    .any(|prerequisite| lower_cost.contains(prerequisite))
+            {
+                continue;
+            }
+            let restriction = produced.to_ascii_lowercase();
+            if (restriction.contains("spend") || restriction.contains("spent"))
+                && (restriction.contains("only")
+                    || restriction.contains("cannot")
+                    || restriction.contains("can't"))
+            {
+                continue;
+            }
             let clause = produced.split('.').next().unwrap_or("");
             let lower = clause.to_ascii_lowercase();
             let nominal =
@@ -932,7 +958,7 @@ impl SimpleAi {
                 let baseline = card.subtypes.iter().any(|subtype| {
                     ["Plains", "Island", "Swamp", "Mountain", "Forest"].contains(&subtype.as_str())
                 });
-                Self::net_mana_from_text(&card.text).max(i32::from(baseline))
+                Self::net_mana_from_text(&card.text, &card.identity.name).max(i32::from(baseline))
             })
             .sum()
     }
@@ -2156,26 +2182,148 @@ mod color_choice_tests {
 
     #[test]
     fn x_mana_estimate_subtracts_paid_activation_costs() {
-        assert_eq!(SimpleAi::net_mana_from_text("{1}, {T}: Add {U}{B}."), 1);
-        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {C}{C}."), 2);
-        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {B}."), 1);
-        assert_eq!(SimpleAi::net_mana_from_text("{2}, {T}: Add {G}{G}{G}."), 1);
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{1}, {T}: Add {U}{B}.", "Dimir Signet"),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add {C}{C}.", "Sol Ring"),
+            2
+        );
+        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {B}.", "Swamp"), 1);
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{2}, {T}: Add {G}{G}{G}.", "Mana Source"),
+            1
+        );
     }
 
     #[test]
     fn x_mana_estimate_uses_best_single_ability_per_permanent() {
         assert_eq!(
             SimpleAi::net_mana_from_text(
-                "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}."
+                "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}.",
+                "Filter Land",
             ),
             1
         );
         assert_eq!(
-            SimpleAi::net_mana_from_text("{T}: Add three mana of any one color."),
+            SimpleAi::net_mana_from_text("{T}: Add three mana of any one color.", "Gilded Lotus"),
             3
         );
         assert_eq!(
-            SimpleAi::net_mana_from_text("{T}: Add one mana of any color."),
+            SimpleAi::net_mana_from_text("{T}: Add one mana of any color.", "Mana Rock"),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_mana_requiring_other_tapped_permanents() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Tap an untapped creature you control: Add one mana of any color.",
+                "Springleaf Drum",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Tap an untapped artifact you control: Add {C}{C}.",
+                "Test Artifact",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add {C}.", "Colorless Land"),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_restricted_spending_without_losing_unrestricted_mode() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}.\n{T}: Add {C}{C}. Spend this mana only to cast colorless Eldrazi spells or activate abilities of colorless Eldrazi.",
+                "Eldrazi Temple",
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {G}{G}. Spend this mana only to cast creature spells.",
+                "Restricted Mana",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}{C}. This mana can be spent only to cast artifacts.",
+                "Restricted Mana",
+            ),
+            0
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_unavailable_sacrifice_mana_abilities() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Sacrifice a creature: Add one mana of any color.",
+                "Phyrexian Altar"
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("Sacrifice a creature: Add {C}{C}.", "Ashnod's Altar"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}.\n{T}, Sacrifice a creature: Add {B}{B}.",
+                "Phyrexian Tower"
+            ),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_retains_self_sacrifice_but_not_discard_costs() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Sacrifice this artifact: Add one mana of any color.",
+                "Treasure"
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Sacrifice Lotus Petal: Add one mana of any color.",
+                "Lotus Petal"
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Discard your hand, Sacrifice Lion's Eye Diamond: Add three mana of any one color.",
+                "Lion's Eye Diamond"
+            ),
+            0
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_abilities_granted_to_treasures() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Treasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Alchemist's Talent",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {G}.\nTreasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Mana Land",
+            ),
             1
         );
     }
