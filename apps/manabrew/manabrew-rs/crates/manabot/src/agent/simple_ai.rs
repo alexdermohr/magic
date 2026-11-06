@@ -872,6 +872,11 @@ impl SimpleAi {
             let lower_cost = cost.to_ascii_lowercase();
             let self_sacrifice = lower_cost.contains("sacrifice this")
                 || lower_cost.contains(&format!("sacrifice {}", source_name.to_ascii_lowercase()));
+            // Loyalty and triggered effects are not immediately usable mana abilities.
+            // Only count an activation with a mana-symbol cost or self-sacrifice.
+            if !cost.contains('{') && !self_sacrifice {
+                continue;
+            }
             if (lower_cost.contains("sacrifice") && !self_sacrifice)
                 || lower_cost
                     .split(|character: char| !character.is_ascii_alphabetic())
@@ -2236,6 +2241,23 @@ mod color_choice_tests {
             ),
             0
         );
+    }
+
+    #[test]
+    fn x_mana_ignores_loyalty_and_conditional_mana() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text("0: Add {C}{C}{C}.", "Ugin, Eye of the Storms"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("+2: Add {C}.", "Loyalty Walker"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("Whenever a creature dies: Add {B}.", "Triggered Mana"),
+            0
+        );
+        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {C}.", "Wastes"), 1);
     }
 
     #[test]
