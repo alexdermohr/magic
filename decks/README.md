@@ -5,9 +5,17 @@ Die [Deckordnerliste](./) zeigt auf GitHub automatisch die vorhandenen Unterordn
 ## Dateien und Versionierung
 
 - Pro Deck ein eigener Ordner mit einem dauerhaften Slug; Deckinhalte bleiben ausschließlich in diesem Ordner.
-- `current.txt` enthält die aktive, importierbare Liste. `analysis.md` für Spielplan, Quellen und Risiken sowie eine lokale `README.md` sind optional.
+- `current.txt` enthält die aktive, importierbare Liste. `analysis.md` für Spielplan, Quellen und Risiken, eine lokale `README.md` sowie **`card-pool.md` als erweiterte Kartenbasis** sind optional.
 - Historische Snapshots bleiben unverändert erhalten, üblicherweise unter `versions/`. Optimierungen ersetzen `current.txt`; echte ältere Fassungen können dort archiviert werden.
 - **Mishra-Ausnahme:** genau eine aktive B3-Liste in `current.txt`; keine zusätzlichen B3-Dateien oder datierten B3-Snapshots anlegen. B4 bleibt separat. Bereits überlieferte Historie bleibt erhalten, auch in Git.
+
+## Erweiterte Kartenbasis je Deck (empfohlen, optional)
+
+Für **jedes Deck** darf und soll bei Bedarf eine eigene `decks/<deck-slug>/card-pool.md` gepflegt werden. Sie ist ein **Kandidaten- und Entscheidungsspeicher**, keine zweite Deckliste: Aufgenommene Karten aus `current.txt` bleiben allein spiel- und importrelevant; der Kartenpool zählt nicht zu den 100 Karten.
+
+Sinnvolle Einträge sind insbesondere ausgetauschte Karten für einen möglichen Wiedereinbau, interessante Alternativen und bewusst verworfene Optionen. Für jeden Eintrag möglichst knapp **Kartenname, Funktion/Synergie, Grund für Aufnahme oder Ausschluss, Wiedereinbau-Bedingung bzw. mögliche Tauschoption und gegebenenfalls Datum** notieren. Bereits diskutierte oder entfernte Karten sollten nicht verloren gehen; spätere Entscheidungen können den Status aktualisieren.
+
+Die Datei ist **keine Pflicht** für jedes vorhandene Deck und löst keine neuen Validator- oder Review-Gates aus. Sie kann beim normalen Optimieren schrittweise entstehen. Sie liegt im jeweiligen Deckordner und wird in Deck-PRs mitgepflegt; Änderungen an dieser zentralen Konventions-README erfolgen dagegen **separat** gemäß [Beitragsregeln](../CONTRIBUTING.md).
 
 ## Listenformat und Commander-Regeln
 
