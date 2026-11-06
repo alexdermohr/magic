@@ -868,9 +868,20 @@ impl SimpleAi {
             let self_sacrifice = lower_cost.contains("sacrifice this")
                 || lower_cost.contains(&format!("sacrifice {}", source_name.to_ascii_lowercase()));
             if (lower_cost.contains("sacrifice") && !self_sacrifice)
+                || lower_cost
+                    .split(|character: char| !character.is_ascii_alphabetic())
+                    .any(|word| word == "tap")
                 || ["discard ", "exile ", "remove ", "pay "]
                     .iter()
                     .any(|prerequisite| lower_cost.contains(prerequisite))
+            {
+                continue;
+            }
+            let restriction = produced.to_ascii_lowercase();
+            if (restriction.contains("spend") || restriction.contains("spent"))
+                && (restriction.contains("only")
+                    || restriction.contains("cannot")
+                    || restriction.contains("can't"))
             {
                 continue;
             }
@@ -2125,6 +2136,53 @@ mod color_choice_tests {
         assert_eq!(
             SimpleAi::net_mana_from_text("{T}: Add one mana of any color.", "Mana Rock"),
             1
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_mana_requiring_other_tapped_permanents() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Tap an untapped creature you control: Add one mana of any color.",
+                "Springleaf Drum",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Tap an untapped artifact you control: Add {C}{C}.",
+                "Test Artifact",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add {C}.", "Colorless Land"),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_restricted_spending_without_losing_unrestricted_mode() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}.\n{T}: Add {C}{C}. Spend this mana only to cast colorless Eldrazi spells or activate abilities of colorless Eldrazi.",
+                "Eldrazi Temple",
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {G}{G}. Spend this mana only to cast creature spells.",
+                "Restricted Mana",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}{C}. This mana can be spent only to cast artifacts.",
+                "Restricted Mana",
+            ),
+            0
         );
     }
 
