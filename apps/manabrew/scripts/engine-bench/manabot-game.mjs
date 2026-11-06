@@ -12,6 +12,25 @@ function option(name, fallback) {
 }
 
 function loadDeck(name) {
+  if (name.startsWith("personal:")) {
+    const slug = name.slice("personal:".length);
+    const source = resolve(option("personal-decks", join(root, "dist", "personal-decks.json")));
+    const collection = JSON.parse(readFileSync(source, "utf8"));
+    const saved = collection.decks?.find((entry) => entry.slug === slug);
+    if (!saved) throw new Error(`No personal deck ${slug} in ${source}`);
+    const card = (entry) => ({
+      name: entry.identity.name,
+      setCode: entry.identity.setCode,
+      cardNumber: entry.identity.cardNumber,
+      count: entry.count ?? 1,
+    });
+    return {
+      name: saved.deck.name,
+      format: saved.deck.format,
+      commanders: saved.deck.commanders.map(card),
+      cards: saved.deck.cards.map(card),
+    };
+  }
   const path = name.endsWith(".json") ? resolve(name) : join(presets, `${name}.json`);
   const raw = JSON.parse(readFileSync(path, "utf8"));
   const card = (entry) => ({
