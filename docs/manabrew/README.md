@@ -229,3 +229,32 @@ MANABREW_FORGE_WEBIMAGE_DIR="$PWD/forge-harness/native/wasm" ./scripts/build-ipa
 **Rückfall:** Der vorherige Release `~/.local/share/manabrew-ipad-magic-b9eb3af80dfa6b14a6516b782617b598f977b2da` blieb erhalten. Exaktes vorheriges systemd-Dropin unter `~/.local/state/manabrew-release-backup/20261106-7198ebf-before.conf`, SHA-256 `1bf24d04c455742d41775ab728fa6008e5d202c40b991b16518195534821fa8b`. Bei nachgewiesenem Produktionsfehler kann es zurückkopiert werden; danach nur `systemctl --user daemon-reload` und `systemctl --user restart manabrew-ipad-pwa.service`.
 
 **Grenzen:** Dies beweist einen produktiven Offline-Chromium-Nutzerweg, **keinen physischen installierten iPadOS-/Safari-Home-Screen-Test** und keine höhere Forge-Siegquote. Die Forge-Lehrdatenaufzeichnung des neuen WebImages bleibt separat zu prüfen; bei dieser Auslieferung waren PR #74/#76/#77 noch nicht in `main` integriert.
+
+
+### Forge-Lehrertrace im produktiven WebImage geprüft (6. November 2026)
+
+Der produktive Release `7198ebf` und sein tatsächlich kompiliertes Forge-WASM
+(SHA-256 `412fe56c89068e45d83ab4c36a18ebf8e5357ef1af9f9aed9839e679b2e6ce75`)
+wurden **ohne Dienstneustart** über den vorhandenen headless Node/WebImage-Adapter
+mit den persönlichen Commander-Decks getestet. Vier beendete Partien
+(Seeds 25012–25015) exportierten **57 Forge-Lehrentscheidungen**, sämtlich
+aus echten angebotenen Cast-Aktionen. Es gab **0** verworfene Samples,
+**0** ungültige gewählte Aktions-IDs und **0** offengelegte gegnerische
+Hand-/Bibliothekskarten. Dieses E2E bestätigt den WebImage-Export,
+**nicht** ein physisches Safari-/Home-Screen-Spiel.
+
+Ganze Spiele als Holdout: **40/57** Forge-Übereinstimmungen für vier
+separat trainierte Foldmodelle gegenüber **32/57** des bisherigen festen
+Modells und **15/57** für First-Cast. Die anschließenden drei jeweils
+acht Partien umfassenden Vergleiche gegen dasselbe Forge-WebImage auf
+neuen Seeds zeigten für ManaBot ohne Modell, mit altem und mit
+Forge-trainiertem Modell **jeweils 2:6 Siege**, alle Partien regulär.
+Deshalb keine Lern-KI-Aktivierung oder Spielstärkenbehauptung.
+Details und Reproduktionsparameter: [LEARNED_POLICY.md](../../apps/manabrew/scripts/engine-bench/LEARNED_POLICY.md).
+
+**Betriebsgrenze:** Diese Prüfung veröffentlichte kein neues
+PWA-/ManaBot-Artefakt und änderte weder den Dienst
+`manabrew-ipad-pwa.service` noch seine Rückfallversionen.
+Der SHA-256-Installer-Fix in PR #74 und die selbstverliehene
+`Urza's Saga`-Manafähigkeit in PR #76 sind auf GitHub korrigiert,
+aber nicht allein durch diesen Test produktiv ausgeliefert.

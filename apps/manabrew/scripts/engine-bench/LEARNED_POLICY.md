@@ -9,7 +9,7 @@ candidates and non-cast decisions fall back to ManaBot.
 
 The trainer is a small offline softmax linear model over 22 card and board
 features; inference uses pure JavaScript. It needs neither a cloud service nor
-an external ML library. Training uses **ManaBot**, not Forge AI, as teacher.
+an external ML library. The original weights-only smoke model used **ManaBot** as teacher; the optional Forge AI teacher is now also verified through the rebuilt WebImage.
 
 ## Reproduce locally
 
@@ -409,3 +409,70 @@ cast candidate, all cast options had a generated `mode.type`, and none
 of the viewer states named an opponent's hand cards. Raw records remain
 under ignored `target/`. This is not yet proof that a newly rebuilt
 WebImage exports the same events in the installed PWA.
+
+
+## Compiled Forge WebImage 7198ebf: real teacher trace and cross-game evaluation (6 November 2026)
+
+**Executed artifact, not only a JVM harness:** The released, immutable PWA under
+`~/.local/share/manabrew-ipad-magic-7198ebf5a6f1c15c9ceaaa61009b058784dc6ccd/dist`
+contains manifest `5ecaf9e6446438062c0d` and the *compiled* Forge WebImage
+(SHA-256 `412fe56c89068e45d83ab4c36a18ebf8e5357ef1af9f9aed9839e679b2e6ce75`).
+The existing Node/headless Forge engine adapter was explicitly directed to the
+**release's WebImage WASM and launcher**, with the release's personal-decks.json.
+This proves the Java teacher export is present and working in the compiled
+WebImage artifact; it is not a claim about an installed Safari/WebKit GUI.
+
+Four **completed** two-seat Commander games supplied 57 real visible Forge-AI
+cast-selection labels (no rejected samples):
+
+| Seed | Personal decks | Forge teacher seat | Eligible labels |
+| --- | --- | --- | ---: |
+| 25012 | Magar / Malcolm-Breeches (partner) | 1 | 6 |
+| 25013 | Teysa / Ardenn-Rograkh (partners) | 0 | 18 |
+| 25014 | Anowon / Helga | 1 | 17 |
+| 25015 | Ishai-Jeska (partners) / Krark-Sakashima (partners) | 0 | 16 |
+
+All four game summaries reported `outcome.reason=game:over`. A separate
+inspection of every exported JSON row found **0 invalid teacher/action
+memberships**, **0 selected actions missing from the legal offers**, and
+**0 named opponent-hand/library cards**. The observing player's own hand
+remains present, as required to rank their legal spells. Keep raw JSONL and
+saved deck exports outside Git.
+
+Reproduction uses the normal `manabot-game.mjs` options
+`--personal-decks <release>/dist/personal-decks.json`,
+`--forge-wasm-file <release>/dist/assets/forgeharness.js-B-eoCq4S.wasm`,
+`--forge-launcher-file <release>/dist/assets/forgeharness-C1uILKAp.js`,
+`--forge-ai-seats <seat>` and `--forge-teacher-trace-file <local.jsonl>`.
+Store traces under `$HOME/.local/state` rather than job-local `/tmp`.
+The tested code is on PR #77; the executed compiled engine was already
+deployed at source commit `7198ebf`.
+
+**Leave-one-complete-game-out validation:** Retraining the 22-feature
+softmax model on the other three games for each of four folds, and evaluating
+only on the unseen game, yielded **40/57 (70.2%)** agreement with Forge:
+6/6, 14/18, 9/17 and 11/16 by held-out seed. The existing fixed
+`experimental-cast-v1.model.json` agreed on **32/57 (56.1%)** on these
+same games; choosing the first offered cast agreed on **15/57 (26.3%)**.
+Four different fold models were used: the 70.2% is an imitation diagnostic,
+**not a separately deployable model's measured win rate**. Small, correlated
+game samples make statistical claims premature.
+
+**Gameplay countercheck on never-trained seeds 26021–26028:** The compiled
+Forge WebImage was held constant. On the same personal Anowon/Helga matchups,
+with the side rotated, all three external ManaBot variants completed **8/8
+games**, without engine failures or timeouts:
+
+- ManaBot without a learned model: **2 wins, Forge 6**.
+- Previous fixed experimental model: **2 wins, Forge 6**, 66 overrides
+  among 140 eligible cast choices.
+- New Forge-trained model from three of the four teacher games
+  (25015 held out): **2 wins, Forge 6**, 66 overrides among 125 eligible casts.
+
+Thus a better Forge-imitation score **did not improve wins in this trial**.
+Decision latency and mana-payment cancellations did not reveal a clear
+compensating advantage; the learned policy remains **experimental/opt-in,
+not installed or selected as the default opponent**. Forge remains default.
+These were headless engine matches, not touchscreen matches or an iPadOS
+Home-Screen persistence test. New strategies should target whole-turn
+resources, combat, commander synergy and measured results before promotion.
