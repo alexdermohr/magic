@@ -14,6 +14,29 @@ export JAVA_HOME="$WEBIMAGE_GRAALVM_HOME"
 export PATH="$JAVA_HOME/bin:$PATH"
 
 cd "$REPO_ROOT"
+
+# Optional strategic Forge AI experiment. Keep the pinned checkout clean again
+# even when the WebImage compiler fails, so ordinary builds stay reproducible.
+if [[ -n "${MANABREW_FORGE_AI_PATCH:-}" ]]; then
+  if [[ "$MANABREW_FORGE_AI_PATCH" != "commander-pressure" ]]; then
+    echo "Unknown MANABREW_FORGE_AI_PATCH: $MANABREW_FORGE_AI_PATCH" >&2
+    exit 1
+  fi
+  forge="$REPO_ROOT/forge"
+  patch="$REPO_ROOT/patches/forge-ai-commander-pressure.patch"
+  pin="$(scripts/bootstrap-forge.sh --print-pin)"
+  [[ "$(git -C "$forge" rev-parse HEAD)" == "$pin" ]] || {
+    echo "Refusing to patch Forge checkout at an unexpected revision" >&2; exit 1;
+  }
+  [[ -z "$(git -C "$forge" status --porcelain)" ]] || {
+    echo "Refusing to patch an already modified Forge checkout" >&2; exit 1;
+  }
+  git -C "$forge" apply --check "$patch"
+  git -C "$forge" apply "$patch"
+  trap 'git -C "$forge" apply --reverse "$patch"' EXIT
+  echo "Forge AI patch active: commander-pressure ($pin)"
+fi
+
 node scripts/harness.mjs build
 
 RES=forge/forge-gui/res
