@@ -40,6 +40,8 @@ Die Anwendung muss zwischen den verfügbaren Gegnern wählen können, ohne die S
 
 **Fertig, wenn:** Der gewählte Release bleibt ohne Server im realen Client spielbar, eine vollständige Partie endet regulär, ein funktionierender Rückfallstand existiert und Baseline-Builds/Ergebnisse sind reproduzierbar. Nicht durch zusätzliche Freigabeschleifen blockieren, wenn Live-Nachweise bereits reichen.
 
+**P0-Live-Nachweis (6. November 2026):** Der neue Forge-Commander-Schaden-Browser-Build (PR #77, Commit `7198ebf`, Manifest `5ecaf9e6446438062c0d`) läuft auf Port 8088 und der produktiven HTTPS-Origin. 3.346 Dateien wurden SHA-256-geprüft, 35 GitHub-Commander-Decks installiert, Offline-Kaltstarts bestanden. Ein produktives Anowon/Gahiji-Spiel endete offline nach **109 UI-Aktionen** mit stabiler Ergebnisansicht, Menürückkehr und **0 JavaScript-Seitenfehlern**. Ein Upgrade-Regressionstest bewahrte lokale Deckänderungen und ein altes Kartenbild. Der vorherige Release `b9eb3af` und das genaue Rückfall-Dropin bleiben erhalten. **Noch offen:** physisches iPadOS-Home-Screen-WebKit, statistisch belegte höhere Forge-Siegquote, Forge-WebImage-Lehrertrace und Merges nach `main`.
+
 ### P1 — Den vorhandenen ForgeBot dort verbessern, wo er nachweislich schlecht spielt
 
 **Vorgehen**
