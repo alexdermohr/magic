@@ -893,14 +893,21 @@ impl SimpleAi {
             let Some((cost, produced)) = line.split_once(": Add ") else {
                 continue;
             };
-            // Quoted mana abilities are granted to other objects, not this source.
-            // For example, Alchemist's Talent grants Treasures a two-mana ability.
-            if cost.bytes().filter(|byte| *byte == b'"').count() % 2 != 0 {
+            // Quoted abilities generally belong to other permanents. Some
+            // cards explicitly grant one to themselves (Urza's Saga chapter I).
+            let lower_cost = cost.to_ascii_lowercase();
+            if cost.bytes().filter(|byte| *byte == b'"').count() % 2 != 0
+                && !lower_cost.contains(&format!("{} gains \"", source_name.to_ascii_lowercase()))
+            {
                 continue;
             }
-            let lower_cost = cost.to_ascii_lowercase();
             let self_sacrifice = lower_cost.contains("sacrifice this")
                 || lower_cost.contains(&format!("sacrifice {}", source_name.to_ascii_lowercase()));
+            // Loyalty and triggered effects are not immediately usable mana abilities.
+            // Only count an activation with a mana-symbol cost or self-sacrifice.
+            if !cost.contains('{') && !self_sacrifice {
+                continue;
+            }
             if (lower_cost.contains("sacrifice") && !self_sacrifice)
                 || lower_cost
                     .split(|character: char| !character.is_ascii_alphabetic())
@@ -2311,6 +2318,23 @@ mod color_choice_tests {
     }
 
     #[test]
+    fn x_mana_ignores_loyalty_and_conditional_mana() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text("0: Add {C}{C}{C}.", "Ugin, Eye of the Storms"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("+2: Add {C}.", "Loyalty Walker"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("Whenever a creature dies: Add {B}.", "Triggered Mana"),
+            0
+        );
+        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {C}.", "Wastes"), 1);
+    }
+
+    #[test]
     fn x_mana_ignores_abilities_granted_to_treasures() {
         assert_eq!(
             SimpleAi::net_mana_from_text(
@@ -2325,6 +2349,32 @@ mod color_choice_tests {
                 "Mana Land",
             ),
             1
+        );
+    }
+
+    #[test]
+    fn x_mana_counts_self_granted_saga_ability_but_not_other_grants() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text("I — Urza's Saga gains \"{T}: Add {C}.\"", "Urza's Saga",),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "I — Urza's Saga gains \"{T}: Add {C}.\"\nII — Urza's Saga gains \"{2}, {T}: Create a 0/0 colorless Construct artifact creature token.\"",
+                "Urza's Saga",
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("Other lands gain \"{T}: Add {C}{C}.\"", "Urza's Saga",),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Treasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Alchemist's Talent",
+            ),
+            0
         );
     }
 

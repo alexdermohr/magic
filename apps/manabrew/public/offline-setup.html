@@ -104,6 +104,17 @@
     return (await response.clone().blob()).size;
   }
 
+  // A release may change while installation is in progress. Equal byte lengths
+  // do not mean the content still belongs to the downloaded manifest.
+  async function cachedFileMatches(response, file) {
+    if (!response || !response.ok || typeof file.sha256 !== "string" ||
+        !/^[0-9a-f]{64}$/i.test(file.sha256) ||
+        await cachedFileBytes(response, file.bytes) !== file.bytes) return false;
+    const digest = await crypto.subtle.digest("SHA-256", await response.clone().arrayBuffer());
+    const actual = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    return actual === file.sha256.toLowerCase();
+  }
+
   async function fetchIntoCache(cache, file, url) {
     const response = await fetch(url, { cache: "no-store" });
     if (!response.ok || response.type === "opaque") {
@@ -123,13 +134,15 @@
     }
   }
 
-  async function checkCached(cache, files) {
+  async function checkCached(cache, files, verifyHashes = false) {
     let bytes = 0;
     for (const file of files) {
       const response = await cache.match(file.url);
       if (!response || !response.ok) return { ready: false, bytes };
       const size = await cachedFileBytes(response, file.bytes);
-      if (size !== file.bytes) return { ready: false, bytes };
+      if (size !== file.bytes || (verifyHashes && !(await cachedFileMatches(response, file)))) {
+        return { ready: false, bytes };
+      }
       bytes += size;
     }
     return { ready: true, bytes };
@@ -500,7 +513,7 @@
       }
       const prepared = quickReady && !forceVerification
         ? { ready: true, bytes: total }
-        : await checkCached(cache, manifest.files);
+        : await checkCached(cache, manifest.files, forceVerification);
       const ready = quickReady && prepared.ready;
       $("progress").value = ready ? 100 : Math.round((100 * prepared.bytes) / total);
       $("prepare").disabled = false;
@@ -576,36 +589,35 @@
       for (const [index, file] of manifest.files.entries()) {
         currentFile = file.url;
         currentStage = "vorhandenen Cache prüfen";
-        let previous = await cache.match(file.url);
-        if (!previous || !previous.ok || await cachedFileBytes(previous, file.bytes) !== file.bytes) {
+        const previous = await cache.match(file.url);
+        let verified = await cachedFileMatches(previous, file);
+        if (!verified) {
           for (const old of reusable) {
             const saved = old.entries.get(file.url);
             if (saved?.sha256 !== file.sha256 || saved.bytes !== file.bytes) continue;
             const asset = await old.cache.match(file.url);
-            if (!asset || !asset.ok || await cachedFileBytes(asset, file.bytes) !== file.bytes) continue;
+            if (!(await cachedFileMatches(asset, file))) continue;
             try {
               currentStage = "unveränderte Datei übernehmen";
               await cache.put(file.url, asset);
-              previous = await cache.match(file.url);
+              verified = true;
               break;
             } catch (error) {
               if (!(error instanceof TypeError)) throw error;
             }
           }
         }
-        if (previous && previous.ok && await cachedFileBytes(previous, file.bytes) === file.bytes) {
-          downloaded += file.bytes;
-        } else {
+        if (!verified) {
           currentStage = "Datei herunterladen und speichern";
           const url = file.url + "?__offline_fetch=" + encodeURIComponent(manifest.version);
           await fetchIntoCache(cache, file, url);
           currentStage = "gespeicherte Datei prüfen";
           const written = await cache.match(file.url);
-          if (!written || !written.ok || await cachedFileBytes(written, file.bytes) !== file.bytes) {
-            throw new Error("Speichern oder Dateigröße fehlgeschlagen");
+          if (!(await cachedFileMatches(written, file))) {
+            throw new Error("SHA-256 oder Dateigröße ungültig: " + file.url);
           }
-          downloaded += file.bytes;
         }
+        downloaded += file.bytes;
         $("progress").value = Math.min(99, Math.round(downloaded * 100 / manifest.totalBytes));
         report("Speichere Datei " + (index + 1) + " von " + manifest.files.length,
           fmt(downloaded) + " / " + fmt(manifest.totalBytes) + " · " + file.url);
