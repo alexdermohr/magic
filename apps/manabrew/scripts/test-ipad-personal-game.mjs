@@ -1,3 +1,13 @@
+import { readFileSync } from "node:fs";
+
+const expectedPersonalDecks = JSON.parse(
+  readFileSync(new URL("../dist/personal-decks.json", import.meta.url), "utf8"),
+).decks;
+const expectedDeckCount = expectedPersonalDecks.length;
+const expectedPartnerCount = expectedPersonalDecks.filter(
+  ({ deck }) => deck.commanders?.length === 2,
+).length;
+
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright");
 
 const origin = process.argv[2] ?? "http://127.0.0.1:8092";
@@ -54,7 +64,7 @@ try {
     };
   });
   console.log("PERSONAL_DECK_STORAGE:", JSON.stringify(own));
-  if (own.count !== 35 || own.partners !== 4 || !own.valid)
+  if (own.count !== expectedDeckCount || own.partners !== expectedPartnerCount || !own.valid)
     throw new Error("Saved GitHub decks incomplete or malformed");
 
   const imageCheck = await page.evaluate(async (url) => {
