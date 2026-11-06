@@ -86,7 +86,6 @@ function plan(index) {
     if (wasms.length === 1) args.push("--wasm", wasms[0]);
     args.push("--forge-ai-seats", b.join(","));
   }
-  // With one or no --wasms, B is Forge AI; with two, B is ManaBot.
   if (learnedModel) args.push("--learned-model", learnedModel, "--learned-seats", a.join(","));
   if (tracePrompts) {
     args.push("--trace", tracePrompts, "--trace-file", join(out, `game-${seed}.trace.jsonl`));
@@ -128,7 +127,6 @@ function runOne(game) {
 
 async function runAll() {
   mkdirSync(out, { recursive: true });
-  // Avoid silently resuming games from a different model, engine or deck plan.
   const manifestPath = join(out, "population-plan.json");
   const manifest = {
     schemaVersion: 1, seedBase, games, seatCount, engine: resolve(engine),

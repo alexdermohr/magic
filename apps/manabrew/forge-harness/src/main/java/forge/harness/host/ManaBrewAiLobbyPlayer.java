@@ -1,5 +1,6 @@
 package forge.harness.host;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,7 +14,12 @@ import forge.game.player.PlayerController;
 import forge.game.spellability.SpellAbility;
 import forge.harness.common.ActionSpace;
 import forge.harness.common.SnapshotExtractor;
+import forge.harness.protocol.AvailableAction;
+import forge.harness.protocol.AvailableAction_cast;
+import forge.harness.protocol.ChooseActionInput;
+import forge.harness.protocol.PlayCardMode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +47,7 @@ public final class ManaBrewAiLobbyPlayer extends LobbyPlayerAi {
     }
 
     private static final class Controller extends PlayerControllerAi {
+        private static final Gson GSON = new Gson();
         private final ManaBrewInteractiveSession session;
 
         private Controller(final Player player, final ManaBrewAiLobbyPlayer lobbyPlayer,
@@ -95,7 +102,7 @@ public final class ManaBrewAiLobbyPlayer extends LobbyPlayerAi {
                     }
                 }
             }
-            final JsonArray actions = new JsonArray();
+            final List<AvailableAction> actions = new ArrayList<>();
             final List<SpellAbility> possible = ActionSpace.getPossibleActions(player, false);
             final Map<String, Integer> counts = new HashMap<>();
             for (final SpellAbility sa : possible) {
@@ -125,22 +132,18 @@ public final class ManaBrewAiLobbyPlayer extends LobbyPlayerAi {
                 if (counts.getOrDefault(cardId, 0) != 1) {
                     continue;
                 }
-                final JsonObject action = new JsonObject();
-                action.addProperty("id", "forge-cast:" + cardId);
-                action.addProperty("type", "cast");
-                action.addProperty("cardId", cardId);
-                action.addProperty("label", (sa.isLandAbility() ? "Play " : "Cast ") + host.getName());
-                actions.add(action);
+                final PlayCardMode mode = ManaBrewInteractiveSession.playCardMode(sa);
+                actions.add(new AvailableAction_cast(
+                        "forge-cast:" + cardId, cardId, mode,
+                        (sa.isLandAbility() ? "Play " : "Cast ") + host.getName(),
+                        ManaBrewInteractiveSession.actionFaceIndex(sa, mode)));
             }
             if (actions.size() < 2 || actions.size() > 200) {
                 return null;
             }
             final JsonObject prompt = new JsonObject();
             prompt.addProperty("decidingPlayerId", "player-" + seat);
-            final JsonObject input = new JsonObject();
-            input.addProperty("type", "chooseAction");
-            input.add("actions", actions);
-            prompt.add("input", input);
+            prompt.add("input", GSON.toJsonTree(new ChooseActionInput(actions)));
 
             final JsonObject observation = new JsonObject();
             observation.addProperty("teacher", "forge-ai");

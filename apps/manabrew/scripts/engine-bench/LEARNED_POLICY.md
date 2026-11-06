@@ -395,3 +395,17 @@ using the old ManaBot WASM with `--learned-model` now fails visibly
 before the game rather than silently using incorrect anti-loop state.
 This WASM build and these models are local test artifacts only.
 No running iPad/Linux service was modified.
+### Typed Forge teacher records (6 November 2026)
+
+The Java teacher uses the generated `ChooseActionInput` and
+`AvailableAction_cast` classes and the same host PlayCardMode/face-index
+helpers as the actual interactive prompt. Gson serializes that typed input;
+the seat-redacted snapshot and offered-action membership gate are unchanged.
+JVM harness compilation, Checkstyle, and existing Java regressions passed.
+Two independent full JVM Commander runs (seed 34112 preset and seed 34025
+personal Magar/Malcolm-Breeches partner) completed and emitted **2 + 8
+typed teacher records**. All 10 selected action IDs matched a visible
+cast candidate, all cast options had a generated `mode.type`, and none
+of the viewer states named an opponent's hand cards. Raw records remain
+under ignored `target/`. This is not yet proof that a newly rebuilt
+WebImage exports the same events in the installed PWA.

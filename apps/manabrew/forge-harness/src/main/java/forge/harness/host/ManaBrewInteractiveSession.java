@@ -2620,7 +2620,7 @@ public final class ManaBrewInteractiveSession {
         return text.isEmpty() ? fallback : text;
     }
 
-    private static Integer actionFaceIndex(final SpellAbility sa, final PlayCardMode mode) {
+    static Integer actionFaceIndex(final SpellAbility sa, final PlayCardMode mode) {
         final Card host = sa.getHostCard();
         if (host == null || mode instanceof PlayCardMode_adventure
                 || mode instanceof PlayCardMode_backFaceLand
@@ -2647,7 +2647,7 @@ public final class ManaBrewInteractiveSession {
         return sa.isKeyword(Keyword.LEVEL_UP) ? LevelUpKind.CREATURE : null;
     }
 
-    private static PlayCardMode playCardMode(final SpellAbility sa) {
+    static PlayCardMode playCardMode(final SpellAbility sa) {
         if (isUnlockDoorAction(sa)) {
             final RoomDoor door = switch (sa.getCardStateName()) {
                 case LeftSplit -> RoomDoor.LEFT;
