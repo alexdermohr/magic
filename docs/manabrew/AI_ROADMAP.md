@@ -56,6 +56,14 @@ Die Anwendung muss zwischen den verfügbaren Gegnern wählen können, ohne die S
 
 **Fertig, wenn:** Ein vorher reproduzierter Forge-Fehlzug im geänderten Engine-Build beseitigt ist, die bisherigen Regeln funktionieren und sich die Verbesserung in mehreren echten vollständigen Partien zeigt. Falls nur der Java-Harness verbessert wurde, bleibt der Befund ausdrücklich „JVM-only“.
 
+**Erster P1-Nachweis (6. November 2026):** Forges `AiAttackController.choosePreferredDefenderPlayer(ai, true)` ignoriert bereits erlittenen Commander-Schaden bei der *offensiven* Gegnerwahl.
+
+- **RED:** In einem echten Forge-JVM-Game mit drei Spielern, 40 Startlebenspunkten, einem eigenen Commander auf dem Battlefield, einem Gegner bei 20/21 Commander-Schaden und einem unbeschädigten Gegner bevorzugte Forge den beinahe besiegten Gegner **nicht zuverlässig** (z. B. 14/30 Auswahlvorgänge).
+- **GREEN:** Ein minimaler, optionaler Patch gewichtet den von eigenen Commandern verursachten Schaden und bevorzugte den verwundbaren Gegner in derselben Probe **30/30-mal**. Unveränderte Spielregeln, ein abweichender AI-Score.
+- **Reproduzierbarkeit:** `apps/manabrew/patches/forge-ai-commander-pressure.patch` gegen den exakten Forge-Pin, `forge-harness/src/test/java/forge/harness/common/CommanderDamageDefenderProbe.java` und `yarn test:forge-commander-pressure`. Das Skript kompiliert ein isoliertes Java-Classpath-Overlay, lässt den gepinnten Forge-Quellbaum sauber und verlangt den erwarteten RED/GREEN-Unterschied.
+- **Grenzen:** Bislang **JVM-only**, kein aktualisiertes WebImage, keine iPad-/Linux-Auslieferung und kein statistischer Nachweis besserer Siegquoten.
+
+
 ### P2 — ManaBot zu einem schlanken strategischen Gegner ausbauen
 
 **Vorgehen**
