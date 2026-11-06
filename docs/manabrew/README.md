@@ -1,5 +1,7 @@
 # Manabrew für iPad/iOS und Linux
 
+**KI-Entwicklungsfahrplan:** [Forge zuerst verbessern, ManaBot gezielt stärken und lokal lernen](AI_ROADMAP.md). Ziele, Arbeitsreihenfolge, messbare Erfolgskriterien und Voraussetzungen für einen produktiven KI-Wechsel sind dort festgelegt.
+
 ## Bestand und Quellen (3. November 2026)
 
 Die Anwendung wird unter [apps/manabrew](../../apps/manabrew/) im Magic-Repository gepflegt. Der iPad-Client ist eine **installierbare Web-App (PWA)**, keine signierte native iOS-App. Linux nutzt bisher einen lokalen Chrome-Webclient und einen Relay; der mitgelieferte Tauri-Quellcode ermöglicht zusätzlich einen nativen Desktop-Build, der hier noch nicht nachgewiesen wurde.
