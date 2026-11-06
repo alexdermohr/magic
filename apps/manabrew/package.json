@@ -90,6 +90,7 @@
     "test:ipad-sw": "node scripts/test-ipad-service-worker-cache.mjs && node scripts/test-ipad-standard-web-navigation.mjs",
     "test:ipad-art-crop": "python3 scripts/test-ipad-art-crop.py",
     "test:ipad-art-upgrade": "node scripts/test-ipad-preserve-local-art.mjs",
+    "test:ipad-offline-hash": "node scripts/test-ipad-offline-hash.mjs",
     "test:ipad-forge-selftest": "node scripts/test-ipad-forge-selftest.mjs",
     "test:linux-offline-first-run": "node scripts/test-linux-offline-first-run.mjs"
   },

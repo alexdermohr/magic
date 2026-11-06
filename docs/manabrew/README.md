@@ -68,7 +68,7 @@ Das Offline-Solospiel darf nach Installation weder den Heim-PC noch einen öffen
 
 ## Tests und nachgewiesene Ergebnisse
 
-Beim Testen des gebauten Webclients sind Cross-Origin-Isolation (COOP/COEP) sowie ein zuvor installierter vollständiger Offline-Cache nötig. Die Playwright-Skripte verwenden PLAYWRIGHT_MODULE, PLAYWRIGHT_CHROMIUM_EXECUTABLE und MANABREW_TEST_PROFILE, wenn diese Umgebungsvariablen gesetzt sind.
+Beim Testen des gebauten Webclients sind Cross-Origin-Isolation (COOP/COEP) sowie ein zuvor installierter vollständiger Offline-Cache nötig. Die Playwright-Skripte verwenden PLAYWRIGHT_MODULE, PLAYWRIGHT_CHROMIUM_EXECUTABLE und MANABREW_TEST_PROFILE, wenn diese Umgebungsvariablen gesetzt sind. Der gezielte Browser-Test `yarn test:ipad-offline-hash` prüft auf echten Cache-API-Responses, dass gleich große, aber SHA-256-falsche Assets keinen neuen Offline-Ready-Marker erhalten, ein vorheriger funktionsfähiger Cache nicht gelöscht wird und ein erneuter Download den defekten Zwischenstand repariert. Dieser Test ist von einem vollständigen iPadOS-/WebKit-Nachweis zu unterscheiden.
 
     node node_modules/vitest/vitest.mjs run
     node scripts/test-ipad-service-worker-cache.mjs
