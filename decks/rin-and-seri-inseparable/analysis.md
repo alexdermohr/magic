@@ -1,6 +1,6 @@
 # Rin and Seri, Inseparable – Katzen-Engine / Bracket 3
 
-Stand: 5. November 2026. **Aktive importierbare Liste:** [current.txt](current.txt). Budget: unbegrenzt. Ziel: oberer Rand des sozialen Commander-Brackets 3, nicht cEDH.
+Stand: 6. November 2026. **Aktive importierbare Liste:** [current.txt](current.txt); **weitere erwogene Karten:** [card-pool.md](card-pool.md). Budget: unbegrenzt. Ziel: oberer Rand des sozialen Commander-Brackets 3, nicht cEDH.
 
 ## Konzeptentscheidung
 
@@ -37,17 +37,17 @@ Das Deck setzt auf die **drei unterschiedlichen Ressourcen** (Kreaturenanzahl, K
 ## Win Conditions
 
 - **Direkter Flächenschaden:** Purphoros, God of the Forge (2 pro eigenem Kreatureneintritt und Gegner), Warleader's Call und Impact Tremors. Token aus Katzen-Casts lösen diese Effekte aus, und die tatsächliche Katze beim Eintreten ebenfalls. Token-Verdoppler bzw. Maskwood Nexus steigern die Anzahl.
-- **Wiederholte Kommanderaktivierung:** Tokenproduktion, Maskwood Nexus und Gaea's Cradle bauen Hundeanzahl und Mana auf; Seedborn Muse und Thousand-Year Elixir sorgen für Enttappen, Illusionist's Bracers für doppelte Fähigkeit. Ziele können auf verschiedene Gegner verteilt werden.
+- **Wiederholte Kommanderaktivierung:** Tokenproduktion, Maskwood Nexus und Gaea's Cradle bauen Hundeanzahl und Mana auf; Seedborn Muse enttappt Rin und Seri in gegnerischen Zügen und Illusionist's Bracers kopiert die Fähigkeit. Ziele können auf verschiedene Gegner verteilt werden. Das aus der Liste entfernte Thousand-Year Elixir bleibt in [card-pool.md](card-pool.md) als mögliche Verstärkung notiert.
 - **Breiter Kampfschaden:** Jetmir, Nexus of Revels gibt bei neun Kreaturen Trampelschaden und Doppelschlag; Mirror Entity verwandelt überschüssiges Mana in ein tödliches Team; Akroma's Will kann Fliegen/Doppelschlag und Schutz geben; Finale of Devastation findet Jetmir und/oder ist bei X ≥ 10 ein globaler Abschluss.
 - **Opfer als letzte Reichweite:** Goblin Bombardment wandelt Token in Direktschaden um, insbesondere als Reaktion auf Zerstörungs- oder Exil-Massenentfernung.
 
 ## Engine, Schutz und Interaktion
 
-- **Nachschub:** Skullclamp (1/1-Tokens), Realmwalker (von oben spielen), Guardian Project (nontoken-ETB), Rite of Harmony (Tokens als Kartenzieher), Bennie Bracks (end-step-Draw), Toski (Kampftreffer), Helpful Hunter und Spirited Companion (ETB).
+- **Nachschub:** Skullclamp (1/1-Tokens), Realmwalker (von oben spielen), Guardian Project (nontoken-ETB), Rite of Harmony (Tokens als Kartenzieher), Bennie Bracks (end-step-Draw), Toski (Kampftreffer), Helpful Hunter und Spirited Companion (ETB). **Caretaker's Talent** zieht bei Spielsteineintritten einmal pro Zug eine Karte, kann auf Stufe 2 einen eigenen Spielstein kopieren und verstärkt auf Stufe 3 alle Kreaturenspielsteine um +2/+2.
 - **Bezahlte Rückführung:** Whitemane Lion, Fleetfoot Panther, Temur Sabertooth und Cloudstone Curio. Sie erhalten die Cast-Trigger am Laufen; Cloudstone lässt Token-Eintritte zu neuen Kreaturenzaubern werden.
 - **Beschleunigung:** Birds of Paradise, Delighted Halfling, Bloom Tender, Utopia Sprawl, Sol Ring, Arcane Signet, Nature's Lore, Three Visits, Growing Rites of Itlimoc sowie Gaea's Cradle. Die fast ausschließlich ungetappten, gefetchten drei Farben sichern {R}{G}{W} sowohl beim Cast als auch beim Aktivieren.
 - **Schutz:** Selfless Savior, Flawless Maneuver, Heroic Intervention, Clever Concealment und bedarfsweise Temur Sabertooth. Clever Concealment kann auch Kreaturenspielsteine phasen lassen und damit Exil-Boardwipes vermeiden.
-- **Interaktion:** Swords to Plowshares, Path to Exile, Chaos Warp, Aura Shards, Qasali Pridemage, Feline Sovereign, Qasali Slingers, Masked Vandal und Boseiju, Who Endures. Auch Rin-und-Seri-Schaden trifft Kreaturen und Planeswalker.
+- **Interaktion:** Swords to Plowshares, Path to Exile, Chaos Warp, Aura Shards, Qasali Pridemage, Feline Sovereign, Qasali Slingers, Masked Vandal und Boseiju, Who Endures. **Qasali Slingers bleibt ausdrücklich wegen Reichweite (blockt Flieger) und wiederholbarer Artefakt-/Verzauberungsentfernung bei Katzen-Eintritten.** Auch Rin-und-Seri-Schaden trifft Kreaturen und Planeswalker.
 
 ## Wesentliche Ausschlüsse
 
@@ -79,10 +79,12 @@ Das Deck setzt auf die **drei unterschiedlichen Ressourcen** (Kreaturenanzahl, K
 - **Token-Overcommitment:** Nicht über 9 Kreaturen hinausgehen, wenn Jetmir bereits tödlichen Schaden liefert und ein Boardwipe möglich ist.
 - **B3-Spielabsprache:** Kein vorgezogener Sieg vor dem siebten Zug als Ziel, insbesondere keine frühe deterministische Zwei-Karten-Infinite.
 
-**Verifizierte Prüfungen am 5.11.2026:** 100 Karten, 99 verschiedene Kartenbezeichnungen (2× Forest), 36 Länder; **99/99 eindeutige Kartennamen durch Scryfall-Live-Oracle gefunden**, alle Commander-legal und innerhalb Rot/Grün/Weiß, exakt drei Scryfall-Game-Changer. Doppelseitige Ajani, Nacatl Pariah und Growing Rites of Itlimoc anhand der Vorderseiten überprüft. Repository-`scripts/validate_decks.py`: OK; Repository-Unittests: 70/70 OK. Der Strukturvalidator ersetzt keinen vollständigen regelbasierten Forge-Spieltest; für diese Version wurde **kein Forge-Ende-zu-Ende-Spiel** durchgeführt.
+**Erstprüfung des Decks am 5.11.2026 (vor dem Kartentausch):** 100 Karten, 99 verschiedene Kartenbezeichnungen (2× Forest), 36 Länder; **99/99 eindeutige Kartennamen durch Scryfall-Live-Oracle gefunden**, alle Commander-legal und innerhalb Rot/Grün/Weiß, exakt drei Scryfall-Game-Changer. Doppelseitige Ajani, Nacatl Pariah und Growing Rites of Itlimoc anhand der Vorderseiten überprüft. Repository-`scripts/validate_decks.py`: OK; Repository-Unittests: 70/70 OK. Der Strukturvalidator ersetzt keinen vollständigen regelbasierten Forge-Spieltest; für diese Version wurde **kein Forge-Ende-zu-Ende-Spiel** durchgeführt.
 
 **Quellen:**
 - [Wizards – Commander, Brackets und Game Changers](https://magic.wizards.com/en/formats/commander)
 - [Wizards – Commander Brackets Beta Update, 21.10.2025](https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025)
 - [Wizards – Rin and Seri release notes](https://magic.wizards.com/en/news/feature/core-set-2021-and-jumpstart-release-notes-2020-06-20)
 - [Scryfall – aktuell veröffentlichte Oracle-/Legalitätsdaten](https://scryfall.com)
+
+**Änderung am 6.11.2026:** Thousand-Year Elixir → Caretaker's Talent. Elixir als spätere Option in [card-pool.md](card-pool.md) archiviert, Toski und Qasali Slingers unverändert. Die neue 100-Karten-Liste wurde am 6.11.2026 erneut mit Scryfall geprüft: 99/99 verschiedene Namen gefunden (einschließlich Doppelseiten), alle Commander-legal und Naya-farbidentitätskonform, weiterhin drei Game Changer (Seedborn Muse, Aura Shards und Gaea's Cradle). Der Strukturvalidator sowie 70/70 Repository-Unittests liefen erfolgreich; kein Forge-Partietest wurde durchgeführt.
