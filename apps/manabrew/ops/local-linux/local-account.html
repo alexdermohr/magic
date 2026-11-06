@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manabrew – Account-Anmeldung</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#14141a;color:#f0eff7}
+body{margin:0;display:grid;min-height:100vh;place-items:center;padding:16px;box-sizing:border-box}
+main{width:min(100%,480px);padding:30px;border-radius:15px;background:#21212d;border:1px solid #434352}
+h1{font-size:24px;margin-top:0}p{line-height:1.55;color:#d0cfdf}button,a.primary{border:0;background:#7776d9;color:white;padding:12px 18px;border-radius:9px;cursor:pointer;font-size:15px;font-weight:600}
+button:disabled{opacity:.5;cursor:wait}.buttons{display:flex;gap:10px;flex-wrap:wrap}
+input{box-sizing:border-box;background:#171720;border:1px solid #81819c;color:white;padding:12px;width:100%;font:inherit;border-radius:7px;margin:8px 0 12px}
+small{display:block;color:#b4b3c7;line-height:1.5;margin-top:20px}
+a{color:#bbbaff}#message{min-height:24px;color:#f9b0b0}label{display:block;margin-top:20px}
+</style>
+</head>
+<body>
+<main>
+<h1>Manabrew-Account verbinden</h1>
+<p>Verbinde deinen bisherigen Account über GitHub oder Discord. Die Anmeldung findet direkt beim jeweiligen Anbieter statt. Manabrew zeigt danach einen einmaligen Anmeldecode an.</p>
+<div class="buttons">
+<button type="button" data-provider="github">Mit GitHub anmelden</button>
+<button type="button" data-provider="discord">Mit Discord anmelden</button>
+</div>
+<form id="complete" autocomplete="off">
+<label for="code">Einmalcode aus dem neuen Browser-Tab:</label>
+<input id="code" required spellcheck="false" autocomplete="one-time-code" placeholder="Anmeldecode einfügen">
+<button type="submit">Anmeldung abschließen</button>
+</form>
+<p id="message" role="status"></p>
+<small>Für E-Mail-Anmeldung kannst du direkt im <a href="/play">normalen Manabrew-Anmeldedialog</a> den Code aus der Mail eingeben. Deinen Account oder dein Passwort musst du hier nicht angeben. Der Code wird von der originalen Manabrew-Anwendung verarbeitet.</small>
+</main>
+<script>
+(() => {
+const message = document.getElementById("message");
+for (const button of document.querySelectorAll("[data-provider]")) {
+  button.addEventListener("click", async () => {
+    const provider = button.dataset.provider;
+    const popup = window.open("about:blank", "_blank");
+    button.disabled = true;
+    message.textContent = "Anmeldung wird geöffnet …";
+    try {
+      const response = await fetch("/api/auth/oauth/" + provider + "/start", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({mode: "signin", client: "desktop"})
+      });
+      if (!response.ok) throw new Error("Account-Dienst meldet HTTP " + response.status);
+      const result = await response.json();
+      const url = new URL(result.authorizeUrl);
+      if (!["github.com","discord.com"].includes(url.hostname) || url.protocol !== "https:") throw new Error("Unerwartete Anmeldeadresse");
+      if (popup) { popup.location.replace(url.href); } else { window.location.assign(url.href); }
+      message.textContent = "Anmeldung im neuen Tab abschließen. Anschließend den angezeigten Einmalcode hier eingeben.";
+    } catch (error) {
+      if (popup) popup.close();
+      message.textContent = "Anmeldung konnte nicht gestartet werden: " + error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
+document.getElementById("complete").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const code = document.getElementById("code").value.trim();
+  if (code) window.location.assign("/auth/callback?code=" + encodeURIComponent(code));
+});
+})();
+</script>
+</body>
+</html>
