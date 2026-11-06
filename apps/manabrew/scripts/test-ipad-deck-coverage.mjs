@@ -1,14 +1,18 @@
 import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const option = (key, fallback) => {
   const index = process.argv.indexOf("--" + key);
   return index === -1 ? fallback : process.argv[index + 1];
 };
-const root = option("dist", "/home/alex/.local/share/manabrew-ipad-personal-v2-20261102");
-const packageRoot = option("engine", "/home/alex/.local/share/manabrew-forge020/package");
-const archive = option("archive", join(root, "wasm/cardset.ba5f500f819f5838.rkyv"));
+const appRoot = fileURLToPath(new URL("..", import.meta.url));
+const root = resolve(option("dist", join(appRoot, "dist")));
+const packageRoot = resolve(option("engine", join(appRoot, "packages/forge-wasm")));
+const archive = option("archive", null) ?? join(
+  root, "wasm",
+  JSON.parse(readFileSync(join(root, "wasm/cardset.manifest.json"), "utf8")).archive,
+);
 const startIndex = Number(option("from", 0));
 const limit = Number(option("limit", 35));
 const timeoutMs = Number(option("timeout", 40000));
@@ -45,7 +49,7 @@ for (let i = startIndex; i < Math.min(startIndex + limit, decks.length); i += 1)
       onError(error) {
         problems.push(String(error).slice(0, 240));
       },
-      onPrompt(prompt) {
+      onPrompt(prompt, slot) {
         const input = prompt?.input ?? {};
         const title = input.presentation?.title ?? "";
         prompts.push({ type: input.type, title: title.slice(0, 200) });
@@ -72,7 +76,7 @@ for (let i = startIndex; i < Math.min(startIndex + limit, decks.length); i += 1)
             return;
         }
         try {
-          engine.respond(prompt.promptId, { type: input.type, output });
+          engine.respond(prompt.promptId, { type: input.type, output }, slot);
         } catch (error) {
           complete(String(error));
         }
