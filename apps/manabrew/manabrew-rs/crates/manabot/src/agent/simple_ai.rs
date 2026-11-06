@@ -864,6 +864,11 @@ impl SimpleAi {
             let Some((cost, produced)) = line.split_once(": Add ") else {
                 continue;
             };
+            // Quoted mana abilities are granted to other objects, not this source.
+            // For example, Alchemist's Talent grants Treasures a two-mana ability.
+            if cost.bytes().filter(|byte| *byte == b'"').count() % 2 != 0 {
+                continue;
+            }
             let lower_cost = cost.to_ascii_lowercase();
             let self_sacrifice = lower_cost.contains("sacrifice this")
                 || lower_cost.contains(&format!("sacrifice {}", source_name.to_ascii_lowercase()));
@@ -2230,6 +2235,24 @@ mod color_choice_tests {
                 "Lion's Eye Diamond"
             ),
             0
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_abilities_granted_to_treasures() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Treasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Alchemist's Talent",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {G}.\nTreasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Mana Land",
+            ),
+            1
         );
     }
 
