@@ -258,3 +258,51 @@ PWA-/ManaBot-Artefakt und änderte weder den Dienst
 Der SHA-256-Installer-Fix in PR #74 und die selbstverliehene
 `Urza's Saga`-Manafähigkeit in PR #76 sind auf GitHub korrigiert,
 aber nicht allein durch diesen Test produktiv ausgeliefert.
+
+### Forge-WebImage-Builder: Read-only-Referenz statt In-place-Patch, 6. November 2026
+
+**Ursache:** Ein P1-Reviewbefund in PR #77 zeigte, dass der optionale
+`commander-pressure`-Build die geteilte Forge-Referenzquelle während
+der Kompilierung mit `git apply` veränderte. Ein EXIT-Trap machte dies
+erst **nachträglich** rückgängig; die vorgeschriebene Read-only-Grenze
+galt während des Builds nicht.
+
+**Korrektur:** `apps/manabrew/scripts/build-forge-wasm.sh` überprüft weiterhin
+den exakten Forge-Pin und sauberen Checkout, baut zunächst das unveränderte
+Harness-JAR und kopiert dann ausschließlich die betroffene Java-Klasse
+`AiAttackController.java` in ein temporäres Verzeichnis. Dort wird
+`forge-ai-commander-pressure.patch` angewendet und mit der gepinnten
+Oracle-GraalVM kompiliert. Der Build erstellt eine **separate Kopie** des
+Harness-JAR mit der korrigierten Klasse und übergibt diese über
+`HARNESS_JAR` an den bereits vorhandenen `build-wasm.sh`-Pfad.
+Die Forge-Referenz, deren Git-Status und das ursprüngliche Harness-JAR
+werden weder gepatcht noch zurückgesetzt. Ohne Opt-in bleibt der
+bisherige Standard-Buildpfad erhalten.
+
+**Gezielte Nachweise:** `bash -n` erfolgreich; aus einer frischen
+Originalklasse erzeugtes Control-JAR lieferte bei der echten JVM-Probe
+`wounded=19 intact=11` und Exitcode 1, das isoliert gepatchte
+JAR `wounded=30 intact=0` mit Exitcode 0. Die Quell- und
+Original-JAR-SHA-256 blieben vor und nach der Probe gleich; Forge
+blieb git-sauber. Zusätzlich wurde der unveränderte
+`forge-harness/build-wasm.sh`-Pfad in einer vollständig getrennten
+GraalVM-/Binaryen-Arbeitskopie **wirklich kompiliert**:
+WASM `86.175.717` Bytes, SHA-256
+`31d3a0987f96a19e37a0f95bc2e6ba493ede8dc3e04a67a58850713bccf80607`.
+Damit wurde die neue `HARNESS_JAR`-Kopplung bis zur Browserengine
+geprüft; ein Komplettdurchlauf des äußeren `build-forge-wasm.sh`-Skripts
+war dies nicht.
+
+**Spielnachweis:** Das frisch aus dem isolierten JAR kompilierte WASM wurde über die
+existierende Node-/WebImage-Engine mit den persönlichen Commander-Decks
+**Anowon gegen Helga**, Seed `27011`, und Forge als zweitem KI-Sitz
+vollständig durchgespielt: `game:over`, **22 gültige Forge-Lehrentscheidungen**,
+**0 verworfene Samples**, keine Engine-Ausnahme. Die Java-Buildkorrektur
+wurde damit außerhalb des JVM-Harness in einem tatsächlichen neuen
+WebImage bis zum Spielende geprüft.
+
+**Auslieferungsgrenze:** Der Build liegt als separater Kandidat unter
+`~/.local/state/manabrew-forge-overlay-webimage-p1-20261106`.
+Das Produktivrelease `7198ebf`, dessen WebImage-SHA und die gesicherten
+Rückfallversionen wurden **nicht** verändert. Ein physisches Safari-/WebKit-
+Home-Screen-Spiel und die Integration der PR-Kette in `main` bleiben offen.
