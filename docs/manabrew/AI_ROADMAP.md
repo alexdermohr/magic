@@ -143,3 +143,11 @@ Der nächste Operator arbeitet ohne neue Architekturdebatte diese Reihenfolge ab
 - Bei Tests echte Engineentscheidungen und Regelgrenzen prüfen, keine Manipulation durch verborgene Informationen. Eigene Deckdaten und rohe Spieltraces bleiben lokal, keine persönlichen Daten im Git-Commit.
 - Upstream- und Lizenzbedingungen (AGPL) beachten. Keine Neuimplementierung der Regeln für „strategische“ Abkürzungen.
 - Dieser Plan wird an **belegten Ergebnissen** angepasst; nicht jede vorgeschlagene Phase ist automatisch ein Bauauftrag. Weniger komplex ist besser, sofern mindestens gleich gut spielbar.
+
+## 7. Frischer P0/P1-Produktionsstand (6. November 2026)
+
+**Echte ausgelieferte Version:** Aus PR-#77-Head `2d44fef38e04351b62545f3fd2d112d18d170e9b` ist die neue Offline-PWA mit **38 persönlichen Decks** auf dem produktiven Port 8088 und der HTTPS-Origin aktiv. Manifest `cd95a53f1fc82ac9258a`, **3.476 Dateien, 402.413.113 Bytes**, sämtliche Dateien nach der Releasekopie per Größe und SHA-256 validiert; neues Forge-WebImage `31d3a0987f96a19e37a0f95bc2e6ba493ede8dc3e04a67a58850713bccf80607` stammt aus dem read-only respektierenden separaten Build-Overlay.
+
+**Echte Nutzerwege:** Das isolierte 38-Deck-Release bestand Chromium-Offlinepartie (98 Aktionen), Linux-Autoersteinrichtung/Neustart, Zoom-Reset und Migrationsschutz für lokal geänderte Decks und altes Kartenbild. Nach produktiver Umschaltung bestand die echte Tailnet-HTTPS-Origin eine vollständige **offline gespielte Anowon/Gahiji-Partie nach 131 Eingaben** mit regulärer Eliminierung, fünf Sekunden Ergebnisanzeige, Menürückkehr und 0 JS-Fehlern. Auch ein neuer Linux-Chrome-Desktopstart installierte auf dem tatsächlich laufenden Dienst automatisch **38/38 Decks**, überstand den Offline-Kaltstart und ein weiteres netzloses Öffnen. Das exakte vorherige Dienst-Dropin liegt unter `~/.local/state/manabrew-release-backup/20261106-2d44fef-before.conf`; sämtliche älteren Releases bleiben unberührt.
+
+**Nicht als erledigt markieren:** Kein echtes Safari/Home-Screen-Spiel auf dem physischen iPad, keine bewiesene allgemeine KI-Siegquotensteigerung und noch keine Integration der offenen PRs #74/#76/#77 in `main`. Die gelernte Policy bleibt opt-in/experimentell; die neue nachweislich gebaute Forge-KI bleibt Standard. Details und Belege: [Betriebsdokumentation](README.md).
