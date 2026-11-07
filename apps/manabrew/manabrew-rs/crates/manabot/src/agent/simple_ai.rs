@@ -1667,17 +1667,23 @@ impl BotAgent for SimpleAi {
                         if keep.contains(&a.attacker_id) && !a.must_attack {
                             continue;
                         }
-                        let target_id = match a
-                            .valid_target_ids
-                            .iter()
-                            .filter(|target| !self.failed_attack_targets.contains(*target))
-                            .max_by_key(|target| {
-                                self.attack_target_score_for_attacker(&a.attacker_id, target)
-                            })
+                        let target_id = if lethal_target
+                            && a.valid_target_ids.contains(&default_target)
+                            && !self.failed_attack_targets.contains(&default_target)
                         {
-                            Some(t) => t.clone(),
-                            None if a.valid_target_ids.is_empty() => default_target.clone(),
-                            None => continue,
+                            default_target.clone()
+                        } else {
+                            match a
+                                .valid_target_ids
+                                .iter()
+                                .filter(|target| !self.failed_attack_targets.contains(*target))
+                                .max_by_key(|target| {
+                                    self.attack_target_score_for_attacker(&a.attacker_id, target)
+                                }) {
+                                Some(t) => t.clone(),
+                                None if a.valid_target_ids.is_empty() => default_target.clone(),
+                                None => continue,
+                            }
                         };
                         if a.must_attack
                             || (lethal_target && target_id == default_target)
@@ -2211,6 +2217,62 @@ mod commander_pressure_tests {
             assignments.get("commander-1").map(String::as_str),
             Some("player-2")
         );
+    }
+
+    #[test]
+    fn lethal_group_attack_survives_one_profitable_opponent_block() {
+        let mut attackers = Vec::new();
+        for i in 0..4 {
+            let mut card = CardDto::default();
+            card.id = format!("attacker-{i}");
+            card.types = vec!["Creature".into()];
+            card.power = Some("2".into());
+            card.toughness = Some("2".into());
+            attackers.push(CardView::Visible(card));
+        }
+        let mut blocker = CardDto::default();
+        blocker.id = "blocker".into();
+        blocker.types = vec!["Creature".into()];
+        blocker.power = Some("3".into());
+        blocker.toughness = Some("3".into());
+
+        let mut ai = SimpleAi::new();
+        ai.observe(GameViewDto {
+            players: vec![
+                player("player-1", 4, "unused", 0),
+                player("player-2", 40, "unused", 0),
+            ],
+            zones: vec![
+                ZoneDto {
+                    zone: ZoneKind::Battlefield,
+                    owner_id: "player-0".into(),
+                    cards: attackers,
+                    count: 4,
+                },
+                ZoneDto {
+                    zone: ZoneKind::Battlefield,
+                    owner_id: "player-1".into(),
+                    cards: vec![CardView::Visible(blocker)],
+                    count: 1,
+                },
+            ],
+            ..GameViewDto::default()
+        });
+        assert!(ai.attack_target_score("player-1") > ai.attack_target_score("player-2"));
+        assert!(!ai.should_attack("attacker-0", "player-1"));
+        let assignments = declare_attacks(
+            &mut ai,
+            &["attacker-0", "attacker-1", "attacker-2", "attacker-3"],
+        );
+        assert_eq!(assignments.len(), 4);
+        for i in 0..4 {
+            assert_eq!(
+                assignments
+                    .get(&format!("attacker-{i}"))
+                    .map(String::as_str),
+                Some("player-1")
+            );
+        }
     }
 
     #[test]
