@@ -126,6 +126,27 @@ try {
       }
       await touch(495, 783);
       discards++;
+    } else if (current.type === "chooseCards") {
+      // A game effect can ask the human to choose cards outside the cleanup
+      // discard phase. Pixi exposes each selectable card as an accessibility
+      // button whose label is "Activate to select this card". Keep using the
+      // real UI; never synthesize an engine response or inspect hidden cards.
+      const skip = page.getByRole("button", { name: /^SKIP$/ });
+      if (await skip.count()) {
+        await page.keyboard.press("Enter");
+      } else {
+        const available = page.locator('button[aria-label="Activate to select this card"]');
+        if (await available.count()) {
+          await available.first().click();
+          // The keyboard shortcut must confirm the selection, not activate
+          // the now-focused card a second time.
+          await page.evaluate(() => {
+            if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+          });
+        }
+        await page.keyboard.press("Enter");
+      }
+      modalConfirms++;
     } else if ([
       "revealCards", "reorder", "chooseBoolean", "chooseFromSelection", "scry",
       "chooseColor", "chooseDamageAssignmentOrder", "chooseCombatDamageAssignment",
