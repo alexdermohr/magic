@@ -93,7 +93,9 @@ try {
       if (process.env.MANABREW_FULLGAME_SCREENSHOT) {
         await page.screenshot({ path: process.env.MANABREW_FULLGAME_SCREENSHOT });
       }
-      await touch(425, 545);
+      // The Pixi game-over modal changes height with the number of players.
+      // Enter invokes its visible RETURN TO MENU action for both 1v1 and pods.
+      await page.keyboard.press("Enter");
       await page.waitForFunction(
         () => !document.body.innerText.includes("Game board controls"),
         null,
