@@ -492,7 +492,9 @@
     $("prepare").disabled = true;
     $("play").classList.add("disabled");
     try {
-      if (!("serviceWorker" in navigator) || !("caches" in window)) throw new Error("Service Worker oder Cache API nicht vorhanden.");
+      if (!navigator.serviceWorker || !window.caches) {
+        throw new Error("Dieser Browser oder In-App-Browser unterstützt die Offline-Installation nicht (Service Worker/Cache API). Auf dem iPad: Adresse direkt in Safari öffnen, zum Home-Bildschirm hinzufügen und die Offline-Dateien erst in der installierten App herunterladen.");
+      }
       await navigator.serviceWorker.register("/offline-sw.js", { scope: "/" });
       await navigator.serviceWorker.ready;
       manifest = await loadManifest();
