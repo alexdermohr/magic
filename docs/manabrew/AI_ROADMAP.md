@@ -203,3 +203,21 @@ Die kleine Korrektur wählt den bereits ermittelten gemeinsamen tödlichen Stand
 **Reproduzierbarer RED/GREEN-Test:** `manabrew-rs/crates/manabot/src/agent/simple_ai.rs`, Test `lethal_group_attack_survives_one_profitable_opponent_block`, über echte `PromptInput::ChooseAttackers`-, `BotAgent::decide`- und `PromptInput::validate_response`-Wege. Original: `Some("player-2")` statt `Some("player-1")` (Test FAIL). Gepatcht: vier legale Angriffe auf `player-1` (PASS). **35/35 Rust-Tests grün**, `rustfmt --check` mit Rustfmt 1.95.0 erfolgreich.
 
 **Grenze:** Das ist eine nachgewiesene taktische Korrektur, **noch keine statistisch belegte Verbesserung der Siegquote**. Die produktive Forge-WASM, ManaBot-Baseline, persönlichen Decks und der iPad-Release wurden nicht geändert.
+
+### P1-Forge-WebImage mit beiden Commander-Kampfkorrekturen: vollständige Partien (7. November 2026)
+
+Der bisherige `commander-pressure`-Patch (`AiAttackController`) und der neue `forge-ai-commander-block-threat.patch` (`ComputerUtilCombat`) wurden in einer **getrennten** Harness-JAR aus den gepinnten Forge-Quellen mit einem temporären Java-Classpath-Overlay kombiniert. Das originale Forge-Git-Checkout blieb sauber; weder das ursprüngliche Harness-JAR noch produktive Assets wurden verändert.
+
+**Kombinierte Java-Gegenproben:** `CommanderDamageDefenderProbe` wählte den fast besiegten Commander-Gegner **30/30**; `CommanderBlockThreatProbe` meldete `unblocked=1, assigned=0, blocked=0, danger=0, serious=0, trample=1`. Beide liefen mit der **gleichen** neu zusammengebauten JAR (SHA-256 `3d30efc6f0aa323db03bfbb65a5c19b6e2f9162d966355304095f0cb1316eb2f`).
+
+**Wirklicher Oracle-GraalVM-25.3.4.1-WebImage-Neubau:** 86.026.348 Bytes, SHA-256 `9baba53b6eeb6bf1c11de7e746555e62063914edf4ffa6754420cd639b20313c`. Der neue Node/WebImage-Engine-Kandidat liegt unter `~/.local/state/manabrew-forge-block-webimage-20261107/engine`. Der Build nutzte den vorhandenen `forge-harness/build-wasm.sh`-Pfad mit expliziter `HARNESS_JAR`, vorhandenem `FORGE_ASSETS` und getrenntem Outputverzeichnis; die beiden Quellklassen wurden nur in temporären Kopien gepatcht.
+
+**Drei echte vollständig entschiedene Offline-Commander-Partien auf genau diesem neuen WASM:**
+
+- Seed `27011`, Anowon gegen Helga, zwei Spieler: `game:over`, 211 Engine-Fenster, 0 Zahlungsabbrüche, keine Engine-Stalls.
+- Seed `27012`, Ardenn/Rograkh gegen Malcolm/Breeches (Partner-Commander), zwei Spieler: `game:over`, 261 Engine-Fenster, 0 Zahlungsabbrüche, keine Engine-Stalls.
+- Seed `27013`, Anowon, Gahiji, Arahbo und Rin and Seri, vier Spieler mit drei Forge-AI-Sitzen: `game:over`, 259 Engine-Fenster, 0 Zahlungsabbrüche, keine Engine-Stalls.
+
+**Gleicher Vier-Spieler-Seed als Gegenprobe:** Das zuvor ausgelieferte Forge-WASM `31d3a0987f96a19e37a0f95bc2e6ba493ede8dc3e04a67a58850713bccf80607` endete ebenfalls regulär mit 259 Engine-Fenstern und denselben beobachteten ManaBot-Aktionszählungen. Latenz p50/p90: bestehendes WASM **128/218 ms**, neuer Kandidat **139/236 ms**; p99 in beiden Fällen rund **12 Sekunden**. Dieser einzelne Lauf beweist weder eine Leistungssteigerung noch einen reproduzierbaren Performance-Nachteil, weist aber auf bestehende Latenzspitzen im Vier-Spieler-Pod hin.
+
+**Auslieferungsgrenze:** Technische WebImage-Integration ist nun belegt, aber **keine statistisch höhere Forge-Siegquote** und **keine physische Safari-Home-Screen-Abnahme**. Der produktive Dienst und seine 38 Commander-Decks, lokale Änderungen sowie Rückfallstände bleiben unverändert. Kein automatischer Standardwechsel oder Deployment nur aufgrund dieser drei Spiele.
