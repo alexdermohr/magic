@@ -38,7 +38,7 @@ public final class CommanderBlockThreatProbe {
     }
 
     public static void main(String[] args) {
-        GuiBase.setInterface(new HeadlessGuiBase("forge/forge-gui/"));
+        GuiBase.setInterface(new HeadlessGuiBase(args.length > 0 ? args[0] : "forge/forge-gui/"));
         FModel.initialize(null, prefs -> {
             prefs.setPref(FPref.LOAD_CARD_SCRIPTS_LAZILY, true);
             prefs.setPref(FPref.UI_LANGUAGE, "en-US");

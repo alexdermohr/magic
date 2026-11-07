@@ -45,7 +45,7 @@ try {
   const className = "forge.harness.common.CommanderBlockThreatProbe";
   const pattern = /COMMANDER_BLOCK_THREAT unblocked=(\d+) assigned=(\d+) blocked=(\d+) danger=(\d+) serious=(\d+) trample=(\d+)/;
   const measure = extra => {
-    const output = run(java("java"), ["-cp", [...extra, compiledProbe, jar].join(":"), className], dirname(forge));
+    const output = run(java("java"), ["-cp", [...extra, compiledProbe, jar].join(":"), className, join(forge, "forge-gui")], dirname(forge));
     const match = output.match(pattern);
     if (!match) throw new Error("No threat measurement in " + output);
     return match.slice(1).map(Number);
