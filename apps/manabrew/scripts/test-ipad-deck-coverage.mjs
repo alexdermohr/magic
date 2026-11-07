@@ -14,7 +14,7 @@ const archive = option("archive", null) ?? join(
   JSON.parse(readFileSync(join(root, "wasm/cardset.manifest.json"), "utf8")).archive,
 );
 const startIndex = Number(option("from", 0));
-const limit = Number(option("limit", 35));
+const limit = Number(option("limit", Infinity));
 const timeoutMs = Number(option("timeout", 40000));
 const data = JSON.parse(readFileSync(join(root, "personal-decks.json"), "utf8"));
 const decks = data.decks;
@@ -68,6 +68,19 @@ for (let i = startIndex; i < Math.min(startIndex + limit, decks.length); i += 1)
           case "mulligan":
             output = { type: "mulliganDecision", keep: true };
             break;
+          case "chooseFromSelection": {
+            // Some commanders ask for a legal choice before the first turn.
+            // This is normal pregame interaction, not an invalid deck.
+            const chosenIndices = [];
+            let weight = 0;
+            for (const [index, choice] of (input.options ?? []).entries()) {
+              if (weight >= (input.minTotal ?? 0)) break;
+              chosenIndices.push(index);
+              weight += choice.weight ?? 1;
+            }
+            output = { type: "selectionDecision", chosenIndices };
+            break;
+          }
           case "chooseAction":
             complete("first game action", prompts.some((p) => p.type === "mulligan"));
             return;

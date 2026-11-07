@@ -93,6 +93,8 @@ export interface ForgeStartMultiplayerGameOptions {
   seed?: number;
   /** Off, the engine takes no restore snapshots. Defaults to on. */
   snapshotRecording?: boolean;
+  /** Benchmark-only: local, seat-redacted Forge AI cast-choice trace; requires rebuilt Java WebImage. */
+  forgeTeacherTrace?: boolean;
   decisionJournal?: boolean;
   journalRewind?: boolean;
   gameId?: string;

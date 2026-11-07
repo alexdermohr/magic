@@ -259,6 +259,35 @@ impl SimpleAi {
         }
     }
 
+    pub fn reconcile_cast_attempt(
+        &mut self,
+        actions: &[AvailableAction],
+        proposed_id: &str,
+        executed_id: &str,
+    ) -> bool {
+        let Some(proposed) = actions.iter().find(|action| action.id == proposed_id) else {
+            return false;
+        };
+        let Some(executed) = actions.iter().find(|action| action.id == executed_id) else {
+            return false;
+        };
+        if !matches!(&proposed.kind, AvailableActionKind::Cast { .. })
+            || !matches!(&executed.kind, AvailableActionKind::Cast { .. })
+        {
+            return false;
+        }
+        let proposed_key = Self::action_key(proposed);
+        let executed_key = Self::action_key(executed);
+        if !self.attempted_actions.contains(&proposed_key)
+            || self.attempted_actions.contains(&executed_key)
+        {
+            return false;
+        }
+        self.attempted_actions.remove(&proposed_key);
+        self.attempted_actions.insert(executed_key);
+        true
+    }
+
     fn prefers_creatures(&self, player_id: &str) -> bool {
         self.view.as_ref().is_some_and(|view| {
             view.zones
@@ -1398,6 +1427,56 @@ impl SimpleAi {
         }
     }
 
+    /// Prioritize a player who can lose to 21 combat damage from this
+    /// *specific* commander. Damage dealt by a different commander must not
+    /// affect the target choice, including in partner Commander games.
+    fn attack_target_score_for_attacker(&self, attacker_id: &str, target_id: &str) -> i32 {
+        let baseline = self.attack_target_score(target_id);
+        let (Some(attacker), Some(view)) = (self.card(attacker_id), self.view.as_ref()) else {
+            return baseline;
+        };
+        // Target the defender a creature can profitably attack, not merely
+        // the opponent with the most threatening battlefield. Otherwise the
+        // follow-up should_attack guard can skip an attack that would have
+        // been safe against another legal defender.
+        if !self.should_attack(attacker_id, target_id) {
+            return baseline.saturating_sub(1_000_000);
+        }
+        // The engine marks the actual physical Commander card (not an arbitrary
+        // legendary creature) with its commander-tax field in the public view.
+        if attacker.commander_tax.is_none() {
+            return baseline;
+        }
+        let Some(defender) = view.players.iter().find(|player| player.id == target_id) else {
+            return baseline;
+        };
+        let dealt = defender
+            .commander_damage
+            .get(attacker_id)
+            .copied()
+            .unwrap_or(0);
+        let power = Self::stat(attacker.power.as_deref());
+        baseline.saturating_add(Self::commander_damage_attack_bonus(
+            dealt,
+            power,
+            Self::has_keyword(attacker, "Double strike"),
+        ))
+    }
+
+    fn commander_damage_attack_bonus(already_dealt: i32, power: i32, double_strike: bool) -> i32 {
+        let damage = already_dealt.clamp(0, 20);
+        let potential = power.max(0).min(21) * if double_strike { 2 } else { 1 };
+        if potential == 0 {
+            0
+        } else if damage + potential >= 21 {
+            // A commander-damage win is worth more than routine board pressure.
+            10_000
+        } else {
+            // Preserve the previous ranking when no commander damage was dealt.
+            damage * damage * 2
+        }
+    }
+
     fn attack_target_score(&self, id: &str) -> i32 {
         let Some(view) = &self.view else {
             return 0;
@@ -1592,7 +1671,9 @@ impl BotAgent for SimpleAi {
                             .valid_target_ids
                             .iter()
                             .filter(|target| !self.failed_attack_targets.contains(*target))
-                            .max_by_key(|target| self.attack_target_score(target))
+                            .max_by_key(|target| {
+                                self.attack_target_score_for_attacker(&a.attacker_id, target)
+                            })
                         {
                             Some(t) => t.clone(),
                             None if a.valid_target_ids.is_empty() => default_target.clone(),
@@ -1925,6 +2006,270 @@ impl BotAgent for SimpleAi {
                 DiceRolledOutput::DiceRolledAcknowledged,
             )),
         }
+    }
+}
+#[cfg(test)]
+mod commander_pressure_tests {
+    use super::{BotAgent, SimpleAi};
+    use manabrew_agent_interface::game_view_dto::{
+        CardDto, CardView, GameViewDto, PlayerDto, ZoneDto, ZoneKind,
+    };
+    use manabrew_agent_interface::prompt::{
+        AgentPrompt, ChooseAttackersInput, ChooseAttackersOutput, PromptInput, PromptOutput,
+    };
+    use manabrew_protocol::prompts::choose_attackers::AttackerOptionDto;
+    use manabrew_protocol::prompts::common::{AttackTargetDto, AttackTargetKind};
+    use serde_json::json;
+    use std::collections::HashMap;
+
+    // Exercise the same public prompt/response contract used by Forge, not
+    // merely the internal target score. The engine still owns all legal IDs.
+    fn declare_attacks(ai: &mut SimpleAi, attacker_ids: &[&str]) -> HashMap<String, String> {
+        let input = PromptInput::ChooseAttackers(ChooseAttackersInput {
+            attackers: attacker_ids
+                .iter()
+                .map(|id| AttackerOptionDto {
+                    attacker_id: (*id).into(),
+                    valid_target_ids: vec!["player-1".into(), "player-2".into()],
+                    must_attack: false,
+                })
+                .collect(),
+            attack_targets: ["player-1", "player-2"]
+                .iter()
+                .map(|id| AttackTargetDto {
+                    id: (*id).into(),
+                    label: (*id).into(),
+                    kind: AttackTargetKind::Player,
+                })
+                .collect(),
+        });
+        let output = ai
+            .decide(AgentPrompt {
+                prompt_id: 1,
+                deciding_player_id: "player-0".into(),
+                source_card: None,
+                source_ability_text: None,
+                input: input.clone(),
+            })
+            .expect("legal attack decision");
+        assert_eq!(input.validate_response(&output), Ok(()));
+        let PromptOutput::ChooseAttackers(ChooseAttackersOutput::DeclareAttackers { assignments }) =
+            output
+        else {
+            panic!("expected legal attacker assignments");
+        };
+        assignments
+            .into_iter()
+            .map(|a| (a.attacker_id, a.target_id))
+            .collect()
+    }
+
+    fn player(id: &str, life: i32, commander: &str, damage: i32) -> PlayerDto {
+        serde_json::from_value(json!({
+            "id": id, "name": id, "status": "playing", "isHuman": false,
+            "life": life, "counters": {}, "manaPool": {},
+            "commanderDamage": {commander: damage},
+            "hasCityBlessing": false, "hasEnduringStory": false,
+            "ringLevel": 0, "speed": 0
+        }))
+        .expect("minimal public player view")
+    }
+
+    #[test]
+    fn a_commander_prefers_its_own_nearly_lethal_damage_over_low_opponent_life() {
+        let mut commander = CardDto::default();
+        commander.id = "commander-1".into();
+        commander.power = Some("2".into());
+        commander.commander_tax = Some(0);
+        let mut ordinary = CardDto::default();
+        ordinary.id = "creature-2".into();
+        ordinary.power = Some("2".into());
+        let mut ai = SimpleAi::new();
+        ai.observe(GameViewDto {
+            players: vec![
+                player("player-1", 40, "commander-1", 20),
+                player("player-2", 10, "commander-1", 0),
+            ],
+            zones: vec![ZoneDto {
+                zone: ZoneKind::Battlefield,
+                owner_id: "player-0".into(),
+                cards: vec![CardView::Visible(commander), CardView::Visible(ordinary)],
+                count: 2,
+            }],
+            ..GameViewDto::default()
+        });
+        assert!(ai.attack_target_score("player-2") > ai.attack_target_score("player-1"));
+        assert!(
+            ai.attack_target_score_for_attacker("commander-1", "player-1")
+                > ai.attack_target_score_for_attacker("commander-1", "player-2")
+        );
+        assert!(
+            ai.attack_target_score_for_attacker("creature-2", "player-2")
+                > ai.attack_target_score_for_attacker("creature-2", "player-1")
+        );
+        let assignments = declare_attacks(&mut ai, &["commander-1", "creature-2"]);
+        assert_eq!(
+            assignments.get("commander-1").map(String::as_str),
+            Some("player-1")
+        );
+        assert_eq!(
+            assignments.get("creature-2").map(String::as_str),
+            Some("player-2")
+        );
+    }
+
+    #[test]
+    fn partner_commander_cannot_claim_damage_dealt_by_the_other_partner() {
+        let mut first = CardDto::default();
+        first.id = "partner-a".into();
+        first.power = Some("2".into());
+        first.commander_tax = Some(0);
+
+        let mut second = first.clone();
+        second.id = "partner-b".into();
+
+        let mut ai = SimpleAi::new();
+        ai.observe(GameViewDto {
+            players: vec![
+                player("player-1", 40, "partner-a", 20),
+                player("player-2", 10, "partner-a", 0),
+            ],
+            zones: vec![ZoneDto {
+                zone: ZoneKind::Battlefield,
+                owner_id: "player-0".into(),
+                cards: vec![CardView::Visible(first), CardView::Visible(second)],
+                count: 2,
+            }],
+            ..GameViewDto::default()
+        });
+
+        assert!(
+            ai.attack_target_score_for_attacker("partner-a", "player-1")
+                > ai.attack_target_score_for_attacker("partner-a", "player-2")
+        );
+        assert!(
+            ai.attack_target_score_for_attacker("partner-b", "player-2")
+                > ai.attack_target_score_for_attacker("partner-b", "player-1")
+        );
+        let assignments = declare_attacks(&mut ai, &["partner-a", "partner-b"]);
+        assert_eq!(
+            assignments.get("partner-a").map(String::as_str),
+            Some("player-1")
+        );
+        assert_eq!(
+            assignments.get("partner-b").map(String::as_str),
+            Some("player-2")
+        );
+    }
+
+    #[test]
+    fn blocked_commander_does_not_forfeit_a_safe_attack_for_damage_pressure() {
+        let mut commander = CardDto::default();
+        commander.id = "commander-1".into();
+        commander.power = Some("2".into());
+        commander.toughness = Some("2".into());
+        commander.commander_tax = Some(0);
+        let mut giant = CardDto::default();
+        giant.id = "blocker".into();
+        giant.types = vec!["Creature".into()];
+        giant.power = Some("10".into());
+        giant.toughness = Some("10".into());
+        let mut ai = SimpleAi::new();
+        ai.observe(GameViewDto {
+            players: vec![
+                player("player-1", 40, "commander-1", 20),
+                player("player-2", 10, "commander-1", 0),
+            ],
+            zones: vec![
+                ZoneDto {
+                    zone: ZoneKind::Battlefield,
+                    owner_id: "player-0".into(),
+                    cards: vec![CardView::Visible(commander)],
+                    count: 1,
+                },
+                ZoneDto {
+                    zone: ZoneKind::Battlefield,
+                    owner_id: "player-1".into(),
+                    cards: vec![CardView::Visible(giant)],
+                    count: 1,
+                },
+            ],
+            ..GameViewDto::default()
+        });
+        assert!(!ai.should_attack("commander-1", "player-1"));
+        assert!(ai.should_attack("commander-1", "player-2"));
+        assert!(
+            ai.attack_target_score_for_attacker("commander-1", "player-1")
+                < ai.attack_target_score("player-1")
+        );
+        assert!(
+            ai.attack_target_score_for_attacker("commander-1", "player-2")
+                > ai.attack_target_score_for_attacker("commander-1", "player-1")
+        );
+        let assignments = declare_attacks(&mut ai, &["commander-1"]);
+        assert_eq!(
+            assignments.get("commander-1").map(String::as_str),
+            Some("player-2")
+        );
+    }
+
+    #[test]
+    fn partners_track_commander_damage_per_card_and_double_strike() {
+        assert_eq!(
+            SimpleAi::commander_damage_attack_bonus(20, 1, false),
+            10_000
+        );
+        assert_eq!(SimpleAi::commander_damage_attack_bonus(19, 1, false), 722);
+        assert_eq!(SimpleAi::commander_damage_attack_bonus(19, 1, true), 10_000);
+        assert_eq!(SimpleAi::commander_damage_attack_bonus(0, 2, true), 0);
+        assert_eq!(SimpleAi::commander_damage_attack_bonus(20, 0, true), 0);
+        assert_eq!(
+            SimpleAi::commander_damage_attack_bonus(20, 21, false),
+            10_000
+        );
+    }
+}
+
+#[cfg(test)]
+mod learned_cast_attempt_tests {
+    use super::{AvailableAction, AvailableActionKind, SimpleAi};
+    use manabrew_protocol::prompts::common::PlayCardMode;
+
+    fn cast(id: &str, card: &str) -> AvailableAction {
+        AvailableAction {
+            id: id.to_owned(),
+            kind: AvailableActionKind::Cast {
+                card_id: card.to_owned(),
+                mode: PlayCardMode::Normal,
+                label: format!("Cast {card}"),
+                face_index: None,
+            },
+        }
+    }
+
+    #[test]
+    fn overriding_cast_replaces_attempted_card_but_keeps_proposed_spell_available() {
+        let original = cast("prompt-action-0", "spell-A");
+        let replacement = cast("prompt-action-1", "spell-B");
+        let mut ai = SimpleAi::new();
+        let old_key = SimpleAi::action_key(&original);
+        let new_key = SimpleAi::action_key(&replacement);
+        ai.attempted_actions.insert(old_key.clone());
+
+        assert!(ai.reconcile_cast_attempt(
+            &[original.clone(), replacement.clone()],
+            &original.id,
+            &replacement.id
+        ));
+        assert!(!ai.attempted_actions.contains(&old_key));
+        assert!(ai.attempted_actions.contains(&new_key));
+        assert!(!ai.reconcile_cast_attempt(
+            &[original.clone(), replacement.clone()],
+            &original.id,
+            &replacement.id
+        ));
+        assert!(!ai.reconcile_cast_attempt(&[original, replacement], "missing", "prompt-action-1"));
+        assert_eq!(ai.attempted_actions.len(), 1);
     }
 }
 

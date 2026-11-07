@@ -76,6 +76,27 @@ resumes. `--seats 2 --decks a,b` plays duels, side A alternating seats.
 prompt with the seat's view and the decision as one JSON line on stderr; a
 game the engine ends with an exception reports `outcome.reason` `engine_error`.
 
+## Forge Commander target selection (experimental)
+
+After preparing the pinned Forge source and building the JVM harness, run
+`yarn test:forge-commander-pressure` from `apps/manabrew` with a JDK installed.
+The opt-in test compares the unmodified Forge AI against an isolated
+Java classpath overlay from `patches/forge-ai-commander-pressure.patch`.
+It constructs a real three-player Commander game with one opponent at 20
+commander damage and another at zero. The baseline fails to consistently
+attack the nearly eliminated player, while the candidate prioritizes them.
+The script verifies the Forge pin and leaves the checkout untouched.
+This is JVM-only: the PWA still uses the pinned WebImage and the patch
+has not established a win-rate advantage.
+
+## Experimental learned opponent
+
+A fully local, **bench-only** third decision policy can learn cast-vs-cast
+preferences from ManaBot traces and rerank Forge-offered actions. It is not
+enabled in the normal iPad or Linux clients and has not demonstrated a win-rate
+improvement. See [LEARNED_POLICY.md](LEARNED_POLICY.md) for exact commands,
+limitations and first results.
+
 ## A run, not a game
 
 ```sh

@@ -389,6 +389,7 @@ async function startMultiplayerGame(requestId, args) {
     snapshotRecording: !args || args.snapshotRecording !== false,
     decisionJournal: args?.decisionJournal === true,
     journalRewind: args?.journalRewind === true,
+    forgeTeacherTrace: args?.forgeTeacherTrace === true,
     players: decks.map((deck, index) => ({
       name: playerNames[index] || `Player ${index + 1}`,
       ai: forgeAiSeats.has(index),

@@ -1,9 +1,21 @@
+import { readFileSync } from "node:fs";
+
+const expectedPersonalDecks = JSON.parse(
+  readFileSync(new URL("../dist/personal-decks.json", import.meta.url), "utf8"),
+).decks;
+const expectedDeckCount = expectedPersonalDecks.length;
+const expectedPartnerCount = expectedPersonalDecks.filter(
+  ({ deck }) => deck.commanders?.length === 2,
+).length;
+
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright");
 
 const origin = process.argv[2] ?? "http://127.0.0.1:8092";
 const profile = process.env.MANABREW_TEST_PROFILE ?? "/tmp/manabrew-ipad-personal-game";
 const player = process.argv[3] ?? "Ardenn, Intrepid Archaeologist";
 const opponent = process.argv[4] ?? "Malcolm, Keen-Eyed Navigator";
+const opponentCount = Number(process.env.MANABREW_TEST_OPPONENTS ?? 1);
+if (![1, 3].includes(opponentCount)) throw new Error("Expected 1 or 3 AI opponents");
 const ctx = await chromium.launchPersistentContext(profile, {
   headless: true,
   executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
@@ -54,7 +66,7 @@ try {
     };
   });
   console.log("PERSONAL_DECK_STORAGE:", JSON.stringify(own));
-  if (own.count !== 35 || own.partners !== 4 || !own.valid)
+  if (own.count !== expectedDeckCount || own.partners !== expectedPartnerCount || !own.valid)
     throw new Error("Saved GitHub decks incomplete or malformed");
 
   const imageCheck = await page.evaluate(async (url) => {
@@ -89,16 +101,26 @@ try {
   if (!(await fight.isEnabled())) throw new Error("Personal matchup cannot start");
   await fight.click();
   await page.getByRole("dialog").getByRole("button", { name: /^Fight!?$/ }).click();
-  await page.getByRole("dialog").getByRole("button", { name: /1v1/ }).click();
+  await page.getByRole("dialog").getByRole("button", {
+    name: opponentCount === 3 ? /4-player pod/ : /1v1/,
+  }).click();
   await page.getByRole("button", { name: /^KEEP$/i }).waitFor({ timeout: 150000 });
   const mulligan = await state("PERSONAL_MULLIGAN:");
   if (!mulligan.text.includes("Your hand, 7 cards")) throw new Error("No personal deck 7-card hand");
+  if (opponentCount === 3) {
+    const seats = await page.evaluate(() => [...document.body.innerText.matchAll(
+      /Inspect ([^\n]+), (-?\d+) life/g,
+    )].map((match) => ({ name: match[1], life: Number(match[2]) })));
+    console.log("PERSONAL_POD_SEATS:", JSON.stringify(seats));
+    if (seats.length !== 4) throw new Error("Four-player pod has " + seats.length + " seats");
+  }
   await page.getByRole("button", { name: /^KEEP$/i }).click({ timeout: 20000 });
   await page.waitForFunction(() => /current step (Main|Begin Combat|Draw)/.test(document.body.innerText), null, { timeout: 90000 });
   const progressed = await state("PERSONAL_AFTER_KEEP:");
   if (/Reconnecting…/.test(progressed.text)) throw new Error("Relay reconnect banner blocks local gameplay");
   if (!progressed.text.includes("Your hand, ")) throw new Error("Hand lost after Mulligan");
-  console.log("PERSONAL_GAME_PROGRESSED:", JSON.stringify({ player, opponent, errors }));
+  if (errors.length) throw new Error("JavaScript page errors: " + errors.join("; "));
+  console.log("PERSONAL_GAME_PROGRESSED:", JSON.stringify({ player, opponent, opponentCount, errors }));
 } finally {
   await ctx.close();
 }
