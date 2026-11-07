@@ -1,0 +1,18 @@
+diff --git a/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java b/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
+--- a/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
++++ b/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
+@@ -368,6 +368,14 @@
+         List<Card> res = Lists.newArrayList();
+         for (Card c : combat.getAttackers()) {
+             if (c.isCommander() && combat.isAttacking(c, ai)) {
++                // During blocker assignment a blocker may be present before the
++                // attacking band is marked blocked. Ordinary blocked commanders
++                // cannot deal combat damage to the defending player.
++                if ((combat.isBlocked(c) || !combat.getBlockers(c).isEmpty())
++                        && !c.hasKeyword(Keyword.TRAMPLE)
++                        && !StaticAbilityAssignCombatDamageAsUnblocked.assignCombatDamageAsUnblocked(c)) {
++                    continue;
++                }
+                 int currentCommanderDamage = ai.getCommanderDamage(c);
+                 if (damageIfUnblocked(c, ai, combat, false) + currentCommanderDamage >= ai.getGame().getRules().getCommanderDamageToLose()) {
+                     res.add(c);
