@@ -2014,7 +2014,55 @@ mod commander_pressure_tests {
     use manabrew_agent_interface::game_view_dto::{
         CardDto, CardView, GameViewDto, PlayerDto, ZoneDto, ZoneKind,
     };
+    use manabrew_agent_interface::prompt::{
+        AgentPrompt, ChooseAttackersInput, ChooseAttackersOutput, PromptInput, PromptOutput,
+    };
+    use manabrew_protocol::prompts::choose_attackers::AttackerOptionDto;
+    use manabrew_protocol::prompts::common::{AttackTargetDto, AttackTargetKind};
     use serde_json::json;
+    use std::collections::HashMap;
+
+    // Exercise the same public prompt/response contract used by Forge, not
+    // merely the internal target score. The engine still owns all legal IDs.
+    fn declare_attacks(ai: &mut SimpleAi, attacker_ids: &[&str]) -> HashMap<String, String> {
+        let input = PromptInput::ChooseAttackers(ChooseAttackersInput {
+            attackers: attacker_ids
+                .iter()
+                .map(|id| AttackerOptionDto {
+                    attacker_id: (*id).into(),
+                    valid_target_ids: vec!["player-1".into(), "player-2".into()],
+                    must_attack: false,
+                })
+                .collect(),
+            attack_targets: ["player-1", "player-2"]
+                .iter()
+                .map(|id| AttackTargetDto {
+                    id: (*id).into(),
+                    label: (*id).into(),
+                    kind: AttackTargetKind::Player,
+                })
+                .collect(),
+        });
+        let output = ai
+            .decide(AgentPrompt {
+                prompt_id: 1,
+                deciding_player_id: "player-0".into(),
+                source_card: None,
+                source_ability_text: None,
+                input: input.clone(),
+            })
+            .expect("legal attack decision");
+        assert_eq!(input.validate_response(&output), Ok(()));
+        let PromptOutput::ChooseAttackers(ChooseAttackersOutput::DeclareAttackers { assignments }) =
+            output
+        else {
+            panic!("expected legal attacker assignments");
+        };
+        assignments
+            .into_iter()
+            .map(|a| (a.attacker_id, a.target_id))
+            .collect()
+    }
 
     fn player(id: &str, life: i32, commander: &str, damage: i32) -> PlayerDto {
         serde_json::from_value(json!({
@@ -2059,6 +2107,15 @@ mod commander_pressure_tests {
             ai.attack_target_score_for_attacker("creature-2", "player-2")
                 > ai.attack_target_score_for_attacker("creature-2", "player-1")
         );
+        let assignments = declare_attacks(&mut ai, &["commander-1", "creature-2"]);
+        assert_eq!(
+            assignments.get("commander-1").map(String::as_str),
+            Some("player-1")
+        );
+        assert_eq!(
+            assignments.get("creature-2").map(String::as_str),
+            Some("player-2")
+        );
     }
 
     #[test]
@@ -2093,6 +2150,15 @@ mod commander_pressure_tests {
         assert!(
             ai.attack_target_score_for_attacker("partner-b", "player-2")
                 > ai.attack_target_score_for_attacker("partner-b", "player-1")
+        );
+        let assignments = declare_attacks(&mut ai, &["partner-a", "partner-b"]);
+        assert_eq!(
+            assignments.get("partner-a").map(String::as_str),
+            Some("player-1")
+        );
+        assert_eq!(
+            assignments.get("partner-b").map(String::as_str),
+            Some("player-2")
         );
     }
 
@@ -2139,6 +2205,11 @@ mod commander_pressure_tests {
         assert!(
             ai.attack_target_score_for_attacker("commander-1", "player-2")
                 > ai.attack_target_score_for_attacker("commander-1", "player-1")
+        );
+        let assignments = declare_attacks(&mut ai, &["commander-1"]);
+        assert_eq!(
+            assignments.get("commander-1").map(String::as_str),
+            Some("player-2")
         );
     }
 
