@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cardWorkerCount } from "./cardWorkerBudget";
+import { cardWorkerCount, isAppleMobileDevice } from "./cardWorkerBudget";
 
 const device = {
   hardwareConcurrency: 8,
@@ -7,6 +7,17 @@ const device = {
   platform: "Linux",
   maxTouchPoints: 0,
 };
+
+describe("Apple mobile memory budget", () => {
+  it("covers iPadOS with native and desktop Safari user agents", () => {
+    expect(isAppleMobileDevice({ ...device, userAgent: "Mozilla/5.0 (iPad; CPU OS 26_7)" })).toBe(
+      true,
+    );
+    expect(isAppleMobileDevice({ ...device, platform: "MacIntel", maxTouchPoints: 5 })).toBe(true);
+    expect(isAppleMobileDevice(device)).toBe(false);
+    expect(isAppleMobileDevice(undefined)).toBe(false);
+  });
+});
 
 describe("cardWorkerCount", () => {
   it("limits native iPad Safari to one card renderer", () => {
