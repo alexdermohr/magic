@@ -8,7 +8,7 @@ Die Anwendung wird unter [apps/manabrew](../../apps/manabrew/) im Magic-Reposito
 
 | Komponente | Belegter Heim-PC-Zustand |
 | --- | --- |
-| iPad-PWA | Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; aktiver Release 93f37e9d99c05cce8be7; 1ededb4aa71e5a253284, f7283c87075ae778e0d8, 127d23bea1447704bce7 und die älteren Versionen bleiben als Rückfallstände erhalten |
+| iPad-PWA | Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; am 8. November 2026 nachgewiesener aktiver Release e55f0631bfad4b55a8005c08b1b56f78f86d4081; ältere unveränderliche Releases bleiben als Rückfallstände erhalten |
 | Linux-Magic-Offline | Zusätzlicher Desktopstarter manabrew-magic-offline.desktop nutzt den aktuellen Magic-PWA-Dienst auf 127.0.0.1:8088 direkt für Offline-Commander gegen Forge-KI; alte Linux-Version bleibt verfügbar |
 | Linux-Web | Aktiver manabrew-local-web.service auf 127.0.0.1:8087 und Chrome-Desktopstarter manabrew-local.desktop |
 | Linux-Relay | Aktiver manabrew-local-relay.service auf den Loopback-Ports 9443/9444 |
@@ -19,6 +19,14 @@ Die Quellübernahme basiert auf Manabrew v3.69.0, Upstream-Commit 4f4ed9e784a054
 Der nicht als Gitlink importierte Forge-Unterbaum wird vom Skript scripts/bootstrap-forge.sh mit dem exakten Upstream-Commit be9e0c8a5b561ae3e909c2f9a8bdac0a7fa2b097 nachgeladen. Die Java/GraalVM-Forge-WebAssembly-Laufzeit wird **nicht** aus Java-Quellen neu kompiliert, sondern mit scripts/bootstrap-webimage.sh aus dem veröffentlichten Manabrew-Webimage v3.69.0 bezogen, auf einen unveränderlichen OCI-Digest fixiert und per SHA-256 für beide Artefakte geprüft. Die eigene Rust-WASM-Bibliothek und das Frontend werden hingegen aus den hier versionierten Quellen erstellt.
 
 Manabrew ist unter AGPL-3.0-or-later lizenziert. Lizenz und Drittanbieterhinweise wurden unter apps/manabrew beibehalten.
+
+## Stabilität bei Hintergrundwechsel und Wiederaufnahme (8. November 2026)
+
+Die Web-App pausiert beim Verlassen des Vordergrunds die lokale Multiplayer-Reconnect-Frist. Nach Rückkehr läuft die **verbleibende Frist** weiter; der Browser darf eine Partie nicht allein wegen eines von iPadOS angehaltenen Timers beenden. Ein `pagehide` darf bei einer laufenden Offline-Partie weder den Spielabschluss vorwegnehmen noch den Karten-Rendering-Worker zwangsweise beenden. Beim ausdrücklichen Beenden wird die Offline-Partie weiterhin abgeschlossen. Auf iPhone/iPad erhält der Kartenrenderer aus Rücksicht auf WebKit-Speicherdruck nur einen Worker, auf Desktopgeräten bis zu drei.
+
+Die Grenzen bleiben wichtig: Die Forge-Spiel-Engine einer echten Offline-Partie läuft weiter **im Browserprozess**. Beendet iPadOS den gesamten WebKit-/PWA-Prozess (z. B. bei Speicherdruck), überlebt der Enginezustand nicht. Noch fehlt ein dauerhaft gespeicherter, verifizierter Spielstand mit Wiederanlauf; reduzierte Workerzahl und Timer-Fix sind **kein** Ersatz für Engine-Persistenz.
+
+Regressionen: `src/hooks/useMultiplayerInterruption.test.ts` simuliert fünf Minuten Hintergrundphase und den anschließenden Fristablauf im Vordergrund. `src/lib/reconnectDeadline.test.ts` und `src/lib/cardWorkerBudget.test.ts` prüfen Fristen und iPad-Erkennung. Ein grüner TypeScript- und Unit-Test allein ist kein iPadOS-/WebKit-Ende-zu-Ende-Nachweis.
 
 ## Reproduzierbarer Offline-Build
 

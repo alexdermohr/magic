@@ -240,7 +240,10 @@ function noticeRepeatVote(vote: RepeatVoteDto, state: GameState) {
 
 export function useGameEventListeners() {
   useEffect(() => {
-    window.addEventListener("pagehide", reportEngineGame);
+    const handlePageHide = () => {
+      if (getState().isMultiplayer || isOver(getState())) reportEngineGame();
+    };
+    window.addEventListener("pagehide", handlePageHide);
     // A finished game is reported the moment it finishes, not at teardown:
     // teardown is three seconds later, and by then the tab may be gone, the
     // socket closed or a pooled hosted room recycled out from under the seat.
@@ -249,9 +252,9 @@ export function useGameEventListeners() {
       if (isOver(state) && !isOver(previous)) reportEngineGame();
     });
     return () => {
-      window.removeEventListener("pagehide", reportEngineGame);
+      window.removeEventListener("pagehide", handlePageHide);
       unsubscribe();
-      reportEngineGame();
+      handlePageHide();
     };
   }, []);
   useEffect(() => {

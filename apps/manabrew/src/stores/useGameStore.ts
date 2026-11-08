@@ -10,7 +10,9 @@ import {
   abandonOfflineGame,
   beginOfflineGame,
   currentOfflineGameId,
+  reportOfflineGame,
 } from "@/lib/offlinePlayRecord";
+import { offlineSeats } from "@/lib/offlineSeats";
 import { announceLocalGame, clearLocalGame } from "@/lib/localGamePresence";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -717,6 +719,7 @@ export const useGameStore = create<GameState>()(
         clearActiveGameSession();
         const runtime = getSelectedGameRuntime();
         const wasMultiplayer = get().isMultiplayer;
+        const offlineGameId = currentOfflineGameId();
         if (peekGauntletMatch() && !get().gameView?.gameOver) await clearGauntletMatch();
         // Before the state is cleared: how the engine performed. A game the
         // relay knows about is reported to it; anything else goes to the hub.
@@ -729,7 +732,7 @@ export const useGameStore = create<GameState>()(
           gameId: engineReportGameId(
             wasMultiplayer,
             useServerStore.getState().gameId,
-            currentOfflineGameId(),
+            offlineGameId,
           ),
           send: wasMultiplayer
             ? async (stats, gameId) => {
@@ -737,6 +740,19 @@ export const useGameStore = create<GameState>()(
               }
             : undefined,
         });
+        if (!wasMultiplayer) {
+          const state = get();
+          const seats = offlineSeats(state.gameView);
+          reportOfflineGame({
+            gameOver:
+              (state.gameView?.gameOver ?? false) || state.currentPrompt?.input.type === "gameOver",
+            winner:
+              seats.find((seat) => seat.seatId === state.gameView?.winnerId)?.username ?? null,
+            seats,
+            engineError: state.engineCrash,
+          });
+          clearLocalGame();
+        }
         set({
           isGameActive: false,
           activeEngine: null,
