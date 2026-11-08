@@ -17,6 +17,7 @@ export interface ForgeSeat {
 }
 
 export declare function createSeat(buffer: SharedArrayBuffer): ForgeSeat;
+export declare function acknowledgeSeatMessage(seat: ForgeSeat): boolean;
 export declare function readSeatMessage(seat: ForgeSeat): string | null;
 export declare function writeSeatMessage(seat: ForgeSeat, message: unknown): void;
 export declare function deliverSeatDirective(seat: ForgeSeat, directive: unknown): void;

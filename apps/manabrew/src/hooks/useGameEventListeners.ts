@@ -11,6 +11,7 @@ import { engineReportGameId, reportEngineStats } from "@/lib/engineStatsReport";
 import { currentOfflineGameId, reportOfflineGame } from "@/lib/offlinePlayRecord";
 import { offlineSeats } from "@/lib/offlineSeats";
 import { clearLocalGame } from "@/lib/localGamePresence";
+import { noteOfflineResumeEvent } from "@/lib/offlineResumeDiagnostics";
 import { useGameStore } from "@/stores/useGameStore";
 import type { GameState } from "@/stores/useGameStore";
 import { useServerStore } from "@/stores/useServerStore";
@@ -473,6 +474,9 @@ export function useGameEventListeners() {
           message: string;
         }>("game:forced_end", (payload) => {
           const message = payload?.message ?? `Forced game exit`;
+          if (!getState().isMultiplayer) {
+            noteOfflineResumeEvent("engine_forced_end", false, "worker_error");
+          }
           const { isMultiplayer, isHost } = getState();
           const activeSession = peekActiveGameSession();
           clearActiveGameSession();

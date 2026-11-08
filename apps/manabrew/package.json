@@ -47,6 +47,7 @@
     "preview": "vite preview",
     "build:harness": "node scripts/harness.mjs build",
     "test:forge-supervisor": "node --test packages/forge-wasm/forge-engine.worker.test.mjs",
+    "test:ipad-seat-reader": "node --test scripts/test-seat-reader-resume.mjs",
     "test:forge-legacy": "node scripts/test-forge-legacy.mjs",
     "test:forge-commander-pressure": "node scripts/engine-bench/forge-commander-pressure.mjs",
     "test:forge-rewind": "node scripts/forge-tests/rewind.mjs",

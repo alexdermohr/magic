@@ -89,6 +89,7 @@ import forgeWorkerUrl from "@forge-wasm/forge-engine.worker.js?url";
 // The seat protocol lives with @manabrew/forge-wasm, which drives the same
 // worker, so there is one implementation rather than one per consumer.
 import {
+  acknowledgeSeatMessage,
   createDirectiveLane,
   createSeat,
   deliverSeatDirective,
@@ -99,7 +100,11 @@ import {
   type ForgeSeat,
 } from "@forge-wasm/seat.js";
 
+import { SEAT_READER_HEARTBEAT, seatReaderStalled } from "@/lib/seatReaderProtocol";
+import { noteOfflineResumeEvent } from "@/lib/offlineResumeDiagnostics";
+
 const DEBUG_TRANSPORT = false;
+const seatReaderLastSignalAt = new WeakMap<Worker, number>();
 
 let wasmReady: Promise<typeof import("@/wasm/wasm")> | null = null;
 
@@ -124,16 +129,25 @@ function readSeat<T>(
   seat: ForgeSeat,
   onMessage: (message: T, json: string, arrivedAt: number) => void,
   onError: (error: unknown, json: string) => void,
+  onWorkerError: (reason: string) => void,
 ): Worker {
   const worker = new Worker(new URL("../workers/seat-reader.worker.ts", import.meta.url), {
     type: "module",
   });
+  seatReaderLastSignalAt.set(worker, Date.now());
+  // The engine owns seat.signal; this control word belongs only to the
+  // reader/main-thread delivery handshake. A new reader gets a fresh one.
+  const delivery = new Int32Array(new SharedArrayBuffer(4));
   worker.onmessage = (event: MessageEvent<string>) => {
     if (seat.cancelled) return;
+    seatReaderLastSignalAt.set(worker, Date.now());
+    if (event.data === SEAT_READER_HEARTBEAT) return;
     const json = event.data;
-    // Before the parse, as on the relay socket: a state frame is tens of
-    // kilobytes and parsing it is this machine's work. Stamping after the
-    // parse put it in `replyWait`, which on this path has no wire in it.
+    // A worker cannot eat a frame while the page is suspended: delivery
+    // and acknowledgement occur on the same main-thread callback.
+    acknowledgeSeatMessage(seat);
+    Atomics.add(delivery, 0, 1);
+    Atomics.notify(delivery, 0);
     const arrivedAt = performance.now();
     try {
       const message = JSON.parse(json) as T;
@@ -143,7 +157,9 @@ function readSeat<T>(
       onError(error, json);
     }
   };
-  worker.postMessage({ buffer: seat.buffer });
+  worker.onerror = (event) => onWorkerError(event.message || "worker_error");
+  worker.onmessageerror = () => onWorkerError("message_error");
+  worker.postMessage({ buffer: seat.buffer, deliveryControl: delivery.buffer });
   return worker;
 }
 
@@ -255,6 +271,8 @@ class WorkerBridge {
   private fallbackWorker: Worker | null = null;
   private localSeat: ForgeSeat | null = null;
   private seatReaders = new Map<ForgeSeat, Worker>();
+  private seatReaderLaunchers = new Map<ForgeSeat, () => void>();
+  private resumeReaderCheck: ReturnType<typeof setTimeout> | null = null;
 
   private remoteSeats = new Map<string, ForgeSeat>();
   private remotePlayerSlots = new Map<string, string>();
@@ -277,18 +295,34 @@ class WorkerBridge {
   constructor(eventBus: WebEventBus) {
     this.eventBus = eventBus;
 
+    const checkReadersAfterForeground = () => {
+      if (this.resumeReaderCheck !== null) clearTimeout(this.resumeReaderCheck);
+      // Safari resumes the page before suspended workers can run. Give them
+      // time to send a heartbeat rather than restarting a healthy reader.
+      this.resumeReaderCheck = setTimeout(() => {
+        this.resumeReaderCheck = null;
+        if (document.hidden) return;
+        for (const [seat, reader] of this.seatReaders) {
+          if (seatReaderStalled(seatReaderLastSignalAt.get(reader), Date.now())) {
+            this.restartSeatReader(seat, "no_heartbeat_after_foreground");
+          }
+        }
+      }, 8_000);
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) checkReadersAfterForeground();
+    });
+    window.addEventListener("pageshow", checkReadersAfterForeground);
+
     eventBus.on<{ buffer: SharedArrayBuffer }>("game:sab", (payload) => {
       const seat = createSeat(payload.buffer);
       if (this.localSeat) this.dropSeat(this.localSeat);
       this.localSeat = seat;
       if (DEBUG_TRANSPORT) console.log("[WorkerBridge] Received local SAB, starting reader");
-      this.seatReaders.set(
+      this.attachSeatReader<EngineMessage>(
         seat,
-        readSeat<EngineMessage>(
-          seat,
-          (msg, _json, arrivedAt) => this.dispatchEngineMessage(msg, arrivedAt),
-          (error) => console.error("[WorkerBridge] Failed to read SAB message:", error),
-        ),
+        (msg, _json, arrivedAt) => this.dispatchEngineMessage(msg, arrivedAt),
+        (error) => console.error("[WorkerBridge] Failed to read SAB message:", error),
       );
     });
 
@@ -311,18 +345,15 @@ class WorkerBridge {
       this.remoteSeats.set(playerSlot, seat);
       if (DEBUG_TRANSPORT)
         console.log(`[WorkerBridge] Received remote SAB for ${playerSlot}, starting reader`);
-      this.seatReaders.set(
+      this.attachSeatReader<RelayMessage["msg"]>(
         seat,
-        readSeat<RelayMessage["msg"]>(
-          seat,
-          (msg, json) => {
-            if (DEBUG_TRANSPORT)
-              console.log(`[transport←sab/seat ${playerSlot}] engine emitted:`, json);
-            this.eventBus.emit("game:relay_message", { forPlayer: playerSlot, msg });
-          },
-          (error) =>
-            console.error(`[WorkerBridge] Failed to read SAB message for ${playerSlot}:`, error),
-        ),
+        (msg, json) => {
+          if (DEBUG_TRANSPORT)
+            console.log("[remote seat " + playerSlot + "] engine emitted:", json);
+          this.eventBus.emit("game:relay_message", { forPlayer: playerSlot, msg });
+        },
+        (error) =>
+          console.error("[WorkerBridge] Failed to read remote SAB message:", playerSlot, error),
       );
     });
 
@@ -416,7 +447,11 @@ class WorkerBridge {
       case "prompt": {
         const prompt = msg.prompt as Prompt;
         const input = prompt?.input;
-        if (this.workerIsForgeWasm && this.startingForgeGame && typeof prompt.promptId === "number") {
+        if (
+          this.workerIsForgeWasm &&
+          this.startingForgeGame &&
+          typeof prompt.promptId === "number"
+        ) {
           if (
             input?.type === "revealCards" &&
             input.presentation?.title?.startsWith("AI can't play these cards well")
@@ -465,10 +500,48 @@ class WorkerBridge {
     this.localBotSlots = new Set(slots);
   }
 
+  private attachSeatReader<T>(
+    seat: ForgeSeat,
+    onMessage: (message: T, json: string, arrivedAt: number) => void,
+    onError: (error: unknown, json: string) => void,
+  ): void {
+    const launch = () => {
+      const reader = readSeat<T>(seat, onMessage, onError, (reason) => {
+        if (seat.cancelled || this.seatReaders.get(seat) !== reader) return;
+        console.warn("[WorkerBridge] Seat reader failed:", reason);
+        this.restartSeatReader(seat, "worker_error");
+      });
+      this.seatReaders.set(seat, reader);
+    };
+    this.seatReaderLaunchers.set(seat, launch);
+    launch();
+  }
+
+  private restartSeatReader(seat: ForgeSeat, reason: string): void {
+    if (seat.cancelled) return;
+    const existing = this.seatReaders.get(seat);
+    if (!existing) return;
+    existing.onmessage = null;
+    existing.onerror = null;
+    existing.onmessageerror = null;
+    existing.terminate();
+    this.seatReaders.delete(seat);
+    console.warn("[WorkerBridge] Reattaching Forge seat reader:", reason);
+    noteOfflineResumeEvent("seat_reader_restarted", undefined, reason);
+    this.seatReaderLaunchers.get(seat)?.();
+  }
+
   private dropSeat(seat: ForgeSeat): void {
     seat.cancelled = true;
-    this.seatReaders.get(seat)?.terminate();
+    const reader = this.seatReaders.get(seat);
+    if (reader) {
+      reader.onmessage = null;
+      reader.onerror = null;
+      reader.onmessageerror = null;
+      reader.terminate();
+    }
     this.seatReaders.delete(seat);
+    this.seatReaderLaunchers.delete(seat);
   }
 
   private dropDirectiveLanes(): void {
@@ -654,6 +727,7 @@ class WorkerBridge {
         this.worker.onmessage = this.handleMessage.bind(this);
         this.worker.onerror = (e) => {
           console.error("[WorkerBridge] Worker error:", e);
+          noteOfflineResumeEvent("engine_worker_error", undefined, "worker_error");
           const error = new Error(`Worker error: ${e.message}`);
           reject(error);
           for (const pending of this.pendingRequests.values()) pending.reject(error);

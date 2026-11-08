@@ -405,3 +405,100 @@ Home-Screen-Spiel und die Integration der PR-Kette in `main` bleiben offen.
 **Warum daraus kein Safari-Urteil folgt:** In der **Juno-eigenen, nicht mit Safari geteilten WKWebView-App-Sandbox** war `navigator.serviceWorker` **nicht verfügbar**, obwohl Cross-Origin-Isolation und WASM-Grundlagen vorhanden waren. Service-Worker-Berechtigungen von eingebetteten WKWebViews unterscheiden sich je nach Host-App-Konfiguration von Safari (siehe [WebKit: App-Bound Domains](https://webkit.org/blog/10882/app-bound-domains/) und [Apple: Default Web Browser](https://developer.apple.com/documentation/Xcode/preparing-your-app-to-be-the-default-browser)). Daraus folgt **kein Beleg**, dass Service Worker in der installierten Safari-Home-Screen-App fehlen. Die tatsächliche iPad-Home-Screen-Installation mit vollständigem Offline-Cache, Netzabschaltung und bis zum Spielende gespielter Partie bleibt unbestätigt.
 
 **Konkrete nutzerwirksame Abhilfe im Quellstand:** Bei fehlender `navigator.serviceWorker`- oder Cache-API meldet `public/offline-setup.html` künftig nicht mehr nur `Service Worker oder Cache API nicht vorhanden`, sondern nennt direkt den Weg **in Safari öffnen → zum Home-Bildschirm hinzufügen → Download in der installierten App**. Der bestehende echte Chromium-Cache-/SHA-256-Regressionslauf wurde erweitert und bestand sowohl den Cache-Race-Test als auch `IPAD_UNSUPPORTED_IN_APP_WEBVIEW_GUIDANCE_PASS` mit deaktivierter Service-Worker-API. Die Reparatur ist eine Installer-/Teständerung in PR #77; sie ändert **nicht** rückwirkend die bereits unveränderlich ausgelieferte Distribution `2d44fef` oder deren Manifest.
+
+### iPad-Pause: Transportreparatur und Diagnose (8. November 2026)
+
+**Nutzerbeobachtung maßgeblich:** Beim echten Appwechsel auf dem iPad
+bricht die laufende Partie weiterhin ab. Der unten beschriebene
+Quellcode-Fix wurde noch nicht in der Safari-Home-Screen-PWA abgenommen.
+
+**Gefundene Transportlücke:** Der dedizierte Sitzlese-Worker
+(src/workers/seat-reader.worker.ts) quittierte ein Forge-SAB-Frame
+bisher, bevor die Hauptanwendung dieses tatsächlich erhalten hatte.
+Wenn WebKit den Sitzleser nach Quittung, aber vor der Zustellung
+beendete, war die Nachricht verloren und die lebende Forge-Engine
+konnte auf eine nie sichtbare Entscheidung warten. Nun erfolgt
+die SAB-Quittung erst im Main-Thread-Empfangs-Callback. Ein separater
+4-Byte-SAB-Zustellzähler verhindert, dass ein sofort auf ACK folgendes
+neues READY-Frame versehentlich vom Leser übergangen wird. Alle
+1,5 Sekunden im Leerlauf meldet der Leser einen Heartbeat.
+Nach Visibility-/PageShow-Rückkehr bekommt er acht Sekunden Zeit;
+nur ein weiterhin stummer Sitzleser wird ersetzt, ohne die
+eigentliche Forge-WASM-Engine zu beenden. Workerfehler führen
+ebenfalls zu einer Neuanbindung.
+
+**Diagnose für das echte Gerät:** Ein auf 32 Einträge begrenzter
+lokaler Verlauf hält Dokumentstart, vorher aktive Offline-Partie,
+App-Hidden/Visible, Pagehide/Pageshow mit BFCache-Indikator sowie
+Workerfehler fest. In Settings → Preferences → Copy interruption diagnostics
+kann man den Verlauf kopieren. Bei einem neuen Dokument mit zuletzt
+aktivem Spiel wird document_restarted_with_active_game festgehalten,
+statt einen fortgesetzten Spielstand vorzutäuschen. Es werden keine
+Kartennamen, Hände, Prompts, Zugangsdaten oder Geheimnisse gespeichert
+oder versendet. Ist localStorage gesperrt, bleibt das Spielen möglich.
+
+**Quell- und Kandidatenbelege:** TypeScript-Check, ESLint und
+240/240 Vitest-Tests (43 Dateien) bestanden. Drei zusätzliche echte
+Node-worker_threads/SAB-Tests prüfen den Workerabbruch vor Zustellung,
+einen direkt auf Quittung folgenden nächsten Prompt und den Idle-Heartbeat.
+Der vollständige reproduzierbare iPad-Offline-Build mit gepinnter
+Forge-WebAssembly-Engine und neu gebauten Rust-Artefakten ergab
+Manifest 375316ebdefeca4c7e67, 3.476 Dateien / 402.276.174 Bytes
+sowie 38 persönliche Commander-Decks. Auf dem isolierten
+Produktions-Caddy-Kandidaten (127.0.0.1:8099) bestanden komplette
+Offline-Cacheinstallation und Kaltstart in Chromium 156 samt
+SharedArrayBuffer und Cross-Origin-Isolation. Eine laufende Forge-Partie
+überstand emuliertes Visibility/BFCache, beide WebGL-Kontextverluste
+und ein neues tatsächliches Spielkommando (0 JS-Fehler). Danach
+bestand auch ein echtes CDP-Freeze/Active mit weiterer
+Forge-Spielentscheidung bei abgeschaltetem Netzwerk.
+Chromium mit Safari-Kennung bleibt Chromium, nicht WebKit.
+
+**Finale Kandidatenabnahme auf genau Manifest 375316ebdefeca4c7e67:**
+Eine neue Chromium-Offlineinstallation mit 38 Decks startete vollständig
+ohne Netzwerk, die Diagnose-Kopierfunktion erschien fehlerfrei direkt
+im Standard-Einstellungstab Preferences. Danach überstand eine
+laufende Anowon/Gahiji-Partie den emulierten BFCache-/Tabwechsel,
+zweimal WebGL-Kontextverlust, 1,5×-Canvas-Backing und eine weitere
+echte Forge-Spielentscheidung. Ein zweiter vollständiger
+Anowon/Gahiji-Offline-Lauf endete nach **105 UI-Aktionen / 78 Sekunden**
+regulär mit Spielereliminierung, mindestens fünf Sekunden
+Ergebnisanzeige, erfolgreicher Menürückkehr und **0 JavaScript-Seitenfehlern**.
+Diese Tests liefen auf Chromium 156 und nicht im echten iPad-Safari.
+
+
+**Grenze der Reparatur:** Wird der gesamte WebKit-Prozess oder der
+Forge-Engine-Worker beendet, überlebt der interne Enginezustand
+nicht. Forge besitzt zwar GameCheckpoint/DecisionJournal zum
+deterministischen Replay einschließlich Zustand und RNG. Der
+bestehende Journalmodus ist für interne Forge-AI-Sitze verboten
+(ManaBrewEngineAdapter.startGameLocked); die Standard-KI-Partie ist
+deshalb noch nicht vollständig dauerhaft wiederherstellbar.
+Nur die sichtbare gameView in IndexedDB zu legen wäre keine echte
+Fortsetzung. Für P1 braucht es zuerst einen erfolgreichen
+Rekonstruktions-Roundtrip einer echten Partie einschließlich
+interner KI-Züge, verdeckter Zonen und Stack, danach atomare lokale
+Persistenz und Resume-UI.
+
+**Noch ausstehend:** Echtes Safari-/Home-Screen-Spiel auf dem
+physischen iPad, kurzer und mehrminütiger Appwechsel, Sperrbildschirm,
+vollständiger Prozessabbruch und weitere gültige Spielentscheidung
+nach Rückkehr. Der vorhandene Juno-Agent kann nur in seiner eigenen
+Python-/WKWebView-Sandbox testen, nicht die Safari-PWA bedienen.
+Ein Chromium- oder Juno-Teilergebnis ist keine Safari-Abnahme.
+
+
+**Finale produktionsgleiche Gegenprobe:** Nach dem Verschieben der
+Diagnose-Kopieraktion nach Settings/Preferences wurde die PWA vollständig
+neu gebaut und installiert (Manifest 375316ebdefeca4c7e67).
+Der Diagnoseknopf ist im neuen Chromium-Client sichtbar und wirft keinen
+JS-Fehler. Der schon in der bisherigen Produktivversion bestehende
+transformCallback-JavaScript-Fehler beim Öffnen von Settings/Cache ist
+getrennt reproduziert und nicht durch diesen Patch eingeführt.
+Im finalen Releasekandidaten überstand eine laufende Forge-Partie einen
+emulierten BFCache-Appwechsel und WebGL-Kontextverlust mit weiterer
+gültiger Entscheidung. Ein anschließendes Anowon/Gahiji-Duell endete
+vollständig offline nach 105 Aktionen / 78 Sekunden mit regulärer
+Eliminierung, fünf Sekunden Ergebnisanzeige, erfolgreicher Menürückkehr
+und null JavaScript-Seitenfehlern. Die echte iPad-Safari-Abnahme und
+dauerhafte Engine-Spielstandrekonstruktion bleiben offen.

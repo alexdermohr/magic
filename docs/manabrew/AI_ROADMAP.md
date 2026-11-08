@@ -155,3 +155,39 @@ Der nächste Operator arbeitet ohne neue Architekturdebatte diese Reihenfolge ab
 **Nicht als erledigt markieren:** Kein echtes Safari/Home-Screen-Spiel auf dem physischen iPad, keine bewiesene allgemeine KI-Siegquotensteigerung und noch keine Integration der offenen PRs #74/#76/#77 in `main`. Die gelernte Policy bleibt opt-in/experimentell; die neue nachweislich gebaute Forge-KI bleibt Standard. Details und Belege: [Betriebsdokumentation](README.md).
 
 **Zusätzliche native iPadOS-WebKit-Prüfung, 7. November:** Auf dem physischen iPad wurde die echte produktive PWA außer per HTTPS auch in einem eigenen unsichtbaren `WKWebView` geladen. Die React-Deckauswahl funktionierte, `crossOriginIsolated`, `SharedArrayBuffer`, `Atomics` und `Worker` waren vorhanden; Starter-Commander ließen sich über die UI bis `Game starting…` auswählen. Ein realer Forge-Mulligan wurde im eingebetteten WKWebView **nicht** erreicht. Zudem fehlte dort `navigator.serviceWorker`, was wegen der separaten Juno-App-Berechtigung **kein Safari-/Home-Screen-Fehlernachweis** ist. Das native Gerät bestätigte damit Rendering und UI, nicht die dauerhafte Offline-Spielbarkeit. Ein Quellfix gibt bei fehlender Service-Worker-/Cache-API die direkte Safari-/Home-Screen-Anleitung aus; Browserregression bestanden. Der veröffentlichte 38-Deck-Release und dessen Rückfallstand bleiben unverändert. Details: [README](README.md).
+
+## iPad-P0/P1-Wiederaufnahme: Stand 8. November 2026
+
+Die bestätigte Nutzerbeobachtung (Partie nach Appwechsel auf dem
+echten iPad verloren) bleibt offen. Auf PR-#85-Quellstand wurde
+die bisher ungeschützte Übergabe des Forge-Sitzlese-Workers
+repariert: SAB-Quittung nach Hauptthread-Zustellung,
+ein eigener Zustellzähler gegen READY/ACK-Rennen und gezielter
+Neustart eines ausgefallenen Sitzlesers nach Vordergrund-Rückkehr.
+Ein lokales Diagnoseprotokoll unterscheidet Dokumentschließung
+von Workerfehlern. Vollständiger Offline-Releasekandidat,
+240 Vitest- und 3 echte SAB-Worker-Tests sind grün;
+Chromium-Offline-Partie mit BFCache/WebGL/Frozen-Resume wurde
+weitergespielt, aber ein echtes physisches Safari-PWA-E2E fehlt.
+Details und Belege: README.md.
+
+**P1 ist nicht durch diesen Fix erfüllt:** Ein vollständiger
+iPadOS-Prozessabbruch vernichtet den Forge-WASM-Spielzustand.
+GameCheckpoint-/DecisionJournal-Replay ist vorhanden, aber die
+standardmäßige interne Forge-AI von Journal/Replay ausgeschlossen.
+Die nächste ursächliche Arbeit ist, zunächst einen reproduzierbaren
+Rekonstruktions-Roundtrip einer tatsächlichen Forge-AI-Partie zu
+ermöglichen: Lauf starten, Entscheidungen und Engine-Identität
+aufnehmen, Prozess beenden, mit geprüftem Zufallszustand,
+Spielzonen, Stack und Hidden-Information rekonstruieren, danach
+eine weitere gültige Entscheidung ausführen. Erst dann eine
+atomare IndexedDB-Persistenz und Resume-Bedienung in den
+produktiven Offline-Client integrieren. Kein Schein-Resume nur
+durch Wiedergabe des letzten gerenderten Boards.
+
+
+**Finaler Kandidat:** Manifest 375316ebdefeca4c7e67 mit 38 Decks;
+Chromium-Offline-Spiel bis zum echten Ende (105 Aktionen),
+BFCache-/WebGL-Wiederherstellung und Diagnose-UI unter
+Settings/Preferences erfolgreich. Echte iPad-Safari-Abnahme und
+dauerhafte Engine-Rekonstruktion bleiben offen.

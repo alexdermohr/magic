@@ -28,6 +28,10 @@ import { ROUTES } from "@/lib/constants";
 import { flushPublishedDeckPlayReports } from "@/lib/deckPlayEvidence";
 import { flushEngineStatsReports } from "@/lib/engineStatsReport";
 import { flushOfflinePlayRecords } from "@/lib/offlinePlayRecord";
+import {
+  beginOfflineResumeDiagnostics,
+  noteOfflineResumeEvent,
+} from "@/lib/offlineResumeDiagnostics";
 
 // Drives previous/next page shortcuts.
 const NAV_ROUTES = [
@@ -76,6 +80,23 @@ export function AppShell() {
     topBarOverride.search === location.search
       ? topBarOverride
       : undefined;
+
+  // Durable, local-only lifecycle evidence: a new WebKit process must not
+  // masquerade as a resumed engine. No game data is persisted by this logger.
+  useEffect(() => {
+    const stop = beginOfflineResumeDiagnostics();
+    const unsubscribe = useGameStore.subscribe((state, previous) => {
+      if (!previous.isGameActive && state.isGameActive && !state.isMultiplayer) {
+        noteOfflineResumeEvent("offline_game_started", true);
+      } else if (previous.isGameActive && !state.isGameActive && !previous.isMultiplayer) {
+        noteOfflineResumeEvent("offline_game_ended", false);
+      }
+    });
+    return () => {
+      unsubscribe();
+      stop();
+    };
+  }, []);
 
   // Register Tauri event listeners at app level so they're always active.
   useEffect(() => {

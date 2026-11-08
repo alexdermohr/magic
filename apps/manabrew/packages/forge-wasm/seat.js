@@ -48,13 +48,23 @@ export function createSeat(buffer) {
   };
 }
 
-/** Reads and acknowledges, so a second call does not see the same message. */
+/** Acknowledge only after delivery, so a crashed reader cannot eat a frame. */
+export function acknowledgeSeatMessage(seat) {
+  if (
+    Atomics.compareExchange(seat.signal, 0, SIGNAL_PROMPT_READY, SIGNAL_PROMPT_ACKNOWLEDGED) !==
+    SIGNAL_PROMPT_READY
+  )
+    return false;
+  Atomics.notify(seat.signal, 0);
+  return true;
+}
+
+/** The legacy main-thread reader still decodes and acknowledges in one call. */
 export function readSeatMessage(seat) {
   if (Atomics.load(seat.signal, 0) !== SIGNAL_PROMPT_READY) return null;
   const length = Atomics.load(seat.signal, 1);
   const json = new TextDecoder().decode(seat.data.slice(0, length));
-  Atomics.store(seat.signal, 0, SIGNAL_PROMPT_ACKNOWLEDGED);
-  Atomics.notify(seat.signal, 0);
+  acknowledgeSeatMessage(seat);
   return json;
 }
 
