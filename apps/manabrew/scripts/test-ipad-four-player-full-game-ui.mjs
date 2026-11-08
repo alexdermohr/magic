@@ -179,19 +179,11 @@ try {
         await page.keyboard.press("Enter");
       }
       modalConfirms++;
-    } else if (
-      [
-        "revealCards",
-        "reorder",
-        "chooseBoolean",
-        "chooseFromSelection",
-        "scry",
-        "chooseColor",
-        "chooseDamageAssignmentOrder",
-        "chooseCombatDamageAssignment",
-        "diceRolled",
-      ].includes(current.type)
-    ) {
+    } else if ([
+      "revealCards", "reorder", "chooseBoolean", "chooseFromSelection", "scry",
+      "chooseColor", "chooseDamageAssignmentOrder", "chooseCombatDamageAssignment",
+      "diceRolled",
+    ].includes(current.type)) {
       // These prompts have an Enter confirmation in PromptLayer; choices that
       // need more input remain blocked and trigger the idle guard below.
       await page.keyboard.press("Enter");
