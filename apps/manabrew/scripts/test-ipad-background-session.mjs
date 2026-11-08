@@ -95,6 +95,56 @@ try {
     console.log("IPAD_PIXI_RESOLUTION_BUDGET", JSON.stringify({ limit, canvases }));
   }
 
+  if (process.env.MANABREW_TEST_WEBGL_CONTEXT_RESTORE) {
+    const restored = await page.evaluate(async () => {
+      const largeCanvases = [...document.querySelectorAll("canvas")].filter((canvas) => {
+        const rect = canvas.getBoundingClientRect();
+        return rect.width >= 500 && rect.height >= 250;
+      });
+      if (largeCanvases.length < 2)
+        throw new Error("Expected both game board and overlay canvases");
+      const restoredSurfaces = [];
+      for (const canvas of largeCanvases) {
+        const gl = canvas.getContext("webgl2") ?? canvas.getContext("webgl");
+        const extension = gl?.getExtension("WEBGL_lose_context");
+        if (!extension) throw new Error("Browser cannot simulate a WebGL context loss");
+
+        const waitFor = (type) =>
+          new Promise((resolve, reject) => {
+            const timeout = setTimeout(
+              () => reject(new Error(type + " event did not arrive")),
+              10000,
+            );
+            canvas.addEventListener(
+              type,
+              (event) => {
+                clearTimeout(timeout);
+                resolve(event);
+              },
+              { once: true },
+            );
+          });
+        const lost = waitFor("webglcontextlost");
+        extension.loseContext();
+        const lostEvent = await lost;
+        if (!lostEvent.defaultPrevented || !gl.isContextLost()) {
+          throw new Error("Pixi did not acknowledge WebGL context loss");
+        }
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        const ready = waitFor("webglcontextrestored");
+        extension.restoreContext();
+        await ready;
+        if (gl.isContextLost()) throw new Error("WebGL context remained lost after restoration");
+        restoredSurfaces.push({ width: canvas.width, height: canvas.height });
+      }
+      return restoredSurfaces;
+    });
+    await page.waitForTimeout(350);
+    const recovered = await status();
+    assert.ok(recovered.playing, "The same Forge game must survive GPU context restoration");
+    console.log("WEBGL_CONTEXTS_RESTORED", JSON.stringify({ restored, recovered }));
+  }
+
   const other = await context.newPage();
   await other.goto("about:blank");
   await other.bringToFront();

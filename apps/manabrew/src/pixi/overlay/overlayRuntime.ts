@@ -32,6 +32,7 @@ export class OverlayRenderScheduler {
   private lastTimestamp = 0;
   private pending = false;
   private disposed = false;
+  private contextLost = false;
   private readonly app: Application;
   private readonly update: FrameUpdate;
 
@@ -39,6 +40,8 @@ export class OverlayRenderScheduler {
     this.app = app;
     this.update = update;
     document.addEventListener("visibilitychange", this.onVisibilityChange);
+    app.canvas.addEventListener("webglcontextlost", this.onContextLost);
+    app.canvas.addEventListener("webglcontextrestored", this.onContextRestored);
   }
 
   request(): void {
@@ -51,6 +54,8 @@ export class OverlayRenderScheduler {
     if (this.disposed) return;
     this.disposed = true;
     document.removeEventListener("visibilitychange", this.onVisibilityChange);
+    this.app.canvas.removeEventListener("webglcontextlost", this.onContextLost);
+    this.app.canvas.removeEventListener("webglcontextrestored", this.onContextRestored);
     if (this.frameId !== null) cancelAnimationFrame(this.frameId);
     this.frameId = null;
   }
@@ -66,14 +71,32 @@ export class OverlayRenderScheduler {
     this.schedule();
   };
 
+  private readonly onContextLost = (event: Event): void => {
+    // Pixi rebuilds GPU resources on restoration. Until then, do not send
+    // render work into a lost context or spin an animation frame loop.
+    event.preventDefault();
+    this.contextLost = true;
+    if (this.frameId !== null) cancelAnimationFrame(this.frameId);
+    this.frameId = null;
+    this.lastTimestamp = 0;
+  };
+
+  private readonly onContextRestored = (): void => {
+    this.contextLost = false;
+    this.lastTimestamp = 0;
+    // A static prompt may be the last rendered frame. Safari does not have
+    // to send another game state after returning the WebGL context.
+    this.request();
+  };
+
   private schedule(): void {
-    if (this.frameId !== null || document.hidden || this.disposed) return;
+    if (this.frameId !== null || document.hidden || this.disposed || this.contextLost) return;
     this.frameId = requestAnimationFrame(this.renderFrame);
   }
 
   private readonly renderFrame = (timestamp: number): void => {
     this.frameId = null;
-    if (this.disposed || document.hidden) return;
+    if (this.disposed || document.hidden || this.contextLost) return;
     if (this.lastTimestamp !== 0 && timestamp - this.lastTimestamp < MIN_FRAME_INTERVAL_MS) {
       this.schedule();
       return;
