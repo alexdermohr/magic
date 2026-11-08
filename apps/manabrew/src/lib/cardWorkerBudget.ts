@@ -20,6 +20,13 @@ export function cardMemoryBudget(device: CardWorkerDevice | undefined) {
   return { finishedCards: 1024, finishedBytes: 256 * 1024 * 1024, rendererResolutionCap: 2 };
 }
 
+export function cardRenderPixelDensity(
+  device: CardWorkerDevice | undefined,
+  devicePixelRatio: number,
+): number {
+  return Math.min(cardMemoryBudget(device).rendererResolutionCap, devicePixelRatio || 1);
+}
+
 export function cardWorkerCount(device: CardWorkerDevice | undefined): number {
   if (isAppleMobileDevice(device)) {
     // WebKit is much likelier to evict the whole WASM game under memory pressure.

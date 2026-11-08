@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { cardMemoryBudget, cardWorkerCount, isAppleMobileDevice } from "./cardWorkerBudget";
+import {
+  cardMemoryBudget,
+  cardRenderPixelDensity,
+  cardWorkerCount,
+  isAppleMobileDevice,
+} from "./cardWorkerBudget";
+import { selectCardRenderTier } from "./cardRenderTypes";
 
 const device = {
   hardwareConcurrency: 8,
@@ -41,6 +47,32 @@ describe("cardMemoryBudget", () => {
     };
     expect(cardMemoryBudget(device)).toEqual(normal);
     expect(cardMemoryBudget(undefined)).toEqual(normal);
+  });
+});
+
+describe("cardRenderPixelDensity", () => {
+  it("uses the same 1.5x iPad density for individual cards as the game board", () => {
+    const devices = [
+      { ...device, userAgent: "Mozilla/5.0 (iPad; CPU OS 26_7 like Mac OS X)" },
+      { ...device, platform: "MacIntel", maxTouchPoints: 5 },
+    ];
+    for (const mobile of devices) {
+      const density = cardRenderPixelDensity(mobile, 2);
+      expect(density).toBe(1.5);
+      // At this rendered card size, a 2x texture needlessly picks the
+      // native 488px face; 1.5x fits into the 244px table face.
+      expect(selectCardRenderTier(150, 210, density)).toBe("table");
+    }
+  });
+
+  it("keeps high-DPI desktop card faces and never upscales low-DPI displays", () => {
+    expect(cardRenderPixelDensity(device, 2)).toBe(2);
+    expect(selectCardRenderTier(150, 210, cardRenderPixelDensity(device, 2))).toBe("native");
+    expect(cardRenderPixelDensity(device, 3)).toBe(2);
+    expect(cardRenderPixelDensity({ ...device, platform: "MacIntel", maxTouchPoints: 5 }, 1)).toBe(
+      1,
+    );
+    expect(cardRenderPixelDensity(undefined, 2)).toBe(2);
   });
 });
 

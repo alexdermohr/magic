@@ -30,6 +30,7 @@ import { useScryfallStore } from "@/stores/useScryfallStore";
 import { useGameStore } from "@/stores/useGameStore";
 import { asGameDeckCard } from "@/lib/decks";
 import { renderCard } from "@/lib/cardRenderer";
+import { cardRenderPixelDensity } from "@/lib/cardWorkerBudget";
 import {
   releaseCardRaster,
   selectCardRenderTier,
@@ -1018,7 +1019,7 @@ export class PlayerHudCapsule {
     const tier = selectCardRenderTier(
       width,
       height,
-      Math.min(2, window.devicePixelRatio || 1),
+      cardRenderPixelDensity(navigator, window.devicePixelRatio || 1),
       this.handFaceTiers[index],
     );
     this.handFaceTiers[index] = tier;
