@@ -83,9 +83,13 @@ public final class CommanderBlockThreatProbe {
         int serious = ComputerUtilCombat.lifeInSeriousDanger(defender, combat) ? 1 : 0;
         commander.addIntrinsicKeyword("Trample");
         int trample = ComputerUtilCombat.getLifeThreateningCommanders(defender, combat).size();
+        Card secondBlocker = loadCard("Memnite", defender, game);
+        combat.addBlocker(commander, secondBlocker);
+        int shielded = ComputerUtilCombat.getLifeThreateningCommanders(defender, combat).size();
         System.out.println("COMMANDER_BLOCK_THREAT unblocked=" + unblocked
             + " assigned=" + assigned + " blocked=" + blocked
-            + " danger=" + danger + " serious=" + serious + " trample=" + trample);
+            + " danger=" + danger + " serious=" + serious + " trample=" + trample
+            + " shielded=" + shielded);
         System.exit(0);
     }
 }
