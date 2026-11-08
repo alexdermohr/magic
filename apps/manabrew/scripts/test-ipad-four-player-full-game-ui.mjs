@@ -10,6 +10,9 @@ const context = await chromium.launchPersistentContext(
     ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
       ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE }
       : {}),
+    ...(process.env.MANABREW_TEST_USER_AGENT
+      ? { userAgent: process.env.MANABREW_TEST_USER_AGENT }
+      : {}),
     viewport: { width: 1180, height: 820 },
     hasTouch: true,
     isMobile: true,
@@ -23,7 +26,7 @@ const context = await chromium.launchPersistentContext(
     serviceWorkers: "allow",
   },
 );
-const page = context.pages()[0] ?? await context.newPage();
+const page = context.pages()[0] ?? (await context.newPage());
 const errors = [];
 page.on("pageerror", (error) => errors.push(error.message));
 
@@ -32,7 +35,9 @@ const state = () =>
     const body = document.body.innerText;
     const decisions = window.__engineDecisions ?? [];
     const life = [...body.matchAll(/Inspect (you|Forge bot(?: \d+)?), (-?\d+) life/g)].map((m) => ({
-      name: m[1] === "you" ? "You" : m[1], amount: Number(m[2]), eliminated: false,
+      name: m[1] === "you" ? "You" : m[1],
+      amount: Number(m[2]),
+      eliminated: false,
     }));
     // A player can lose to commander damage or poison despite positive life.
     for (const row of body.matchAll(/\b(You|Forge bot(?: \d+)?): (-?\d+) life \(eliminated\)/g)) {
@@ -61,16 +66,31 @@ let passes = 0;
 let reveals = 0;
 let modalConfirms = 0;
 let terminal = null;
-let idle = 0;
+let idleSince = Date.now();
 
 try {
   await context.setOffline(true);
   await page.goto(origin + "/play/offline/constructed", { waitUntil: "domcontentloaded" });
-  await page.getByRole("button", { name: new RegExp("^" + player.split(",")[0]) }).first().click();
-  await page.getByRole("button", { name: new RegExp("^" + opponent.split(",")[0]) }).first().click();
-  await page.getByRole("button", { name: /^Fight!?$/ }).first().click();
-  await page.getByRole("dialog").getByRole("button", { name: /^Fight!?$/ }).click();
-  await page.getByRole("dialog").getByRole("button", { name: /4-player pod/ }).click();
+  await page
+    .getByRole("button", { name: new RegExp("^" + player.split(",")[0]) })
+    .first()
+    .click();
+  await page
+    .getByRole("button", { name: new RegExp("^" + opponent.split(",")[0]) })
+    .first()
+    .click();
+  await page
+    .getByRole("button", { name: /^Fight!?$/ })
+    .first()
+    .click();
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /^Fight!?$/ })
+    .click();
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /4-player pod/ })
+    .click();
   await page.getByRole("button", { name: /^KEEP$/ }).waitFor({ timeout: 150000 });
   await page.getByRole("button", { name: /^KEEP$/ }).click();
   await page.waitForFunction(
@@ -106,13 +126,25 @@ try {
         null,
         { timeout: 12000 },
       );
-      console.log("FOUR_PLAYER_FULL_GAME_COMPLETE", JSON.stringify({
-        player, opponent, winner: terminal.winner, eliminated: terminal.eliminated,
-        actions, passes, discards, reveals, modalConfirms,
-        elapsedSeconds: Math.round((Date.now() - start) / 1000),
-        terminal: terminal.snapshot, resultPersistedForSeconds: 5,
-        returnedToMenu: true, errors,
-      }));
+      console.log(
+        "FOUR_PLAYER_FULL_GAME_COMPLETE",
+        JSON.stringify({
+          player,
+          opponent,
+          winner: terminal.winner,
+          eliminated: terminal.eliminated,
+          actions,
+          passes,
+          discards,
+          reveals,
+          modalConfirms,
+          elapsedSeconds: Math.round((Date.now() - start) / 1000),
+          terminal: terminal.snapshot,
+          resultPersistedForSeconds: 5,
+          returnedToMenu: true,
+          errors,
+        }),
+      );
       if (errors.length) process.exitCode = 1;
       break;
     }
@@ -126,11 +158,19 @@ try {
       }
       await touch(495, 783);
       discards++;
-    } else if ([
-      "revealCards", "reorder", "chooseBoolean", "chooseFromSelection", "scry",
-      "chooseColor", "chooseDamageAssignmentOrder", "chooseCombatDamageAssignment",
-      "diceRolled",
-    ].includes(current.type)) {
+    } else if (
+      [
+        "revealCards",
+        "reorder",
+        "chooseBoolean",
+        "chooseFromSelection",
+        "scry",
+        "chooseColor",
+        "chooseDamageAssignmentOrder",
+        "chooseCombatDamageAssignment",
+        "diceRolled",
+      ].includes(current.type)
+    ) {
       // These prompts have an Enter confirmation in PromptLayer; choices that
       // need more input remain blocked and trigger the idle guard below.
       await page.keyboard.press("Enter");
@@ -146,23 +186,32 @@ try {
     await page.waitForTimeout(190);
     const updated = await state();
     if (actions % 50 === 0) {
-      console.log("FOUR_PLAYER_PROGRESS", JSON.stringify({
-        actions, elapsedSeconds: Math.round((Date.now() - start) / 1000),
-        decisionCount: updated.count, step: updated.step, life: updated.life,
-      }));
+      console.log(
+        "FOUR_PLAYER_PROGRESS",
+        JSON.stringify({
+          actions,
+          elapsedSeconds: Math.round((Date.now() - start) / 1000),
+          decisionCount: updated.count,
+          step: updated.step,
+          life: updated.life,
+        }),
+      );
     }
-    idle =
-      updated.count === current.count &&
-      updated.step === current.step &&
-      updated.life.map((seat) => seat.amount).join() ===
-        current.life.map((seat) => seat.amount).join()
-        ? idle + 1
-        : 0;
-    if (idle >= 18 && !terminal) {
-      throw new Error("Pixi input stalled: " + JSON.stringify(updated));
+    const advanced =
+      updated.count !== current.count ||
+      updated.step !== current.step ||
+      updated.life.map((seat) => seat.amount).join() !==
+        current.life.map((seat) => seat.amount).join();
+    if (advanced) idleSince = Date.now();
+    // The last human prompt remains in __engineDecisions while Forge AI
+    // computes three other seats. A 3-10s pause is not a frozen Pixi input.
+    if (Date.now() - idleSince >= 45_000 && !terminal) {
+      throw new Error("No game state progress for 45s: " + JSON.stringify(updated));
     }
-    if (Date.now() - start > 720000) throw new Error("Twelve-minute four-player full-game limit: " + JSON.stringify(current));
-    if (index === 1199) throw new Error("Four-player action limit reached: " + JSON.stringify(current));
+    if (Date.now() - start > 720000)
+      throw new Error("Twelve-minute four-player full-game limit: " + JSON.stringify(current));
+    if (index === 1199)
+      throw new Error("Four-player action limit reached: " + JSON.stringify(current));
   }
   if (!terminal) throw new Error("No natural four-player Commander conclusion");
 } finally {

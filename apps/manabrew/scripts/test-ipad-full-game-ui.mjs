@@ -64,6 +64,7 @@ let actions = 0;
 let discards = 0;
 let passes = 0;
 let reveals = 0;
+let reorders = 0;
 let terminal = null;
 let idle = 0;
 
@@ -126,6 +127,7 @@ try {
           passes,
           discards,
           reveals,
+          reorders,
           elapsedSeconds: Math.round((Date.now() - start) / 1000),
           terminal: terminal.snapshot,
           resultPersistedForSeconds: 5,
@@ -152,6 +154,11 @@ try {
       // the same user-input handler as the visible button.
       await page.keyboard.press("Enter");
       reveals++;
+    } else if (current.type === "reorder") {
+      // The Pixi reorder dialog starts with the original order selected.
+      // Enter invokes its CONFIRM ORDER action without using engine shortcuts.
+      await page.keyboard.press("Enter");
+      reorders++;
     } else if (["chooseAction", "chooseBlockers", "chooseAttackers"].includes(current.type)) {
       await touch(1032, 765);
       passes++;
