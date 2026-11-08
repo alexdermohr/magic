@@ -8,10 +8,19 @@ const context = await chromium.launchPersistentContext(profile, {
   ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
     ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE }
     : {}),
+  ...(process.env.MANABREW_TEST_USER_AGENT
+    ? { userAgent: process.env.MANABREW_TEST_USER_AGENT }
+    : {}),
   viewport: { width: 1180, height: 820 },
   isMobile: true,
   hasTouch: true,
-  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  args: [
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
+    ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
+      ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
+      : []),
+  ],
   serviceWorkers: "allow",
 });
 const page = context.pages()[0] ?? (await context.newPage());
