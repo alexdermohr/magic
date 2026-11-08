@@ -8,7 +8,7 @@ Die Anwendung wird unter [apps/manabrew](../../apps/manabrew/) im Magic-Reposito
 
 | Komponente | Belegter Heim-PC-Zustand |
 | --- | --- |
-| iPad-PWA | Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; am 8. November 2026 nachgewiesener aktiver Release e55f0631bfad4b55a8005c08b1b56f78f86d4081; ältere unveränderliche Releases bleiben als Rückfallstände erhalten |
+| iPad-PWA | Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; am 8. November 2026 aktiv auf Release c65962a4557b3a695c224e3f833c3ceaba91dabe mit Manifest b728e23f58c6ab6588b9; vorheriges e55f0631bfad4b55a8005c08b1b56f78f86d4081 bleibt als Rückfallstand erhalten |
 | Linux-Magic-Offline | Zusätzlicher Desktopstarter manabrew-magic-offline.desktop nutzt den aktuellen Magic-PWA-Dienst auf 127.0.0.1:8088 direkt für Offline-Commander gegen Forge-KI; alte Linux-Version bleibt verfügbar |
 | Linux-Web | Aktiver manabrew-local-web.service auf 127.0.0.1:8087 und Chrome-Desktopstarter manabrew-local.desktop |
 | Linux-Relay | Aktiver manabrew-local-relay.service auf den Loopback-Ports 9443/9444 |
@@ -26,7 +26,9 @@ Die Web-App pausiert beim Verlassen des Vordergrunds die lokale Multiplayer-Reco
 
 Die Grenzen bleiben wichtig: Die Forge-Spiel-Engine einer echten Offline-Partie läuft weiter **im Browserprozess**. Beendet iPadOS den gesamten WebKit-/PWA-Prozess (z. B. bei Speicherdruck), überlebt der Enginezustand nicht. Noch fehlt ein dauerhaft gespeicherter, verifizierter Spielstand mit Wiederanlauf; reduzierte Workerzahl und Timer-Fix sind **kein** Ersatz für Engine-Persistenz.
 
-Regressionen: `src/hooks/useMultiplayerInterruption.test.ts` simuliert fünf Minuten Hintergrundphase und den anschließenden Fristablauf im Vordergrund. `src/lib/reconnectDeadline.test.ts` und `src/lib/cardWorkerBudget.test.ts` prüfen Fristen und iPad-Erkennung. Ein grüner TypeScript- und Unit-Test allein ist kein iPadOS-/WebKit-Ende-zu-Ende-Nachweis.
+Regressionen: `src/hooks/useMultiplayerInterruption.test.ts` simuliert fünf Minuten Hintergrundphase und den anschließenden Fristablauf im Vordergrund. `src/lib/reconnectDeadline.test.ts` und `src/lib/cardWorkerBudget.test.ts` prüfen Fristen und iPad-Erkennung. Auf dem produktionsgleichen Caddy-Kandidaten bestand zusätzlich ein vollständiges Offline-Commander-Duell in Chrome ohne Seitenfehler. `node scripts/test-ipad-background-game.mjs http://127.0.0.1:8099` überprüfte nach zuvor installiertem Offline-Cache eine laufende Partie mit Chrome-CDP-Lifecycle `frozen`/`active` und einer anschließenden echten Spielaktion bei ausgeschaltetem Netzwerk. Die komplette Vitest-Suite bestand mit 220/220 Tests. Diese Chrome-/Unit-Nachweise sind **kein** iPadOS-/Safari-Ende-zu-Ende-Nachweis.
+
+**Live-Auslieferung vom 8. November 2026:** Die unveränderte, separat gebaute Distribution liegt unter `~/.local/share/manabrew-ipad-magic-c65962a4557b3a695c224e3f833c3ceaba91dabe/dist`. Das Offline-Manifest `b728e23f58c6ab6588b9` enthält **3.476 Dateien mit 402.267.931 Bytes** und **38 persönliche Commander-Decks**. Nur der iPad-PWA-Dienst auf 127.0.0.1:8088 wurde auf diese Distribution umgeschaltet; die alte e55f-Version bleibt unverändert und die Linux-Online-/Konto-Version auf Port 8087 wurde nicht angetastet. Die neue Version lieferte direkt auf 8088 und über `https://heim-pc.tail6dbb90.ts.net:8443` HTTP 200 mit COOP/COEP; die reale HTTPS-Origin bestand in Chrome die vollständige Cache-Installation, SharedArrayBuffer-Überprüfung und einen Offline-Kaltstart mit eigenen Decks. Die lokale Test-Chrome-Instanz verwendete wegen fehlender MagicDNS-Auflösung eine nur dort gesetzte Host-Zuordnung; die TLS- und HTTPS-Origin-Identität blieben unverändert. Dies beweist weiterhin **keine** Wiedereinsetzung eines von iPadOS beendeten Safari-Prozesses und ersetzt keinen Safari-Gerätetest.
 
 ## Reproduzierbarer Offline-Build
 
