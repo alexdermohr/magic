@@ -14,6 +14,9 @@ const context = await chromium.launchPersistentContext(profile, {
   viewport: { width: 1180, height: 820 },
   isMobile: true,
   hasTouch: true,
+  ...(process.env.MANABREW_TEST_DEVICE_SCALE_FACTOR
+    ? { deviceScaleFactor: Number(process.env.MANABREW_TEST_DEVICE_SCALE_FACTOR) }
+    : {}),
   args: [
     "--no-sandbox",
     "--disable-dev-shm-usage",
@@ -66,6 +69,31 @@ try {
   );
   const before = await status();
   assert.ok(before.playing, "The offline Forge game must be active before switching tabs");
+  if (process.env.MANABREW_EXPECT_PIXI_DPR_CAP) {
+    const limit = Number(process.env.MANABREW_EXPECT_PIXI_DPR_CAP);
+    const canvases = await page.evaluate(() =>
+      [...document.querySelectorAll("canvas")]
+        .map((canvas) => {
+          const { width, height } = canvas.getBoundingClientRect();
+          return {
+            clientWidth: width,
+            clientHeight: height,
+            backingWidth: canvas.width,
+            backingHeight: canvas.height,
+            ratio: width > 0 ? canvas.width / width : 0,
+          };
+        })
+        .filter(({ clientWidth, clientHeight }) => clientWidth >= 500 && clientHeight >= 250),
+    );
+    assert.ok(canvases.length >= 2, "Both the Pixi board and overlay must have backing surfaces");
+    for (const canvas of canvases) {
+      assert.ok(
+        canvas.ratio <= limit + 0.02,
+        "Large game canvas exceeds the iPad GPU resolution cap: " + JSON.stringify(canvas),
+      );
+    }
+    console.log("IPAD_PIXI_RESOLUTION_BUDGET", JSON.stringify({ limit, canvases }));
+  }
 
   const other = await context.newPage();
   await other.goto("about:blank");

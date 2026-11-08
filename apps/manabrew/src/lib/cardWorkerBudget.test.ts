@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cardWorkerCount, isAppleMobileDevice } from "./cardWorkerBudget";
+import { cardMemoryBudget, cardWorkerCount, isAppleMobileDevice } from "./cardWorkerBudget";
 
 const device = {
   hardwareConcurrency: 8,
@@ -16,6 +16,31 @@ describe("Apple mobile memory budget", () => {
     expect(isAppleMobileDevice({ ...device, platform: "MacIntel", maxTouchPoints: 5 })).toBe(true);
     expect(isAppleMobileDevice(device)).toBe(false);
     expect(isAppleMobileDevice(undefined)).toBe(false);
+  });
+});
+
+describe("cardMemoryBudget", () => {
+  it("caps finished rasters at 64 MiB and canvas DPR at 1.5 on native and desktop-style iPads", () => {
+    for (const mobile of [
+      { ...device, userAgent: "Mozilla/5.0 (iPad; CPU OS 26_7 like Mac OS X)" },
+      { ...device, platform: "MacIntel", maxTouchPoints: 5 },
+    ]) {
+      expect(cardMemoryBudget(mobile)).toEqual({
+        finishedCards: 256,
+        finishedBytes: 64 * 1024 * 1024,
+        rendererResolutionCap: 1.5,
+      });
+    }
+  });
+
+  it("retains the 256 MiB raster budget and full DPI on non-Apple desktops", () => {
+    const normal = {
+      finishedCards: 1024,
+      finishedBytes: 256 * 1024 * 1024,
+      rendererResolutionCap: 2,
+    };
+    expect(cardMemoryBudget(device)).toEqual(normal);
+    expect(cardMemoryBudget(undefined)).toEqual(normal);
   });
 });
 

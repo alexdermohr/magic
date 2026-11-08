@@ -1,5 +1,6 @@
 import type { Application } from "pixi.js";
 import { isCoarsePointer } from "@/lib/responsive";
+import { cardMemoryBudget } from "@/lib/cardWorkerBudget";
 import { PIXI_MAX_FPS } from "../constants";
 
 const MAX_BACKING_PIXELS = 8_388_608;
@@ -11,10 +12,12 @@ const DEFAULT_RESOLUTION_CAP = 2;
 export function overlayResolution(width: number, height: number): number {
   const dpr = window.devicePixelRatio || 1;
   const shortEdge = Math.min(width, height);
-  const deviceCap =
+  const deviceCap = Math.min(
+    cardMemoryBudget(navigator).rendererResolutionCap,
     isCoarsePointer() && shortEdge < PHONE_SHORT_EDGE
       ? PHONE_RESOLUTION_CAP
-      : DEFAULT_RESOLUTION_CAP;
+      : DEFAULT_RESOLUTION_CAP,
+  );
   const pixelCap =
     width > 0 && height > 0
       ? Math.sqrt(MAX_BACKING_PIXELS / (width * height))
