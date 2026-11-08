@@ -1,6 +1,6 @@
 # Rin and Seri, Inseparable – Katzen-Engine / Bracket 3
 
-Stand: 6. November 2026. **Aktive importierbare Liste:** [current.txt](current.txt); **weitere erwogene Karten:** [card-pool.md](card-pool.md). Budget: unbegrenzt. Ziel: oberer Rand des sozialen Commander-Brackets 3, nicht cEDH.
+Stand: 8. November 2026. **Aktive importierbare Liste:** [current.txt](current.txt); **weitere erwogene Karten:** [card-pool.md](card-pool.md). Budget: unbegrenzt. Ziel: oberer Rand des sozialen Commander-Brackets 3, nicht cEDH.
 
 ## Konzeptentscheidung
 
@@ -15,8 +15,8 @@ Das Deck setzt auf die **drei unterschiedlichen Ressourcen** (Kreaturenanzahl, K
 
 ## Aufbau
 
-- **100 Karten:** 1 Commander, 35 weitere Kreaturen, 28 Nichtkreaturenzauber, 36 Länder.
-- **Kreaturen einschließlich Commander:** 17 Katzen (Rin und Seri sind zugleich ein Hund), 5 reine Hunde, 4 Changelings, 10 weitere Synergiekreaturen.
+- **100 Karten:** 1 Commander, 34 weitere Kreaturen, 29 Nichtkreaturenzauber, 36 Länder.
+- **Kreaturen einschließlich Commander:** 16 Katzen (Rin und Seri sind zugleich ein Hund), 5 reine Hunde, 4 Changelings, 10 weitere Synergiekreaturen.
 - **Drei Token-Verdoppler:** Anointed Procession, Parallel Lives, Mondrak, Glory Dominus. Doubling Season ist als vierter teurer Verdoppler weniger effizient als die im Deck enthaltenen Interaktions- und Card-Advantage-Slots.
 - **Genau drei Game Changer (Scryfall/Bracket-Liste):** Gaea's Cradle, Aura Shards, Seedborn Muse. Insbesondere Teferi's Protection, Ancient Tomb, Worldly Tutor, Enlightened Tutor, Jeska's Will oder Smothering Tithe würden dieses Limit überschreiten, solange nicht gezielt ausgetauscht.
 - **Keine absichtliche schnelle Zweikarten-Endlosschleife**, keine Extrazugschleifen, keine Massenlandzerstörung.
@@ -38,7 +38,7 @@ Das Deck setzt auf die **drei unterschiedlichen Ressourcen** (Kreaturenanzahl, K
 
 - **Direkter Flächenschaden:** Purphoros, God of the Forge (2 pro eigenem Kreatureneintritt und Gegner), Warleader's Call und Impact Tremors. Token aus Katzen-Casts lösen diese Effekte aus, und die tatsächliche Katze beim Eintreten ebenfalls. Token-Verdoppler bzw. Maskwood Nexus steigern die Anzahl.
 - **Wiederholte Kommanderaktivierung:** Tokenproduktion, Maskwood Nexus und Gaea's Cradle bauen Hundeanzahl und Mana auf; Seedborn Muse enttappt Rin und Seri in gegnerischen Zügen und Illusionist's Bracers kopiert die Fähigkeit. Ziele können auf verschiedene Gegner verteilt werden. Das aus der Liste entfernte Thousand-Year Elixir bleibt in [card-pool.md](card-pool.md) als mögliche Verstärkung notiert.
-- **Breiter Kampfschaden:** Jetmir, Nexus of Revels gibt bei neun Kreaturen Trampelschaden und Doppelschlag; Mirror Entity verwandelt überschüssiges Mana in ein tödliches Team; Akroma's Will kann Fliegen/Doppelschlag und Schutz geben; Finale of Devastation findet Jetmir und/oder ist bei X ≥ 10 ein globaler Abschluss.
+- **Breiter Kampfschaden:** Beastmaster Ascension belohnt einen Angriff von sieben Kreaturen sofort mit +5/+5 für alle eigenen Kreaturen; Jetmir, Nexus of Revels gibt bei neun Kreaturen Trampelschaden und Doppelschlag; Mirror Entity verwandelt überschüssiges Mana in ein tödliches Team; Akroma's Will kann Fliegen/Doppelschlag und Schutz geben; Finale of Devastation findet Jetmir und/oder ist bei X ≥ 10 ein globaler Abschluss.
 - **Opfer als letzte Reichweite:** Goblin Bombardment wandelt Token in Direktschaden um, insbesondere als Reaktion auf Zerstörungs- oder Exil-Massenentfernung.
 
 ## Engine, Schutz und Interaktion
@@ -47,7 +47,7 @@ Das Deck setzt auf die **drei unterschiedlichen Ressourcen** (Kreaturenanzahl, K
 - **Bezahlte Rückführung:** Whitemane Lion, Fleetfoot Panther, Temur Sabertooth und Cloudstone Curio. Sie erhalten die Cast-Trigger am Laufen; Cloudstone lässt Token-Eintritte zu neuen Kreaturenzaubern werden.
 - **Beschleunigung:** Birds of Paradise, Delighted Halfling, Bloom Tender, Utopia Sprawl, Sol Ring, Arcane Signet, Nature's Lore, Three Visits, Growing Rites of Itlimoc sowie Gaea's Cradle. Die fast ausschließlich ungetappten, gefetchten drei Farben sichern {R}{G}{W} sowohl beim Cast als auch beim Aktivieren.
 - **Schutz:** Selfless Savior, Flawless Maneuver, Heroic Intervention, Clever Concealment und bedarfsweise Temur Sabertooth. Clever Concealment kann auch Kreaturenspielsteine phasen lassen und damit Exil-Boardwipes vermeiden.
-- **Interaktion:** Swords to Plowshares, Path to Exile, Chaos Warp, Aura Shards, Qasali Pridemage, Feline Sovereign, Qasali Slingers, Masked Vandal und Boseiju, Who Endures. **Qasali Slingers bleibt ausdrücklich wegen Reichweite (blockt Flieger) und wiederholbarer Artefakt-/Verzauberungsentfernung bei Katzen-Eintritten.** Auch Rin-und-Seri-Schaden trifft Kreaturen und Planeswalker.
+- **Interaktion:** Swords to Plowshares, Path to Exile, Chaos Warp, Aura Shards, Feline Sovereign, Qasali Slingers, Masked Vandal und Boseiju, Who Endures. **Qasali Slingers bleibt ausdrücklich wegen Reichweite (blockt Flieger) und wiederholbarer Artefakt-/Verzauberungsentfernung bei Katzen-Eintritten.** Auch Rin-und-Seri-Schaden trifft Kreaturen und Planeswalker.
 
 ## Wesentliche Ausschlüsse
 
@@ -88,3 +88,5 @@ Das Deck setzt auf die **drei unterschiedlichen Ressourcen** (Kreaturenanzahl, K
 - [Scryfall – aktuell veröffentlichte Oracle-/Legalitätsdaten](https://scryfall.com)
 
 **Änderung am 6.11.2026:** Thousand-Year Elixir → Caretaker's Talent. Elixir als spätere Option in [card-pool.md](card-pool.md) archiviert, Toski und Qasali Slingers unverändert. Die neue 100-Karten-Liste wurde am 6.11.2026 erneut mit Scryfall geprüft: 99/99 verschiedene Namen gefunden (einschließlich Doppelseiten), alle Commander-legal und Naya-farbidentitätskonform, weiterhin drei Game Changer (Seedborn Muse, Aura Shards und Gaea's Cradle). Der Strukturvalidator sowie 70/70 Repository-Unittests liefen erfolgreich; kein Forge-Partietest wurde durchgeführt.
+
+**Änderung am 8.11.2026:** Qasali Pridemage wurde durch **Beastmaster Ascension** ersetzt. Artefakt-/Verzauberungsinteraktion bleibt mit Aura Shards, Qasali Slingers, Feline Sovereign, Masked Vandal, Boseiju und weiteren Antworten ausreichend vertreten. Der neue 3-Mana-Finisher wandelt eine breite Katzen-/Hunde-Spielsteinbasis bereits beim Angriff mit sieben Kreaturen in +5/+5 für die ganze Armee um; er benötigt weder eine Endlosschleife noch einen weiteren Game-Changer-Platz. Damit: unverändert drei Game Changer, weiterhin Bracket-3-Ziel. Qasali Pridemage bleibt als Wiedereinbau-Kandidat in [card-pool.md](card-pool.md) dokumentiert.

@@ -2,7 +2,6 @@
 1 Ajani, Nacatl Pariah
 1 Ocelot Pride
 1 Helpful Hunter
-1 Qasali Pridemage
 1 Lion Sash
 1 Kutzil, Malamet Exemplar
 1 Arahbo, the First Fang
@@ -45,6 +44,7 @@
 1 Rite of Harmony
 1 Anointed Procession
 1 Parallel Lives
+1 Beastmaster Ascension
 1 Impact Tremors
 1 Warleader's Call
 1 Goblin Bombardment
