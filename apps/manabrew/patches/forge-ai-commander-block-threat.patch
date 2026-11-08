@@ -1,18 +1,21 @@
 diff --git a/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java b/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
 --- a/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
 +++ b/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
-@@ -368,6 +368,14 @@
+@@ -368,6 +368,16 @@
          List<Card> res = Lists.newArrayList();
          for (Card c : combat.getAttackers()) {
              if (c.isCommander() && combat.isAttacking(c, ai)) {
-+                // During blocker assignment a blocker may be present before the
-+                // attacking band is marked blocked. Ordinary blocked commanders
-+                // cannot deal combat damage to the defending player.
-+                if ((combat.isBlocked(c) || !combat.getBlockers(c).isEmpty())
-+                        && !c.hasKeyword(Keyword.TRAMPLE)
-+                        && !StaticAbilityAssignCombatDamageAsUnblocked.assignCombatDamageAsUnblocked(c)) {
++                final List<Card> blockers = combat.getBlockers(c);
++                final boolean blocked = combat.isBlocked(c) || !blockers.isEmpty();
++                final boolean asUnblocked = StaticAbilityAssignCombatDamageAsUnblocked.assignCombatDamageAsUnblocked(c);
++                if (blocked && !asUnblocked && !c.hasKeyword(Keyword.TRAMPLE)) {
 +                    continue;
 +                }
++                int potentialDamage = damageIfUnblocked(c, ai, combat, false);
++                if (blocked && !asUnblocked && !blockers.isEmpty()) {
++                    potentialDamage = Math.max(0, potentialDamage - totalShieldDamage(c, blockers));
++                }
                  int currentCommanderDamage = ai.getCommanderDamage(c);
-                 if (damageIfUnblocked(c, ai, combat, false) + currentCommanderDamage >= ai.getGame().getRules().getCommanderDamageToLose()) {
+-                if (damageIfUnblocked(c, ai, combat, false) + currentCommanderDamage >= ai.getGame().getRules().getCommanderDamageToLose()) {
++                if (potentialDamage + currentCommanderDamage >= ai.getGame().getRules().getCommanderDamageToLose()) {
                      res.add(c);
