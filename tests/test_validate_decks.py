@@ -199,6 +199,36 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
+    def test_nested_image_percent_encoded_filename_is_valid(self) -> None:
+        (self.root / "decks" / "sample" / "preview image.png").write_bytes(b"PNG")
+        self.write_index("[![preview](decks/sample/preview%20image.png)](README.md)\n", root=True)
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_nested_image_percent_encoded_missing_filename_is_rejected(self) -> None:
+        self.write_index("[![preview](decks/sample/missing%20image.png)](README.md)\n", root=True)
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_nested_label_keeps_visible_literal_deck_references(self) -> None:
+        (self.root / "decks" / "sample" / "preview.png").write_bytes(b"PNG")
+        self.write_index(
+            "[see decks/sample/not-present [![preview](decks/sample/preview.png)]](README.md)\n",
+            root=True,
+        )
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_escaped_backslash_before_fragment_points_to_backslash_filename(self) -> None:
+        (self.root / "decks" / "sample" / ("foo" + chr(92))).write_text("OK")
+        self.write_index("[file](sample/foo" + chr(92) * 2 + "#section)\n")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_escaped_backslash_must_not_turn_fragment_into_filename(self) -> None:
+        (self.root / "decks" / "sample" / "foo#section").write_text("OK")
+        self.write_index("[file](sample/foo" + chr(92) * 2 + "#section)\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
     def test_nested_image_inside_link_with_missing_image_is_rejected(self) -> None:
         self.write_index("[![preview](sample/missing.png)](sample/current.txt)\n")
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
