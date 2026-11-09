@@ -199,6 +199,16 @@ class DeckValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
             validate_repository(self.root)
 
+    def test_nested_image_inside_link_with_missing_image_is_rejected(self) -> None:
+        self.write_index("[![preview](sample/missing.png)](sample/current.txt)\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_nested_image_inside_link_with_existing_image_is_accepted(self) -> None:
+        (self.root / "decks" / "sample" / "preview.png").write_bytes(b"PNG")
+        self.write_index("[![preview](sample/preview.png)](sample/current.txt)\n")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_nested_bracket_labels_accept_existing_destinations(self) -> None:
         (self.root / "decks" / "sample" / "ok.md").write_text("OK")
         for label in ("outer [inner]", r"escaped \] bracket", r"escaped \[ bracket"):
