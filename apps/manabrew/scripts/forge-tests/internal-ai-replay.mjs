@@ -30,6 +30,12 @@ const { values } = parseArgs({
   },
 });
 
+if (values["personal-decks"] && !existsSync(values["personal-decks"])) {
+  throw new Error(
+    `Requested Commander decks file does not exist: ${values["personal-decks"]}`,
+  );
+}
+
 function forestFixture() {
   const cards = [
     ...Array.from({ length: 20 }, () => ({ name: "Forest" })),
@@ -274,7 +280,7 @@ for (let offset = seedStart; offset < seedStart + seedCount; offset++) {
   simple.seed += offset;
   simple.gameId += "-seed-" + offset;
   await roundTrip(simple, 35, 8);
-  if (values["personal-decks"] && existsSync(values["personal-decks"])) {
+  if (values["personal-decks"]) {
     const commander = commanderFixture(values["personal-decks"]);
     commander.seed += offset;
     commander.gameId += "-seed-" + offset;
