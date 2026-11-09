@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright");
 const origin = process.argv[2] ?? "http://127.0.0.1:8088";
 const context = await chromium.launchPersistentContext(
-  process.env.MANABREW_TEST_PROFILE ?? "/tmp/manabrew-ipad-background-game",
+  process.env.MANABREW_TEST_PROFILE ?? join(tmpdir(), "manabrew-ipad-background-game"),
   {
     headless: true,
     ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
