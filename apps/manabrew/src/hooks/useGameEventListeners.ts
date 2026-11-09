@@ -8,7 +8,12 @@ import {
 } from "@/game";
 import { teardownForgeAiSession } from "@/game/hostedAiPlay";
 import { engineReportGameId, reportEngineStats } from "@/lib/engineStatsReport";
-import { currentOfflineGameId, reportOfflineGame } from "@/lib/offlinePlayRecord";
+import {
+  cancelOfflinePagehide,
+  currentOfflineGameId,
+  reportOfflineGame,
+  stageOfflineGameOnPagehide,
+} from "@/lib/offlinePlayRecord";
 import { offlineSeats } from "@/lib/offlineSeats";
 import { resumeReconnectDeadline } from "@/lib/reconnectDeadline";
 import { clearLocalGame } from "@/lib/localGamePresence";
@@ -261,9 +266,18 @@ function noticeRepeatVote(vote: RepeatVoteDto, state: GameState) {
 export function useGameEventListeners() {
   useEffect(() => {
     const handlePageHide = () => {
-      if (getState().isMultiplayer || isOver(getState())) reportEngineGame();
+      const state = getState();
+      if (!state.isMultiplayer && !isOver(state)) {
+        stageOfflineGameOnPagehide(offlineSeats(state.gameView));
+      }
+      if (state.isMultiplayer || isOver(state)) reportEngineGame();
+    };
+    const cancelPendingPagehide = () => {
+      if (!document.hidden) cancelOfflinePagehide();
     };
     window.addEventListener("pagehide", handlePageHide);
+    window.addEventListener("pageshow", cancelOfflinePagehide);
+    document.addEventListener("visibilitychange", cancelPendingPagehide);
     // A finished game is reported the moment it finishes, not at teardown:
     // teardown is three seconds later, and by then the tab may be gone, the
     // socket closed or a pooled hosted room recycled out from under the seat.
@@ -273,6 +287,8 @@ export function useGameEventListeners() {
     });
     return () => {
       window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("pageshow", cancelOfflinePagehide);
+      document.removeEventListener("visibilitychange", cancelPendingPagehide);
       unsubscribe();
       handlePageHide();
     };
