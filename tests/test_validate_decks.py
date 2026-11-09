@@ -184,6 +184,55 @@ class DeckValidationTests(unittest.TestCase):
         self.write_index(r"[analysis](sample/foo\(1\).md)" + "\n")
         self.assertEqual(len(validate_repository(self.root)), 1)
 
+    def test_inner_list_marker_does_not_close_existing_fence(self) -> None:
+        ticks = chr(96) * 3
+        self.write_index(ticks + "\n"
+                         "- " + ticks + "\n"
+                         "[example](sample/missing.md)\n"
+                         + ticks + "\n")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_inner_list_marker_does_not_hide_link_after_real_closer(self) -> None:
+        ticks = chr(96) * 3
+        self.write_index(ticks + "\n- " + ticks + "\n" + ticks
+                         + "\n[real](sample/missing.md)\n")
+        with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+            validate_repository(self.root)
+
+    def test_nested_bracket_labels_accept_existing_destinations(self) -> None:
+        (self.root / "decks" / "sample" / "ok.md").write_text("OK")
+        for label in ("outer [inner]", r"escaped \] bracket", r"escaped \[ bracket"):
+            with self.subTest(label=label):
+                self.write_index(f"[{label}](sample/ok.md)\n")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_nested_bracket_labels_detect_missing_destinations(self) -> None:
+        for label in ("outer [inner]", r"escaped \] bracket", r"escaped \[ bracket"):
+            with self.subTest(label=label):
+                self.write_index(f"[{label}](sample/missing.md)\n")
+                with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+                    validate_repository(self.root)
+
+    def test_escaped_filename_punctuation_is_not_fragment_or_query(self) -> None:
+        for char in ("#", "?"):
+            with self.subTest(char=char):
+                filename = "foo" + char + "bar.md"
+                (self.root / "decks" / "sample" / filename).write_text("OK")
+                self.write_index("[file](sample/foo" + chr(92) + char + "bar.md)\n")
+                self.assertEqual(len(validate_repository(self.root)), 1)
+
+    def test_escaped_filename_punctuation_missing_is_rejected(self) -> None:
+        for char in ("#", "?"):
+            with self.subTest(char=char):
+                self.write_index("[file](sample/missing" + chr(92) + char + "file.md)\n")
+                with self.assertRaisesRegex(DeckValidationError, "missing local reference"):
+                    validate_repository(self.root)
+
+    def test_escaped_filename_then_regular_fragment(self) -> None:
+        (self.root / "decks" / "sample" / "foo#bar.md").write_text("OK")
+        self.write_index(r"[file](sample/foo\#bar.md#section)" + "\n")
+        self.assertEqual(len(validate_repository(self.root)), 1)
+
     def test_list_contained_fence_does_not_hide_following_live_link(self) -> None:
         ticks = chr(96) * 3
         self.write_index("- " + ticks + "python\n"
