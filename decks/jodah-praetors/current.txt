@@ -19,6 +19,7 @@
 1 Atraxa, Praetors' Voice
 1 Esika, God of the Tree
 1 Jodah, Archmage Eternal
+1 Kenrith, the Returned King
 1 Sisay, Weatherlight Captain
 1 Selvala, Heart of the Wilds
 1 Kinnan, Bonder Prodigy
@@ -42,7 +43,6 @@
 1 Chromatic Lantern
 1 Smothering Tithe
 1 Mirari's Wake
-1 Urza's Incubator
 
 1 Demonic Tutor
 1 Enlightened Tutor
