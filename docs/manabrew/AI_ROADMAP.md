@@ -229,3 +229,40 @@ Chromium-Offline-Spiel bis zum echten Ende (105 Aktionen),
 BFCache-/WebGL-Wiederherstellung und Diagnose-UI unter
 Settings/Preferences erfolgreich. Echte iPad-Safari-Abnahme und
 dauerhafte Engine-Rekonstruktion bleiben offen.
+
+
+## P1: Isolierter Forge-AI-Replay-PoC nach Engine-Prozessverlust (9. November 2026)
+
+Der Sitzleser-Fix aus PR #85 (Produktiv-Manifest
+375316ebdefeca4c7e67) ist nicht mit vollständiger Engine-Rettung
+gleichzusetzen. PR #85 ist nach der isolierten Basisintegration
+konfliktfrei, 35 von 35 ManaBot-Tests und GitHub-Deckvalidierung
+bestanden. Die Hauptbranch-Integration und echte iPad-Safari-Abnahme
+sind weiterhin offen.
+
+Die Forge-AI-Journalfunktion ist nur über den expliziten experimentellen
+Startparameter experimentalInternalAiReplay aktiviert; im normalen
+Programm bleibt die Sperre aktiv. Die isolierte JVM-Probe erfasst
+ein vollständiges Journal mit Zustand-/RNG-Zeugen, speichert einen
+privaten Replay-Snapshot atomar, beendet die laufende Java-Engine
+und rekonstruiert den Zustand in einem frischen Prozess.
+Die weitere Partie wird gegen eine zuvor in der ursprünglichen
+Engine aufgezeichnete Folge von Prompts und Spielersichten geprüft.
+Beschädigte Snapshots werden abgewiesen.
+
+**Frische Gegenproben:** Zwei unabhängige Seeds des einfachen
+1v1-Fixtures mit jeweils 35+8 Entscheidungen sowie zwei Seeds
+der persönlichen Anowon/Gahiji-Partie mit 55+20 Entscheidungen
+wurden erfolgreich rekonstruiert. Ein älterer paralleler
+Zwei-Engine-Test berichtete gelegentlich Abweichungen, deren
+Ursache nicht eindeutig belegt ist. Deshalb bleibt der Pfad
+experimentell und ist produktiv deaktiviert.
+
+**Offene Produktarbeit:** Eine vollständige, versionsgebundene
+Forge-WebImage-Kompilierung, sequenz- und checksumgebundene
+IndexedDB-Journale, Durable-ACK erst nach Commit,
+Persistenz bei Browserneustart, verifizierte Wiederherstellung
+nach gezieltem Worker-Ende und nach echtem Safari-Prozessabbruch,
+sowie Resume-UI. Keine Wiederaufnahme behaupten, solange der
+vollständige Zustands-/RNG-Abgleich nicht erfolgreich ist.
+Details: apps/manabrew/docs/DECISION_REPLAY.md.

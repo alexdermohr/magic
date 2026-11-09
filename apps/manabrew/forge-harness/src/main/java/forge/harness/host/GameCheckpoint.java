@@ -166,6 +166,17 @@ final class GameCheckpoint {
     static void requireEqual(final JsonElement expected, final JsonElement actual,
             final String kind, final long sequence) {
         if (expected == null || !expected.equals(actual)) {
+            if (kind.contains("state/RNG") && expected != null && actual != null
+                    && expected.isJsonObject() && actual.isJsonObject()) {
+                // Diagnose without revealing hands, libraries, RNG values or state hashes.
+                final JsonObject left = expected.getAsJsonObject();
+                final JsonObject right = actual.getAsJsonObject();
+                final boolean sameState = java.util.Objects.equals(left.get("state"), right.get("state"));
+                final boolean sameRng = java.util.Objects.equals(left.get("rng"), right.get("rng"));
+                throw new IllegalStateException(kind + " divergence at decision " + sequence
+                        + " (state=" + (sameState ? "equal" : "different")
+                        + ", rng=" + (sameRng ? "equal" : "different") + ")");
+            }
             throw new IllegalStateException(kind + " divergence at decision " + sequence);
         }
     }
