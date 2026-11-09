@@ -86,10 +86,22 @@ public final class CommanderBlockThreatProbe {
         Card secondBlocker = loadCard("Memnite", defender, game);
         combat.addBlocker(commander, secondBlocker);
         int shielded = ComputerUtilCombat.getLifeThreateningCommanders(defender, combat).size();
+        Combat tallBlock = new Combat(attacker);
+        tallBlock.addAttacker(commander, defender);
+        Card tallBlocker = loadCard("Wall of Omens", defender, game);
+        if (tallBlocker.getNetToughness() <= commander.getNetCombatDamage()) {
+            throw new AssertionError("Tall blocker not taller than attacker");
+        }
+        tallBlock.addBlocker(commander, tallBlocker);
+        tallBlock.setBlocked(commander, true);
+        int tallShield = ComputerUtilCombat.getLifeThreateningCommanders(defender, tallBlock).size();
+        commander.addIntrinsicKeyword("Deathtouch");
+        int deathtouchTrample = ComputerUtilCombat.getLifeThreateningCommanders(defender, tallBlock).size();
         System.out.println("COMMANDER_BLOCK_THREAT unblocked=" + unblocked
             + " assigned=" + assigned + " blocked=" + blocked
             + " danger=" + danger + " serious=" + serious + " trample=" + trample
-            + " shielded=" + shielded);
+            + " shielded=" + shielded
+            + " tallShield=" + tallShield + " deathtouchTrample=" + deathtouchTrample);
         System.exit(0);
     }
 }

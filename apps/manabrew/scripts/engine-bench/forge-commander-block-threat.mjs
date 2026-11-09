@@ -43,7 +43,7 @@ try {
   mkdirSync(compiledOverlay);
   run(java("javac"), ["-cp", jar, "-d", compiledProbe, probe]);
   const className = "forge.harness.common.CommanderBlockThreatProbe";
-  const pattern = /COMMANDER_BLOCK_THREAT unblocked=(\d+) assigned=(\d+) blocked=(\d+) danger=(\d+) serious=(\d+) trample=(\d+) shielded=(\d+)/;
+  const pattern = /COMMANDER_BLOCK_THREAT unblocked=(\d+) assigned=(\d+) blocked=(\d+) danger=(\d+) serious=(\d+) trample=(\d+) shielded=(\d+) tallShield=(\d+) deathtouchTrample=(\d+)/;
   const measure = extra => {
     const output = run(java("java"), ["-cp", [...extra, compiledProbe, jar].join(":"), className, join(forge, "forge-gui")], dirname(forge));
     const match = output.match(pattern);
@@ -51,10 +51,10 @@ try {
     return match.slice(1).map(Number);
   };
   const baseline = measure([]);
-  assert.deepEqual(baseline, [1, 1, 1, 1, 1, 1, 1], "Unpatched Forge must reproduce false lethal threat after blocking");
+  assert.deepEqual(baseline, [1, 1, 1, 1, 1, 1, 1, 1, 1], "Unpatched Forge must reproduce false lethal threat after blocking");
   run(java("javac"), ["-cp", jar, "-d", compiledOverlay, patchedFile]);
   const patched = measure([compiledOverlay]);
-  assert.deepEqual(patched, [1, 0, 0, 0, 0, 1, 0], "Patch must preserve unblocked/trample threats and clear blocked-only threat");
+  assert.deepEqual(patched, [1, 0, 0, 0, 0, 1, 0, 0, 1], "Patch must preserve unblocked/trample threats and clear blocked-only threat");
   console.log("FORGE_COMMANDER_BLOCK RED=" + baseline.join(",") +
     " GREEN=" + patched.join(",") + " pin=" + pin);
 } finally {
