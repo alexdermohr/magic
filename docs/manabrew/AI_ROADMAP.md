@@ -253,9 +253,12 @@ Beschädigte Snapshots werden abgewiesen.
 **Frische Gegenproben:** Zwei unabhängige Seeds des einfachen
 1v1-Fixtures mit jeweils 35+8 Entscheidungen sowie zwei Seeds
 der persönlichen Anowon/Gahiji-Partie mit 55+20 Entscheidungen
-wurden erfolgreich rekonstruiert. Ein älterer paralleler
-Zwei-Engine-Test berichtete gelegentlich Abweichungen, deren
-Ursache nicht eindeutig belegt ist. Deshalb bleibt der Pfad
+wurden erfolgreich rekonstruiert. Eine zusätzliche echte
+Disk-Restore-Gegenprobe für Seed 424244 scheiterte bei Entscheidung 26
+mit **unterschiedlichem Spielzustand bei gleichem ReplayRandom-Stand**.
+Eine unmittelbare Wiederholung desselben Seeds bestand. Damit ist
+eine sporadische, nicht durch diesen RNG-Strom erklärte
+Nichtdeterministik nachgewiesen; die konkrete Ursache bleibt offen. Deshalb bleibt der Pfad
 experimentell und ist produktiv deaktiviert.
 
 **Offene Produktarbeit:** Eine vollständige, versionsgebundene

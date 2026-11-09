@@ -55,6 +55,13 @@ final class GameCheckpoint {
         state.add("zones", zones);
         final JsonObject verification = new JsonObject();
         verification.addProperty("state", digest(canonical(state).toString().getBytes(StandardCharsets.UTF_8)));
+        if (Boolean.getBoolean("manabrew.replay.debugWitness")) {
+            // Diagnostic digests only, never card names, hidden zones or RNG values.
+            verification.addProperty("viewDigest",
+                    digest(canonical(views).toString().getBytes(StandardCharsets.UTF_8)));
+            verification.addProperty("zoneDigest",
+                    digest(canonical(zones).toString().getBytes(StandardCharsets.UTF_8)));
+        }
         verification.addProperty("rng", rng.position());
         return verification;
     }
@@ -173,9 +180,15 @@ final class GameCheckpoint {
                 final JsonObject right = actual.getAsJsonObject();
                 final boolean sameState = java.util.Objects.equals(left.get("state"), right.get("state"));
                 final boolean sameRng = java.util.Objects.equals(left.get("rng"), right.get("rng"));
+                final String breakdown = left.has("viewDigest") && right.has("viewDigest")
+                        ? ", views=" + (java.util.Objects.equals(left.get("viewDigest"), right.get("viewDigest"))
+                                ? "equal" : "different")
+                        + ", zones=" + (java.util.Objects.equals(left.get("zoneDigest"), right.get("zoneDigest"))
+                                ? "equal" : "different")
+                        : "";
                 throw new IllegalStateException(kind + " divergence at decision " + sequence
                         + " (state=" + (sameState ? "equal" : "different")
-                        + ", rng=" + (sameRng ? "equal" : "different") + ")");
+                        + ", rng=" + (sameRng ? "equal" : "different") + breakdown + ")");
             }
             throw new IllegalStateException(kind + " divergence at decision " + sequence);
         }

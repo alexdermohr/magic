@@ -26,6 +26,7 @@ const { values } = parseArgs({
     "forge-home": { type: "string", default: "forge/forge-gui" },
     "personal-decks": { type: "string", default: "" },
     "seed-count": { type: "string", default: "1" },
+    "seed-start": { type: "string", default: "0" },
   },
 });
 
@@ -92,6 +93,7 @@ const common = {
   jar: values.jar,
   java: values.java,
   forgeHome: values["forge-home"],
+  javaOptions: ["-Dmanabrew.replay.debugWitness=true"],
 };
 
 function normalized(view) {
@@ -239,8 +241,10 @@ async function roundTrip(request, atDecision, continuation) {
 }
 
 const seedCount = Number(values["seed-count"]);
+const seedStart = Number(values["seed-start"]);
 assert(Number.isInteger(seedCount) && seedCount >= 1 && seedCount <= 5);
-for (let offset = 0; offset < seedCount; offset++) {
+assert(Number.isInteger(seedStart) && seedStart >= 0 && seedStart <= 10000);
+for (let offset = seedStart; offset < seedStart + seedCount; offset++) {
   const simple = forestFixture();
   simple.seed += offset;
   simple.gameId += "-seed-" + offset;

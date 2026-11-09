@@ -110,10 +110,17 @@ corrupt terminal witnesses were rejected. The proof JAR was made by
 compiling the changed Java classes against a pinned existing JVM
 harness, without touching the production PWA.
 
-**Reliability boundary:** Earlier simultaneous two-engine comparisons
-intermittently reported state/RNG divergence; their cause remains
-unproven. The new sequential post-kill test removes the concurrent
-original-engine comparison, but is no proof of all-card determinism.
+**Reliability boundary:** A later real replay of the persisted Constructed
+fixture at seed 424244 failed at decision 26 with **state=different,
+rng=equal**; the verification is computed on the engine game thread,
+so this was not merely a discrepancy between two cached UI views.
+A subsequent independent replay of that same seed passed. This proves
+an intermittent nondeterministic state path that is **not captured by
+the ReplayRandom stream**, although its concrete source is still open.
+The debug-only JVM property manabrew.replay.debugWitness adds separate
+view/zone digests to classify a future divergence without revealing
+private card data. The --seed-start argument reruns one specific seed.
+No result from successful runs establishes all-card determinism.
 Any replay mismatch must abort restoration. Browser crash recovery
 still requires durably committed journals, worker restart and real
 Safari validation.
