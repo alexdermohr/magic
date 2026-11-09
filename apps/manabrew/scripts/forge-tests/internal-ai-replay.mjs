@@ -166,9 +166,6 @@ async function roundTrip(request, atDecision, continuation) {
       lastId = prompt.promptId;
     }
 
-    // Capture a golden continuation in the original engine. Then terminate it
-    // and restore the checkpoint from disk in another JVM, not alongside it.
-    // The test driver holds only expected results and user actions.
     const expected = [];
     let previousSource = boundaryPrompt.promptId;
     for (let index = 0; index < continuation; index++) {
@@ -180,8 +177,6 @@ async function roundTrip(request, atDecision, continuation) {
       });
       previousSource = prompt.promptId;
     }
-    // Model a saved state, not just another in-memory JavaScript object.
-    // Write privately, sync, atomically publish, then kill the original JVM.
     const stagedPath = join(directory, "checkpoint.partial");
     const checkpointPath = join(directory, "checkpoint.json");
     writeFileSync(stagedPath, JSON.stringify(snapshot), { mode: 0o600, flag: "wx" });
@@ -203,7 +198,11 @@ async function roundTrip(request, atDecision, continuation) {
     console.log("INTERNAL_FORGE_AI_SOURCE_KILLED", sessionId);
     const stored = JSON.parse(readFileSync(checkpointPath, "utf8"));
 
-    restored = harness({ ...common, sessionId });
+    restored = harness({
+      ...common,
+      sessionId,
+      javaOptions: ["-Dforge.synchronous=true", "-Dmanabrew.replay.debugWitness=false"],
+    });
     await restored.call("restoreReplaySnapshot", { payload: JSON.stringify(stored) });
     let previousRestore;
     for (let index = 0; index < expected.length; index++) {
@@ -248,8 +247,6 @@ async function roundTrip(request, atDecision, continuation) {
   }
 }
 
-// Prove that the opt-in cannot bypass the known non-deterministic default
-// JVM AI thread path. This check runs in a separate JVM before any game.
 const unsafe = harness({
   ...common,
   sessionId: "internal-ai-replay-unsafe-guard",
