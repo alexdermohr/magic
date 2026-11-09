@@ -260,6 +260,8 @@ def local_index_references(markdown: str, index: Path, root: Path) -> list[Path]
         if suffix is None:
             continue
         record(destination, index.parent)
+        if "[" in label:
+            targets.extend(local_index_references(label, index, root))
         parts.extend((source[last:match.start()], label))
         last = suffix.end()
     parts.append(source[last:])
