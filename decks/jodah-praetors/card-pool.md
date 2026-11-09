@@ -11,7 +11,8 @@ Stand: 2026-11-09. Dies ist ein Kandidaten- und Entscheidungsspeicher, **keine z
 | Praetorhoof Behemoth | Nicht für aktive Liste vorgesehen | Ungewöhnliche Event-Karte; vor Aufnahme Commander-Legalität gesondert nachweisen. |
 | Morophon, the Boundless | Kandidat | `Praetor` wählen, Kostenreduktion und +1/+1; eher teuer für 14 Prätoren. Möglicher Ersatz für eine randständige Supportlegende. |
 | Monster Manual | Kandidat | Kostengünstiges wiederholtes Ins-Spiel-Bringen großer Kreaturen aus der Hand; gegenüber weiteren Schutz-/Kartenzieheffekten abwägen. |
-| Kenrith, the Returned King | Kandidat | Eile/Trample, Ziehen und Reanimation für fünf Farben; gute Alternative zu Jodah oder im 99er, aber weniger spezifische Praetor-Synergie. |
+| Urza's Incubator | Entfernt aus `current.txt` (2026-11-09) | Nur 14 Prätoren profitieren von {2} weniger generischen Manakosten; hilft nicht beim Realmbreaker-Ins-Spiel-Bringen oder Jodahs kostenlosen Legenden. Rückkehr nur falls Praetoren-Dichte und Hand-Casts zunehmen. |
+| Kenrith, the Returned King | Aufgenommen in `current.txt` (2026-11-09) | Stärkere Jodah-Legende als Urza's Incubator: gibt vorhandenen Kreaturen für {R} Eile und Trampelschaden, ermöglicht Kartennachschub und Reanimation. |
 | Teferi's Protection | Game-Changer-Kandidat | Hervorragender Schutz, müsste einen der drei belegten Game-Changer-Plätze ersetzen. |
 | Rhystic Study | Game-Changer-Kandidat | Zieht viel; ersetzt beispielsweise Smothering Tithe, falls Manabeschleunigung reichlich vorhanden. |
 | Worldly Tutor | Game-Changer-Kandidat | Findet Prätor, müsste eines der drei belegten GC-Slots übernehmen. |
