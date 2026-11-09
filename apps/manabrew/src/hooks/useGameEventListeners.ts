@@ -265,9 +265,9 @@ function noticeRepeatVote(vote: RepeatVoteDto, state: GameState) {
 
 export function useGameEventListeners() {
   useEffect(() => {
-    const handlePageHide = () => {
+    const handlePageHide = (event?: PageTransitionEvent) => {
       const state = getState();
-      if (!state.isMultiplayer && !isOver(state)) {
+      if (!event?.persisted && !state.isMultiplayer && !isOver(state)) {
         stageOfflineGameOnPagehide(offlineSeats(state.gameView));
       }
       if (state.isMultiplayer || isOver(state)) reportEngineGame();
