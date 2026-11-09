@@ -1,0 +1,112 @@
+1 Jodah, the Unifier
+
+1 Elesh Norn
+1 Elesh Norn, Grand Cenobite
+1 Elesh Norn, Mother of Machines
+1 Jin-Gitaxias
+1 Jin-Gitaxias, Core Augur
+1 Jin-Gitaxias, Progress Tyrant
+1 Sheoldred
+1 Sheoldred, the Apocalypse
+1 Sheoldred, Whispering One
+1 Urabrask
+1 Urabrask the Hidden
+1 Vorinclex
+1 Vorinclex, Monstrous Raider
+1 Gix, Yawgmoth Praetor
+
+1 Atraxa, Grand Unifier
+1 Atraxa, Praetors' Voice
+1 Esika, God of the Tree
+1 Jodah, Archmage Eternal
+1 Sisay, Weatherlight Captain
+1 Selvala, Heart of the Wilds
+1 Kinnan, Bonder Prodigy
+1 Sakashima of a Thousand Faces
+1 Jhoira, Weatherlight Captain
+1 Birds of Paradise
+1 Bloom Tender
+1 Faeburrow Elder
+1 Delighted Halfling
+1 Gwenna, Eyes of Gaea
+1 Roaming Throne
+
+1 Sol Ring
+1 Arcane Signet
+1 Fellwar Stone
+1 Nature's Lore
+1 Three Visits
+1 Farseek
+1 Skyshroud Claim
+1 Relic of Legends
+1 Chromatic Lantern
+1 Smothering Tithe
+1 Mirari's Wake
+1 Urza's Incubator
+
+1 Demonic Tutor
+1 Enlightened Tutor
+1 Eladamri's Call
+1 Realmbreaker, the Invasion Tree
+1 Defense of the Heart
+1 Finale of Devastation
+
+1 Sylvan Library
+1 Mystic Remora
+1 The Great Henge
+
+1 Reanimate
+1 Victimize
+1 Primevals' Glorious Rebirth
+
+1 Swords to Plowshares
+1 Assassin's Trophy
+1 Anguished Unmaking
+1 Beast Within
+1 Swan Song
+1 Heroic Intervention
+1 Flawless Maneuver
+1 Boros Charm
+1 Urza's Ruinous Blast
+1 Akroma's Will
+
+1 Arid Mesa
+1 Bloodstained Mire
+1 Flooded Strand
+1 Marsh Flats
+1 Misty Rainforest
+1 Polluted Delta
+1 Scalding Tarn
+1 Verdant Catacombs
+1 Windswept Heath
+1 Wooded Foothills
+
+1 Badlands
+1 Bayou
+1 Plateau
+1 Savannah
+1 Scrubland
+1 Taiga
+1 Tropical Island
+1 Tundra
+1 Underground Sea
+1 Volcanic Island
+
+1 Spara's Headquarters
+1 Zagoth Triome
+1 Jetmir's Garden
+1 Ziatora's Proving Ground
+
+1 Command Tower
+1 Mana Confluence
+1 City of Brass
+1 Exotic Orchard
+1 Plaza of Heroes
+1 Boseiju, Who Endures
+1 Otawara, Soaring City
+
+1 Forest
+1 Island
+1 Swamp
+1 Mountain
+1 Plains
