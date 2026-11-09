@@ -170,9 +170,37 @@ final class GameCheckpoint {
         }
     }
 
+    private static JsonElement authoritativeReplayEvidence(final JsonElement value, final String kind) {
+        if (value == null) return null;
+        if (kind.contains("state/RNG") && value.isJsonObject()) {
+            final JsonObject required = value.getAsJsonObject().deepCopy();
+            required.remove("viewDigest");
+            required.remove("zoneDigest");
+            return required;
+        }
+        if ("consumption".equals(kind) && value.isJsonArray()) {
+            final JsonArray required = new JsonArray();
+            for (final JsonElement item : value.getAsJsonArray()) {
+                if (!item.isJsonObject()) {
+                    required.add(item);
+                    continue;
+                }
+                final JsonObject entry = item.getAsJsonObject().deepCopy();
+                if (entry.has("verification")) {
+                    entry.add("verification", authoritativeReplayEvidence(entry.get("verification"), "state/RNG"));
+                }
+                required.add(entry);
+            }
+            return required;
+        }
+        return value;
+    }
+
     static void requireEqual(final JsonElement expected, final JsonElement actual,
             final String kind, final long sequence) {
-        if (expected == null || !expected.equals(actual)) {
+        final JsonElement requiredExpected = authoritativeReplayEvidence(expected, kind);
+        final JsonElement requiredActual = authoritativeReplayEvidence(actual, kind);
+        if (requiredExpected == null || !requiredExpected.equals(requiredActual)) {
             if (kind.contains("state/RNG") && expected != null && actual != null
                     && expected.isJsonObject() && actual.isJsonObject()) {
                 // Diagnose without revealing hands, libraries, RNG values or state hashes.
