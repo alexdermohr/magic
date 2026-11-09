@@ -17,6 +17,7 @@ const MAX_PENDING = 100;
 const MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const MAX_PER_FLUSH = 20;
 const STAGED_PAGEHIDE_KEY = `${STORAGE_KEYS.OFFLINE_PLAY_RECORDS}:pagehide`;
+const PAGEHIDE_SESSION_KEY = `${STORAGE_KEYS.OFFLINE_PLAY_RECORDS}:pagehide-session`;
 /** Keep in sync with the hub's own cap in `telemetry.rs`. */
 const MAX_CARDS_PER_SEAT = 400;
 
@@ -60,6 +61,10 @@ export interface OfflinePlayGame {
 interface PendingRecord {
   game: OfflinePlayGame;
   queuedAt: number;
+}
+
+interface StagedPagehideRecord extends PendingRecord {
+  ownerSessionId: string;
 }
 
 interface OpenGame {
@@ -180,7 +185,21 @@ function savePending(records: PendingRecord[]): void {
 }
 
 
-function loadStagedPagehide(): PendingRecord | null {
+function currentPagehideSessionId(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    let id = window.sessionStorage.getItem(PAGEHIDE_SESSION_KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      window.sessionStorage.setItem(PAGEHIDE_SESSION_KEY, id);
+    }
+    return id;
+  } catch {
+    return null;
+  }
+}
+
+function loadStagedPagehide(): StagedPagehideRecord | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(STAGED_PAGEHIDE_KEY);
@@ -195,9 +214,11 @@ function loadStagedPagehide(): PendingRecord | null {
       "reportId" in candidate.game &&
       typeof candidate.game.reportId === "string" &&
       "queuedAt" in candidate &&
-      typeof candidate.queuedAt === "number"
+      typeof candidate.queuedAt === "number" &&
+      "ownerSessionId" in candidate &&
+      candidate.ownerSessionId === currentPagehideSessionId()
     ) {
-      return candidate as PendingRecord;
+      return candidate as StagedPagehideRecord;
     }
   } catch {
     return null;
@@ -306,8 +327,11 @@ function buildOfflineGameReport(game: OpenGame, meta: OfflineGameReportMeta): Of
 
 export function stageOfflineGameOnPagehide(seats: OfflineSeatOutcome[]): void {
   if (!open || seats.length === 0 || typeof window === "undefined") return;
+  const ownerSessionId = currentPagehideSessionId();
+  if (!ownerSessionId) return;
   try {
-    const staged: PendingRecord = {
+    const staged: StagedPagehideRecord = {
+      ownerSessionId,
       game: buildOfflineGameReport(open, { gameOver: false, winner: null, seats }),
       queuedAt: Date.now(),
     };
