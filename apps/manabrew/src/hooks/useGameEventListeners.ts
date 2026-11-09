@@ -8,8 +8,14 @@ import {
 } from "@/game";
 import { teardownForgeAiSession } from "@/game/hostedAiPlay";
 import { engineReportGameId, reportEngineStats } from "@/lib/engineStatsReport";
-import { currentOfflineGameId, reportOfflineGame } from "@/lib/offlinePlayRecord";
+import {
+  cancelOfflinePagehide,
+  currentOfflineGameId,
+  reportOfflineGame,
+  stageOfflineGameOnPagehide,
+} from "@/lib/offlinePlayRecord";
 import { offlineSeats } from "@/lib/offlineSeats";
+import { resumeReconnectDeadline } from "@/lib/reconnectDeadline";
 import { clearLocalGame } from "@/lib/localGamePresence";
 import { noteOfflineResumeEvent } from "@/lib/offlineResumeDiagnostics";
 import { useGameStore } from "@/stores/useGameStore";
@@ -76,6 +82,7 @@ async function rejoinAfterRelayRestart() {
   setReconnectPhase("reconnecting");
   if (rejoinInFlight) return;
   rejoinInFlight = true;
+  let onVisibilityChange: (() => void) | null = null;
   try {
     const server = useServerStore.getState();
     const roomId = server.currentRoom?.room_id ?? peekActiveGameSession()?.roomId;
@@ -83,8 +90,24 @@ async function rejoinAfterRelayRestart() {
       setReconnectPhase("idle");
       return;
     }
-    const deadline = Date.now() + SELF_RECONNECT_WINDOW_S * 1000;
-    while (Date.now() < deadline) {
+    let deadline = Date.now() + SELF_RECONNECT_WINDOW_S * 1000;
+    let hiddenSince: number | null = document.hidden ? Date.now() : null;
+    onVisibilityChange = () => {
+      if (document.hidden) {
+        hiddenSince ??= Date.now();
+      } else if (hiddenSince !== null) {
+        deadline =
+          resumeReconnectDeadline(deadline, hiddenSince, Date.now()) ?? deadline;
+        hiddenSince = null;
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    while (Date.now() < deadline || document.hidden) {
+      onVisibilityChange();
+      if (document.hidden) {
+        await new Promise((resolve) => setTimeout(resolve, REJOIN_RETRY_DELAY_MS));
+        continue;
+      }
       if (!getState().isGameActive) {
         setReconnectPhase("idle");
         return;
@@ -119,6 +142,7 @@ async function rejoinAfterRelayRestart() {
       void useGameStore.getState().endGame();
     }
   } finally {
+    if (onVisibilityChange) document.removeEventListener("visibilitychange", onVisibilityChange);
     rejoinInFlight = false;
   }
 }
@@ -241,10 +265,19 @@ function noticeRepeatVote(vote: RepeatVoteDto, state: GameState) {
 
 export function useGameEventListeners() {
   useEffect(() => {
-    const handlePageHide = () => {
-      if (getState().isMultiplayer || isOver(getState())) reportEngineGame();
+    const handlePageHide = (event?: PageTransitionEvent) => {
+      const state = getState();
+      if (!event?.persisted && !state.isMultiplayer && !isOver(state)) {
+        stageOfflineGameOnPagehide(offlineSeats(state.gameView));
+      }
+      if (state.isMultiplayer || isOver(state)) reportEngineGame();
+    };
+    const cancelPendingPagehide = () => {
+      if (!document.hidden) cancelOfflinePagehide();
     };
     window.addEventListener("pagehide", handlePageHide);
+    window.addEventListener("pageshow", cancelOfflinePagehide);
+    document.addEventListener("visibilitychange", cancelPendingPagehide);
     // A finished game is reported the moment it finishes, not at teardown:
     // teardown is three seconds later, and by then the tab may be gone, the
     // socket closed or a pooled hosted room recycled out from under the seat.
@@ -254,6 +287,8 @@ export function useGameEventListeners() {
     });
     return () => {
       window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("pageshow", cancelOfflinePagehide);
+      document.removeEventListener("visibilitychange", cancelPendingPagehide);
       unsubscribe();
       handlePageHide();
     };

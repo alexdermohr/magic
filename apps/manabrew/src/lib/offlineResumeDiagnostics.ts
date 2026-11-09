@@ -4,6 +4,7 @@
  * The persistent active flag distinguishes a frozen document from a page reload.
  */
 const KEY = "manabrew.offlineResumeDiagnostics.v1";
+const ACTIVE_TAB_KEY = `${KEY}:active-tab-game`;
 const CAPACITY = 32;
 const instanceId =
   typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -34,6 +35,22 @@ interface LifecycleLog {
   version: 1;
   activeOfflineGame: boolean;
   events: LifecycleEntry[];
+}
+
+function tabHasActiveOfflineGame(): boolean {
+  try {
+    return sessionStorage.getItem(ACTIVE_TAB_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function recordTabActiveOfflineGame(active: boolean): void {
+  try {
+    sessionStorage.setItem(ACTIVE_TAB_KEY, String(active));
+  } catch {
+    return;
+  }
 }
 
 const SAFE_REASONS = new Set([
@@ -76,6 +93,8 @@ export function noteOfflineResumeEvent(
   if (typeof localStorage === "undefined") return;
   try {
     const previous = read();
+    const tabActive = active ?? tabHasActiveOfflineGame();
+    if (active !== undefined) recordTabActiveOfflineGame(active);
     const entry: LifecycleEntry = {
       at: new Date().toISOString(),
       event,
@@ -84,7 +103,7 @@ export function noteOfflineResumeEvent(
     };
     const log: LifecycleLog = {
       version: 1,
-      activeOfflineGame: active ?? previous?.activeOfflineGame ?? false,
+      activeOfflineGame: tabActive,
       events: [...(previous?.events ?? []), entry].slice(-CAPACITY),
     };
     localStorage.setItem(KEY, JSON.stringify(log));
@@ -94,7 +113,7 @@ export function noteOfflineResumeEvent(
 }
 
 export function beginOfflineResumeDiagnostics(): () => void {
-  const interrupted = read()?.activeOfflineGame ?? false;
+  const interrupted = tabHasActiveOfflineGame();
   noteOfflineResumeEvent(
     interrupted ? "document_restarted_with_active_game" : "document_start",
     false,
@@ -119,6 +138,7 @@ export function offlineResumeDiagnosticReport(): string {
   return JSON.stringify(
     {
       ...(read() ?? { version: 1, activeOfflineGame: false, events: [] }),
+      activeOfflineGame: tabHasActiveOfflineGame(),
       generatedAt: new Date().toISOString(),
       scope: "local-lifecycle-only",
     },

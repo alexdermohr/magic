@@ -6,12 +6,17 @@ Diese Datei sammelt **optionale Kandidaten außerhalb der aktiven 100-Karten-Lis
 
 | Karte | Status | Nutzen | Abwägung / Wiedereinbau |
 | --- | --- | --- | --- |
+| **Aura Shards** | **09.11.2026 aus dem Deck genommen; Wiedereinbaukandidat / Game Changer** | Verwandelt jeden eigenen Kreatureneintritt, auch durch Token, in gezielte Artefakt-/Verzauberungszerstörung. | Sehr stark in der Tokenmaschine, hier funktional überlappend mit Qasali Slingers, Feline Sovereign, Masked Vandal, Boseiju und Chaos Warp. Durch **Enlightened Tutor** ersetzt, um Engines/Finisher gezielt zu finden. Wiederaufnahme bei stark artefakt-/verzauberungslastigen Gegnern, dann wegen B3-Game-Changer-Grenze nur gegen einen der drei belegten Plätze. |
+| **Qasali Pridemage** | **08.11.2026 aus dem Deck genommen; Wiedereinbau-Kandidat** | Zweimanalige Cat, löst mit Rin und Seri einen Dog-Token aus, bietet Exalted und als Opferfähigkeit gezielte Artefakt-/Verzauberungszerstörung. | Am 08.11. für **Beastmaster Ascension** gestrichen; seit 09.11. ist auch Aura Shards herausgenommen. Qasali Slingers, Feline Sovereign, Masked Vandal, Boseiju und Chaos Warp bleiben; Wiedereinbau falls frühes aktivierbares Artefakt-/Verzauberungs-Removal fehlt. |
 | **Thousand-Year Elixir** | **06.11.2026 aus dem Deck genommen; Wiedereinbau-Kandidat** | Rin und Seri können ihre Tap-Fähigkeit bereits im Zug ihres Eintritts aktivieren; für {1} und Tappen des Artefakts lässt sich eine eigene Kreatur erneut enttappen. Das ermöglicht bei genügend {R}{G}{W} zusätzliche direkte Schadens- und Lebensgewinn-Aktivierungen. | Drei Mana Vorabkosten, danach Mana für die weitere Aktivierung; nur mit Rin und Seri sowie passenden Ressourcen besonders stark. Wiedereinbau prüfen, wenn wiederholte Aktivierungen gegenüber Kartenvorteil wichtiger sind. Derzeit stattdessen **Caretaker's Talent** in [current.txt](current.txt). |
 
 ## Weitere geprüfte Alternativen
 
 | Karte | Rolle | Derzeitige Einordnung |
 | --- | --- | --- |
+| Cryptolith Rite | Kreaturen und Spielsteine in Manaquellen verwandeln | Zwei Mana, sehr stark für wiederholte Rin-und-Seri-Aktivierungen und große Züge; braucht überlebende Kreaturen und meist einen weiteren Zug bis zum Tappen neuer Token. Gegenüber dem unmittelbaren +5/+5-Kampfschlussstein vorerst zurückgestellt. |
+| Felidar Retreat | Landfall-Katzen / dauerhafte Marken | Stark mit Fetchländern und als unabhängigere Tokenquelle, kostet vier Mana und braucht weitere Landdrops; bei höherem Langspielbedarf erneut prüfen. |
+| Cathars' Crusade | Eskalierende +1/+1-Marken auf gesamtem Team | Extrem hohe Obergrenze bei vielen Token, dafür fünf Mana und großer Verwaltungsaufwand; Beastmaster Ascension gewinnt den Slot durch niedrigere Kosten und schnelleres Abschließen. |
 | Doubling Season | Weiterer Spielstein-Verdoppler | Fünf Mana, drei günstigere Verdoppler bereits im Hauptdeck. Bei mehr Tokenfokus erneut vergleichen. |
 | Ojer Taq, Deepest Foundation | Kreaturenspielstein-Multiplikator | Sehr starke Obergrenze, aber sechs Mana und kein unmittelbar benötigter Schutz oder Nachschub. |
 | Isamaru, Hound of Konda | Sehr früher Hundezauber | Erzeugt mit Rin und Seri eine Katze, trägt außerhalb davon wenig zur Engine bei. |
