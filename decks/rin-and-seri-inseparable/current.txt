@@ -54,13 +54,13 @@
 1 Swords to Plowshares
 1 Path to Exile
 1 Chaos Warp
-1 Aura Shards
 1 Cloudstone Curio
 1 Akroma's Will
 1 Caretaker's Talent
 1 Illusionist's Bracers
 1 Finale of Devastation
 1 Eladamri's Call
+1 Enlightened Tutor
 1 Maskwood Nexus
 1 Command Tower
 1 Gaea's Cradle
