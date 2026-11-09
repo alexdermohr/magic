@@ -12,6 +12,7 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 import re
+import string
 import sys
 import unicodedata
 from urllib.parse import unquote
@@ -81,7 +82,7 @@ BASIC_KEYS = frozenset(normalized_name(name) for name in BASICS)
 COPY_LIMIT_KEYS = {normalized_name(name): limit for name, limit in COPY_LIMITS.items()}
 CARD = re.compile(r"^([1-9][0-9]*) (.+)$")
 # The two indexes use ordinary inline links plus plain deck paths.
-INLINE_LINK_START = re.compile(r"\[(?P<label>[^\]\n]*)\]\(\s*")
+INLINE_LINK_START = re.compile(r"\[")
 INLINE_LINK_END = re.compile(
     r"""\s*(?:"[^"\n]*"|'[^'\n]*'|\([^)\n]*\))?\s*\)"""
 )
@@ -150,7 +151,7 @@ def visible_index_source(markdown: str) -> str:
         # A fence can start on a Markdown list item ("- \`\`\`python").
         item = LIST_FENCE.match(line)
         candidate = item.group("rest") if item else line
-        marker = FENCE.match(candidate)
+        marker = FENCE.match(line if fence is not None else candidate)
         if fence is not None:
             if marker:
                 run = marker.group(1)
@@ -177,7 +178,19 @@ def local_index_references(markdown: str, index: Path, root: Path) -> list[Path]
         if not destination or destination.startswith(("#", "//")) or EXTERNAL.match(destination):
             return
         # A percent-encoded # or ? is filename data, not a URI delimiter.
-        path = unquote(destination.split("#", 1)[0].split("?", 1)[0])
+        end = len(destination)
+        index = 0
+        while index < len(destination):
+            if (destination[index] == "\\" and index + 1 < len(destination)
+                    and destination[index + 1] in string.punctuation):
+                index += 2
+                continue
+            if destination[index] in "#?":
+                end = index
+                break
+            index += 1
+        raw_path = destination[:end]
+        path = unquote(re.sub(r"\\([%s])" % re.escape(string.punctuation), r"\1", raw_path))
         if path.startswith("/"):
             targets.append(root / path.lstrip("/"))
         elif path:
@@ -190,7 +203,31 @@ def local_index_references(markdown: str, index: Path, root: Path) -> list[Path]
     for match in INLINE_LINK_START.finditer(source):
         if match.start() < last:
             continue
-        pos = match.end()
+        slash = match.start() - 1
+        while slash >= 0 and source[slash] == "\\":
+            slash -= 1
+        if (match.start() - 1 - slash) % 2:
+            continue
+        label_end = match.end()
+        depth = 1
+        while label_end < len(source) and depth:
+            char = source[label_end]
+            if char == "\n":
+                break
+            if char == "\\" and label_end + 1 < len(source) and source[label_end + 1] != "\n":
+                label_end += 2
+                continue
+            if char == "[":
+                depth += 1
+            elif char == "]":
+                depth -= 1
+            label_end += 1
+        if depth or label_end >= len(source) or source[label_end] != "(":
+            continue
+        label = source[match.end():label_end - 1]
+        pos = label_end + 1
+        while pos < len(source) and source[pos].isspace():
+            pos += 1
         if pos >= len(source):
             continue
         if source[pos] == "<":
@@ -223,7 +260,7 @@ def local_index_references(markdown: str, index: Path, root: Path) -> list[Path]
         if suffix is None:
             continue
         record(destination, index.parent)
-        parts.extend((source[last:match.start()], match.group("label")))
+        parts.extend((source[last:match.start()], label))
         last = suffix.end()
     parts.append(source[last:])
     text = "".join(parts)
