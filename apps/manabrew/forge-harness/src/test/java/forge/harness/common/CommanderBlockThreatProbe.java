@@ -97,11 +97,31 @@ public final class CommanderBlockThreatProbe {
         int tallShield = ComputerUtilCombat.getLifeThreateningCommanders(defender, tallBlock).size();
         commander.addIntrinsicKeyword("Deathtouch");
         int deathtouchTrample = ComputerUtilCombat.getLifeThreateningCommanders(defender, tallBlock).size();
+        Card mandatoryCommander = loadCard("Isamaru, Hound of Konda", attacker, game);
+        attacker.addCommander(mandatoryCommander);
+        defender.addCommanderDamage(mandatoryCommander, 20);
+        mandatoryCommander.addStaticAbility("Mode$ AssignCombatDamageAsUnblocked | ValidCard$ Card.Self");
+        Combat mandatoryCombat = new Combat(attacker);
+        mandatoryCombat.addAttacker(mandatoryCommander, defender);
+        mandatoryCombat.addBlocker(mandatoryCommander, loadCard("Memnite", defender, game));
+        mandatoryCombat.setBlocked(mandatoryCommander, true);
+        int mandatoryAsUnblocked = ComputerUtilCombat.getLifeThreateningCommanders(defender, mandatoryCombat).size();
+
+        Card optionalCommander = loadCard("Thorn Elemental", attacker, game);
+        attacker.addCommander(optionalCommander);
+        defender.addCommanderDamage(optionalCommander, 20);
+        Combat optionalCombat = new Combat(attacker);
+        optionalCombat.addAttacker(optionalCommander, defender);
+        optionalCombat.addBlocker(optionalCommander, loadCard("Memnite", defender, game));
+        optionalCombat.setBlocked(optionalCommander, true);
+        int optionalAsUnblocked = ComputerUtilCombat.getLifeThreateningCommanders(defender, optionalCombat).size();
         System.out.println("COMMANDER_BLOCK_THREAT unblocked=" + unblocked
             + " assigned=" + assigned + " blocked=" + blocked
             + " danger=" + danger + " serious=" + serious + " trample=" + trample
             + " shielded=" + shielded
-            + " tallShield=" + tallShield + " deathtouchTrample=" + deathtouchTrample);
+            + " tallShield=" + tallShield + " deathtouchTrample=" + deathtouchTrample
+            + " mandatoryAsUnblocked=" + mandatoryAsUnblocked
+            + " optionalAsUnblocked=" + optionalAsUnblocked);
         System.exit(0);
     }
 }
