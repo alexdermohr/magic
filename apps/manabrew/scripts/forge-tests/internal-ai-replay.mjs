@@ -93,7 +93,9 @@ const common = {
   jar: values.jar,
   java: values.java,
   forgeHome: values["forge-home"],
-  javaOptions: ["-Dmanabrew.replay.debugWitness=true"],
+  // Matches the Forge WebImage boot: WasmMain sets this property before
+  // loading ThreadUtil, so AI evaluation runs on the seeded game thread.
+  javaOptions: ["-Dforge.synchronous=true", "-Dmanabrew.replay.debugWitness=true"],
 };
 
 function normalized(view) {
@@ -238,6 +240,29 @@ async function roundTrip(request, atDecision, continuation) {
     restored?.close();
     rmSync(directory, { recursive: true, force: true });
   }
+}
+
+// Prove that the opt-in cannot bypass the known non-deterministic default
+// JVM AI thread path. This check runs in a separate JVM before any game.
+const unsafe = harness({
+  ...common,
+  sessionId: "internal-ai-replay-unsafe-guard",
+  javaOptions: ["-Dforge.synchronous=false"],
+});
+try {
+  const request = {
+    ...forestFixture(),
+    gameId: "internal-ai-replay-unsafe-guard",
+    decisionJournal: true,
+    experimentalInternalAiReplay: true,
+  };
+  await assert.rejects(
+    unsafe.call("startGame", { payload: JSON.stringify(request) }),
+    /requires synchronous Forge/,
+  );
+  console.log("INTERNAL_FORGE_AI_ASYNC_JVM_REJECTED");
+} finally {
+  unsafe.close();
 }
 
 const seedCount = Number(values["seed-count"]);

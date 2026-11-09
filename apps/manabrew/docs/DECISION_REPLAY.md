@@ -120,7 +120,30 @@ the ReplayRandom stream**, although its concrete source is still open.
 The debug-only JVM property manabrew.replay.debugWitness adds separate
 view/zone digests to classify a future divergence without revealing
 private card data. The --seed-start argument reruns one specific seed.
-No result from successful runs establishes all-card determinism.
+
+**Plausible root mechanism, confirmed in Forge source:** In JVM mode,
+AiController evaluates card choices in a separate Game AI Eval thread.
+MyRandom is a ThreadLocal that defaults to SecureRandom unless explicitly
+seeded on the specific thread. AiController also branches on wall-clock
+eval/combat deadlines. Those two mechanisms are not fully represented
+by the ReplayRandom witness. WasmMain, by contrast, already sets
+forge.synchronous=true *before* Forge classes initialize, making the
+AI evaluation use the seeded game thread. Two isolated A/B proofs with
+three seeds per fixture (six runs each) passed: explicitly passing the
+game RNG into the AI eval thread and running synchronously via
+forge.synchronous=true. A third proof using an isolated AI class with
+both synchronous eval and no wall-clock cutoff also passed three seeds.
+This supports the mechanism but does not independently prove which
+path caused the specific intermittent divergence.
+
+**Enforced boundary:** experimentalInternalAiReplay now rejects a
+non-synchronous JVM before starting the match. The regression explicitly
+verifies this negative path; the three-seed synchronous replay matrix
+passed with this guard. The proof still is not product-ready until
+browser-Journal delivery, atomic IndexedDB persistence, real WebImage
+build and physical Safari restore are verified. Matching seeds are
+not a substitute for whole-engine checksums or continuation tests.
+
 Any replay mismatch must abort restoration. Browser crash recovery
 still requires durably committed journals, worker restart and real
 Safari validation.

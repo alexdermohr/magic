@@ -261,6 +261,23 @@ eine sporadische, nicht durch diesen RNG-Strom erklärte
 Nichtdeterministik nachgewiesen; die konkrete Ursache bleibt offen. Deshalb bleibt der Pfad
 experimentell und ist produktiv deaktiviert.
 
+**Gegenprobe zur Ursache (9. November):** Die Standard-JVM
+startet für Forge-KI-Abwägungen einen separaten Evaluations-Thread,
+dessen ThreadLocal-MyRandom ohne Initialisierung einen SecureRandom
+erhält. Zusätzlich beeinflussen reale Uhrzeitbudgets die Aktionswahl.
+Das erklärt eine mögliche Nichtdeterministik trotz unverändertem
+ReplayRandom-Zähler. Das bereits vorhandene Forge-WebImage setzt
+forge.synchronous=true beim Boot vor dem ersten ThreadUtil-Zugriff.
+Drei Seeds jeweils der einfachen und persönlichen Commander-
+JVM-Replayprobe bestanden im synchronen Modus. Dasselbe galt für
+getrennte Kandidaten mit explizit weitergereichtem AI-RNG
+beziehungsweise synchronem KI-Eval ohne Uhrzeit-Abbruch.
+Die konkrete Ursache der früheren Einzelabweichung bleibt
+nicht abschließend bewiesen. Der Opt-in-Replay-Adapter verweigert
+deshalb jetzt unsynchrone JVM-Sitzungen; eine eigene Negativprobe
+bestätigt die Ablehnung, drei vollständige positive Seedreihen
+bestanden danach.
+
 **Offene Produktarbeit:** Eine vollständige, versionsgebundene
 Forge-WebImage-Kompilierung, sequenz- und checksumgebundene
 IndexedDB-Journale, Durable-ACK erst nach Commit,

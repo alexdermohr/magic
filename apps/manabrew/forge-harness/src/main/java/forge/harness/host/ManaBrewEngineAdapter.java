@@ -100,6 +100,13 @@ public final class ManaBrewEngineAdapter {
             // Only explicit, opt-in proof runs may use the journal with AI seats.
             throw new IllegalArgumentException("decision journal requires external decisions unless experimentalInternalAiReplay is enabled");
         }
+        if (request.experimentalInternalAiReplay && !forge.util.ThreadUtil.isSynchronous()) {
+            // The normal JVM AI-eval thread gets an unseeded ThreadLocal
+            // SecureRandom and stops scanning candidates on wall-clock deadlines.
+            // WebImage already enables forge.synchronous in WasmMain at boot.
+            throw new IllegalArgumentException(
+                    "experimentalInternalAiReplay requires synchronous Forge; start JVM with -Dforge.synchronous=true");
+        }
         if (sessions.containsKey(request.getGameId())) {
             throw new IllegalArgumentException("session already exists: " + request.getGameId());
         }
