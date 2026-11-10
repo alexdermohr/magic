@@ -41,6 +41,19 @@ Use `--decks`, `--timeout`, `--engine`, and `--wasm` to override its inputs.
 Commander, Brawl, Oathbreaker, and 60-card constructed presets are supported;
 all selected decks must share a format. Starting life follows the format and can
 be overridden with `--starting-life`.
+
+Personal Commander decks from the offline build are supported with
+`--decks personal:<slug>,personal:<slug>,...` and use
+`dist/personal-decks.json` (or the explicit `--personal-decks <path>`).
+They retain all commanders, including partner pairs, and need no
+intermediate deck conversion. For example:
+
+```sh
+node scripts/engine-bench/manabot-pop.mjs --engine packages/forge-wasm \
+  --decks personal:anowon-rogues,personal:helga-skittish-seer \
+  --seats 2 --games 12 --jobs 2 --out /tmp/manabrew-personal-bench
+```
+
 `--wasms` accepts one WASM directory per seat for direct policy A/B games.
 `--forge-ai-seats 1,3` assigns those seats to Forge's internal AI, enabling a
 direct Forge-versus-Manabot benchmark when the selected engine facade supports

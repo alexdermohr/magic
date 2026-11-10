@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::{BTreeMap, HashMap, HashSet, VecDeque};
 
 use manabrew_agent_interface::game_view_dto::{
     CardDto, CardView, GameViewDto, StepKind, TargetingIntent, ZoneKind,
@@ -41,6 +41,7 @@ pub struct SimpleAi {
     turn: Option<u32>,
     attempted_actions: HashSet<String>,
     payment_attempt: Option<String>,
+    payment_manual_attempt: Option<String>,
     has_command_cards: bool,
 }
 
@@ -133,6 +134,67 @@ impl SimpleAi {
             .find(|(a, _)| a == card_id)
         {
             self.failed_attack_targets.insert(target_id.clone());
+        }
+    }
+
+    fn pay_mana_cost(
+        &mut self,
+        input: &manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput,
+    ) -> PayManaCostOutput {
+        if input.can_confirm_from_pool {
+            self.failed_attack_targets.clear();
+            self.payment_attempt = None;
+            self.payment_manual_attempt = None;
+            return PayManaCostOutput::Pay { auto: false };
+        }
+        let has_usable_action = input.actions.iter().any(|action| {
+            !matches!(
+                &action.kind,
+                manabrew_protocol::prompts::common::PaymentActionKind::UndoMana { .. }
+                    | manabrew_protocol::prompts::common::PaymentActionKind::ReleaseResource { .. }
+            )
+        });
+        let already_manual = self.payment_manual_attempt.as_deref() == Some(input.card_id.as_str());
+        if !has_usable_action || already_manual {
+            self.fail_attack_target(&input.card_id);
+            self.payment_attempt = None;
+            self.payment_manual_attempt = None;
+            return PayManaCostOutput::Cancel;
+        }
+        if self.payment_attempt.as_deref() != Some(input.card_id.as_str()) {
+            self.payment_attempt = Some(input.card_id.clone());
+            return PayManaCostOutput::Pay { auto: true };
+        }
+        let manual_action = input
+            .actions
+            .iter()
+            .find(|action| {
+                matches!(
+                    &action.kind,
+                    manabrew_protocol::prompts::common::PaymentActionKind::UseResource {
+                        resource:
+                            manabrew_protocol::prompts::common::PaymentResourceKind::Waterbend,
+                        ..
+                    }
+                )
+            })
+            .or_else(|| {
+                input.actions.iter().find(|action| matches!(
+                    &action.kind,
+                    manabrew_protocol::prompts::common::PaymentActionKind::ActivateManaAbility(info)
+                        if info.cost.as_deref().is_some_and(|cost|
+                            cost.chars().any(|c| c.is_ascii_digit()))
+                ))
+            });
+        if let Some(action) = manual_action {
+            self.payment_manual_attempt = Some(input.card_id.clone());
+            PayManaCostOutput::Act {
+                action_id: action.id.clone(),
+            }
+        } else {
+            self.fail_attack_target(&input.card_id);
+            self.payment_attempt = None;
+            PayManaCostOutput::Cancel
         }
     }
 
@@ -286,6 +348,22 @@ impl SimpleAi {
             .collect()
     }
 
+    fn mana_symbols_in_clause(clause: &str) -> i32 {
+        let count = |option: &str| {
+            option
+                .as_bytes()
+                .windows(3)
+                .filter(|part| part[0] == b'{' && b"WUBRGC".contains(&part[1]) && part[2] == b'}')
+                .count() as i32
+        };
+        if clause.contains(" or ") {
+            let options = clause.replace(", or ", ", ").replace(" or ", ", ");
+            options.split(',').map(count).max().unwrap_or(0)
+        } else {
+            count(clause)
+        }
+    }
+
     fn mana_output(card: &CardDto) -> Option<([i32; 5], i32, i32)> {
         let mut colors = [0i32; 5];
         let mut any = 0;
@@ -302,7 +380,7 @@ impl SimpleAi {
         for segment in card.text.split("Add ").skip(1) {
             let clause = segment.split(['.', '\n']).next().unwrap_or("");
             let lower = clause.to_ascii_lowercase();
-            let symbols = clause.matches('{').count() as i32;
+            let symbols = Self::mana_symbols_in_clause(clause);
             let mut produced = 0;
             for symbol in clause.chars() {
                 if let Some(i) = "WUBRG".find(symbol) {
@@ -327,6 +405,40 @@ impl SimpleAi {
             amount = amount.max(produced.max(symbols));
         }
         (amount > 0).then_some((colors, any, amount))
+    }
+
+    fn can_cover_colored_cost(pips: &[i32; 5], sources: &[([i32; 5], i32, i32)]) -> bool {
+        (1u8..32).all(|subset| {
+            let required: i32 = (0..5)
+                .filter(|&i| subset & (1 << i) != 0)
+                .map(|i| pips[i])
+                .sum();
+            if required == 0 {
+                return true;
+            }
+            let available: i32 = sources
+                .iter()
+                .map(|(colors, wildcard, amount)| {
+                    let colored: i32 = (0..5)
+                        .filter(|&i| subset & (1 << i) != 0)
+                        .map(|i| colors[i])
+                        .sum();
+                    (colored + wildcard).min(*amount)
+                })
+                .sum();
+            available >= required
+        })
+    }
+
+    fn colored_mana_sources(&self, player_id: &str) -> Vec<([i32; 5], i32, i32)> {
+        self.battlefield(player_id)
+            .filter(|card| !card.tapped)
+            .filter(|card| {
+                !card.types.iter().any(|ty| ty == "Creature")
+                    || (!card.summoning_sick && card.text.contains("{T}: Add"))
+            })
+            .filter_map(Self::mana_output)
+            .collect()
     }
 
     fn mana_sources(&self, player_id: &str) -> ([i32; 5], i32, i32) {
@@ -369,7 +481,7 @@ impl SimpleAi {
             }
         }
         let short: i32 = (0..5).map(|i| (pips[i] - colors[i]).max(0)).sum();
-        short <= any
+        short <= any && Self::can_cover_colored_cost(&pips, &self.colored_mana_sources(player_id))
     }
 
     fn roles(card: &CardDto) -> Roles {
@@ -746,10 +858,150 @@ impl SimpleAi {
                 && card.text.to_ascii_lowercase().contains("{t}: add"))
     }
 
+    fn net_mana_from_text(text: &str, source_name: &str) -> i32 {
+        let mut best = 0;
+        for line in text.lines() {
+            let Some((cost, produced)) = line.split_once(": Add ") else {
+                continue;
+            };
+            // Quoted abilities generally belong to other permanents. Some
+            // cards explicitly grant one to themselves (Urza's Saga chapter I).
+            let lower_cost = cost.to_ascii_lowercase();
+            if cost.bytes().filter(|byte| *byte == b'"').count() % 2 != 0
+                && !lower_cost.contains(&format!("{} gains \"", source_name.to_ascii_lowercase()))
+            {
+                continue;
+            }
+            let self_sacrifice = lower_cost.contains("sacrifice this")
+                || lower_cost.contains(&format!("sacrifice {}", source_name.to_ascii_lowercase()));
+            // Loyalty and triggered effects are not immediately usable mana abilities.
+            // Only count an activation with a mana-symbol cost or self-sacrifice.
+            if !cost.contains('{') && !self_sacrifice {
+                continue;
+            }
+            if (lower_cost.contains("sacrifice") && !self_sacrifice)
+                || lower_cost
+                    .split(|character: char| !character.is_ascii_alphabetic())
+                    .any(|word| word == "tap")
+                || ["discard ", "exile ", "remove ", "pay "]
+                    .iter()
+                    .any(|prerequisite| lower_cost.contains(prerequisite))
+            {
+                continue;
+            }
+            let restriction = produced.to_ascii_lowercase();
+            if (restriction.contains("spend") || restriction.contains("spent"))
+                && (restriction.contains("only")
+                    || restriction.contains("cannot")
+                    || restriction.contains("can't"))
+            {
+                continue;
+            }
+            let clause = produced.split('.').next().unwrap_or("");
+            let lower = clause.to_ascii_lowercase();
+            let nominal =
+                Self::mana_symbols_in_clause(clause).max(if lower.starts_with("three mana") {
+                    3
+                } else if lower.starts_with("two mana") {
+                    2
+                } else if lower.contains("one mana") || lower.contains("any color") {
+                    1
+                } else {
+                    0
+                });
+            let mut activation_mana = 0;
+            for part in cost.split('{').skip(1) {
+                let symbol = part.split('}').next().unwrap_or("");
+                if let Ok(generic) = symbol.parse::<i32>() {
+                    activation_mana += generic;
+                } else if symbol.len() == 1 && "WUBRGC".contains(symbol) {
+                    activation_mana += 1;
+                } else if symbol.contains('/') && symbol.chars().any(|c| "WUBRGC".contains(c)) {
+                    activation_mana += 1;
+                }
+            }
+            best = best.max((nominal - activation_mana).max(0));
+        }
+        best
+    }
+
     fn available_mana(&self, player_id: &str) -> i32 {
         self.battlefield(player_id)
-            .filter(|card| !card.tapped && Self::is_mana_source(card))
-            .count() as i32
+            .filter(|card| !card.tapped)
+            .filter(|card| {
+                !card.types.iter().any(|ty| ty == "Creature")
+                    || (!card.summoning_sick && card.text.contains("{T}: Add"))
+            })
+            .map(|card| {
+                let baseline = card.subtypes.iter().any(|subtype| {
+                    ["Plains", "Island", "Swamp", "Mountain", "Forest"].contains(&subtype.as_str())
+                });
+                Self::net_mana_from_text(&card.text, &card.identity.name).max(i32::from(baseline))
+            })
+            .sum()
+    }
+
+    fn color_code(name: &str) -> Option<char> {
+        match name.trim().to_ascii_lowercase().as_str() {
+            "w" | "white" => Some('W'),
+            "u" | "blue" => Some('U'),
+            "b" | "black" => Some('B'),
+            "r" | "red" => Some('R'),
+            "g" | "green" => Some('G'),
+            _ => None,
+        }
+    }
+
+    fn is_mana_color_prompt(
+        &self,
+        title: &str,
+        source_text: &str,
+        source_card: Option<&CardDto>,
+        player_id: &str,
+    ) -> bool {
+        title.to_ascii_lowercase().contains("mana")
+            || source_text.contains("add ")
+            || self.payment_attempt.is_some()
+            || source_card.is_some_and(|card| Self::mana_output(card).is_some())
+            || self.battlefield(player_id).any(|card| {
+                card.identity.name.eq_ignore_ascii_case(title) && Self::mana_output(card).is_some()
+            })
+    }
+
+    fn color_choices(
+        valid_colors: &[String],
+        amount: u32,
+        repeat_allowed: bool,
+        missing: &HashSet<char>,
+    ) -> BTreeMap<String, u32> {
+        let mut colors = valid_colors.iter().collect::<Vec<_>>();
+        colors.sort_by_key(|color| {
+            !Self::color_code(color).is_some_and(|code| missing.contains(&code))
+        });
+        let mut chosen = BTreeMap::new();
+        if repeat_allowed {
+            let desired = colors
+                .iter()
+                .take_while(|color| {
+                    Self::color_code(color).is_some_and(|code| missing.contains(&code))
+                })
+                .count()
+                .min(amount as usize);
+            for color in colors.iter().take(desired) {
+                *chosen.entry((**color).clone()).or_insert(0) += 1;
+            }
+            if let Some(first) = colors.first() {
+                let remaining = amount - desired as u32;
+                if remaining > 0 {
+                    *chosen.entry((**first).clone()).or_insert(0) += remaining;
+                }
+            }
+        } else {
+            for color in colors.into_iter().take(amount as usize) {
+                chosen.insert(color.clone(), 1);
+            }
+        }
+        chosen
     }
 
     fn lands_in_play(&self, player_id: &str) -> usize {
@@ -1182,6 +1434,7 @@ impl BotAgent for SimpleAi {
             self.turn = Some(view.turn);
             self.attempted_actions.clear();
             self.payment_attempt = None;
+            self.payment_manual_attempt = None;
             self.recent_prompts.clear();
             self.failed_attack_targets.clear();
         }
@@ -1269,6 +1522,7 @@ impl BotAgent for SimpleAi {
                     (action.id.clone(), Self::action_key(action))
                 });
                 self.payment_attempt = None;
+                self.payment_manual_attempt = None;
                 if let Some((_, key)) = &pick {
                     self.attempted_actions.insert(key.clone());
                 }
@@ -1532,19 +1786,20 @@ impl BotAgent for SimpleAi {
                     chosen_indices,
                 }))
             }
-            PromptInput::ChooseColor(manabrew_protocol::prompts::choose_color::ChooseColorInput { valid_colors, amount, repeat_allowed, .. }) => {
-                let mut chosen: std::collections::BTreeMap<String, u32> = std::collections::BTreeMap::new();
-                if repeat_allowed {
-                    if let Some(c) = valid_colors.first() {
-                        chosen.insert(c.clone(), amount);
-                    }
+            PromptInput::ChooseColor(manabrew_protocol::prompts::choose_color::ChooseColorInput { presentation, valid_colors, amount, repeat_allowed }) => {
+                let mana_choice = self.is_mana_color_prompt(
+                    &presentation.title,
+                    &prompt_source_text,
+                    prompt.source_card.as_ref(),
+                    &deciding_player_id,
+                );
+                let missing = if mana_choice {
+                    self.missing_colors(&deciding_player_id)
                 } else {
-                    for c in valid_colors.iter().take(amount as usize) {
-                        chosen.insert(c.clone(), 1);
-                    }
-                }
+                    HashSet::new()
+                };
                 Some(PromptOutput::ChooseColor(ChooseColorOutput::ColorDecision {
-                    chosen_colors: chosen,
+                    chosen_colors: Self::color_choices(&valid_colors, amount, repeat_allowed, &missing),
                 }))
             }
             PromptInput::ChooseNumber(manabrew_protocol::prompts::choose_number::ChooseNumberInput { presentation, min, max }) => {
@@ -1611,44 +1866,7 @@ impl BotAgent for SimpleAi {
                 }
                 Some(PromptOutput::ChooseCombatDamageAssignment(ChooseCombatDamageAssignmentOutput::CombatDamageAssignmentDecision { assignments }))
             }
-            PromptInput::PayManaCost(input) => {
-                let manual_action = input.actions.iter().find(|action| {
-                    matches!(
-                        &action.kind,
-                        manabrew_protocol::prompts::common::PaymentActionKind::ActivateManaAbility(
-                            info
-                        ) if info
-                            .cost
-                            .as_deref()
-                            .is_some_and(|cost| cost.chars().any(|c| c.is_ascii_digit()))
-                    ) || matches!(
-                        &action.kind,
-                        manabrew_protocol::prompts::common::PaymentActionKind::UseResource {
-                            resource:
-                                manabrew_protocol::prompts::common::PaymentResourceKind::Waterbend,
-                            ..
-                        }
-                    )
-                });
-                let payment = if input.can_confirm_from_pool {
-                    self.failed_attack_targets.clear();
-                    PayManaCostOutput::Pay { auto: false }
-                } else if let Some(action) = manual_action {
-                    PayManaCostOutput::Act {
-                        action_id: action.id.clone(),
-                    }
-                } else if input.actions.is_empty()
-                    || self.payment_attempt.as_deref() == Some(input.card_id.as_str())
-                {
-                    self.fail_attack_target(&input.card_id);
-                    self.payment_attempt = None;
-                    PayManaCostOutput::Cancel
-                } else {
-                    self.payment_attempt = Some(input.card_id.clone());
-                    PayManaCostOutput::Pay { auto: true }
-                };
-                Some(PromptOutput::PayManaCost(payment))
-            }
+            PromptInput::PayManaCost(input) => Some(PromptOutput::PayManaCost(self.pay_mana_cost(&input))),
             PromptInput::ChooseCards(manabrew_protocol::prompts::choose_cards::ChooseCardsInput {
                 presentation,
                 mut cards,
@@ -1707,5 +1925,391 @@ impl BotAgent for SimpleAi {
                 DiceRolledOutput::DiceRolledAcknowledged,
             )),
         }
+    }
+}
+
+#[cfg(test)]
+mod color_choice_tests {
+    use super::SimpleAi;
+    use std::collections::HashSet;
+
+    fn colors() -> Vec<String> {
+        ["White", "Blue", "Black", "Red", "Green"]
+            .into_iter()
+            .map(str::to_string)
+            .collect()
+    }
+
+    #[test]
+    fn mana_color_prefers_a_missing_color() {
+        let needed = HashSet::from(['R']);
+        let chosen = SimpleAi::color_choices(&colors(), 1, true, &needed);
+        assert_eq!(chosen.get("Red"), Some(&1));
+        assert_eq!(chosen.len(), 1);
+    }
+
+    #[test]
+    fn multiple_mana_colors_cover_two_missing_colors() {
+        let needed = HashSet::from(['R', 'U']);
+        let chosen = SimpleAi::color_choices(&colors(), 2, true, &needed);
+        assert_eq!(chosen.get("Red"), Some(&1));
+        assert_eq!(chosen.get("Blue"), Some(&1));
+        assert_eq!(chosen.len(), 2);
+    }
+
+    #[test]
+    fn repeated_mana_color_is_allowed_for_one_missing_color() {
+        let needed = HashSet::from(['R']);
+        let chosen = SimpleAi::color_choices(&colors(), 2, true, &needed);
+        assert_eq!(chosen.get("Red"), Some(&2));
+    }
+
+    #[test]
+    fn non_mana_color_choice_keeps_original_priority() {
+        let chosen = SimpleAi::color_choices(&colors(), 1, false, &HashSet::new());
+        assert_eq!(chosen.get("White"), Some(&1));
+    }
+
+    #[test]
+    fn dual_lands_produce_one_mana_not_two() {
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{U} or {B}"), 1);
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{W}, {U}, or {B}"), 1);
+    }
+
+    #[test]
+    fn filter_lands_produce_two_mana_not_six() {
+        assert_eq!(
+            SimpleAi::mana_symbols_in_clause("{U}{U}, {U}{B}, or {B}{B}"),
+            2
+        );
+    }
+
+    #[test]
+    fn simultaneous_mana_is_counted_in_full() {
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{C}{C}"), 2);
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{W}{U}{B}{R}{G}"), 5);
+        assert_eq!(SimpleAi::mana_symbols_in_clause("{T}"), 0);
+    }
+
+    #[test]
+    fn two_duals_cannot_pay_four_colored_pips_with_two_colorless_rocks() {
+        let dual = ([0, 1, 1, 0, 0], 0, 1);
+        let colorless = ([0; 5], 0, 1);
+        let sources = [dual, dual, colorless, colorless];
+        assert!(!SimpleAi::can_cover_colored_cost(
+            &[0, 2, 2, 0, 0],
+            &sources
+        ));
+    }
+
+    #[test]
+    fn duals_can_split_colors_between_two_pips() {
+        let dual = ([0, 1, 1, 0, 0], 0, 1);
+        assert!(SimpleAi::can_cover_colored_cost(
+            &[0, 1, 1, 0, 0],
+            &[dual, dual]
+        ));
+    }
+
+    #[test]
+    fn a_fixed_pair_cannot_make_two_mana_of_one_color() {
+        let fixed_pair = ([0, 1, 1, 0, 0], 0, 2);
+        assert!(!SimpleAi::can_cover_colored_cost(
+            &[0, 2, 0, 0, 0],
+            &[fixed_pair]
+        ));
+        assert!(SimpleAi::can_cover_colored_cost(
+            &[0, 1, 1, 0, 0],
+            &[fixed_pair]
+        ));
+    }
+
+    #[test]
+    fn any_color_and_multi_mana_sources_remain_usable() {
+        let any_color = ([0; 5], 1, 1);
+        let double_blue = ([0, 2, 0, 0, 0], 0, 2);
+        assert!(SimpleAi::can_cover_colored_cost(
+            &[0, 2, 1, 0, 0],
+            &[double_blue, any_color]
+        ));
+        assert!(!SimpleAi::can_cover_colored_cost(
+            &[0, 1, 2, 0, 0],
+            &[double_blue, any_color]
+        ));
+    }
+
+    fn expensive_payment_input() -> manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput {
+        use manabrew_protocol::prompts::common::{
+            ActivatableAbilityInfo, PaymentAction, PaymentActionKind, PromptPresentation,
+        };
+        manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput {
+            presentation: PromptPresentation {
+                title: "Pay for Malcolm".to_string(),
+                description: None,
+                text: None,
+                targets: Vec::new(),
+            },
+            card_id: "malcolm".to_string(),
+            card_name: "Malcolm".to_string(),
+            mana_cost: "{2}{U}".to_string(),
+            can_confirm_from_pool: false,
+            actions: vec![PaymentAction {
+                id: "three-tree-city-expensive".to_string(),
+                kind: PaymentActionKind::ActivateManaAbility(ActivatableAbilityInfo {
+                    card_id: "three-tree-city".to_string(),
+                    ability_index: 1,
+                    description: "Add mana".to_string(),
+                    is_mana_ability: true,
+                    level_up: None,
+                    cost: Some("{2}, {T}".to_string()),
+                    produced_mana: None,
+                }),
+            }],
+        }
+    }
+
+    #[test]
+    fn costly_mana_ability_is_not_used_before_auto_payment() {
+        use manabrew_protocol::prompts::pay_mana_cost::PayManaCostOutput;
+        let mut bot = SimpleAi::new();
+        let input = expensive_payment_input();
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Pay { auto: true }
+        ));
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Act { action_id } if action_id == "three-tree-city-expensive"
+        ));
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Cancel
+        ));
+    }
+
+    #[test]
+    fn payment_confirmation_clears_pending_fallback() {
+        use manabrew_protocol::prompts::pay_mana_cost::PayManaCostOutput;
+        let mut bot = SimpleAi::new();
+        let mut input = expensive_payment_input();
+        bot.pay_mana_cost(&input);
+        input.can_confirm_from_pool = true;
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Pay { auto: false }
+        ));
+        input.can_confirm_from_pool = false;
+        assert!(matches!(
+            bot.pay_mana_cost(&input),
+            PayManaCostOutput::Pay { auto: true }
+        ));
+    }
+
+    #[test]
+    fn generic_forge_color_prompt_is_mana_during_payment() {
+        let mut bot = SimpleAi::new();
+        assert!(!bot.is_mana_color_prompt("Choose a color", "", None, "player-0"));
+        bot.payment_attempt = Some("card-1".to_string());
+        assert!(bot.is_mana_color_prompt("Choose a color", "", None, "player-0"));
+        bot.payment_attempt = None;
+        assert!(bot.is_mana_color_prompt("Choose mana color", "", None, "player-0"));
+    }
+
+    #[test]
+    fn x_mana_estimate_subtracts_paid_activation_costs() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{1}, {T}: Add {U}{B}.", "Dimir Signet"),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add {C}{C}.", "Sol Ring"),
+            2
+        );
+        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {B}.", "Swamp"), 1);
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{2}, {T}: Add {G}{G}{G}.", "Mana Source"),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_estimate_uses_best_single_ability_per_permanent() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}.",
+                "Filter Land",
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add three mana of any one color.", "Gilded Lotus"),
+            3
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add one mana of any color.", "Mana Rock"),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_mana_requiring_other_tapped_permanents() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Tap an untapped creature you control: Add one mana of any color.",
+                "Springleaf Drum",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Tap an untapped artifact you control: Add {C}{C}.",
+                "Test Artifact",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("{T}: Add {C}.", "Colorless Land"),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_restricted_spending_without_losing_unrestricted_mode() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}.\n{T}: Add {C}{C}. Spend this mana only to cast colorless Eldrazi spells or activate abilities of colorless Eldrazi.",
+                "Eldrazi Temple",
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {G}{G}. Spend this mana only to cast creature spells.",
+                "Restricted Mana",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}{C}. This mana can be spent only to cast artifacts.",
+                "Restricted Mana",
+            ),
+            0
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_unavailable_sacrifice_mana_abilities() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Sacrifice a creature: Add one mana of any color.",
+                "Phyrexian Altar"
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("Sacrifice a creature: Add {C}{C}.", "Ashnod's Altar"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {C}.\n{T}, Sacrifice a creature: Add {B}{B}.",
+                "Phyrexian Tower"
+            ),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_retains_self_sacrifice_but_not_discard_costs() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}, Sacrifice this artifact: Add one mana of any color.",
+                "Treasure"
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Sacrifice Lotus Petal: Add one mana of any color.",
+                "Lotus Petal"
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Discard your hand, Sacrifice Lion's Eye Diamond: Add three mana of any one color.",
+                "Lion's Eye Diamond"
+            ),
+            0
+        );
+    }
+
+    #[test]
+    fn x_mana_ignores_loyalty_and_conditional_mana() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text("0: Add {C}{C}{C}.", "Ugin, Eye of the Storms"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("+2: Add {C}.", "Loyalty Walker"),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("Whenever a creature dies: Add {B}.", "Triggered Mana"),
+            0
+        );
+        assert_eq!(SimpleAi::net_mana_from_text("{T}: Add {C}.", "Wastes"), 1);
+    }
+
+    #[test]
+    fn x_mana_ignores_abilities_granted_to_treasures() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Treasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Alchemist's Talent",
+            ),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "{T}: Add {G}.\nTreasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Mana Land",
+            ),
+            1
+        );
+    }
+
+    #[test]
+    fn x_mana_counts_self_granted_saga_ability_but_not_other_grants() {
+        assert_eq!(
+            SimpleAi::net_mana_from_text("I — Urza's Saga gains \"{T}: Add {C}.\"", "Urza's Saga",),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "I — Urza's Saga gains \"{T}: Add {C}.\"\nII — Urza's Saga gains \"{2}, {T}: Create a 0/0 colorless Construct artifact creature token.\"",
+                "Urza's Saga",
+            ),
+            1
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text("Other lands gain \"{T}: Add {C}{C}.\"", "Urza's Saga",),
+            0
+        );
+        assert_eq!(
+            SimpleAi::net_mana_from_text(
+                "Treasures you control have \"{T}, Sacrifice this artifact: Add two mana of any one color.\"",
+                "Alchemist's Talent",
+            ),
+            0
+        );
+    }
+
+    #[test]
+    fn color_codes_distinguish_blue_and_black() {
+        assert_eq!(SimpleAi::color_code("Blue"), Some('U'));
+        assert_eq!(SimpleAi::color_code("Black"), Some('B'));
+        assert_eq!(SimpleAi::color_code("C"), None);
     }
 }
