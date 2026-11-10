@@ -4,7 +4,7 @@ Nur [current.txt](current.txt) ist die aktive 100-Karten-Liste. Hier stehen **ni
 
 | Karte | Rolle | Derzeitige Entscheidung / moeglicher Wiedereinbau |
 | --- | --- | --- |
-| **Herald's Horn** | Reduziert Pferdezauber um 1 und zieht gelegentlich Pferde nach | Nicht in den 100: Elf hoehere Kurve, aber viele Nicht-Pferde im Deck; ausprobieren statt eines schwachen Pferdes, falls laengere Partien Kartennachschub erfordern. |
+| **Herald's Horn** | Reduziert Pferdezauber um 1 und zieht gelegentlich Pferde nach | Nicht in den 100: Hilft bei hoeherer Kurve, aber viele Nicht-Pferde im Deck; ausprobieren statt eines schwachen Pferdes, falls laengere Partien Kartennachschub erfordern. |
 | **Kindred Charge** | Temporaere Kopien aller Pferde fuer einen massiven Angriff | Gute thematische Win-Option, aber sechs Mana und legendaere Kopien unterliegen der Legendenregel. Bei zu wenig Finish gegen ein langsameres Top-End austauschen. |
 | **Molten Echoes** | Beim Eintritt jedes Nichttoken-Pferdes eine kurzlebige Kopie | Stark mit ETB-Pferden; derzeit werden dauerhafte Kopien durch Thurid/Anointed Procession bevorzugt. Bei hoeherem Pferdeanteil erneut pruefen. |
 | **Smothering Tithe** | Treasures und Zuverlaessigkeit in langen Multiplayerpartien | Game Changer; nur gegen einen der drei belegten Game-Changer-Slots (`Enlightened Tutor`, `Jeska's Will`, `Teferi's Protection`) austauschen. |
