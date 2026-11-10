@@ -114,6 +114,31 @@ try {
   assert.equal(repaired.ready, true);
   assert.equal(repaired.bytes, newBytes.toString());
   console.log("IPAD_OFFLINE_SHA256_RELEASE_RACE_PASS", JSON.stringify({ failure, repaired }));
+
+  // In iPad in-app WKWebViews without the required browser entitlement,
+  // navigator.serviceWorker may be absent even though WebKit itself works.
+  // The installer must direct the user to Safari/Home Screen, not fail opaquely.
+  const unsupportedPage = await browser.newPage();
+  await unsupportedPage.addInitScript(() => {
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: undefined,
+    });
+  });
+  await unsupportedPage.goto(origin + "/offline-setup.html?setup=1", {
+    waitUntil: "domcontentloaded",
+  });
+  await unsupportedPage.waitForFunction(
+    () => document.querySelector("#state")?.textContent?.includes("Offline-Vorbereitung nicht verfügbar"),
+    null, { timeout: 15000 },
+  );
+  const unsupported = await unsupportedPage.locator("#detail").innerText();
+  assert.match(unsupported, /Service Worker\/Cache API/);
+  assert.match(unsupported, /Safari/);
+  assert.match(unsupported, /Home-Bildschirm/);
+  assert.equal(await unsupportedPage.locator("#prepare").isDisabled(), true);
+  console.log("IPAD_UNSUPPORTED_IN_APP_WEBVIEW_GUIDANCE_PASS", unsupported);
+  await unsupportedPage.close();
 } finally {
   await browser?.close();
   await new Promise((resolve) => server.close(resolve));

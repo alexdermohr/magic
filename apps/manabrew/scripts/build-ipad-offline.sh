@@ -6,7 +6,21 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 # Build the self-contained iPad/Home-Screen PWA from this Magic source checkout.
 # Forge source and WebImage are pinned. No running service is modified.
 ./scripts/bootstrap-forge.sh
-./scripts/bootstrap-webimage.sh
+if [[ -n "${MANABREW_FORGE_WEBIMAGE_DIR:-}" ]]; then
+  # The default remains the hash-verified published WebImage. An explicitly
+  # rebuilt Forge AI candidate can be staged for an isolated offline release.
+  for file in forgeharness.js forgeharness.js.wasm; do
+    [[ -s "${MANABREW_FORGE_WEBIMAGE_DIR%/}/$file" ]] || {
+      echo "Missing rebuilt Forge WebImage file: $file" >&2; exit 1;
+    }
+  done
+  for file in forgeharness.js forgeharness.js.wasm; do
+    install -m 0644 "${MANABREW_FORGE_WEBIMAGE_DIR%/}/$file" "packages/forge-wasm/$file"
+  done
+  sha256sum packages/forge-wasm/forgeharness.js packages/forge-wasm/forgeharness.js.wasm
+else
+  ./scripts/bootstrap-webimage.sh
+fi
 
 corepack_bin="${COREPACK:-corepack}"
 "$corepack_bin" yarn install --frozen-lockfile --ignore-scripts --non-interactive

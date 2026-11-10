@@ -1,5 +1,5 @@
 use manabot::{BotAgent, BotConfig, BotState, SimpleAi};
-use manabrew_agent_interface::prompt::{AgentPrompt, ClientToServerMessage};
+use manabrew_agent_interface::prompt::{AgentPrompt, ClientToServerMessage, PromptInput};
 use manabrew_agent_interface::protocol::ServerMessage;
 use serde::Deserialize;
 use wasm_bindgen::prelude::*;
@@ -63,6 +63,24 @@ impl WasmManabot {
                     .map_err(|e| JsValue::from_str(&format!("failed to serialize bot action: {e}")))
             })
             .transpose()
+    }
+
+    pub fn reconcile_cast_attempt(
+        &mut self,
+        prompt_json: &str,
+        proposed_action_id: &str,
+        executed_action_id: &str,
+    ) -> Result<bool, JsValue> {
+        let prompt: AgentPrompt = serde_json::from_str(prompt_json)
+            .map_err(|e| JsValue::from_str(&format!("invalid agent prompt: {e}")))?;
+        let PromptInput::ChooseAction(input) = prompt.input else {
+            return Ok(false);
+        };
+        Ok(self.agent.reconcile_cast_attempt(
+            &input.actions,
+            proposed_action_id,
+            executed_action_id,
+        ))
     }
 
     /// Reads a seat `state` frame straight off the shared buffer.

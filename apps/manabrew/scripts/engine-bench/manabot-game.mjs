@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { FEATURE_NAMES, castChoices, scoreCastChoices } from "./learned-policy.mjs";
+import { parseForgeTeacherEvent } from "./forge-teacher-trace.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const presets = join(root, "public", "preset_decks");
@@ -73,6 +75,26 @@ const forgeAiSeats = option("forge-ai-seats", "").split(",").filter(Boolean).map
 const timeoutS = Number(option("timeout", 300));
 const output = option("out", null);
 const trace = new Set(option("trace", "").split(",").filter(Boolean));
+const traceFile = option("trace-file", null);
+if (traceFile) writeFileSync(resolve(traceFile), "");
+const forgeTeacherTraceFile = option("forge-teacher-trace-file", null);
+if (forgeTeacherTraceFile && !forgeAiSeats.length) {
+  throw new Error("--forge-teacher-trace-file requires at least one --forge-ai-seats seat");
+}
+if (forgeTeacherTraceFile) writeFileSync(resolve(forgeTeacherTraceFile), "");
+const learnedModelPath = option("learned-model", null);
+const learnedModel = learnedModelPath
+  ? JSON.parse(readFileSync(resolve(learnedModelPath), "utf8"))
+  : null;
+const learnedSeats = new Set(option("learned-seats", "").split(",").filter(Boolean).map(Number));
+if (Boolean(learnedModel) !== (learnedSeats.size > 0) ||
+    (learnedModel && (learnedModel.schemaVersion !== 1 ||
+      JSON.stringify(learnedModel.features) !== JSON.stringify(FEATURE_NAMES) ||
+      !Array.isArray(learnedModel.weights) ||
+      learnedModel.weights.length !== FEATURE_NAMES.length ||
+      !learnedModel.weights.every(Number.isFinite)))) {
+  throw new Error("Specify both --learned-model <policy.json> and --learned-seats <seat-list>, with a valid policy");
+}
 
 if (!existsSync(join(engineDir, "forgeharness.js.wasm"))) {
   throw new Error(`${engineDir} has no Forge WASM engine`);
@@ -129,7 +151,19 @@ const seats = bots.map(() => ({
   paymentCancels: 0,
   failedCastLabels: {},
 }));
+if ([...learnedSeats].some((seat) => !Number.isInteger(seat) || seat < 0 ||
+    seat >= decks.length || forgeAiSeats.includes(seat))) {
+  throw new Error("--learned-seats must contain valid external ManaBot seats");
+}
+if (learnedModel && [...learnedSeats].some(
+  (seat) => typeof bots[seat].reconcile_cast_attempt !== "function",
+)) {
+  throw new Error("Learned policy requires ManaBot WASM rebuilt with reconcile_cast_attempt");
+}
 const latestViews = decks.map(() => null);
+const learnedTried = decks.map(() => new Set());
+const learnedTurns = decks.map(() => null);
+const learnedStats = decks.map(() => ({ eligible: 0, overrides: 0, fallback: 0 }));
 const pendingCastLabels = decks.map(() => null);
 
 function increment(counts, key) {
@@ -154,6 +188,7 @@ let lastResponseAt = null;
 const terminalPrompts = [];
 const engineLog = [];
 const engineWarnings = [];
+const forgeTeacher = { samples: 0, rejected: 0 };
 let engineError = null;
 let finish;
 const startedAt = performance.now();
@@ -203,11 +238,40 @@ const engine = await createForgeEngine({
     }
     if (prompt.input?.type === "gameOver") terminalPrompts.push({ seat, input: prompt.input });
     const decideStart = performance.now();
-    const raw = bots[seat].decide(JSON.stringify(prompt));
-    botMs.push(performance.now() - decideStart);
-    if (!raw) return;
+    const promptJson = JSON.stringify(prompt);
+    const raw = bots[seat].decide(promptJson);
+    if (!raw) {
+      botMs.push(performance.now() - decideStart);
+      return;
+    }
     const action = JSON.parse(raw);
-    const decision = action.output;
+    let decision = action.output;
+    const teacherDecision = decision;
+    if (learnedModel && learnedSeats.has(seat) && prompt.input?.type === "chooseAction") {
+      const observedTurn = latestViews[seat]?.turn ?? turn;
+      if (learnedTurns[seat] !== observedTurn) {
+        learnedTurns[seat] = observedTurn;
+        learnedTried[seat].clear();
+      }
+      const candidates = castChoices(prompt, latestViews[seat]);
+      const teacher = prompt.input.actions?.find((a) => a.id === decision?.actionId);
+      if (decision?.type === "act" && teacher?.type === "cast" &&
+          candidates.some((candidate) => candidate.id === teacher.id)) {
+        learnedStats[seat].eligible++;
+        const untried = candidates.filter((candidate) => !learnedTried[seat].has(candidate.cardId));
+        const pick = scoreCastChoices(untried, learnedModel);
+        if (pick && pick.id !== teacher.id &&
+            bots[seat].reconcile_cast_attempt(promptJson, teacher.id, pick.id)) {
+          action.output = { type: "act", actionId: pick.id };
+          decision = action.output;
+          learnedStats[seat].overrides++;
+        } else {
+          learnedStats[seat].fallback++;
+        }
+        learnedTried[seat].add(candidates.find((candidate) => candidate.id === decision.actionId).cardId);
+      }
+    }
+    botMs.push(performance.now() - decideStart);
     if (trace.has(prompt.input?.type)) {
       const view = latestViews[seat];
       const cards = Object.fromEntries(
@@ -219,9 +283,9 @@ const engine = await createForgeEngine({
             `${card.identity?.name ?? "?"} ${card.power ?? ""}/${card.toughness ?? ""}${card.tapped ? " T" : ""} ${card.controllerId}${card.attackingPlayerId ? " ->" + card.attackingPlayerId : ""}`,
           ]),
       );
-      process.stderr.write(
-        `${JSON.stringify({ seat, turn, life: view?.players?.map((p) => p.life), prompt, decision, cards, view })}\n`,
-      );
+      const line = `${JSON.stringify({ seat, turn, life: view?.players?.map((p) => p.life), prompt, decision: teacherDecision, executedDecision: decision, teacher: "manabot", cards, view })}\n`;
+      if (traceFile) appendFileSync(resolve(traceFile), line);
+      else process.stderr.write(line);
     }
     if (decision?.type === "act") {
       seats[seat].acts += 1;
@@ -316,6 +380,18 @@ const engine = await createForgeEngine({
         );
       }
     }
+    if (forgeTeacherTraceFile) {
+      const teacher = parseForgeTeacherEvent(event, payload);
+      if (teacher) {
+        if (teacher.sample) {
+          appendFileSync(resolve(forgeTeacherTraceFile), JSON.stringify(teacher.sample) + "\n");
+          forgeTeacher.samples++;
+        } else {
+          forgeTeacher.rejected++;
+        }
+        return;
+      }
+    }
     if (event === "forge:log") {
       const line = `${payload.level} ${String(payload.text).slice(0, 400)}`;
       engineLog.push(line);
@@ -335,6 +411,7 @@ await engine.startMultiplayerGame({
   commanderNames: decks.map((deck) => deck.commanders[0]?.name ?? null),
   enginePlayerIndex,
   forgeAiSeats,
+  forgeTeacherTrace: Boolean(forgeTeacherTraceFile),
   // Every other SAB seat is a bot, as at a solo pod in the browser.
   botSeats: decks
     .map((_, index) => index)
@@ -356,6 +433,10 @@ if (engineError && outcome.reason === "game:over") {
   outcome.reason = "engine_error";
   outcome.error = engineError;
 }
+if (forgeTeacherTraceFile && !forgeTeacher.samples && outcome.reason === "game:over") {
+  outcome.reason = "teacher_trace_empty";
+  outcome.error = "No eligible Forge AI teacher sample was emitted; verify a rebuilt Java Forge WebImage containing forgeTeacherTrace";
+}
 const summary = {
   seed,
   format,
@@ -373,6 +454,15 @@ const summary = {
   engineWarnings: engineWarnings.slice(-50),
   engineLogTail: finalView?.winnerId ? [] : engineLog.slice(-40),
   seats,
+  ...(forgeTeacherTraceFile ? { forgeTeacher } : {}),
+  ...(learnedModel ? {
+    learned: {
+      policy: learnedModelPath,
+      seats: [...learnedSeats],
+      seatStats: learnedStats,
+      overrides: learnedStats.reduce((sum, seat) => sum + seat.overrides, 0),
+    },
+  } : {}),
   latency: {
     samples: sorted.length,
     p50: Math.round(percentile(0.5)),
