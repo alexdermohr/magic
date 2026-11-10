@@ -139,11 +139,63 @@ path caused the specific intermittent divergence.
 **Enforced boundary:** experimentalInternalAiReplay now rejects a
 non-synchronous JVM before starting the match. The regression explicitly
 verifies this negative path; the three-seed synchronous replay matrix
-passed with this guard. The proof still is not product-ready until
-browser-Journal delivery, atomic IndexedDB persistence, real WebImage
-build and physical Safari restore are verified. Matching seeds are
-not a substitute for whole-engine checksums or continuation tests.
+passed with this guard. A subsequent isolated WebImage build and real
+Chromium IndexedDB/replay-continuation test establish the browser source
+path below, but **physical iPadOS Safari Home-Screen verification remains
+open**. Matching seeds are not a substitute for full engine state and
+RNG verification. Any replay mismatch must abort restoration.
 
-Any replay mismatch must abort restoration. Browser crash recovery
-still requires durably committed journals, worker restart and real
-Safari validation.
+
+## Automatic offline WebImage recovery (10 November 2026)
+
+**Scope:** Installed, version-pinned offline browser PWA, local Forge WebImage
+with internal Forge AI, single-player only. Rust engine, other bots, external
+hosts, multiplayer and old engine versions do not silently use this path.
+
+- Each live prompt has an authoritative game-thread decision boundary:
+  only decisions not already delivered, the current prompt, and the
+  state/RNG witness. The original start request is emitted exactly once,
+  even when no action has yet been consumed. Internal Forge AI runs
+  synchronously and records all consumed inputs under its seeded RNG.
+- The local-only ForgeAutoResume IndexedDB database commits the decision
+  delta and last known-good boundary in a strict atomic transaction.
+  Hidden card data remains private to this browser origin, never relayed,
+  logged or included in analytics. Failed writes keep the older valid save.
+- On a complete document restart the AppShell automatically checks for
+  a checkpoint bound to the exact offline-assets manifest version,
+  restarts a fresh WebImage worker, verifies the full decision history,
+  prompts, state and RNG witnesses, then exposes the board and accepts
+  the next player action. No restore button is required. An incompatible
+  or corrupt snapshot fails closed instead of simulating a recovered game.
+- A legitimate game over or deliberate leave clears the save. Background
+  page disposal and an engine crash preserve the last committed checkpoint.
+  Cross-version restores and storage eviction are not supported.
+
+**Evidence:** TypeScript passed; 44 Vitest files / 249 tests passed;
+9 Forge supervisor unit tests passed; full real Maven harness build and
+existing JVM regressions plus BrowserRecoveryDeltaTest passed;
+new Oracle GraalVM WebImage built with pinned Forge sources;
+actual Chrome IndexedDB transaction and full reload tests verified.
+Using the generated candidate offline PWA, the browser cached all
+3,521 files, ran Anowon against Gahiji without network, fully reloaded,
+and automatically restored exactly the same game ID. The fresh engine
+accepted another player input and committed a newer decision to the
+local journal. Independent process-reopen proof advanced the persisted
+cursor from sequence 8 to 9 for game forge-1794323092812; the second
+reproducible run reported REAL_OFFLINE_FORGE_AUTO_RESUME_PASS for game
+forge-1794324078349, with identical ID, release and in-game life state.
+
+Candidate manifest version: 7b84a2bf2cee1288bed4;
+3,521 files, 405,489,476 bytes. Fresh Forge WebImage WASM SHA-256:
+28159c46730b2d82cd1bef4ab1facaec496aa12b438fa20f63a88310bfa9be6c.
+
+**Reproduce:** First install an isolated candidate release through
+scripts/test-ipad-offline.mjs using a fresh MANABREW_TEST_PROFILE.
+Then run scripts/test-ipad-recovery-reload.mjs with the same profile
+and origin disconnected from the network. The narrower IDB transaction
+countercheck is scripts/test-ipad-recovery-storage.mjs. Require a real
+game ID and state/decision continuation, not merely a board screenshot.
+
+**Unverified:** The user's real Safari Home Screen PWA, iPadOS background
+process death, low-memory reloads, WebKit storage eviction and restore
+across an application update. Chromium success is not Safari evidence.

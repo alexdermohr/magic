@@ -146,6 +146,7 @@ public final class SabTransport implements InteractiveBridge {
     private final java.util.Set<Integer> botSeats;
     private final java.util.function.Supplier<String> checkpointMetrics;
     private final java.util.function.Supplier<String> decisionJournal;
+    private final java.util.function.Supplier<String> recoveryBoundary;
     private long checkpointNanosSinceRecv;
     private long checkpoint;
     /** When a person's answer last landed; bot answers do not move it. */
@@ -184,6 +185,16 @@ public final class SabTransport implements InteractiveBridge {
             final java.util.function.Supplier<String> checkpointMetrics,
             final java.util.function.Supplier<String> decisionJournal,
             final java.util.function.BiFunction<Integer, Integer, String> libraryTop) {
+        this(snapshots, botSeats, checkpointMetrics, decisionJournal, libraryTop, () -> "");
+    }
+
+    public SabTransport(final java.util.function.IntFunction<String> snapshots,
+            final java.util.Set<Integer> botSeats,
+            final java.util.function.Supplier<String> checkpointMetrics,
+            final java.util.function.Supplier<String> decisionJournal,
+            final java.util.function.BiFunction<Integer, Integer, String> libraryTop,
+            final java.util.function.Supplier<String> recoveryBoundary) {
+        this.recoveryBoundary = recoveryBoundary;
         this.snapshots = snapshots;
         this.libraryTop = libraryTop;
         this.botSeats = botSeats;
@@ -199,6 +210,10 @@ public final class SabTransport implements InteractiveBridge {
     @Override
     public String exchange(final int playerIndex, final String promptJson) {
         publishDecisionJournal();
+        final String save = recoveryBoundary.get();
+        if (!save.isEmpty()) {
+            post("forge:recovery_checkpoint", save);
+        }
         final int seat = playerIndex < 0 ? 0 : playerIndex;
         final String type = inputType(promptJson);
         final boolean dice = "diceRolled".equals(type);

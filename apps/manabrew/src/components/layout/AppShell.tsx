@@ -7,6 +7,7 @@ import { useRoomInvites } from "@/hooks/useRoomInvites";
 import { useGameStore } from "@/stores/useGameStore";
 import { cn } from "@/lib/utils";
 import { useGameSessionResume } from "@/hooks/useGameSessionResume";
+import { useForgeAutoResume } from "@/hooks/useForgeAutoResume";
 import { useLimitedSessionRecovery } from "@/hooks/useLimitedSessionRecovery";
 import { useKeybindings } from "@/hooks/useKeybindings";
 import { KeyboardShortcutsDialog } from "@/components/KeyboardShortcutsDialog";
@@ -131,6 +132,7 @@ export function AppShell() {
 
   useLimitedSessionRecovery();
   useGameSessionResume();
+  useForgeAutoResume();
   useStatusBanner();
   useDesktopUpdater();
   useEngineHostCloseGuard();

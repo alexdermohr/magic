@@ -30,6 +30,12 @@ function supervise(command) {
   let ended = false;
   let started = false;
   let directiveLanes;
+  // A cold restore has no surviving original worker. Do not expose its SAB
+  // or mark the game started until the reconstructed engine proves every
+  // stored prompt/state/RNG boundary.
+  const coldReplay = command.args?.replaySnapshot ?? null;
+  let coldVerified = coldReplay === null;
+  let coldReply = null;
   const stop = () => {
     ended = true;
     clearTimeout(timer);
@@ -50,14 +56,14 @@ function supervise(command) {
     postEvent("forge:log", { level: "error", text: `Rewind failed: ${message}` });
   };
 
-  const launch = (snapshot) => {
+  const launch = (snapshot, initial = false) => {
     const control = new SharedArrayBuffer(4);
-    const promptOffset = snapshot
+    const promptOffset = snapshot && !initial
       ? active.promptOffset + snapshot.lastPromptId + 1 - snapshot.prompt.promptId
       : 0;
     const worker = new Worker(self.location.href);
     const instance = { worker, control, buffered: [], promptOffset };
-    if (snapshot) candidate = instance;
+    if (snapshot && !initial) candidate = instance;
     else active = instance;
     worker.onerror = (event) => {
       if (instance === candidate) fail(event.message);
@@ -80,6 +86,36 @@ function supervise(command) {
             rewindDirectiveLanes: snapshot ? directiveLanes : undefined,
           },
         });
+        return;
+      }
+      if (initial && coldReplay && !coldVerified) {
+        if (data.type === "event" && data.event === "forge:replay_ready") {
+          clearTimeout(timer);
+          coldVerified = true;
+          for (const message of instance.buffered) {
+            if (message.event !== "game:directive_lanes") self.postMessage(message);
+          }
+          instance.buffered = [];
+          started = true;
+          postResponse(command.requestId, coldReply ?? "game-restored");
+          Atomics.store(new Int32Array(control), 0, 2);
+          Atomics.notify(new Int32Array(control), 0);
+          return;
+        }
+        if (data.type === "response" && data.requestId === command.requestId) {
+          if (data.error) {
+            stop();
+          } else coldReply = data.payload;
+          return;
+        }
+        if (data.type === "event" &&
+            ["game:sab", "game:remote_sab", "game:directive_lanes"].includes(data.event)) {
+          instance.buffered.push(data);
+          return;
+        }
+        if (data.error || data.event === "game:forced_end" || data.event === "game:over") {
+          stop();
+        }
         return;
       }
       if (data.type === "event" && data.event === "forge:rewind" && instance === active) {
@@ -123,7 +159,13 @@ function supervise(command) {
   };
 
   try {
-    launch(null);
+    launch(coldReplay, true);
+    if (coldReplay) {
+      timer = setTimeout(() => {
+        if (ended || coldVerified) return;
+        stop();
+      }, 120000);
+    }
   } catch (error) {
     postError(command.requestId, String(error));
     return;
@@ -290,6 +332,8 @@ async function startGame(requestId, args) {
     snapshotRecording: !args || args.snapshotRecording !== false,
     decisionJournal: args?.decisionJournal === true,
     journalRewind: args?.journalRewind === true,
+    durableBrowserResume: args?.durableBrowserResume === true,
+    experimentalInternalAiReplay: args?.experimentalInternalAiReplay === true,
     players: [
       {
         name: "You",
