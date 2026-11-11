@@ -307,10 +307,13 @@ test("cold restore conceals a dead worker until verified state and RNG", () => {
   assert.equal(f.output.some((entry) => entry.event === "game:sab"), false);
   worker.event("forge:recovery_checkpoint", { secret: "unverified" });
   assert.equal(f.output.some((entry) => entry.event === "forge:recovery_checkpoint"), false);
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 0);
   worker.event("forge:replay_ready", {});
   assert.equal(f.responses("start").length, 1);
   assert.equal(f.responses("start")[0].payload, "game-started");
   assert.equal(f.output.filter((entry) => entry.event === "game:sab").length, 1);
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 1,
+    "cold restore must publish freshly created directive lanes after replay verifies");
   assert.equal(Atomics.load(new Int32Array(worker.sent[0].args.rewindControl), 0), 2);
   f.command("end_game");
   assert(worker.terminated);

@@ -93,7 +93,9 @@ function supervise(command) {
           clearTimeout(timer);
           coldVerified = true;
           for (const message of instance.buffered) {
-            if (message.event !== "game:directive_lanes") self.postMessage(message);
+            // A cold start has no old directive lanes to retain. Publish the
+            // verified leaf's lanes, unlike a hot rewind which reuses its own.
+            self.postMessage(message);
           }
           instance.buffered = [];
           started = true;
