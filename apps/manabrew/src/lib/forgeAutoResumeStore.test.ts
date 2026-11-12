@@ -141,3 +141,59 @@ describe("installed Forge recovery release pin", () => {
     }
   });
 });
+
+describe("Forge recovery version in an ordinary Safari tab", () => {
+  it("pins a browser game to the network manifest when no full offline cache was installed", async () => {
+    const { resolveForgeRecoveryReleaseId } = await import("./forgeAutoResumeStore");
+    const oldCaches = globalThis.caches;
+    const oldFetch = globalThis.fetch;
+    const version = "c".repeat(20);
+    Object.defineProperty(globalThis, "caches", {
+      configurable: true, value: { keys: async () => [] },
+    });
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      value: async () => ({
+        ok: true, json: async () => ({ version, files: [{ url: "/index.html" }] }),
+      }),
+    });
+    try {
+      expect(await resolveForgeRecoveryReleaseId()).toBe(version);
+    } finally {
+      if (oldCaches === undefined) delete (globalThis as { caches?: CacheStorage }).caches;
+      else Object.defineProperty(globalThis, "caches", { configurable: true, value: oldCaches });
+      Object.defineProperty(globalThis, "fetch", { configurable: true, value: oldFetch });
+    }
+  });
+
+  it("does not replace a fully installed old WebImage with the newer server version", async () => {
+    const { resolveForgeRecoveryReleaseId } = await import("./forgeAutoResumeStore");
+    const previous = globalThis.caches;
+    const oldFetch = globalThis.fetch;
+    const version = "d".repeat(20);
+    Object.defineProperty(globalThis, "caches", {
+      configurable: true,
+      value: {
+        keys: async () => ["manabrew-ipad-offline-" + version],
+        open: async () => ({
+          match: async (key: string) =>
+            key === "/offline-ready.json" ? { text: async () => version } :
+              key === "/index.html" ? { ok: true } :
+                key === "/offline-assets.json" ? {
+                  json: async () => ({ version, files: [{ url: "/index.html" }] }),
+                } : undefined,
+        }),
+      },
+    });
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true, value: () => { throw Error("The installed version must win"); },
+    });
+    try {
+      expect(await resolveForgeRecoveryReleaseId()).toBe(version);
+    } finally {
+      if (previous === undefined) delete (globalThis as { caches?: CacheStorage }).caches;
+      else Object.defineProperty(globalThis, "caches", { configurable: true, value: previous });
+      Object.defineProperty(globalThis, "fetch", { configurable: true, value: oldFetch });
+    }
+  });
+});

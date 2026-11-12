@@ -11,6 +11,7 @@ import { useForgeAutoResume } from "@/hooks/useForgeAutoResume";
 import { useLimitedSessionRecovery } from "@/hooks/useLimitedSessionRecovery";
 import { useKeybindings } from "@/hooks/useKeybindings";
 import { KeyboardShortcutsDialog } from "@/components/KeyboardShortcutsDialog";
+import { Button } from "@/components/ui/button";
 import { RoomInviteOverlay } from "@/components/lobby/RoomInviteOverlay";
 import { IronsmithUnsupportedDeckModal } from "@/components/IronsmithUnsupportedDeckModal";
 import { GuestNameConflictModal } from "@/components/GuestNameConflictModal";
@@ -132,7 +133,7 @@ export function AppShell() {
 
   useLimitedSessionRecovery();
   useGameSessionResume();
-  useForgeAutoResume();
+  const forgeResume = useForgeAutoResume();
   useStatusBanner();
   useDesktopUpdater();
   useEngineHostCloseGuard();
@@ -185,6 +186,50 @@ export function AppShell() {
           {/* Play cancels in-flight launches on unmount, so keep the outlet stable here. */}
           <Outlet />
         </main>
+        {forgeResume.phase !== "idle" && (
+          <div
+            className="fixed inset-0 z-[90] flex items-center justify-center bg-background px-6 py-8 text-foreground"
+            role={forgeResume.phase === "checking" || forgeResume.phase === "restoring" ? "status" : "alert"}
+            aria-live="polite"
+          >
+            <div className="w-full max-w-md space-y-5 text-center">
+              <h1 className="text-xl font-semibold">
+                {forgeResume.phase === "checking"
+                  ? "Checking for your saved game…"
+                  : forgeResume.phase === "restoring"
+                    ? "Restoring your saved game…"
+                    : forgeResume.phase === "different-release"
+                      ? "Your saved game needs its original offline version"
+                      : "Your saved game could not be restored"}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {forgeResume.phase === "checking"
+                  ? "Reading the private game checkpoint on this device."
+                  : forgeResume.phase === "restoring"
+                    ? "Replaying your moves and verifying the game state. This can take some time."
+                    : forgeResume.phase === "different-release"
+                      ? "The checkpoint is still stored, but the matching offline engine is not installed. Do not clear this site's data or remove the original offline cache."
+                      : "The checkpoint has been kept. You can retry without starting a replacement game."}
+              </p>
+              {(forgeResume.phase === "failed" || forgeResume.phase === "different-release") && (
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <Button variant="primary" onClick={forgeResume.retry}>
+                    Retry saved game
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      forgeResume.dismiss();
+                      navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
+                    }}
+                  >
+                    Open deck selection
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
         {!isImmersiveRoute && <TermsNotice />}
       </div>
     </TopBarOverrideContext.Provider>

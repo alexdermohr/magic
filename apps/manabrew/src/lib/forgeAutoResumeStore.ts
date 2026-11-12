@@ -184,6 +184,24 @@ export function commitForgeRecoveryDelta(packet: ForgeRecoveryDelta, releaseId: 
   return job as Promise<void>;
 }
 
+/** A tiny read-only bootstrap probe; never exposes or mutates private game data. */
+export async function forgeRecoveryStoredReleaseId(): Promise<string | null> {
+  await writes.catch(() => {});
+  const db = await openDb();
+  return transact<string | null>(db, "readonly", (tx, done) => {
+    const request = tx.objectStore(META).get(KEY);
+    request.onsuccess = () => {
+      const saved = request.result as StoredMeta | undefined;
+      done(saved?.version === 1 &&
+        typeof saved.gameId === "string" &&
+        typeof saved.releaseId === "string" &&
+        /^[a-f0-9]{20,64}$/.test(saved.releaseId)
+          ? saved.releaseId
+          : null);
+    };
+  });
+}
+
 export async function readForgeRecoverySave(releaseId: string): Promise<ForgeRecoverySave | null> {
   await writes.catch(() => {});
   const db = await openDb();
@@ -258,7 +276,33 @@ export async function installedForgeRecoveryReleaseId(): Promise<string | null> 
   return null;
 }
 
+/**
+ * A regular Safari tab may run Forge without a fully prepared Home Screen
+ * cache. Pin its decisions to the published manifest instead of silently
+ * disabling recovery. A ready offline installation always takes precedence.
+ */
+export async function resolveForgeRecoveryReleaseId(): Promise<string | null> {
+  const installed = await installedForgeRecoveryReleaseId();
+  if (installed) return installed;
+  try {
+    const response = await fetch("/offline-assets.json", { cache: "no-store" });
+    if (!response.ok) return null;
+    const manifest: unknown = await response.json();
+    if (!manifest || typeof manifest !== "object") return null;
+    const { version, files } = manifest as { version?: unknown; files?: unknown };
+    return typeof version === "string" &&
+      /^[a-f0-9]{20,64}$/.test(version) &&
+      Array.isArray(files) &&
+      files.some((file) => file && typeof file === "object" &&
+        (file as { url?: unknown }).url === "/index.html")
+        ? version
+        : null;
+  } catch {
+    return null;
+  }
+}
+
 let releasePromise: Promise<string | null> | null = null;
 export function forgeRecoveryReleaseId(): Promise<string | null> {
-  return releasePromise ??= installedForgeRecoveryReleaseId();
+  return releasePromise ??= resolveForgeRecoveryReleaseId();
 }

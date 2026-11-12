@@ -549,18 +549,21 @@
       }
       await navigator.serviceWorker.register("/offline-sw.js", { scope: "/" });
       await navigator.serviceWorker.ready;
-      if (!forceVerification && !new URLSearchParams(location.search).has("setup")) {
-        const installedVersion = await installedReadyRelease();
-        // Only a real unfinished game takes precedence over a newly
-        // published installer. If no save exists, allow normal update checks
-        // so users of pre-recovery releases can install the repaired app.
-        if (installedVersion && await hasMatchingForgeSave(installedVersion)) {
-          location.replace("/play/offline/constructed");
-          return;
-        }
+      const mayResume = !forceVerification && !new URLSearchParams(location.search).has("setup");
+      const installedVersion = mayResume ? await installedReadyRelease() : null;
+      if (installedVersion && await hasMatchingForgeSave(installedVersion)) {
+        // Existing offline games always win over new server releases.
+        location.replace("/play/offline/constructed");
+        return;
       }
       manifest = await loadManifest();
       if (!Array.isArray(manifest.files) || !manifest.version) throw new Error("Dateiliste ungültig.");
+      if (mayResume && !installedVersion && await hasMatchingForgeSave(manifest.version)) {
+        // A regular online Safari tab has no fully installed offline cache,
+        // but its saved Forge decision journal still belongs to this release.
+        location.replace("/play/offline/constructed");
+        return;
+      }
       const total = manifest.totalBytes;
       const cache = await caches.open(prefix + manifest.version);
       const marker = await cache.match("/offline-ready.json");

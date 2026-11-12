@@ -1,38 +1,79 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { getPlatformType } from "@/platform";
 import { peekActiveGameSession } from "@/lib/activeGameSession";
 import { ROUTES } from "@/lib/constants";
 import {
   forgeRecoveryReleaseId,
+  forgeRecoveryStoredReleaseId,
   readForgeRecoverySave,
 } from "@/lib/forgeAutoResumeStore";
 import { useGameStore } from "@/stores/useGameStore";
 
+export type ForgeResumePhase =
+  | "checking"
+  | "restoring"
+  | "failed"
+  | "different-release"
+  | "idle";
+
 /**
- * Safari can terminate a background Home Screen WebKit process without pagehide.
- * Resume from the last committed, version-matched private journal on next boot.
- * Do not launch any replacement game before the Forge worker verifies the
- * original prompt, all recorded decisions, hidden state and RNG stream.
+ * Safari may kill a Home Screen WebKit process without a pagehide callback.
+ * Check local IndexedDB on each new document, immediately route a saved game
+ * to its board, then wait until the Forge worker verifies the complete replay.
+ *
+ * Return an explicit status so the home screen cannot misleadingly look like
+ * the final outcome while the engine is still being reconstructed.
  */
-export function useForgeAutoResume(): void {
+export function useForgeAutoResume(): {
+  phase: ForgeResumePhase;
+  retry: () => void;
+  dismiss: () => void;
+} {
   const navigate = useNavigate();
-  const tried = useRef(false);
+  const [attempt, setAttempt] = useState(0);
+  const [phase, setPhase] = useState<ForgeResumePhase>(() =>
+    getPlatformType() === "web" && !peekActiveGameSession() ? "checking" : "idle",
+  );
 
   useEffect(() => {
-    if (tried.current || getPlatformType() !== "web" || peekActiveGameSession()) return;
-    tried.current = true;
+    if (getPlatformType() !== "web" || peekActiveGameSession()) {
+      setPhase("idle");
+      return;
+    }
     let cancelled = false;
     void (async () => {
-      const releaseId = await forgeRecoveryReleaseId();
-      if (!releaseId || cancelled) return;
-      const save = await readForgeRecoverySave(releaseId);
-      if (!save || cancelled || useGameStore.getState().isGameActive) return;
+      // No committed Forge game: normal navigation must work immediately.
+      // A nonmatching release is different from an absent game; do not
+      // discard the checkpoint or silently show the home page.
+      const savedRelease = await forgeRecoveryStoredReleaseId();
+      if (cancelled) return;
+      if (!savedRelease) {
+        setPhase("idle");
+        return;
+      }
+      const installedRelease = await forgeRecoveryReleaseId();
+      if (cancelled) return;
+      if (!installedRelease || installedRelease !== savedRelease) {
+        setPhase("different-release");
+        return;
+      }
+      const save = await readForgeRecoverySave(installedRelease);
+      if (cancelled) return;
+      if (!save || save.launch.engine !== "Forge" || save.launch.aiController !== "forge") {
+        setPhase("failed");
+        return;
+      }
+      if (useGameStore.getState().isGameActive) {
+        setPhase("idle");
+        return;
+      }
+
+      // The old implementation navigated only after await startGame(). A
+      // cold Forge replay can take many seconds, leaving users on the menu.
+      setPhase("restoring");
+      navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
       const { launch } = save;
-      // This path exclusively restores a real Forge solo game, not a relay
-      // session, multiplayer host, Rust bot game or previous software version.
-      if (launch.engine !== "Forge" || launch.aiController !== "forge") return;
       const started = await useGameStore.getState().startGame(
         launch.deck,
         launch.formatId,
@@ -42,16 +83,19 @@ export function useForgeAutoResume(): void {
         undefined,
         save,
       );
-      if (!cancelled && started) {
-        navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
-      } else if (!cancelled) {
-        toast.error("The saved game could not be restored. Your checkpoint was kept.", {
-          duration: 10000,
-        });
-      }
+      if (!cancelled) setPhase(started ? "idle" : "failed");
     })().catch((error) => {
-      if (!cancelled) console.warn("Forge auto-restore unavailable:", error);
+      if (cancelled) return;
+      console.warn("Forge auto-restore unavailable:", error);
+      setPhase("failed");
     });
     return () => { cancelled = true; };
-  }, [navigate]);
+  }, [attempt, navigate]);
+
+  const retry = useCallback(() => {
+    setPhase("checking");
+    setAttempt((value) => value + 1);
+  }, []);
+  const dismiss = useCallback(() => setPhase("idle"), []);
+  return { phase, retry, dismiss };
 }
