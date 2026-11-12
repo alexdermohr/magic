@@ -44,7 +44,6 @@ export function useForgeAutoResume(): void {
       );
       if (!cancelled && started) {
         navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
-        toast.success("Your offline game was restored.");
       } else if (!cancelled) {
         toast.error("The saved game could not be restored. Your checkpoint was kept.", {
           duration: 10000,

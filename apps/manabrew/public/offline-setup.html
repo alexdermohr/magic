@@ -78,6 +78,58 @@
     navigator.serviceWorker?.controller?.postMessage({ type: "manabrew-cache-changed" });
   }
 
+  // Home Screen launches always start at this installer URL, even after
+  // iPadOS kills WebKit. Re-enter the already installed app before asking
+  // for a newer 400-MB package; the app verifies and replays its own save.
+  async function installedReadyRelease() {
+    try {
+      const names = (await caches.keys()).filter((name) => name.startsWith(prefix)).reverse();
+      for (const name of names) {
+        const version = name.slice(prefix.length);
+        if (!/^[a-f0-9]{20,64}$/.test(version)) continue;
+        const cache = await caches.open(name);
+        const [marker, index, assets] = await Promise.all([
+          cache.match("/offline-ready.json"),
+          cache.match("/index.html"),
+          cache.match("/offline-assets.json"),
+        ]);
+        if (!marker || !index || !assets || (await marker.text()) !== version) continue;
+        const cachedManifest = await assets.json();
+        if (cachedManifest?.version === version && Array.isArray(cachedManifest.files)) return version;
+      }
+    } catch {
+      // The installed cache is not usable: show the normal recovery/download UI.
+    }
+    return null;
+  }
+
+  async function hasMatchingForgeSave(version) {
+    if (typeof indexedDB === "undefined") return false;
+    try {
+      const db = await new Promise((resolve, reject) => {
+        const request = indexedDB.open("manabrew-forge-autoresume-v1", 1);
+        request.onupgradeneeded = () => request.transaction.abort();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => reject(new Error("Save database busy"));
+      });
+      try {
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction("current", "readonly");
+          const request = tx.objectStore("current").get("active");
+          request.onsuccess = () => resolve(
+            request.result?.releaseId === version && typeof request.result?.gameId === "string",
+          );
+          request.onerror = () => reject(request.error);
+        });
+      } finally {
+        db.close();
+      }
+    } catch {
+      return false;
+    }
+  }
+
   function report(state, detail = "") {
     $("state").textContent = state;
     $("detail").textContent = detail;
@@ -497,6 +549,16 @@
       }
       await navigator.serviceWorker.register("/offline-sw.js", { scope: "/" });
       await navigator.serviceWorker.ready;
+      if (!forceVerification && !new URLSearchParams(location.search).has("setup")) {
+        const installedVersion = await installedReadyRelease();
+        // Only a real unfinished game takes precedence over a newly
+        // published installer. If no save exists, allow normal update checks
+        // so users of pre-recovery releases can install the repaired app.
+        if (installedVersion && await hasMatchingForgeSave(installedVersion)) {
+          location.replace("/play/offline/constructed");
+          return;
+        }
+      }
       manifest = await loadManifest();
       if (!Array.isArray(manifest.files) || !manifest.version) throw new Error("Dateiliste ungültig.");
       const total = manifest.totalBytes;

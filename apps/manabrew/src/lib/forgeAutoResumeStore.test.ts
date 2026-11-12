@@ -87,3 +87,57 @@ describe("Forge offline recovery journal integrity", () => {
     }, 0)).toThrow(/unavailable|invalid/);
   });
 });
+
+describe("installed Forge recovery release pin", () => {
+  it("keeps the locally ready engine version when the server has a newer release", async () => {
+    const { installedForgeRecoveryReleaseId } = await import("./forgeAutoResumeStore");
+    const version = "a".repeat(20);
+    const incomplete = "b".repeat(20);
+    const cache = {
+      match: async (key: string) => {
+        if (key === "/offline-ready.json") return { text: async () => version };
+        if (key === "/index.html") return { ok: true };
+        if (key === "/offline-assets.json") return {
+          json: async () => ({ version, files: [{ url: "/engine.wasm" }] }),
+        };
+        return undefined;
+      },
+    };
+    const previous = globalThis.caches;
+    Object.defineProperty(globalThis, "caches", {
+      configurable: true,
+      value: {
+        keys: async () => ["manabrew-ipad-offline-" + version, "manabrew-ipad-offline-" + incomplete],
+        open: async (name: string) => name.endsWith(version) ? cache : { match: async () => undefined },
+      },
+    });
+    try {
+      expect(await installedForgeRecoveryReleaseId()).toBe(version);
+    } finally {
+      if (previous === undefined) delete (globalThis as { caches?: CacheStorage }).caches;
+      else Object.defineProperty(globalThis, "caches", { configurable: true, value: previous });
+    }
+  });
+
+  it("refuses an incomplete or mismatched offline cache", async () => {
+    const { installedForgeRecoveryReleaseId } = await import("./forgeAutoResumeStore");
+    const previous = globalThis.caches;
+    Object.defineProperty(globalThis, "caches", {
+      configurable: true,
+      value: {
+        keys: async () => ["manabrew-ipad-offline-" + "a".repeat(20)],
+        open: async () => ({
+          match: async (key: string) => key === "/offline-ready.json"
+            ? { text: async () => "b".repeat(20) }
+            : { json: async () => ({ version: "a".repeat(20), files: [] }) },
+        }),
+      },
+    });
+    try {
+      expect(await installedForgeRecoveryReleaseId()).toBeNull();
+    } finally {
+      if (previous === undefined) delete (globalThis as { caches?: CacheStorage }).caches;
+      else Object.defineProperty(globalThis, "caches", { configurable: true, value: previous });
+    }
+  });
+});

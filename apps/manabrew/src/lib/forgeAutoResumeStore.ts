@@ -227,26 +227,38 @@ export async function clearForgeRecoverySave(): Promise<void> {
 }
 
 /**
- * The complete cached PWA asset manifest pins the WebImage, scripts and decks.
- * A new release must never silently replay a checkpoint on different assets.
- * Cache lookup works offline through the installed service worker.
+ * Pin replay to the WebImage actually installed in the offline cache.
+ * The server may publish a newer manifest while the iPad still runs an
+ * older fully cached engine; network-first version selection lost saves.
  */
+export async function installedForgeRecoveryReleaseId(): Promise<string | null> {
+  if (typeof caches === "undefined") return null;
+  const prefix = "manabrew-ipad-offline-";
+  try {
+    const names = (await caches.keys()).filter((name) => name.startsWith(prefix)).reverse();
+    for (const name of names) {
+      const version = name.slice(prefix.length);
+      if (!/^[a-f0-9]{20,64}$/.test(version)) continue;
+      const cache = await caches.open(name);
+      const [marker, index, manifestResponse] = await Promise.all([
+        cache.match("/offline-ready.json"),
+        cache.match("/index.html"),
+        cache.match("/offline-assets.json"),
+      ]);
+      if (!marker || !index || !manifestResponse || (await marker.text()) !== version) continue;
+      const manifest: unknown = await manifestResponse.json();
+      if (manifest && typeof manifest === "object") {
+        const pinned = manifest as { version?: unknown; files?: unknown };
+        if (pinned.version === version && Array.isArray(pinned.files)) return version;
+      }
+    }
+  } catch {
+    // No verified local WebImage assets: do not guess a version from the network.
+  }
+  return null;
+}
+
 let releasePromise: Promise<string | null> | null = null;
 export function forgeRecoveryReleaseId(): Promise<string | null> {
-  if (releasePromise) return releasePromise;
-  releasePromise = (async () => {
-    try {
-      const response = await fetch("/offline-assets.json", { cache: "no-store" });
-      if (!response.ok) return null;
-      const manifest: unknown = await response.json();
-      if (!manifest || typeof manifest !== "object") return null;
-      const version = (manifest as { version?: unknown }).version;
-      return typeof version === "string" && /^[a-f0-9]{20,64}$/.test(version)
-        ? version
-        : null;
-    } catch {
-      return null;
-    }
-  })();
-  return releasePromise;
+  return releasePromise ??= installedForgeRecoveryReleaseId();
 }
