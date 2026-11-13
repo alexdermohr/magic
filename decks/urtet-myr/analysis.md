@@ -41,7 +41,7 @@ Es gibt **keine bewusst eingebaute fruehe Zweikarten-Endlosschleife**, kein Extr
 
 ## Bracket-Pruefung und Evidenz
 
-**Exakt drei Game Changers** nach dem am 13.11.2026 verifizierten 53er-Stand: **Urza, Lord High Artificer**, **Enlightened Tutor** und **Teferi's Protection**. Nicht enthalten sind weitere Game Changers wie The One Ring, Ancient Tomb, Mishra's Workshop, Cyclonic Rift, Rhystic Study, Smothering Tithe oder Seedborn Muse. Mox Opal ist derzeit **kein** Game Changer. Alle enthaltenen Karten liegen innerhalb von Urtets fuenffarbiger Identitaet, die Liste hat 100 einmalige Namen.
+**Genau zwei Game Changers** nach dem am 13.11.2026 verifizierten 53er-Stand: **Enlightened Tutor** und **Teferi's Protection**. **Urza, Lord High Artificer** wurde von Wizards am **21.10.2025** von der Game-Changers-Liste gestrichen und verbraucht daher keinen Slot. Bracket 3 erlaubt bis zu drei Game Changers: **Ein Slot ist noch frei**, muss aber nicht genutzt werden. Nicht enthalten sind weitere Game Changers wie The One Ring, Ancient Tomb, Mishra's Workshop, Cyclonic Rift, Rhystic Study, Smothering Tithe oder Seedborn Muse. Mox Opal ist derzeit **kein** Game Changer. Alle enthaltenen Karten liegen innerhalb von Urtets fuenffarbiger Identitaet, die Liste hat 100 einmalige Namen.
 
 **Pruefgrenze:** Strukturelle Zaehlung und ein Abgleich wichtiger Oracle-Texte wurden vorgenommen; automatische Oracle-/Commander-Banlisten-Gesamtpruefung und echte 4-Spieler-/Manabrew-Partien sind gesondert zu belegen. Bracket 3 setzt auch eine passende reale Spielgeschwindigkeit voraus, nicht nur drei GC-Slots.
 
