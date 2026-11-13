@@ -18,6 +18,7 @@ const MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const MAX_PER_FLUSH = 20;
 const STAGED_PAGEHIDE_KEY = `${STORAGE_KEYS.OFFLINE_PLAY_RECORDS}:pagehide`;
 const PAGEHIDE_SESSION_KEY = `${STORAGE_KEYS.OFFLINE_PLAY_RECORDS}:pagehide-session`;
+const stagedPagehideKey = (ownerSessionId: string) => `${STAGED_PAGEHIDE_KEY}:${ownerSessionId}`;
 /** Keep in sync with the hub's own cap in `telemetry.rs`. */
 const MAX_CARDS_PER_SEAT = 400;
 
@@ -202,7 +203,10 @@ function currentPagehideSessionId(): string | null {
 function loadStagedPagehide(): StagedPagehideRecord | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = window.localStorage.getItem(STAGED_PAGEHIDE_KEY);
+    const ownerSessionId = currentPagehideSessionId();
+    if (!ownerSessionId) return null;
+    const raw = window.localStorage.getItem(stagedPagehideKey(ownerSessionId)) ??
+      window.localStorage.getItem(STAGED_PAGEHIDE_KEY);
     if (!raw) return null;
     const candidate: unknown = JSON.parse(raw);
     if (
@@ -216,7 +220,7 @@ function loadStagedPagehide(): StagedPagehideRecord | null {
       "queuedAt" in candidate &&
       typeof candidate.queuedAt === "number" &&
       "ownerSessionId" in candidate &&
-      candidate.ownerSessionId === currentPagehideSessionId()
+      candidate.ownerSessionId === ownerSessionId
     ) {
       return candidate as StagedPagehideRecord;
     }
@@ -226,10 +230,26 @@ function loadStagedPagehide(): StagedPagehideRecord | null {
   return null;
 }
 
-export function cancelOfflinePagehide(): void {
-  if (!open || loadStagedPagehide()?.game.reportId !== open.reportId) return;
+function removeStagedPagehide(staged: StagedPagehideRecord): void {
+  window.localStorage.removeItem(stagedPagehideKey(staged.ownerSessionId));
+  const legacy = window.localStorage.getItem(STAGED_PAGEHIDE_KEY);
+  if (!legacy) return;
   try {
-    window.localStorage.removeItem(STAGED_PAGEHIDE_KEY);
+    const old = JSON.parse(legacy) as StagedPagehideRecord;
+    if (old.ownerSessionId === staged.ownerSessionId &&
+        old.game?.reportId === staged.game.reportId) {
+      window.localStorage.removeItem(STAGED_PAGEHIDE_KEY);
+    }
+  } catch {
+    return;
+  }
+}
+
+export function cancelOfflinePagehide(): void {
+  const staged = loadStagedPagehide();
+  if (!open || staged?.game.reportId !== open.reportId) return;
+  try {
+    removeStagedPagehide(staged);
   } catch {
     return;
   }
@@ -244,7 +264,7 @@ function recoverStagedPagehide(): void {
     savePending([...pending, staged].slice(-MAX_PENDING));
   }
   try {
-    window.localStorage.removeItem(STAGED_PAGEHIDE_KEY);
+    removeStagedPagehide(staged);
   } catch {
     return;
   }
@@ -335,7 +355,7 @@ export function stageOfflineGameOnPagehide(seats: OfflineSeatOutcome[]): void {
       game: buildOfflineGameReport(open, { gameOver: false, winner: null, seats }),
       queuedAt: Date.now(),
     };
-    window.localStorage.setItem(STAGED_PAGEHIDE_KEY, JSON.stringify(staged));
+    window.localStorage.setItem(stagedPagehideKey(ownerSessionId), JSON.stringify(staged));
   } catch {
     return;
   }
