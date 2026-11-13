@@ -14,7 +14,15 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelle B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
+## Aktuelle B3-Revision: Spine of Ish Sah statt Nautiloid Ship (13.11.2026)
+
+**Beschlossener Rücktausch:** **Nautiloid Ship raus → Spine of Ish Sah rein.** Das ist die Umkehrung des früheren Tauschs. Mishras Warform-Kopie des nichtkreaturischen Artefakts zerstört bei jedem Eintritt **eine beliebige bleibende Karte als Ziel** (auch Land, Planeswalker oder Verzauberung), während das sieben Mana teure Original bei Gang vom Spielfeld in den Friedhof wieder auf die Hand kommt. Ein geopferter **Token** kehrt hingegen nicht auf die Hand zurück.
+
+**Kosten:** Spine kostet regulär {7} statt {4}; das Schiff bot fliegende Warforms, Friedhofsexil und gelegentliche Kreaturenübernahme. Die übrigen Engines und die bisherigen ausdrücklichen Nutzerentscheidungen zu **Demonic Junker, Whir of Invention, Determined Iteration, Brudiclad und Ashnod's Altar** bleiben erhalten. Bei stark friedhofsorientierten Gegnern ist ein späterer eigener Friedhofshass-Slot zu prüfen.
+
+**Struktur:** Weiter 100 Singleton-Karten, **35 Länder, 47 Artefakte, 13 Mana-Artefakte, drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Erweiterter Kreis: 43 historische Cuts + 99 weitere Alternativen = 142 ausgeschlossene Karten; B4 unverändert. Die Deckstärke ist eine begründete Einschätzung, kein belegtes Testergebnis in Manabrew.
+
+## Vorangegangene B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
 
 **Verbindlich ist allein [current.txt](current.txt).** Der vom Nutzer freigegebene **einzige Kartentausch** seit der Fassung vom 12.10.2026:
 
