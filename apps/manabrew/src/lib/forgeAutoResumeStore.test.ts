@@ -227,6 +227,52 @@ describe("Forge recovery durable checkpoint cursor", () => {
     queue.dispose();
   });
 
+  it("replaces an abandoned rewind timeline before saving new decisions", async () => {
+    const persisted: ForgeRecoveryDelta[] = [];
+    const queue = createForgeRecoveryCommitQueue(async (packet) => {
+      const previous = persisted.at(-1);
+      verifyForgeRecoveryDelta(packet, packet.replaceHistory ? 0 : (previous?.nextSequence ?? 1) - 1,
+        packet.replaceHistory === true || !previous);
+      persisted.push(packet);
+    }, () => {});
+
+    queue.enqueue(boundary());
+    await queue.flush();
+    queue.enqueue({ ...boundary(), nextSequence: 4, startRequest: undefined,
+      entries: [action(1), action(2), action(3)] });
+    await queue.flush();
+    queue.enqueue({ ...boundary(), nextSequence: 2, replaceHistory: true, entries: [action(1)] });
+    queue.enqueue({ ...boundary(), nextSequence: 3, startRequest: undefined,
+      entries: [action(2)] });
+    await queue.flush();
+    const replacementIndex = persisted.findIndex((packet) => packet.replaceHistory);
+    expect(replacementIndex).toBeGreaterThanOrEqual(0);
+    expect(persisted.slice(replacementIndex).flatMap((packet) =>
+      packet.entries.map((entry) => entry.sequence))).toEqual([1, 2]);
+    expect(persisted.at(-1)?.nextSequence).toBe(3);
+    queue.dispose();
+  });
+
+  it("does not lose a replacement queued while an older save is still in flight", async () => {
+    let resolveFirst: (() => void) | undefined;
+    const first = new Promise<void>((resolve) => { resolveFirst = resolve; });
+    const persisted: ForgeRecoveryDelta[] = [];
+    const queue = createForgeRecoveryCommitQueue(async (packet) => {
+      if (persisted.length === 0) await first;
+      persisted.push(packet);
+    }, () => {});
+    queue.enqueue(boundary());
+    const replacement = { ...boundary(), nextSequence: 2, replaceHistory: true,
+      entries: [action(1)] };
+    queue.enqueue(replacement);
+    resolveFirst!();
+    await queue.flush();
+    expect(persisted).toHaveLength(2);
+    expect(persisted[1]?.replaceHistory).toBe(true);
+    expect(persisted[1]?.entries.map((entry) => entry.sequence)).toEqual([1]);
+    queue.dispose();
+  });
+
   it("retransmits a failed middle journal entry with the next decision, without rewriting a committed prefix", async () => {
     let committed = false;
     let count = 0;

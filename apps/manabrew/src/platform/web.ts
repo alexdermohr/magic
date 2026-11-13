@@ -1002,6 +1002,7 @@ class WebGameApi implements IGameApi {
     } catch (error) {
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
+      if (params.recovery) this.bridge.terminate();
       throw error;
     }
   }

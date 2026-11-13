@@ -69,8 +69,6 @@ export function useForgeAutoResume(): {
         return;
       }
 
-      // The old implementation navigated only after await startGame(). A
-      // cold Forge replay can take many seconds, leaving users on the menu.
       setPhase("restoring");
       navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
       const { launch } = save;

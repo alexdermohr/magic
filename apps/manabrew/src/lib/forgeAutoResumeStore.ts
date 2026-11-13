@@ -35,6 +35,7 @@ export interface ForgeRecoveryDelta {
   prompt: ForgeRecoveryEntry["prompt"];
   verification: ForgeRecoveryEntry["verification"];
   unavailableReason?: string;
+  replaceHistory?: boolean;
 }
 interface StoredMeta {
   version: 1;
@@ -148,7 +149,9 @@ export function commitForgeRecoveryDelta(packet: ForgeRecoveryDelta, releaseId: 
     if (!/^[a-f0-9]{20,64}$/.test(releaseId) || launch.engine !== "Forge" || launch.aiController !== "forge") {
       throw Error("Forge recovery requires a pinned local engine");
     }
-    if (JSON.stringify(packet).length > 3_000_000) throw Error("Forge recovery delta too large");
+    if (JSON.stringify(packet).length > (packet.replaceHistory ? 64_000_000 : 3_000_000)) {
+      throw Error("Forge recovery delta too large");
+    }
     const db = await openDb();
     return transact<void>(db, "readwrite", (tx, done, fail) => {
       const meta = tx.objectStore(META);
@@ -158,11 +161,18 @@ export function commitForgeRecoveryDelta(packet: ForgeRecoveryDelta, releaseId: 
         try {
           const previous = r.result as StoredMeta | undefined;
           const continuing = previous?.gameId === packet.gameId && previous.releaseId === releaseId;
-          const count = continuing ? previous.nextSequence - 1 : 0;
+          const replacing = packet.replaceHistory === true;
+          if (replacing && !continuing) throw Error("Cannot rewind another Forge game");
+          const count = replacing ? 0 : continuing ? previous.nextSequence - 1 : 0;
           // A committed game can still have zero consumed decisions: its
           // first action must not be mistaken for a second initial manifest.
-          verifyForgeRecoveryDelta(packet, count, !continuing);
-          if (!continuing) journal.clear();
+          verifyForgeRecoveryDelta(packet, count, !continuing || replacing);
+          if (replacing && (
+              previous.startRequest !== packet.startRequest ||
+              packet.nextSequence > previous.nextSequence)) {
+            throw Error("Forge rewind does not match the stored game history");
+          }
+          if (!continuing || replacing) journal.clear();
           for (const entry of packet.entries) journal.put(entry, entry.sequence);
           meta.put({
             version: 1, gameId: packet.gameId, releaseId,
@@ -195,6 +205,7 @@ export function createForgeRecoveryCommitQueue(
   onError: (error: unknown) => void,
 ) {
   let pending: ForgeRecoveryDelta[] = [];
+  let epoch = 0;
   let active: Promise<void> | null = null;
   let disposed = false;
 
@@ -204,21 +215,23 @@ export function createForgeRecoveryCommitQueue(
     active = (async () => {
       while (!disposed && pending.length) {
         const batch = pending.slice();
+        const batchEpoch = epoch;
         const newest = batch[batch.length - 1]!;
         const merged: ForgeRecoveryDelta = {
           ...newest,
           entries: batch.flatMap((item) => item.entries),
           ...(batch[0]!.startRequest === undefined ? {} : { startRequest: batch[0]!.startRequest }),
+          ...(batch[0]!.replaceHistory ? { replaceHistory: true } : {}),
         };
         try {
           await persist(merged);
-          pending.splice(0, batch.length);
+          if (epoch === batchEpoch) pending.splice(0, batch.length);
         } catch (error) {
           onError(error);
           // A newer boundary may have arrived while the failed transaction
           // was in flight. Retry that accumulated prefix once now; otherwise
           // wait for the next actual player decision, avoiding a busy loop.
-          if (pending.length === batch.length) break;
+          if (epoch === batchEpoch && pending.length === batch.length) break;
         }
       }
     })().finally(() => { active = null; });
@@ -228,7 +241,12 @@ export function createForgeRecoveryCommitQueue(
   return {
     enqueue(delta: ForgeRecoveryDelta) {
       if (disposed) return;
-      pending.push(delta);
+      if (delta.replaceHistory) {
+        pending = [delta];
+        epoch++;
+      } else {
+        pending.push(delta);
+      }
       void flush();
     },
     flush,

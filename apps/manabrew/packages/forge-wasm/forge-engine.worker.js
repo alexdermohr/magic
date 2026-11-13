@@ -95,6 +95,7 @@ function supervise(command) {
           for (const message of instance.buffered) {
             // A cold start has no old directive lanes to retain. Publish the
             // verified leaf's lanes, unlike a hot rewind which reuses its own.
+            if (message.event === "game:directive_lanes") directiveLanes = message.payload;
             self.postMessage(message);
           }
           instance.buffered = [];
@@ -135,6 +136,26 @@ function supervise(command) {
           fail(data.error || data.payload?.message || "Replay ended before verification.");
         } else if (data.event === "forge:replay_ready") {
           clearTimeout(timer);
+          if (command.args?.durableBrowserResume) {
+            const journal = snapshot?.journal;
+            let gameId;
+            try { gameId = JSON.parse(journal.startRequest).gameId; }
+            catch { fail("Invalid rewind game identity."); return; }
+            if (!gameId || !Array.isArray(journal.entries)) {
+              fail("Invalid rewind recovery prefix.");
+              return;
+            }
+            postEvent("forge:recovery_checkpoint", {
+              version: 1,
+              gameId,
+              nextSequence: snapshot.nextSequence,
+              startRequest: journal.startRequest,
+              entries: journal.entries,
+              prompt: snapshot.prompt,
+              verification: snapshot.verification,
+              replaceHistory: true,
+            });
+          }
           active.worker.terminate();
           active = instance;
           candidate = null;

@@ -77,7 +77,43 @@ try {
       if (String(error).includes("incorrectly accepted")) throw error;
     }
     const stillValid = await mod.readForgeRecoverySave(release);
+    const rewind = {
+      version: 1, gameId: first.gameId, nextSequence: 1,
+      startRequest: previous.replaySnapshot.journal.startRequest,
+      prompt: first.prompt, verification: first.verification,
+      entries: [], replaceHistory: true,
+    };
+    await mod.commitForgeRecoveryDelta(rewind, release, first.launch);
+    const rewound = await mod.readForgeRecoverySave(release);
+    if (rewound?.replaySnapshot.nextSequence !== 1 ||
+        rewound.replaySnapshot.journal.entries.length !== 0) {
+      throw Error("Rewind did not atomically remove the abandoned decision");
+    }
+    const alternative = {
+      ...consumed, action: { type: "chooseAction", output: { type: "pass", rewindBranch: true } },
+    };
+    await mod.commitForgeRecoveryDelta({
+      version: 1, gameId: first.gameId, nextSequence: 2,
+      prompt: first.prompt, verification: first.verification,
+      entries: [alternative],
+    }, release, first.launch);
+    const replacement = await mod.readForgeRecoverySave(release);
+    try {
+      await mod.commitForgeRecoveryDelta({
+        ...rewind, startRequest: JSON.stringify({
+          ...JSON.parse(rewind.startRequest), seed: 999,
+        }),
+      }, release, first.launch);
+      throw Error("Mismatched rewind start was incorrectly accepted");
+    } catch (error) {
+      if (String(error).includes("incorrectly accepted")) throw error;
+    }
+    const afterRejectedRewind = await mod.readForgeRecoverySave(release);
     return {
+      rewindClearedSuffix: rewound.replaySnapshot.nextSequence === 1,
+      replacementAction: replacement?.replaySnapshot.journal.entries[0]?.action,
+      sameAfterReject: JSON.stringify(afterRejectedRewind?.replaySnapshot) ===
+        JSON.stringify(replacement?.replaySnapshot),
       count: saved?.replaySnapshot.journal.entries.length,
       gameId: saved?.gameId,
       stillValid: stillValid?.replaySnapshot.nextSequence,
@@ -86,6 +122,9 @@ try {
   }, { release, first });
   assert.deepEqual(after, {
     count: 1, gameId: first.gameId, stillValid: 2, wrongRelease: null,
+    rewindClearedSuffix: true,
+    replacementAction: { type: "chooseAction", output: { type: "pass", rewindBranch: true } },
+    sameAfterReject: true,
   });
   await page.reload({ waitUntil: "domcontentloaded" });
   const final = await page.evaluate(async (releaseId) => {
@@ -100,7 +139,9 @@ try {
   console.log("FORGE_RECOVERY_INDEXEDDB_REAL_CHROME", JSON.stringify({
     firstCommitted: 1, afterReplayInput: after.stillValid,
     reloadVerified: final.preserved, corruptDeltaRejected: true,
-    wrongVersionExcluded: true, userLeaveCleared: final.cleared,
+    wrongVersionExcluded: true, rewindReplacedHistory: after.rewindClearedSuffix,
+    mismatchedRewindRejected: after.sameAfterReject,
+    userLeaveCleared: final.cleared,
   }));
 } finally {
   await browser.close();

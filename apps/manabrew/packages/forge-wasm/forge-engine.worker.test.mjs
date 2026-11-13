@@ -319,6 +319,61 @@ test("cold restore conceals a dead worker until verified state and RNG", () => {
   assert(worker.terminated);
 });
 
+test("cold restore retains verified directive lanes across a subsequent rewind", () => {
+  const snapshot = {
+    version: 1,
+    nextSequence: 2,
+    journal: { version: 2, startRequest: '{"gameId":"recover-test"}', entries: [{}] },
+    prompt: { promptId: 22 },
+    verification: { state: "a".repeat(64), rng: "1:2" },
+  };
+  const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
+  f.active.response("start", "game-started");
+  f.active.event("forge:replay_ready");
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 1);
+
+  f.active.event("forge:rewind", { lastPromptId: 40, prompt: { promptId: 22 } });
+  const candidate = f.workers.at(-1);
+  candidate.event("worker:init", { stage: "ready" });
+  assert.strictEqual(candidate.sent[0].args.rewindDirectiveLanes, f.lanes);
+  candidate.event("game:directive_lanes", f.lanes);
+  candidate.event("forge:replay_ready");
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 1);
+  f.command("end_game");
+});
+
+test("verified durable rewind publishes replacement history before resuming the candidate", () => {
+  const f = fixture(true, { durableBrowserResume: true });
+  const startRequest = JSON.stringify({ gameId: "forge-rewind-1",
+    decisionJournal: true, journalRewind: true });
+  const rewind = {
+    version: 1,
+    nextSequence: 2,
+    journal: { version: 2, startRequest, entries: [{
+      sequence: 1, playerIndex: 0,
+      prompt: { decidingPlayerId: "player-0" },
+      action: { type: "chooseAction" },
+      verification: { state: "a".repeat(64), rng: "0:aa" },
+    }] },
+    prompt: { decidingPlayerId: "player-0", promptId: 12 },
+    verification: { state: "b".repeat(64), rng: "0:bb" },
+    lastPromptId: 40,
+  };
+  f.active.event("forge:rewind", rewind);
+  const candidate = f.workers.at(-1);
+  candidate.event("worker:init", { stage: "ready" });
+  assert(!f.output.some((event) => event.event === "forge:recovery_checkpoint"));
+  candidate.event("forge:replay_ready");
+  const published = f.output.filter((event) => event.event === "forge:recovery_checkpoint");
+  assert.equal(published.length, 1);
+  assert.equal(published[0].payload.gameId, "forge-rewind-1");
+  assert.equal(published[0].payload.replaceHistory, true);
+  assert.equal(published[0].payload.nextSequence, 2);
+  assert.deepEqual(published[0].payload.entries, rewind.journal.entries);
+  assert.equal(Atomics.load(new Int32Array(candidate.sent[0].args.rewindControl), 0), 2);
+  f.command("end_game");
+});
+
 test("failed cold restore never publishes game board or double-settles", () => {
   const snapshot = {
     journal: { startRequest: '{"gameId":"recover-test"}' },
