@@ -14,7 +14,15 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelle B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
+## Aktuelle B3-Revision: Spine of Ish Sah statt Thousand-Year Elixir (13.11.2026)
+
+**Beschlossener Tausch:** **Thousand-Year Elixir raus → Spine of Ish Sah rein; Nautiloid Ship bleibt.** Mishras Warform-Kopie von **Spine of Ish Sah** zerstört bei jedem Eintritt eine beliebige bleibende Karte als Ziel (auch Land oder Verzauberung). Die **Originalkarte** kehrt beim Gang vom Spielfeld in den Friedhof auf die Hand zurück; eine geopferte Token-Warform nicht.
+
+**Abwägung:** Thousand-Year Elixir ({3}) beschleunigte die Tap-Fähigkeiten von **Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry** und **Master Transmuter** im Ausspielzug und enttappte für {1},{T} eine Kreatur. Ohne das Elixier werden diese Linien langsamer, während Spine regulär {7} Mana kostet. Dafür gewinnt Mishra eine wiederholt kopierbare, universelle Antwort auf bleibende Karten. **Nautiloid Ship** bleibt als anderes Warform-Ziel für Friedhofsexil, fliegende Angriffe und die gelegentliche Übernahme einer exilierten Kreatur erhalten. **Demonic Junker, Whir of Invention, Brudiclad, Determined Iteration und Ashnod's Altar** bleiben wie zuvor beschlossen.
+
+**Struktur:** Unverändert 100 Singleton, **35 Länder, 47 Artefakte, 13 Mana-Artefakte und drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Erweiterter Kreis: 43 historische Cuts + 99 weitere Alternativen = 142 ausgeschlossene Karten. Bracket 4 unverändert; ein verbesserter Spielerfolg oder korrekte Manabrew-Interaktionen sind nicht durch Partien bewiesen.
+
+## Vorangegangene B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
 
 **Verbindlich ist allein [current.txt](current.txt).** Der vom Nutzer freigegebene **einzige Kartentausch** seit der Fassung vom 12.10.2026:
 
