@@ -14,13 +14,13 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelle B3-Revision: Spine of Ish Sah statt Nautiloid Ship (13.11.2026)
+## Aktuelle B3-Revision: Spine of Ish Sah statt Thousand-Year Elixir (13.11.2026)
 
-**Beschlossener Rücktausch:** **Nautiloid Ship raus → Spine of Ish Sah rein.** Das ist die Umkehrung des früheren Tauschs. Mishras Warform-Kopie des nichtkreaturischen Artefakts zerstört bei jedem Eintritt **eine beliebige bleibende Karte als Ziel** (auch Land, Planeswalker oder Verzauberung), während das sieben Mana teure Original bei Gang vom Spielfeld in den Friedhof wieder auf die Hand kommt. Ein geopferter **Token** kehrt hingegen nicht auf die Hand zurück.
+**Beschlossener Tausch:** **Thousand-Year Elixir raus → Spine of Ish Sah rein; Nautiloid Ship bleibt.** Mishras Warform-Kopie von **Spine of Ish Sah** zerstört bei jedem Eintritt eine beliebige bleibende Karte als Ziel (auch Land oder Verzauberung). Die **Originalkarte** kehrt beim Gang vom Spielfeld in den Friedhof auf die Hand zurück; eine geopferte Token-Warform nicht.
 
-**Kosten:** Spine kostet regulär {7} statt {4}; das Schiff bot fliegende Warforms, Friedhofsexil und gelegentliche Kreaturenübernahme. Die übrigen Engines und die bisherigen ausdrücklichen Nutzerentscheidungen zu **Demonic Junker, Whir of Invention, Determined Iteration, Brudiclad und Ashnod's Altar** bleiben erhalten. Bei stark friedhofsorientierten Gegnern ist ein späterer eigener Friedhofshass-Slot zu prüfen.
+**Abwägung:** Thousand-Year Elixir ({3}) beschleunigte die Tap-Fähigkeiten von **Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry** und **Master Transmuter** im Ausspielzug und enttappte für {1},{T} eine Kreatur. Ohne das Elixier werden diese Linien langsamer, während Spine regulär {7} Mana kostet. Dafür gewinnt Mishra eine wiederholt kopierbare, universelle Antwort auf bleibende Karten. **Nautiloid Ship** bleibt als anderes Warform-Ziel für Friedhofsexil, fliegende Angriffe und die gelegentliche Übernahme einer exilierten Kreatur erhalten. **Demonic Junker, Whir of Invention, Brudiclad, Determined Iteration und Ashnod's Altar** bleiben wie zuvor beschlossen.
 
-**Struktur:** Weiter 100 Singleton-Karten, **35 Länder, 47 Artefakte, 13 Mana-Artefakte, drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Erweiterter Kreis: 43 historische Cuts + 99 weitere Alternativen = 142 ausgeschlossene Karten; B4 unverändert. Die Deckstärke ist eine begründete Einschätzung, kein belegtes Testergebnis in Manabrew.
+**Struktur:** Unverändert 100 Singleton, **35 Länder, 47 Artefakte, 13 Mana-Artefakte und drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Erweiterter Kreis: 43 historische Cuts + 99 weitere Alternativen = 142 ausgeschlossene Karten. Bracket 4 unverändert; ein verbesserter Spielerfolg oder korrekte Manabrew-Interaktionen sind nicht durch Partien bewiesen.
 
 ## Vorangegangene B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
 
