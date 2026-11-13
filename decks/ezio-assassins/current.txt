@@ -1,0 +1,106 @@
+Commander
+1 Ezio Auditore da Firenze
+
+Deck
+1 Changeling Outcast
+1 Assassin Initiate
+1 Brotherhood Spy
+1 Desmond Miles
+1 Basim Ibn Ishaq
+1 Arno Dorian
+1 Aya of Alexandria
+1 Bayek of Siwa
+1 Achilles Davenport
+1 Ezio, Blade of Vengeance
+1 Layla Hassan
+1 Altaïr Ibn-La'Ahad
+1 Ramses, Assassin Lord
+1 Mari, the Killing Quill
+1 Queen Marchesa
+1 Olivia, Opulent Outlaw
+1 Edward Kenway
+1 Evie Frye
+1 Jacob Frye
+1 Lydia Frye
+1 Shao Jun
+1 Kassandra, Eagle Bearer
+1 Aveline de Grandpré
+1 Etrata, the Silencer
+1 Virtus the Veiled
+1 Unstoppable Slasher
+1 Vein Ripper
+1 Callidus Assassin
+1 Arbaaz Mir
+1 Adéwalé, Breaker of Chains
+1 Massacre Girl, Known Killer
+
+1 Delighted Halfling
+1 Realmwalker
+1 Roaming Throne
+
+1 Sol Ring
+1 Arcane Signet
+1 Fellwar Stone
+1 Chromatic Lantern
+1 Talisman of Dominance
+1 Farseek
+1 Nature's Lore
+1 Three Visits
+1 Rhystic Study
+1 The One Ring
+1 Kindred Discovery
+1 Black Market Connections
+1 Cover of Darkness
+1 Brotherhood Regalia
+1 Reconnaissance
+1 Lightning Greaves
+1 Shared Animosity
+1 Demonic Tutor
+1 Assassin's Trophy
+1 Anguished Unmaking
+1 Swords to Plowshares
+1 Swan Song
+1 Heroic Intervention
+1 Deflecting Swat
+1 Flawless Maneuver
+1 Kindred Dominance
+1 Toxic Deluge
+1 The Spear of Leonidas
+
+1 Command Tower
+1 City of Brass
+1 Mana Confluence
+1 Exotic Orchard
+1 Reflecting Pool
+1 Cavern of Souls
+1 Secluded Courtyard
+1 Unclaimed Territory
+1 Plaza of Heroes
+1 Urborg, Tomb of Yawgmoth
+1 Underground Sea
+1 Badlands
+1 Scrubland
+1 Bayou
+1 Watery Grave
+1 Blood Crypt
+1 Godless Shrine
+1 Overgrown Tomb
+1 Polluted Delta
+1 Bloodstained Mire
+1 Marsh Flats
+1 Verdant Catacombs
+1 Misty Rainforest
+1 Scalding Tarn
+1 Flooded Strand
+1 Windswept Heath
+1 Wooded Foothills
+1 Arid Mesa
+1 Prismatic Vista
+1 Indatha Triome
+1 Zagoth Triome
+1 Raffine's Tower
+1 Savai Triome
+1 Xander's Lounge
+1 Path of Ancestry
+1 Forest
+1 Swamp
