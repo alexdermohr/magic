@@ -62,9 +62,13 @@ Die Liste enthält **keine bewusst eingebauten frühen Zweikarten-Endloskombinat
 
 **Genau drei Game Changers:** `Enlightened Tutor`, `Teferi's Protection`, **`Smothering Tithe`**. `Urza, Lord High Artificer` zählt seit der Wizards-Änderung vom **21.10.2025** nicht dazu; `Mox Opal` ebenfalls nicht. Die zuvor freie dritte Position ist nun belegt. Die neuen Karten sind im Commander-Format legal und liegen innerhalb von Urtets WUBRG-Farbidentität.
 
-Der 100er-Zähl-, Singleton- und lokale Repo-Check ist gesondert dokumentiert und wird im PR durch `validate-decks` kontrolliert. Das ist **kein Beweis** für Oracle-/Farbidentitäts-Komplettprüfung oder bewährte Spielstärke. Noch **keine** echten Multiplayer-Partien und keine Manabrew-iPad-End-to-End-Probe. Die stärkere Token-/Triggerlast ist bis zum echten Test ein explizites Risiko.
+**Live-Prüfung am 13.11.2026:** Die aktive Liste wurde aus dem GitHub-Branch gelesen und mit der Scryfall-Oracle-API abgeglichen: **100 Karten, 100 eindeutige Namen, alle 100 Commander-legal, keine Farbidentitätsverstöße, genau drei von Scryfall als Game Changer gekennzeichnete Karten**. Der Sammelendpunkt bestätigte 99 Karten; die Split-Karte `Wear // Tear` wurde wegen einer Einschränkung der Sammlungssuche separat über Scryfalls `cards/named?exact=`-Endpunkt bestätigt (Commander: legal, kein Game Changer). Die aktive Verteilung ist 34 Kreaturen inklusive Commander, 14 sonstige Artefakte, 7 Verzauberungen, 9 Spontanzauber/Hexereien und 36 Länder. Der Manawert der 64 Nichtlandkarten beträgt im Durchschnitt **3,05** (ohne Kostensenkungen/Prototyp-Casts). Zusätzlich hat `validate-decks` den Commit im [PR #96](https://github.com/alexdermohr/magic/pull/96) erfolgreich strukturell geprüft.
+
+**Nicht nachgewiesen** sind tatsächliche Vier-Spieler-Spielstärke, Partieverlauf, korrekte Implementierung aller Interaktionen durch Manabrew und die Bedienbarkeit der zahlreichen `Cathars' Crusade`-Trigger auf dem iPad. Diese Grenzen bleiben bis zu echten Spielen offen. Die Zuordnung zum oberen Bracket 3 ist eine begründete Spielabsicht, keine gemessene Turnierleistung.
 
 ### Quellen
+
+- Scryfall-Oracle-API und aktuelle Commander-Legalität: https://scryfall.com/docs/api/cards/collection und https://scryfall.com/docs/api/cards/named
 
 - Offizielle Commander-Regeln, Brackets und Game Changers: https://magic.wizards.com/en/formats/commander
 - Entfernung von Urza aus Game Changers: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
