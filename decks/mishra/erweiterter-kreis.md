@@ -1,10 +1,14 @@
 
 # Erweiterter Kreis – Mishra, Eminent One (Bracket 3)
 
-**Stand:** 13. Oktober 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
+**Stand:** 13. November 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
 
 
-## Aktueller Tausch: Marionette Apprentice → Diabolic Intent (13.10.2026)
+## Aktueller Rücktausch: Nautiloid Ship → Spine of Ish Sah (13.11.2026)
+
+**Nautiloid Ship** verlässt die aktive [B3-Liste](current.txt); **Spine of Ish Sah** kehrt zurück. Mishra kopiert damit einen Zerstörungseffekt für eine beliebige bleibende Karte bei jedem Kampfbeginn; das Original kann nach dem Opfern aus dem Friedhof auf die Hand zurückkehren, nicht aber eine Warform-Spielsteinkopie. Gegenargument: Sieben Mana statt vier, kein Friedhofsexil, kein Flieger und keine Kreaturenübernahme. **Nautiloid Ship** steht nun im historischen Kreis A; die Gesamtzahl der ausgeschlossen Karten bleibt 43 historische + 99 weitere = 142. Die B4-Liste ist unverändert, Spieltests stehen aus.
+
+## Vorangegangener Tausch: Marionette Apprentice → Diabolic Intent (13.10.2026)
 
 **Verbindliche B3-Liste:** [current.txt](current.txt). **Marionette Apprentice** verlässt nach Nutzerfreigabe das Deck; **Diabolic Intent** ({1}{B}, Hexerei) kommt hinzu. Der zusätzliche Wirk-Kostenbestandteil verlangt das Opfern einer eigenen Kreatur. In der **zweiten Hauptphase** kann dafür eine nach dem Kampf noch bestehende Mishra-Warform geopfert werden, die sonst im nächsten Endsegment verschwände. Danach darf eine **beliebige** Karte aus der Bibliothek auf die Hand gesucht werden. Die geopferte Kreatur wird bereits **beim Wirken** bezahlt – wird der Zauber neutralisiert, bleibt das Opfer verloren.
 
@@ -103,7 +107,8 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Marionette Apprentice** | am 13.10.2026 zugunsten von Diabolic Intent entfernt | {1}{B}-Kreatur mit Fabricate 1 und wiederkehrendem Verlust von 1 Leben für alle Gegner, sobald eine andere eigene Kreatur oder ein Artefakt aus dem Spiel in einen Friedhof gelegt wird. Stark mit Mishras Warform-Opfern, Ashnod's Altar und Tokens; nicht zu kopieren mit Mishra. **Diabolic Intent** bietet stattdessen einen einmaligen universellen Tutor gegen Kreaturenopfer. Rückkehr erwägen, falls der wiederholbare Gruppenschaden in Partien stärker als die zusätzliche Konsistenz ist. |
 | **Marionette Master** | Rückkehr möglich | Hoher Schaden an einzelne Gegner bei Artefakttod; sechs Mana, nicht selbst ein Artefakt. |
 | **Mycosynth Wellspring** | historisch gestrichen | Sucht Basics, davon gibt es nur wenige; gegenüber Prized Statue/Wellspring zu wenig Tempo. |
-| **Nihil Spellbomb** | metagameabhängig | Ehemaliger Einzelfriedhofshass und optionaler Draw; Nautiloid Ship erfüllt jetzt anderen Friedhofsschutz. |
+| **Nautiloid Ship** | am 13.11.2026 zugunsten von Spine of Ish Sah entfernt | Das Viermana-Fahrzeug exiliert mit seiner Warform einen gegnerischen Friedhof; nach Kampfschaden ist die Übernahme einer dabei exilierten Kreatur möglich. **Gegenargument zum Cut:** einzigartige Friedhofsinteraktion und fliegender Angreifer für weniger Mana. **Rückkehr:** bei graveyardlastigem Metagame oder wenn sieben Mana für Spine zu schwer zugänglich sind. |
+| **Nihil Spellbomb** | metagameabhängig | Ehemaliger Einzelfriedhofshass und optionaler Draw; Nautiloid Ship übernahm zwischenzeitlich anderen Friedhofsschutz. |
 | **Padeem, Consul of Innovation** | Rückkehr möglich | Schützt Artefakte per Hexproof und kann ziehen, schützt Mishra selbst nicht. |
 | **Reckless Fireweaver** | Rückkehr möglich | **Streichgrund:** Statt kleiner ETB-Schadensschritte wird Tezzerets auf Artefaktbestand skalierender Gruppenschaden mit Lebensgewinn priorisiert. **Gegenargument:** Für {1}{R} schadet Fireweaver jedem Gegner bei JEDEM Artefakt-Eintritt – einschließlich Warforms, Maps und Treasures – sofort, deutlich früher als Tezzeret. **Rückkehr:** Wenn der Sechs-Mana-Planeswalker zu oft unspielbar oder der frühe Gruppendruck nachweislich schlechter ist. |
 | **Rhystic Study** | Rückkehr möglich | **Streichgrund:** Nutzerentscheidung, den Game-Changer-Platz zugunsten von Mana Vault für massive frühe Artefaktbeschleunigung und wiederholtes Warform-Kopieren zu nutzen. **Stärkstes Gegenargument:** Für {2}{U} langfristig herausragender Multiplayer-Kartenvorteil ohne weitere Karte oder Mishra. Mana Vault zieht keine Karten, enttappt nur gegen {4}, kostet getappt jedes Ziehsegment Leben und produziert kein farbiges Mana. **Rückkehr:** Falls Mana Vaults Tempo keine höheren Siegchancen erzeugt oder fehlende Karten im langen Spiel das Hauptproblem werden; nur durch Austausch eines aktuellen Game Changers. |
@@ -111,7 +116,6 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Servo Schematic** | bewusst draußen | Niedriger ETB-/Tod-Tokenwert, ausdrücklich gegenüber stärkeren Warform-Zielen zurückgestellt. |
 | **Skullclamp** | bewusst draußen | Sehr hoher Draw mit 1/1, aber zu wenige konsistente Ausrüstungsziele; ausdrücklich gestrichen. |
 | **Skysovereign, Consul Flagship** | bewusst draußen | Wiederholbarer Schaden gegen Kreaturen/Planeswalker, inzwischen durch passenderen Artefakt-Finisher verdrängt. |
-| **Spine of Ish Sah** | Rückkehr möglich | Kopierbare Zerstörung beliebiger Permanents; sieben Mana und Fokus nun auf Nautiloid Ship. |
 | **Spirebluff Canal** | historisch gestrichen | Frühes U/R-Dual, später getappt; vorhandene Fetch-/Dualbasis ist konstanter. |
 | **Sundial of the Infinite** | bewusst draußen | Warform-Persistenz nach Papierregeln stark, funktioniert laut Nutzertests in manabrew.app nicht zuverlässig. |
 | **The Meathook Massacre** | bewusst draußen | Boardwipe unerwünscht; Oni-Cult Anvil liefert bessere direkte Artefakt-/Opfer-Synergie. |
