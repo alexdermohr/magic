@@ -36,7 +36,7 @@ Stand: **13.11.2026, Optimierung v2**. Ausschließlich [current.txt](current.txt
 | **Ancient Tomb / Mishra's Workshop / Mana Vault** | Schneller Artefakt-Ramp | Alle **Game Changer**; nur mit 1:1-Tausch eines vorhandenen GC-Slots statt zusätzlich aufnehmen. |
 | **Rhystic Study / Cyclonic Rift** | Starker Kartenvorteil bzw. Reset | Beides **Game Changer**; wie oben nur gegen bestehenden GC. `Smothering Tithe` wurde bewusst für Artefakt-/Farbsynergie priorisiert. |
 | **Krark-Clan Ironworks / Scrap Trawler** | Große Opfer- und Friedhofs-Combo-Pakete | Würden einen zusätzlichen mehrteiligen Loop-Schwerpunkt einführen; derzeit zugunsten von Myr-Kampf/Tokenwachstum ausgeschlossen. |
-| **Nature's Claim / Assassin's Trophy** | Günstige Antworten auf störenede Artefakte/Verzauberungen bzw. beliebige Permanents | Nach `Dispatch` die nächsten Interaktionskandidaten; gegen situativ ungenutzte Engines testen, wenn gegnerischer Hate regelmäßig gewinnt. |
+| **Nature's Claim / Assassin's Trophy** | Günstige Antworten auf störende Artefakte/Verzauberungen bzw. beliebige Permanents | Nach `Dispatch` die nächsten Interaktionskandidaten; gegen situativ ungenutzte Engines testen, wenn gegnerischer Hate regelmäßig gewinnt. |
 
 ## Umgesetzte Entscheidung v2 (diff zu v1)
 
