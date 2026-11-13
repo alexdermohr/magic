@@ -22,6 +22,7 @@ export interface StartGameParams {
   engine?: EngineKind;
   aiController?: AiController;
   formatId?: string;
+  gauntletId?: string | null;
   recovery?: ForgeRecoverySave;
 }
 

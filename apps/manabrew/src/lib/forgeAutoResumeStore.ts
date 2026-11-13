@@ -16,6 +16,7 @@ export interface ForgeRecoveryLaunch {
   opponentDecks: Deck[] | null;
   formatId: string;
   commanderName: string | null;
+  gauntletId?: string | null;
   engine: EngineKind;
   aiController: "forge";
 }
@@ -162,12 +163,12 @@ export function commitForgeRecoveryDelta(packet: ForgeRecoveryDelta, releaseId: 
           const previous = r.result as StoredMeta | undefined;
           const continuing = previous?.gameId === packet.gameId && previous.releaseId === releaseId;
           const replacing = packet.replaceHistory === true;
-          if (replacing && !continuing) throw Error("Cannot rewind another Forge game");
+          if (replacing && previous && !continuing) throw Error("Cannot rewind another Forge game");
           const count = replacing ? 0 : continuing ? previous.nextSequence - 1 : 0;
           // A committed game can still have zero consumed decisions: its
           // first action must not be mistaken for a second initial manifest.
           verifyForgeRecoveryDelta(packet, count, !continuing || replacing);
-          if (replacing && previous.startRequest !== packet.startRequest) {
+          if (replacing && previous && previous.startRequest !== packet.startRequest) {
             throw Error("Forge rewind does not match the stored game history");
           }
           if (!continuing || replacing) journal.clear();

@@ -70,15 +70,20 @@ export function useForgeAutoResume(): {
       }
 
       setPhase("restoring");
-      navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
       const { launch } = save;
+      const gauntletId = typeof launch.gauntletId === "string" && launch.gauntletId
+        ? launch.gauntletId : undefined;
+      navigate(gauntletId ? ROUTES.PLAY : ROUTES.PLAY_OFFLINE_CONSTRUCTED, {
+        replace: true,
+        ...(gauntletId ? { state: { exitTo: `/gauntlet/${gauntletId}` } } : {}),
+      });
       const started = await useGameStore.getState().startGame(
         launch.deck,
         launch.formatId,
         launch.commanderName ?? undefined,
         launch.opponentDecks ?? undefined,
         "Forge",
-        undefined,
+        gauntletId,
         save,
       );
       if (!cancelled) setPhase(started ? "idle" : "failed");

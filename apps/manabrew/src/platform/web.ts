@@ -961,6 +961,7 @@ class WebGameApi implements IGameApi {
       opponentDecks: params.opponentDecks ?? null,
       formatId: params.formatId ?? params.deck.format ?? "commander",
       commanderName: params.commanderName,
+      gauntletId: params.recovery?.launch.gauntletId ?? params.gauntletId ?? null,
       engine: "Forge",
       aiController: "forge",
     } : null;

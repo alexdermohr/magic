@@ -309,6 +309,7 @@ async function initializeGame({
       engine,
       aiController: recovery ? "forge" : usePreferencesStore.getState().aiController,
       formatId: selectedFormatId,
+      gauntletId: get().gauntletId,
       recovery,
     });
     const result = await (firstForgeStart ? withForgeStartTimeout(start) : start);

@@ -27,7 +27,7 @@ try {
     const launch = {
       deck: { name: "Recovery fixture", format: "commander", cards: [], commanders: [] },
       opponentDecks: null, formatId: "commander", commanderName: null,
-      engine: "Forge", aiController: "forge",
+      engine: "Forge", aiController: "forge", gauntletId: "gauntlet-resume-proof",
     };
     const prompt = { decidingPlayerId: "player-0", input: { type: "chooseAction" } };
     const verification = { state: "b".repeat(64), rng: "0:cbf29ce484222325" };
@@ -37,7 +37,7 @@ try {
     };
     await mod.commitForgeRecoveryDelta(initial, releaseId, launch);
     return {
-      gameId,
+      gameId, startRequest,
       initial: (await mod.readForgeRecoverySave(releaseId))?.replaySnapshot.nextSequence,
       prompt, verification, launch,
     };
@@ -48,6 +48,9 @@ try {
     const mod = await import("/src/lib/forgeAutoResumeStore.ts");
     const previous = await mod.readForgeRecoverySave(release);
     if (!previous) throw Error("Lost committed IndexedDB save on full page reload");
+    if (previous.launch.gauntletId !== first.launch.gauntletId) {
+      throw Error("Gauntlet launch identity was lost during IndexedDB reload");
+    }
     console.log("SAVED_BOUNDARY", JSON.stringify({
       storedGame: previous.gameId,
       incomingGame: first.gameId,
@@ -126,6 +129,7 @@ try {
       replacementAction: replacement?.replaySnapshot.journal.entries[0]?.action,
       sameAfterReject: JSON.stringify(afterRejectedRewind?.replaySnapshot) ===
         JSON.stringify(replacement?.replaySnapshot),
+      gauntletCarried: saved?.launch.gauntletId === first.launch.gauntletId,
       count: saved?.replaySnapshot.journal.entries.length,
       gameId: saved?.gameId,
       stillValid: stillValid?.replaySnapshot.nextSequence,
@@ -134,27 +138,65 @@ try {
   }, { release, first });
   assert.deepEqual(after, {
     count: 1, gameId: first.gameId, stillValid: 2, wrongRelease: null,
+    gauntletCarried: true,
     rewindClearedSuffix: true,
     acceptedAheadRewind: true,
     replacementAction: { type: "chooseAction", output: { type: "pass", rewindBranch: true } },
     sameAfterReject: true,
   });
   await page.reload({ waitUntil: "domcontentloaded" });
-  const final = await page.evaluate(async (releaseId) => {
+  const final = await page.evaluate(async ({ releaseId, first }) => {
     const mod = await import("/src/lib/forgeAutoResumeStore.ts");
     const saved = await mod.readForgeRecoverySave(releaseId);
     const preserved = saved?.replaySnapshot.nextSequence === 2 &&
       saved.replaySnapshot.journal.entries.length === 1;
     await mod.clearForgeRecoverySave();
-    return { preserved, cleared: (await mod.readForgeRecoverySave(releaseId)) === null };
-  }, release);
-  assert.deepEqual(final, { preserved: true, cleared: true });
+    const recoveredFromNoCheckpoint = {
+      version: 1, gameId: first.gameId, nextSequence: 2,
+      startRequest: first.startRequest,
+      prompt: first.prompt, verification: first.verification,
+      entries: [{
+        sequence: 1, playerIndex: 0, prompt: first.prompt,
+        action: { type: "chooseAction", output: { type: "pass" } },
+        verification: first.verification,
+      }],
+      replaceHistory: true,
+    };
+    await mod.commitForgeRecoveryDelta(recoveredFromNoCheckpoint, releaseId, first.launch);
+    const rescue = await mod.readForgeRecoverySave(releaseId);
+    const rescuedWithoutInitialSave = rescue?.replaySnapshot.nextSequence === 2 &&
+      rescue.replaySnapshot.journal.entries.length === 1 &&
+      rescue.launch.gauntletId === first.launch.gauntletId;
+    let foreignReplacementRejected = false;
+    try {
+      const otherGameId = "forge-foreign-rewind";
+      await mod.commitForgeRecoveryDelta({
+        ...recoveredFromNoCheckpoint, gameId: otherGameId,
+        startRequest: JSON.stringify({ ...JSON.parse(first.startRequest), gameId: otherGameId }),
+      }, releaseId, first.launch);
+    } catch {
+      foreignReplacementRejected = true;
+    }
+    const stillRescued = (await mod.readForgeRecoverySave(releaseId))?.gameId === first.gameId;
+    await mod.clearForgeRecoverySave();
+    return {
+      preserved, rescuedWithoutInitialSave, foreignReplacementRejected, stillRescued,
+      cleared: (await mod.readForgeRecoverySave(releaseId)) === null,
+    };
+  }, { releaseId: release, first });
+  assert.deepEqual(final, {
+    preserved: true, rescuedWithoutInitialSave: true,
+    foreignReplacementRejected: true, stillRescued: true, cleared: true,
+  });
   console.log("FORGE_RECOVERY_INDEXEDDB_REAL_CHROME", JSON.stringify({
     firstCommitted: 1, afterReplayInput: after.stillValid,
     reloadVerified: final.preserved, corruptDeltaRejected: true,
-    wrongVersionExcluded: true, rewindReplacedHistory: after.rewindClearedSuffix,
+    wrongVersionExcluded: true, gauntletIdentityRetained: after.gauntletCarried,
+    rewindReplacedHistory: after.rewindClearedSuffix,
     aheadOfDurableCursor: after.acceptedAheadRewind,
     mismatchedRewindRejected: after.sameAfterReject,
+    initialRewindRecovered: final.rescuedWithoutInitialSave,
+    foreignRewindRejected: final.foreignReplacementRejected,
     userLeaveCleared: final.cleared,
   }));
 } finally {
