@@ -105,6 +105,7 @@ import { noteOfflineResumeEvent } from "@/lib/offlineResumeDiagnostics";
 import {
   clearForgeRecoverySave,
   commitForgeRecoveryDelta,
+  createForgeRecoveryCommitQueue,
   forgeRecoveryReleaseId,
   type ForgeRecoveryDelta,
   type ForgeRecoveryLaunch,
@@ -914,6 +915,7 @@ class WebGameApi implements IGameApi {
     releaseId: string;
     launch: ForgeRecoveryLaunch;
     gameId: string | null;
+    queue: ReturnType<typeof createForgeRecoveryCommitQueue>;
   } | null = null;
 
   constructor(bridge: WorkerBridge, events: IEventBus) {
@@ -924,11 +926,11 @@ class WebGameApi implements IGameApi {
       if (!current || !boundary || typeof boundary.gameId !== "string") return;
       if (current.gameId !== null && current.gameId !== boundary.gameId) return;
       if (current.gameId === null) current.gameId = boundary.gameId;
-      void commitForgeRecoveryDelta(boundary, current.releaseId, current.launch)
-        .catch((error) => console.warn("Forge recovery checkpoint was not saved:", error));
+      current.queue.enqueue(boundary);
     });
     events.on("game:over", () => {
       if (!this.currentRecovery) return;
+      this.currentRecovery.queue.dispose();
       this.currentRecovery = null;
       void clearForgeRecoverySave().catch((error) =>
         console.warn("Could not clear completed Forge recovery save:", error));
@@ -937,6 +939,7 @@ class WebGameApi implements IGameApi {
       // A crashed worker is not a user concession. The normal game teardown
       // must not delete the last committed checkpoint; a new WebKit process
       // can still attempt its verified replay.
+      this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
     });
   }
@@ -953,17 +956,23 @@ class WebGameApi implements IGameApi {
       throw new Error("The saved Forge game is incompatible with this local engine.");
     }
     const durableRecovery = internalForge && releaseId !== null;
-    this.currentRecovery = durableRecovery ? {
-      releaseId: releaseId!,
-      launch: {
-        deck: params.deck,
-        opponentDecks: params.opponentDecks ?? null,
-        formatId: params.formatId ?? params.deck.format ?? "commander",
-        commanderName: params.commanderName,
-        engine: "Forge",
-        aiController: "forge",
-      },
+    const recoveryLaunch: ForgeRecoveryLaunch | null = durableRecovery ? {
+      deck: params.deck,
+      opponentDecks: params.opponentDecks ?? null,
+      formatId: params.formatId ?? params.deck.format ?? "commander",
+      commanderName: params.commanderName,
+      engine: "Forge",
+      aiController: "forge",
+    } : null;
+    this.currentRecovery?.queue.dispose();
+    this.currentRecovery = recoveryLaunch && releaseId ? {
+      releaseId,
+      launch: recoveryLaunch,
       gameId: params.recovery?.gameId ?? null,
+      queue: createForgeRecoveryCommitQueue(
+        (packet) => commitForgeRecoveryDelta(packet, releaseId, recoveryLaunch),
+        (error) => console.warn("Forge recovery checkpoint was not saved:", error),
+      ),
     } : null;
     this.bridge.setLocalBotSlots(
       params.engine === "Forge" && params.aiController !== "forge"
@@ -991,6 +1000,7 @@ class WebGameApi implements IGameApi {
         : {}),
     });
     } catch (error) {
+      this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
       throw error;
     }
@@ -1090,6 +1100,7 @@ class WebGameApi implements IGameApi {
 
   async endGame(): Promise<void> {
     if (this.currentRecovery) {
+      this.currentRecovery.queue.dispose();
       this.currentRecovery = null;
       // A deliberate leave invalidates the save, not a pagehide/OS process kill.
       void clearForgeRecoverySave().catch((error) =>

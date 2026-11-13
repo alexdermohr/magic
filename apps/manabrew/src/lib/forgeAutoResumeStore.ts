@@ -184,6 +184,61 @@ export function commitForgeRecoveryDelta(packet: ForgeRecoveryDelta, releaseId: 
   return job as Promise<void>;
 }
 
+/**
+ * Retry uncommitted boundaries with their missing prefix. The Forge JVM
+ * advances its send cursor before IndexedDB has acknowledged durability:
+ * sending the next boundary alone would permanently strand the saved game.
+ * Only remove a prefix after a successful, atomic storage transaction.
+ */
+export function createForgeRecoveryCommitQueue(
+  persist: (delta: ForgeRecoveryDelta) => Promise<void>,
+  onError: (error: unknown) => void,
+) {
+  let pending: ForgeRecoveryDelta[] = [];
+  let active: Promise<void> | null = null;
+  let disposed = false;
+
+  const flush = (): Promise<void> => {
+    if (disposed) return Promise.resolve();
+    if (active) return active;
+    active = (async () => {
+      while (!disposed && pending.length) {
+        const batch = pending.slice();
+        const newest = batch[batch.length - 1]!;
+        const merged: ForgeRecoveryDelta = {
+          ...newest,
+          entries: batch.flatMap((item) => item.entries),
+          ...(batch[0]!.startRequest === undefined ? {} : { startRequest: batch[0]!.startRequest }),
+        };
+        try {
+          await persist(merged);
+          pending.splice(0, batch.length);
+        } catch (error) {
+          onError(error);
+          // A newer boundary may have arrived while the failed transaction
+          // was in flight. Retry that accumulated prefix once now; otherwise
+          // wait for the next actual player decision, avoiding a busy loop.
+          if (pending.length === batch.length) break;
+        }
+      }
+    })().finally(() => { active = null; });
+    return active;
+  };
+
+  return {
+    enqueue(delta: ForgeRecoveryDelta) {
+      if (disposed) return;
+      pending.push(delta);
+      void flush();
+    },
+    flush,
+    dispose() {
+      disposed = true;
+      pending = [];
+    },
+  };
+}
+
 /** A tiny read-only bootstrap probe; never exposes or mutates private game data. */
 export async function forgeRecoveryStoredReleaseId(): Promise<string | null> {
   await writes.catch(() => {});

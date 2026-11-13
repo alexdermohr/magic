@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { verifyForgeRecoveryDelta, type ForgeRecoveryDelta } from "./forgeAutoResumeStore";
+import { createForgeRecoveryCommitQueue, verifyForgeRecoveryDelta, type ForgeRecoveryDelta } from "./forgeAutoResumeStore";
 
 const witness = { state: "a".repeat(64), rng: "123:abcdef0123456789" };
 const prompt = { decidingPlayerId: "player-0", input: { type: "chooseAction" } };
@@ -195,5 +195,61 @@ describe("Forge recovery version in an ordinary Safari tab", () => {
       else Object.defineProperty(globalThis, "caches", { configurable: true, value: previous });
       Object.defineProperty(globalThis, "fetch", { configurable: true, value: oldFetch });
     }
+  });
+});
+
+
+describe("Forge recovery durable checkpoint cursor", () => {
+  it("retransmits the start manifest and missed decision after a failed initial commit", async () => {
+    let first = true;
+    let committed = false;
+    let count = 0;
+    const received: ForgeRecoveryDelta[] = [];
+    const errors: unknown[] = [];
+    const queue = createForgeRecoveryCommitQueue(async (packet) => {
+      received.push(packet);
+      verifyForgeRecoveryDelta(packet, count, !committed);
+      if (first) { first = false; throw Error("transient IndexedDB abort"); }
+      committed = true;
+      count = packet.nextSequence - 1;
+    }, (error) => { errors.push(error); });
+
+    queue.enqueue(boundary());
+    await queue.flush();
+    expect(errors).toHaveLength(1);
+    expect(committed).toBe(false);
+    queue.enqueue({ ...boundary(), startRequest: undefined, nextSequence: 2, entries: [action(1)] });
+    await queue.flush();
+    expect(received).toHaveLength(2);
+    expect(received[1]!.startRequest).toBe(startRequest);
+    expect(received[1]!.entries.map((item) => item.sequence)).toEqual([1]);
+    expect(count).toBe(1);
+    queue.dispose();
+  });
+
+  it("retransmits a failed middle journal entry with the next decision, without rewriting a committed prefix", async () => {
+    let committed = false;
+    let count = 0;
+    let failMiddle = true;
+    const received: ForgeRecoveryDelta[] = [];
+    const queue = createForgeRecoveryCommitQueue(async (packet) => {
+      received.push(packet);
+      verifyForgeRecoveryDelta(packet, count, !committed);
+      if (committed && failMiddle) { failMiddle = false; throw Error("IndexedDB transaction aborted"); }
+      committed = true;
+      count = packet.nextSequence - 1;
+    }, () => {});
+
+    queue.enqueue(boundary());
+    await queue.flush();
+    queue.enqueue({ ...boundary(), startRequest: undefined, nextSequence: 2, entries: [action(1)] });
+    await queue.flush();
+    expect(count).toBe(0);
+    queue.enqueue({ ...boundary(), startRequest: undefined, nextSequence: 3, entries: [action(2)] });
+    await queue.flush();
+    expect(count).toBe(2);
+    expect(received.at(-1)?.startRequest).toBeUndefined();
+    expect(received.at(-1)?.entries.map((item) => item.sequence)).toEqual([1, 2]);
+    queue.dispose();
   });
 });
