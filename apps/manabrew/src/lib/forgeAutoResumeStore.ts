@@ -376,5 +376,17 @@ export async function resolveForgeRecoveryReleaseId(): Promise<string | null> {
 
 let releasePromise: Promise<string | null> | null = null;
 export function forgeRecoveryReleaseId(): Promise<string | null> {
-  return releasePromise ??= resolveForgeRecoveryReleaseId();
+  if (!releasePromise) {
+    releasePromise = resolveForgeRecoveryReleaseId().then(
+      (releaseId) => {
+        if (!releaseId) releasePromise = null;
+        return releaseId;
+      },
+      (error) => {
+        releasePromise = null;
+        throw error;
+      },
+    );
+  }
+  return releasePromise;
 }

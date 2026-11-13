@@ -196,8 +196,39 @@ describe("Forge recovery version in an ordinary Safari tab", () => {
       Object.defineProperty(globalThis, "fetch", { configurable: true, value: oldFetch });
     }
   });
+  it("retries manifest resolution after a transient network failure", async () => {
+    const { forgeRecoveryReleaseId } = await import("./forgeAutoResumeStore");
+    const previousCaches = globalThis.caches;
+    const previousFetch = globalThis.fetch;
+    const version = "e".repeat(20);
+    let calls = 0;
+    Object.defineProperty(globalThis, "caches", {
+      configurable: true, value: { keys: async () => [] },
+    });
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      value: async () => {
+        calls++;
+        if (calls === 1) throw Error("temporary network interruption");
+        return {
+          ok: true, json: async () => ({ version, files: [{ url: "/index.html" }] }),
+        };
+      },
+    });
+    try {
+      const first = await Promise.all([forgeRecoveryReleaseId(), forgeRecoveryReleaseId()]);
+      expect(first).toEqual([null, null]);
+      expect(calls).toBe(1);
+      expect(await forgeRecoveryReleaseId()).toBe(version);
+      expect(await forgeRecoveryReleaseId()).toBe(version);
+      expect(calls).toBe(2);
+    } finally {
+      if (previousCaches === undefined) delete (globalThis as { caches?: CacheStorage }).caches;
+      else Object.defineProperty(globalThis, "caches", { configurable: true, value: previousCaches });
+      Object.defineProperty(globalThis, "fetch", { configurable: true, value: previousFetch });
+    }
+  });
 });
-
 
 describe("Forge recovery durable checkpoint cursor", () => {
   it("retransmits the start manifest and missed decision after a failed initial commit", async () => {
