@@ -20,9 +20,9 @@ Nur [current.txt](current.txt) ist die aktive 100-Karten-Importliste. Hier stehe
 | **Tezzeret, Master of the Bridge** | Affinitaet/Artefaktmassenverwertung | Spannendes Artefakt-Top-End, aber hohe Zauberkosten und Planeswalker-Verletzlichkeit; eventuell statt Lux Artillery. |
 | **Chromatic Lantern** | Jederzeit farbige Laender | Mox Opal fuer frueheres, kostenguenstigeres Tempo bevorzugt; falls Urtets WUBRG wiederholt nicht zahlbar ist, Lantern statt eines langsamen Artefakts testen. |
 | **Springleaf Drum** | Fruehe Farbfixierung ueber Myr, sogar neue Spielsteine | Ein-Mana-Artefakt, ueber Urza's Saga suchbar; Kandidat statt Herald's Horn bei zu langsamer Manakurve. |
-| **The One Ring** | Universeller Kartennachschub und kurzzeitiger Schutz | Game Changer; nur gegen einen bestehenden GC-Slot tauschen. Besonders relevant, falls Kindred Discovery/Skullclamp nicht genuegen. |
-| **Ancient Tomb / Mishra's Workshop / Mana Vault** | Schnelles Mana fuer Artefakte | Jeweils Game Changer; nur bei explizitem Wechsel der drei GC-Slots. |
-| **Smothering Tithe / Rhystic Study / Cyclonic Rift** | Mehr Ressourcen, Kartenvorteil bzw. asymmetrischer Reset | Game Changer; derzeit keine Aufnahme. Austausch nur innerhalb der drei B3-Slots. |
+| **The One Ring** | Universeller Kartennachschub und kurzzeitiger Schutz | Game Changer; kann den noch freien dritten B3-Slot belegen. Besonders relevant, falls Kindred Discovery/Skullclamp nicht genuegen. |
+| **Ancient Tomb / Mishra's Workshop / Mana Vault** | Schnelles Mana fuer Artefakte | Jeweils Game Changer; eine dieser Karten kann den freien dritten B3-Slot nutzen, weitere nur im Tausch mit bereits enthaltenen Game Changers. |
+| **Smothering Tithe / Rhystic Study / Cyclonic Rift** | Mehr Ressourcen, Kartenvorteil bzw. asymmetrischer Reset | Jeweils Game Changer; derzeit keine Aufnahme. Eine davon kann den noch freien dritten B3-Slot nutzen, weitere nur im Tausch mit bereits enthaltenen Game Changers. |
 | **Krark-Clan Ironworks / Scrap Trawler** | Opfer- und Friedhofsschleifen | Erzeugen leicht andere Kombodecks mit mehr Endlosschleifen; bewusst nicht statt der Myr-Kampfstrategie enthalten. |
 | **Dispatch / Nature's Claim / Assassin's Trophy** | Billiges gezieltes Removal | Erste Kandidaten, wenn Gegnerschutz oder Hate problematisch werden; moeglicher Tausch gegen Myr Welder oder den langsamsten Engine-Slot. |
 
@@ -31,7 +31,7 @@ Nur [current.txt](current.txt) ist die aktive 100-Karten-Importliste. Hier stehe
 1. Wie oft kann Urtet bis Zug 4–5 gespielt werden und anschliessend im selben oder naechsten Zug einen Myr-Zauber nutzen?
 2. Sind WUBRG fuer die erste Markenaktivierung und genau die benoetigten Farben fuer Kindred Discovery und Schutz verlaesslich vorhanden?
 3. Liefert Skullclamp/Kindred Discovery/Jhoira ausreichend Karten, oder braucht es Thoughtcast und weitere guenstige Draw-Spells?
-4. Sind die drei beschriebenen Mehrkarten-Endlosschleifen der Runde angemessen, oder gewinnen sie zu frueh fuer das B3-Ziel?
+4. Sind die beiden beschriebenen Mehrkarten-Endlosschleifen der Runde angemessen, oder gewinnen sie zu frueh fuer das B3-Ziel?
 5. Welche der vier Siegachsen – Kampf, Simic Ascendancy, Mechanized Production, Direktschaden – entscheiden tatsaechlich Partien?
 
 Aenderungen und Tauschentscheidungen nach echten Partien hier festhalten; `current.txt` bleibt die einzige aktive Liste.
