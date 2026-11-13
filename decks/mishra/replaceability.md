@@ -1,8 +1,12 @@
 # Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung (optimiertes Bracket 3)
 
-**Aktive Version:** 13. Oktober 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 142 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
+**Aktive Version:** 13. November 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 142 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
 
 **Struktur der aktuellen B3-Fassung mit Workshop/Memory Jar/Brudiclad/Ashnod/Top:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **47 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
+
+**Aktuelle Änderung (13.11.2026):** **Nautiloid Ship → Spine of Ish Sah**. Das wiederholbare Zerstören eines beliebigen Permanents durch Mishras ETB-Warform ist breiter einsetzbar als die Friedhofsexil-/Kampfschaden-Linie des Schiffs. Gegenargument: Spine kostet sieben Mana statt vier; Friedhofshass und fliegende Warforms entfallen. Beide Karten sind in der jeweiligen Fassung mit Ersetzbarkeit **2** eingestuft, die Verteilung 21/54/23/2 bleibt unverändert. 100 Einzelkarten, 35 Länder, 47 Artefakte, 13 Mana-Artefakte und drei Game Changer bleiben gleich.
+
+**Historischer Vergleich vor dem Rücktausch (nicht mehr die aktuelle Deckliste):**
 
 | Raus | Rein | Erwarteter Mehrwert | Risiko |
 |---|---|---|---|
@@ -20,7 +24,7 @@
 | 5 | Kein eindeutig funktionsloser Platz | 0 |
 | **Gesamt** | **100 aktuelle Einzelbewertungen** | **100** |
 
-**Spielhinweis:** Nautiloid Ship löst seine Friedhofsexil-Fähigkeit beim Eintritt der Warform aus; die Kampfschaden-Fähigkeit kann nur eine Kreatur zurückbringen, die **das jeweilige Ship-Objekt** exiliert hat. Arcum benötigt ein legales **Artefaktkreatur-Ziel** und opfert diese bei Auflösung; die Bibliothekssuche ist nicht auf einen bestimmten Manawert begrenzt. Andere Artefaktkreaturen wie Kappa sind nicht direkt mit Mishras Commander-Auslöser kopierbar. Die tatsächliche Manabrew-Funktion ist nicht durch eigenständige Testpartien belegt.
+**Spielhinweis:** Eine Mishra-Warform von **Spine of Ish Sah** löst beim Eintritt die Zerstörung einer beliebigen bleibenden Karte als Ziel aus. Ein geopferter Token verschwindet und kehrt trotz der Friedhofsfähigkeit nicht auf die Hand zurück; das Original dagegen schon. Die frühere Nautiloid-Ship-Fassung ist oben ausschließlich historisch dokumentiert. Arcum benötigt ein legales **Artefaktkreatur-Ziel** und opfert diese bei Auflösung; die Bibliothekssuche ist nicht auf einen bestimmten Manawert begrenzt. Andere Artefaktkreaturen wie Kappa sind nicht direkt mit Mishras Commander-Auslöser kopierbar. Die tatsächliche Manabrew-Funktion ist nicht durch eigenständige Testpartien belegt.
 
 ## Aktueller Tausch vom 13.10.2026: Marionette Apprentice → Diabolic Intent
 
@@ -144,7 +148,7 @@
 | 42 | Mana Vault | **1** | Für {1} produziert das Artefakt durch Tappen {C}{C}{C}; frühe Beschleunigung und zusätzliches Urza's-Saga-Ziel. Als Mishra-Warform liefert es mit Eile ebenfalls drei Mana und kann über Thousand-Year Elixir für {1} enttappt werden (insgesamt bis sechs Mana pro Warform bei geeigneter Aktivierung). Das Original enttappt normalerweise nicht, verlangt {4} zum Enttappen und kostet getappt jedes Ziehsegment 1 Leben; farbiges Mana fehlt. |
 | 43 | The Mightstone and Weakstone | **2** | Fünf Mana für starkes kopierbares, legendäres Artefakt: ETB zieht zwei Karten oder gibt einer Kreatur −5/−5, Original produziert CC für Artefaktzauber/-fähigkeiten. Legendäre Warform-Duplikate gleichen Namens kollidieren. |
 | 44 | Sculpting Steel | **2** | Flexibler zusätzlicher Blade-, Wellspring-, Paladin- oder Portal-Effekt je nach Spielfeld; ohne hochwertige Vorlage schwach. |
-| 45 | Nautiloid Ship | **2** | Vier-Mana-Flugfahrzeug als Mishra-Ziel: Die 4/4-Warform exiliert beim ETB einen Spielerfriedhof und kann mit Flugfähigkeit/Eile direkt angreifen. Nach Kampfschaden bringt sie eine Kreatur zurück, die **dieses Exemplar** exiliert hat. Der ursprüngliche Friedhofshass war zuvor nicht vorhanden; gegen Blocker keine garantierte Reanimation. |
+| 45 | Spine of Ish Sah | **2** | {7}-Nichtkreatur-Artefakt als Mishra-Ziel; jede Warform zerstört bei ETB eine beliebige bleibende Karte als Ziel. Das Original kommt beim Gang vom Spielfeld in den Friedhof auf die Hand zurück, Warform-Token nicht. Extrem flexible wiederholte Interaktion, aber sieben Mana und gegenüber Nautiloid Ship kein Friedhofsexil oder Flugangriff. |
 | 46 | Portal to Phyrexia | **2** | Extrem hoher ETB- und Upkeep-Ertrag, gewinnt Kreaturenspiele; neun Mana ohne Welder/Transmuter ein Starthand-Risiko. |
 | 47 | Simulacrum Synthesizer | **1** | Mishras eintretende Artefakte mit Mana Value ab 3 erzeugen massiv skalierende Constructs; zentrale Boardengine. |
 | 48 | Sensei's Divining Top | **2** | Günstige {1}-Bibliothekskontrolle, zusammen mit Fetch-/Tutor-Shuffles sehr brauchbar; per Urza's Saga suchbar und selbst ein legales Mishra-Ziel. Ihre {T}-Fähigkeit zieht 1 Karte und legt Top auf die Bibliothek; ohne Citadel kann sie **nicht kostenlos wieder von oben gespielt werden**. Unterstützt die Kartenqualität von Memory-Jar-Folgen, aber die Top selbst liefert ohne weitere Engine keinen dauerhaften Netto-Draw. |
