@@ -253,6 +253,13 @@ describe("Forge recovery durable checkpoint cursor", () => {
     queue.dispose();
   });
 
+  it("accepts a complete rewind replacement newer than the last durable boundary", () => {
+    const fullPrefix = { ...boundary(), replaceHistory: true, nextSequence: 7,
+      entries: Array.from({ length: 6 }, (_, i) => action(i + 1)) };
+    expect(() => verifyForgeRecoveryDelta(fullPrefix, 0, true)).not.toThrow();
+    expect(fullPrefix.nextSequence).toBeGreaterThan(4);
+  });
+
   it("does not lose a replacement queued while an older save is still in flight", async () => {
     let resolveFirst: (() => void) | undefined;
     const first = new Promise<void>((resolve) => { resolveFirst = resolve; });

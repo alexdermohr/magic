@@ -167,9 +167,7 @@ export function commitForgeRecoveryDelta(packet: ForgeRecoveryDelta, releaseId: 
           // A committed game can still have zero consumed decisions: its
           // first action must not be mistaken for a second initial manifest.
           verifyForgeRecoveryDelta(packet, count, !continuing || replacing);
-          if (replacing && (
-              previous.startRequest !== packet.startRequest ||
-              packet.nextSequence > previous.nextSequence)) {
+          if (replacing && previous.startRequest !== packet.startRequest) {
             throw Error("Forge rewind does not match the stored game history");
           }
           if (!continuing || replacing) journal.clear();
@@ -319,8 +317,8 @@ export async function clearForgeRecoverySave(): Promise<void> {
 
 /**
  * Pin replay to the WebImage actually installed in the offline cache.
- * The server may publish a newer manifest while the iPad still runs an
- * older fully cached engine; network-first version selection lost saves.
+ * The cache version must match the running WebImage even when the server
+ * publishes a newer manifest.
  */
 export async function installedForgeRecoveryReleaseId(): Promise<string | null> {
   if (typeof caches === "undefined") return null;

@@ -77,6 +77,17 @@ try {
       if (String(error).includes("incorrectly accepted")) throw error;
     }
     const stillValid = await mod.readForgeRecoverySave(release);
+    const rewindAhead = {
+      version: 1, gameId: first.gameId, nextSequence: 3,
+      startRequest: previous.replaySnapshot.journal.startRequest,
+      prompt: first.prompt, verification: first.verification,
+      entries: [consumed, { ...consumed, sequence: 2 }], replaceHistory: true,
+    };
+    await mod.commitForgeRecoveryDelta(rewindAhead, release, first.launch);
+    const advanced = await mod.readForgeRecoverySave(release);
+    if (advanced?.replaySnapshot.nextSequence !== 3) {
+      throw Error("A rewind ahead of the old stored cursor was refused");
+    }
     const rewind = {
       version: 1, gameId: first.gameId, nextSequence: 1,
       startRequest: previous.replaySnapshot.journal.startRequest,
@@ -110,6 +121,7 @@ try {
     }
     const afterRejectedRewind = await mod.readForgeRecoverySave(release);
     return {
+      acceptedAheadRewind: advanced.replaySnapshot.nextSequence === 3,
       rewindClearedSuffix: rewound.replaySnapshot.nextSequence === 1,
       replacementAction: replacement?.replaySnapshot.journal.entries[0]?.action,
       sameAfterReject: JSON.stringify(afterRejectedRewind?.replaySnapshot) ===
@@ -123,6 +135,7 @@ try {
   assert.deepEqual(after, {
     count: 1, gameId: first.gameId, stillValid: 2, wrongRelease: null,
     rewindClearedSuffix: true,
+    acceptedAheadRewind: true,
     replacementAction: { type: "chooseAction", output: { type: "pass", rewindBranch: true } },
     sameAfterReject: true,
   });
@@ -140,6 +153,7 @@ try {
     firstCommitted: 1, afterReplayInput: after.stillValid,
     reloadVerified: final.preserved, corruptDeltaRejected: true,
     wrongVersionExcluded: true, rewindReplacedHistory: after.rewindClearedSuffix,
+    aheadOfDurableCursor: after.acceptedAheadRewind,
     mismatchedRewindRejected: after.sameAfterReject,
     userLeaveCleared: final.cleared,
   }));
