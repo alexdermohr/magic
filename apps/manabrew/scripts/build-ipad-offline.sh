@@ -61,7 +61,14 @@ fi
 
 mkdir -p dist/a
 cp -a -n "$art_cache/." dist/a/
-python3 scripts/prepare-ipad-card-art.py dist "$scryfall_cache"
+# Card-art conversion needs Pillow only when new images are fetched.
+# On NixOS, use the existing Nix Python environment without changing system packages.
+if ! python3 -c 'from PIL import Image' >/dev/null 2>&1 && command -v nix-shell >/dev/null 2>&1; then
+  printf -v art_command '%q ' python3 -B scripts/prepare-ipad-card-art.py dist "$scryfall_cache"
+  nix-shell -p 'python3.withPackages (ps: [ ps.pillow ])' --run "$art_command"
+else
+  python3 scripts/prepare-ipad-card-art.py dist "$scryfall_cache"
+fi
 cp -a -n dist/a/. "$art_cache/"
 python3 scripts/prepare-ipad-card-symbols.py dist
 node scripts/generate-offline-assets.mjs dist
