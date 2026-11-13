@@ -1,37 +1,67 @@
 # Erweiterte Kartenbasis – Urtet / Myr
 
-Nur [current.txt](current.txt) ist die aktive 100-Karten-Importliste. Hier stehen moegliche Erweiterungen, Ausschluesse und Wiedereinbau-Bedingungen. Stand 13.11.2026; noch keine realen Partietests.
+Stand: **13.11.2026, Optimierung v2**. Ausschließlich [current.txt](current.txt) ist die aktive, importierbare **100-Karten-Liste**. Diese Datei enthält **nicht aufgenommene Kandidaten, entfernte Karten und Entscheidungsverlauf**, keine zweite Liste. Aus v1 aufgenommene `Myr Moonvessel`, `Springleaf Drum`, `Dispatch` und `Smothering Tithe` stehen **nicht** mehr als hypothetische Kandidaten in der Tabelle, sondern im Abschnitt »Umgesetzte Tausche«. Reale Partietests liegen noch nicht vor.
 
-| Karte | Rolle und Synergie | Derzeitige Entscheidung / moeglicher Tausch |
+## Wieder einbaubare Kandidaten und abgelehnte Karten
+
+| Karte | Funktion / Synergie | Entscheidung und mögliche Rückkehr |
 | --- | --- | --- |
-| **Myrsmith** | Bei gewirkten Artefakten fuer 1 Mana weitere Myr-Spielsteine | Sinnvoll, wenn in Tests die Token-Dichte zu niedrig ist; fuer einen langsamen Myr oder Herald's Horn testen. Kein Myr-Spruch selbst. |
-| **Genesis Chamber** | Myr-Spielsteine bei nichtspielstein-Kreaturen, symmetrisch | Vorlaeufig ausgeschlossen, weil es auch gegnerische Strategien beschleunigt; mit mehr einseitiger Token-Ausnutzung testen. |
-| **Myr Reservoir** | Eng begrenztes Myr-Mana und Myr-Friedhofsrueckholung | Zugunsten breiterem Ramp und aktivem Kartennachschub draussen; bei langen Removal-Partien statt Clock of Omens oder Timeless Lotus erwägen. |
-| **Myr Incubator** | Bibliothek in Myr-Tokens umwandeln | Sehr explosives All-in-Finish, aber exiliert dafuer eigene Artefaktkarten aus dem Deck; erst bei Bedarf an zusaetzlichem Endspiel einsetzen. |
-| **Memnarch, the Warden** | Zehn-Mana-Artefaktkreatur, zwei Myr-Token, enormer Angriffskartenzug | Oktober-2026-Neuheit, thematisch gut, ohne Kostensenkung/Angriffsschub meist zu langsam; bei hoeherer Manakurve pruefen. Kein Myr-Spruch. |
-| **Darksteel Myr** | Unzerstoerbarer Myr, mit Urtet-Marken schwer abzuraeumen | Fuer Thought Monitor und zuverlaessigeren Kartennachschub ausgeschlossen; bei sehr viel Kreaturenremoval statt eines schwachen Myr wieder moeglich. |
-| **Perilous Myr** | Stirbt fuer zwei Schadenspunkte | Hinter der breiten Enginestrategie; bei mehr Opfermechaniken als billigen Myr-Zuender testen. |
-| **Ichorclaw Myr** | Infizieren mit Urtets +1/+1-Marken | Sehr starker Alternativangriff auf einen einzelnen Spieler, kann aber das Spielgefuehl verzerren; nur fuer bewusst giftbasierte Variante. |
-| **Myr Servitor** | Gleichnamige Myr aus Friedhoefen zurueckbringen | In Singleton ohne gezielte gleichnamige Kopien im Friedhof ineffizient; derzeit klare Absage. |
-| **Myr Moonvessel** | Kleiner Myr mit einmaligem Mana beim Tod | Zu geringer Einzelkartenwert am oberen B3-Rand; zuerst bessere Myr- und Card-Draw-Optionen. |
-| **Myr Scrapling** | Moeglichkeit, Myr fuer eine Marke zu opfern | Nur mit zusaetzlichem Opferschwerpunkt; im aktuellen Deck gewinnen die breiten Marken- und Tokenmotoren. |
-| **Eldrazi Monument** | Evasion und Schutz fuer grosses Tokenheer | Starkes Finish, aber zwingendes Opfer pro Zug; gegen zu wenige Angriffsabschluesse statt Mechanized Production testen. |
-| **Akroma's Memorial** | Permanente Eile, Evasion und Angriffsvorteile | Sieben Mana, redundant zu Akroma's Will als Sofortfinish; fuer laengere Partien moeglich. |
-| **Tezzeret, Master of the Bridge** | Affinitaet/Artefaktmassenverwertung | Spannendes Artefakt-Top-End, aber hohe Zauberkosten und Planeswalker-Verletzlichkeit; eventuell statt Lux Artillery. |
-| **Chromatic Lantern** | Jederzeit farbige Laender | Mox Opal fuer frueheres, kostenguenstigeres Tempo bevorzugt; falls Urtets WUBRG wiederholt nicht zahlbar ist, Lantern statt eines langsamen Artefakts testen. |
-| **Springleaf Drum** | Fruehe Farbfixierung ueber Myr, sogar neue Spielsteine | Ein-Mana-Artefakt, ueber Urza's Saga suchbar; Kandidat statt Herald's Horn bei zu langsamer Manakurve. |
-| **The One Ring** | Universeller Kartennachschub und kurzzeitiger Schutz | Game Changer; kann den noch freien dritten B3-Slot belegen. Besonders relevant, falls Kindred Discovery/Skullclamp nicht genuegen. |
-| **Ancient Tomb / Mishra's Workshop / Mana Vault** | Schnelles Mana fuer Artefakte | Jeweils Game Changer; eine dieser Karten kann den freien dritten B3-Slot nutzen, weitere nur im Tausch mit bereits enthaltenen Game Changers. |
-| **Smothering Tithe / Rhystic Study / Cyclonic Rift** | Mehr Ressourcen, Kartenvorteil bzw. asymmetrischer Reset | Jeweils Game Changer; derzeit keine Aufnahme. Eine davon kann den noch freien dritten B3-Slot nutzen, weitere nur im Tausch mit bereits enthaltenen Game Changers. |
-| **Krark-Clan Ironworks / Scrap Trawler** | Opfer- und Friedhofsschleifen | Erzeugen leicht andere Kombodecks mit mehr Endlosschleifen; bewusst nicht statt der Myr-Kampfstrategie enthalten. |
-| **Dispatch / Nature's Claim / Assassin's Trophy** | Billiges gezieltes Removal | Erste Kandidaten, wenn Gegnerschutz oder Hate problematisch werden; moeglicher Tausch gegen Myr Welder oder den langsamsten Engine-Slot. |
+| **Hovermyr** | Gedruckter Myr mit Flugfähigkeit und Wachsamkeit | **v2 entfernt** für `Myr Moonvessel`, da das Deck billigere Myr-Casts benötigt; wieder einbauen bei fehlenden fliegenden Angreifern und ausreichend früher Spielentwicklung. |
+| **Myr Superion** | 5/6-Myr für 2 Mana, nur Mana aus Kreaturen erlaubt | **v2 entfernt** für `Universal Automaton`; später bei ausreichend vielen zuverlässigen Kreatur-Manaquellen gegen einen schwachen Myr prüfen. |
+| **Myr Propagator** | Wiederholbares Erzeugen von Myr-Propagator-Kopien | **v2 entfernt** für `Metallic Mimic`, da {3}+Tappen zu spät wirkt; in besonders langsamen Spielen wieder eine Option. |
+| **Myr Welder** | Kopiert aktivierte Fähigkeiten von aus Friedhöfen eingeprägten Artefakten | **v2 entfernt** für `Dispatch`; bei artefaktlastigem Friedhof und wenig gegnerischen Kreaturenzielen wieder ausprobieren. Kein allgemeiner Rekursionszauber. |
+| **Myr Matrix** | Unzerstörbares Myr-Anthem, {5}-Tokenmaschine | **v2 entfernt** für `Thousand-Year Elixir`; nur wenn Myr-Pump/Tokenproduktion nachweislich fehlen und Urtet anderweitig schnell aktiviert wird. |
+| **Timeless Lotus** | WUBRG erst ab dem Zug nach dem Wirken, da getappt ins Spiel | **v2 entfernt** für `Smothering Tithe`; gegen zahlungsfreudige Gegner bzw. schlechtes Fixing als garantierte WUBRG-Quelle erneut testen. |
+| **Mirrodin Besieged** | Modus Mirran: Myr-Tokens bei Artefaktzaubern; Modus Phyrexian: Friedhofs-Alternativsieg | **v2 entfernt** für `Cathars' Crusade`; bei zu vielen Marken-Triggern oder gegen wiederholte Kreaturenzerstörung rückbaubar. |
+| **Lux Artillery** | Artefakt-Zauber und +1/+1-Marken; später zehn Schaden je Endsegment | **v2 entfernt** für `Shared Animosity`; gegen häufigen Combat-Stall und fehlende Angriffsfenster wieder möglich. |
+| **Mechanized Production** | Gewinnt beim eigenen Upkeep mit mindestens acht Artefakten gleichen Namens | **v2 entfernt** für `Idol of Oblivion`, weil zuverlässige Karten wichtiger waren; zurück, wenn alternative Siegwege häufig nötig sind. |
+| **Herald's Horn** | Myr-Kostenreduktion und gelegentliche Karte pro Upkeep | **v2 entfernt** für `Springleaf Drum`; bei ausreichend Farben, aber hohem Myr-Zaubervolumen wieder für ein nichttragendes Artefakt testen. |
+| **The Ozolith** | Konserviert Marken von Kreaturen, die das Spielfeld verlassen, und überträgt sie auf **eine** Kreatur | Sehr stark bei Urtets zahlreichen Marken; erste Option, wenn Boardwipes die aufgebaute Armee regelmäßig zurückwerfen. Potenziell gegen `Metallic Mimic` oder einen redundanten Anthem-Slot. |
+| **Myr Reservoir** | Mana für Myr-Zauber/-Fähigkeiten sowie Myr-Rückholung aus dem Friedhof | Bewusst hinter billiger Farbfixierung/Kartennachschub zurückgestellt; bei häufigem Removal gegen `Thousand-Year Elixir` oder einen flexiblen Utility-Slot testen, nicht pauschal Clock entfernen. |
+| **Myrsmith** | Für {1} je gewirktem Artefakt ein zusätzlicher Myr-Token | Falls die Myr-Cast-Dichte zu gering wird, über die reine Myr-Anzahl hinaus ein guter Token-Erzeuger; kostet Mana pro Auslöser und ist selbst kein Myr-Zauber. |
+| **Genesis Chamber** | Zusätzliche Myr-Tokens bei Nichttoken-Kreaturen, auch für Gegner | Nur erwägen, wenn die symmetrische Beschleunigung gezielt ausgenutzt werden kann. |
+| **Myr Incubator** | Verwandelt viele Karten der eigenen Bibliothek in Myr-Spielsteine | Hochriskanter All-in-Abschluss: exiliert Artefaktkarten aus der Bibliothek; nur gezielt gegen langsamere Tische. |
+| **Memnarch, the Warden** | Teures Artefakt-Endspiel, Myr-Token und Karten | Bei höherem Manaüberschuss oder Fokus auf große Artefakte als spätes Top-End statt eines langsamen Abschlusses. Kein Myr-Zauber. |
+| **Darksteel Myr** | Unzerstörbarer Myr, Marken bleiben nach normalen Destroy-Effekten | Gegen viele Kreaturenzerstörer und wenig Exil-Removal eine bessere defensive Myr-Dichte. |
+| **Perilous Myr** | Stirbt für zwei Schaden an beliebigem Ziel | Bei Skullclamp-/Opfer-Schwerpunkt ein effizienter Myr-Body, sonst zu wenig Einfluss. |
+| **Ichorclaw Myr** | Infizieren, beim Blocken größer | Nur bei gewollter zusätzlicher Giftstrategie neben `Plague Myr`; verändert das Spielgefühl stark. |
+| **Myr Servitor** | Wiederkehr bei genügend gleichnamigen Myr im Friedhof | Ohne zusätzlichen Kopier-/Namensplan im Singleton unzuverlässig; ausgeschlossen. |
+| **Myr Scrapling** | Opfer für eine +1/+1-Marke | Für billige Myr-Casts und gelegentliche Skullclamp-Linien denkbar, derzeit geringe Einzelkartenqualität. |
+| **Eldrazi Monument** | Schutz und Flugfähigkeit für die Myr-Armee, Opferpflicht | Wenn `Akroma's Will` und `Shared Animosity` gegen fliegende/hohe Blocker nicht genügen, statt eines schwächeren Finishers testen. |
+| **Akroma's Memorial** | Permanente Eile, Flugfähigkeit und Kampfvorteile | Sieben Mana, langsam gegen `Akroma's Will`; nur für längere Runden. |
+| **Tezzeret, Master of the Bridge** | Verwertet die Zahl der Artefakte in direktem Schaden/Manakostensenkung | Ein mögliches spätes, unabhängiges Finish; teuer, nicht Myr und Planeswalker. |
+| **Chromatic Lantern** | Jedes Land liefert jede Farbe | Bei wiederholten WUBRG-Problemen trotz Drum/Tithe/Saga gegen ein langsames Artefakt einsetzen. |
+| **Reckless Fireweaver** | Jeder eintretende Artefakt-Token trifft alle Gegner für 1 | Sehr guter unmittelbarer Abschluss mit Myr-Turbine-Schleife, statt erst im Folgeturn angreifen zu müssen. Wenn Combo-Spiele zu selten abschließen, für einen mäßigen Kreaturenplatz testen. |
+| **The One Ring** | Enormer Kartennachschub und Schutz bei Cast | **Game Changer**; dritter Slot ist seit v2 durch `Smothering Tithe` belegt. Ersatz nur gegen einen aktuellen Game Changer, bei fehlendem Kartennachschub bevorzugt. |
+| **Ancient Tomb / Mishra's Workshop / Mana Vault** | Schneller Artefakt-Ramp | Alle **Game Changer**; nur mit 1:1-Tausch eines vorhandenen GC-Slots statt zusätzlich aufnehmen. |
+| **Rhystic Study / Cyclonic Rift** | Starker Kartenvorteil bzw. Reset | Beides **Game Changer**; wie oben nur gegen bestehenden GC. `Smothering Tithe` wurde bewusst für Artefakt-/Farbsynergie priorisiert. |
+| **Krark-Clan Ironworks / Scrap Trawler** | Große Opfer- und Friedhofs-Combo-Pakete | Würden einen zusätzlichen mehrteiligen Loop-Schwerpunkt einführen; derzeit zugunsten von Myr-Kampf/Tokenwachstum ausgeschlossen. |
+| **Nature's Claim / Assassin's Trophy** | Günstige Antworten auf störende Artefakte/Verzauberungen bzw. beliebige Permanents | Nach `Dispatch` die nächsten Interaktionskandidaten; gegen situativ ungenutzte Engines testen, wenn gegnerischer Hate regelmäßig gewinnt. |
 
-## Testfragen
+## Umgesetzte Entscheidung v2 (diff zu v1)
 
-1. Wie oft kann Urtet bis Zug 4–5 gespielt werden und anschliessend im selben oder naechsten Zug einen Myr-Zauber nutzen?
-2. Sind WUBRG fuer die erste Markenaktivierung und genau die benoetigten Farben fuer Kindred Discovery und Schutz verlaesslich vorhanden?
-3. Liefert Skullclamp/Kindred Discovery/Jhoira ausreichend Karten, oder braucht es Thoughtcast und weitere guenstige Draw-Spells?
-4. Sind die beiden beschriebenen Mehrkarten-Endlosschleifen der Runde angemessen, oder gewinnen sie zu frueh fuer das B3-Ziel?
-5. Welche der vier Siegachsen – Kampf, Simic Ascendancy, Mechanized Production, Direktschaden – entscheiden tatsaechlich Partien?
+| Entfernt | Aufgenommen | Kernentscheidung |
+| --- | --- | --- |
+| Hovermyr | Myr Moonvessel | Erster Myr-Zauber früher, später Skullclamp |
+| Myr Superion | Universal Automaton | 1-Mana-Myr-Cast ohne Cast-Einschränkung, Saga-Target |
+| Myr Propagator | Metallic Mimic | Mehr Marken auf eintretenden Myr |
+| Myr Welder | Dispatch | Interaktion für {W} mit regelmäßig aktiviertem Metalcraft |
+| Myr Matrix | Thousand-Year Elixir | Urtet sofort und mehrfach aktivieren |
+| Timeless Lotus | Smothering Tithe | Dritter Game Changer: wiederholbare Farbquellen/Artefakte |
+| Mirrodin Besieged | Cathars' Crusade | Jeder Kreatureneintritt verstärkt das gesamte Heer |
+| Lux Artillery | Shared Animosity | Kampf-Finish für {2}{R} |
+| Mechanized Production | Idol of Oblivion | Wiederkehrender Kartennachschub |
+| Herald's Horn | Springleaf Drum | Effizientere frühe Farbfixierung und Saga-Suchziel |
 
-Aenderungen und Tauschentscheidungen nach echten Partien hier festhalten; `current.txt` bleibt die einzige aktive Liste.
+Die aktive Liste enthält **drei** Game Changers: `Enlightened Tutor`, `Teferi's Protection`, `Smothering Tithe`. `Urza, Lord High Artificer` ist nach der offiziellen Änderung vom 21.10.2025 **kein** GC. Die Kartenpool-Einträge zählen nicht zu den 100 Karten.
+
+## Prüfaufträge nach echten Partien
+
+1. Urtet bis Zug 3/4: Wie oft ist nach dem Cast mindestens ein Myr-Zauber nachzulegen?
+2. WUBRG: Wie häufig kommt die erste Markenaktivierung, und verhindern fehlende Farben das trotz der neuen Drum/Tithe/Fetch-Landbasis?
+3. Nachschub: Wie viele Karten bringen `Idol of Oblivion`, `Skullclamp` und `Kindred Discovery` real; bremsen `Metallic Mimic` oder `Cathars' Crusade` die Clamp-Engine?
+4. Abschluss: Wie oft gewinnen die Angriffe durch `Shared Animosity` bzw. `Akroma's Will`, und wie oft funktioniert `Simic Ascendancy`?
+5. Stabilität und Bedienbarkeit: Werden die Crusade-Trigger bei vielen Myr in Manabrew noch korrekt und schnell verarbeitet?
+6. B3: Gewinnen die dokumentierten mehrteiligen Clock-/Turbine-Kombinationen häufig vor Zug 6? Falls ja, Spielabsicht und Tauschoptionen neu beurteilen.
+
+Nach Partien konkrete Tauschhistorie und Rückbau-Entscheidungen hier ergänzen; `current.txt` bleibt die einzige aktive Liste.

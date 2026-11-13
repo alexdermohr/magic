@@ -1,55 +1,83 @@
-# Urtet, Remnant of Memnarch – Myr-Maschinenheer (Commander Bracket 3)
+# Urtet, Remnant of Memnarch – Myr-Maschinenheer (Commander Bracket 3, v2)
 
-Stand: 13.11.2026. Aktive importierbare Deckliste: [current.txt](current.txt). Budget: unbegrenzt. Erster Entwurf, keine behaupteten Spieltestergebnisse.
+Stand: 13.11.2026. Aktive Deckliste: [current.txt](current.txt). Budget unbegrenzt. Grundlage: die bereits in `main` integrierte Erstfassung aus PR #95. **Optimierung v2, ohne behauptete Testpartien.** Konkrete Alternativen und die Rückkehrmöglichkeiten für entfernte Karten stehen in [card-pool.md](card-pool.md).
 
-## Ziel, Identitaet und Verteilung
+## Grundidee und Zusammensetzung
 
-Ein **Myr-Typal-/Artefakt-Engine-Deck** fuer den oberen Rand von Bracket 3: Kleine Myr erzeugen Mana, Urtet verdoppelt beim Wirken von Myr-Spruechen deren Praesenz, Artefakt-Engines sichern Kartennachschub, und verschiedene verknuepfte Gewinnwege machen das Heer gefaehrlich. Nicht fuenffarbige Goodstuff-Staples, sondern die Myr selbst sind der Kern.
+Das Deck bleibt eine **Myr-Artefaktmaschine**, keine generische Fünffarben-Goodstuff-Liste. Für Myr-Zauber produziert Urtet zusätzliche Myr-Spielsteine. Mana-Myr, Tokens, kontrolliertes Enttappen und zuverlässiger Kartennachschub finanzieren seine WUBRG-Aktivierung. Der Sieg kommt über Angriffe, +1/+1-Marken oder die wenigen bewusst beibehaltenen mehrteiligen Artefaktkombinationen.
 
-**Genau 100 Karten:** ein Commander, 34 weitere Kreaturen (davon 22 gedruckte Myr, hinzu kommt die Changeling-Kreatur Mirror Entity), 15 weitere Artefakte, sechs Verzauberungen, acht Spontanzauber/Hexereien, 36 Laender. Alle Karten einmal; fuenf verschiedene Standardlaender. Die Myr-Spielsteine gehoeren nicht zur importierten 100er-Liste.
+**100 Karten:** 1 Commander, **33 andere Kreaturen**, **14 weitere Artefakte**, **7 Verzauberungen**, **9 Spontanzauber/Hexereien** und **36 Länder**. In den 33 Kreaturen sind **19 gedruckte Myr**, dazu **zwei Changeling-Zauber** (`Mirror Entity` und `Universal Automaton`), die beim Wirken als Myr zählen. Zusammen **21 Myr-Zauber im Hauptdeck**. `Metallic Mimic` ist erst **auf dem Spielfeld** ein Myr, falls Myr gewählt wird; sein Wirken löst Urtet noch nicht aus.
 
-## Zentrale Regeln und Synergien
+## Warum die Maschine funktioniert
 
-- **Urtet** kostet drei generische Mana, hat aber durch {W}{U}{B}{R}{G} im aktivierten Kartentext eine fuenffarbige Commander-Farbidentitaet. **Beim Wirken** eines Myr-Spruchs entsteht ein Myr-Spielstein; das bloss ins Spiel Bringen eines Myr (z. B. Myr Turbine) zaehlt nicht. Am Anfang des Kampfes im eigenen Zug enttappt Urtet **alle Myr**, auch sich selbst. Die Aktivierung fuer {W}{U}{B}{R}{G} plus Tappen legt drei +1/+1-Marken auf jeden kontrollierten Myr und ist nur im eigenen Zug erlaubt. Wenn Urtet bereits seit Zugbeginn kontrolliert wird, kann es vor dem Kampf aktiviert, bei Kampfbeginn enttappt und mit erneutem WUBRG nochmals aktiviert werden.
-- **Mana-Myr + Urtet:** Gold, Silver, Copper, Iron, Leaden, Plague, Alloy und Palladium Myr koennen vor dem Kampf Mana erzeugen und dann fuer den Angriff wieder enttappt werden. Mox Opal, Arcane Signet, Patchwork Banner, Timeless Lotus und die fuenffarbige Landbasis helfen bei WUBRG. Cryptolith Rite erlaubt auch Myr-Spielsteinen farbiges Mana zu erzeugen, sobald sie nicht mehr von Einsatzverzoegerung betroffen sind.
-- **Urza, Lord High Artificer** erlaubt, untappte Artefakte fuer blaues Mana zu tappen. Weil die Kosten eine Faehigkeit von **Urza** sind, koennen auch gerade erzeugte Myr-Artefaktspielsteine dafuer getappt werden; auf sie kommt nicht die Einsatzverzoegerung als eigene Tappfaehigkeit zur Anwendung.
-- **Roaming Throne:** Beim Eintritt **Myr** waehlen, damit Urtets durch das Wirken von Myr ausgeloeste Faehigkeit ein zweites Mal ausgeloest wird. Roaming Throne ist beim Wirken noch kein Myr-Spruch und erzeugt selber keinen Urtet-Token. Mirror Entity hat Changeling bereits in allen Zonen und loest Urtet beim Wirken aus.
-- **Myr Kinsmith** sucht Myr-Karten auf die Hand (beispielsweise Myr Galvanizer, Myr Battlesphere). **Myr Turbine** legt dagegen eine Myr-Kreaturenkarte direkt ins Spiel; das ist kein Cast-Trigger. Myr Galvanizer verstaerkt und enttappt andere Myr. Unwinding Clock enttappt Artefakte waehrend der gegnerischen Enttappsegmente, besonders Myr Turbine, Myr-Manaquellen und Skullclamp-Zubehoer.
-- **Kartennachschub:** Skullclamp zieht zwei Karten je geopfertem 1/1-Myr-Spielstein ohne Anthem/Marken; mit gepumpten Token funktioniert dieses direkte Toeten per Skullclamp nicht mehr. Kindred Discovery auf Myr zieht bei Eintritt und Angriff, Jhoira bei gewirkten historischen Spruechen, Thought Monitor zwei Karten beim Eintritt. Mystic Forge spielt farblose Sprueche/Artefakte von der Bibliotheksoberseite, Emry wiederholt Artefakte aus dem Friedhof.
-- **+1/+1-Marken:** Urtet verstaerkt das gesamte Myr-Heer, Steel Overseer legt weitere Marken auf Artefaktkreaturen, Doubling Season verdoppelt Tokens und eigene Marken. Lux Artillery zaehlt am Ende des eigenen Zuges Marken auf kontrollierten Artefakten/Kreaturen und verursacht ab 30 insgesamt zehn Schaden an jedem Gegner pro Endsegment.
+- **Urtet**: Manakosten {3}, **Farbidentität WUBRG** durch den Kartentext. Nur **gewirkte** Myr-Zauber erzeugen durch Urtet einen zusätzlichen 1/1-Myr-Spielstein (Urtets eigener Cast löst diese Fähigkeit noch nicht aus); ein von Myr Turbine oder anderen Effekten ins Spiel gelegter Myr tut das nicht. Zu Beginn des Kampfes im eigenen Zug enttappt Urtet alle eigenen Myr. Für {W}{U}{B}{R}{G} plus Tappen legt Urtet je drei +1/+1-Marken auf **jeden** eigenen Myr; nur im eigenen Zug aktivierbar.
+- **Tempo und Farbversorgung**: Die fünf farbspezifischen Mana-Myr (Copper, Gold, Iron, Leaden und Silver), Myr Convert, Alloy Myr sowie Palladium Myr beschleunigen das frühe Spiel. `Springleaf Drum` kann auch einen **gerade erzeugten Myr-Spielstein** für eine beliebige Farbe tappen: Die Tappkosten gehören der Drum, nicht dem summoning-sick Token. `Cryptolith Rite` erlaubt eigene Tapp-Fähigkeiten erst mit nicht einsatzverzögerten Kreaturen. `Smothering Tithe` liefert bei ausbleibender Gegnerzahlung Schätze in allen Farben, von Doubling Season verdoppelt; die Schätze zählen zugleich als Artefakte für Affinity/Metalcraft/Clock.
+- **Urtet sofort und mehrfach einsetzen**: `Thousand-Year Elixir` erlaubt, Urtets aktivierte Fähigkeit trotz Einsatzverzögerung zu nutzen. Für {1} und Tappen enttappt es eine Kreatur zusätzlich. Unabhängig davon enttappt Urtet die Myr am Beginn des Kampfes. Jede weitere Markenaktivierung benötigt **erneut WUBRG**. Elixir ist keine kostenlose Aktivierung und gibt den Myr keine Eile zum Angreifen.
+- **Kosten reduzieren / Artefakte ausschöpfen**: `Urza's Incubator`, `Foundry Inspector` und `Etherium Sculptor` senken Myr-/Artefaktkosten. `Urza, Lord High Artificer` lässt beliebige ungetappte Artefakte für {U} tappen; dafür dürfen sogar frische Myr-Tokens dienen, weil die Fähigkeit zu Urza gehört. `Mox Opal` benötigt Metalcraft, `Urza's Saga` kann unter anderem `Springleaf Drum`, `Sol Ring`, `Skullclamp`, `Mox Opal` und `Universal Automaton` finden.
+- **Bessere Spielsteine und Zähler**: `Metallic Mimic` auf Myr wählen; **andere** Myr kommen dann mit einer +1/+1-Marke ins Spiel – auch Urtets Spielsteine. `Cathars' Crusade` legt bei jedem Kreatureneintritt eine Marke auf jede eigene Kreatur: Ein gewirkter Myr löst mit Urtet typischerweise **zwei getrennte Eintritte** aus. `Doubling Season` verdoppelt sowohl eigene Tokens als auch gelegte Marken; `Steel Overseer` legt weitere Marken auf Artefaktkreaturen. `Roaming Throne` auf Myr verdoppelt Urtets **Cast-Trigger**; Roaming Throne ist beim eigenen Wirken noch kein Myr-Zauber.
+- **Kartennachschub**: `Idol of Oblivion` zieht gegen {T} eine Karte, wenn im jeweiligen Zug ein Token erzeugt wurde; also normalerweise bei Urtets Myr-Cast-Engine. `Kindred Discovery` (Myr), `Jhoira, Weatherlight Captain`, `Thought Monitor`, `Mystic Forge`, `Esper Sentinel` und `Emry` ergänzen dies. `Skullclamp` zieht durch 1/1-Tokens schnell Karten, **aber** Tokens mit Marken oder +1/+1-Anthems sterben durch Anlegen nicht mehr automatisch. Erst klemmen, danach aufblasen.
+- **Myr-Suche und Wiederaufbau**: `Myr Kinsmith` findet Myr-Karten auf die Hand; `Myr Turbine` legt unter ihren Voraussetzungen ein Myr direkt ins Spiel, ohne Urtets Cast-Trigger. `Myr Retriever`, `Emry` und `Academy Ruins` holen Artefakte zurück. `Unwinding Clock` enttappt Artefakte bei gegnerischen Enttappsegmenten, aber Urtets Markenaktivierung darf trotzdem nur **im eigenen Zug** benutzt werden.
 
-## Gewinnwege
+## Siegbedingungen
 
-1. **Massenangriff:** Mit Urtets Marken, Myr Galvanizer, Master of Etherium, Myr Matrix, Patchwork Banner und bei Bedarf Mirror Entity wachsen die Myr zu echten Angreifern. Akroma's Will gibt mit kontrolliertem Commander unter anderem Flugfaehigkeit, Wachsamkeit und Doppelschlag und kann sofort abschliessen. Myr Battlesphere kann vorher enttappte Myr fuer direkten Schaden an einem verteidigenden Spieler tappen.
-2. **Simic Ascendancy:** Wenn Urtet sieben Myr mit je drei +1/+1-Marken versorgt, entstehen insgesamt 21 Wachstum-Marken auf Simic Ascendancy, sofern ihre Trigger verrechnet werden. Gewonnen wird erst **zu Beginn des eigenen Versorgungssegments**, wenn die 20-Marken-Bedingung gilt. Doubling Season kann den Aufbau stark beschleunigen.
-3. **Mechanized Production:** Auf einen 1/1-Myr-Artefaktspielstein anlegen. Die Spielsteine haben den Namen **Myr**. Beim naechsten eigenen Versorgungssegment erstellt die Aura eine Kopie des verzauberten Artefakts und prueft danach, ob mindestens acht Artefakte mit demselben Namen kontrolliert werden. Urtet und weitere Myr-Spielsteinerzeuger beschleunigen dies, Removal der verzauberten Quelle unterbindet es.
-4. **Mirrodin Besieged/Lux Artillery:** Mirran erzeugt bei Artefaktzaubern Myr, Phyrexian kann in langen Spielen mit mindestens 15 Artefaktkarten im eigenen Friedhof eine alternative Siegesbedingung erfuellen. Lux Artillery beendet Spiele ueber wiederholten Direktschaden.
+1. **Myr-Angriff** (erste Wahl): Mit `Shared Animosity` erhalten gleichzeitig angreifende Myr pro **anderem angreifenden Myr** +1/+0; ein Angriff mit acht Myr bedeutet für jeden davon typischerweise +7/+0. `Akroma's Will` gibt bei kontrolliertem Commander u. a. Flugfähigkeit, Wachsamkeit und Doppelschlag für den Abschluss. Urtets Marken und `Cathars' Crusade` machen denselben Kampfplan ohne Animosity gefährlich. `Myr Battlesphere` liefert zusätzlichen Schaden und vier Myr-Tokens beim Eintritt.
+2. **Simic Ascendancy**: Legt Urtet je drei +1/+1-Marken auf mindestens sieben Myr, entstehen durch die separaten Auslöser der Ascendancy insgesamt mindestens 21 Wachstumsmarken (ohne gegnerische Eingriffe). Die Siegbedingung wird **erst zu Beginn des eigenen Versorgungssegments** geprüft; Gegner können vorher reagieren. `Metallic Mimic` und `Cathars' Crusade` beschleunigen den Markenaufbau, `Doubling Season` die Verteilung.
+3. **Myr-Engines mit großer Reichweite**: `Clock of Omens` zusammen mit `Myr Galvanizer`, `Palladium Myr` und weiteren tappbaren Myr-Artefakten erlaubt Schleifen mit beliebig viel farblosem Mana; je nach vorhandenem Mana-Myr auch farbiges. Zusammen mit `Myr Turbine` und `Mondrak, Glory Dominus` oder `Doubling Season` erzeugt Clock unter den passenden Startbedingungen beliebig viele Myr-Tokens. Diese können **nicht allein dadurch im selben Zug angreifen**, sondern brauchen noch einen weiteren Abschluss oder einen späteren Angriff.
+4. **Ausweichweg gegen blockierte Bodenangriffe**: `Plague Myr` kann mit den Urtet-Marken durch Infizieren individuell bedrohlich werden. Das ist eine Nebenoption, nicht der Hauptplan; sie verlangt Angriffsfenster und ist keine automatische Poison-Kombination.
 
-### Bewusst enthaltene Mehrkarten-Endlosschleifen
+`Mechanized Production` (seltener Upkeep-Alternativsieg), `Mirrodin Besieged` (langsame Token-/Friedhofsachse) und `Lux Artillery` (erst nach genügend Marken, dann zehn Schaden pro Endsegment) wurden zugunsten schnellerer, weniger voneinander isolierter Engines entfernt.
 
-- **Clock of Omens + Myr Galvanizer + Palladium Myr** und mindestens zwei geeignete Myr-Artefakte als wiederholt enttappbare Tappkosten koennen unbeschraenkt farbloses Mana/Enttappungen erzeugen. Mit weiteren Mana-Myr sind farbige Mana-Schleifen moeglich; Urtet kann die so entstandenen Ressourcen in Marken umwandeln. Die Anzahl und Art der Hilfskreaturen ist relevant.
-- **Clock of Omens + Myr Turbine + Mondrak, Glory Dominus** (oder Doubling Season statt Mondrak) erzeugt bei nutzbarer Startaktivierung unbeschraenkt viele Myr-Spielsteine: Die beiden neuen Myr enttappen durch Clock die Turbine, die wieder zwei Myr erzeugt. Diese Token koennen normalerweise erst in einem folgenden Zug angreifen.
+### Vorhandene Mehrkarten-Endlosschleifen und Bracket-Absicht
 
-Es gibt **keine bewusst eingebaute fruehe Zweikarten-Endlosschleife**, kein Extra-Turn-Paket und keine Massen-Landverweigerung. Die Mehrkartenkombinationen sind der bewusst starke obere B3-Rand und sollten vor Spielbeginn genannt werden. Wenn die Liste in der Praxis regelmaessig vor Ende von Zug 6 gewinnt, ist die B3-Zuordnung zu ueberpruefen.
+- **Clock of Omens + Myr Galvanizer + Palladium Myr** mit weiteren geeigneten Myr-Artefakten: Mana-/Enttapp-Schleife. Die Hilfs-Artefakte und der bereits nutzbare Tapzustand zählen mit; das ist nicht allein mit exakt drei Karten auf leerem Feld garantiert.
+- **Clock of Omens + Myr Turbine + Mondrak/Doubling Season**: neue Token bezahlen als zwei Artefakte das Enttappen der Turbine durch Clock. Die Tokenanzahl lässt sich wiederholt verdoppeln/vergrößern. Urtet selbst wird für diese Turbine-Schleife nicht benötigt.
 
-## Mulligan, Sequenz, Schwachstellen
+Die Liste enthält **keine bewusst eingebauten frühen Zweikarten-Endloskombinationen**, keine Extrazug- und keine Massenlandzerstörungs-Engine. Diese Mehrkartenkombinationen sind ausdrücklich vor Partiebeginn zu erwähnen. Falls sie regelmäßig in den ersten sechs Zügen gewinnen, wäre die Bracket-3-Spielabsicht zu überprüfen. Drei Game Changers garantieren **nicht** von selbst ein Bracket 3.
 
-- **Zug 1–3:** 2–3 Laender plus ein guenstiger Myr, Mox Opal/Arcane Signet oder Sol Ring sind gute Startpunkte. Urtet moeglichst zeitig spielen, dann Myr wirken, statt alle guenstigen Myr bereits vorher zu verbrauchen.
-- **Zug 3–5:** Urtet plus Myr-Sprueche erzeugt Spielsteine. Mit Skullclamp, Jhoira, Mystic Forge oder Kindred Discovery die Hand nachfuellen. Myr Kinsmith findet genau das fehlende Myr; Enlightened Tutor sucht gezielt ein Artefakt bzw. eine Verzauberung oben auf die Bibliothek.
-- **Zug 6+:** WUBRG bereitstellen, Urtet aktivieren, Myr enttappen, bei passender Lage mit Akroma's Will gewinnen oder die Alternativsiege aufbauen. Clock of Omens und Unwinding Clock sind unterschiedliche Motoren; nicht blind in offene Artefaktvernichtung investieren.
-- **Schwächen:** Schwerer Artefakthass, Exil-Masseneffekte, abgeschaltete oder zerstoerte Manakreaturen, Manaentwicklung mit unpassenden Farben, Kartenmangel ohne Draw-Engine und Abhaengigkeit von Urtet. Organic Extinction raeumt Nichtartefakt-Kreaturen, schont meist das eigene Artefaktheer, trifft aber eigene nichtartefaktische Unterstuetzer. Removal und Schutz sind vorhanden, aber nicht allumfassend.
+## Optimierungsentscheidung v1 → v2: 10 Tausche
 
-## Bracket-Pruefung und Evidenz
+| Entfernt | Neu | Warum |
+| --- | --- | --- |
+| Hovermyr | **Myr Moonvessel** | 1-Mana-Myr statt rein defensivem 2-Mana-Körper, früherer Cast-Trigger und Skullclamp-Material |
+| Myr Superion | **Universal Automaton** | Uneingeschränkt wirkbarer 1-Mana-Changeling statt 5/6 mit einschränkender Manaquelle; Myr-Cast-Trigger und Saga-Tutorziel |
+| Myr Propagator | **Metallic Mimic** | Günstigere, sofort relevante Myr-Markenmaschine statt langsamer {3}+Tap-Kopien |
+| Myr Welder | **Dispatch** | Ein-Mana-Kreaturenantwort mit Metalcraft statt situativer Friedhof-Imprint-Myr |
+| Myr Matrix | **Thousand-Year Elixir** | Urtet-Aktivierung am Eintrittstag und zusätzliches Enttappen statt teurem {5}-Tokenmotor |
+| Timeless Lotus | **Smothering Tithe** | Dritter Game Changer: mehrfarbige Treasure-Ressourcen, Artefaktsynergie, bereits ab vier Mana |
+| Mirrodin Besieged | **Cathars' Crusade** | Verstärkt die tatsächliche Myr-Token-Engine drastisch statt langsamer Nebenstrategie |
+| Lux Artillery | **Shared Animosity** | Dreimana-Kampffinish statt bedingtem und langsamem Zehn-Schaden-Trigger |
+| Mechanized Production | **Idol of Oblivion** | Frühzeitiger, wiederholbarer Kartennachschub statt fragiler alternativer Upkeep-Siegbedingung |
+| Herald's Horn | **Springleaf Drum** | Sofortige günstige WUBRG-Fixierung und Saga-Tutorziel statt langsamer Tribal-Rabatte/Topdeck-Chance |
 
-**Genau zwei Game Changers** nach dem am 13.11.2026 verifizierten 53er-Stand: **Enlightened Tutor** und **Teferi's Protection**. **Urza, Lord High Artificer** wurde von Wizards am **21.10.2025** von der Game-Changers-Liste gestrichen und verbraucht daher keinen Slot. Bracket 3 erlaubt bis zu drei Game Changers: **Ein Slot ist noch frei**, muss aber nicht genutzt werden. Nicht enthalten sind weitere Game Changers wie The One Ring, Ancient Tomb, Mishra's Workshop, Cyclonic Rift, Rhystic Study, Smothering Tithe oder Seedborn Muse. Mox Opal ist derzeit **kein** Game Changer. Alle enthaltenen Karten liegen innerhalb von Urtets fuenffarbiger Identitaet, die Liste hat 100 einmalige Namen.
+**Konkrete Trade-offs:** Die 21 Myr-Zauber sind etwas weniger als vorher; dafür kosten die schwachen Myr-Körper weniger und die Payoffs treffen häufiger. `Cathars' Crusade` erzeugt bei großen Tokenmengen viele Einzeltrigger und ist in Manabrew/iPad gesondert auf Bedienbarkeit zu testen. `Skullclamp` wird mit `Metallic Mimic` und Crusade situativer. Gegner können `Smothering Tithe` mit {2} pro Karte begrenzen. Zusätzliche direkte Antworten bleiben ein möglicher nächster Schritt bei Removal-starkem Metagame.
 
-**Pruefgrenze:** Strukturelle Zaehlung und ein Abgleich wichtiger Oracle-Texte wurden vorgenommen; automatische Oracle-/Commander-Banlisten-Gesamtpruefung und echte 4-Spieler-/Manabrew-Partien sind gesondert zu belegen. Bracket 3 setzt auch eine passende reale Spielgeschwindigkeit voraus, nicht nur drei GC-Slots.
+## Spielplan
+
+- **Züge 1–3:** Zwei bis drei Länder, günstige Mana-Myr, Sol Ring/Arcane Signet/Mox Opal oder Springleaf Drum. Urtet möglichst früh legen und danach Myr wirken, damit Cast-Trigger entstehen. Ein 1-Mana-Myr ist nach Urtet praktisch oft zwei Körper für ein Mana.
+- **Züge 3–5:** Über Urtet, Myr-Galvanizer, Metallic Mimic, Roaming Throne und Kartennachschub eine breite Armee etablieren. Elixir ermöglicht Urtets Markenaktivierung schon im Eintrittszug, wenn WUBRG vorhanden ist. `Idol of Oblivion` und `Skullclamp` gegen früh leere Hände nutzen. `Smothering Tithe` nur so früh einsetzen, wie sie die Myr-Entwicklung nicht gefährlich verzögert.
+- **Züge 5–7:** Urtets Marken plus Shared Animosity oder Akroma's Will abschließen. Alternativ Simic Ascendancy mit Marken in die nächste eigene Upkeep bringen. Gegen einen starken gegnerischen Tisch `Organic Extinction` mit Improvisieren selektiv einsetzen; eigene **nichtartefaktische** Kreaturen wie Mondrak sind dabei nicht geschützt.
+- **Langspiel:** Emry/Myr Retriever/Academy Ruins rekurrieren Artefakte, Kindred Discovery/Jhoira/Forge ziehen Karten, Clock of Omens und Unwinding Clock verwerten viele Artefakte. Nicht blind mehrere ungeschützte Engines in offenen Massen-Artefakthass legen.
+
+## Bracket, Rechts- und Teststand
+
+**Genau drei Game Changers:** `Enlightened Tutor`, `Teferi's Protection`, **`Smothering Tithe`**. `Urza, Lord High Artificer` zählt seit der Wizards-Änderung vom **21.10.2025** nicht dazu; `Mox Opal` ebenfalls nicht. Die zuvor freie dritte Position ist nun belegt. Die neuen Karten sind im Commander-Format legal und liegen innerhalb von Urtets WUBRG-Farbidentität.
+
+**Live-Prüfung am 13.11.2026:** Die aktive Liste wurde aus dem GitHub-Branch gelesen und mit der Scryfall-Oracle-API abgeglichen: **100 Karten, 100 eindeutige Namen, alle 100 Commander-legal, keine Farbidentitätsverstöße, genau drei von Scryfall als Game Changer gekennzeichnete Karten**. Der Sammelendpunkt bestätigte 99 Karten; die Split-Karte `Wear // Tear` wurde wegen einer Einschränkung der Sammlungssuche separat über Scryfalls `cards/named?exact=`-Endpunkt bestätigt (Commander: legal, kein Game Changer). Die aktive Verteilung ist 34 Kreaturen inklusive Commander, 14 sonstige Artefakte, 7 Verzauberungen, 9 Spontanzauber/Hexereien und 36 Länder. Der Manawert der 64 Nichtlandkarten beträgt im Durchschnitt **3,05** (ohne Kostensenkungen/Prototyp-Casts). Zusätzlich hat `validate-decks` den Commit im [PR #96](https://github.com/alexdermohr/magic/pull/96) erfolgreich strukturell geprüft.
+
+**Nicht nachgewiesen** sind tatsächliche Vier-Spieler-Spielstärke, Partieverlauf, korrekte Implementierung aller Interaktionen durch Manabrew und die Bedienbarkeit der zahlreichen `Cathars' Crusade`-Trigger auf dem iPad. Diese Grenzen bleiben bis zu echten Spielen offen. Die Zuordnung zum oberen Bracket 3 ist eine begründete Spielabsicht, keine gemessene Turnierleistung.
 
 ### Quellen
 
-- Offizielle Commander-Regeln, Ban-Verweis und Brackets: https://magic.wizards.com/en/formats/commander
-- Bracket-Tempo und fruehe Combos (Wizards): https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
-- Urtet-Oracle: https://www.mtgcompendium.com/cards/urtet-remnant-of-memnarch
-- Urtet / Myr-Empfehlungen und Kombinationen: https://edhrec.com/commanders/urtet-remnant-of-memnarch/myr
-- Aktuelle Game Changers (Abgleich): https://commandernexus.com/game-changers
-- Kartenkandidaten und Gegenentscheidungen: [card-pool.md](card-pool.md)
+- Scryfall-Oracle-API und aktuelle Commander-Legalität: https://scryfall.com/docs/api/cards/collection und https://scryfall.com/docs/api/cards/named
+
+- Offizielle Commander-Regeln, Brackets und Game Changers: https://magic.wizards.com/en/formats/commander
+- Entfernung von Urza aus Game Changers: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
+- Urtet-Oracle und Legalität: https://mtg.wtf/card/onc/42/Urtet-Remnant-of-Memnarch
+- Springleaf Drum / neue Token als Tap-Kosten: https://mtg.wtf/card/ecl/260/Springleaf-Drum
+- Metallic Mimic: https://www.mtg.wtf/card/fdc/269/Metallic-Mimic
+- Cathars' Crusade: https://www.mtg.wtf/card/c16/61/Cathars-Crusade
+- Smothering Tithe: https://mtg.wtf/card/cmm/57/Smothering-Tithe
+- Shared Animosity: https://mtg.wtf/card/lcc/231/Shared-Animosity
+- Idol of Oblivion: https://mtg.wtf/card/tdc/319/Idol-of-Oblivion
+- Myr-Engine-Vergleich und Kombinationsbelege: https://edhrec.com/commanders/urtet-remnant-of-memnarch/optimized/control/combos
+- Deck-Konventionen: [../README.md](../README.md)

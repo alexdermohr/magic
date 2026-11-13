@@ -6,7 +6,6 @@ Deck
 1 Copper Myr
 1 Frogmyr Enforcer
 1 Gold Myr
-1 Hovermyr
 1 Iron Myr
 1 Leaden Myr
 1 Lodestone Myr
@@ -15,11 +14,9 @@ Deck
 1 Myr Enforcer
 1 Myr Galvanizer
 1 Myr Kinsmith
-1 Myr Propagator
+1 Myr Moonvessel
 1 Myr Retriever
 1 Myr Sire
-1 Myr Superion
-1 Myr Welder
 1 Palladium Myr
 1 Plague Myr
 1 Shimmer Myr
@@ -30,40 +27,43 @@ Deck
 1 Foundry Inspector
 1 Jhoira, Weatherlight Captain
 1 Master of Etherium
+1 Metallic Mimic
 1 Mirror Entity
 1 Mondrak, Glory Dominus
 1 Roaming Throne
 1 Steel Overseer
-1 Urza, Lord High Artificer
 1 Thought Monitor
-1 Sol Ring
+1 Universal Automaton
+1 Urza, Lord High Artificer
 1 Arcane Signet
-1 Mox Opal
-1 Timeless Lotus
-1 Urza's Incubator
-1 Herald's Horn
-1 Patchwork Banner
-1 Myr Turbine
-1 Myr Matrix
-1 Skullclamp
-1 Unwinding Clock
-1 Mystic Forge
-1 Lightning Greaves
-1 Lux Artillery
 1 Clock of Omens
-1 Kindred Discovery
+1 Idol of Oblivion
+1 Lightning Greaves
+1 Mox Opal
+1 Myr Turbine
+1 Mystic Forge
+1 Patchwork Banner
+1 Skullclamp
+1 Sol Ring
+1 Springleaf Drum
+1 Thousand-Year Elixir
+1 Unwinding Clock
+1 Urza's Incubator
+1 Cathars' Crusade
 1 Cryptolith Rite
 1 Doubling Season
-1 Mirrodin Besieged
-1 Mechanized Production
+1 Kindred Discovery
+1 Shared Animosity
 1 Simic Ascendancy
-1 Enlightened Tutor
-1 Teferi's Protection
+1 Smothering Tithe
 1 Akroma's Will
-1 Swords to Plowshares
+1 Dispatch
+1 Enlightened Tutor
 1 Generous Gift
 1 Heroic Intervention
 1 Organic Extinction
+1 Swords to Plowshares
+1 Teferi's Protection
 1 Wear // Tear
 1 Command Tower
 1 Mana Confluence
