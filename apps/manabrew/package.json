@@ -49,6 +49,7 @@
     "test:forge-supervisor": "node --test packages/forge-wasm/forge-engine.worker.test.mjs",
     "test:forge-legacy": "node scripts/test-forge-legacy.mjs",
     "test:forge-commander-pressure": "node scripts/engine-bench/forge-commander-pressure.mjs",
+    "test:forge-commander-block": "node scripts/engine-bench/forge-commander-block-threat.mjs",
     "test:forge-rewind": "node scripts/forge-tests/rewind.mjs",
     "bench:stress": "node scripts/engine-bench/stress.mjs",
     "bench:manabot": "node scripts/engine-bench/manabot-game.mjs",

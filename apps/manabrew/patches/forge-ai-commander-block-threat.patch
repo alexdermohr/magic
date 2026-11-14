@@ -1,0 +1,27 @@
+diff --git a/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java b/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
+--- a/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
++++ b/forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java
+@@ -368,6 +368,22 @@
+         List<Card> res = Lists.newArrayList();
+         for (Card c : combat.getAttackers()) {
+             if (c.isCommander() && combat.isAttacking(c, ai)) {
++                final List<Card> blockers = combat.getBlockers(c);
++                final boolean blocked = combat.isBlocked(c) || !blockers.isEmpty();
++                final boolean asUnblocked = StaticAbilityAssignCombatDamageAsUnblocked.assignCombatDamageAsUnblocked(c)
++                        || StaticAbilityAssignCombatDamageAsUnblocked.assignCombatDamageAsUnblocked(c, false);
++                if (blocked && !asUnblocked && !c.hasKeyword(Keyword.TRAMPLE)) {
++                    continue;
++                }
++                int potentialDamage = damageIfUnblocked(c, ai, combat, false);
++                if (blocked && !asUnblocked && !blockers.isEmpty()) {
++                    int requiredBlockerDamage = 0;
++                    for (Card blocker : blockers) {
++                        int lethal = Math.max(0, shieldDamage(c, blocker));
++                        requiredBlockerDamage += c.hasKeyword(Keyword.DEATHTOUCH) ? Math.min(1, lethal) : lethal;
++                    }
++                    potentialDamage = Math.max(0, potentialDamage - requiredBlockerDamage);
++                }
+                 int currentCommanderDamage = ai.getCommanderDamage(c);
+-                if (damageIfUnblocked(c, ai, combat, false) + currentCommanderDamage >= ai.getGame().getRules().getCommanderDamageToLose()) {
++                if (potentialDamage + currentCommanderDamage >= ai.getGame().getRules().getCommanderDamageToLose()) {
+                     res.add(c);
