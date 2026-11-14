@@ -374,6 +374,55 @@ test("verified durable rewind publishes replacement history before resuming the 
   f.command("end_game");
 });
 
+test("an engine crash keeps a recovery checkpoint while a normal finish clears it", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
+  const classStart = web.indexOf("class WebGameApi implements IGameApi");
+  const constructorStart = web.indexOf("  constructor(bridge: WorkerBridge, events: IEventBus)", classStart);
+  const constructorEnd = web.indexOf("\n  setServerApi(", constructorStart);
+  assert(classStart >= 0 && constructorStart > classStart && constructorEnd > constructorStart);
+  const source = `class RecoveryApi {
+    currentRecovery = null;
+    ${web.slice(constructorStart, constructorEnd)}
+  }
+  globalThis.RecoveryApi = RecoveryApi;`;
+  const code = transpileModule(source, {
+    compilerOptions: { target: ScriptTarget.ES2022 },
+  }).outputText;
+  let cleared = 0;
+  const ctx = vm.createContext({
+    clearForgeRecoverySave: async () => { cleared++; },
+    console: { warn() {} },
+  });
+  vm.runInContext(code, ctx);
+  const handlers = new Map();
+  const events = { on: (name, handler) => handlers.set(name, handler) };
+  const makeApi = () => {
+    const api = new ctx.RecoveryApi({}, events);
+    let disposed = 0;
+    api.currentRecovery = { queue: { dispose() { disposed++; } } };
+    return { api, disposed: () => disposed };
+  };
+  const crash = makeApi();
+  handlers.get("forge:engine_crash")({});
+  handlers.get("game:over")({});
+  assert.equal(crash.disposed(), 1);
+  assert.equal(cleared, 0);
+  const normal = makeApi();
+  handlers.get("game:over")({});
+  assert.equal(normal.disposed(), 1);
+  assert.equal(cleared, 1);
+  const java = readFileSync(new URL("../../forge-harness/native/wasm-src/forge/harness/wasm/SabTransport.java", import.meta.url), "utf8");
+  assert.match(java.slice(java.indexOf("public void publishGameOver")), /post\("forge:engine_crash", "\{\}"\)/);
+
+  const f = fixture();
+  f.active.event("forge:engine_crash", {});
+  f.active.event("game:over", {});
+  const terminal = f.output.filter((event) =>
+    event.event === "forge:engine_crash" || event.event === "game:over");
+  assert.deepEqual(terminal.map((event) => event.event), ["forge:engine_crash", "game:over"]);
+});
+
 test("failed cold restore never publishes game board or double-settles", () => {
   const snapshot = {
     journal: { startRequest: '{"gameId":"recover-test"}' },

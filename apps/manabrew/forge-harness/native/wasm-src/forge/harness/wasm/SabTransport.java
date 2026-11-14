@@ -472,6 +472,11 @@ public final class SabTransport implements InteractiveBridge {
     public void publishGameOver(final String engineError) {
         publishDecisionJournal();
         publishCheckpointMetrics();
+        if (engineError != null && !engineError.isEmpty()) {
+            // This precedes game:over on the same worker message channel.
+            // A failed engine run must not erase the last durable checkpoint.
+            post("forge:engine_crash", "{}");
+        }
         final int seats = Math.max(1, seatCount());
         for (int seat = 0; seat < seats; seat++) {
             if (engineError != null && !engineError.isEmpty()) {

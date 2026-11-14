@@ -258,6 +258,43 @@ describe("Forge recovery durable checkpoint cursor", () => {
     queue.dispose();
   });
 
+  it("drains a failed large prefix in storage-bounded prompt batches", async () => {
+    let count = 0;
+    let failFirstDecision = true;
+    const committed: ForgeRecoveryDelta[] = [];
+    const errors: unknown[] = [];
+    const queue = createForgeRecoveryCommitQueue(async (packet) => {
+      if (JSON.stringify(packet).length > 3_000_000) throw Error("oversized storage delta");
+      verifyForgeRecoveryDelta(packet, count, count === 0 && packet.startRequest !== undefined);
+      if (packet.nextSequence > 1 && failFirstDecision) {
+        failFirstDecision = false;
+        throw Error("temporary IndexedDB failure");
+      }
+      count = packet.nextSequence - 1;
+      committed.push(packet);
+    }, (error) => errors.push(error));
+
+    queue.enqueue(boundary());
+    await queue.flush();
+    const large = (sequence: number): ForgeRecoveryDelta => ({
+      ...boundary(), startRequest: undefined, nextSequence: sequence + 1,
+      entries: [{
+        ...action(sequence),
+        action: { type: "chooseAction", payload: "x".repeat(1_700_000) },
+      }],
+    });
+    queue.enqueue(large(1));
+    await queue.flush();
+    expect(count).toBe(0);
+    queue.enqueue(large(2));
+    await queue.flush();
+    expect(count).toBe(2);
+    expect(errors).toHaveLength(1);
+    expect(committed.map((item) => item.nextSequence)).toEqual([1, 2, 3]);
+    expect(committed.flatMap((item) => item.entries.map((entry) => entry.sequence))).toEqual([1, 2]);
+    queue.dispose();
+  });
+
   it("replaces an abandoned rewind timeline before saving new decisions", async () => {
     const persisted: ForgeRecoveryDelta[] = [];
     const queue = createForgeRecoveryCommitQueue(async (packet) => {

@@ -928,6 +928,11 @@ class WebGameApi implements IGameApi {
       if (current.gameId === null) current.gameId = boundary.gameId;
       current.queue.enqueue(boundary);
     });
+    events.on("forge:engine_crash", () => {
+      // Keep the latest committed boundary for a verified retry.
+      this.currentRecovery?.queue.dispose();
+      this.currentRecovery = null;
+    });
     events.on("game:over", () => {
       if (!this.currentRecovery) return;
       this.currentRecovery.queue.dispose();

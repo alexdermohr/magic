@@ -10,6 +10,8 @@ const DB_NAME = "manabrew-forge-autoresume-v1";
 const META = "current";
 const ENTRIES = "entries";
 const KEY = "active";
+const MAX_DELTA_CHARS = 3_000_000;
+const MAX_REWIND_CHARS = 64_000_000;
 
 export interface ForgeRecoveryLaunch {
   deck: Deck;
@@ -150,7 +152,7 @@ export function commitForgeRecoveryDelta(packet: ForgeRecoveryDelta, releaseId: 
     if (!/^[a-f0-9]{20,64}$/.test(releaseId) || launch.engine !== "Forge" || launch.aiController !== "forge") {
       throw Error("Forge recovery requires a pinned local engine");
     }
-    if (JSON.stringify(packet).length > (packet.replaceHistory ? 64_000_000 : 3_000_000)) {
+    if (JSON.stringify(packet).length > (packet.replaceHistory ? MAX_REWIND_CHARS : MAX_DELTA_CHARS)) {
       throw Error("Forge recovery delta too large");
     }
     const db = await openDb();
@@ -213,24 +215,34 @@ export function createForgeRecoveryCommitQueue(
     if (active) return active;
     active = (async () => {
       while (!disposed && pending.length) {
-        const batch = pending.slice();
         const batchEpoch = epoch;
-        const newest = batch[batch.length - 1]!;
-        const merged: ForgeRecoveryDelta = {
-          ...newest,
-          entries: batch.flatMap((item) => item.entries),
-          ...(batch[0]!.startRequest === undefined ? {} : { startRequest: batch[0]!.startRequest }),
-          ...(batch[0]!.replaceHistory ? { replaceHistory: true } : {}),
-        };
+        const observedCount = pending.length;
+        const first = pending[0]!;
+        const batch: ForgeRecoveryDelta[] = [];
+        let merged: ForgeRecoveryDelta | null = null;
+        const limit = first.replaceHistory ? MAX_REWIND_CHARS : MAX_DELTA_CHARS;
+        for (const item of pending) {
+          // A rewind is itself a verified full prefix. Commit it separately
+          // before appending decisions from the new timeline.
+          if (first.replaceHistory && batch.length) break;
+          const candidate: ForgeRecoveryDelta = {
+            ...item,
+            entries: [...(merged?.entries ?? []), ...item.entries],
+            ...(first.startRequest === undefined ? {} : { startRequest: first.startRequest }),
+            ...(first.replaceHistory ? { replaceHistory: true } : {}),
+          };
+          if (batch.length && JSON.stringify(candidate).length > limit) break;
+          batch.push(item);
+          merged = candidate;
+        }
         try {
-          await persist(merged);
+          await persist(merged!);
           if (epoch === batchEpoch) pending.splice(0, batch.length);
         } catch (error) {
           onError(error);
-          // A newer boundary may have arrived while the failed transaction
-          // was in flight. Retry that accumulated prefix once now; otherwise
-          // wait for the next actual player decision, avoiding a busy loop.
-          if (epoch === batchEpoch && pending.length === batch.length) break;
+          // Retry on a new player decision, not continuously while IndexedDB
+          // is unavailable. Older queued boundaries remain intact.
+          if (epoch === batchEpoch && pending.length === observedCount) break;
         }
       }
     })().finally(() => { active = null; });
