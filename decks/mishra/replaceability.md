@@ -1,10 +1,12 @@
 # Mishra, Eminent One – aktuelle Ersetzbarkeitsprüfung (optimiertes Bracket 3)
 
-**Aktive Version:** 13. November 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 142 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
+**Aktive Version:** 14. November 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 144 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
 
-**Struktur der aktuellen B3-Fassung mit Workshop/Memory Jar/Brudiclad/Ashnod/Top:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **47 Artefaktkarten**, **13 reguläre Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone** und **Demonic Junker** bleiben.
+**Struktur der aktuellen B3-Fassung mit Workshop/Memory Jar/Brudiclad/Ashnod/Manifold Key:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **47 Artefaktkarten**, **13 definierte Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone**, **Sculpting Steel** und **Jhoira** bleiben.
 
-**Aktueller Tausch (13.11.2026):** **Thousand-Year Elixir → Spine of Ish Sah; Nautiloid Ship bleibt.** Zwei verschiedene Mishra-Warform-Ziele sind nun enthalten: das Schiff für Friedhofsexil, Flugangriff und mögliche Reanimation, Spine für die Zerstörung einer beliebigen bleibenden Karte beim Eintritt. Dafür entfällt das frühe Aktivieren der Tap-Fähigkeiten von Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter über das Elixier sowie dessen {1},{T}-Enttappoption. Spine kostet sieben statt drei Mana, ist aber auch über Artefakt-Tutoren/-Rekursion erreichbar. Beide ausgetauschten Karten sind **Stufe 2**, die Verteilung **21/54/23/2** bleibt gleich. 100 Karten, 35 Länder, 47 Artefakte, 13 Mana-Artefakte und drei Game Changer unverändert.
+**Aktuelle Revision (14.11.2026):** Demonic Junker → Machine God's Effigy; Sensei's Divining Top → Manifold Key; Whir of Invention → Copy Artifact. **Sculpting Steel bleibt.** Drei schwach oder redundant gewordene Slots werden gegen eine Kreatur-Kopiermaschine, Artefakt-Enttappen und eine günstige zusätzliche Artefaktkopie ersetzt. Der frühere sofortige Instant-Artefakttutor und Top-Kartenfilter fehlen nun; Effigy erfordert ein geeignetes Kreaturenvorbild, Copy Artifact ein Artefaktvorbild. Die beiden früheren Stufe-4-Slots wurden durch Stufe-2-Karten ersetzt, daher gilt **21 × Stufe 1, 56 × Stufe 2, 23 × Stufe 3, 0 × Stufe 4**.
+
+**Vorangegangener Tausch (13.11.2026):** **Thousand-Year Elixir → Spine of Ish Sah; Nautiloid Ship bleibt.** Zwei verschiedene Mishra-Warform-Ziele sind nun enthalten: das Schiff für Friedhofsexil, Flugangriff und mögliche Reanimation, Spine für die Zerstörung einer beliebigen bleibenden Karte beim Eintritt. Dafür entfällt das frühe Aktivieren der Tap-Fähigkeiten von Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter über das Elixier sowie dessen {1},{T}-Enttappoption. Spine kostet sieben statt drei Mana, ist aber auch über Artefakt-Tutoren/-Rekursion erreichbar. Beide ausgetauschten Karten sind **Stufe 2**, die Verteilung **21/54/23/2** bleibt gleich. 100 Karten, 35 Länder, 47 Artefakte, 13 Mana-Artefakte und drei Game Changer unverändert.
 
 **Historische Tausche (nicht die aktuelle Deckliste):**
 
@@ -18,9 +20,9 @@
 | Stufe | Bedeutung | Karten |
 |:---:|---|---:|
 | 1 | Zentrale, schwer ersetzbare Rolle | 21 |
-| 2 | Hoher Deckbeitrag | 54 |
+| 2 | Hoher Deckbeitrag | 56 |
 | 3 | Vergleichsslot, alternative Funktion denkbar | 23 |
-| 4 | Theoretisch zuerst auf dem Prüfstand | 2 |
+| 4 | Theoretisch zuerst auf dem Prüfstand | 0 |
 | 5 | Kein eindeutig funktionsloser Platz | 0 |
 | **Gesamt** | **100 aktuelle Einzelbewertungen** | **100** |
 
@@ -151,8 +153,8 @@
 | 45 | Nautiloid Ship | **2** | Vier-Mana-Fahrzeug als Mishra-Ziel: Eine fliegende Warform exiliert beim Eintritt einen Spielerfriedhof und kann bei Kampfschaden eine Kreatur ins Spiel bringen, die genau dieses Exemplar exiliert hat. Bleibt als eigenständige Friedhofskontrolle neben Spine of Ish Sah erhalten; gegen Blocker keine garantierte Reanimation. |
 | 46 | Portal to Phyrexia | **2** | Extrem hoher ETB- und Upkeep-Ertrag, gewinnt Kreaturenspiele; neun Mana ohne Welder/Transmuter ein Starthand-Risiko. |
 | 47 | Simulacrum Synthesizer | **1** | Mishras eintretende Artefakte mit Mana Value ab 3 erzeugen massiv skalierende Constructs; zentrale Boardengine. |
-| 48 | Sensei's Divining Top | **2** | Günstige {1}-Bibliothekskontrolle, zusammen mit Fetch-/Tutor-Shuffles sehr brauchbar; per Urza's Saga suchbar und selbst ein legales Mishra-Ziel. Ihre {T}-Fähigkeit zieht 1 Karte und legt Top auf die Bibliothek; ohne Citadel kann sie **nicht kostenlos wieder von oben gespielt werden**. Unterstützt die Kartenqualität von Memory-Jar-Folgen, aber die Top selbst liefert ohne weitere Engine keinen dauerhaften Netto-Draw. |
-| 49 | Demonic Junker | **4** | Affinity-Artefaktfahrzeug mit ETB-Kreaturenzerstörung je Spieler. Sieben Mana ohne Artefaktdichte; stark, aber mit Blade/Relic/Portal funktional redundant. |
+| 48 | Manifold Key | **2** | {1}-Artefakt, auch mit Urza's Saga suchbar. Für {1},{T} enttappt es **ein anderes Artefakt** (z. B. Mana Vault, Resonator, Effigy/Transmuter oder ein Artefaktland); für {3},{T} macht es eine Kreatur im Zug unblockbar, besonders Nautiloid-Warforms. Kein Kartennachschub wie Sensei's Top, und nicht selbst enttappbar. |
+| 49 | Machine God's Effigy | **2** | {4}-Nichtkreatur-Artefakt, das beim Eintritt eine bereits liegende Kreatur als nichtkreaturisches Artefakt kopieren kann und {T}: {U} erhält. Besonders interessant als zusätzliche Goblin-Welder-/Master-Transmuter-Instanz oder Roaming-Throne-Effekt und mit Manifold Key; bei legendärer Kopie gilt unverändert die Legendenregel. Ohne Ziel nur blauer Manarock. |
 | 50 | Lightning Greaves | **2** | Früher Schutz und Haste für Mishra oder Welder; Shroud kann auch eigene Ziel-Effekte blockieren. |
 
 ### Interaktion, Tutor und Schutz
@@ -171,7 +173,7 @@
 | 60 | Oni-Cult Anvil | **2** | {B}{R}-Nichtkreatur-Artefakt und Mishra-Kopierziel: Beim ersten eigenen Artefakt-Verlassen je Zug erzeugt es einen 1/1-Artefakt-Construct; für Tappen und Opfer eines Artefakts verursacht es 1 Schaden an allen Gegnern und gewinnt 1 Leben. Liefert Opfer-/Token-/Duplicator-Synergien sowie zusätzliche Artefaktmasse für Tezzerets +2, benötigt aber Artefakte. |
 | 61 | Mystic Remora | **2** | Früher Multiplayer-Kartennachschub; kumulative Unterhaltskosten und kreaturenlastige Gegner schränken ein. |
 | 62 | Arcum Dagsson | **2** | {3}{U}-Artificer und wiederholbarer Feld-Tutor: Tap, eigene Artefaktkreatur (bevorzugt eine Warform) als Ziel opfern und ein beliebiges Nichtkreatur-Artefakt ohne Manawertgrenze direkt aus der Bibliothek holen. Muss normalerweise erst eine Runde überleben; weniger sofort zuverlässig als Fabricate. |
-| 63 | Whir of Invention | **4** | Spielt Artefakte als Instant direkt aus Bibliothek, Improvise reduziert X, niemals die harten UUU. Besonders teuer für große Zielkarten. |
+| 63 | Copy Artifact | **2** | {1}{U}-Verzauberung, die beim Eintritt ein Artefakt als zusätzliches Verzauberungsartefakt kopiert; zusätzliche günstige dauerhafte Kopie von Knight Paladin, Spine, Portal oder anderen Vorlagen. Im Deck/Friedhof keine Artefaktkarte, also nicht direkt über Arcum/Welder zugänglich. Nur wenn sie ein Nichtkreatur-Artefakt kopiert, ist sie selbst Mishra-Ziel. |
 | 64 | Demonic Tutor | **1** | Sehr günstiger universeller Zugriff auf das jeweils fehlende Teil; Game Changer 3/3. |
 | 65 | Tithing Blade | **1** | Zweimana-Artefakt; jede Mishra-Kopie lässt JEDEN Gegner eine Kreatur opfern, ohne zu zielen. Gegen Token-Armeen schwächer. |
 
@@ -194,7 +196,7 @@
 | 78 | Academy Ruins | **2** | Regelmäßige Friedhofsrekursion für Artefaktkarten auf Bibliotheksoberseite; kostet Tempo und farbiges Mana. |
 | 79 | Mishra's Workshop | **1** | Land/Game Changer: liefert {C}{C}{C} **nur zum Wirken von Artefaktzaubern** (nicht für Mishra selbst, Aktivierungen oder andere Nichtartefaktzauber). Enttappt normal, kostet kein Leben, ersetzt den einzigen farblosen Landrekursionsslot Buried Ruin; besonders stark für Memory Jar, Fahrzeuge und teure Artefaktkopierziele. Starkes Tempo, aber generischer Manabedarf des Commanders bleibt ungedeckt. |
 | 80 | Inventors' Fair | **3** | Tutor für beliebiges Artefakt bei Metalcraft und gelegentlich Lebensgewinn; farbloses Land und teure Aktivierung. |
-| 81 | Urza's Saga | **1** | Sucht nun **Sensei's Divining Top** ({1}) sowie **Sol Ring** ({1}), **Mana Vault** ({1}) oder **Mox Opal** ({0}). Das Saga-Suchkriterium gilt nur für aufgedruckte Manakosten exakt {0} oder {1}; erzeugt außerdem Constructs. |
+| 81 | Urza's Saga | **1** | Sucht **Manifold Key** ({1}) sowie **Sol Ring** ({1}), **Mana Vault** ({1}) oder **Mox Opal** ({0}). Das Saga-Suchkriterium gilt nur für aufgedruckte Manakosten exakt {0} oder {1}; erzeugt außerdem Constructs. |
 | 82 | Otawara, Soaring City | **2** | Ungetappte blaue Quelle oder schwer konterbares Channel-Bounce; nahezu ohne Deckbaupreis. |
 | 83 | Takenuma, Abandoned Mire | **2** | Ungetappte schwarze Quelle mit möglicher Kreaturen-Rekursion; passt zu Friedhofsplan. |
 | 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Ashnod's Altar/Diabolic Intent; sonst gewöhnliches Farbland. |
@@ -218,7 +220,7 @@
 
 ## Weitere unverbindliche Tauschhypothesen (kein beschlossener Cut)
 
-**Geschützte Bestandteile:** Brudiclad, Telchor Engineer, Ashnod's Altar und Demonic Junker bleiben nach Nutzerentscheidung im Deck. Als rein hypothetischer späterer Vergleichslot ist Whir of Invention wegen UUU und X aufgeführt; ohne belegten Nettovorteil erfolgt kein Tausch. Die früher angedachte Brudiclad-gegen-The-Master-Linie bleibt als **historisch verworfene Hypothese** im [Erweiterten Kreis](erweiterter-kreis.md), nicht als aktueller Vorschlag.
+**Bewusst erhalten:** Brudiclad, Telchor Engineer, Ashnod's Altar und Sculpting Steel. Demonic Junker und Whir of Invention wurden am 14.11.2026 auf neue Nutzerentscheidung hin entfernt; ein späterer Wiedereinbau ist möglich, aber nur als neuer Tausch. Die früher angedachte Brudiclad-gegen-The-Master-Linie bleibt eine **historisch verworfene Hypothese** im [Erweiterten Kreis](erweiterter-kreis.md).
 
 | Priorität | Möglicher Cut | Potenziell rein | Nutzen | Stärkstes Gegenargument | Struktur |
 |:---:|---|---|---|---|---|
@@ -226,6 +228,8 @@
 | B | **Jhoira, Weatherlight Captain** | **Fateful Discovery** | Zieht bei jedem Artefakt-ETB inklusive Warform und Worldwalker-Helm-Map; Set *The Hobbit*, 14.08.2026. | Jhoira zieht früher bei Historic-Casts, auch ohne Mishra; Discovery hat MV 5 und UU und ist kein Artefakt. | Kein Artefaktunterschied, schwerere Kurve |
 | B | **Darksteel Citadel** | **Phyrexian Tower** | Opfert Warforms für BB und kann Duplicator/Trawler auslösen. | Entfernt einen der verbliebenen Artefaktland-/Metalcraft-Bausteine; Ashnod's Altar übernimmt Opfer bereits. | Länder 35, Artefakte 47→46 |
 | C | **Mishra, Tamer of Mak Fawa** | **Padeem, Consul of Innovation** | Schützt Artefakte mit Hexproof und kann Karten ziehen, billiger. | Schützt Mishra selbst nicht und verliert Unearth für teure Artefakte. | Nichtartefakt gegen Nichtartefakt |
+
+**Neue Regelgrenzen:** Machine God's Effigy übernimmt die Legenden-Eigenschaft beim Kopieren legendärer Kreaturen. Da sie nicht als Kreatur ins Spiel kommt, unterliegt die eigene Tap-Fähigkeit dort keiner Einsatzverzögerung; sie kann aber nicht zusammen mit einem eigenen gleichnamigen legendären Vorbild bestehen. Copy Artifact ist als Karte eine Verzauberung und wird nur auf dem Feld bei erfolgreichem Artefaktkopieren zusätzlich zum Artefakt. Manifold Key kann die Effigy enttappen, sich selbst aber nicht. Die Legenden-/Kopierinteraktionen sind für Manabrew noch nicht live nachgespielt.
 
 ## Operative Regeln und Nachprüfbarkeit (aktuelle Game Changer)
 
