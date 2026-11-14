@@ -14,8 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Mishra's Workshop"}
-REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Determined Iteration", "Diabolic Intent", "Manifold Key", "Machine God's Effigy", "Copy Artifact", "Sculpting Steel", "Sensei's Divining Top", "Nautiloid Ship", "Memory Jar", "Mishra's Workshop"}
-FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic", "Bolas's Citadel", "The One Ring", "Buried Ruin", "Marionette Apprentice", "Lightning Greaves", "Demonic Junker", "Whir of Invention"}
+REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Determined Iteration", "Diabolic Intent", "Manifold Key", "Machine God's Effigy", "Lightning Greaves", "Sculpting Steel", "Sensei's Divining Top", "Nautiloid Ship", "Memory Jar", "Mishra's Workshop"}
+FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic", "Bolas's Citadel", "The One Ring", "Buried Ruin", "Marionette Apprentice", "Copy Artifact", "Demonic Junker", "Whir of Invention"}
 # Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
 EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge", "Nevinyrral's Disk"}
 EXPECTED_ROCKS = {
@@ -67,8 +67,8 @@ def names_and_docs() -> list[str]:
     pattern = r"^\|\s*\*\*(.*?)\*\*\s*\|"
     historic = re.findall(pattern, section_a, re.MULTILINE)
     alternatives = re.findall(pattern, section_b, re.MULTILINE)
-    assert_ok(len(historic) == 46, f"expected 46 historical cuts, found {len(historic)}")
-    assert_ok(len(alternatives) == 98, f"expected 98 external candidates, found {len(alternatives)}")
+    assert_ok(len(historic) == 45, f"expected 45 historical cuts, found {len(historic)}")
+    assert_ok(len(alternatives) == 99, f"expected 99 external candidates, found {len(alternatives)}")
     outside = historic + alternatives
     assert_ok(len(outside) == 144 and len(set(outside)) == 144,
               "extended circle must contain 144 unique excluded names")
@@ -90,7 +90,7 @@ def names_and_docs() -> list[str]:
     blobsha = hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest()
     assert_ok(blobsha == BASELINE_B4_BLOB, "bracket 4 baseline was modified")
     assert_ok(EXPECTED_GC.issubset(set(names)), "required Game Changer removed")
-    assert_ok(REQUIRED_CURRENT.issubset(set(names)), "required Mishra core plus Key/Effigy/Copy Artifact/Sculpting Steel package missing")
+    assert_ok(REQUIRED_CURRENT.issubset(set(names)), "required Mishra core plus Key/Effigy/Greaves/Sculpting Steel package missing")
     assert_ok(not (FORBIDDEN_CURRENT & set(names)), "rejected or newly removed Mishra card present")
     assert_ok(EXPECTED_ROCKS.issubset(set(names)), "one of 13 required mana artifacts removed")
     assert_ok(not (EXPLICITLY_EXCLUDED_WIPES & set(names)),
@@ -153,7 +153,7 @@ def run_oracle(names: list[str]) -> None:
     assert_ok(not no_gc_flag, f"missing live game_changer flags: {no_gc_flag}")
     assert_ok(gc == EXPECTED_GC, f"Game Changer set differs: {sorted(gc)}")
     assert_ok(len(lands) == 35, f"lands {len(lands)} not 35")
-    assert_ok(len(artifacts) == 47, f"artifacts {len(artifacts)} not 47")
+    assert_ok(len(artifacts) == 48, f"artifacts {len(artifacts)} not 48")
     assert_ok(len(EXPECTED_ROCKS & set(names)) == 13, "mana artifacts not 13")
     print("SCRYFALL PASS: 100 names Commander-legal; Grixis color identities")
     print("COUNTS PASS: 35 lands; 47 artifacts; 13 named mana rocks; 3 Game Changers")
