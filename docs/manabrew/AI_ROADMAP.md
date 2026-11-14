@@ -76,6 +76,16 @@ Die Anwendung muss zwischen den verfügbaren Gegnern wählen können, ohne die S
 
 **P1-Buildpfad-Nachtrag (6. November 2026):** Ein Review von PR #77 fand, dass der optionale Forge-Strategiepatch während des WebImage-Builds das als read-only vorgegebene `forge/` veränderte und erst per EXIT-Trap zurücksetzte. Die korrigierte Variante patcht nur eine temporäre Kopie von `AiAttackController.java`, kompiliert diese in eine Kopie des Harness-JAR und übergibt sie an GraalVM über `HARNESS_JAR`. **JVM-RED 19/30 versus GREEN 30/30**, originaler Forge-Pin und Harness-JAR unverändert. Die isolierte Compilerstrecke erzeugte ein frisches Browser-WASM (SHA-256 `31d3a0987f96a19e37a0f95bc2e6ba493ede8dc3e04a67a58850713bccf80607`), mit dem eine vollständige Anowon-/Helga-Partie regulär endete und **22/22 Forge-Lehrentscheidungen** exportiert wurden. Das beweist die neue WebImage-JAR-Kopplung und Browser-Engine, nicht den kompletten äußeren Builder, nicht das Produktivdeployment oder ein iPadOS-Home-Screen-Spiel. Details im technischen README.
 
+### P1-Blockerkorrektur vom 7. November 2026 – JVM-Regression, noch kein WebImage-Release
+
+Forges `ComputerUtilCombat.getLifeThreateningCommanders()` behandelte einen Commander bei **20/21 bereits erhaltenem Commander-Schaden** selbst dann noch als tödliche Bedrohung, wenn ihm schon ein regulärer Blocker zugewiesen wurde. Das galt auch nach `Combat.setBlocked(..., true)`. `lifeInDanger()` und `lifeInSeriousDanger()` übernahmen diesen falschen Befund; dadurch können unnötige Block-/Opferentscheidungen entstehen.
+
+Die minimalinvasive, optionale Korrektur unter `apps/manabrew/patches/forge-ai-commander-block-threat.patch` prüft zugewiesene Blocker **und** den finalen Blockstatus. Sie entfernt nur den falsch positiven Fall für normale, geblockte Commander; Trampelschaden oder explizit als ungeblockt zugewiesener Schaden bleiben weiterhin Bedrohungen. Der gepinnte Forge-Quellbaum wird nicht verändert.
+
+**Echter JVM-RED/GREEN-Test:** `apps/manabrew/forge-harness/src/test/java/forge/harness/common/CommanderBlockThreatProbe.java` mit `yarn test:forge-commander-block`, Forge-Pin `be9e0c8a5b561ae3e909c2f9a8bdac0a7fa2b097`, Java 21, bereits gebauter Harness-JAR. Für die sechs Messwerte `unblocked, assigned, blocked, danger, serious, trample` ergab die unveränderte Engine **1,1,1,1,1,1**, das echte gepatchte Classpath-Overlay **1,0,0,0,0,1**. Das Experiment endete mit Exitcode 0; der Forge-Checkout blieb sauber. Der Runner kann optional einen getrennten sauberen Forge-Quellpfad und Harness-JAR als zwei Argumente erhalten.
+
+**Freigabegrenze:** Die Änderung ist bisher **JVM-only**. Kein neu kompiliertes Browser-WebImage, keine vollständigen Vergleichspartien und kein Nachweis höherer Siege. Der produktive Forge-WASM-Build, Linux-/iPad-Release, Spielerdaten und der bestehende Standardgegner bleiben unverändert. Erst bei nachweisbarer Wirkung in echten Partien einen WebImage-Kandidaten bauen und gegen den laufenden Rückfallstand abnehmen.
+
 ### P2 — ManaBot zu einem schlanken strategischen Gegner ausbauen
 
 **Vorgehen**
@@ -194,95 +204,20 @@ Die kleine Korrektur wählt den bereits ermittelten gemeinsamen tödlichen Stand
 
 **Grenze:** Das ist eine nachgewiesene taktische Korrektur, **noch keine statistisch belegte Verbesserung der Siegquote**. Die produktive Forge-WASM, ManaBot-Baseline, persönlichen Decks und der iPad-Release wurden nicht geändert.
 
-## iPad-P0/P1-Wiederaufnahme: Stand 8. November 2026
+### P1-Forge-WebImage mit beiden Commander-Kampfkorrekturen: vollständige Partien (7. November 2026)
 
-Die bestätigte Nutzerbeobachtung (Partie nach Appwechsel auf dem
-echten iPad verloren) bleibt offen. Auf PR-#85-Quellstand wurde
-die bisher ungeschützte Übergabe des Forge-Sitzlese-Workers
-repariert: SAB-Quittung nach Hauptthread-Zustellung,
-ein eigener Zustellzähler gegen READY/ACK-Rennen und gezielter
-Neustart eines ausgefallenen Sitzlesers nach Vordergrund-Rückkehr.
-Ein lokales Diagnoseprotokoll unterscheidet Dokumentschließung
-von Workerfehlern. Vollständiger Offline-Releasekandidat,
-240 Vitest- und 3 echte SAB-Worker-Tests sind grün;
-Chromium-Offline-Partie mit BFCache/WebGL/Frozen-Resume wurde
-weitergespielt, aber ein echtes physisches Safari-PWA-E2E fehlt.
-Details und Belege: README.md.
+Der bisherige `commander-pressure`-Patch (`AiAttackController`) und der neue `forge-ai-commander-block-threat.patch` (`ComputerUtilCombat`) wurden in einer **getrennten** Harness-JAR aus den gepinnten Forge-Quellen mit einem temporären Java-Classpath-Overlay kombiniert. Das originale Forge-Git-Checkout blieb sauber; weder das ursprüngliche Harness-JAR noch produktive Assets wurden verändert.
 
-**P1 ist nicht durch diesen Fix erfüllt:** Ein vollständiger
-iPadOS-Prozessabbruch vernichtet den Forge-WASM-Spielzustand.
-GameCheckpoint-/DecisionJournal-Replay ist vorhanden, aber die
-standardmäßige interne Forge-AI von Journal/Replay ausgeschlossen.
-Die nächste ursächliche Arbeit ist, zunächst einen reproduzierbaren
-Rekonstruktions-Roundtrip einer tatsächlichen Forge-AI-Partie zu
-ermöglichen: Lauf starten, Entscheidungen und Engine-Identität
-aufnehmen, Prozess beenden, mit geprüftem Zufallszustand,
-Spielzonen, Stack und Hidden-Information rekonstruieren, danach
-eine weitere gültige Entscheidung ausführen. Erst dann eine
-atomare IndexedDB-Persistenz und Resume-Bedienung in den
-produktiven Offline-Client integrieren. Kein Schein-Resume nur
-durch Wiedergabe des letzten gerenderten Boards.
+**Kombinierte Java-Gegenproben:** `CommanderDamageDefenderProbe` wählte den fast besiegten Commander-Gegner **30/30**; `CommanderBlockThreatProbe` meldete `unblocked=1, assigned=0, blocked=0, danger=0, serious=0, trample=1`. Beide liefen mit der **gleichen** neu zusammengebauten JAR (SHA-256 `3d30efc6f0aa323db03bfbb65a5c19b6e2f9162d966355304095f0cb1316eb2f`).
 
+**Wirklicher Oracle-GraalVM-25.3.4.1-WebImage-Neubau:** 86.026.348 Bytes, SHA-256 `9baba53b6eeb6bf1c11de7e746555e62063914edf4ffa6754420cd639b20313c`. Der neue Node/WebImage-Engine-Kandidat liegt unter `~/.local/state/manabrew-forge-block-webimage-20261107/engine`. Der Build nutzte den vorhandenen `forge-harness/build-wasm.sh`-Pfad mit expliziter `HARNESS_JAR`, vorhandenem `FORGE_ASSETS` und getrenntem Outputverzeichnis; die beiden Quellklassen wurden nur in temporären Kopien gepatcht.
 
-**Finaler Kandidat:** Manifest 375316ebdefeca4c7e67 mit 38 Decks;
-Chromium-Offline-Spiel bis zum echten Ende (105 Aktionen),
-BFCache-/WebGL-Wiederherstellung und Diagnose-UI unter
-Settings/Preferences erfolgreich. Echte iPad-Safari-Abnahme und
-dauerhafte Engine-Rekonstruktion bleiben offen.
+**Drei echte vollständig entschiedene Offline-Commander-Partien auf genau diesem neuen WASM:**
 
+- Seed `27011`, Anowon gegen Helga, zwei Spieler: `game:over`, 211 Engine-Fenster, 0 Zahlungsabbrüche, keine Engine-Stalls.
+- Seed `27012`, Ardenn/Rograkh gegen Malcolm/Breeches (Partner-Commander), zwei Spieler: `game:over`, 261 Engine-Fenster, 0 Zahlungsabbrüche, keine Engine-Stalls.
+- Seed `27013`, Anowon, Gahiji, Arahbo und Rin and Seri, vier Spieler mit drei Forge-AI-Sitzen: `game:over`, 259 Engine-Fenster, 0 Zahlungsabbrüche, keine Engine-Stalls.
 
-## P1: Isolierter Forge-AI-Replay-PoC nach Engine-Prozessverlust (9. November 2026)
+**Gleicher Vier-Spieler-Seed als Gegenprobe:** Das zuvor ausgelieferte Forge-WASM `31d3a0987f96a19e37a0f95bc2e6ba493ede8dc3e04a67a58850713bccf80607` endete ebenfalls regulär mit 259 Engine-Fenstern und denselben beobachteten ManaBot-Aktionszählungen. Latenz p50/p90: bestehendes WASM **128/218 ms**, neuer Kandidat **139/236 ms**; p99 in beiden Fällen rund **12 Sekunden**. Dieser einzelne Lauf beweist weder eine Leistungssteigerung noch einen reproduzierbaren Performance-Nachteil, weist aber auf bestehende Latenzspitzen im Vier-Spieler-Pod hin.
 
-Der Sitzleser-Fix aus PR #85 (Produktiv-Manifest
-375316ebdefeca4c7e67) ist nicht mit vollständiger Engine-Rettung
-gleichzusetzen. PR #85 ist nach der isolierten Basisintegration
-konfliktfrei, 35 von 35 ManaBot-Tests und GitHub-Deckvalidierung
-bestanden. Die Hauptbranch-Integration und echte iPad-Safari-Abnahme
-sind weiterhin offen.
-
-Die Forge-AI-Journalfunktion ist nur über den expliziten experimentellen
-Startparameter experimentalInternalAiReplay aktiviert; im normalen
-Programm bleibt die Sperre aktiv. Die isolierte JVM-Probe erfasst
-ein vollständiges Journal mit Zustand-/RNG-Zeugen, speichert einen
-privaten Replay-Snapshot atomar, beendet die laufende Java-Engine
-und rekonstruiert den Zustand in einem frischen Prozess.
-Die weitere Partie wird gegen eine zuvor in der ursprünglichen
-Engine aufgezeichnete Folge von Prompts und Spielersichten geprüft.
-Beschädigte Snapshots werden abgewiesen.
-
-**Frische Gegenproben:** Zwei unabhängige Seeds des einfachen
-1v1-Fixtures mit jeweils 35+8 Entscheidungen sowie zwei Seeds
-der persönlichen Anowon/Gahiji-Partie mit 55+20 Entscheidungen
-wurden erfolgreich rekonstruiert. Eine zusätzliche echte
-Disk-Restore-Gegenprobe für Seed 424244 scheiterte bei Entscheidung 26
-mit **unterschiedlichem Spielzustand bei gleichem ReplayRandom-Stand**.
-Eine unmittelbare Wiederholung desselben Seeds bestand. Damit ist
-eine sporadische, nicht durch diesen RNG-Strom erklärte
-Nichtdeterministik nachgewiesen; die konkrete Ursache bleibt offen. Deshalb bleibt der Pfad
-experimentell und ist produktiv deaktiviert.
-
-**Gegenprobe zur Ursache (9. November):** Die Standard-JVM
-startet für Forge-KI-Abwägungen einen separaten Evaluations-Thread,
-dessen ThreadLocal-MyRandom ohne Initialisierung einen SecureRandom
-erhält. Zusätzlich beeinflussen reale Uhrzeitbudgets die Aktionswahl.
-Das erklärt eine mögliche Nichtdeterministik trotz unverändertem
-ReplayRandom-Zähler. Das bereits vorhandene Forge-WebImage setzt
-forge.synchronous=true beim Boot vor dem ersten ThreadUtil-Zugriff.
-Drei Seeds jeweils der einfachen und persönlichen Commander-
-JVM-Replayprobe bestanden im synchronen Modus. Dasselbe galt für
-getrennte Kandidaten mit explizit weitergereichtem AI-RNG
-beziehungsweise synchronem KI-Eval ohne Uhrzeit-Abbruch.
-Die konkrete Ursache der früheren Einzelabweichung bleibt
-nicht abschließend bewiesen. Der Opt-in-Replay-Adapter verweigert
-deshalb jetzt unsynchrone JVM-Sitzungen; eine eigene Negativprobe
-bestätigt die Ablehnung, drei vollständige positive Seedreihen
-bestanden danach.
-
-**Offene Produktarbeit:** Eine vollständige, versionsgebundene
-Forge-WebImage-Kompilierung, sequenz- und checksumgebundene
-IndexedDB-Journale, Durable-ACK erst nach Commit,
-Persistenz bei Browserneustart, verifizierte Wiederherstellung
-nach gezieltem Worker-Ende und nach echtem Safari-Prozessabbruch,
-sowie Resume-UI. Keine Wiederaufnahme behaupten, solange der
-vollständige Zustands-/RNG-Abgleich nicht erfolgreich ist.
-Details: apps/manabrew/docs/DECISION_REPLAY.md.
+**Auslieferungsgrenze:** Technische WebImage-Integration ist nun belegt, aber **keine statistisch höhere Forge-Siegquote** und **keine physische Safari-Home-Screen-Abnahme**. Der produktive Dienst und seine 38 Commander-Decks, lokale Änderungen sowie Rückfallstände bleiben unverändert. Kein automatischer Standardwechsel oder Deployment nur aufgrund dieser drei Spiele.
