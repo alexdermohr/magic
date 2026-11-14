@@ -1,55 +1,64 @@
-# Rendmaw, Creaking Nest — Der Krieg der fremden Vögel
+# Rendmaw, Creaking Nest — Mehrfachtyp-Maschine
 
-Stand: 2026-11-14 · **Commander, Bracket 3** (oberer Leistungsbereich) · unbegrenztes Budget.
+Stand: 2026-11-14 (grundlegender Umbau nach Kritik an unzuverlässigen Gewinnwegen).
+**Commander · Bracket 3 · unbegrenztes Budget.** Die einzige aktive, importierbare Liste ist [current.txt](current.txt); [card-pool.md](card-pool.md) enthält ausgeschiedene und erwogene Karten.
 
-Die einzig aktive und importierbare Liste ist [current.txt](current.txt). Diese Analyse ist keine zweite Deckliste.
+## Entwurfsentscheidung
 
-## Deckbau und Prüfstand
+**Zuerst Rendmaw wiederholt auslösen, dann daraus gewinnen.** Die ursprüngliche Liste enthielt nur 31 zusätzliche Karten mit mindestens zwei Kartentypen und zu viele isolierte Opfer-, Massensterben- und Alternativsieg-Karten. Die neue Liste verzichtet auf die breite Aristocrats-Sammlung und priorisiert Mana, Mehrfachtyp-Karten, Kartennachschub sowie wenige überdurchschnittlich starke Abschlüsse.
 
-- **100 Karten:** 1 Commander, 62 Nichtlandkarten, 37 Länder.
-- **3/3 Game Changers:** Ancient Tomb, Demonic Tutor, Survival of the Fittest. Grundlage: Commander-Liste mit Stand Februar 2026, nochmals im November 2026 abgeglichen.
-- Keine absichtlich enthaltene Zweikarten-Endlosschleife, Extrazüge oder Massen-Landverweigerung. Grave Pact kann jedoch Kreaturen stark einschränken und gehört in die Spielabsprache.
-- Eine lokale Zählung prüfte 100 Karten und Singleton-Ausnahmen für genau 2 Forest und 2 Swamp. Eine vollständige Oracle-/Bannlisten-/Farbidentitätsprüfung und reale Partietests stehen aus. Die Repository-CI prüft nur Struktur, nicht alle Kartenregeln.
+- Genau **100 Karten** einschließlich Commander: 37 Länder, 62 weitere Nichtlandkarten.
+- **47 direkt auslösende Karten** unter den 99 Deckkarten (zuvor 31): 10 Artefaktkreaturen, 20 Verzauberungskreaturen, 4 Kindred-Karten mit weiterem Typ, 2 Artefakt-Verzauberungen, 1 außerhalb des Spielfelds zusätzlich als Kreatur geltender Planeswalker (Grist) und 10 Länder mit zweitem Kartentyp.
+- **Biotransference** zählt *nicht* zu den direkten Mehrfachtyp-Karten, verwandelt jedoch sämtliche eigenen Kreaturenkarten und -zauber zusätzlich in Artefakte. Damit lösen nach ihrer Auflösung auch einfarbige Kreaturenzauber Rendmaw aus; jedes gewirkte Artefakt erzeugt außerdem einen 2/2-Necron (bei 1 Leben Verlust).
+- **3/3 Game Changers:** Ancient Tomb, Demonic Tutor, Survival of the Fittest; Bestand anhand der 53-Karten-Liste vom 14. November 2026 kontrolliert.
+- Keine bewusst eingeplante frühe Zweikarten-Endlosschleife, Extrazugkette oder Massen-Landverweigerung. Der Bracket-Nachweis hängt zusätzlich vom tatsächlichen Spieltempo ab, nicht allein von der Game-Changer-Zahl.
 
-## Mechanik, die das Deck zusammenhält
+## Warum die Typen funktionieren
 
-Rendmaw erzeugt beim Eintritt und **beim Spielen einer Karte mit mindestens zwei Kartentypen** für jeden Spieler einen getappten 2/2-Vogel mit Flugfähigkeit; die Vögel bleiben für den Rest der Partie angestachelt. Eine Karte lediglich ohne Spielen ins Spiel zu bringen genügt nicht.
+Rendmaw sagt ausdrücklich „whenever you **play a card** with two or more card types“. Damit **zählen gespielte Artefakt- und Verzauberungsländer**, nicht nur gewirkte Zaubersprüche. Ein Land mit zwei *Untertypen* (etwa Swamp Forest) hat weiterhin nur einen Kartentyp. „Legendary“ und „Snow“ sind ebenfalls keine weiteren Kartentypen.
 
-Auslöser im Deck:
-- **Artefaktkreaturen:** Ornithopter of Paradise, Twitching Doll, Leaden Myr, Haywire Mite, Roaming Throne, Solemn Simulacrum, Noxious Gearhulk.
-- **Verzauberungskreaturen:** Sanctum Weaver, Enduring Vitality, Dryad of the Ilysian Grove, Destiny Spinner, Courser of Kruphix, Eidolon of Blossoms, Doomwake Giant, Overlord of the Hauntwoods, Overlord of the Balemurk, Nyx Weaver, Gloomshrieker, Enduring Tenacity.
-- **Länder mit zweitem Kartentyp:** Urza's Saga und Valgavoth's Lair (Enchantment Land); Darkmoss Bridge, Darksteel Citadel, Vault of Whispers, Tree of Tales, Treasure Vault und Scene of the Crime (Artifact Land); Dryad Arbor (Creature Land).
-- **Kindred-Zauber:** Bitterblossom und Lignify (Kindred Enchantment), Nameless Inversion (Kindred Instant). *Kindred ist selbst ein Kartentyp.*
+| Mehrfachtyp-Auslöser | Beispiele | Zahl |
+| --- | --- | ---: |
+| Artifact Creature | Copper Myr, Palladium Myr, Foundry Inspector, Haywire Mite, Roaming Throne | 10 |
+| Enchantment Creature | Dockside Chef, Shigeki, Erebos, Renata, Nessian Wanderer, Eidolon of Blossoms | 20 |
+| Kindred + ein weiterer Typ | Bitterblossom, Lignify, Nameless Inversion, Eyeblight's Ending | 4 |
+| Enchantment Artifact | Bow of Nylea, Whip of Erebos | 2 |
+| Planeswalker + Creature auf dem Stapel | Grist, the Hunger Tide (über eigenen statischen Kartentext) | 1 |
+| Länder mit zweitem Kartentyp | Urza's Saga, Valgavoth's Lair, Darkmoss Bridge, Darksteel Citadel, Vault of Whispers, Tree of Tales, Treasure Vault, Dryad Arbor, Scene of the Crime, Power Depot | 10 |
+| **Gesamt** | | **47** |
 
-## Spielplan
+Nur gespielte bzw. gewirkte Karten lösen Rendmaw aus. Ein durch Fähigkeit zurückgebrachtes Artefakt oder eine direkt ins Spiel gebrachte Verzauberungskreatur lösen die „play“-Fähigkeit *nicht* aus. Rendmaws Eintritt selbst erzeugt unabhängig davon einmal Vögel.
 
-**Eröffnung:** In den Zügen 1–3 Mana beschleunigen, nötigenfalls mit Ancient Tomb. Rendmaw möglichst früh ausspielen. Lightning Greaves oder Heroic Intervention schützen ihn; der erste ETB-Vogel entsteht auch ohne weiteres Mana.
+## Gewinnen – drei zusammenhängende Pläne
 
-**Aufbauen:** Mehrfachtyp-Karten spielen; mit Roaming Throne die Art **Scarecrow** wählen, um spätere Rendmaw-Auslöser zu verdoppeln. Bitterblossom, Dryad of the Ilysian Grove und die Mehrfachtyp-Länder liefern weiter Auslöser bzw. Ressourcen. Idol of Oblivion und Deathreap Ritual liefern dauerhaften Kartenvorteil.
+1. **Mehr eigene Vögel als gegnerische:** Parallel Lives verdoppelt *nur unsere* Token. Chatterfang ergänzt bei jedem eigenen Token-Erzeugungsereignis Eichhörnchen. Renata gibt den bei uns eintreffenden Vögeln +1/+1-Marken. Biotransference produziert zusätzliche Necrons, die nicht angestachelt sind. Beastmaster Ascension macht nach sieben eigenen Angriffsdeklarationen alle eigenen Kreaturen um +5/+5 größer; die vielen fliegenden Vögel können danach Partien durch Kampfschaden beenden. Overwhelming Stampede liefert einen einmaligen verstärkten Schlussangriff, insbesondere solange Rendmaw mit Stärke 5 im Spiel ist.
+2. **Gegnerische Vögel ausnutzen:** Massacre Wurm gibt gegnerischen Kreaturen bei seinem Eintritt -2/-2 und verursacht für **jede** dadurch (oder anderweitig) sterbende gegnerische Kreatur 2 Leben Verlust beim jeweiligen Besitzer. Viele vorherige Rendmaw-Auslöser liefern den tödlichen Vorrat. Culling Ritual räumt Token mit Manawert 0 ab und produziert Mana für weitere Züge; mit Poison-Tip Archer und Marionette Apprentice werden Todesfälle zusätzlich in Lebensverlust umgewandelt.
+3. **Token-Erzeugung in direkten Schaden umwandeln:** Mirkwood Bats lässt jeden Gegner Leben verlieren, wenn wir Token erzeugen oder opfern. Ein Rendmaw-Vogel plus ein Biotransference-Necron plus über Chatterfang oder Parallel Lives vervielfachte eigene Token erzeugen einen planbaren, wiederholbaren Drain pro ausgespielter Karte – ganz ohne vollständigen Friedhofs- oder Reanimationsaufbau.
 
-**Vogeltod profitabel machen:** Ashnod's Altar, Yawgmoth, Evolutionary Leap, Phyrexian Tower, Victimize und Plumb the Forbidden opfern eigene Vögel. Poison-Tip Archer, Syr Konrad, Blood Artist und Grismold reagieren auf sterbende Kreaturen bzw. Spielsteine, auch bei Gegnern. Marionette Apprentice, Zulaport Cutthroat und Grave Pact profitieren von unseren Opfern. Species Specialist wählt **Bird**, um an Vogel-Todesfällen Karten zu ziehen. Skullclamp ist für die 1/1-Faeries, Eichhörnchen und Servos besser als für 2/2-Vögel.
+**Kartennachschub statt Sackgassen:** Pygmy Kavu zieht bei seinem Eintritt für **jede schwarze Kreatur unserer Gegner** eine Karte – also auch für alle zuvor an die Gegner verteilten schwarzen Vögel. Eidolon of Blossoms zieht mit Verzauberungskreaturen, Erebos mit Kreaturentod, Dockside Chef aus entbehrlichen eigenen Token. Shigeki kann sich selbst zurück auf die Hand nehmen, dadurch wieder ausgespielt werden und in längeren Partien weitere Rendmaw-Auslöser liefern.
 
-**Abschließen:**
-- **Massacre Wurm**: Bestehende gegnerische Vögel sterben durch -2/-2; jeder gegnerische Vogel verursacht durch den Wurm zwei weitere Lebenspunkte Verlust für dessen Besitzer.
-- **Virulent Plague**: Alle 2/2-Vögel und 1/1-Pflanzen sterben sofort; vorhandene Sterbe-Payoffs nutzen dies. **Mirkwood Bats triggert dabei nur durch Erzeugung eigener Token, nicht durch deren bloßes Sterben**; zusätzliches Auslösen ist durch tatsächlich geopferte Token möglich.
-- **Culling Ritual**: Vernichtet auch Token (Mana Value 0) und erzeugt Mana, kann aber eigene billige Nichtlandpermanents treffen.
-- **Ezuri's Predation**: 4/4-Bestien kämpfen mit gegnerischen 2/2-Vögeln und hinterlassen bei günstigem Board eine große eigene Armee.
-- **Revel in Riches**: Gegnerische Todesfälle produzieren Schätze; bei zehn Schätzen zu Beginn des eigenen Versorgungssegments ein alternativer Sieg.
-- **Grismold + Virulent Plague + Primal Vigor**: Erzeugte Pflanzen sterben, Grismold wächst durch ihre Todesfälle, Primal Vigor verdoppelt Tokens und Zählmarken.
+## Beschleunigung und Verteidigung
 
-## Schwächen, Gegenproben und Spielsituationen
+Früh Sol Ring, Arcane Signet, Nature's Lore, Three Visits, Bloom Tender und die Manakreaturen; Rendmaw kostet fünf Mana. Copper Myr, Palladium Myr, Leaden Myr und Ornithopter of Paradise verbinden Ramp mit weiteren späteren Rendmaw-Auslösern. Foundry Inspector verbilligt Artefaktzauber, darunter Rendmaw selbst. Nylea, Keen-Eyed verbilligt Kreaturenzauber. Enduring Vitality verwandelt eigene Vögel auch in Manaquellen und kann sie so vor dem eigenen Angriffssegment tappen.
 
-- **Goad im Duell:** Gibt es keinen anderen legalen Gegner mehr, können gegnerische angestachelte Vögel uns angreifen. Revenge of Ravens, Virulent Plague und die Wipes sind deshalb kein Beiwerk.
-- **Die eigenen Vögel sind ebenfalls angestachelt** und müssen angreifen, falls möglich. Vor dem Angriffssegment ist Opferung oder gegebenenfalls Tappen mit Enduring Vitality möglich.
-- **Primal Vigor wirkt symmetrisch.** Gegnerische Token-Decks profitieren ebenso. Nur ausspielen, wenn wir die vervielfachte Produktion sofort besser verwerten können.
-- **Virulent Plague verhindert auch unsere eigene klassische Vogel-Offensive** und schwächt manches Token-Payoff. Nicht parallel zu Ezuri's Predation auf eine intakte Vogelschar hoffen.
-- **Culling Ritual trifft auch eigene frühe Steine.** Netto-Mana und Verluste abwägen.
-- **Commander-Abhängigkeit:** Rendmaw kostet fünf Mana und kann teuer erneut gewirkt werden. Schutz und Meren/Victimize sind bewusst enthalten. Ohne ihn verliert die Liste merklich an Tempo.
-- **Testziele:** Commander in Zug 3–5; danach genügend weitere Mehrfachtypen; belastbare Kartenversorgung; Massensterben ohne eigenes Aus; realistische Gewinnwege im Vierpersonenspiel und im Duell.
+Whip of Erebos sorgt für Lifelink bei den eigenen Vögeln; Bow of Nylea gibt angreifenden Kreaturen Todesberührung und kann einen 2/2-Flieger für zwei Schaden abschießen. Der Schutz von Rendmaw bleibt bei Lightning Greaves und Heroic Intervention; flexible Antworten sind Assassin's Trophy, Beast Within, Deadly Rollick, Haywire Mite, Eyeblight's Ending, Noxious Gearhulk und Grist.
 
-## Referenzen
+## Gegenproben und Risiken
 
-- [Wizards: Commander-Regeln und Brackets](https://magic.wizards.com/en/formats/commander)
-- [Wizards: Rendmaw-Regeltext und Goad (Duskmourn Release Notes)](https://magic.wizards.com/en/news/feature/duskmourn-house-of-horror-release-notes)
-- [Wizards: Kindred als Kartentyp (Modern Horizons 3)](https://magic.wizards.com/en/news/feature/modern-horizons-3-release-notes)
-- [Game Changers: 53 Karten, geprüft November 2026](https://themanagrove.com/articles/commander-game-changers)
+- **Symmetrischer Commander:** Ohne Parallel Lives, Renata, Biotransference oder Abschlusskarten produziert Rendmaw für *alle* Spieler gleich viele Vögel. Bloße Auslöserzahl garantiert keinen Vorteil.
+- **Goad in der Schlussphase:** Sobald nur ein Gegner verbleibt, können dessen angestachelte Vögel uns angreifen. Whip, Bow, eigene Flieger und vorhandene Entfernung müssen dafür reichen; Raking Canopy liegt als Testkandidat im Kartenpool.
+- **Nicht zu früh voll ausgeben:** Rendmaw auf Zug 3–5 ist gut, wenn danach noch günstige Mehrfachtyp-Karten übrig sind. Eine Hand mit nur 5+ Mana teuren Karten bleibt problematisch.
+- **Roaming Throne auf Scarecrow** verdoppelt Rendmaw-Auslöser, also auch die gegnerischen Vögel – nur mit asymmetrischem Payoff schnell einsetzen.
+- **Power Depot** tritt getappt ins Spiel und produziert farbiges Mana nur für Artefaktzauber oder Artefakt-Fähigkeiten. Der Tausch gegen Prismatic Vista belastet die generelle Farbfixierung etwas; im Spiel testen.
+- **Biotransference** kostet bei jedem eigenen Artefaktzauber 1 Leben; bei hoher Zauberdichte nicht ohne Lebenspolster überziehen.
+- **Culling Ritual** vernichtet auch eigene günstige Manasteine und Kreaturen. Es ist eine explosive, aber nicht verlustfreie Umwandlung in Mana.
+- **Zwei-Typen-Quelle != Kopie:** Ein ins Spiel gebrachtes Permanent löst Rendmaws Play-Trigger nicht aus.
+- **Tests noch offen:** echte Commander-Partien, realer Kurven- und Manatest, vollständige automatisierte Oracle-/Commander-Legalitätsprüfung. GitHub-CI prüft ausschließlich strukturelle Deckkonventionen und Dateiverweise.
+
+## Quellen
+
+- [Rendmaw Oracle-Text und Rulings](https://mtg.wtf/card/dsc/5/Rendmaw-Creaking-Nest)
+- [Biotransference – Oracle-Text](https://mtg.wtf/card/40k/30/Biotransference)
+- [Grist – Modern Horizons 2 Rulings](https://magic.wizards.com/en/news/feature/modern-horizons-2-release-notes-2021-06-04)
+- [Commander und Brackets](https://magic.wizards.com/en/formats/commander)
+- [Game Changers, Stand 14.11.2026](https://playgroup.gg/commander/game-changers)
