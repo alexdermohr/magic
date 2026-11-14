@@ -93,10 +93,13 @@ function supervise(command) {
           clearTimeout(timer);
           coldVerified = true;
           for (const message of instance.buffered) {
-            // A cold start has no old directive lanes to retain. Publish the
-            // verified leaf's lanes, unlike a hot rewind which reuses its own.
-            if (message.event === "game:directive_lanes") directiveLanes = message.payload;
-            self.postMessage(message);
+            if (message.event === "game:directive_lanes") {
+              directiveLanes = message.payload;
+              self.postMessage(message);
+            }
+          }
+          for (const message of instance.buffered) {
+            if (message.event !== "game:directive_lanes") self.postMessage(message);
           }
           instance.buffered = [];
           started = true;
@@ -112,7 +115,7 @@ function supervise(command) {
           return;
         }
         if (data.type === "event" &&
-            ["game:sab", "game:remote_sab", "game:directive_lanes"].includes(data.event)) {
+            ["game:sab", "game:remote_sab", "game:directive_lanes", "game:seat_directive"].includes(data.event)) {
           instance.buffered.push(data);
           return;
         }
@@ -165,7 +168,7 @@ function supervise(command) {
           instance.buffered = [];
           Atomics.store(new Int32Array(control), 0, 2);
           Atomics.notify(new Int32Array(control), 0);
-        } else if (["game:sab", "game:remote_sab", "game:directive_lanes"].includes(data.event)) {
+        } else if (["game:sab", "game:remote_sab", "game:directive_lanes", "game:seat_directive"].includes(data.event)) {
           instance.buffered.push(data);
         }
         return;

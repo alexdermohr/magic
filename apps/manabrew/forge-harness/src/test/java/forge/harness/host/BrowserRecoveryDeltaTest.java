@@ -3,7 +3,6 @@ package forge.harness.host;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-/** Plain JVM source-contract test; no Forge UI or browser dependencies. */
 public final class BrowserRecoveryDeltaTest {
     private static JsonObject parse(final String value) {
         return JsonParser.parseString(value).getAsJsonObject();

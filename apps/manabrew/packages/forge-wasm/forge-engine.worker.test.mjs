@@ -319,6 +319,43 @@ test("cold restore conceals a dead worker until verified state and RNG", () => {
   assert(worker.terminated);
 });
 
+test("cold replay releases recording status only after verifying and installing directive lanes", () => {
+  const snapshot = {
+    version: 1, nextSequence: 2,
+    journal: { version: 2, startRequest: '{"gameId":"recover-test"}', entries: [{}] },
+    prompt: { promptId: 22 }, verification: { state: "a".repeat(64), rng: "1:2" },
+  };
+  const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
+  const recording = { seat: 0, directive: { type: "recordingStatus", status: "completed" } };
+  f.active.event("game:seat_directive", recording);
+  assert(!f.output.some((event) => event.event === "game:seat_directive"));
+  f.active.response("start", "game-started");
+  f.active.event("forge:replay_ready");
+  const lanesIndex = f.output.findIndex((event) => event.event === "game:directive_lanes");
+  const statusIndex = f.output.findIndex((event) => event.event === "game:seat_directive");
+  assert(lanesIndex >= 0 && statusIndex > lanesIndex, "status requires verified directive lanes");
+  assert.deepEqual(f.output[statusIndex].payload, recording);
+  f.command("end_game");
+
+  const aborted = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
+  aborted.active.event("game:seat_directive", recording);
+  aborted.active.event("game:forced_end", { reason: "replay divergence" });
+  assert(!aborted.output.some((event) => event.event === "game:seat_directive"));
+});
+
+test("hot rewind preserves recording-status directives until candidate promotion", () => {
+  const f = fixture();
+  const candidate = f.rewind();
+  const recording = { seat: 0, directive: { type: "recordingStatus", status: "active" } };
+  candidate.event("game:seat_directive", recording);
+  assert(!f.output.some((event) => event.event === "game:seat_directive"));
+  candidate.event("forge:replay_ready");
+  const events = f.output.filter((event) => event.event === "game:seat_directive");
+  assert.equal(events.length, 1);
+  assert.deepEqual(events[0].payload, recording);
+  f.command("end_game");
+});
+
 test("cold restore retains verified directive lanes across a subsequent rewind", () => {
   const snapshot = {
     version: 1,
