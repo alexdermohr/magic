@@ -35,11 +35,9 @@ Die Entscheidung war, Rendmaw nicht mit etlichen einzelnen Opfer- und Friedhofsk
 | Karte | Rolle | Gegen welche aktuelle Karte prüfen? |
 | --- | --- | --- |
 | Raking Canopy | Fügt jeder fliegenden Kreatur, die **uns** angreift, 4 Schaden zu; sehr stark im Zweispieler-Endspiel. | Gegen Weaver of Harmony oder Grim Guardian, falls das Duell schwach bleibt. |
-| Pygmy Kavu ist **bereits aktiv** | Zieht für jeden schwarzen Vogel eines Gegners; nicht erneut aufnehmen. | Keine Doppelung. |
 | Wing Storm | Jeder Spieler nimmt 2 Schaden pro eigenem Flieger, kann Gegner mit viel Vogelnachschub treffen, aber uns ebenfalls. | Nur nach konkreter Lebenspunkte-Gegenprobe. |
 | Reap | Holt aus unserem Friedhof bis zu so viele Karten zurück, wie ein Gegner schwarze Permanents kontrolliert. | Bei Attrition-Spiel statt eines flexiblen Removal-Spells. |
 | Pact of the Serpent | Kann für Birds sehr viele Karten ziehen, verursacht dabei ebenso viel Lebensverlust beim Ziel. | Bei Draw-Problemen und ausreichendem Lebenspolster. |
-| Raking Canopy | Schon oben als Duellabsicherung erfasst; keine zweite aktive Karte. | — |
 | Wurmcoil Engine | Artefaktkreatur mit Lifelink, Todesberührung und zwei Tokens beim Tod; liefert Rendmaw-Auslöser. | Gegen eine schwerfällige Verzauberungskreatur. |
 | Scrap Trawler | Artefaktkreatur und Friedhofsrückführung von Artefakten. | Wenn Artefakte zu häufig zerstört werden. |
 | Scuttlemutt | Artefaktkreatur/Scarecrow mit flexibler Manafarbe. | Gegen ein schlechteres Mana- oder Support-Piece. |
@@ -51,7 +49,6 @@ Die Entscheidung war, Rendmaw nicht mit etlichen einzelnen Opfer- und Friedhofsk
 | Crucible of Worlds | Wiederholt Artefakt- und Verzauberungsländer aus dem Friedhof spielen (und so wieder triggern). | Wenn multitypige Länder wiederholt geopfert werden. |
 | Six | Gewährt Permanents im Friedhof Retrace, kann mehrfach zwei-Typ-Karten aus dem Friedhof wirken. | Für längere Spiele. |
 | Gaea's Cradle | Extrem schnelles Mana aus eigener Armee, aber Game Changer. | Nur **statt** Ancient Tomb bei 3/3 GC; mit leerem Board schwächer. |
-| Parallel Lives ist **bereits aktiv** | Ersetzt Primal Vigor, verdoppelt ausschließlich unsere Tokens. | Keine Doppelung. |
 | Pitiless Plunderer | Schätze beim Tod eigener Kreaturen. | Bewusst ausgeschlossen: mit Chatterfang und Ashnod's Altar ermöglicht er eine Ressourcenschleife. |
 | Exquisite Blood | Lebenspunkte bei gegnerischem Lebensverlust. | Bewusst ausgeschlossen: mit Enduring Tenacity entsteht eine Zweikarten-Endlosschleife. |
 
