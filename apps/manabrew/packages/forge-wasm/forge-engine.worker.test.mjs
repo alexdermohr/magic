@@ -13,7 +13,7 @@ const source = readFileSync(
   new URL("./forge-engine.worker.js", import.meta.url),
   "utf8",
 );
-function fixture(started = true) {
+function fixture(started = true, args = {}) {
   const workers = [],
     output = [],
     timers = new Map();
@@ -53,7 +53,7 @@ function fixture(started = true) {
   });
   vm.runInContext(source, context);
   vm.runInContext(
-    'supervise({type:"command",command:"start_game",requestId:"start",args:{}})',
+    "supervise(" + JSON.stringify({ type: "command", command: "start_game", requestId: "start", args }) + ")",
     context,
   );
   const active = workers[0];
@@ -198,6 +198,8 @@ test("UI termination rejects game requests, preserves query requests, cancels di
     eventBus,
     writeSeatMessage,
     DEBUG_TRANSPORT: false,
+    document: { addEventListener() {} },
+    window: { addEventListener() {} },
   });
   vm.runInContext(
     js.replaceAll("import.meta.url", JSON.stringify("https://test.invalid/web.ts")) +
@@ -287,4 +289,157 @@ test("normal game end delivers a late final SAB prompt before stopping its reade
   assert.equal(prompts.length, 1);
   assert(seat.cancelled);
   engine.dispose();
+});
+
+test("cold restore conceals a dead worker until verified state and RNG", () => {
+  const snapshot = {
+    version: 1, nextSequence: 3,
+    journal: { version: 2, startRequest: '{"gameId":"recover-test"}', entries: [{}, {}] },
+    prompt: { promptId: 22 }, verification: { state: "a".repeat(64), rng: 98 },
+  };
+  const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
+  const worker = f.active;
+  assert.deepEqual(JSON.parse(JSON.stringify(worker.sent[0].args.replaySnapshot)), snapshot);
+  assert.equal(worker.sent[0].args.promptOffset, 0, "dead worker has no prior prompt offset");
+  worker.event("game:sab", { buffer: new SharedArrayBuffer(256 * 1024) });
+  worker.response("start", "game-started");
+  assert.equal(f.responses("start").length, 0);
+  assert.equal(f.output.some((entry) => entry.event === "game:sab"), false);
+  worker.event("forge:recovery_checkpoint", { secret: "unverified" });
+  assert.equal(f.output.some((entry) => entry.event === "forge:recovery_checkpoint"), false);
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 0);
+  worker.event("forge:replay_ready", {});
+  assert.equal(f.responses("start").length, 1);
+  assert.equal(f.responses("start")[0].payload, "game-started");
+  assert.equal(f.output.filter((entry) => entry.event === "game:sab").length, 1);
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 1,
+    "cold restore must publish freshly created directive lanes after replay verifies");
+  assert.equal(Atomics.load(new Int32Array(worker.sent[0].args.rewindControl), 0), 2);
+  f.command("end_game");
+  assert(worker.terminated);
+});
+
+test("cold restore retains verified directive lanes across a subsequent rewind", () => {
+  const snapshot = {
+    version: 1,
+    nextSequence: 2,
+    journal: { version: 2, startRequest: '{"gameId":"recover-test"}', entries: [{}] },
+    prompt: { promptId: 22 },
+    verification: { state: "a".repeat(64), rng: "1:2" },
+  };
+  const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
+  f.active.response("start", "game-started");
+  f.active.event("forge:replay_ready");
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 1);
+
+  f.active.event("forge:rewind", { lastPromptId: 40, prompt: { promptId: 22 } });
+  const candidate = f.workers.at(-1);
+  candidate.event("worker:init", { stage: "ready" });
+  assert.strictEqual(candidate.sent[0].args.rewindDirectiveLanes, f.lanes);
+  candidate.event("game:directive_lanes", f.lanes);
+  candidate.event("forge:replay_ready");
+  assert.equal(f.output.filter((entry) => entry.event === "game:directive_lanes").length, 1);
+  f.command("end_game");
+});
+
+test("verified durable rewind publishes replacement history before resuming the candidate", () => {
+  const f = fixture(true, { durableBrowserResume: true });
+  const startRequest = JSON.stringify({ gameId: "forge-rewind-1",
+    decisionJournal: true, journalRewind: true });
+  const rewind = {
+    version: 1,
+    nextSequence: 2,
+    journal: { version: 2, startRequest, entries: [{
+      sequence: 1, playerIndex: 0,
+      prompt: { decidingPlayerId: "player-0" },
+      action: { type: "chooseAction" },
+      verification: { state: "a".repeat(64), rng: "0:aa" },
+    }] },
+    prompt: { decidingPlayerId: "player-0", promptId: 12 },
+    verification: { state: "b".repeat(64), rng: "0:bb" },
+    lastPromptId: 40,
+  };
+  f.active.event("forge:rewind", rewind);
+  const candidate = f.workers.at(-1);
+  candidate.event("worker:init", { stage: "ready" });
+  assert(!f.output.some((event) => event.event === "forge:recovery_checkpoint"));
+  candidate.event("forge:replay_ready");
+  const published = f.output.filter((event) => event.event === "forge:recovery_checkpoint");
+  assert.equal(published.length, 1);
+  assert.equal(published[0].payload.gameId, "forge-rewind-1");
+  assert.equal(published[0].payload.replaceHistory, true);
+  assert.equal(published[0].payload.nextSequence, 2);
+  assert.deepEqual(published[0].payload.entries, rewind.journal.entries);
+  assert.equal(Atomics.load(new Int32Array(candidate.sent[0].args.rewindControl), 0), 2);
+  f.command("end_game");
+});
+
+test("an engine crash keeps a recovery checkpoint while a normal finish clears it", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
+  const classStart = web.indexOf("class WebGameApi implements IGameApi");
+  const constructorStart = web.indexOf("  constructor(bridge: WorkerBridge, events: IEventBus)", classStart);
+  const constructorEnd = web.indexOf("\n  setServerApi(", constructorStart);
+  assert(classStart >= 0 && constructorStart > classStart && constructorEnd > constructorStart);
+  const source = `class RecoveryApi {
+    currentRecovery = null;
+    ${web.slice(constructorStart, constructorEnd)}
+  }
+  globalThis.RecoveryApi = RecoveryApi;`;
+  const code = transpileModule(source, {
+    compilerOptions: { target: ScriptTarget.ES2022 },
+  }).outputText;
+  let cleared = 0;
+  const ctx = vm.createContext({
+    clearForgeRecoverySave: async () => { cleared++; },
+    console: { warn() {} },
+  });
+  vm.runInContext(code, ctx);
+  const handlers = new Map();
+  const events = { on: (name, handler) => handlers.set(name, handler) };
+  const makeApi = () => {
+    const api = new ctx.RecoveryApi({}, events);
+    let disposed = 0;
+    api.currentRecovery = { queue: { dispose() { disposed++; } } };
+    return { api, disposed: () => disposed };
+  };
+  const crash = makeApi();
+  handlers.get("forge:engine_crash")({});
+  handlers.get("game:over")({});
+  assert.equal(crash.disposed(), 1);
+  assert.equal(cleared, 0);
+  const normal = makeApi();
+  handlers.get("game:over")({});
+  assert.equal(normal.disposed(), 1);
+  assert.equal(cleared, 1);
+  const java = readFileSync(new URL("../../forge-harness/native/wasm-src/forge/harness/wasm/SabTransport.java", import.meta.url), "utf8");
+  assert.match(java.slice(java.indexOf("public void publishGameOver")), /post\("forge:engine_crash", "\{\}"\)/);
+
+  const f = fixture();
+  f.active.event("forge:engine_crash", {});
+  f.active.event("game:over", {});
+  const terminal = f.output.filter((event) =>
+    event.event === "forge:engine_crash" || event.event === "game:over");
+  assert.deepEqual(terminal.map((event) => event.event), ["forge:engine_crash", "game:over"]);
+});
+
+test("failed cold restore never publishes game board or double-settles", () => {
+  const snapshot = {
+    journal: { startRequest: '{"gameId":"recover-test"}' },
+    prompt: { promptId: 1 }, lastPromptId: 1,
+  };
+  for (const failure of ["engine-error", "game-over", "timeout"]) {
+    const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
+    f.active.event("game:sab", { buffer: new SharedArrayBuffer(256 * 1024) });
+    if (failure === "engine-error") f.active.onerror({ message: "witness divergence" });
+    if (failure === "game-over") f.active.event("game:over", {});
+    if (failure === "timeout") [...f.timers.values()][0]();
+    assert(f.active.terminated);
+    assert.equal(f.responses("start").length, 1);
+    assert(f.responses("start")[0].error);
+    assert.equal(f.output.filter((entry) => entry.event === "game:sab").length, 0);
+    f.active.event("forge:replay_ready", {});
+    assert.equal(f.responses("start").length, 1);
+    assert.equal(f.timers.size, 0);
+  }
 });

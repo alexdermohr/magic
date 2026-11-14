@@ -11,6 +11,7 @@ import type {
   LocalGameKind,
 } from "@/types/server";
 import type { Deck } from "@/protocol/deck";
+import type { ForgeRecoverySave } from "@/lib/forgeAutoResumeStore";
 import type { DirectiveInput, Prompt, PromptOutput, ResumeRoomRequest } from "@/protocol";
 
 export interface StartGameParams {
@@ -20,6 +21,9 @@ export interface StartGameParams {
   opponentDecks: Deck[] | null;
   engine?: EngineKind;
   aiController?: AiController;
+  formatId?: string;
+  gauntletId?: string | null;
+  recovery?: ForgeRecoverySave;
 }
 
 export interface StartMultiplayerGameParams {
