@@ -14,7 +14,30 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelle B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
+## Aktuelle B3-Revision: Machine God's Effigy und Manifold Key (14.11.2026)
+
+**Verbindliche Änderung an [current.txt](current.txt):** Zwei Karten kommen hinzu, zwei gehen; die ursprünglich vorgeschlagene Aufnahme von Copy Artifact wurde **vor dem Merge verworfen**.
+
+| Raus | Rein | Vorteil | Bewusster Verlust |
+|---|---|---|---|
+| **Demonic Junker** | **Machine God's Effigy** | Nichtkreatur-Artefakt, das eine Kreatur als Nichtkreatur-Artefakt kopieren kann, etwa Goblin Welder, Master Transmuter oder Roaming Throne; zusätzlich {T}: {U}. | Affinity-Fahrzeug mit bis zu einer gezielten Kreaturenzerstörung pro Spieler beim Eintritt. |
+| **Whir of Invention** | **Manifold Key** | {1}-Artefakt, per Urza's Saga suchbar. Enttappt für {1},{T} ein anderes Artefakt oder macht für {3},{T} eine Kreatur im Zug unblockbar; passt zu Mana Vault, Effigy, Resonator und Nautiloid Ship. | Sofortiger Artefakttutor aus der Bibliothek ins Spielfeld, trotz UUU/X. |
+
+**Ausdrücklich erhalten:** **Lightning Greaves (Beinschienen des Blitzes)** schützt Mishra und wichtige Kreaturen mit Shroud und verleiht Eile. **Sensei's Divining Top** bleibt als günstige Bibliothekskontrolle und Saga-Ziel. **Sculpting Steel** bleibt als kopierbares Artefakt. Ebenfalls erhalten bleiben Jhoira, Scrap Trawler, Mishra, Tamer of Mak Fawa, Nautiloid Ship, Spine of Ish Sah, Brudiclad und Ashnod's Altar. **Copy Artifact** gehört in den erweiterten Kartenkreis und ist nicht aktiv.
+
+**Regelgrenzen:** Machine God's Effigy übernimmt als Kopie auch Name und Legendeneigenschaft einer Kreatur; eine Kopie von Arcum Dagsson kann deshalb nicht dauerhaft neben demselben eigenen legendären Arcum liegen. Als Nichtkreatur-Artefakt kann Effigy übernommene Tap-Fähigkeiten unmittelbar einsetzen. Manifold Key enttappt ein **anderes** Artefakt, nicht sich selbst; Unblockbarkeit muss vor dem Blocken verliehen werden. Lightning Greaves gewährt Shroud auch gegenüber eigenen zielenden Fähigkeiten.
+
+**Struktur:** Weiterhin **100 Singleton-Karten, 35 Länder, 48 Artefaktkarten, 13 definierte Mana-Artefakte und genau drei Game Changer** (**Demonic Tutor, Mana Vault, Mishra's Workshop**). Der [Erweiterte Kreis](erweiterter-kreis.md) enthält **45 historische Cuts + 99 weitere Alternativen = 144 ausgeschlossene Karten**. Die Bracket-4-Liste bleibt unverändert; keine tatsächlichen Manabrew-Partien als Bestätigung dieser Engine-Kombination behauptet.
+
+## Vorangegangene B3-Revision: Spine of Ish Sah statt Thousand-Year Elixir (13.11.2026)
+
+**Beschlossener Tausch:** **Thousand-Year Elixir raus → Spine of Ish Sah rein; Nautiloid Ship bleibt.** Mishras Warform-Kopie von **Spine of Ish Sah** zerstört bei jedem Eintritt eine beliebige bleibende Karte als Ziel (auch Land oder Verzauberung). Die **Originalkarte** kehrt beim Gang vom Spielfeld in den Friedhof auf die Hand zurück; eine geopferte Token-Warform nicht.
+
+**Abwägung:** Thousand-Year Elixir ({3}) beschleunigte die Tap-Fähigkeiten von **Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry** und **Master Transmuter** im Ausspielzug und enttappte für {1},{T} eine Kreatur. Ohne das Elixier werden diese Linien langsamer, während Spine regulär {7} Mana kostet. Dafür gewinnt Mishra eine wiederholt kopierbare, universelle Antwort auf bleibende Karten. **Nautiloid Ship** bleibt als anderes Warform-Ziel für Friedhofsexil, fliegende Angriffe und die gelegentliche Übernahme einer exilierten Kreatur erhalten. **Demonic Junker, Whir of Invention, Brudiclad, Determined Iteration und Ashnod's Altar** bleiben wie zuvor beschlossen.
+
+**Struktur:** Unverändert 100 Singleton, **35 Länder, 47 Artefakte, 13 Mana-Artefakte und drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Erweiterter Kreis: 43 historische Cuts + 99 weitere Alternativen = 142 ausgeschlossene Karten. Bracket 4 unverändert; ein verbesserter Spielerfolg oder korrekte Manabrew-Interaktionen sind nicht durch Partien bewiesen.
+
+## Vorangegangene B3-Revision: Diabolic Intent statt Marionette Apprentice (13.10.2026)
 
 **Verbindlich ist allein [current.txt](current.txt).** Der vom Nutzer freigegebene **einzige Kartentausch** seit der Fassung vom 12.10.2026:
 
