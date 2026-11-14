@@ -1,0 +1,98 @@
+1 Rendmaw, Creaking Nest
+1 Sol Ring
+1 Arcane Signet
+1 Talisman of Resilience
+1 Nature's Lore
+1 Three Visits
+1 Ornithopter of Paradise
+1 Twitching Doll
+1 Leaden Myr
+1 Sanctum Weaver
+1 Enduring Vitality
+1 Bloom Tender
+1 Dryad of the Ilysian Grove
+1 Haywire Mite
+1 Solemn Simulacrum
+1 Roaming Throne
+1 Noxious Gearhulk
+1 Destiny Spinner
+1 Courser of Kruphix
+1 Eidolon of Blossoms
+1 Doomwake Giant
+1 Overlord of the Hauntwoods
+1 Overlord of the Balemurk
+1 Nyx Weaver
+1 Gloomshrieker
+1 Enduring Tenacity
+1 Bitterblossom
+1 Lignify
+1 Nameless Inversion
+1 Mirkwood Bats
+1 Marionette Apprentice
+1 Poison-Tip Archer
+1 Syr Konrad, the Grim
+1 Blood Artist
+1 Zulaport Cutthroat
+1 Grismold, the Dreadsower
+1 Massacre Wurm
+1 Species Specialist
+1 Yawgmoth, Thran Physician
+1 Chatterfang, Squirrel General
+1 Meren of Clan Nel Toth
+1 Revel in Riches
+1 Grave Pact
+1 The Meathook Massacre
+1 Virulent Plague
+1 Revenge of Ravens
+1 Deathreap Ritual
+1 Evolutionary Leap
+1 Primal Vigor
+1 Idol of Oblivion
+1 Ashnod's Altar
+1 Skullclamp
+1 Demonic Tutor
+1 Survival of the Fittest
+1 Heroic Intervention
+1 Beast Within
+1 Assassin's Trophy
+1 Deadly Rollick
+1 Culling Ritual
+1 Ezuri's Predation
+1 Victimize
+1 Plumb the Forbidden
+1 Lightning Greaves
+1 Bayou
+1 Overgrown Tomb
+1 Undergrowth Stadium
+1 Command Tower
+1 Llanowar Wastes
+1 Woodland Cemetery
+1 Blooming Marsh
+1 Deathcap Glade
+1 Nurturing Peatland
+1 Twilight Mire
+1 Woodland Chasm
+1 Verdant Catacombs
+1 Marsh Flats
+1 Windswept Heath
+1 Bloodstained Mire
+1 Misty Rainforest
+1 Polluted Delta
+1 Prismatic Vista
+1 Ancient Tomb
+1 Phyrexian Tower
+1 Urborg, Tomb of Yawgmoth
+1 Yavimaya, Cradle of Growth
+1 Boseiju, Who Endures
+1 Takenuma, Abandoned Mire
+1 Urza's Saga
+1 Valgavoth's Lair
+1 Darkmoss Bridge
+1 Darksteel Citadel
+1 Vault of Whispers
+1 Tree of Tales
+1 Treasure Vault
+1 Dryad Arbor
+1 Scene of the Crime
+2 Forest
+2 Swamp
