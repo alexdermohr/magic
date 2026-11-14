@@ -1031,7 +1031,7 @@ class WebGameApi implements IGameApi {
         await forgeRecoveryStoredReleaseId().catch(() => null);
         await release();
       }
-      if (params.recovery) this.bridge.terminate();
+      if (durableRecovery) this.bridge.terminate();
       throw error;
     }
   }

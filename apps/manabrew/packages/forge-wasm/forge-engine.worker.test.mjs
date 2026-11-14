@@ -411,6 +411,65 @@ test("verified durable rewind publishes replacement history before resuming the 
   f.command("end_game");
 });
 
+test("failed fresh Forge replay start resets its worker and releases tab ownership", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
+  const cls = web.indexOf("class WebGameApi implements IGameApi");
+  const start = web.indexOf("  async startGame(params: StartGameParams)", cls);
+  const end = web.indexOf("\n  async startMultiplayerGame(", start);
+  assert(cls >= 0 && start > cls && end > start);
+  const source = `class TestRecoveryApi {
+    currentRecovery = null;
+    releaseRecoveryOwnership = null;
+    isMultiplayer = false;
+    constructor(bridge) { this.bridge = bridge; }
+    ${web.slice(start, end)}
+  }
+  globalThis.TestRecoveryApi = TestRecoveryApi;`;
+  const code = transpileModule(source, {
+    compilerOptions: { target: ScriptTarget.ES2022 },
+  }).outputText;
+  let terminated = 0;
+  let disposed = 0;
+  let released = 0;
+  let invoked = 0;
+  const ctx = vm.createContext({
+    navigator: { locks: {} },
+    forgeRecoveryReleaseId: async () => "a".repeat(20),
+    acquireForgeRecoveryOwnership: async () => async () => { released++; },
+    createForgeRecoveryCommitQueue: () => ({
+      enqueue() {}, flush: async () => {},
+      dispose() { disposed++; },
+    }),
+    forgeRecoveryStoredReleaseId: async () => null,
+  });
+  vm.runInContext(code, ctx);
+  const bridge = {
+    setLocalBotSlots() {},
+    terminate() { terminated++; },
+    async invoke() {
+      if (++invoked === 1) throw Error("Forge WebImage startup failed");
+      return "game-started";
+    },
+  };
+  const api = new ctx.TestRecoveryApi(bridge);
+  const params = {
+    deck: { format: "commander" }, engine: "Forge", aiController: "forge",
+    opponentDecks: [], startingLife: 40, commanderName: null, formatId: "commander",
+  };
+  await assert.rejects(api.startGame(params), /Forge WebImage startup failed/);
+  assert.equal(terminated, 1, "failed first durable start must kill the ended supervisor");
+  assert.equal(disposed, 1);
+  assert.equal(released, 1, "exclusive tab ownership must be freed on startup failure");
+  assert.equal(api.currentRecovery, null);
+  assert.equal(api.releaseRecoveryOwnership, null);
+  assert.equal(await api.startGame(params), "game-started");
+  assert.equal(invoked, 2);
+  assert(api.currentRecovery);
+  api.currentRecovery.queue.dispose();
+  await api.releaseRecoveryOwnership();
+});
+
 test("an engine crash keeps a recovery checkpoint while a normal finish clears it", async () => {
   const { transpileModule, ScriptTarget } = await import("typescript");
   const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");

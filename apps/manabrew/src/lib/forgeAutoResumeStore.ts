@@ -103,7 +103,6 @@ function validWitness(value: unknown): value is ForgeRecoveryDelta["verification
     typeof obj.rng === "string" && /^[0-9]+:[0-9a-f]{1,16}$/.test(obj.rng);
 }
 
-/** All supplied actions must be contiguous and bound to the original game. */
 export function verifyForgeRecoveryDelta(raw: unknown, previousCount: number, initial = previousCount === 0): asserts raw is ForgeRecoveryDelta {
   if (!raw || typeof raw !== "object") throw Error("Invalid Forge recovery boundary");
   const item = raw as Partial<ForgeRecoveryDelta>;
