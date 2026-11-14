@@ -75,6 +75,7 @@
     "build:forge-wasm": "./scripts/build-forge-wasm.sh",
     "build:forge-wasm-package": "node scripts/build-forge-wasm-package.mjs",
     "verify:forge-wasm-package": "node scripts/verify-forge-wasm-package.mjs",
+    "verify:forge-browser-resume": "node scripts/verify-forge-browser-resume.mjs",
     "dev:web": "yarn gen:types && yarn ensure:wasm && vite",
     "website:dev": "npm --prefix website run dev",
     "website:dev:docs": "npm --prefix website run dev:docs",

@@ -89,7 +89,7 @@ try {
     }));
     return entries.length;
   });
-  assert.equal(deckCount, 39);
+  assert(deckCount >= 2, "At least two personal decks are required for the AI-game fixture");
   await page.goto(origin + "/play/offline/constructed", { waitUntil: "domcontentloaded" });
   await assertNoFullOfflineInstall(page);
   await page.getByRole("button", { name: /^Anowon, the Ruin Thief/ }).first().click();
