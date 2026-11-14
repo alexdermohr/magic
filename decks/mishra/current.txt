@@ -34,7 +34,7 @@
 1 Ashnod's Altar
 1 Idol of Oblivion
 1 Strionic Resonator
-1 Thousand-Year Elixir
+1 Spine of Ish Sah
 1 Mox Opal
 1 Mephitic Draught
 1 Panharmonicon
@@ -45,9 +45,9 @@
 1 Nautiloid Ship
 1 Portal to Phyrexia
 1 Simulacrum Synthesizer
+1 Manifold Key
+1 Machine God's Effigy
 1 Sensei's Divining Top
-1 Demonic Junker
-1 Lightning Greaves
 1 Determined Iteration
 1 Memory Jar
 1 Mana Drain
@@ -60,7 +60,7 @@
 1 Oni-Cult Anvil
 1 Mystic Remora
 1 Arcum Dagsson
-1 Whir of Invention
+1 Lightning Greaves
 1 Demonic Tutor
 1 Tithing Blade
 1 Command Tower

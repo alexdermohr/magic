@@ -1,15 +1,29 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-10-13
+**Stand:** 2026-11-14
 
 **Verbindliche B3-Liste:** [current.txt](current.txt)
 
 **Ersetzbarkeitsmatrix (100 aktuelle Einzelurteile und dokumentierte historische Tauschhypothesen):** [replaceability.md](replaceability.md)
-**Erweiterter Kreis (43 historische Cuts, 99 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
+**Erweiterter Kreis (45 historische Cuts, 99 zurückgestellte Karten):** [erweiterter-kreis.md](erweiterter-kreis.md)
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Optimierung: Diabolic Intent statt Marionette Apprentice (13.10.2026)
+## Aktuelle Optimierung: Machine God's Effigy und Manifold Key (14.11.2026)
+
+**Verbindliche B3-Änderung:** **Demonic Junker → Machine God's Effigy**, **Whir of Invention → Manifold Key**. Auf erneuten ausdrücklichen Nutzerwunsch bleiben **Lightning Greaves**, **Sensei's Divining Top** und **Sculpting Steel** vollständig erhalten. Die zwischenzeitlich im offenen PR vorgeschlagene Aufnahme von **Copy Artifact** ist vor dem Merge entfallen; die Karte wird unter den geprüften Alternativen (B) dokumentiert. Brudiclad, Ashnod's Altar, Scrap Trawler, Mishra, Tamer of Mak Fawa, Nautiloid Ship, Spine of Ish Sah und alle 35 Länder bleiben ebenfalls.
+
+**Erwarteter Mehrwert:** Die nichtkreaturische **Machine God's Effigy** kann eine auf dem Spielfeld liegende Kreatur kopieren und {T}: {U} erhalten, etwa als zusätzliche Master-Transmuter-/Goblin-Welder-Fähigkeit oder Roaming-Throne-Synergie. **Manifold Key** kann sie oder Mana Vault bzw. Strionic Resonator enttappen und eine Nautiloid-Warform für Kampfschaden unblockbar machen. **Lightning Greaves** behalten ihre eigene Funktion: Eile und Shroud schützen Mishra und erleichtern frühe Einsätze der tatsächlichen Tap-Kreaturen. **Sensei's Divining Top** bleibt für Kartenauswahl und als über Urza's Saga suchbares günstiges Artefakt; Sculpting Steel bleibt als Artefaktkopieroption.
+
+**Wichtigster Verlust:** **Demonic Junker** zerstörte als kopierbares Fahrzeug beim Eintritt bis zu eine Kreatur je Spieler; durch Affinity war es oft günstig. **Whir of Invention** war ein Spontanzauber, der praktisch jedes Artefakt direkt aus dem Deck ins Feld bringen konnte. Bei {U}{U}{U} und hohen X-Kosten war er unhandlich, aber dieser Sofort-Tutor wird nun vermisst. **Copy Artifact** würde für {1}{U} eine günstige zweite dauerhafte Artefaktkopie bereitstellen, war aber als Karte eine Verzauberung und hätte einen notwendigen anderen Slot gebraucht. Der aktuelle Beschluss priorisiert den Greaves-Schutz.
+
+**Regel- und Einsatzgrenzen:** Machine God's Effigy ist als Kopie typischerweise keine Kreatur, erbt aber gegebenenfalls den Namen und die Legendeneigenschaft ihres Vorbilds. Kopiert sie den eigenen legendären Arcum Dagsson, greift die Legendenregel; als nichtkreaturisches Artefakt kann sie gleichwohl eine übernommene Tap-Fähigkeit unmittelbar benutzen. Manifold Key enttappt **ein anderes Artefakt**, nicht sich selbst. Lightning Greaves verleihen Shroud und blockieren damit auch eigene zielende Zauber und Fähigkeiten, bis man die Ausrüstung gegebenenfalls umlegt.
+
+**Aktueller Strukturstand:** 100 Singleton einschließlich Mishra; **35 Länder, 48 Artefaktkarten und 13 definierte Mana-Artefakte**; genau drei Game Changer **Demonic Tutor, Mana Vault, Mishra's Workshop**. Im [Erweiterten Kreis](erweiterter-kreis.md) **45 historische Cuts und 99 weitere Kandidaten = 144 disjunkte derzeit ausgeschlossene Karten**. B4 bleibt bytegleich. Die tatsächliche Ausführung der neuen Interaktionen in Manabrew und eine Siegquotensteigerung sind nicht durch Partien belegt.
+
+---
+
+## Vorangegangene Optimierung: Diabolic Intent statt Marionette Apprentice (13.10.2026)
 
 **Freigegebene Änderung:** In der einzigen [aktuellen B3-Liste](current.txt) wird ausschließlich **Marionette Apprentice ({1}{B}, Kreatur)** durch **Diabolic Intent ({1}{B}, Hexerei)** ersetzt. **Determined Iteration bleibt**, ebenso Brudiclad, Ashnod's Altar, Demonic Junker, Whir of Invention, Mana Vault, Sensei's Divining Top, Memory Jar und alle 35 Länder.
 
