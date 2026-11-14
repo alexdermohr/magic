@@ -380,10 +380,15 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   const classStart = web.indexOf("class WebGameApi implements IGameApi");
   const constructorStart = web.indexOf("  constructor(bridge: WorkerBridge, events: IEventBus)", classStart);
   const constructorEnd = web.indexOf("\n  setServerApi(", constructorStart);
+  const endGameStart = web.indexOf("  async endGame(): Promise<void>", classStart);
+  const endGameEnd = web.indexOf("\n  async getPrompt()", endGameStart);
   assert(classStart >= 0 && constructorStart > classStart && constructorEnd > constructorStart);
+  assert(endGameStart > constructorEnd && endGameEnd > endGameStart);
   const source = `class RecoveryApi {
     currentRecovery = null;
+    retainedRecoveryAfterCrash = false;
     ${web.slice(constructorStart, constructorEnd)}
+    ${web.slice(endGameStart, endGameEnd)}
   }
   globalThis.RecoveryApi = RecoveryApi;`;
   const code = transpileModule(source, {
@@ -398,7 +403,7 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   const handlers = new Map();
   const events = { on: (name, handler) => handlers.set(name, handler) };
   const makeApi = () => {
-    const api = new ctx.RecoveryApi({}, events);
+    const api = new ctx.RecoveryApi({ gameBuffer: null, invoke: async () => null }, events);
     let disposed = 0;
     api.currentRecovery = { queue: { dispose() { disposed++; } } };
     return { api, disposed: () => disposed };
@@ -408,10 +413,24 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   handlers.get("game:over")({});
   assert.equal(crash.disposed(), 1);
   assert.equal(cleared, 0);
+  await crash.api.endGame();
+  assert.equal(cleared, 1);
+  await crash.api.endGame();
+  assert.equal(cleared, 1);
+
+  const forcedEnd = makeApi();
+  handlers.get("game:forced_end")({});
+  assert.equal(forcedEnd.disposed(), 1);
+  assert.equal(cleared, 1);
+  await forcedEnd.api.endGame();
+  assert.equal(cleared, 2);
+
   const normal = makeApi();
   handlers.get("game:over")({});
   assert.equal(normal.disposed(), 1);
-  assert.equal(cleared, 1);
+  assert.equal(cleared, 3);
+  await normal.api.endGame();
+  assert.equal(cleared, 3);
   const java = readFileSync(new URL("../../forge-harness/native/wasm-src/forge/harness/wasm/SabTransport.java", import.meta.url), "utf8");
   assert.match(java.slice(java.indexOf("public void publishGameOver")), /post\("forge:engine_crash", "\{\}"\)/);
 

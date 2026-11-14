@@ -268,7 +268,6 @@ export function createForgeRecoveryCommitQueue(
   };
 }
 
-/** A tiny read-only bootstrap probe; never exposes or mutates private game data. */
 export async function forgeRecoveryStoredReleaseId(): Promise<string | null> {
   await writes.catch(() => {});
   const db = await openDb();

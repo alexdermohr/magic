@@ -917,6 +917,7 @@ class WebGameApi implements IGameApi {
     gameId: string | null;
     queue: ReturnType<typeof createForgeRecoveryCommitQueue>;
   } | null = null;
+  private retainedRecoveryAfterCrash = false;
 
   constructor(bridge: WorkerBridge, events: IEventBus) {
     this.bridge = bridge;
@@ -929,7 +930,7 @@ class WebGameApi implements IGameApi {
       current.queue.enqueue(boundary);
     });
     events.on("forge:engine_crash", () => {
-      // Keep the latest committed boundary for a verified retry.
+      if (this.currentRecovery) this.retainedRecoveryAfterCrash = true;
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
     });
@@ -937,13 +938,12 @@ class WebGameApi implements IGameApi {
       if (!this.currentRecovery) return;
       this.currentRecovery.queue.dispose();
       this.currentRecovery = null;
+      this.retainedRecoveryAfterCrash = false;
       void clearForgeRecoverySave().catch((error) =>
         console.warn("Could not clear completed Forge recovery save:", error));
     });
     events.on("game:forced_end", () => {
-      // A crashed worker is not a user concession. The normal game teardown
-      // must not delete the last committed checkpoint; a new WebKit process
-      // can still attempt its verified replay.
+      if (this.currentRecovery) this.retainedRecoveryAfterCrash = true;
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
     });
@@ -1106,12 +1106,16 @@ class WebGameApi implements IGameApi {
   }
 
   async endGame(): Promise<void> {
-    if (this.currentRecovery) {
-      this.currentRecovery.queue.dispose();
-      this.currentRecovery = null;
-      // A deliberate leave invalidates the save, not a pagehide/OS process kill.
-      void clearForgeRecoverySave().catch((error) =>
-        console.warn("Could not clear abandoned Forge recovery save:", error));
+    const clearRecovery = this.currentRecovery !== null || this.retainedRecoveryAfterCrash;
+    this.currentRecovery?.queue.dispose();
+    this.currentRecovery = null;
+    this.retainedRecoveryAfterCrash = false;
+    if (clearRecovery) {
+      try {
+        await clearForgeRecoverySave();
+      } catch (error) {
+        console.warn("Could not clear abandoned Forge recovery save:", error);
+      }
     }
     this.isMultiplayer = false;
     this.isHost = false;
