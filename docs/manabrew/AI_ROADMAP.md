@@ -76,6 +76,16 @@ Die Anwendung muss zwischen den verfügbaren Gegnern wählen können, ohne die S
 
 **P1-Buildpfad-Nachtrag (6. November 2026):** Ein Review von PR #77 fand, dass der optionale Forge-Strategiepatch während des WebImage-Builds das als read-only vorgegebene `forge/` veränderte und erst per EXIT-Trap zurücksetzte. Die korrigierte Variante patcht nur eine temporäre Kopie von `AiAttackController.java`, kompiliert diese in eine Kopie des Harness-JAR und übergibt sie an GraalVM über `HARNESS_JAR`. **JVM-RED 19/30 versus GREEN 30/30**, originaler Forge-Pin und Harness-JAR unverändert. Die isolierte Compilerstrecke erzeugte ein frisches Browser-WASM (SHA-256 `31d3a0987f96a19e37a0f95bc2e6ba493ede8dc3e04a67a58850713bccf80607`), mit dem eine vollständige Anowon-/Helga-Partie regulär endete und **22/22 Forge-Lehrentscheidungen** exportiert wurden. Das beweist die neue WebImage-JAR-Kopplung und Browser-Engine, nicht den kompletten äußeren Builder, nicht das Produktivdeployment oder ein iPadOS-Home-Screen-Spiel. Details im technischen README.
 
+### P1-Blockerkorrektur vom 7. November 2026 – JVM-Regression, noch kein WebImage-Release
+
+Forges `ComputerUtilCombat.getLifeThreateningCommanders()` behandelte einen Commander bei **20/21 bereits erhaltenem Commander-Schaden** selbst dann noch als tödliche Bedrohung, wenn ihm schon ein regulärer Blocker zugewiesen wurde. Das galt auch nach `Combat.setBlocked(..., true)`. `lifeInDanger()` und `lifeInSeriousDanger()` übernahmen diesen falschen Befund; dadurch können unnötige Block-/Opferentscheidungen entstehen.
+
+Die minimalinvasive, optionale Korrektur unter `apps/manabrew/patches/forge-ai-commander-block-threat.patch` prüft zugewiesene Blocker **und** den finalen Blockstatus. Sie entfernt nur den falsch positiven Fall für normale, geblockte Commander; Trampelschaden oder explizit als ungeblockt zugewiesener Schaden bleiben weiterhin Bedrohungen. Der gepinnte Forge-Quellbaum wird nicht verändert.
+
+**Echter JVM-RED/GREEN-Test:** `apps/manabrew/forge-harness/src/test/java/forge/harness/common/CommanderBlockThreatProbe.java` mit `yarn test:forge-commander-block`, Forge-Pin `be9e0c8a5b561ae3e909c2f9a8bdac0a7fa2b097`, Java 21, bereits gebauter Harness-JAR. Für die sechs Messwerte `unblocked, assigned, blocked, danger, serious, trample` ergab die unveränderte Engine **1,1,1,1,1,1**, das echte gepatchte Classpath-Overlay **1,0,0,0,0,1**. Das Experiment endete mit Exitcode 0; der Forge-Checkout blieb sauber. Der Runner kann optional einen getrennten sauberen Forge-Quellpfad und Harness-JAR als zwei Argumente erhalten.
+
+**Freigabegrenze:** Die Änderung ist bisher **JVM-only**. Kein neu kompiliertes Browser-WebImage, keine vollständigen Vergleichspartien und kein Nachweis höherer Siege. Der produktive Forge-WASM-Build, Linux-/iPad-Release, Spielerdaten und der bestehende Standardgegner bleiben unverändert. Erst bei nachweisbarer Wirkung in echten Partien einen WebImage-Kandidaten bauen und gegen den laufenden Rückfallstand abnehmen.
+
 ### P2 — ManaBot zu einem schlanken strategischen Gegner ausbauen
 
 **Vorgehen**
@@ -211,39 +221,3 @@ Der bisherige `commander-pressure`-Patch (`AiAttackController`) und der neue `fo
 **Gleicher Vier-Spieler-Seed als Gegenprobe:** Das zuvor ausgelieferte Forge-WASM `31d3a0987f96a19e37a0f95bc2e6ba493ede8dc3e04a67a58850713bccf80607` endete ebenfalls regulär mit 259 Engine-Fenstern und denselben beobachteten ManaBot-Aktionszählungen. Latenz p50/p90: bestehendes WASM **128/218 ms**, neuer Kandidat **139/236 ms**; p99 in beiden Fällen rund **12 Sekunden**. Dieser einzelne Lauf beweist weder eine Leistungssteigerung noch einen reproduzierbaren Performance-Nachteil, weist aber auf bestehende Latenzspitzen im Vier-Spieler-Pod hin.
 
 **Auslieferungsgrenze:** Technische WebImage-Integration ist nun belegt, aber **keine statistisch höhere Forge-Siegquote** und **keine physische Safari-Home-Screen-Abnahme**. Der produktive Dienst und seine 38 Commander-Decks, lokale Änderungen sowie Rückfallstände bleiben unverändert. Kein automatischer Standardwechsel oder Deployment nur aufgrund dieser drei Spiele.
-
-## iPad-P0/P1-Wiederaufnahme: Stand 8. November 2026
-
-Die bestätigte Nutzerbeobachtung (Partie nach Appwechsel auf dem
-echten iPad verloren) bleibt offen. Auf PR-#85-Quellstand wurde
-die bisher ungeschützte Übergabe des Forge-Sitzlese-Workers
-repariert: SAB-Quittung nach Hauptthread-Zustellung,
-ein eigener Zustellzähler gegen READY/ACK-Rennen und gezielter
-Neustart eines ausgefallenen Sitzlesers nach Vordergrund-Rückkehr.
-Ein lokales Diagnoseprotokoll unterscheidet Dokumentschließung
-von Workerfehlern. Vollständiger Offline-Releasekandidat,
-240 Vitest- und 3 echte SAB-Worker-Tests sind grün;
-Chromium-Offline-Partie mit BFCache/WebGL/Frozen-Resume wurde
-weitergespielt, aber ein echtes physisches Safari-PWA-E2E fehlt.
-Details und Belege: README.md.
-
-**P1 ist nicht durch diesen Fix erfüllt:** Ein vollständiger
-iPadOS-Prozessabbruch vernichtet den Forge-WASM-Spielzustand.
-GameCheckpoint-/DecisionJournal-Replay ist vorhanden, aber die
-standardmäßige interne Forge-AI von Journal/Replay ausgeschlossen.
-Die nächste ursächliche Arbeit ist, zunächst einen reproduzierbaren
-Rekonstruktions-Roundtrip einer tatsächlichen Forge-AI-Partie zu
-ermöglichen: Lauf starten, Entscheidungen und Engine-Identität
-aufnehmen, Prozess beenden, mit geprüftem Zufallszustand,
-Spielzonen, Stack und Hidden-Information rekonstruieren, danach
-eine weitere gültige Entscheidung ausführen. Erst dann eine
-atomare IndexedDB-Persistenz und Resume-Bedienung in den
-produktiven Offline-Client integrieren. Kein Schein-Resume nur
-durch Wiedergabe des letzten gerenderten Boards.
-
-
-**Finaler Kandidat:** Manifest 375316ebdefeca4c7e67 mit 38 Decks;
-Chromium-Offline-Spiel bis zum echten Ende (105 Aktionen),
-BFCache-/WebGL-Wiederherstellung und Diagnose-UI unter
-Settings/Preferences erfolgreich. Echte iPad-Safari-Abnahme und
-dauerhafte Engine-Rekonstruktion bleiben offen.
