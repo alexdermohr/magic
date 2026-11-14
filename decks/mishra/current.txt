@@ -60,7 +60,7 @@
 1 Oni-Cult Anvil
 1 Mystic Remora
 1 Arcum Dagsson
-1 Copy Artifact
+1 Lightning Greaves
 1 Demonic Tutor
 1 Tithing Blade
 1 Command Tower
