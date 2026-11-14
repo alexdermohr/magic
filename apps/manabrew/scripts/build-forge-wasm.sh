@@ -16,15 +16,16 @@ export PATH="$JAVA_HOME/bin:$PATH"
 cd "$REPO_ROOT"
 
 # The reference Forge checkout must stay read-only even while WebImage builds.
-# Compile the one patched controller from a disposable source copy, and embed
-# it in a disposable copy of the clean harness jar. Never patch forge/ itself.
+# Compile only selected patched classes in a disposable directory, and embed
+# them in a disposable copy of the clean harness jar. Never patch forge/ itself.
 if [[ -n "${MANABREW_FORGE_AI_PATCH:-}" ]]; then
-  if [[ "$MANABREW_FORGE_AI_PATCH" != "commander-pressure" ]]; then
-    echo "Unknown MANABREW_FORGE_AI_PATCH: $MANABREW_FORGE_AI_PATCH" >&2
-    exit 1
-  fi
+  case "$MANABREW_FORGE_AI_PATCH" in
+    commander-pressure) patch_kinds=(commander-pressure) ;;
+    commander-block) patch_kinds=(commander-block) ;;
+    commander-pressure,commander-block) patch_kinds=(commander-pressure commander-block) ;;
+    *) echo "Unknown MANABREW_FORGE_AI_PATCH: $MANABREW_FORGE_AI_PATCH" >&2; exit 1 ;;
+  esac
   forge="$REPO_ROOT/forge"
-  patch="$REPO_ROOT/patches/forge-ai-commander-pressure.patch"
   pin="$(scripts/bootstrap-forge.sh --print-pin)"
   [[ "$(git -C "$forge" rev-parse HEAD)" == "$pin" ]] || {
     echo "Unexpected Forge checkout revision; expected $pin" >&2; exit 1;
@@ -39,21 +40,33 @@ node scripts/harness.mjs build
 if [[ -n "${MANABREW_FORGE_AI_PATCH:-}" ]]; then
   scratch="$(mktemp -d "${TMPDIR:-/tmp}/manabrew-forge-webimage-XXXXXX")"
   trap 'rm -rf -- "$scratch"' EXIT
-  source_path="forge-ai/src/main/java/forge/ai/AiAttackController.java"
-  mkdir -p "$scratch/$(dirname "$source_path")" "$scratch/classes"
-  cp "$forge/$source_path" "$scratch/$source_path"
+  mkdir -p "$scratch/classes"
   git -C "$scratch" init -q
-  git -C "$scratch" apply --check "$patch"
-  git -C "$scratch" apply "$patch"
-
   original_jar="$REPO_ROOT/forge-harness/target/forge-harness-jar-with-dependencies.jar"
   [[ -f "$original_jar" ]] || { echo "Missing clean Forge harness jar" >&2; exit 1; }
-  "$JAVA_HOME/bin/javac" -cp "$original_jar" -d "$scratch/classes" "$scratch/$source_path"
+
+  for kind in "${patch_kinds[@]}"; do
+    case "$kind" in
+      commander-pressure)
+        source_path="forge-ai/src/main/java/forge/ai/AiAttackController.java"
+        patch="$REPO_ROOT/patches/forge-ai-commander-pressure.patch"
+        ;;
+      commander-block)
+        source_path="forge-ai/src/main/java/forge/ai/ComputerUtilCombat.java"
+        patch="$REPO_ROOT/patches/forge-ai-commander-block-threat.patch"
+        ;;
+    esac
+    mkdir -p "$scratch/$(dirname "$source_path")"
+    cp "$forge/$source_path" "$scratch/$source_path"
+    git -C "$scratch" apply --check "$patch"
+    git -C "$scratch" apply "$patch"
+    "$JAVA_HOME/bin/javac" -cp "$original_jar" -d "$scratch/classes" "$scratch/$source_path"
+  done
+
   cp "$original_jar" "$scratch/forge-harness-patched.jar"
-  "$JAVA_HOME/bin/jar" uf "$scratch/forge-harness-patched.jar" \
-    -C "$scratch/classes" forge/ai/AiAttackController.class
+  "$JAVA_HOME/bin/jar" uf "$scratch/forge-harness-patched.jar" -C "$scratch/classes" forge/ai
   export HARNESS_JAR="$scratch/forge-harness-patched.jar"
-  echo "Forge AI patch isolated for WebImage: commander-pressure ($pin)"
+  echo "Forge AI patches isolated for WebImage: $MANABREW_FORGE_AI_PATCH ($pin)"
 fi
 
 RES=forge/forge-gui/res
