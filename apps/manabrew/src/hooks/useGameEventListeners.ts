@@ -104,10 +104,6 @@ async function rejoinAfterRelayRestart() {
     document.addEventListener("visibilitychange", onVisibilityChange);
     while (Date.now() < deadline || document.hidden) {
       onVisibilityChange();
-      if (document.hidden) {
-        await new Promise((resolve) => setTimeout(resolve, REJOIN_RETRY_DELAY_MS));
-        continue;
-      }
       if (!getState().isGameActive) {
         setReconnectPhase("idle");
         return;
