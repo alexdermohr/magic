@@ -193,3 +193,39 @@ Die kleine Korrektur wählt den bereits ermittelten gemeinsamen tödlichen Stand
 **Reproduzierbarer RED/GREEN-Test:** `manabrew-rs/crates/manabot/src/agent/simple_ai.rs`, Test `lethal_group_attack_survives_one_profitable_opponent_block`, über echte `PromptInput::ChooseAttackers`-, `BotAgent::decide`- und `PromptInput::validate_response`-Wege. Original: `Some("player-2")` statt `Some("player-1")` (Test FAIL). Gepatcht: vier legale Angriffe auf `player-1` (PASS). **35/35 Rust-Tests grün**, `rustfmt --check` mit Rustfmt 1.95.0 erfolgreich.
 
 **Grenze:** Das ist eine nachgewiesene taktische Korrektur, **noch keine statistisch belegte Verbesserung der Siegquote**. Die produktive Forge-WASM, ManaBot-Baseline, persönlichen Decks und der iPad-Release wurden nicht geändert.
+
+## iPad-P0/P1-Wiederaufnahme: Stand 8. November 2026
+
+Die bestätigte Nutzerbeobachtung (Partie nach Appwechsel auf dem
+echten iPad verloren) bleibt offen. Auf PR-#85-Quellstand wurde
+die bisher ungeschützte Übergabe des Forge-Sitzlese-Workers
+repariert: SAB-Quittung nach Hauptthread-Zustellung,
+ein eigener Zustellzähler gegen READY/ACK-Rennen und gezielter
+Neustart eines ausgefallenen Sitzlesers nach Vordergrund-Rückkehr.
+Ein lokales Diagnoseprotokoll unterscheidet Dokumentschließung
+von Workerfehlern. Vollständiger Offline-Releasekandidat,
+240 Vitest- und 3 echte SAB-Worker-Tests sind grün;
+Chromium-Offline-Partie mit BFCache/WebGL/Frozen-Resume wurde
+weitergespielt, aber ein echtes physisches Safari-PWA-E2E fehlt.
+Details und Belege: README.md.
+
+**P1 ist nicht durch diesen Fix erfüllt:** Ein vollständiger
+iPadOS-Prozessabbruch vernichtet den Forge-WASM-Spielzustand.
+GameCheckpoint-/DecisionJournal-Replay ist vorhanden, aber die
+standardmäßige interne Forge-AI von Journal/Replay ausgeschlossen.
+Die nächste ursächliche Arbeit ist, zunächst einen reproduzierbaren
+Rekonstruktions-Roundtrip einer tatsächlichen Forge-AI-Partie zu
+ermöglichen: Lauf starten, Entscheidungen und Engine-Identität
+aufnehmen, Prozess beenden, mit geprüftem Zufallszustand,
+Spielzonen, Stack und Hidden-Information rekonstruieren, danach
+eine weitere gültige Entscheidung ausführen. Erst dann eine
+atomare IndexedDB-Persistenz und Resume-Bedienung in den
+produktiven Offline-Client integrieren. Kein Schein-Resume nur
+durch Wiedergabe des letzten gerenderten Boards.
+
+
+**Finaler Kandidat:** Manifest 375316ebdefeca4c7e67 mit 38 Decks;
+Chromium-Offline-Spiel bis zum echten Ende (105 Aktionen),
+BFCache-/WebGL-Wiederherstellung und Diagnose-UI unter
+Settings/Preferences erfolgreich. Echte iPad-Safari-Abnahme und
+dauerhafte Engine-Rekonstruktion bleiben offen.

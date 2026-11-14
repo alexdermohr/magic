@@ -10,6 +10,9 @@ const context = await chromium.launchPersistentContext(
     ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
       ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE }
       : {}),
+    ...(process.env.MANABREW_TEST_USER_AGENT
+      ? { userAgent: process.env.MANABREW_TEST_USER_AGENT }
+      : {}),
     viewport: { width: 1180, height: 820 },
     hasTouch: true,
     isMobile: true,
@@ -23,7 +26,7 @@ const context = await chromium.launchPersistentContext(
     serviceWorkers: "allow",
   },
 );
-const page = context.pages()[0] ?? await context.newPage();
+const page = context.pages()[0] ?? (await context.newPage());
 const errors = [];
 page.on("pageerror", (error) => errors.push(error.message));
 
@@ -61,16 +64,29 @@ let actions = 0;
 let discards = 0;
 let passes = 0;
 let reveals = 0;
+let reorders = 0;
 let terminal = null;
 let idle = 0;
 
 try {
   await context.setOffline(true);
   await page.goto(origin + "/play/offline/constructed", { waitUntil: "domcontentloaded" });
-  await page.getByRole("button", { name: new RegExp("^" + player.split(",")[0]) }).first().click();
-  await page.getByRole("button", { name: new RegExp("^" + opponent.split(",")[0]) }).first().click();
-  await page.getByRole("button", { name: /^Fight!?$/ }).first().click();
-  await page.getByRole("dialog").getByRole("button", { name: /^Fight!?$/ }).click();
+  await page
+    .getByRole("button", { name: new RegExp("^" + player.split(",")[0]) })
+    .first()
+    .click();
+  await page
+    .getByRole("button", { name: new RegExp("^" + opponent.split(",")[0]) })
+    .first()
+    .click();
+  await page
+    .getByRole("button", { name: /^Fight!?$/ })
+    .first()
+    .click();
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /^Fight!?$/ })
+    .click();
   await page.getByRole("dialog").getByRole("button", { name: /1v1/ }).click();
   await page.getByRole("button", { name: /^KEEP$/ }).waitFor({ timeout: 150000 });
   await page.getByRole("button", { name: /^KEEP$/ }).click();
@@ -101,12 +117,24 @@ try {
         null,
         { timeout: 12000 },
       );
-      console.log("FULL_GAME_COMPLETE", JSON.stringify({
-        player, opponent, loser: terminal.seat, actions, passes, discards, reveals,
-        elapsedSeconds: Math.round((Date.now() - start) / 1000),
-        terminal: terminal.snapshot, resultPersistedForSeconds: 5,
-        returnedToMenu: true, errors,
-      }));
+      console.log(
+        "FULL_GAME_COMPLETE",
+        JSON.stringify({
+          player,
+          opponent,
+          loser: terminal.seat,
+          actions,
+          passes,
+          discards,
+          reveals,
+          reorders,
+          elapsedSeconds: Math.round((Date.now() - start) / 1000),
+          terminal: terminal.snapshot,
+          resultPersistedForSeconds: 5,
+          returnedToMenu: true,
+          errors,
+        }),
+      );
       if (errors.length) process.exitCode = 1;
       break;
     }
@@ -126,6 +154,11 @@ try {
       // the same user-input handler as the visible button.
       await page.keyboard.press("Enter");
       reveals++;
+    } else if (current.type === "reorder") {
+      // The Pixi reorder dialog starts with the original order selected.
+      // Enter invokes its CONFIRM ORDER action without using engine shortcuts.
+      await page.keyboard.press("Enter");
+      reorders++;
     } else if (["chooseAction", "chooseBlockers", "chooseAttackers"].includes(current.type)) {
       await touch(1032, 765);
       passes++;

@@ -20,6 +20,7 @@ import { usePreferencesStore } from "@/stores/usePreferencesStore";
 import { useGameStore } from "@/stores/useGameStore";
 import { isCoarsePointer } from "@/lib/responsive";
 import { registerPixiApp } from "./visibility";
+import { cardRenderPixelDensity } from "@/lib/cardWorkerBudget";
 import {
   HAND_ACTIONS_CLEAR_DELAY_MS,
   HAND_ACTIONS_GAP_PX,
@@ -270,7 +271,7 @@ export function BoardCanvasSurface({
           backgroundAlpha: 0,
           antialias: true,
           autoDensity: true,
-          resolution: Math.min(2, window.devicePixelRatio || 1),
+          resolution: cardRenderPixelDensity(navigator, window.devicePixelRatio || 1),
         });
         initSettled = true;
         if (disposed || appRef.current !== app) {

@@ -8,7 +8,7 @@ Die Anwendung wird unter [apps/manabrew](../../apps/manabrew/) im Magic-Reposito
 
 | Komponente | Belegter Heim-PC-Zustand |
 | --- | --- |
-| iPad-PWA | Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; aktiver Release 93f37e9d99c05cce8be7; 1ededb4aa71e5a253284, f7283c87075ae778e0d8, 127d23bea1447704bce7 und die älteren Versionen bleiben als Rückfallstände erhalten |
+| iPad-PWA | Dienst manabrew-ipad-pwa.service auf 127.0.0.1:8088; am 8. November 2026 aktiv auf Release e030a1ea68f12e8c5157f8c9de356de79ff29287 mit Manifest f813b926403e82d4f741; Vorgänger 45ad3368546703a2d13fec9baca5f98e6243f78b bleibt als Rückfall erhalten |
 | Linux-Magic-Offline | Zusätzlicher Desktopstarter manabrew-magic-offline.desktop nutzt den aktuellen Magic-PWA-Dienst auf 127.0.0.1:8088 direkt für Offline-Commander gegen Forge-KI; alte Linux-Version bleibt verfügbar |
 | Linux-Web | Aktiver manabrew-local-web.service auf 127.0.0.1:8087 und Chrome-Desktopstarter manabrew-local.desktop |
 | Linux-Relay | Aktiver manabrew-local-relay.service auf den Loopback-Ports 9443/9444 |
@@ -19,6 +19,76 @@ Die Quellübernahme basiert auf Manabrew v3.69.0, Upstream-Commit 4f4ed9e784a054
 Der nicht als Gitlink importierte Forge-Unterbaum wird vom Skript scripts/bootstrap-forge.sh mit dem exakten Upstream-Commit be9e0c8a5b561ae3e909c2f9a8bdac0a7fa2b097 nachgeladen. Die Java/GraalVM-Forge-WebAssembly-Laufzeit wird **nicht** aus Java-Quellen neu kompiliert, sondern mit scripts/bootstrap-webimage.sh aus dem veröffentlichten Manabrew-Webimage v3.69.0 bezogen, auf einen unveränderlichen OCI-Digest fixiert und per SHA-256 für beide Artefakte geprüft. Die eigene Rust-WASM-Bibliothek und das Frontend werden hingegen aus den hier versionierten Quellen erstellt.
 
 Manabrew ist unter AGPL-3.0-or-later lizenziert. Lizenz und Drittanbieterhinweise wurden unter apps/manabrew beibehalten.
+
+## Stabilität bei Hintergrundwechsel und Wiederaufnahme (8. November 2026)
+
+Die Web-App pausiert beim Verlassen des Vordergrunds die lokale Multiplayer-Reconnect-Frist. Nach Rückkehr läuft die **verbleibende Frist** weiter; der Browser darf eine Partie nicht allein wegen eines von iPadOS angehaltenen Timers beenden. Ein `pagehide` darf bei einer laufenden Offline-Partie weder den Spielabschluss vorwegnehmen noch den Karten-Rendering-Worker zwangsweise beenden. Beim ausdrücklichen Beenden wird die Offline-Partie weiterhin abgeschlossen. Auf iPhone/iPad erhält der Kartenrenderer aus Rücksicht auf WebKit-Speicherdruck nur einen Worker, auf Desktopgeräten bis zu drei.
+
+Die Grenzen bleiben wichtig: Die Forge-Spiel-Engine einer echten Offline-Partie läuft weiter **im Browserprozess**. Beendet iPadOS den gesamten WebKit-/PWA-Prozess (z. B. bei Speicherdruck), überlebt der Enginezustand nicht. Noch fehlt ein dauerhaft gespeicherter, verifizierter Spielstand mit Wiederanlauf; reduzierte Workerzahl und Timer-Fix sind **kein** Ersatz für Engine-Persistenz.
+
+Regressionen: `src/hooks/useMultiplayerInterruption.test.ts` simuliert fünf Minuten Hintergrundphase und den anschließenden Fristablauf im Vordergrund. `src/lib/reconnectDeadline.test.ts` und `src/lib/cardWorkerBudget.test.ts` prüfen Fristen und iPad-Erkennung. Auf dem produktionsgleichen Caddy-Kandidaten bestand zusätzlich ein vollständiges Offline-Commander-Duell in Chrome ohne Seitenfehler. `node scripts/test-ipad-background-game.mjs http://127.0.0.1:8099` überprüfte nach zuvor installiertem Offline-Cache eine laufende Partie mit Chrome-CDP-Lifecycle `frozen`/`active` und einer anschließenden echten Spielaktion bei ausgeschaltetem Netzwerk. Die komplette Vitest-Suite bestand mit 220/220 Tests. Diese Chrome-/Unit-Nachweise sind **kein** iPadOS-/Safari-Ende-zu-Ende-Nachweis.
+
+**Live-Auslieferung vom 8. November 2026:** Die unveränderte, separat gebaute Distribution liegt unter `~/.local/share/manabrew-ipad-magic-c65962a4557b3a695c224e3f833c3ceaba91dabe/dist`. Das Offline-Manifest `b728e23f58c6ab6588b9` enthält **3.476 Dateien mit 402.267.931 Bytes** und **38 persönliche Commander-Decks**. Nur der iPad-PWA-Dienst auf 127.0.0.1:8088 wurde auf diese Distribution umgeschaltet; die alte e55f-Version bleibt unverändert und die Linux-Online-/Konto-Version auf Port 8087 wurde nicht angetastet. Die neue Version lieferte direkt auf 8088 und über `https://heim-pc.tail6dbb90.ts.net:8443` HTTP 200 mit COOP/COEP; die reale HTTPS-Origin bestand in Chrome die vollständige Cache-Installation, SharedArrayBuffer-Überprüfung und einen Offline-Kaltstart mit eigenen Decks. Die lokale Test-Chrome-Instanz verwendete wegen fehlender MagicDNS-Auflösung eine nur dort gesetzte Host-Zuordnung; die TLS- und HTTPS-Origin-Identität blieben unverändert. Dies beweist weiterhin **keine** Wiedereinsetzung eines von iPadOS beendeten Safari-Prozesses und ersetzt keinen Safari-Gerätetest.
+
+**Abnahme des tatsächlich aktiven Release:** Über die echte Tailnet-HTTPS-Origin wurde eine vollständig netzlose Anowon/Gahiji-Commander-Partie in Chrome nach **159 UI-Aktionen / 129 Sekunden** regulär beendet; die Ergebnisanzeige blieb fünf Sekunden stehen, die Rückkehr ins Menü funktionierte und es gab **null JavaScript-Seitenfehler**. Der Linux-Chrome-Erststart auf Port 8088 installierte **38/38 Decks** mit **38 Baselines**, verwaltete alle **3.476 Offline-Dateien**, bestand den Offline-Kaltstart und das schnelle Wiederöffnen ohne Fehler. Der ergänzende `scripts/test-ipad-background-session.mjs` simulierte `visibilitychange` und ein BFCache-artiges `pagehide` im laufenden Offline-Spiel; nach dem Zurückwechseln wurde eine weitere echte Forge-Spielentscheidung verarbeitet, ohne Partieverlust oder Seitenfehler. Die getrennte `test-ipad-background-game.mjs`-Prüfung simulierte mit Chrome-CDP eine tatsächliche Page-Lifecycle-Freeze-Phase. Auch zusammen beweisen diese Tests **keine** persistente Spielfortsetzung nach einem vollständigen iPadOS-WebKit-Prozessabbruch.
+
+### Speicherschonendes iPad-Rendering und produktive Abnahme (8. November 2026)
+
+**Ursache und minimaler Eingriff:** Neben der rund 86 MB großen Forge-WebAssembly-Engine hat `useGamePrefetch` auch unter iPadOS komplette Deck-Pools als Bilder und generierte Kartenflächen vorbereitet, selbst wenn die Karten noch nicht sichtbar waren. Das kann den WebKit-Prozess unter zusätzlichem Speicherdruck belasten. Der im bestehenden PR #85 enthaltene Commit `f1cd4376b373c0f632132c8ff26f62dbf1f4ec83` begrenzt die Sammelvorladung deshalb **nur auf iPhone/iPad**: sowohl die klassische iPad-Kennung als auch die Desktop-Safari-Kennung `MacIntel` mit Touch werden erkannt. Sofort sichtbare Hand-, Kommandozonen- und Spielfeldkarten sowie die lokal bekannte Bibliotheksoberseite bleiben priorisiert und werden bei Bedarf gerendert; die Zuordnung der Deckkarten für den Bibliothekskopf bleibt auch ohne vollständiges Vorzeichnen erhalten. Der Desktop-Pfad wärmt die gesamten Decks unverändert vor. Beim Verlassen der Spieloberfläche endet ein noch laufender Deck-Warmup. **Ein quantifizierter Speichergewinn oder eine konkrete Reduktion von iPadOS-Jetsam-Abbrüchen wurde auf echter Hardware noch nicht gemessen.**
+
+**Quellcode-Regressionsnachweis:** Vollständiger TypeScript-Check erfolgreich, **224/224 Vitest-Tests in 40 Dateien bestanden**. Die ergänzten Hooktests sichern ab, dass auf iPad die vollständige Deckvorladung entfällt, auf Desktop erhalten bleibt und beim Verlassen der Ansicht abgebrochen wird. Die erweiterte iPad-Erkennung wird separat geprüft. Browser-E2E-Skripte akzeptieren die optionale `MANABREW_TEST_USER_AGENT`-Variable. Ein so emulierter iPad-Safari-User-Agent in **Chromium** ändert nicht die Browserengine in WebKit.
+
+**Vor Produktivwechsel:** Aus Commit `f1cd437` wurde die komplette PWA gebaut (Manifest `e614ab041ea3b02cd4af`, **3.476 Dateien**, **402.268.379 Bytes**, **38 persönliche Commander-Decks**). Die isolierte Caddy-Version auf Port 8099 bestand Cacheinstallation, Service Worker, Cross-Origin-Isolation und komplett netzlosen Kaltstart. Ein vollständiges Anowon/Gahiji-Commander-Duell endete regulär nach **98 UI-Aktionen** im normalen mobilen Chromium-Profil, ein zweiter Durchlauf mit emuliertem iPad-Safari-UA nach **131 UI-Aktionen**. Beide behielten die Ergebnisanzeige fünf Sekunden, kehrten ins Menü zurück und hatten **0 JavaScript-Seitenfehler**. Der emulierte Tabwechsel einschließlich `visibilitychange` und `pagehide` ließ die Partie bestehen; eine weitere Engine-Entscheidung gelang. Vor dem Umschalten wurde jede der 3.476 Manifestdateien in der neuen unveränderlichen Releasekopie einzeln anhand Größe und SHA-256 geprüft.
+
+**Produktiv und nach dem Wechsel frisch geprüft:** Der iPad-PWA-Dienst verwendet jetzt ausschließlich die beiden schreibgeschützten Container-Mounts unter `~/.local/share/manabrew-ipad-magic-f1cd4376b373c0f632132c8ff26f62dbf1f4ec83/`. Die bisherige Mount-Konfiguration wurde vor dem Tausch exakt unter `~/.local/state/grabowski/manabrew-ipad-deploy-20261108/10-magic-release.before-f1cd437.conf` gesichert; der Vorgängerrelease `c65962a4557b3a695c224e3f833c3ceaba91dabe` ist erhalten. `manabrew-ipad-pwa.service` meldete **active/running, enabled, 0 Restarts**; HTTP 8088 und die echte Tailnet-HTTPS-Origin `https://heim-pc.tail6dbb90.ts.net:8443` lieferten die neue Version mit HTTP 200 sowie COOP/COEP. Aus einem neuen Browserprofil wurde **über das produktive HTTPS** der vollständige Offline-Cache installiert und netzlos erneut geöffnet. Eine danach auf dieser Origin vollständig offline gespielte Partie **Anowon gegen Gahiji** endete mit emulierter iPad-Safari-Kennung nach **111 UI-Aktionen / 84 Sekunden**, 5 Sekunden Ergebnisanzeige, erfolgreicher Menürückkehr und **0 JS-Seitenfehlern**. Auf derselben echten HTTPS-Origin blieb eine weitere Offline-Partie bei emuliertem Tabwechsel und BFCache-`pagehide` aktiv und akzeptierte nach Rückkehr eine neue Forge-Entscheidung, **0 JS-Seitenfehler**. Für den lokalen Test-Chromium war eine reine Browser-Hostzuordnung zum Tailnet erforderlich; Zertifikat und URL-Identität blieben gültig. Der Linux-Chrome-Offlinestarter bestand auf dem **neuen produktiven** Port 8088 den automatischen Erstimport **38/38 Decks und Baselines**, vollständigen Cache, Kaltstart ohne Netzwerk und erneutes Öffnen ohne Seitenfehler. Linux-Online-Client und Relay wurden nicht umgestellt.
+
+**Noch nicht gelöst:** Nach einem vollständigen iPadOS-Safari-Prozessabbruch ist der Forge-Enginezustand weiterhin nicht dauerhaft wiederherstellbar. Das vorhandene Forge-Entscheidungsjournal ist keine persistierte, universelle Spielstandserialisierung; insbesondere sind die internen Forge-AI-Züge nicht deterministisch replayfähig. Die neue Speicherschonung ist eine gezielte Prävention, **keine** Persistenz-/Resume-Implementierung. Die erfolgreiche Browserabnahme mit Safari-Kennung beweist weder die echte iPadOS-WebKit-Speichernutzung noch eine vollständige offline auf einem physischen Home-Screen-iPad gespielte Partie.
+
+### Begrenzter Rastercache und weniger GPU-Speicher auf iPads (8. November 2026)
+
+**Zusätzlicher konkreter Speicherbefund:** Der fertige Kartenraster-Cache `cardRenderer.ts` durfte auch auf iPadOS **256 MiB bzw. 1.024 Karten** gleichzeitig halten, zusätzlich zur Forge-WebAssembly-Engine, Decodercaches und zwei großen Pixi-Canvas. Bei langen Commander-Partien kann dieses ungenutzte Rasterkontingent den WebKit-Speicherdruck unnötig erhöhen. Commit `b54424f470c88a47a39c9deb01fb4b1bedc982b1` führt einen einzigen Apple-Mobile-Budgetpfad ein: **maximal 64 MiB / 256 fertige Cache-Raster** auf iPhone/iPad, **256 MiB / 1.024** weiterhin auf Desktop. Bereits sichtbare Karten werden über bestehende Referenz-Leases nicht mit dem Cacheeintrag freigegeben; ältere Cacheeinträge werden nach LRU verdrängt und bei Bedarf erneut berechnet oder aus der vorhandenen lokalen Kartenflächenablage gelesen. Keine Änderung der Forge-Regelengine oder KI.
+
+**Pixi-GPU:** Der Hauptspielplan und das Overlay begrenzen ihre backing resolution auf mobilen Apple-Geräten auf **1,5 statt 2 Pixel je CSS-Pixel**, soweit die Gerätepixeldichte dies erlaubt; bestehende globale Pixel- und Telefonlimits gelten weiter. Damit sinkt die Pixelzahl bei DPR 2 rechnerisch um **43,75 % pro Canvas**. Der reale Browser-E2E auf einem emulierten iPad mit `deviceScaleFactor=2` bestätigte für **beide** 1180×820-CSS-Pixel-Spielcanvas jeweils **1770×1230 Backing-Pixel**. Es sind tatsächliche DOM-/Pixi-Canvas-Messwerte im Chromium-Test, **keine** Messung des nativen WebKit-RAM-Verbrauchs oder eine garantierte entsprechende Gesamtspeicherersparnis.
+
+**Tests und isolierter Release:** Vollständiger TypeScript-Check und **229/229 Vitest-Tests in 41 Dateien** bestanden, darunter neue iPad-/Desktop-Budget- und Overlay-Pixeltests. Ein frischer Caddy-Offline-Kandidat auf Port 8099 bestand mit iPad-Safari-User-Agent-Kennung die vollständige Cacheinstallation und den Offline-Kaltstart; anschließend wurde ein laufendes Offline-Spiel bei emuliertem `visibilitychange` und `pagehide` fortgesetzt, eine neue Forge-Entscheidung verarbeitet und in beiden Canvas das 1,5x-Limit gemessen (**0 JS-Seitenfehler**). Eine vollständige Offline-Commander-Partie **Anowon gegen Gahiji** endete regulär nach **108 Aktionen / 81 Sekunden**, mit fünf Sekunden stabiler Ergebnisansicht, Menürückkehr und **0 JS-Seitenfehlern**.
+
+**Produktiver Stand und frische Gegenprobe:** Aus dem Quellcommit `b54424f` wurde ein neues unveränderliches Release mit Manifest `f383c6c6d0f5502d64a8` erstellt (**3.476 einzeln SHA-256-geprüfte Dateien, 402.268.688 Bytes, 38 persönliche Commander-Decks**). Nur die zwei read-only-Mounts des bestehenden `manabrew-ipad-pwa.service` wurden nach CAS-Abgleich und atomarer Sicherung umgestellt; der Vorgängerrelease `f1cd437` bleibt erhalten. Die exakte vorherige systemd-Konfiguration liegt unter `~/.local/state/grabowski/manabrew-ipad-deploy-20261108/10-magic-release.before-b54424f.conf`. Der Dienst lief danach `active/running`, `enabled`, **0 Restarts**; über `https://heim-pc.tail6dbb90.ts.net:8443` antwortete das neue Manifest unter gültigem TLS mit HTTP 200 und COOP/COEP. Auf **dieser tatsächlich ausgelieferten HTTPS-Version** wurde in einem neuen Chrome-Profil ein vollständiger Offline-Cache installiert, netzlos kaltgestartet und das Pixi-DPR-Limit für beide Canvas gemessen. Eine laufende Partie überstand einen emulierten Tabwechsel mit zusätzlicher echter Spielaktion; anschließend endete eine komplett offline gespielte Anowon/Gahiji-Partie regulär nach **102 Spielaktionen / 80 Sekunden**, fünf Sekunden Ergebnisanzeige, Menürückkehr und **0 JavaScript-Seitenfehlern**. Linux-Chrome-PWA auf 8088 bestand danach den automatischen Erstimport aller **38/38 Decks und Baselines**, Offline-Kaltstart und erneutes Öffnen fehlerfrei; Onlineclient auf 8087 und Relay wurden nicht umgestellt. Die Test-Chrome-Instanz nutzte nur eine lokale Hostauflösungsregel für die weiterhin korrekt zertifikatsgeprüfte Tailnet-Origin.
+
+**Physisches iPadOS-Gerät (gleicher Live-Release):** Der bereits gekoppelte Juno-Agent auf dem echten iPad (iPadOS 26.7.1) hat am 8. November das neu produktiv ausgelieferte Manifest über `https://heim-pc.tail6dbb90.ts.net:8443/offline-assets.json` mit normaler Zertifikatsprüfung direkt vom Gerät aus abgerufen: **HTTP 200**, Version `f383c6c6d0f5502d64a8`, **3.476 Dateien**, **402.268.688 Bytes**. Authentifizierter Juno-Jobbeleg `job-mcp-d25a2b1a-68fa-40ee-8ebe-d4d2cda044a0` mit erfolgreich abgeschlossenem read-only Python-Job. Damit ist die neue Live-Version auf dem tatsächlichen iPad per Tailnet-HTTPS erreichbar. **Nicht** nachgewiesen sind Safari-Home-Screen-Installation, Service Worker oder eine offline auf dem Gerät gespielte Partie; Juno-HTTPS ist kein Safari-WebKit-Spieltest.
+
+**Verbleibende Grenze:** Das ist eine nachprüfbare Reduzierung der **reservierbaren Cache- und Canvas-Budgets**, kein Beweis behobener iPadOS-Jetsam-Crashes. Physisches Safari-/Home-Screen-Spiel samt Speicher-/Dauertest ist weiterhin offen. Ein **vollständig beendeter Browser-/WebKit-Prozess** verliert den Forge-AI-Enginezustand weiterhin; dessen zuverlässige persistente Wiederherstellung ist nicht implementiert. Das vorhandene Replay-Journal unterstützt gerade die interne Forge-AI nicht deterministisch. Keine Gleichsetzung von Tabwechseltest, Prozesskill und echter Safari-Abnahme.
+
+### GPU-Kontextverlust: statische Pixi-Dialoge nach WebGL-Wiederaufnahme neu zeichnen (8. November 2026)
+
+**Konkreter Codefehler:** Pixi v8 erzeugt GPU-Ressourcen nach einem `webglcontextrestored` bereits selbst neu. Die eigene `OverlayRenderScheduler`-Schicht zeichnete jedoch nur bei geänderter Spielsituation oder anderen Renderanforderungen. War nach einem Safari-/WebGL-Kontextverlust weiter **dieselbe menschliche Spielentscheidung** offen, konnte der statische Aktions-/Dialog-Overlaybereich ohne neues Spielereignis ungerendert bleiben. Commit `45ad3368546703a2d13fec9baca5f98e6243f78b` reagiert darauf direkt am bestehenden Pixi-Canvas: Während `webglcontextlost` unterbleiben unnütze Renderframes, bei `webglcontextrestored` wird **ein neuer Draw über den vorhandenen Scheduler** angefordert; beim Unmount verschwinden die Eventlistener. Forge und die eigentlichen Spielregeln bleiben unverändert. Die veraltete feste Angabe von „35 Decks“ im Offlineinstaller wurde entfernt, da die tatsächliche GitHub-Deckzahl bereits automatisch angezeigt wird.
+
+**Tests:** TypeScript-Check bestanden, gesamte Vitest-Suite **232/232 Tests in 41 Dateien** erfolgreich. Drei neue OverlayScheduler-Fälle verifizieren das Aussetzen der Frames beim GPU-Verlust, automatisches Neuzeichnen einer sonst statischen Eingabe nach Wiederherstellung, Restore im Hintergrund und Listener-Cleanup. Die ausführbare Browser-Gegenprobe `MANABREW_TEST_WEBGL_CONTEXT_RESTORE=1 node scripts/test-ipad-background-session.mjs …` löst über `WEBGL_lose_context` die **tatsächlichen WebGL-Kontextverlust- und -Wiederherstellungsereignisse beider Pixi-Canvas** aus, prüft ihre erneute Verfügbarkeit und anschließend die fortbestehende Forge-Partie samt neuer Entscheidung nach emuliertem Tabwechsel/BFCache-`pagehide`. Mit DPR 2 blieben beide Canvas auf 1770×1230 Pixel für 1180×820 CSS-Pixel begrenzt. Im separaten Caddy-Kandidaten auf Port 8099 bestanden komplette Offlineinstallation, Offline-Kaltstart, GPU-/Tabwechselprobe und eine vollständig abgeschlossene **Anowon/Gahiji-Partie nach 101 UI-Aktionen / 73 Sekunden**, Ergebnisansicht fünf Sekunden, Menürückkehr, **0 JavaScript-Seitenfehler**.
+
+**Produktiv-Release:** Aus genau diesem Commit wurde ein neues vollständiges Offline-PWA-Paket gebaut und unter `~/.local/share/manabrew-ipad-magic-45ad3368546703a2d13fec9baca5f98e6243f78b` unveränderlich abgelegt: Manifest `f012927778562e103505`, **3.476 einzeln nach Größe und SHA-256 geprüfte Dateien**, insgesamt **402.269.326 Bytes**, **38 persönliche Commander-Decks**. Nach SHA-256-/CAS-Abgleich des bisherigen systemd-Dropins wurden ausschließlich die beiden schreibgeschützten Release-Mountpfade des `manabrew-ipad-pwa.service` geändert. Die genaue Vorgängerkonfiguration ist unter `~/.local/state/grabowski/manabrew-ipad-deploy-20261108/10-magic-release.before-45ad336.conf` gesichert; der Release `b54424f` bleibt vollständig erhalten. Automatischer Rückfall bei fehlgeschlagenem Deployment war vorgesehen und wurde nicht benötigt.
+
+**Frische Abnahme auf dem laufenden Live-Release:** `manabrew-ipad-pwa.service` meldete nach der Umschaltung `active/running`, `enabled`, **0 Restarts**. Das Manifest und die App antworteten über `https://heim-pc.tail6dbb90.ts.net:8443` mit gültiger TLS-/HTTPS-Origin, HTTP 200, COOP `same-origin` und COEP `require-corp`. Ein neuer Chromium-Browser mit emulierter iPad-Safari-Kennung installierte **über diesen produktiven HTTPS-Ursprung** alle Offline-Dateien und startete ohne Internet kalt. Beide WebGL-Kontexte wurden im laufenden Offline-Spiel verloren und wiederhergestellt; nach emuliertem Hintergrundwechsel erfolgte eine weitere Forge-Entscheidung, **0 JavaScript-Seitenfehler**. Auf derselben ausgelieferten Version endete danach eine vollständig offline gespielte **Anowon/Gahiji-Partie nach 94 Aktionen / 68 Sekunden** regulär, Ergebnis fünf Sekunden sichtbar, Rückkehr ins Menü, **0 JavaScript-Seitenfehler**. Der produktive Linux-Chrome-Offline-Erststart bestand **38/38 Commander-Decks mit 38 Baselines**, vollständige Installation, Offline-Kaltstart und schnelles Wiederöffnen ohne Fehler. Linux-Online-Client/Relay auf Port 8087/9443/9444 wurden nicht umgestellt. Nur für die lokale Chrome-Probe wurde der fehlenden MagicDNS-Auflösung mit einer Chrome-internen Host-Resolver-Regel begegnet; die echte TLS-Identität blieb erhalten.
+
+**Echtes iPad:** Der gekoppelte Juno-Agent auf iPadOS 26.7.1 prüfte die neue Live-Version vom physischen Gerät aus per normal zertifikatsgeprüftem HTTPS: Manifest `f012927778562e103505`, **3.476 Dateien**, **402.269.326 Bytes**, HTTP 200. Juno-Auftragsreceipt: `job-mcp-cd59b8a4-9260-42e6-a5a1-0a822452d5c0`, erfolgreich. Dies beweist die echte Geräte-Tailnet-Erreichbarkeit und Releaseidentität, **nicht** einen Safari-Home-Screen-Offlinespieltest. Die Chromium-Simulation ist kein Test der iPadOS-WebKit-Engine. Ein vollständiger Browserprozessabbruch verliert weiterhin den Forge-AI-Enginezustand; die Änderung **stellt WebGL-Ausgabe nach Kontextrestoration wieder her**, keine persistierte Partie nach Prozesskill. Das optionale gerenderte Kartenflächen-Cache hatte im untersuchten installierten Chromium-Profil **0 Einträge**; die gesamte belegte Origin-Quota von rund 406 MB kam überwiegend vom erforderlichen Offline-Paket. Deshalb keine zusätzliche ungeprüfte Verkleinerung dieser CacheStorage-Grenze.
+
+### Pixi-Kartenraster auf die tatsächliche iPad-GPU-Auflösung abstimmen (8. November 2026)
+
+**Ursache / kleiner Eingriff:** Nach der ersten iPad-DPR-Begrenzung auf 1,5 berechneten `CardSprite.selectRasterTier` und `PlayerHudCapsule.applyHandFace` die intern gerenderten Kartenflächen weiterhin mit **DPR 2**, obwohl der iPad-Spielfeldrenderer nur 1,5 Pixel pro CSS-Pixel anzeigen konnte. Dadurch konnten einzelne Karten statt der ausreichenden **244-Pixel-Tischvariante** ohne Sichtbarkeitsgewinn eine **488-Pixel-Rasterfläche** reservieren (bei gleicher Form bis zu vierfache Pixelzahl). Commit `e030a1ea68f12e8c5157f8c9de356de79ff29287` verbindet beide tatsächlich rendernden Codepfade über den bereits bestehenden Apple-Mobile-DPR-Wert, den auch `BoardCanvas` verwendet. Der Desktop behält bis zu DPR 2; Karten mit tatsächlichem Bedarf erhalten weiterhin größere Tiers. **Dies ist eine obere Rasterbudget-Korrektur, keine empirisch gemessene Safari-Speicherersparnis.**
+
+**Quell- und E2E-Nachweis:** TypeScript erfolgreich; **234/234 Vitest-Tests in 41 Dateien**, einschließlich des expliziten Vergleichs von 150×210 CSS-Pixeln bei DPR 1,5 (Tier `table`) gegen DPR 2 (`native`). Isolierter kompletter PWA-Neubau mit **38 persönlichen Commander-Decks**, Manifest `f813b926403e82d4f741`, **3.476 Dateien / 402.269.368 Bytes**. Die separat gestartete Caddy-Kandidatenversion auf Port 8099 bestand Service Worker, SharedArrayBuffer, vollständigen Offline-Cache und netzlosen Kaltstart mit iPad-Safari-Kennung in Chromium. Beide WebGL-Kontexte überstanden jeweils ein simuliertes `webglcontextlost`/`webglcontextrestored`, der Spielzustand blieb auch über emulierten Tabwechsel mit Folgeentscheidung bestehen (**0 JS-Seitenfehler**). Eine vollständig offline gespielte Commander-Partie **Anowon gegen Gahiji** erreichte nach **101 Spielaktionen / 72 Sekunden** regulär das Game-over, fünf Sekunden Ergebnisanzeige und Rückkehr ins Menü (**0 JS-Seitenfehler**). Vor der Produktivumschaltung wurden sämtliche **3.476 Manifestdateien in der unveränderlichen Releasekopie einzeln auf Größe und SHA-256** geprüft.
+
+**Aktive Live-Installation und Rückfall:** Ausschließlich die zwei schreibgeschützten Release-Mounts des bestehenden `manabrew-ipad-pwa.service` wurden nach atomarem SHA-/CAS-Abgleich auf `~/.local/share/manabrew-ipad-magic-e030a1ea68f12e8c5157f8c9de356de79ff29287/` geändert. Vorherige systemd-Konfiguration: `~/.local/state/grabowski/manabrew-ipad-deploy-20261108/10-magic-release.before-e030a1e.conf`. Vorgänger `45ad336` bleibt vollständig für Rollback vorhanden. Nach Rollout: Dienst **active/running, enabled, 0 Restarts**; tatsächlicher HTTPS-Origin `https://heim-pc.tail6dbb90.ts.net:8443` antwortete HTTP 200 mit gültigem TLS und COOP/COEP. In einem **frischen Browserprofil auf diesem ausgelieferten HTTPS-Ursprung** bestanden erneut vollständige Offlineinstallation, Kaltstart, beide GPU-Kontextrestaurationen und Tabwechsel mit neuer Forge-Entscheidung, **0 JS-Seitenfehler**. Eine weitere vollständig offline gespielte **Anowon/Gahiji-Partie** endete auf der aktiven HTTPS-Version regulär nach **132 Aktionen / 90 Sekunden**, fünf Sekunden Ergebnissichtbarkeit und Menürückkehr (**0 JS-Seitenfehler**). Linux-Chrome-PWA auf 8088 installierte **38/38 Commander-Decks und 38 Baselines**, startete ohne Netz und öffnete sich erneut fehlerfrei; getrennter Onlineclient und Relay blieben unangetastet. Das **physische iPadOS-26.7.1-Gerät** prüfte die neue Live-Manifestversion über regulär zertifikatsgeprüftes HTTPS mit HTTP 200, **3.476 Dateien / 402.269.368 Bytes**: Juno-Receipt `job-mcp-eeb5c864-7659-4a5c-9869-3776da3c316b`.
+
+**Weiterhin nicht nachgewiesen:** Echte Safari-/Home-Screen-Spielpartie und gemessene WebKit-RAM-Jetsam-Rate auf dem iPad. Der Gerätetest war ein iPad-seitiger HTTPS-Manifestabruf über den Juno-Agenten, kein Safari-UI-Test. Nach vollständigem iPadOS-WebKit-Prozessabbruch fehlt weiterhin die persistierte Forge-AI-Engine-Wiederherstellung. Die neue GPU-Rasterbudget-Verbesserung ist keine Lösung für dieses getrennte Problem.
+
+### Persönliche Commander-Decks und echter Vier-Spieler-Pod: zusätzliche Offline-Abnahme (8. November 2026)
+
+**Breitere Gameplay-Gegenprobe, unverändertes Produktiv-Release:** Auf der tatsächlich installierten HTTPS-PWA (Quellrelease `e030a1e`, Manifest `f813b926403e82d4f741`) starteten mehrere Commander-Partien aus einem bereits vollständig offline vorbereiteten Chromium-Profil mit emuliertem iPad-Safari-User-Agent und **ausgeschaltetem Browsernetzwerk**. Neben der bisherigen Anowon/Gahiji-Abnahme wurden **Arahbo, Roar of the World gegen Rin and Seri, Inseparable** nach **92 UI-Aktionen / 68 Sekunden** sowie **Helga, Skittish Seer gegen Teysa, Opulent Oligarch** nach **150 Aktionen / 107 Sekunden** regulär beendet. Beide behielten das Ergebnis fünf Sekunden sichtbar, kehrten ins Menü zurück und meldeten **0 JavaScript-Seitenfehler**.
+
+**Tatsächlicher Commander-Pod:** `scripts/test-ipad-four-player-full-game-ui.mjs` startete auf derselben produktiven HTTPS-Version **Arahbo gegen drei lokale Forge-AI-Sitze** (mit Rin and Seri als gewähltem Gegendeck) als echten Vier-Spieler-Pod. Der zweite Versuch erreichte ein reguläres Game-over nach **126 UI-Aktionen / 92 Sekunden**, drei Spieler waren eliminiert, Gewinner war **Forge bot 2**. Neun Modalbestätigungen, fünf Sekunden Ergebnisanzeige und Rückkehr zum Menü funktionierten, **0 JavaScript-Seitenfehler**. Ein früherer Versuch lief über 450 Aktionen und endete wegen der bisherigen auf nur 18 unveränderte Statusabfragen begrenzten Test-Stall-Erkennung. Da in einem Pod mehrere Forge-Bots auf dieselbe menschliche Entscheidung folgen, darf ein kurzzeitig unveränderter UI-Prompt nicht mit einem Stillstand gleichgesetzt werden. Die Testhülle setzt deshalb jetzt auf **45 Sekunden ohne beobachtbaren Spielzustandsfortschritt**; der erfolgreiche Folgelauf ist ein neuer Spielverlauf und keine Wiederaufnahme des abgebrochenen Tests.
+
+**Kleinster Testfix:** `scripts/test-ipad-full-game-ui.mjs` kann nun bei `reorder` mit der **existierenden Pixi-Enter-/CONFIRM-ORDER-Aktion** antworten, statt den Engine-Weg zu umgehen. Das wurde durch einen echten Reorder-Prompt im ersten Helga/Teysa-Lauf als fehlender Testzweig erkannt; der abschließende erfolgreiche Zufallslauf benötigte selbst **keine** Reorder-Aktion (`reorders=0`), daher ist dieser UI-Zweig noch nicht separat im Browser verifiziert. Der Vier-Spieler-Test akzeptiert jetzt optional die Safari-UA-Kennung. Dies sind **ausschließlich E2E-Test- und Dokumentationsänderungen**: das bereits produktive PWA-Bundle, die Forge-Engine und die 38 persönlichen Decks wurden nicht erneut gebaut oder geändert. Chromium mit Safari-Kennung bleibt **kein** echter iPadOS-Safari-/Home-Screen-Test.
+
+**Unabhängige ForgeBot-Korrektheitsgrenze:** Die parallele, noch offene [PR #84](https://github.com/alexdermohr/magic/pull/84) behebt in einem optionalen JVM-Patch eine falsch erkannte tödliche Commander-Bedrohung nach gewöhnlichem Blocken. Eine neue **echte Java-RED/GREEN-Gegenprobe am aktuellen PR84-HEAD `503b2fd`** deckte aber den entgegengesetzten Fall auf: ein **2/2-Commander mit Deathtouch + Trample** gegen **Wall of Omens (0/4)** bei 20/21 erhaltenem Commander-Schaden wird vom neuen Patch fälschlich als *nicht tödlich* gewertet. Original-Forge meldete `deathtouchTrample=1`, aktueller PR84-Patch `0`, weil er vier statt des erforderlichen einen dem Blocker zuzuweisenden Schadenspunkts abschätzt. Original und Patch wurden mit gleichem gepinnten Forge-Checkout, JDK 21 und temporärem Klassenoverlay geprüft; das Original fällt umgekehrt bei normalem Blocken falsch positiv auf. Der neue Fall und die benötigte Regression sind unter [PR84 – dokumentierter Gegenbeweis](https://github.com/alexdermohr/magic/pull/84#issuecomment-6723440854) festgehalten. **Kein produktiver ForgeBot-Defaultwechsel auf diesen unvollständig korrigierten Patch.**
 
 ## Reproduzierbarer Offline-Build
 
@@ -349,3 +419,100 @@ Home-Screen-Spiel und die Integration der PR-Kette in `main` bleiben offen.
 **iPad-Testgrenze präzisiert: Hintergrund-Juno statt Safari-Vordergrund (7. November 2026):** Eine weitere **lesende** UIKit-Prüfung am physischen iPad ergab `UIApplication.applicationState=2` (Hintergrund). Das isolierte `WKWebView` meldete `document.visibilityState="hidden"`/`document.hidden=true`. Der `requestAnimationFrame`-Zähler stieg während drei Sekunden lediglich auf **1**, und ein 100-ms-`setInterval` lief nur neunmal. Die vorherige lange `Game starting…`-Anzeige entstand somit in einer **hintergrundgedrosselten, nicht sichtbaren Juno-Testansicht**; sie belegt **keinen Forge-WASM-Kompatibilitätsfehler in aktivem Safari**. Ein echter iPad-Abnahmetest braucht eine sichtbar im Vordergrund geöffnete Safari-Home-Screen-App, zuvor vollständig geladenen Service-Worker-Cache und eine danach tatsächlich offline gespielte Partie. Die Juno-Prüf-WebView wurde jedes Mal wieder gestoppt; der produktive Forge-Release und Safari-Speicher blieben unverändert.
 
 **Manabrew-PR-Basisumfang:** Das Git-Diff des Open-Source-Import-PR [#74](https://github.com/alexdermohr/magic/pull/74) gegen seinen aktuellen PR-Base umfasst **2.945 geänderte Dateien**, darunter **1.096 unter `apps/manabrew/manabrew-rs`** und **1.038 unter `apps/manabrew/src`**. Es handelt sich überwiegend um importierten Engine-/Frontend-Quellcode, nicht bloß zufällig angesammelte Release-Binärdateien. Diese Größe erklärt den fehlenden vollständigen diffgebundenen Captain-Reviewnachweis; ein grüner CI-Check oder lauffähiges Produktionsrelease ersetzen dessen Voraussetzung nicht. Keine direkte Umgehung des Mergepfads.
+
+### iPad-Pause: Transportreparatur und Diagnose (8. November 2026)
+
+**Nutzerbeobachtung maßgeblich:** Beim echten Appwechsel auf dem iPad
+bricht die laufende Partie weiterhin ab. Der unten beschriebene
+Quellcode-Fix wurde noch nicht in der Safari-Home-Screen-PWA abgenommen.
+
+**Gefundene Transportlücke:** Der dedizierte Sitzlese-Worker
+(src/workers/seat-reader.worker.ts) quittierte ein Forge-SAB-Frame
+bisher, bevor die Hauptanwendung dieses tatsächlich erhalten hatte.
+Wenn WebKit den Sitzleser nach Quittung, aber vor der Zustellung
+beendete, war die Nachricht verloren und die lebende Forge-Engine
+konnte auf eine nie sichtbare Entscheidung warten. Nun erfolgt
+die SAB-Quittung erst im Main-Thread-Empfangs-Callback. Ein separater
+4-Byte-SAB-Zustellzähler verhindert, dass ein sofort auf ACK folgendes
+neues READY-Frame versehentlich vom Leser übergangen wird. Alle
+1,5 Sekunden im Leerlauf meldet der Leser einen Heartbeat.
+Nach Visibility-/PageShow-Rückkehr bekommt er acht Sekunden Zeit;
+nur ein weiterhin stummer Sitzleser wird ersetzt, ohne die
+eigentliche Forge-WASM-Engine zu beenden. Workerfehler führen
+ebenfalls zu einer Neuanbindung.
+
+**Diagnose für das echte Gerät:** Ein auf 32 Einträge begrenzter
+lokaler Verlauf hält Dokumentstart, vorher aktive Offline-Partie,
+App-Hidden/Visible, Pagehide/Pageshow mit BFCache-Indikator sowie
+Workerfehler fest. In Settings → Preferences → Copy interruption diagnostics
+kann man den Verlauf kopieren. Bei einem neuen Dokument mit zuletzt
+aktivem Spiel wird document_restarted_with_active_game festgehalten,
+statt einen fortgesetzten Spielstand vorzutäuschen. Es werden keine
+Kartennamen, Hände, Prompts, Zugangsdaten oder Geheimnisse gespeichert
+oder versendet. Ist localStorage gesperrt, bleibt das Spielen möglich.
+
+**Quell- und Kandidatenbelege:** TypeScript-Check, ESLint und
+240/240 Vitest-Tests (43 Dateien) bestanden. Drei zusätzliche echte
+Node-worker_threads/SAB-Tests prüfen den Workerabbruch vor Zustellung,
+einen direkt auf Quittung folgenden nächsten Prompt und den Idle-Heartbeat.
+Der vollständige reproduzierbare iPad-Offline-Build mit gepinnter
+Forge-WebAssembly-Engine und neu gebauten Rust-Artefakten ergab
+Manifest 375316ebdefeca4c7e67, 3.476 Dateien / 402.276.174 Bytes
+sowie 38 persönliche Commander-Decks. Auf dem isolierten
+Produktions-Caddy-Kandidaten (127.0.0.1:8099) bestanden komplette
+Offline-Cacheinstallation und Kaltstart in Chromium 156 samt
+SharedArrayBuffer und Cross-Origin-Isolation. Eine laufende Forge-Partie
+überstand emuliertes Visibility/BFCache, beide WebGL-Kontextverluste
+und ein neues tatsächliches Spielkommando (0 JS-Fehler). Danach
+bestand auch ein echtes CDP-Freeze/Active mit weiterer
+Forge-Spielentscheidung bei abgeschaltetem Netzwerk.
+Chromium mit Safari-Kennung bleibt Chromium, nicht WebKit.
+
+**Finale Kandidatenabnahme auf genau Manifest 375316ebdefeca4c7e67:**
+Eine neue Chromium-Offlineinstallation mit 38 Decks startete vollständig
+ohne Netzwerk, die Diagnose-Kopierfunktion erschien fehlerfrei direkt
+im Standard-Einstellungstab Preferences. Danach überstand eine
+laufende Anowon/Gahiji-Partie den emulierten BFCache-/Tabwechsel,
+zweimal WebGL-Kontextverlust, 1,5×-Canvas-Backing und eine weitere
+echte Forge-Spielentscheidung. Ein zweiter vollständiger
+Anowon/Gahiji-Offline-Lauf endete nach **105 UI-Aktionen / 78 Sekunden**
+regulär mit Spielereliminierung, mindestens fünf Sekunden
+Ergebnisanzeige, erfolgreicher Menürückkehr und **0 JavaScript-Seitenfehlern**.
+Diese Tests liefen auf Chromium 156 und nicht im echten iPad-Safari.
+
+
+**Grenze der Reparatur:** Wird der gesamte WebKit-Prozess oder der
+Forge-Engine-Worker beendet, überlebt der interne Enginezustand
+nicht. Forge besitzt zwar GameCheckpoint/DecisionJournal zum
+deterministischen Replay einschließlich Zustand und RNG. Der
+bestehende Journalmodus ist für interne Forge-AI-Sitze verboten
+(ManaBrewEngineAdapter.startGameLocked); die Standard-KI-Partie ist
+deshalb noch nicht vollständig dauerhaft wiederherstellbar.
+Nur die sichtbare gameView in IndexedDB zu legen wäre keine echte
+Fortsetzung. Für P1 braucht es zuerst einen erfolgreichen
+Rekonstruktions-Roundtrip einer echten Partie einschließlich
+interner KI-Züge, verdeckter Zonen und Stack, danach atomare lokale
+Persistenz und Resume-UI.
+
+**Noch ausstehend:** Echtes Safari-/Home-Screen-Spiel auf dem
+physischen iPad, kurzer und mehrminütiger Appwechsel, Sperrbildschirm,
+vollständiger Prozessabbruch und weitere gültige Spielentscheidung
+nach Rückkehr. Der vorhandene Juno-Agent kann nur in seiner eigenen
+Python-/WKWebView-Sandbox testen, nicht die Safari-PWA bedienen.
+Ein Chromium- oder Juno-Teilergebnis ist keine Safari-Abnahme.
+
+
+**Finale produktionsgleiche Gegenprobe:** Nach dem Verschieben der
+Diagnose-Kopieraktion nach Settings/Preferences wurde die PWA vollständig
+neu gebaut und installiert (Manifest 375316ebdefeca4c7e67).
+Der Diagnoseknopf ist im neuen Chromium-Client sichtbar und wirft keinen
+JS-Fehler. Der schon in der bisherigen Produktivversion bestehende
+transformCallback-JavaScript-Fehler beim Öffnen von Settings/Cache ist
+getrennt reproduziert und nicht durch diesen Patch eingeführt.
+Im finalen Releasekandidaten überstand eine laufende Forge-Partie einen
+emulierten BFCache-Appwechsel und WebGL-Kontextverlust mit weiterer
+gültiger Entscheidung. Ein anschließendes Anowon/Gahiji-Duell endete
+vollständig offline nach 105 Aktionen / 78 Sekunden mit regulärer
+Eliminierung, fünf Sekunden Ergebnisanzeige, erfolgreicher Menürückkehr
+und null JavaScript-Seitenfehlern. Die echte iPad-Safari-Abnahme und
+dauerhafte Engine-Spielstandrekonstruktion bleiben offen.
