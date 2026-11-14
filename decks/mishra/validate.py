@@ -14,8 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 EXPECTED_GC = {"Demonic Tutor", "Mana Vault", "Mishra's Workshop"}
-REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Determined Iteration", "Diabolic Intent", "Manifold Key", "Machine God's Effigy", "Copy Artifact", "Sculpting Steel", "Nautiloid Ship", "Memory Jar", "Mishra's Workshop"}
-FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic", "Bolas's Citadel", "The One Ring", "Buried Ruin", "Marionette Apprentice", "Sensei's Divining Top", "Demonic Junker", "Whir of Invention"}
+REQUIRED_CURRENT = {"Brudiclad, Telchor Engineer", "Ashnod's Altar", "Determined Iteration", "Diabolic Intent", "Manifold Key", "Machine God's Effigy", "Copy Artifact", "Sculpting Steel", "Sensei's Divining Top", "Nautiloid Ship", "Memory Jar", "Mishra's Workshop"}
+FORBIDDEN_CURRENT = {"Aetherflux Reservoir", "Krark-Clan Ironworks", "Lich's Relic", "Bolas's Citadel", "The One Ring", "Buried Ruin", "Marionette Apprentice", "Lightning Greaves", "Demonic Junker", "Whir of Invention"}
 # Explicitly excluded sweepers from erweiterter-kreis.md; not an exhaustive semantic wipe classifier.
 EXPLICITLY_EXCLUDED_WIPES = {"Blasphemous Act", "The Meathook Massacre", "Karn's Sylex", "Toxic Deluge", "Nevinyrral's Disk"}
 EXPECTED_ROCKS = {
