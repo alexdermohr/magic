@@ -14,21 +14,20 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelle B3-Revision: drei Kopier-/Enttapp-Karten (14.11.2026)
+## Aktuelle B3-Revision: Machine God's Effigy und Manifold Key (14.11.2026)
 
-**Beschlossene und umgesetzte Tausche:**
+**Verbindliche Änderung an [current.txt](current.txt):** Zwei Karten kommen hinzu, zwei gehen; die ursprünglich vorgeschlagene Aufnahme von Copy Artifact wurde **vor dem Merge verworfen**.
 
 | Raus | Rein | Vorteil | Bewusster Verlust |
 |---|---|---|---|
-| **Demonic Junker** | **Machine God's Effigy** | Nichtkreatur-Artefakt, das beim Eintritt eine Kreatur kopieren kann, etwa Goblin Welder, Master Transmuter oder Roaming Throne; zusätzlich {T}: {U}. | Affinity-Fahrzeug mit mehrfacher gezielter Kreaturenzerstörung beim Eintritt. |
-| **Lightning Greaves** | **Manifold Key** | {1}-Artefakt als Urza's-Saga-Ziel; für {1},{T} ein anderes Artefakt enttappen oder für {3},{T} eine Kreatur unblockbar machen. Synergiert mit Mana Vault, Resonator, Effigy und Nautiloid-Warforms. | Der Shroud-Schutz und die Eile von Lightning Greaves fehlen nun insbesondere für Mishra, Goblin Welder, Goblin Engineer und Master Transmuter. |
-| **Whir of Invention** | **Copy Artifact** | Für {1}{U} eine bleibende Kopie eines Artefakts erzeugen, etwa Knight Paladin, Spine of Ish Sah oder Portal to Phyrexia. | Instant-Tutor, der Artefakte direkt aus der Bibliothek aufs Feld holen konnte, trotz UUU/X. |
+| **Demonic Junker** | **Machine God's Effigy** | Nichtkreatur-Artefakt, das eine Kreatur als Nichtkreatur-Artefakt kopieren kann, etwa Goblin Welder, Master Transmuter oder Roaming Throne; zusätzlich {T}: {U}. | Affinity-Fahrzeug mit bis zu einer gezielten Kreaturenzerstörung pro Spieler beim Eintritt. |
+| **Whir of Invention** | **Manifold Key** | {1}-Artefakt, per Urza's Saga suchbar. Enttappt für {1},{T} ein anderes Artefakt oder macht für {3},{T} eine Kreatur im Zug unblockbar; passt zu Mana Vault, Effigy, Resonator und Nautiloid Ship. | Sofortiger Artefakttutor aus der Bibliothek ins Spielfeld, trotz UUU/X. |
 
-**Ausdrücklich erhalten:** **Sculpting Steel** bleibt als zweite eigenständige Kopierkarte erhalten; **Sensei's Divining Top bleibt für Bibliothekskontrolle und ist weiterhin via Urza's Saga suchbar**. Ebenso bleiben Jhoira, Scrap Trawler, Mishra, Tamer of Mak Fawa, Nautiloid Ship, Spine of Ish Sah, Brudiclad und Ashnod's Altar.
+**Ausdrücklich erhalten:** **Lightning Greaves (Beinschienen des Blitzes)** schützt Mishra und wichtige Kreaturen mit Shroud und verleiht Eile. **Sensei's Divining Top** bleibt als günstige Bibliothekskontrolle und Saga-Ziel. **Sculpting Steel** bleibt als kopierbares Artefakt. Ebenfalls erhalten bleiben Jhoira, Scrap Trawler, Mishra, Tamer of Mak Fawa, Nautiloid Ship, Spine of Ish Sah, Brudiclad und Ashnod's Altar. **Copy Artifact** gehört in den erweiterten Kartenkreis und ist nicht aktiv.
 
-**Wichtige Regelgrenzen:** Ohne Lightning Greaves sind die Tap-Kreaturen für Eile auf andere Effekte angewiesen; Manifold Key verleiht keine Eile und keinen Shroud-Schutz. Copy Artifact ist im Deck und beim Wirken eine **Verzauberung**, erst als Kopie auf dem Spielfeld zusätzlich ein Artefakt. Deshalb können Arcum Dagsson und Goblin Welder die Karte nicht direkt aus Bibliothek bzw. Friedhof als Artefakt behandeln. Machine God's Effigy kopiert auch den Namen und die Legendeneigenschaft; kopiert sie ein eigenes legendäres Wesen wie Arcum, gilt die Legendenregel, solange beide denselben Namen tragen. Eine nichtkreaturische Effigy kann kopierte Tap-Fähigkeiten unmittelbar aktivieren. Manifold Key enttappt nicht sich selbst, und die Unblockbar-Aktivierung muss vor dem Blocken erfolgen. Neue Manabrew-Spielsequenzen sind nicht getestet.
+**Regelgrenzen:** Machine God's Effigy übernimmt als Kopie auch Name und Legendeneigenschaft einer Kreatur; eine Kopie von Arcum Dagsson kann deshalb nicht dauerhaft neben demselben eigenen legendären Arcum liegen. Als Nichtkreatur-Artefakt kann Effigy übernommene Tap-Fähigkeiten unmittelbar einsetzen. Manifold Key enttappt ein **anderes** Artefakt, nicht sich selbst; Unblockbarkeit muss vor dem Blocken verliehen werden. Lightning Greaves gewährt Shroud auch gegenüber eigenen zielenden Fähigkeiten.
 
-**Struktur:** Weiterhin **100 Singleton-Karten, 35 Länder, 47 Artefaktkarten, 13 definierte Mana-Artefakte, genau drei Game Changer** (**Demonic Tutor, Mana Vault, Mishra's Workshop**). Der [Erweiterte Kreis](erweiterter-kreis.md) enthält **46 historische Cuts + 98 weitere Alternativen = 144 disjunkte ausgeschlossene Namen**. Die separate Bracket-4-Fassung bleibt unverändert. Gewinnraten und Manabrew-Unterstützung werden nicht als nachgewiesen bezeichnet.
+**Struktur:** Weiterhin **100 Singleton-Karten, 35 Länder, 48 Artefaktkarten, 13 definierte Mana-Artefakte und genau drei Game Changer** (**Demonic Tutor, Mana Vault, Mishra's Workshop**). Der [Erweiterte Kreis](erweiterter-kreis.md) enthält **45 historische Cuts + 99 weitere Alternativen = 144 ausgeschlossene Karten**. Die Bracket-4-Liste bleibt unverändert; keine tatsächlichen Manabrew-Partien als Bestätigung dieser Engine-Kombination behauptet.
 
 ## Vorangegangene B3-Revision: Spine of Ish Sah statt Thousand-Year Elixir (13.11.2026)
 
