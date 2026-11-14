@@ -103,10 +103,12 @@ import {
 import { SEAT_READER_HEARTBEAT, seatReaderStalled } from "@/lib/seatReaderProtocol";
 import { noteOfflineResumeEvent } from "@/lib/offlineResumeDiagnostics";
 import {
+  acquireForgeRecoveryOwnership,
   clearForgeRecoverySave,
   commitForgeRecoveryDelta,
   createForgeRecoveryCommitQueue,
   forgeRecoveryReleaseId,
+  forgeRecoveryStoredReleaseId,
   type ForgeRecoveryDelta,
   type ForgeRecoveryLaunch,
 } from "@/lib/forgeAutoResumeStore";
@@ -918,6 +920,7 @@ class WebGameApi implements IGameApi {
     queue: ReturnType<typeof createForgeRecoveryCommitQueue>;
   } | null = null;
   private retainedRecoveryAfterCrash = false;
+  private releaseRecoveryOwnership: (() => Promise<void>) | null = null;
 
   constructor(bridge: WorkerBridge, events: IEventBus) {
     this.bridge = bridge;
@@ -939,8 +942,12 @@ class WebGameApi implements IGameApi {
       this.currentRecovery.queue.dispose();
       this.currentRecovery = null;
       this.retainedRecoveryAfterCrash = false;
-      void clearForgeRecoverySave().catch((error) =>
-        console.warn("Could not clear completed Forge recovery save:", error));
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      void clearForgeRecoverySave()
+        .catch((error) => console.warn("Could not clear completed Forge recovery save:", error))
+        .finally(() => { void release?.().catch((error) =>
+          console.warn("Could not release Forge recovery ownership:", error)); });
     });
     events.on("game:forced_end", () => {
       if (this.currentRecovery) this.retainedRecoveryAfterCrash = true;
@@ -960,7 +967,17 @@ class WebGameApi implements IGameApi {
     if (params.recovery && (!internalForge || !releaseId)) {
       throw new Error("The saved Forge game is incompatible with this local engine.");
     }
-    const durableRecovery = internalForge && releaseId !== null;
+    const locksAvailable = typeof navigator !== "undefined" && !!navigator.locks;
+    const durableRecovery = internalForge && releaseId !== null && locksAvailable;
+    if (params.recovery && !durableRecovery) {
+      throw new Error("Cannot safely restore Forge without cross-tab ownership.");
+    }
+    if (durableRecovery) {
+      if (this.releaseRecoveryOwnership) throw new Error("Finish the current Forge game first.");
+      const release = await acquireForgeRecoveryOwnership();
+      if (!release) throw new Error("Another tab owns the active Forge game; return to that tab or close it.");
+      this.releaseRecoveryOwnership = release;
+    }
     const recoveryLaunch: ForgeRecoveryLaunch | null = durableRecovery ? {
       deck: params.deck,
       opponentDecks: params.opponentDecks ?? null,
@@ -1008,6 +1025,12 @@ class WebGameApi implements IGameApi {
     } catch (error) {
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      if (release) {
+        await forgeRecoveryStoredReleaseId().catch(() => null);
+        await release();
+      }
       if (params.recovery) this.bridge.terminate();
       throw error;
     }
@@ -1110,12 +1133,14 @@ class WebGameApi implements IGameApi {
     this.currentRecovery?.queue.dispose();
     this.currentRecovery = null;
     this.retainedRecoveryAfterCrash = false;
-    if (clearRecovery) {
-      try {
-        await clearForgeRecoverySave();
-      } catch (error) {
-        console.warn("Could not clear abandoned Forge recovery save:", error);
-      }
+    const release = this.releaseRecoveryOwnership;
+    this.releaseRecoveryOwnership = null;
+    try {
+      if (clearRecovery) await clearForgeRecoverySave();
+    } catch (error) {
+      console.warn("Could not clear abandoned Forge recovery save:", error);
+    } finally {
+      await release?.();
     }
     this.isMultiplayer = false;
     this.isHost = false;

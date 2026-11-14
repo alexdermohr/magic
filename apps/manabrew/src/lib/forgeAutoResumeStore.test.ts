@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createForgeRecoveryCommitQueue, verifyForgeRecoveryDelta, type ForgeRecoveryDelta } from "./forgeAutoResumeStore";
 
 const witness = { state: "a".repeat(64), rng: "123:abcdef0123456789" };
@@ -25,6 +25,46 @@ const action = (sequence: number) => ({
   prompt,
   action: { type: "chooseAction", output: { type: "pass" } },
   verification: witness,
+});
+
+describe("single writable Forge game across tabs", () => {
+  it("holds an exclusive browser lock until explicit release", async () => {
+    const { acquireForgeRecoveryOwnership } = await import("./forgeAutoResumeStore");
+    let occupied = false;
+    const locks = {
+      request: async (_name: string, options: { ifAvailable: boolean },
+        callback: (lock: { name: string } | null) => Promise<void>) => {
+        expect(options.ifAvailable).toBe(true);
+        if (occupied) return callback(null);
+        occupied = true;
+        try { await callback({ name: _name }); }
+        finally { occupied = false; }
+      },
+    };
+    vi.stubGlobal("navigator", { locks });
+    try {
+      const first = await acquireForgeRecoveryOwnership();
+      expect(first).not.toBeNull();
+      expect(await acquireForgeRecoveryOwnership()).toBeNull();
+      await first!();
+      expect(occupied).toBe(false);
+      const second = await acquireForgeRecoveryOwnership();
+      expect(second).not.toBeNull();
+      await second!();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("does not enable a durable game without a cross-tab lock manager", async () => {
+    const { acquireForgeRecoveryOwnership } = await import("./forgeAutoResumeStore");
+    vi.stubGlobal("navigator", {});
+    try {
+      expect(await acquireForgeRecoveryOwnership()).toBeNull();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
 });
 
 describe("Forge offline recovery journal integrity", () => {

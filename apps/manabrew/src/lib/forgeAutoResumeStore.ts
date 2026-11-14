@@ -12,6 +12,38 @@ const ENTRIES = "entries";
 const KEY = "active";
 const MAX_DELTA_CHARS = 3_000_000;
 const MAX_REWIND_CHARS = 64_000_000;
+const RECOVERY_OWNER_LOCK = "manabrew:forge-autoresume:v1:owner";
+
+export async function acquireForgeRecoveryOwnership(): Promise<(() => Promise<void>) | null> {
+  if (typeof navigator === "undefined" || !navigator.locks) return null;
+  let settle!: (release: (() => Promise<void>) | null) => void;
+  const acquired = new Promise<(() => Promise<void>) | null>((resolve) => { settle = resolve; });
+  let unlock!: () => void;
+  const held = new Promise<void>((resolve) => { unlock = resolve; });
+  let request!: Promise<unknown>;
+  try {
+    request = navigator.locks.request(RECOVERY_OWNER_LOCK, { ifAvailable: true }, async (lock) => {
+      if (!lock) {
+        settle(null);
+        return;
+      }
+      let released = false;
+      settle(async () => {
+        if (!released) {
+          released = true;
+          unlock();
+        }
+        await request;
+      });
+      await held;
+    });
+  } catch {
+    return null;
+  }
+  void request.catch(() => settle(null));
+  return acquired;
+}
+
 
 export interface ForgeRecoveryLaunch {
   deck: Deck;

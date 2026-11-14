@@ -121,6 +121,25 @@ try {
   assert((await readUI(page)).board);
   await assertNoFullOfflineInstall(page);
   console.log("SAFARI_TAB_JOURNAL_WITHOUT_FULL_CACHE_PASS", JSON.stringify(before));
+
+  const duplicate = await first.newPage();
+  try {
+    await duplicate.goto(origin + "/", { waitUntil: "domcontentloaded" });
+    await duplicate.getByText(/Another tab owns the active Forge game/).first().waitFor({
+      timeout: 45000,
+    });
+    const held = await duplicate.evaluate(async () =>
+      (await navigator.locks.query()).held.filter((lock) =>
+        lock.name === "manabrew:forge-autoresume:v1:owner").length);
+    assert.equal(held, 1, "one active tab must hold the exclusive Forge game lock");
+    const unchanged = await readMeta(page);
+    assert.deepEqual(unchanged, before, "second tab must not overwrite the running game's checkpoint");
+    console.log("SAFARI_TAB_DUPLICATE_RESTORE_DENIED_PASS", JSON.stringify({
+      gameIdPreserved: true, lockHeld: true, duplicateNotStarted: true,
+    }));
+  } finally {
+    await duplicate.close();
+  }
   await first.close();
   first = null;
 
