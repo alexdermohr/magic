@@ -19,7 +19,13 @@ const context = await chromium.launchPersistentContext(profile, {
   isMobile: true,
   hasTouch: true,
   serviceWorkers: "allow",
-  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  args: [
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
+    ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
+      ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
+      : []),
+  ],
 });
 const page = context.pages()[0] ?? (await context.newPage());
 const errors = [];

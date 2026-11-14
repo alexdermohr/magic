@@ -20,7 +20,13 @@ const chrome = async () => chromium.launchPersistentContext(profile, {
   isMobile: true,
   hasTouch: true,
   serviceWorkers: "allow",
-  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  args: [
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
+    ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
+      ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
+      : []),
+  ],
 });
 const readMeta = (page) => page.evaluate(async () => {
   const r = indexedDB.open("manabrew-forge-autoresume-v1");
