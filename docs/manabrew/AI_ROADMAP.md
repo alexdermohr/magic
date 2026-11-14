@@ -229,3 +229,60 @@ Chromium-Offline-Spiel bis zum echten Ende (105 Aktionen),
 BFCache-/WebGL-Wiederherstellung und Diagnose-UI unter
 Settings/Preferences erfolgreich. Echte iPad-Safari-Abnahme und
 dauerhafte Engine-Rekonstruktion bleiben offen.
+
+
+## P1: Isolierter Forge-AI-Replay-PoC nach Engine-Prozessverlust (9. November 2026)
+
+Der Sitzleser-Fix aus PR #85 (Produktiv-Manifest
+375316ebdefeca4c7e67) ist nicht mit vollständiger Engine-Rettung
+gleichzusetzen. PR #85 ist nach der isolierten Basisintegration
+konfliktfrei, 35 von 35 ManaBot-Tests und GitHub-Deckvalidierung
+bestanden. Die Hauptbranch-Integration und echte iPad-Safari-Abnahme
+sind weiterhin offen.
+
+Die Forge-AI-Journalfunktion ist nur über den expliziten experimentellen
+Startparameter experimentalInternalAiReplay aktiviert; im normalen
+Programm bleibt die Sperre aktiv. Die isolierte JVM-Probe erfasst
+ein vollständiges Journal mit Zustand-/RNG-Zeugen, speichert einen
+privaten Replay-Snapshot atomar, beendet die laufende Java-Engine
+und rekonstruiert den Zustand in einem frischen Prozess.
+Die weitere Partie wird gegen eine zuvor in der ursprünglichen
+Engine aufgezeichnete Folge von Prompts und Spielersichten geprüft.
+Beschädigte Snapshots werden abgewiesen.
+
+**Frische Gegenproben:** Zwei unabhängige Seeds des einfachen
+1v1-Fixtures mit jeweils 35+8 Entscheidungen sowie zwei Seeds
+der persönlichen Anowon/Gahiji-Partie mit 55+20 Entscheidungen
+wurden erfolgreich rekonstruiert. Eine zusätzliche echte
+Disk-Restore-Gegenprobe für Seed 424244 scheiterte bei Entscheidung 26
+mit **unterschiedlichem Spielzustand bei gleichem ReplayRandom-Stand**.
+Eine unmittelbare Wiederholung desselben Seeds bestand. Damit ist
+eine sporadische, nicht durch diesen RNG-Strom erklärte
+Nichtdeterministik nachgewiesen; die konkrete Ursache bleibt offen. Deshalb bleibt der Pfad
+experimentell und ist produktiv deaktiviert.
+
+**Gegenprobe zur Ursache (9. November):** Die Standard-JVM
+startet für Forge-KI-Abwägungen einen separaten Evaluations-Thread,
+dessen ThreadLocal-MyRandom ohne Initialisierung einen SecureRandom
+erhält. Zusätzlich beeinflussen reale Uhrzeitbudgets die Aktionswahl.
+Das erklärt eine mögliche Nichtdeterministik trotz unverändertem
+ReplayRandom-Zähler. Das bereits vorhandene Forge-WebImage setzt
+forge.synchronous=true beim Boot vor dem ersten ThreadUtil-Zugriff.
+Drei Seeds jeweils der einfachen und persönlichen Commander-
+JVM-Replayprobe bestanden im synchronen Modus. Dasselbe galt für
+getrennte Kandidaten mit explizit weitergereichtem AI-RNG
+beziehungsweise synchronem KI-Eval ohne Uhrzeit-Abbruch.
+Die konkrete Ursache der früheren Einzelabweichung bleibt
+nicht abschließend bewiesen. Der Opt-in-Replay-Adapter verweigert
+deshalb jetzt unsynchrone JVM-Sitzungen; eine eigene Negativprobe
+bestätigt die Ablehnung, drei vollständige positive Seedreihen
+bestanden danach.
+
+**Offene Produktarbeit:** Eine vollständige, versionsgebundene
+Forge-WebImage-Kompilierung, sequenz- und checksumgebundene
+IndexedDB-Journale, Durable-ACK erst nach Commit,
+Persistenz bei Browserneustart, verifizierte Wiederherstellung
+nach gezieltem Worker-Ende und nach echtem Safari-Prozessabbruch,
+sowie Resume-UI. Keine Wiederaufnahme behaupten, solange der
+vollständige Zustands-/RNG-Abgleich nicht erfolgreich ist.
+Details: apps/manabrew/docs/DECISION_REPLAY.md.

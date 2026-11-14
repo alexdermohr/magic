@@ -55,6 +55,13 @@ final class GameCheckpoint {
         state.add("zones", zones);
         final JsonObject verification = new JsonObject();
         verification.addProperty("state", digest(canonical(state).toString().getBytes(StandardCharsets.UTF_8)));
+        if (Boolean.getBoolean("manabrew.replay.debugWitness")) {
+            // Diagnostic digests only, never card names, hidden zones or RNG values.
+            verification.addProperty("viewDigest",
+                    digest(canonical(views).toString().getBytes(StandardCharsets.UTF_8)));
+            verification.addProperty("zoneDigest",
+                    digest(canonical(zones).toString().getBytes(StandardCharsets.UTF_8)));
+        }
         verification.addProperty("rng", rng.position());
         return verification;
     }
@@ -163,9 +170,54 @@ final class GameCheckpoint {
         }
     }
 
+    private static JsonElement authoritativeReplayEvidence(final JsonElement value, final String kind) {
+        if (value == null) return null;
+        if (kind.contains("state/RNG") && value.isJsonObject()) {
+            final JsonObject required = value.getAsJsonObject().deepCopy();
+            required.remove("viewDigest");
+            required.remove("zoneDigest");
+            return required;
+        }
+        if ("consumption".equals(kind) && value.isJsonArray()) {
+            final JsonArray required = new JsonArray();
+            for (final JsonElement item : value.getAsJsonArray()) {
+                if (!item.isJsonObject()) {
+                    required.add(item);
+                    continue;
+                }
+                final JsonObject entry = item.getAsJsonObject().deepCopy();
+                if (entry.has("verification")) {
+                    entry.add("verification", authoritativeReplayEvidence(entry.get("verification"), "state/RNG"));
+                }
+                required.add(entry);
+            }
+            return required;
+        }
+        return value;
+    }
+
     static void requireEqual(final JsonElement expected, final JsonElement actual,
             final String kind, final long sequence) {
-        if (expected == null || !expected.equals(actual)) {
+        final JsonElement requiredExpected = authoritativeReplayEvidence(expected, kind);
+        final JsonElement requiredActual = authoritativeReplayEvidence(actual, kind);
+        if (requiredExpected == null || !requiredExpected.equals(requiredActual)) {
+            if (kind.contains("state/RNG") && expected != null && actual != null
+                    && expected.isJsonObject() && actual.isJsonObject()) {
+                // Diagnose without revealing hands, libraries, RNG values or state hashes.
+                final JsonObject left = expected.getAsJsonObject();
+                final JsonObject right = actual.getAsJsonObject();
+                final boolean sameState = java.util.Objects.equals(left.get("state"), right.get("state"));
+                final boolean sameRng = java.util.Objects.equals(left.get("rng"), right.get("rng"));
+                final String breakdown = left.has("viewDigest") && right.has("viewDigest")
+                        ? ", views=" + (java.util.Objects.equals(left.get("viewDigest"), right.get("viewDigest"))
+                                ? "equal" : "different")
+                        + ", zones=" + (java.util.Objects.equals(left.get("zoneDigest"), right.get("zoneDigest"))
+                                ? "equal" : "different")
+                        : "";
+                throw new IllegalStateException(kind + " divergence at decision " + sequence
+                        + " (state=" + (sameState ? "equal" : "different")
+                        + ", rng=" + (sameRng ? "equal" : "different") + breakdown + ")");
+            }
             throw new IllegalStateException(kind + " divergence at decision " + sequence);
         }
     }
