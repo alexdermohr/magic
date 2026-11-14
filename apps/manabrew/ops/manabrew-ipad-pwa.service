@@ -1,0 +1,14 @@
+[Unit]
+Description=Manabrew iPad offline PWA
+After=network.target
+
+[Service]
+Type=simple
+ExecStartPre=-/run/current-system/sw/bin/podman rm -f manabrew-ipad-pwa
+ExecStart=/run/current-system/sw/bin/podman run --rm --name manabrew-ipad-pwa --pull=never -p 127.0.0.1:8088:80 -v /home/alex/.local/share/manabrew-ipad-personal-v2-20261102:/srv/manabrew:ro -v /home/alex/repos/manabrew/ops/manabrew-ipad.Caddyfile:/etc/caddy/Caddyfile:ro --entrypoint caddy ghcr.io/witchesofthehill/manabrew-web:latest run --config /etc/caddy/Caddyfile
+ExecStop=/run/current-system/sw/bin/podman stop --time 5 manabrew-ipad-pwa
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

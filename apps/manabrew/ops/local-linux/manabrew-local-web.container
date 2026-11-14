@@ -1,0 +1,16 @@
+[Unit]
+Description=Manabrew local web application
+[Container]
+EnvironmentFile=%h/.config/manabrew/relay.env
+Environment=HUB_API_URL=/
+Volume=/home/alex/.config/manabrew/Caddyfile:/etc/caddy/Caddyfile:ro
+Volume=/home/alex/.config/manabrew/local-account.html:/srv/manabrew/local-account.html:ro
+Image=ghcr.io/witchesofthehill/manabrew-web:latest
+ContainerName=manabrew-local-web
+PublishPort=127.0.0.1:8087:80
+Environment=RELAY_HOST=localhost
+Environment=RELAY_PORT=9443
+[Service]
+Restart=on-failure
+[Install]
+WantedBy=default.target

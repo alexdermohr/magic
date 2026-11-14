@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1c191d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Manabrew">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <title>Manabrew – Offline einrichten</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: #1c191d; color: #f3eff0; margin: 0; padding: max(24px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); }
+    main { max-width: 620px; margin: auto; }
+    h1 { font-size: 1.8rem; margin: 14px 0; }
+    p, li { line-height: 1.55; color: #d5cbd0; }
+    .box { padding: 18px; border: 1px solid #554952; border-radius: 14px; margin: 18px 0; background: #252126; }
+    .muted { color: #c2b5bd; font-size: .92rem; }
+    .status { font-weight: 650; margin: 10px 0; overflow-wrap: anywhere; }
+    button, a.action { display: inline-block; border: 1px solid #a99ca6; background: #4b374b; color: #fff; padding: 12px 18px; border-radius: 9px; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+    button:disabled, .disabled { opacity: .45; pointer-events: none; }
+    progress { display: block; width: 100%; height: 16px; margin: 12px 0; }
+    code { overflow-wrap: anywhere; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Manabrew offline einrichten</h1>
+  <p id="device-intro">Commander gegen KI, ohne Heim-PC-Verbindung beim Spielen. Der vollständige Download muss <strong>in der zum Home-Bildschirm hinzugefügten App</strong> erfolgen. Ein Download nur in Safari reicht dafür nicht zuverlässig aus.</p>
+  <section class="box">
+    <p class="status" id="state">Prüfe die Offline-Dateien …</p>
+    <p id="runtime" class="muted"></p>
+    <p id="storage" class="muted"></p>
+    <progress id="progress" value="0" max="100"></progress>
+    <p id="detail" class="muted"></p>
+    <button id="prepare" disabled>Offline-Daten herunterladen</button>
+  </section>
+  <section class="box">
+    <h2>Spielen</h2>
+    <p>Die aktuellen 35 Commander-Decks aus deinem GitHub-Repository werden beim ersten vollständigen Download automatisch und dauerhaft im lokalen Deckspeicher angelegt. Bereits vorhandene Decks und eigene Änderungen bleiben erhalten.</p>
+    <p class="muted" id="decks">Eigene Commander-Decks werden nach dem vollständigen Download installiert.</p>
+    <p class="muted" id="engine-result">Die KI-Engine wurde auf diesem Gerät noch nicht ausgeführt.</p>
+    <button id="engine-probe" disabled>Forge-KI auf diesem iPad testen</button>
+    <a id="play" class="action disabled" href="/play/offline/constructed">Manabrew öffnen</a>
+  </section>
+  <section class="box" id="ipad-install">
+    <h2>Installation auf dem iPad</h2>
+    <p>1. Diese Seite in Safari über HTTPS öffnen. 2. „Teilen“ → „Zum Home-Bildschirm“. 3. <strong>Manabrew vom Home-Bildschirm starten</strong>, dort „Offline-Daten herunterladen“ antippen und bis zur Erfolgsmeldung warten. 4. WLAN, Mobilfunk und VPN deaktivieren, die App vollständig schließen und über das Symbol neu starten.</p>
+    <p class="muted">Safari und installierte Web-Apps können eigene Speicherbereiche haben. Deshalb ist ein abgeschlossener Download im Safari-Tab kein Nachweis für die installierte App.</p>
+    <p class="muted">iPadOS kann Web-App-Daten bei Speicherdruck löschen. Bei fehlenden Dateien die Vorbereitung nach Wiederherstellung der Internetverbindung erneut durchführen. Account-Anmeldung ist für lokales Spielen nicht erforderlich.</p>
+  </section>
+  <section class="box" id="linux-install" hidden>
+    <h2>Linux-Desktop</h2>
+    <p>„Manabrew (Magic offline)“ richtet beim ersten Start automatisch die Forge-KI, deine Commander-Decks und die Kartenbilder ein. Die Vorbereitung bis zur Erfolgsmeldung geöffnet lassen.</p>
+    <p>Danach öffnet sich die Deckauswahl. Bei späteren Starts geht es direkt zum Spiel. Der lokale PWA-Dienst auf Port 8088 muss für diesen Menüeintrag laufen; für die Partie selbst ist keine Internetverbindung nötig.</p>
+    <p class="muted">Der Offline-Cache gehört zu diesem Chrome-Profil. Falls die gespeicherten Dateien gelöscht wurden, werden sie beim nächsten Start erneut eingerichtet. Die bisherige Online-/Relay-Version bleibt getrennt verfügbar.</p>
+  </section>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const prefix = "manabrew-ipad-offline-";
+  const fmt = (n) => (n / 1024 / 1024).toFixed(1) + " MiB";
+  let manifest = null;
+  let busy = false;
+  const linuxDesktop = /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent);
+  const desktopLauncher = linuxDesktop && new URLSearchParams(location.search).get("desktop") === "1";
+  if (linuxDesktop) {
+    $("device-intro").textContent = "Commander offline gegen Forge-KI spielen. Auf diesem Linux-Rechner liegen die Dateien nach der Vorbereitung im eigenen Chrome-Cache. Für eine Partie sind weder Internet noch ein öffentlicher Spielserver nötig.";
+    $("ipad-install").hidden = true;
+    $("linux-install").hidden = false;
+    $("engine-probe").textContent = "Forge-KI auf diesem Rechner testen";
+  }
+
+  function refreshWorkerCache() {
+    navigator.serviceWorker?.controller?.postMessage({ type: "manabrew-cache-changed" });
+  }
+
+  function report(state, detail = "") {
+    $("state").textContent = state;
+    $("detail").textContent = detail;
+  }
+
+  async function loadManifest() {
+    try {
+      const fresh = await fetch("/offline-assets.json?__offline_fetch=" + Date.now(), { cache: "no-store" });
+      if (!fresh.ok) throw new Error("Manifest HTTP " + fresh.status);
+      return await fresh.json();
+    } catch {
+      const local = await fetch("/offline-assets.json");
+      if (!local.ok) throw new Error("Dateiliste nicht verfügbar; Internetverbindung erforderlich.");
+      return local.json();
+    }
+  }
+
+  async function cachedFileBytes(response, expectedBytes) {
+    const labeled = response.headers.get("X-Manabrew-Asset-Bytes");
+    if (labeled !== null && Number.isSafeInteger(Number(labeled))) return Number(labeled);
+    const length = response.headers.get("Content-Length");
+    if (expectedBytes !== undefined && Number(length) === expectedBytes &&
+        !response.headers.get("Content-Encoding")) return expectedBytes;
+    return (await response.clone().blob()).size;
+  }
+
+  // A release may change while installation is in progress. Equal byte lengths
+  // do not mean the content still belongs to the downloaded manifest.
+  async function cachedFileMatches(response, file) {
+    if (!response || !response.ok || typeof file.sha256 !== "string" ||
+        !/^[0-9a-f]{64}$/i.test(file.sha256) ||
+        await cachedFileBytes(response, file.bytes) !== file.bytes) return false;
+    const digest = await crypto.subtle.digest("SHA-256", await response.clone().arrayBuffer());
+    const actual = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    return actual === file.sha256.toLowerCase();
+  }
+
+  async function fetchIntoCache(cache, file, url) {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok || response.type === "opaque") {
+      throw new Error(file.url + ": HTTP " + response.status);
+    }
+    try {
+      await cache.put(file.url, response);
+    } catch (error) {
+      if (!(error instanceof TypeError) || !/body|disturb|lock|stream/i.test(error.message)) throw error;
+      const retry = await fetch(url, { cache: "no-store" });
+      if (!retry.ok || retry.type === "opaque") throw new Error(file.url + ": HTTP " + retry.status);
+      const blob = await retry.blob();
+      if (blob.size !== file.bytes) throw new Error("Heruntergeladene Dateigröße falsch: " + file.url);
+      await cache.put(file.url, new Response(blob, {
+        headers: { "Content-Type": retry.headers.get("Content-Type") || "application/octet-stream" },
+      }));
+    }
+  }
+
+  async function checkCached(cache, files, verifyHashes = false) {
+    let bytes = 0;
+    for (const file of files) {
+      const response = await cache.match(file.url);
+      if (!response || !response.ok) return { ready: false, bytes };
+      const size = await cachedFileBytes(response, file.bytes);
+      if (size !== file.bytes || (verifyHashes && !(await cachedFileMatches(response, file)))) {
+        return { ready: false, bytes };
+      }
+      bytes += size;
+    }
+    return { ready: true, bytes };
+  }
+
+  async function deckHash(deck) {
+    const stable = { ...deck };
+    delete stable.version;
+    for (const field of ["attractions", "contraptions", "schemes", "planes"]) {
+      if (Array.isArray(stable[field]) && stable[field].length === 0) delete stable[field];
+    }
+    const editor = stable.editor;
+    if (editor && Object.keys(editor).length === 3 && editor.version === 1 &&
+        Array.isArray(editor.tags) && editor.tags.length === 0 &&
+        Array.isArray(editor.layouts) && editor.layouts.length === 0) {
+      delete stable.editor;
+    }
+    const bytes = new TextEncoder().encode(JSON.stringify(stable));
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  }
+
+  // Older offline releases had full-card scans in art_crop and did not store
+  // GitHub import baselines. Correct only that known metadata defect: a user
+  // edit, changed printing, or any other deck difference must still be kept.
+  function normalizeLegacyArtwork(currentDeck, generatedDeck) {
+    const normalized = JSON.parse(JSON.stringify(currentDeck));
+    let corrected = 0;
+    for (const group of ["cards", "commanders", "sideboard", "maybeboard",
+                         "companions", "attractions", "contraptions", "schemes", "planes"]) {
+      const oldCards = normalized[group];
+      const freshCards = generatedDeck[group];
+      if (!Array.isArray(oldCards) || !Array.isArray(freshCards) ||
+          oldCards.length !== freshCards.length) continue;
+      for (let index = 0; index < oldCards.length; index++) {
+        const oldCard = oldCards[index];
+        const freshCard = freshCards[index];
+        for (const [oldFace, newFace] of [[oldCard, freshCard],
+                                         [oldCard?.backFace, freshCard?.backFace]]) {
+          const oldUris = oldFace?.uris;
+          const freshUris = newFace?.uris;
+          if (!oldUris || !freshUris || !oldUris.normal ||
+              oldUris.normal !== freshUris.normal ||
+              oldUris.art_crop !== oldUris.normal ||
+              typeof freshUris.art_crop !== "string" ||
+              freshUris.art_crop === freshUris.normal) continue;
+          oldUris.art_crop = freshUris.art_crop;
+          corrected++;
+        }
+      }
+    }
+    return corrected ? normalized : null;
+  }
+
+  async function installPersonalDecks() {
+    const response = await fetch("/personal-decks.json");
+    if (!response.ok) throw new Error("Persönliche Deckdatei fehlt (HTTP " + response.status + ")");
+    const personal = await response.json();
+    if (!Array.isArray(personal.decks) || personal.decks.length === 0) {
+      throw new Error("Persönliche Deckdatei ist leer oder fehlerhaft");
+    }
+    const key = "manabrew-deck-storage";
+    const raw = localStorage.getItem(key);
+    const persisted = raw ? JSON.parse(raw) : { state: {}, version: 8 };
+    if (!persisted || typeof persisted !== "object" ||
+        !persisted.state || typeof persisted.state !== "object") {
+      throw new Error("Vorhandener Deckspeicher ist nicht lesbar und wurde nicht überschrieben");
+    }
+    const saved = persisted.state.savedDecks ?? [];
+    if (!Array.isArray(saved)) throw new Error("Vorhandener Deckspeicher hat ein unerwartetes Format");
+    const baselineKey = "manabrew-github-deck-baselines-v2";
+    let baselines = {};
+    try {
+      baselines = JSON.parse(localStorage.getItem(baselineKey) || "{}");
+      if (!baselines || typeof baselines !== "object" || Array.isArray(baselines)) baselines = {};
+    } catch {
+      baselines = {};
+    }
+    const existing = new Map(saved.map((entry) => [entry.id, entry]));
+    const replacements = new Map();
+    const additions = [];
+    let protectedCount = 0;
+    for (const { sourceHash, slug, ...entry } of personal.decks) {
+      if (typeof sourceHash !== "string" || !entry.id.startsWith("github:alexdermohr/magic:")) continue;
+      const current = existing.get(entry.id);
+      const sourceDeckHash = await deckHash(entry.deck);
+      if (!current) {
+        additions.push(entry);
+        baselines[entry.id] = { sourceHash, deckHash: sourceDeckHash };
+        continue;
+      }
+      if (current.accountDeckId) continue;
+      const baseline = baselines[entry.id];
+      const currentHash = await deckHash(current.deck);
+      if (!baseline) {
+        if (currentHash === sourceDeckHash) {
+          baselines[entry.id] = { sourceHash, deckHash: sourceDeckHash };
+        } else {
+          // Infer no baseline only when correcting historical full-scan art
+          // makes every other persisted field match the generated source.
+          const normalized = normalizeLegacyArtwork(current.deck, entry.deck);
+          if (normalized && (await deckHash(normalized)) === sourceDeckHash) {
+            replacements.set(entry.id, { ...current, deck: entry.deck, savedAt: Date.now() });
+            baselines[entry.id] = { sourceHash, deckHash: sourceDeckHash };
+          } else {
+            protectedCount++;
+          }
+        }
+        continue;
+      }
+      // An unchanged decklist can still ship corrected card images or metadata.
+      if (baseline.sourceHash === sourceHash && baseline.deckHash === sourceDeckHash) continue;
+      if (currentHash === baseline.deckHash) {
+        replacements.set(entry.id, { ...current, deck: entry.deck, savedAt: Date.now() });
+        baselines[entry.id] = { sourceHash, deckHash: sourceDeckHash };
+      } else {
+        protectedCount++;
+      }
+    }
+    if (additions.length || replacements.size) {
+      const next = {
+        ...persisted,
+        state: {
+          ...persisted.state,
+          savedDecks: [...saved.map((entry) => replacements.get(entry.id) ?? entry), ...additions],
+        },
+      };
+      localStorage.setItem(key, JSON.stringify(next));
+    }
+    localStorage.setItem(baselineKey, JSON.stringify(baselines));
+    const installed = saved.length + additions.length;
+    $("decks").textContent = personal.decks.length + " GitHub-Commander-Decks bereit · " +
+      additions.length + " neu · " + replacements.size + " aus GitHub aktualisiert · " +
+      protectedCount + " lokale Anpassungen geschützt · " + installed + " insgesamt";
+    return true;
+  }
+
+  // An offline upgrade may replace repository decks without replacing locally
+  // edited decks. Keep their old local /a/ images before deleting older package
+  // caches; blindly deleting the caches makes retained cards lose their art.
+  async function preserveSavedDeckArtwork(cache, previousCaches, files) {
+    if (previousCaches.length === 0) return { copied: 0, missing: 0 };
+    const raw = localStorage.getItem("manabrew-deck-storage");
+    if (!raw) return { copied: 0, missing: 0 };
+    const saved = JSON.parse(raw)?.state?.savedDecks;
+    if (!Array.isArray(saved)) throw new Error("Bestehende Deckdaten für die Bildmigration ungültig.");
+    const included = new Set(files.map((file) => file.url));
+    const wanted = new Set();
+    for (const entry of saved) {
+      for (const group of ["cards", "commanders", "sideboard", "maybeboard", "companions",
+                           "attractions", "contraptions", "schemes", "planes"]) {
+        const cards = entry?.deck?.[group];
+        if (!Array.isArray(cards)) continue;
+        for (const card of cards) {
+          for (const face of [card, card?.backFace]) {
+            for (const url of Object.values(face?.uris ?? {})) {
+              if (typeof url === "string" && /^\/a\/[a-z0-9_-]+\.(?:webp|jpe?g|png)$/i.test(url) &&
+                  !included.has(url)) wanted.add(url);
+            }
+          }
+        }
+      }
+    }
+    let copied = 0;
+    let missing = 0;
+    for (const url of wanted) {
+      if (await cache.match(url)) continue;
+      let recovered = false;
+      for (const old of previousCaches) {
+        const image = await old.cache.match(url);
+        if (!image?.ok || !image.headers.get("Content-Type")?.startsWith("image/")) continue;
+        await cache.put(url, image);
+        copied += 1;
+        recovered = true;
+        break;
+      }
+      if (!recovered) missing += 1;
+    }
+    return { copied, missing };
+  }
+
+  async function ensurePersonalDecks(force = false) {
+    const importKey = "manabrew-ipad-imported-version";
+    if (!force && localStorage.getItem(importKey) === manifest.version &&
+        localStorage.getItem("manabrew-deck-storage")) {
+      $("decks").textContent = "Persönliche GitHub-Decks für diese Version bereits installiert.";
+      return true;
+    }
+    const installed = await installPersonalDecks();
+    if (installed) localStorage.setItem(importKey, manifest.version);
+    return installed;
+  }
+
+  async function testForge() {
+    if (busy || !manifest || $("play").classList.contains("disabled")) return;
+    if (!crossOriginIsolated || typeof SharedArrayBuffer === "undefined") {
+      $("engine-result").textContent = "Forge erfordert Cross-Origin-Isolation und SharedArrayBuffer.";
+      return;
+    }
+
+    const probe = $("engine-probe");
+    probe.disabled = true;
+    $("engine-result").textContent = "Prüfe lokale Forge-WASM-Laufzeit mit zwei Testdecks …";
+    const mkDeck = (name, land) => ({
+      name,
+      format: "commander",
+      cards: Array.from({ length: 99 }, (_, i) => ({
+        identity: { id: "test-" + name + "-" + i, name: land },
+      })),
+      commanders: [{ identity: { id: "test-commander-" + name, name } }],
+    });
+
+    let child = null;
+    let reader = null;
+    let timeout = null;
+    try {
+      await new Promise((resolve, reject) => {
+        let completed = false;
+        const finish = (error) => {
+          if (completed) return;
+          completed = true;
+          if (error) reject(error);
+          else resolve();
+        };
+        const hashedWorker = manifest.files.find((file) =>
+          /^\/assets\/forge-engine\.worker-[A-Za-z0-9_-]+\.js$/.test(file.url),
+        )?.url;
+        const launcher = manifest.files.find((file) =>
+          /^\/assets\/forgeharness-[A-Za-z0-9_-]+\.js$/.test(file.url),
+        )?.url;
+        const wasm = manifest.files.find((file) =>
+          /^\/assets\/forgeharness\.js-[A-Za-z0-9_-]+\.wasm$/.test(file.url),
+        )?.url;
+        if (hashedWorker && (!launcher || !wasm)) {
+          finish(new Error("Forge-Launcher oder WASM fehlt im Offline-Manifest"));
+          return;
+        }
+        const gameWorker = hashedWorker ?? "/forge-legacy-bridge.worker.js";
+        // The production Forge engine uses importScripts(), so it needs a
+        // classic Worker rather than a module Worker.
+        child = new Worker(gameWorker);
+        child.onerror = (event) => finish(new Error(event.message || "Forge-Worker fehlgeschlagen"));
+        child.onmessage = (event) => {
+          const data = event.data;
+          if (data?.type === "event" && data.event === "worker:init") {
+            if (data.payload?.stage === "error") {
+              finish(new Error(data.payload?.message || "Forge-Worker konnte nicht starten"));
+              return;
+            }
+            if (data.payload?.stage !== "ready") return;
+            child.postMessage({
+              type: "command",
+              command: "start_game",
+              requestId: "ipad-forge-selftest",
+              args: {
+                deck: mkDeck("Kaalia of the Vast", "Plains"),
+                opponentDecks: [mkDeck("Hearthhull, the Worldseed", "Forest")],
+                startingLife: 40,
+                engine: "Forge",
+                forgeAi: true,
+                forgeLauncherUrl: launcher,
+                forgeWasmUrl: wasm,
+              },
+            });
+          } else if (data?.type === "event" && data.event === "game:sab") {
+            const signal = new Int32Array(data.payload.buffer, 0, 2);
+            const body = new Uint8Array(data.payload.buffer, 8);
+            const decoder = new TextDecoder();
+            const encoder = new TextEncoder();
+            reader = setInterval(() => {
+              if (Atomics.load(signal, 0) !== 1) return;
+              const length = Atomics.load(signal, 1);
+              if (length < 1 || length > body.length) {
+                finish(new Error("Ungültiger Forge-Spielzustand"));
+                return;
+              }
+              let message;
+              try {
+                message = JSON.parse(decoder.decode(body.slice(0, length)));
+              } catch (error) {
+                finish(error);
+                return;
+              }
+              const prompt = message.kind === "prompt" ? message.prompt : null;
+              const input = prompt?.input;
+              if (input?.type === "mulligan") {
+                finish();
+                return;
+              }
+              // Forge sends two informational prompts before the Mulligan.
+              // Acknowledge those only; do not skip actual game decisions.
+              const aiWarning = input?.type === "revealCards" &&
+                input.cards?.length === 0 &&
+                String(input.presentation?.title ?? "").startsWith("AI can't play these cards well");
+              const output = aiWarning
+                ? { type: "revealCardsAcknowledged" }
+                : input?.type === "diceRolled"
+                  ? { type: "diceRolledAcknowledged" }
+                  : null;
+              if (output) {
+                const answer = encoder.encode(JSON.stringify({
+                  kind: "response",
+                  promptId: prompt.promptId,
+                  action: { type: input.type, output },
+                }));
+                if (answer.length > body.length) {
+                  finish(new Error("Forge-Antwort zu groß"));
+                  return;
+                }
+                body.set(answer);
+                Atomics.store(signal, 1, answer.length);
+                Atomics.store(signal, 0, 2);
+                Atomics.notify(signal, 0);
+                return;
+              }
+              if (prompt) {
+                finish(new Error("Unerwarteter Forge-Startprompt: " + input?.type));
+                return;
+              }
+              Atomics.store(signal, 0, 3);
+              Atomics.notify(signal, 0);
+            }, 35);
+          } else if (data?.type === "response" && data.error) {
+            finish(new Error(data.error));
+          } else if (data?.type === "event" && data.event === "game:forced_end") {
+            finish(new Error(data.payload?.message || "Forge-Spiel unerwartet beendet"));
+          }
+        };
+        timeout = setTimeout(() => finish(new Error("Forge hat 150 Sekunden lang keinen Mulligan erreicht")), 150000);
+      });
+
+      localStorage.setItem("manabrew-ipad-forge-verdict", manifest.version);
+      $("engine-result").textContent = "Erfolgreich: Forge hat auf diesem Gerät lokal eine echte Commander-Partie bis zur Mulligan-Entscheidung ausgeführt. Kein Spielserver erforderlich.";
+    } catch (error) {
+      localStorage.removeItem("manabrew-ipad-forge-verdict");
+      $("engine-result").textContent = "Forge-Test fehlgeschlagen: " + String(error) + ". Der Browser kann möglicherweise keine lokale Partie ausführen.";
+    } finally {
+      if (reader !== null) clearInterval(reader);
+      if (timeout !== null) clearTimeout(timeout);
+      child?.terminate();
+      probe.disabled = false;
+    }
+  }
+
+  async function status(forceVerification = false) {
+    if (busy) return;
+    $("prepare").disabled = true;
+    $("play").classList.add("disabled");
+    try {
+      if (!navigator.serviceWorker || !window.caches) {
+        throw new Error("Dieser Browser oder In-App-Browser unterstützt die Offline-Installation nicht (Service Worker/Cache API). Auf dem iPad: Adresse direkt in Safari öffnen, zum Home-Bildschirm hinzufügen und die Offline-Dateien erst in der installierten App herunterladen.");
+      }
+      await navigator.serviceWorker.register("/offline-sw.js", { scope: "/" });
+      await navigator.serviceWorker.ready;
+      manifest = await loadManifest();
+      if (!Array.isArray(manifest.files) || !manifest.version) throw new Error("Dateiliste ungültig.");
+      const total = manifest.totalBytes;
+      const cache = await caches.open(prefix + manifest.version);
+      const marker = await cache.match("/offline-ready.json");
+      let quickReady = !!marker && (await marker.text()) === manifest.version;
+      if (quickReady) {
+        for (const url of ["/index.html", "/offline-setup.html", "/personal-decks.json",
+                           "/wasm/cardset.manifest.json", "/offline-assets.json"]) {
+          const entry = url === "/offline-assets.json" || manifest.files.some((file) => file.url === url);
+          if (!entry || !(await cache.match(url))) {
+            quickReady = false;
+            break;
+          }
+        }
+      }
+      const prepared = quickReady && !forceVerification
+        ? { ready: true, bytes: total }
+        : await checkCached(cache, manifest.files, forceVerification);
+      const ready = quickReady && prepared.ready;
+      $("progress").value = ready ? 100 : Math.round((100 * prepared.bytes) / total);
+      $("prepare").disabled = false;
+      $("prepare").textContent = ready ? "Offline-Daten erneut prüfen" : "Offline-Daten herunterladen";
+      if (ready) {
+        report("Programmdateien vollständig offline gespeichert", fmt(total) + " in " + manifest.files.length + " Dateien. Dies bestätigt noch kein erfolgreiches Forge-Spiel auf iPadOS.");
+        let personalReady = false;
+        try {
+          personalReady = await ensurePersonalDecks(forceVerification);
+        } catch (error) {
+          $("decks").textContent = "Deckimport fehlgeschlagen: " + String(error) +
+            ". Vorhandene Decks wurden nicht verändert.";
+        }
+        $("play").classList.remove("disabled");
+        $("engine-probe").disabled = false;
+        $("engine-result").textContent = localStorage.getItem("manabrew-ipad-forge-verdict") === manifest.version
+          ? "Forge-KI wurde in dieser Version auf diesem Gerät erfolgreich ausgeführt."
+          : "Forge-KI wurde auf diesem Gerät noch nicht getestet.";
+        const standalone = window.navigator.standalone === true ||
+          window.matchMedia("(display-mode: standalone)").matches;
+        if ((standalone || desktopLauncher) && personalReady && !new URLSearchParams(location.search).has("setup")) {
+          location.replace("/play/offline/constructed");
+          return;
+        }
+      } else {
+        report("Download erforderlich", manifest.files.length + " Dateien / " + fmt(total) + ". Bereits lokal: " + fmt(prepared.bytes) + ".");
+      }
+      const estimate = navigator.storage?.estimate ? await navigator.storage.estimate() : null;
+      const quota = estimate?.quota ? " · verfügbarer Speicherrahmen " + fmt(estimate.quota) : "";
+      $("storage").textContent = "Offline-Paket " + fmt(total) + quota;
+      const engineCapable = crossOriginIsolated && typeof SharedArrayBuffer !== "undefined";
+      $("runtime").textContent = "Cross-Origin-Isolation: " + (crossOriginIsolated ? "ja" : "nein") + " · SharedArrayBuffer: " + (typeof SharedArrayBuffer !== "undefined" ? "ja" : "nein") + " · Worker/Forge-Spieletest: ausstehend";
+      if (!engineCapable) {
+        $("prepare").disabled = true;
+        $("play").classList.add("disabled");
+        report("Lokales Forge auf diesem Browser noch nicht möglich", "Der Browser meldet keine Cross-Origin-Isolation/SharedArrayBuffer. Ein Download allein würde keine spielbare Offline-App ergeben.");
+      } else if (desktopLauncher && !ready && !forceVerification) {
+        // Only an explicit Linux desktop launch starts the large download.
+        // Safari/iPad setup and ordinary browser visits remain opt-in.
+        void prepare();
+      }
+    } catch (error) {
+      report("Offline-Vorbereitung nicht verfügbar", String(error));
+    }
+  }
+
+  async function prepare() {
+    if (!manifest || busy) return;
+    busy = true;
+    $("prepare").disabled = true;
+    $("play").classList.add("disabled");
+    const cacheName = prefix + manifest.version;
+    const cache = await caches.open(cacheName);
+    await cache.delete("/offline-ready.json");
+    refreshWorkerCache();
+    const reusable = [];
+    for (const oldName of (await caches.keys()).filter((name) => name.startsWith(prefix) && name !== cacheName)) {
+      const oldCache = await caches.open(oldName);
+      const [marker, index] = await Promise.all([
+        oldCache.match("/offline-ready.json"),
+        oldCache.match("/offline-assets.json"),
+      ]);
+      if (!marker || !index) continue;
+      const oldManifest = await index.json();
+      if (await marker.text() !== oldManifest.version || !Array.isArray(oldManifest.files)) continue;
+      reusable.push({ cache: oldCache, entries: new Map(oldManifest.files.map((entry) => [entry.url, entry])) });
+    }
+    let downloaded = 0;
+    let currentFile = "";
+    let currentStage = "Vorbereitung";
+    try {
+      if (navigator.storage?.persist) await navigator.storage.persist().catch(() => false);
+      for (const [index, file] of manifest.files.entries()) {
+        currentFile = file.url;
+        currentStage = "vorhandenen Cache prüfen";
+        const previous = await cache.match(file.url);
+        let verified = await cachedFileMatches(previous, file);
+        if (!verified) {
+          for (const old of reusable) {
+            const saved = old.entries.get(file.url);
+            if (saved?.sha256 !== file.sha256 || saved.bytes !== file.bytes) continue;
+            const asset = await old.cache.match(file.url);
+            if (!(await cachedFileMatches(asset, file))) continue;
+            try {
+              currentStage = "unveränderte Datei übernehmen";
+              await cache.put(file.url, asset);
+              verified = true;
+              break;
+            } catch (error) {
+              if (!(error instanceof TypeError)) throw error;
+            }
+          }
+        }
+        if (!verified) {
+          currentStage = "Datei herunterladen und speichern";
+          const url = file.url + "?__offline_fetch=" + encodeURIComponent(manifest.version);
+          await fetchIntoCache(cache, file, url);
+          currentStage = "gespeicherte Datei prüfen";
+          const written = await cache.match(file.url);
+          if (!(await cachedFileMatches(written, file))) {
+            throw new Error("SHA-256 oder Dateigröße ungültig: " + file.url);
+          }
+        }
+        downloaded += file.bytes;
+        $("progress").value = Math.min(99, Math.round(downloaded * 100 / manifest.totalBytes));
+        report("Speichere Datei " + (index + 1) + " von " + manifest.files.length,
+          fmt(downloaded) + " / " + fmt(manifest.totalBytes) + " · " + file.url);
+      }
+      const verification = await checkCached(cache, manifest.files);
+      if (!verification.ready || verification.bytes !== manifest.totalBytes) throw new Error("Offline-Paket nicht vollständig gespeichert.");
+      // Copy artwork referenced by pre-existing local decks while old caches are
+      // still intact. If this fails, the old ready package remains available.
+      currentStage = "vorhandene lokale Deckbilder erhalten";
+      const preservedArt = await preserveSavedDeckArtwork(cache, reusable, manifest.files);
+      await cache.put("/offline-assets.json", new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
+      await cache.put("/offline-ready.json", new Response(manifest.version, { headers: { "Content-Type": "text/plain" } }));
+      refreshWorkerCache();
+      for (const old of await caches.keys()) {
+        if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
+      }
+      let personalReady = false;
+      try {
+        personalReady = await ensurePersonalDecks(true);
+      } catch (error) {
+        $("decks").textContent = "Deckimport fehlgeschlagen: " + String(error) +
+          ". Die Programmdateien sind trotzdem gespeichert.";
+      }
+      if (preservedArt.copied || preservedArt.missing) {
+        $("decks").textContent += " · " + preservedArt.copied +
+          " ältere Kartenbilder übernommen" + (preservedArt.missing
+            ? " · " + preservedArt.missing + " zuvor nicht offline gespeicherte Bilder" : "");
+      }
+      $("progress").value = 100;
+      report("Offline-Dateien vollständig gespeichert",
+        fmt(verification.bytes) + " geprüft. Für die Bestätigung der Spielfähigkeit im Flugmodus eine echte Commander-Partie starten.");
+      $("play").classList.remove("disabled");
+      $("engine-probe").disabled = false;
+      $("engine-result").textContent = "Offline-Paket bereit. Forge-KI auf diesem Gerät kann jetzt geprüft werden.";
+      $("prepare").textContent = "Offline-Daten erneut prüfen";
+      if (desktopLauncher && personalReady) location.replace("/play/offline/constructed");
+    } catch (error) {
+      report("Offline-Download unvollständig", (currentFile ? currentFile + " (" + currentStage + "): " : "") +
+        String(error) + " · Erneut starten, bereits geladene Dateien bleiben erhalten.");
+    } finally {
+      busy = false;
+      $("prepare").disabled = false;
+    }
+  }
+
+  $("engine-probe").addEventListener("click", () => void testForge());
+  $("prepare").addEventListener("click", () => {
+    if (manifest && $("play").classList.contains("disabled")) void prepare();
+    else void status(true);
+  });
+  void status();
+})();
+</script>
+</body>
+</html>

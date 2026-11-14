@@ -1,0 +1,139 @@
+#!/usr/bin/env node
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { FEATURE_NAMES, castChoices, scoreCastChoices } from "./learned-policy.mjs";
+
+function option(name, fallback) {
+  const index = process.argv.indexOf("--" + name);
+  return index < 0 ? fallback : process.argv[index + 1];
+}
+const explicitTraces = (option("traces", "") ?? "").split(",").filter(Boolean);
+const traceDir = option("trace-dir", null);
+if (explicitTraces.length && traceDir) {
+  console.error("Use either --traces or --trace-dir, not both.");
+  process.exit(2);
+}
+function finishedPopulationTrace(path) {
+  const resultPath = path.replace(/\.trace\.jsonl$/, ".json");
+  if (!existsSync(resultPath)) return false;
+  try {
+    return JSON.parse(readFileSync(resultPath, "utf8")).outcome?.reason === "game:over";
+  } catch {
+    return false;
+  }
+}
+const candidates = (traceDir
+  ? readdirSync(resolve(traceDir)).filter((name) => /^game-\d+\.trace\.jsonl$/.test(name))
+      .sort((a, b) => Number(a.match(/\d+/)[0]) - Number(b.match(/\d+/)[0]))
+      .map((name) => resolve(traceDir, name))
+  : explicitTraces.map((path) => resolve(path)));
+const files = traceDir ? candidates.filter(finishedPopulationTrace) : candidates;
+const skippedUnfinished = candidates.length - files.length;
+const holdoutOption = option("holdout-games", null);
+const output = option("out", null);
+const epochs = Number(option("epochs", "30"));
+const rate = Number(option("rate", "0.06"));
+const holdoutCount = holdoutOption === null
+  ? (files.length >= 2 ? Math.max(1, Math.ceil(files.length * 0.2)) : 0)
+  : Number(holdoutOption);
+if (!files.length || !output || !Number.isInteger(epochs) || epochs < 1 || epochs > 1000 ||
+    !(rate > 0 && rate <= 1) || !Number.isInteger(holdoutCount) ||
+    holdoutCount < 0 || holdoutCount >= files.length ||
+    (files.length >= 2 && holdoutCount === 0)) {
+  console.error("usage: node train-learned-policy.mjs --traces game1.log,game2.log | --trace-dir /tmp/population --out policy.json [--holdout-games N --epochs 30 --rate 0.06]");
+  process.exit(2);
+}
+
+function readTrace(path) {
+  const examples = [];
+  for (const line of readFileSync(path, "utf8").split("\n")) {
+    if (!line.startsWith("{")) continue;
+    let entry;
+    try { entry = JSON.parse(line); } catch { continue; }
+    const { prompt, decision, view } = entry;
+    if (decision?.type !== "act") continue;
+    const choices = castChoices(prompt, view);
+    const chosen = choices.findIndex((choice) => choice.id === decision.actionId);
+    if (choices.length < 2 || chosen < 0) continue;
+    examples.push({ choices, chosen, teacher: entry.teacher ?? "manabot" });
+  }
+  return examples;
+}
+const byGame = files.map((path) => ({ path, rows: readTrace(path) }));
+const teacherSources = new Set(byGame.flatMap((game) => game.rows.map((row) => row.teacher)));
+if (teacherSources.size !== 1 || !["manabot", "forge-ai"].includes([...teacherSources][0])) {
+  console.error("Expected one teacher source (manabot or forge-ai), no mixed or empty training batches");
+  process.exit(1);
+}
+const teacher = [...teacherSources][0] === "forge-ai" ? "Forge AI" : "ManaBot SimpleAi";
+// Split by complete games only, never random decisions within the same game.
+const split = byGame.length - holdoutCount;
+const train = byGame.slice(0, split).flatMap((game) => game.rows);
+const validation = byGame.slice(split).flatMap((game) => game.rows);
+if (train.length === 0) {
+  console.error("No trainable cast-versus-cast decisions. Collect longer traces with --trace chooseAction.");
+  process.exit(1);
+}
+
+let weights = FEATURE_NAMES.map(() => 0);
+const dot = (features) => features.reduce((sum, x, j) => sum + x * weights[j], 0);
+let seed = 0x12345678;
+function random() {
+  seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
+  return (seed >>> 0) / 0x100000000;
+}
+for (let epoch = 0; epoch < epochs; epoch++) {
+  const order = train.map((_, i) => i);
+  for (let j = order.length - 1; j > 0; j--) {
+    const k = Math.floor(random() * (j + 1));
+    [order[j], order[k]] = [order[k], order[j]];
+  }
+  for (const index of order) {
+    const row = train[index];
+    const scores = row.choices.map((choice) => dot(choice.features));
+    const max = Math.max(...scores);
+    const exp = scores.map((score) => Math.exp(score - max));
+    const total = exp.reduce((a, b) => a + b, 0);
+    const gradient = FEATURE_NAMES.map(() => 0);
+    for (let j = 0; j < row.choices.length; j++) {
+      const delta = exp[j] / total - Number(row.chosen === j);
+      for (let k = 0; k < gradient.length; k++) {
+        gradient[k] += delta * row.choices[j].features[k];
+      }
+    }
+    for (let k = 0; k < weights.length; k++) {
+      weights[k] -= rate * (gradient[k] + 0.0005 * weights[k]);
+    }
+  }
+}
+
+const model = { schemaVersion: 1, features: [...FEATURE_NAMES], weights };
+function metrics(rows) {
+  let learnedCorrect = 0;
+  let firstCorrect = 0;
+  for (const row of rows) {
+    const predicted = scoreCastChoices(row.choices, model);
+    if (predicted?.id === row.choices[row.chosen].id) learnedCorrect++;
+    if (row.chosen === 0) firstCorrect++;
+  }
+  return {
+    decisions: rows.length,
+    agreementWithTeacher: rows.length ? +(learnedCorrect / rows.length).toFixed(4) : null,
+    firstCastBaseline: rows.length ? +(firstCorrect / rows.length).toFixed(4) : null,
+  };
+}
+model.training = {
+  teacher,
+  scope: "chooseAction with >=2 visible cast choices and teacher choosing cast",
+  traces: files.length,
+  skippedUnfinished,
+  trainGames: split,
+  validationGames: holdoutCount,
+  train: metrics(train),
+  validation: metrics(validation),
+  validationUnit: "whole trace/game; absent if only one game",
+  epochs,
+  caveat: "Imitation agreement is not game strength; run blinded seat-rotated win-rate matches.",
+};
+writeFileSync(resolve(output), JSON.stringify(model, null, 2) + "\n");
+process.stdout.write(JSON.stringify({ output: resolve(output), ...model.training }, null, 2) + "\n");
