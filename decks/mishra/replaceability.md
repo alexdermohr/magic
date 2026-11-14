@@ -2,9 +2,9 @@
 
 **Aktive Version:** 14. November 2026 · [current.txt](current.txt) · [Erweiterter Kreis – 144 nicht aktive Karten](erweiterter-kreis.md) · [Gesamtanalyse](analysis.md). Alte Commit-Links sind keine Referenz auf die aktuelle Liste.
 
-**Struktur der aktuellen B3-Fassung mit Workshop/Memory Jar/Brudiclad/Ashnod/Manifold Key:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **47 Artefaktkarten**, **13 definierte Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone**, **Sculpting Steel** und **Jhoira** bleiben.
+**Struktur der aktuellen B3-Fassung mit Workshop/Memory Jar/Brudiclad/Ashnod/Manifold Key und Sensei's Top:** 100 unterschiedliche Karten einschließlich Commander, **35 Länder**, **47 Artefaktkarten**, **13 definierte Mana-Artefakte**, **drei Game Changer** (Demonic Tutor, Mana Vault, Mishra's Workshop). Keine klassischen Kreaturenwipes. **The Mightstone and Weakstone**, **Sculpting Steel** und **Jhoira** bleiben.
 
-**Aktuelle Revision (14.11.2026):** Demonic Junker → Machine God's Effigy; Sensei's Divining Top → Manifold Key; Whir of Invention → Copy Artifact. **Sculpting Steel bleibt.** Drei schwach oder redundant gewordene Slots werden gegen eine Kreatur-Kopiermaschine, Artefakt-Enttappen und eine günstige zusätzliche Artefaktkopie ersetzt. Der frühere sofortige Instant-Artefakttutor und Top-Kartenfilter fehlen nun; Effigy erfordert ein geeignetes Kreaturenvorbild, Copy Artifact ein Artefaktvorbild. Die beiden früheren Stufe-4-Slots wurden durch Stufe-2-Karten ersetzt, daher gilt **21 × Stufe 1, 56 × Stufe 2, 23 × Stufe 3, 0 × Stufe 4**.
+**Aktuelle Revision (14.11.2026):** Demonic Junker → Machine God's Effigy; Lightning Greaves → Manifold Key; Whir of Invention → Copy Artifact. **Sculpting Steel bleibt.** Drei schwach oder redundant gewordene Slots werden gegen eine Kreatur-Kopiermaschine, Artefakt-Enttappen und eine günstige zusätzliche Artefaktkopie ersetzt. Der frühere sofortige Instant-Artefakttutor sowie Greaves-Schutz und Eile fehlen nun; Sensei's Divining Top bleibt für Kartenauswahl erhalten; Effigy erfordert ein geeignetes Kreaturenvorbild, Copy Artifact ein Artefaktvorbild. Die beiden früheren Stufe-4-Slots wurden durch Stufe-2-Karten ersetzt, daher gilt **21 × Stufe 1, 56 × Stufe 2, 23 × Stufe 3, 0 × Stufe 4**.
 
 **Vorangegangener Tausch (13.11.2026):** **Thousand-Year Elixir → Spine of Ish Sah; Nautiloid Ship bleibt.** Zwei verschiedene Mishra-Warform-Ziele sind nun enthalten: das Schiff für Friedhofsexil, Flugangriff und mögliche Reanimation, Spine für die Zerstörung einer beliebigen bleibenden Karte beim Eintritt. Dafür entfällt das frühe Aktivieren der Tap-Fähigkeiten von Arcum Dagsson, Goblin Welder, Goblin Engineer, Emry und Master Transmuter über das Elixier sowie dessen {1},{T}-Enttappoption. Spine kostet sieben statt drei Mana, ist aber auch über Artefakt-Tutoren/-Rekursion erreichbar. Beide ausgetauschten Karten sind **Stufe 2**, die Verteilung **21/54/23/2** bleibt gleich. 100 Karten, 35 Länder, 47 Artefakte, 13 Mana-Artefakte und drei Game Changer unverändert.
 
@@ -153,9 +153,9 @@
 | 45 | Nautiloid Ship | **2** | Vier-Mana-Fahrzeug als Mishra-Ziel: Eine fliegende Warform exiliert beim Eintritt einen Spielerfriedhof und kann bei Kampfschaden eine Kreatur ins Spiel bringen, die genau dieses Exemplar exiliert hat. Bleibt als eigenständige Friedhofskontrolle neben Spine of Ish Sah erhalten; gegen Blocker keine garantierte Reanimation. |
 | 46 | Portal to Phyrexia | **2** | Extrem hoher ETB- und Upkeep-Ertrag, gewinnt Kreaturenspiele; neun Mana ohne Welder/Transmuter ein Starthand-Risiko. |
 | 47 | Simulacrum Synthesizer | **1** | Mishras eintretende Artefakte mit Mana Value ab 3 erzeugen massiv skalierende Constructs; zentrale Boardengine. |
-| 48 | Manifold Key | **2** | {1}-Artefakt, auch mit Urza's Saga suchbar. Für {1},{T} enttappt es **ein anderes Artefakt** (z. B. Mana Vault, Resonator, Effigy/Transmuter oder ein Artefaktland); für {3},{T} macht es eine Kreatur im Zug unblockbar, besonders Nautiloid-Warforms. Kein Kartennachschub wie Sensei's Top, und nicht selbst enttappbar. |
+| 48 | Manifold Key | **2** | {1}-Artefakt, mit Urza's Saga suchbar. Für {1},{T} enttappt es **ein anderes Artefakt** (z. B. Mana Vault, Resonator, Effigy oder Master Transmuter); für {3},{T} macht es eine Kreatur in diesem Zug unblockbar, besonders Nautiloid-Warforms. Keine Eile/kein Shroud wie Lightning Greaves; Sensei's Top bleibt als separate Kartenauswahl. |
 | 49 | Machine God's Effigy | **2** | {4}-Nichtkreatur-Artefakt, das beim Eintritt eine bereits liegende Kreatur als nichtkreaturisches Artefakt kopieren kann und {T}: {U} erhält. Besonders interessant als zusätzliche Goblin-Welder-/Master-Transmuter-Instanz oder Roaming-Throne-Effekt und mit Manifold Key; bei legendärer Kopie gilt unverändert die Legendenregel. Ohne Ziel nur blauer Manarock. |
-| 50 | Lightning Greaves | **2** | Früher Schutz und Haste für Mishra oder Welder; Shroud kann auch eigene Ziel-Effekte blockieren. |
+| 50 | Sensei's Divining Top | **2** | {1}-Artefakt: Für {1} die obersten drei Karten ordnen; die {T}-Fähigkeit zieht eine Karte und legt Top auf die Bibliotheksoberseite. Mit Fetchländern und Tutoren für Kartenauswahl nützlich, mit Urza's Saga suchbar und als Mishra-Kopierziel verwendbar. Kein echter Netto-Draw ohne zusätzliche Engine; reduziert aber die Nachteile des fehlenden Greaves-Slots nicht. |
 
 ### Interaktion, Tutor und Schutz
 
@@ -196,7 +196,7 @@
 | 78 | Academy Ruins | **2** | Regelmäßige Friedhofsrekursion für Artefaktkarten auf Bibliotheksoberseite; kostet Tempo und farbiges Mana. |
 | 79 | Mishra's Workshop | **1** | Land/Game Changer: liefert {C}{C}{C} **nur zum Wirken von Artefaktzaubern** (nicht für Mishra selbst, Aktivierungen oder andere Nichtartefaktzauber). Enttappt normal, kostet kein Leben, ersetzt den einzigen farblosen Landrekursionsslot Buried Ruin; besonders stark für Memory Jar, Fahrzeuge und teure Artefaktkopierziele. Starkes Tempo, aber generischer Manabedarf des Commanders bleibt ungedeckt. |
 | 80 | Inventors' Fair | **3** | Tutor für beliebiges Artefakt bei Metalcraft und gelegentlich Lebensgewinn; farbloses Land und teure Aktivierung. |
-| 81 | Urza's Saga | **1** | Sucht **Manifold Key** ({1}) sowie **Sol Ring** ({1}), **Mana Vault** ({1}) oder **Mox Opal** ({0}). Das Saga-Suchkriterium gilt nur für aufgedruckte Manakosten exakt {0} oder {1}; erzeugt außerdem Constructs. |
+| 81 | Urza's Saga | **1** | Sucht **Manifold Key** ({1}), **Sensei's Divining Top** ({1}), **Sol Ring** ({1}), **Mana Vault** ({1}) oder **Mox Opal** ({0}). Das Saga-Suchkriterium gilt nur für aufgedruckte Manakosten exakt {0} oder {1}; erzeugt außerdem Constructs. |
 | 82 | Otawara, Soaring City | **2** | Ungetappte blaue Quelle oder schwer konterbares Channel-Bounce; nahezu ohne Deckbaupreis. |
 | 83 | Takenuma, Abandoned Mire | **2** | Ungetappte schwarze Quelle mit möglicher Kreaturen-Rekursion; passt zu Friedhofsplan. |
 | 84 | Sokenzan, Crucible of Defiance | **3** | Rote Quelle mit spätem Token-Futter für Ashnod's Altar/Diabolic Intent; sonst gewöhnliches Farbland. |
@@ -220,7 +220,7 @@
 
 ## Weitere unverbindliche Tauschhypothesen (kein beschlossener Cut)
 
-**Bewusst erhalten:** Brudiclad, Telchor Engineer, Ashnod's Altar und Sculpting Steel. Demonic Junker und Whir of Invention wurden am 14.11.2026 auf neue Nutzerentscheidung hin entfernt; ein späterer Wiedereinbau ist möglich, aber nur als neuer Tausch. Die früher angedachte Brudiclad-gegen-The-Master-Linie bleibt eine **historisch verworfene Hypothese** im [Erweiterten Kreis](erweiterter-kreis.md).
+**Bewusst erhalten:** Brudiclad, Telchor Engineer, Ashnod's Altar, Sculpting Steel und Sensei's Divining Top. Demonic Junker und Whir of Invention wurden am 14.11.2026 auf neue Nutzerentscheidung hin entfernt; ein späterer Wiedereinbau ist möglich, aber nur als neuer Tausch. Die früher angedachte Brudiclad-gegen-The-Master-Linie bleibt eine **historisch verworfene Hypothese** im [Erweiterten Kreis](erweiterter-kreis.md).
 
 | Priorität | Möglicher Cut | Potenziell rein | Nutzen | Stärkstes Gegenargument | Struktur |
 |:---:|---|---|---|---|---|
