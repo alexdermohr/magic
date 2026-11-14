@@ -94,8 +94,18 @@ public final class ManaBrewEngineAdapter {
         Objects.requireNonNull(request, "request");
         requireInitialized();
 
-        if (request.journalStart != null && request.getPlayers().stream().anyMatch(PlayerConfig::isAi)) {
-            throw new IllegalArgumentException("decision journal requires a seeded game with external decisions");
+        if (request.journalStart != null && !request.experimentalInternalAiReplay
+                && request.getPlayers().stream().anyMatch(PlayerConfig::isAi)) {
+            // Internal Forge AI has not been exhaustively verified for replay.
+            // Only explicit, opt-in proof runs may use the journal with AI seats.
+            throw new IllegalArgumentException("decision journal requires external decisions unless experimentalInternalAiReplay is enabled");
+        }
+        if (request.experimentalInternalAiReplay && !forge.util.ThreadUtil.isSynchronous()) {
+            // The normal JVM AI-eval thread gets an unseeded ThreadLocal
+            // SecureRandom and stops scanning candidates on wall-clock deadlines.
+            // WebImage already enables forge.synchronous in WasmMain at boot.
+            throw new IllegalArgumentException(
+                    "experimentalInternalAiReplay requires synchronous Forge; start JVM with -Dforge.synchronous=true");
         }
         if (sessions.containsKey(request.getGameId())) {
             throw new IllegalArgumentException("session already exists: " + request.getGameId());
@@ -581,6 +591,8 @@ public final class ManaBrewEngineAdapter {
         request.checkpointMetrics = root.has("checkpointMetrics") && root.get("checkpointMetrics").getAsBoolean();
         request.forgeTeacherTrace = root.has("forgeTeacherTrace") && root.get("forgeTeacherTrace").getAsBoolean();
         request.journalRewind = root.has("journalRewind") && root.get("journalRewind").getAsBoolean();
+        request.experimentalInternalAiReplay = root.has("experimentalInternalAiReplay")
+                && root.get("experimentalInternalAiReplay").getAsBoolean();
         if (root.has("replaySnapshot")) {
             request.replaySnapshot = root.remove("replaySnapshot").getAsJsonObject();
         }
@@ -592,6 +604,9 @@ public final class ManaBrewEngineAdapter {
         }
         request.journalCommitBarrier = root.has("decisionJournalCommitBarrier")
                 && root.get("decisionJournalCommitBarrier").getAsBoolean();
+        if (request.experimentalInternalAiReplay && request.journalStart == null) {
+            throw new IllegalArgumentException("experimentalInternalAiReplay requires decisionJournal");
+        }
         if (request.journalCommitBarrier && request.journalStart == null) {
             throw new IllegalArgumentException("journal commit barrier requires decisionJournal");
         }
@@ -642,6 +657,7 @@ public final class ManaBrewEngineAdapter {
 
     public static final class StartGameRequest {
         private boolean journalRewind;
+        private boolean experimentalInternalAiReplay;
         private JsonObject replaySnapshot;
         private final String gameId;
         private final String variant;
