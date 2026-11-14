@@ -4,11 +4,11 @@
 **Stand:** 14. November 2026 · **Verbindliche aktive Liste:** [current.txt](current.txt) · [Analyse](analysis.md) · [Ersetzbarkeitsmatrix](replaceability.md). Historische Commit-Verweise betreffen nur frühere Fassungen.
 
 
-## Aktuelle Deckoptimierung: drei Kopier-/Enttapp-Tausche (14.11.2026)
+## Aktuelle Deckoptimierung: Machine God's Effigy und Manifold Key (14.11.2026)
 
-**Beschlossene Tausche in [current.txt](current.txt):** **Demonic Junker → Machine God's Effigy**, **Lightning Greaves → Manifold Key**, **Whir of Invention → Copy Artifact**. **Sculpting Steel bleibt ausdrücklich aktiv.** Das Deck gewinnt eine Kreatur-zu-Nichtkreatur-Artefakt-Kopie, gezieltes Artefakt-Enttappen und eine zusätzliche kostengünstige Artefaktkopie. Der Preis sind gezielte Fahrzeug-Kreaturenzerstörung, verlorener Shroud-/Eile-Schutz und ein sofortiger Artefakttutor aufs Feld; Sensei's Divining Top bleibt für Bibliothekskontrolle erhalten. Die drei gestrichenen Karten werden in Abschnitt A mit konkreten Rückkehrbedingungen bewahrt.
+**Im verbindlichen [current.txt](current.txt):** **Demonic Junker → Machine God's Effigy** und **Whir of Invention → Manifold Key**. **Lightning Greaves, Sensei's Divining Top und Sculpting Steel bleiben ausdrücklich aktiv.** Die zuvor im unveröffentlichten PR-Stand vorübergehend vorgesehene Karte **Copy Artifact** wurde nicht in main aufgenommen; sie wird als weitere geprüfte Alternative (B) geführt. Die temporäre Streichung von Lightning Greaves wurde rückgängig gemacht. Damit bleiben Shroud-/Eile-Schutz und Bibliothekskontrolle erhalten, während wir eine Kreatur-Kopie und Artefakt-Enttappen gewinnen. Demonic Junker und Whir of Invention bleiben mit Streichgrund und Rückkehrbedingung im historischen Kreis (A).
 
-**Inventur:** 100 aktive Einzelkarten; **46 historische Cuts (A)** und **98 weitere geprüfte, nicht aktive Kandidaten (B)**, zusammen **144 disjunkte ausgeschlossene Namen**. Machine God's Effigy wandert aus B in die aktive Liste; Copy Artifact und Manifold Key sind neue, zuvor nicht im Pool geführte Karten. Alle drei Game Changer bleiben Demonic Tutor / Mana Vault / Mishra's Workshop. 35 Länder, 47 Artefaktkarten, 13 benannte Mana-Artefakte; B4 unverändert. Die tatsächliche Funktionsfähigkeit der neuen Kopier-/Enttapp-Interaktionen in Manabrew ist noch nicht durch Partien bestätigt.
+**Inventur:** 100 aktive Einzelkarten, **45 historisch aktive Cuts (A)** und **99 weitere Alternativen (B)** = **144 disjunkte ausgeschlossene Karten**. 35 Länder, **48 Artefaktkarten**, 13 Mana-Artefakte und unverändert drei Game Changer (**Demonic Tutor, Mana Vault, Mishra's Workshop**); Bracket 4 unverändert. Papierregel-Synergien sind keine bestätigten Manabrew-Spieltests.
 
 ## Vorangegangener Tausch: Thousand-Year Elixir → Spine of Ish Sah (13.11.2026)
 
@@ -85,11 +85,11 @@ Der **Erweiterte Kreis** ist die zentrale Warteliste/Archiv für Mishra-B3-Karte
 3. `replaceability.md` betrifft nur die 100 **aktuellen** Karten; der Erweiterte Kreis verwaltet die Alternativen. Bei neuen Reviews beide Dateien auf die neue aktive `current.txt` synchronisieren.
 4. Historische Ausschlüsse sind **keine ewigen Verbote**, außer wenn sie wie Sundial (Manabrew-Probleme), Coveted Jewel (Kontrollverlust) oder Kreaturenwipes ausdrücklich unerwünscht sind. Auch sie bleiben hier dokumentiert, falls sich Rahmenbedingungen ändern.
 
-**Vollständigkeit der historisch geführten B3-Karten (aktueller Inventarstand):** Die **100 aktuell aktiven** Karten in [current.txt](current.txt) und **46 verschiedene derzeit gestrichene Karten** aus Abschnitt A ergeben **146 unterschiedliche jemals aktiv geführte B3-Kartennamen**. Abschnitt B enthält **98 weitere derzeit nicht aufgenommene Alternativen**. Damit umfasst der erweiterte Kreis **46 + 98 = 144 eindeutig ausgeschlossene Kartennamen**, ohne Überschneidung zur aktiven Liste; insgesamt sind **244 unterschiedliche Namen** in Deck und erweitertem Kreis dokumentiert. Dies ist eine nachprüfbare Inventur, nicht der gesamte Magic-Kartenkatalog.
+**Vollständigkeit der historisch geführten B3-Karten (aktueller Inventarstand):** Die **100 aktuell aktiven** Karten in [current.txt](current.txt) und **45 verschiedene derzeit gestrichene Karten** aus Abschnitt A ergeben **145 unterschiedliche jemals aktiv geführte B3-Kartennamen**. Abschnitt B enthält **99 weitere derzeit nicht aufgenommene Alternativen**. Damit umfasst der erweiterte Kreis **45 + 99 = 144 eindeutig ausgeschlossene Kartennamen**, ohne Überschneidung zur aktiven Liste; insgesamt sind **244 unterschiedliche Namen** in Deck und erweitertem Kreis dokumentiert. Dies ist eine nachprüfbare Inventur, nicht der gesamte Magic-Kartenkatalog.
 
 Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestrichen** = bisher kein überzeugender Mehrwert; **metagameabhängig** = nur bei passendem Umfeld; **bewusst draußen** = scheidet unter heutigen Bedingungen aus. Bei Alternativen: **hoher Testwert**, **weiterer Kandidat**, **niedrige Priorität**, **bewusst draußen**.
 
-## A. Früher in Mishra B3, jetzt gestrichen (46)
+## A. Früher in Mishra B3, jetzt gestrichen (45)
 
 | Karte | Aktuelle Einstufung | Grund für Streichung / mögliche Neubewertung |
 |---|---|---|
@@ -112,7 +112,6 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Fabricate** | Rückkehr möglich | Sicherer Artefakttutor auf die Hand für Master Transmuter; wich Arcum Dagsson mit wiederholbarem Feldzugang. |
 | **Glimmervoid** | historisch gestrichen | Alle Farben mit Artefakt, aber Opferrisiko bei Artefaktverlust. |
 | **Lich's Relic** | am 12.10.2026 ersetzt | Einmana-Artefakt mit wiederholbarer ETB-Entfernung gegen Extra-Mana; viele andere Antworten vorhanden. **Sensei's Divining Top** stabilisiert Citadel, wird von Saga gesucht und erlaubt wiederholtes Kartenziehen. Rückkehr bei nachgewiesenem Interaktionsdefizit. |
-| **Lightning Greaves** | am 14.11.2026 zugunsten von Manifold Key entfernt | {2}-Ausrüstung, für {0} ausrüsten; verleiht Eile und Shroud für Mishra und wichtige Tap-Kreaturen wie Goblin Welder, Goblin Engineer und Master Transmuter. **Gegenargument zum Cut:** Verlust eines sofortigen Schutz- und Beschleunigungswerkzeugs; der neue Key ersetzt weder Eile noch Shroud. **Rückkehr:** wenn der Commander durch gezieltes Removal zu häufig ausfällt oder Welder-/Transmuter-Linien zu langsam werden. |
 | **Lithoform Engine** | Rückkehr möglich | Kopiert Trigger und Zauber flexibel, ist jedoch kostenintensiver als Resonator/Throne. |
 | **Marionette Apprentice** | am 13.10.2026 zugunsten von Diabolic Intent entfernt | {1}{B}-Kreatur mit Fabricate 1 und wiederkehrendem Verlust von 1 Leben für alle Gegner, sobald eine andere eigene Kreatur oder ein Artefakt aus dem Spiel in einen Friedhof gelegt wird. Stark mit Mishras Warform-Opfern, Ashnod's Altar und Tokens; nicht zu kopieren mit Mishra. **Diabolic Intent** bietet stattdessen einen einmaligen universellen Tutor gegen Kreaturenopfer. Rückkehr erwägen, falls der wiederholbare Gruppenschaden in Partien stärker als die zusätzliche Konsistenz ist. |
 | **Marionette Master** | Rückkehr möglich | Hoher Schaden an einzelne Gegner bei Artefakttod; sechs Mana, nicht selbst ein Artefakt. |
@@ -140,7 +139,7 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Bolas's Citadel** | am 12.10.2026 ersetzt | {3}{B}{B}{B}-Artefakt und Game Changer, konnte über Arcum oder Welder starke Topdeck-Zauberketten erzeugen. Ohne Reservoir fehlen aber ein zuverlässiger Lebensgewinn und ein sofortiger Abschluss; regulär Triple-Schwarz und hoher Lebensverbrauch. Durch **Memory Jar** ersetzt; erneute Aufnahme nur bei bewiesener höherer Nettoleistung. |
 | **Buried Ruin** | am 12.10.2026 ersetzt | Farbloses Land mit einmaliger Rückholung einer Artefaktkarte aus dem Friedhof gegen {2}, {T} und Selbstopfer. **Mishra's Workshop** gewährt stattdessen wesentlich mehr Tempo beim Wirken von Artefaktzaubern, kann jedoch keinerlei Nichtartefaktzauber und keine Aktivierungen bezahlen. Rückkehr bei fehlender Recursion oder zu starkem Farblos-Landslot. |
 
-## B. Konkret geprüft, aber nicht Teil der aktuellen B3-Liste (98)
+## B. Konkret geprüft, aber nicht Teil der aktuellen B3-Liste (99)
 
 | Karte | Priorität | Grund für Nichtaufnahme / mögliche Rückkehr |
 |---|---|---|
@@ -155,6 +154,7 @@ Legende: **Rückkehr möglich** = sinnvoller künftiger Test; **historisch gestr
 | **Braids, Arisen Nightmare** | weiterer Kandidat | Zieht durch Endsegment-Opfer Karten und zwingt Gegner zur Wahl; legt weitere Opferprozesse auf den Stapel. |
 | **Brass's Tunnel-Grinder** | weiterer Kandidat | ETB-Looting und spätere Verwandlung; legendär und Transformation benötigt Descend. |
 | **Clock of Omens** | weiterer Kandidat | Enttappt Artefakte durch Tappen zweier anderer, aber zusätzlicher Aufbau und Kombogefahr. |
+| **Copy Artifact** | weiterer Kandidat, vor Merge zurückgestellt | {1}{U}-Verzauberung, die als Kopie eines Artefakts ins Spiel kommen kann; erzeugt eine zusätzliche dauerhafte Kopie wichtiger Vorlagen wie Knight Paladin oder Spine of Ish Sah. **Gegenargument für Aufnahme:** als Karte im Deck und Friedhof keine Artefaktkarte und daher nicht direkt über Arcum/Welder such- bzw. rückholbar; der Slot wird aktuell für Lightning Greaves und seinen Schutz benötigt. **Rückkehr:** falls zusätzliche Kopierkapazität wichtiger als Eile/Shroud wird. |
 | **Cursed Mirror** | weiterer Kandidat | Rot erzeugender Rock, im ETB vorübergehende Kreaturkopie; weniger Farbfixing als Lantern. |
 | **Daretti, Rocketeer Engineer** | weiterer Kandidat | ETB und Angriff tauschen Artefakte mit dem Friedhof; fünf Mana, Nichtartefakt. |
 | **Daretti, Scrap Savant** | weiterer Kandidat | Handfilter und Reanimation gegen Artefaktopfer; Planeswalker anfällig für Angriffe. |
@@ -252,6 +252,6 @@ Dabei weiterhin beachten: keine zusätzlichen Kreaturenwipes; Sundial erst bei f
 ## Quellen und Nachvollziehbarkeit
 
 - **Historischer Abgleich:** [GitHub-Commitverlauf der aktiven B3-Kartenliste](https://github.com/alexdermohr/magic/commits/main/decks/mishra/current.txt), 22 ausgewertete Dateifassungen einschließlich [ursprünglichem Track](https://github.com/alexdermohr/magic/commit/0b6094cf09566f3c10bb1d78129e3ac3dca4337e).
-- **Weitere Kandidaten:** [Scryfall Cards Collection](https://scryfall.com/docs/api/cards/collection) – historische Kandidatenübersicht (einschließlich später aktiv gewordener Karten), gegenwärtig **98 als Alternativen ausgeschlossene**; historische Stände wurden vor dieser Revision gesondert dokumentiert. Commander-Legalität und Farbidentität sind **vor jedem tatsächlichen Einbau** erneut zu prüfen.
+- **Weitere Kandidaten:** [Scryfall Cards Collection](https://scryfall.com/docs/api/cards/collection) – historische Kandidatenübersicht (einschließlich später aktiv gewordener Karten), gegenwärtig **99 als Alternativen ausgeschlossene**; historische Stände wurden vor dieser Revision gesondert dokumentiert. Commander-Legalität und Farbidentität sind **vor jedem tatsächlichen Einbau** erneut zu prüfen.
 - **Bracket:** [Wizards Commander Brackets](https://magic.wizards.com/en/news/announcements/introducing-commander-brackets-beta) – keine frühe absichtliche Zweikarten-Endloskombo und maximal drei Game Changer in Bracket 3.
 - **Spielumgebung:** Ein Papierregel-Synergiepotenzial beweist noch keine vollständige Unterstützung in manabrew.app; insbesondere ungewöhnliche statische Effekte separat testen.
