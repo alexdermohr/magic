@@ -14,7 +14,23 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelle B3-Revision: Spine of Ish Sah statt Thousand-Year Elixir (13.11.2026)
+## Aktuelle B3-Revision: drei Kopier-/Enttapp-Karten (14.11.2026)
+
+**Beschlossene und umgesetzte Tausche:**
+
+| Raus | Rein | Vorteil | Bewusster Verlust |
+|---|---|---|---|
+| **Demonic Junker** | **Machine God's Effigy** | Nichtkreatur-Artefakt, das beim Eintritt eine Kreatur kopieren kann, etwa Goblin Welder, Master Transmuter oder Roaming Throne; zusätzlich {T}: {U}. | Affinity-Fahrzeug mit mehrfacher gezielter Kreaturenzerstörung beim Eintritt. |
+| **Sensei's Divining Top** | **Manifold Key** | Für {1},{T} ein **anderes Artefakt** enttappen, für {3},{T} eine Kreatur in diesem Zug unblockbar machen; mit Mana Vault, Resonator, Effigy und Nautiloid Ship. | Günstige Bibliothekskontrolle und das frühere Saga-Ziel Top. |
+| **Whir of Invention** | **Copy Artifact** | Für {1}{U} eine bleibende Kopie eines Artefakts erzeugen, etwa Knight Paladin, Spine of Ish Sah oder Portal to Phyrexia. | Instant-Tutor, der Artefakte direkt aus der Bibliothek aufs Feld holen konnte, trotz UUU/X. |
+
+**Ausdrücklich erhalten:** **Sculpting Steel** bleibt als zweite eigenständige Kopierkarte erhalten; ebenso Jhoira, Scrap Trawler, Mishra, Tamer of Mak Fawa, Nautiloid Ship, Spine of Ish Sah, Brudiclad und Ashnod's Altar.
+
+**Wichtige Regelgrenzen:** Copy Artifact ist im Deck und beim Wirken eine **Verzauberung**, erst als Kopie auf dem Spielfeld zusätzlich ein Artefakt. Deshalb können Arcum Dagsson und Goblin Welder die Karte nicht direkt aus Bibliothek bzw. Friedhof als Artefakt behandeln. Machine God's Effigy kopiert auch den Namen und die Legendeneigenschaft; kopiert sie ein eigenes legendäres Wesen wie Arcum, gilt die Legendenregel, solange beide denselben Namen tragen. Eine nichtkreaturische Effigy kann kopierte Tap-Fähigkeiten unmittelbar aktivieren. Manifold Key enttappt nicht sich selbst, und die Unblockbar-Aktivierung muss vor dem Blocken erfolgen. Neue Manabrew-Spielsequenzen sind nicht getestet.
+
+**Struktur:** Weiterhin **100 Singleton-Karten, 35 Länder, 47 Artefaktkarten, 13 definierte Mana-Artefakte, genau drei Game Changer** (**Demonic Tutor, Mana Vault, Mishra's Workshop**). Der [Erweiterte Kreis](erweiterter-kreis.md) enthält **46 historische Cuts + 98 weitere Alternativen = 144 disjunkte ausgeschlossene Namen**. Die separate Bracket-4-Fassung bleibt unverändert. Gewinnraten und Manabrew-Unterstützung werden nicht als nachgewiesen bezeichnet.
+
+## Vorangegangene B3-Revision: Spine of Ish Sah statt Thousand-Year Elixir (13.11.2026)
 
 **Beschlossener Tausch:** **Thousand-Year Elixir raus → Spine of Ish Sah rein; Nautiloid Ship bleibt.** Mishras Warform-Kopie von **Spine of Ish Sah** zerstört bei jedem Eintritt eine beliebige bleibende Karte als Ziel (auch Land oder Verzauberung). Die **Originalkarte** kehrt beim Gang vom Spielfeld in den Friedhof auf die Hand zurück; eine geopferte Token-Warform nicht.
 
