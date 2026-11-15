@@ -56,13 +56,18 @@ self.addEventListener("fetch", (event) => {
       const path = url.pathname === "/" ? "/index.html" : url.pathname;
 
       if (url.pathname === "/offline-assets.json") {
+        // The running scripts and Forge WebImage come from the READY cache.
+        // Never expose a newer server version to a still-installed old game.
+        // The installer explicitly bypasses this path with __offline_fetch.
+        const installed = cache && (await cache.match("/offline-assets.json"));
+        if (installed) return installed;
         try {
           const network = await fetch(request);
           if (network.ok) return network;
         } catch {
-          // The last successfully prepared manifest remains available offline.
+          // No complete prepared offline release and no network.
         }
-        return (cache && (await cache.match("/offline-assets.json"))) || Response.error();
+        return Response.error();
       }
 
       // Normal web builds also include offline-setup.html but have no prepared

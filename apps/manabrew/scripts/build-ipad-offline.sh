@@ -6,25 +6,33 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 # Build the self-contained iPad/Home-Screen PWA from this Magic source checkout.
 # Forge source and WebImage are pinned. No running service is modified.
 ./scripts/bootstrap-forge.sh
+corepack_bin="${COREPACK:-corepack}"
+"$corepack_bin" yarn install --frozen-lockfile --ignore-scripts --non-interactive
+"$corepack_bin" yarn gen:types
+
 if [[ -n "${MANABREW_FORGE_WEBIMAGE_DIR:-}" ]]; then
-  # The default remains the hash-verified published WebImage. An explicitly
-  # rebuilt Forge AI candidate can be staged for an isolated offline release.
   for file in forgeharness.js forgeharness.js.wasm; do
     [[ -s "${MANABREW_FORGE_WEBIMAGE_DIR%/}/$file" ]] || {
-      echo "Missing rebuilt Forge WebImage file: $file" >&2; exit 1;
+      echo "Missing Forge WebImage file: $file" >&2; exit 1;
     }
   done
   for file in forgeharness.js forgeharness.js.wasm; do
     install -m 0644 "${MANABREW_FORGE_WEBIMAGE_DIR%/}/$file" "packages/forge-wasm/$file"
   done
-  sha256sum packages/forge-wasm/forgeharness.js packages/forge-wasm/forgeharness.js.wasm
 else
-  ./scripts/bootstrap-webimage.sh
+  graalvm_home="${WEBIMAGE_GRAALVM_HOME:-${XDG_STATE_HOME:-$HOME/.local/state}/manabrew-webimage-toolchain/graalvm-25.3.4.1-dev+0.1}"
+  if [[ ! -x "$graalvm_home/bin/native-image" ]]; then
+    echo "Offline Forge replay needs a source-built WebImage; set WEBIMAGE_GRAALVM_HOME or MANABREW_FORGE_WEBIMAGE_DIR." >&2
+    exit 1
+  fi
+  if command -v nix >/dev/null 2>&1; then
+    nix shell "nixpkgs#maven" "nixpkgs#binaryen" "nixpkgs#gcc" "nixpkgs#openssl" "nixpkgs#pkg-config" --command \
+      env WEBIMAGE_GRAALVM_HOME="$graalvm_home" ./scripts/build-forge-wasm.sh
+  else
+    WEBIMAGE_GRAALVM_HOME="$graalvm_home" ./scripts/build-forge-wasm.sh
+  fi
 fi
-
-corepack_bin="${COREPACK:-corepack}"
-"$corepack_bin" yarn install --frozen-lockfile --ignore-scripts --non-interactive
-"$corepack_bin" yarn gen:types
+node scripts/verify-forge-browser-resume.mjs
 
 if command -v wasm-pack >/dev/null 2>&1; then
   node scripts/build-wasm.mjs

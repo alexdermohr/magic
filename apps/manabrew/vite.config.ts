@@ -94,6 +94,7 @@ export default defineConfig({
     cardGlintAssets(),
   ],
   resolve: {
+    dedupe: ["react", "react-dom"],
     alias: {
       "@": path.resolve(__dirname, "./src"),
       // The client shares the Forge seat and card-selection modules with the

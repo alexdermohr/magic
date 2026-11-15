@@ -186,6 +186,7 @@ public final class ManaBrewEngineAdapter {
         if (request.journalRewind) {
             session.enableDecisionHistory(request.journalStart, request.replaySnapshot);
         }
+        if (request.durableBrowserResume) session.enableBrowserRecovery();
         sessions.put(session.getSessionId(), session);
         LIVE_SESSIONS.add(session);
         session.start(rng);
@@ -233,6 +234,10 @@ public final class ManaBrewEngineAdapter {
 
     public String acknowledgeDecisionJournal(final String sessionId, final long sequence) {
         return getSession(sessionId).acknowledgeDecisionJournal(sequence);
+    }
+
+    public String browserRecoveryBoundary(final String sessionId) {
+        return getSession(sessionId).browserRecoveryBoundary();
     }
 
     public String drainDecisionJournal(final String sessionId) {
@@ -602,6 +607,11 @@ public final class ManaBrewEngineAdapter {
         if (root.has("decisionJournal") && root.get("decisionJournal").getAsBoolean()) {
             request.journalStart = root.toString();
         }
+        request.durableBrowserResume = root.has("durableBrowserResume")
+                && root.get("durableBrowserResume").getAsBoolean();
+        if (request.durableBrowserResume && (!request.journalRewind || request.journalStart == null)) {
+            throw new IllegalArgumentException("browser recovery requires a journal and rewind");
+        }
         request.journalCommitBarrier = root.has("decisionJournalCommitBarrier")
                 && root.get("decisionJournalCommitBarrier").getAsBoolean();
         if (request.experimentalInternalAiReplay && request.journalStart == null) {
@@ -657,6 +667,7 @@ public final class ManaBrewEngineAdapter {
 
     public static final class StartGameRequest {
         private boolean journalRewind;
+        private boolean durableBrowserResume;
         private boolean experimentalInternalAiReplay;
         private JsonObject replaySnapshot;
         private final String gameId;
