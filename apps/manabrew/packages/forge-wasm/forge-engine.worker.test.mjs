@@ -583,8 +583,14 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
     return { api, disposed: () => disposed, terminated: () => terminated };
   };
   const crash = makeApi();
+  let crashReleased = 0;
+  crash.api.releaseRecoveryOwnership = async () => { crashReleased++; };
   handlers.get("forge:engine_crash")({});
+  assert.equal(crashReleased, 1, "a fatal engine error must release the tab lock");
+  assert.equal(crash.api.releaseRecoveryOwnership, null);
+  assert.equal(crash.terminated(), 0, "game-over delivery remains available");
   handlers.get("game:over")({});
+  assert.equal(crash.terminated(), 1, "the ended worker must allow the next game to start");
   assert.equal(crash.disposed(), 1);
   assert.equal(cleared, 0);
   await crash.api.endGame();

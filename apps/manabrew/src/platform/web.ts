@@ -937,8 +937,16 @@ class WebGameApi implements IGameApi {
       if (this.currentRecovery) this.retainedRecoveryAfterCrash = true;
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      void release?.().catch((error) =>
+        console.warn("Could not release Forge recovery ownership:", error));
     });
     events.on("game:over", () => {
+      if (this.retainedRecoveryAfterCrash) {
+        this.bridge.terminate();
+        return;
+      }
       if (!this.currentRecovery) return;
       this.currentRecovery.queue.dispose();
       this.currentRecovery = null;
