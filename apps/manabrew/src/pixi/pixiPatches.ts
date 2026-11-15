@@ -6,7 +6,7 @@
  * singleton exports, so a single import protects the whole app.
  */
 
-import { Application, TexturePool } from "pixi.js";
+import { Application, RenderGroup, TexturePool } from "pixi.js";
 
 /**
  * Tear down a Pixi `Application` without releasing resources shared by other
@@ -40,6 +40,7 @@ let patched = false;
 export function installPixiPatches(): void {
   if (patched) return;
   patched = true;
+  patchRenderGroupOnRender();
 
   // Pixi v8 crashes with `undefined is not an object (evaluating
   // 'this._texturePool[key].push')` when a texture is returned whose
@@ -69,6 +70,37 @@ export function installPixiPatches(): void {
       // Swallow so a Pixi internal bug can't crash the React tree mid
       // teardown. We log once for visibility.
       console.warn("[pixi] TexturePool.returnTexture guard swallowed:", err);
+    }
+  };
+}
+type OnRenderEntry = { _onRender?: ((renderer: unknown) => void) | null };
+type OnRenderList = { _onRenderContainers: OnRenderEntry[] | null };
+
+// Pixi 8.18 can re-register render callbacks and leave cleared callbacks behind.
+export function patchRenderGroupOnRender(): void {
+  const proto = RenderGroup.prototype as unknown as {
+    addOnRender(this: OnRenderList, container: OnRenderEntry): void;
+    removeOnRender(this: OnRenderList, container: OnRenderEntry): void;
+    runOnRender(this: OnRenderList, renderer: unknown): void;
+  };
+  proto.addOnRender = function addOnRender(container) {
+    const entries = this._onRenderContainers;
+    if (entries && !entries.includes(container)) entries.push(container);
+  };
+  proto.removeOnRender = function removeOnRender(container) {
+    const entries = this._onRenderContainers;
+    if (!entries) return;
+    const index = entries.indexOf(container);
+    if (index !== -1) entries.splice(index, 1);
+  };
+  proto.runOnRender = function runOnRender(renderer) {
+    const entries = this._onRenderContainers;
+    if (!entries) return;
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+      const callback = entry._onRender;
+      if (typeof callback === "function") callback.call(entry, renderer);
+      else entries.splice(i--, 1);
     }
   };
 }
