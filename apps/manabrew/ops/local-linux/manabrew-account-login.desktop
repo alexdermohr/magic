@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Manabrew – Konto anmelden
+Comment=Deinen bestehenden Manabrew-Account mit dem lokalen Client verbinden
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable --app=http://127.0.0.1:8087/local-account.html
+Icon=applications-games
+Terminal=false
+Categories=Game;CardGame;
+StartupNotify=true

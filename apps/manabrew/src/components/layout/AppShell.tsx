@@ -1,0 +1,237 @@
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { isFeatureEnabled } from "@/featureFlags";
+import { useServerStore } from "@/stores/useServerStore";
+import { useChatStore } from "@/stores/useChatStore";
+import { useRoomInvites } from "@/hooks/useRoomInvites";
+import { useGameStore } from "@/stores/useGameStore";
+import { cn } from "@/lib/utils";
+import { useGameSessionResume } from "@/hooks/useGameSessionResume";
+import { useForgeAutoResume } from "@/hooks/useForgeAutoResume";
+import { useLimitedSessionRecovery } from "@/hooks/useLimitedSessionRecovery";
+import { useKeybindings } from "@/hooks/useKeybindings";
+import { KeyboardShortcutsDialog } from "@/components/KeyboardShortcutsDialog";
+import { Button } from "@/components/ui/button";
+import { RoomInviteOverlay } from "@/components/lobby/RoomInviteOverlay";
+import { IronsmithUnsupportedDeckModal } from "@/components/IronsmithUnsupportedDeckModal";
+import { GuestNameConflictModal } from "@/components/GuestNameConflictModal";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { BreweryBackdrop } from "@/components/BreweryBackdrop";
+import { TermsNotice } from "@/components/TermsNotice";
+import { StatusBanner } from "./StatusBanner";
+import { TopBar } from "./TopBar";
+import { TopBarOverrideContext, type TopBarOverride } from "./TopBarOverride";
+import { useStatusBanner } from "@/hooks/useStatusBanner";
+import { useDesktopUpdater } from "@/hooks/useDesktopUpdater";
+import { useEngineHostCloseGuard } from "@/hooks/useEngineHostCloseGuard";
+import { useLocalDeckAccountSync } from "@/hooks/useLocalDeckAccountSync";
+import { useSoundPreferencesRuntime } from "@/hooks/useSoundPreferencesRuntime";
+import { ROUTES } from "@/lib/constants";
+import { flushPublishedDeckPlayReports } from "@/lib/deckPlayEvidence";
+import { flushEngineStatsReports } from "@/lib/engineStatsReport";
+import { flushOfflinePlayRecords } from "@/lib/offlinePlayRecord";
+import {
+  beginOfflineResumeDiagnostics,
+  noteOfflineResumeEvent,
+} from "@/lib/offlineResumeDiagnostics";
+
+// Drives previous/next page shortcuts.
+const NAV_ROUTES = [
+  ROUTES.PLAY,
+  ROUTES.LOBBY,
+  ROUTES.SEARCH,
+  ROUTES.DECK_EDITOR,
+  ROUTES.MY_COLLECTION,
+  ROUTES.COMPANION,
+];
+
+export function AppShell() {
+  const accountsEnabled = isFeatureEnabled("accounts");
+  const deckHubEnabled = isFeatureEnabled("deckHub");
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [topBarOverride, setTopBarOverride] = useState<TopBarOverride | null>(null);
+  const setupListeners = useServerStore((s) => s.setupListeners);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isGameActive = useGameStore((s) => s.isGameActive);
+  const pathname =
+    location.pathname.length > 1 ? location.pathname.replace(/\/+$/, "") : location.pathname;
+  // The board renders under /play; a live game on any other route must keep
+  // the nav chrome, or there is no way back to the table.
+  const isGameRoute =
+    pathname.startsWith(ROUTES.GAME) || (isGameActive && pathname.startsWith(ROUTES.PLAY));
+  const isCompanionRoute = pathname.startsWith(ROUTES.COMPANION);
+  const isLimitedTableRoute =
+    pathname.startsWith(ROUTES.DRAFT) ||
+    pathname.startsWith(ROUTES.SEALED) ||
+    pathname.startsWith(ROUTES.WINSTON) ||
+    pathname.startsWith(ROUTES.GAUNTLET);
+  const isImmersiveRoute = isGameRoute || isCompanionRoute || isLimitedTableRoute;
+  const isPlayHome = pathname === ROUTES.PLAY;
+  const usesSubtleBackdrop =
+    pathname.startsWith(ROUTES.SEARCH) ||
+    pathname.startsWith(ROUTES.DECK_EDITOR) ||
+    pathname.startsWith(ROUTES.MY_COLLECTION) ||
+    pathname.startsWith(ROUTES.HUB) ||
+    pathname.startsWith(ROUTES.DESIGN_SYSTEM) ||
+    pathname === "/card-mock";
+  const hideNavChrome = isGameRoute;
+  const activeTopBarOverride =
+    topBarOverride?.locationKey === location.key &&
+    topBarOverride.pathname === location.pathname &&
+    topBarOverride.search === location.search
+      ? topBarOverride
+      : undefined;
+
+  // Durable, local-only lifecycle evidence: a new WebKit process must not
+  // masquerade as a resumed engine. No game data is persisted by this logger.
+  useEffect(() => {
+    const stop = beginOfflineResumeDiagnostics();
+    const unsubscribe = useGameStore.subscribe((state, previous) => {
+      if (!previous.isGameActive && state.isGameActive && !state.isMultiplayer) {
+        noteOfflineResumeEvent("offline_game_started", true);
+      } else if (previous.isGameActive && !state.isGameActive && !previous.isMultiplayer) {
+        noteOfflineResumeEvent("offline_game_ended", false);
+      }
+    });
+    return () => {
+      unsubscribe();
+      stop();
+    };
+  }, []);
+
+  // Register Tauri event listeners at app level so they're always active.
+  useEffect(() => {
+    const cleanup = setupListeners();
+    return cleanup;
+  }, [setupListeners]);
+
+  useEffect(() => useChatStore.getState().setupListeners(), []);
+  useRoomInvites();
+
+  useEffect(() => {
+    if (accountsEnabled) void useAuthStore.getState().hydrate();
+  }, [accountsEnabled]);
+
+  useEffect(() => {
+    if (!deckHubEnabled) return;
+    const flush = () => void flushPublishedDeckPlayReports();
+    flush();
+    window.addEventListener("online", flush);
+    return () => window.removeEventListener("online", flush);
+  }, [deckHubEnabled]);
+
+  useEffect(() => {
+    const flush = () => {
+      void flushEngineStatsReports();
+      void flushOfflinePlayRecords();
+    };
+    flush();
+    window.addEventListener("online", flush);
+    return () => window.removeEventListener("online", flush);
+  }, []);
+
+  useLimitedSessionRecovery();
+  useGameSessionResume();
+  const forgeResume = useForgeAutoResume();
+  useStatusBanner();
+  useDesktopUpdater();
+  useEngineHostCloseGuard();
+  useLocalDeckAccountSync();
+  useSoundPreferencesRuntime();
+
+  function goToAdjacentPage(delta: number) {
+    if (hideNavChrome || activeTopBarOverride?.navigationDisabled) return;
+    const current = NAV_ROUTES.findIndex((r) => location.pathname.startsWith(r));
+    const base = current === -1 ? 0 : current;
+    const next = (base + delta + NAV_ROUTES.length) % NAV_ROUTES.length;
+    navigate(NAV_ROUTES[next]);
+  }
+
+  useKeybindings({
+    "nav-prev-page": () => goToAdjacentPage(-1),
+    "nav-next-page": () => goToAdjacentPage(1),
+    "open-settings": () => {
+      // Where the chrome is hidden (the board), leave the shortcut to the
+      // view, which opens its own settings.
+      if (hideNavChrome || activeTopBarOverride?.navigationDisabled) return false;
+      navigate(ROUTES.SETTINGS);
+    },
+    "show-shortcuts": () => setShortcutsOpen((v) => !v),
+  });
+
+  return (
+    <TopBarOverrideContext.Provider value={setTopBarOverride}>
+      <div className="h-[100dvh] overflow-hidden flex flex-col">
+        <StatusBanner />
+        <KeyboardShortcutsDialog open={shortcutsOpen} onOpenChange={setShortcutsOpen} />
+        <IronsmithUnsupportedDeckModal />
+        {accountsEnabled && <GuestNameConflictModal />}
+        <RoomInviteOverlay />
+        {!hideNavChrome && <TopBar override={activeTopBarOverride} />}
+        <main
+          className={cn(
+            "relative isolate flex-1 min-h-0 overflow-auto",
+            !isImmersiveRoute &&
+              "pb-[var(--safe-area-inset-bottom)] pl-[var(--safe-area-inset-left)] pr-[var(--safe-area-inset-right)]",
+            isImmersiveRoute && "!p-0 !overflow-hidden",
+          )}
+        >
+          {!isImmersiveRoute && (
+            <BreweryBackdrop
+              variant={isPlayHome ? "hero" : usesSubtleBackdrop ? "subtle" : "ambient"}
+              className="-z-10"
+            />
+          )}
+          {/* Play cancels in-flight launches on unmount, so keep the outlet stable here. */}
+          <Outlet />
+        </main>
+        {forgeResume.phase !== "idle" && (
+          <div
+            className="fixed inset-0 z-[90] flex items-center justify-center bg-background px-6 py-8 text-foreground"
+            role={forgeResume.phase === "checking" || forgeResume.phase === "restoring" ? "status" : "alert"}
+            aria-live="polite"
+          >
+            <div className="w-full max-w-md space-y-5 text-center">
+              <h1 className="text-xl font-semibold">
+                {forgeResume.phase === "checking"
+                  ? "Checking for your saved game…"
+                  : forgeResume.phase === "restoring"
+                    ? "Restoring your saved game…"
+                    : forgeResume.phase === "different-release"
+                      ? "Your saved game needs its original offline version"
+                      : "Your saved game could not be restored"}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {forgeResume.phase === "checking"
+                  ? "Reading the private game checkpoint on this device."
+                  : forgeResume.phase === "restoring"
+                    ? "Replaying your moves and verifying the game state. This can take some time."
+                    : forgeResume.phase === "different-release"
+                      ? "The checkpoint is still stored, but the matching offline engine is not installed. Do not clear this site's data or remove the original offline cache."
+                      : "The checkpoint has been kept. You can retry without starting a replacement game."}
+              </p>
+              {(forgeResume.phase === "failed" || forgeResume.phase === "different-release") && (
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <Button variant="primary" onClick={forgeResume.retry}>
+                    Retry saved game
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      forgeResume.dismiss();
+                      navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
+                    }}
+                  >
+                    Open deck selection
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {!isImmersiveRoute && <TermsNotice />}
+      </div>
+    </TopBarOverrideContext.Provider>
+  );
+}

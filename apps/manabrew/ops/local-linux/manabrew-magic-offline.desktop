@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Manabrew (Magic offline)
+Comment=Eigene Commander-Decks automatisch offline vorbereiten und gegen Forge-KI spielen
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--app=http://127.0.0.1:8088/offline-setup.html?desktop=1"
+TryExec=/home/alex/.nix-profile/bin/google-chrome-stable
+Icon=applications-games
+Terminal=false
+Categories=Game;CardGame;
+StartupNotify=true

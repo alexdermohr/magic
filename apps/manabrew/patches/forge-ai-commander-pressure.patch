@@ -1,0 +1,22 @@
+diff --git a/forge-ai/src/main/java/forge/ai/AiAttackController.java b/forge-ai/src/main/java/forge/ai/AiAttackController.java
+--- a/forge-ai/src/main/java/forge/ai/AiAttackController.java
++++ b/forge-ai/src/main/java/forge/ai/AiAttackController.java
+@@ -205,11 +205,17 @@
+             int score = ComputerUtil.evaluateBoardPosition(ai, opp);
+             int lowLifeThreshold = Math.min(20, opp.getStartingLife());
+             if (life > 0 && life < lowLifeThreshold) {
+-                // TODO commander damage
+                 int lifeDeficit = lowLifeThreshold - life;
+                 score += lifeDeficit * lifeDeficit;
+             }
+             if (forCombatDmg) {
++                final int commanderDamageToLose = ai.getGame().getRules().getCommanderDamageToLose();
++                if (commanderDamageToLose > 0) {
++                    for (Card commander : ai.getCommanders()) {
++                        final int damage = Math.min(opp.getCommanderDamage(commander), commanderDamageToLose);
++                        score += damage * damage;
++                    }
++                }
+                 if (opp.isMonarch() && ai.canBecomeMonarch()) {
+                     score += 80;
+                 }

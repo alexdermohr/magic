@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "features": [
+    "land",
+    "creature",
+    "instant",
+    "sorcery",
+    "artifact",
+    "enchantment",
+    "planeswalker",
+    "commander",
+    "graveyard",
+    "cmc",
+    "power",
+    "toughness",
+    "draw",
+    "ramp",
+    "removal",
+    "token",
+    "haste",
+    "evasive",
+    "land_urgency",
+    "castable_curve",
+    "expensive_early",
+    "life_gain"
+  ],
+  "weights": [
+    1.979240378556802,
+    0.6477003454794646,
+    -0.4221464209465334,
+    -1.4263702871610717,
+    -0.28586569590987615,
+    -0.4726276100165742,
+    0,
+    0.7038610939855767,
+    0,
+    0.1382402785906795,
+    -0.172751664584848,
+    0.3252915347137415,
+    0.93766477075909,
+    0.6629550253688686,
+    -0.0787846257674056,
+    -0.15468050808821385,
+    -0.8356159460204317,
+    -0.7450818427600523,
+    0.34621124890748034,
+    -1.9017900276967306,
+    -0.07745035086007414,
+    0.36400172477550435
+  ],
+  "training": {
+    "teacher": "ManaBot SimpleAi",
+    "scope": "chooseAction with >=2 visible cast choices and teacher choosing cast",
+    "traces": 2,
+    "train": {
+      "decisions": 26,
+      "agreementWithManaBot": 0.5,
+      "firstCastBaseline": 0.3462
+    },
+    "validation": {
+      "decisions": 16,
+      "agreementWithManaBot": 0.4375,
+      "firstCastBaseline": 0.5
+    },
+    "validationUnit": "whole trace/game; absent if only one game",
+    "epochs": 30,
+    "caveat": "Imitation agreement is not game strength; run blinded seat-rotated win-rate matches."
+  }
+}
