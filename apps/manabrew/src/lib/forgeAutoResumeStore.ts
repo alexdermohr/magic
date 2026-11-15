@@ -5,6 +5,7 @@
  */
 import type { Deck } from "@/protocol/deck";
 import type { EngineKind } from "@/types/server";
+import { FORGE_LAUNCHER_URL, FORGE_WASM_URL } from "@/lib/forgeWasm";
 
 const DB_NAME = "manabrew-forge-autoresume-v1";
 const META = "current";
@@ -404,13 +405,12 @@ export async function resolveForgeRecoveryReleaseId(): Promise<string | null> {
     const manifest: unknown = await response.json();
     if (!manifest || typeof manifest !== "object") return null;
     const { version, files } = manifest as { version?: unknown; files?: unknown };
-    return typeof version === "string" &&
-      /^[a-f0-9]{20,64}$/.test(version) &&
-      Array.isArray(files) &&
-      files.some((file) => file && typeof file === "object" &&
-        (file as { url?: unknown }).url === "/index.html")
-        ? version
-        : null;
+    if (typeof version !== "string" || !/^[a-f0-9]{20,64}$/.test(version) ||
+        !Array.isArray(files)) return null;
+    const urls = new Set(files.map((file) =>
+      file && typeof file === "object" ? (file as { url?: unknown }).url : null));
+    return ["/index.html", FORGE_LAUNCHER_URL, FORGE_WASM_URL].every((url) =>
+      typeof url === "string" && urls.has(url)) ? version : null;
   } catch {
     return null;
   }

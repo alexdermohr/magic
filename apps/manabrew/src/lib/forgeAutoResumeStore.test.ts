@@ -1,5 +1,15 @@
 import { describe, expect, it, vi } from "vitest";
 import { createForgeRecoveryCommitQueue, verifyForgeRecoveryDelta, type ForgeRecoveryDelta } from "./forgeAutoResumeStore";
+import { FORGE_LAUNCHER_URL, FORGE_WASM_URL } from "./forgeWasm";
+
+vi.mock("./forgeWasm", () => ({
+  FORGE_LAUNCHER_URL: "/assets/test-forgeharness.js",
+  FORGE_WASM_URL: "/assets/test-forgeharness.wasm",
+}));
+
+const engineFiles = [
+  { url: "/index.html" }, { url: FORGE_LAUNCHER_URL }, { url: FORGE_WASM_URL },
+];
 
 const witness = { state: "a".repeat(64), rng: "123:abcdef0123456789" };
 const prompt = { decidingPlayerId: "player-0", input: { type: "chooseAction" } };
@@ -194,7 +204,7 @@ describe("Forge recovery version in an ordinary Safari tab", () => {
     Object.defineProperty(globalThis, "fetch", {
       configurable: true,
       value: async () => ({
-        ok: true, json: async () => ({ version, files: [{ url: "/index.html" }] }),
+        ok: true, json: async () => ({ version, files: engineFiles }),
       }),
     });
     try {
@@ -203,6 +213,23 @@ describe("Forge recovery version in an ordinary Safari tab", () => {
       if (oldCaches === undefined) delete (globalThis as { caches?: CacheStorage }).caches;
       else Object.defineProperty(globalThis, "caches", { configurable: true, value: oldCaches });
       Object.defineProperty(globalThis, "fetch", { configurable: true, value: oldFetch });
+    }
+  });
+
+  it("rejects a newer network manifest with a different bundled Forge engine", async () => {
+    const { resolveForgeRecoveryReleaseId } = await import("./forgeAutoResumeStore");
+    vi.stubGlobal("caches", { keys: async () => [] });
+    vi.stubGlobal("fetch", async () => ({
+      ok: true,
+      json: async () => ({
+        version: "f".repeat(20),
+        files: [{ url: "/index.html" }, { url: FORGE_LAUNCHER_URL }],
+      }),
+    }));
+    try {
+      expect(await resolveForgeRecoveryReleaseId()).toBeNull();
+    } finally {
+      vi.unstubAllGlobals();
     }
   });
 
@@ -220,7 +247,7 @@ describe("Forge recovery version in an ordinary Safari tab", () => {
             key === "/offline-ready.json" ? { text: async () => version } :
               key === "/index.html" ? { ok: true } :
                 key === "/offline-assets.json" ? {
-                  json: async () => ({ version, files: [{ url: "/index.html" }] }),
+                  json: async () => ({ version, files: engineFiles }),
                 } : undefined,
         }),
       },
@@ -251,7 +278,7 @@ describe("Forge recovery version in an ordinary Safari tab", () => {
         calls++;
         if (calls === 1) throw Error("temporary network interruption");
         return {
-          ok: true, json: async () => ({ version, files: [{ url: "/index.html" }] }),
+          ok: true, json: async () => ({ version, files: engineFiles }),
         };
       },
     });

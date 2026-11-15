@@ -921,6 +921,7 @@ class WebGameApi implements IGameApi {
     queue: ReturnType<typeof createForgeRecoveryCommitQueue>;
   } | null = null;
   private retainedRecoveryAfterCrash = false;
+  private retainedRecoveryGameId: string | null = null;
   private releaseRecoveryOwnership: (() => Promise<void>) | null = null;
 
   constructor(bridge: WorkerBridge, events: IEventBus) {
@@ -934,7 +935,10 @@ class WebGameApi implements IGameApi {
       current.queue.enqueue(boundary);
     });
     events.on("forge:engine_crash", () => {
-      if (this.currentRecovery) this.retainedRecoveryAfterCrash = true;
+      if (this.currentRecovery) {
+        this.retainedRecoveryAfterCrash = true;
+        this.retainedRecoveryGameId = this.currentRecovery.gameId;
+      }
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
       const release = this.releaseRecoveryOwnership;
@@ -951,6 +955,7 @@ class WebGameApi implements IGameApi {
       this.currentRecovery.queue.dispose();
       this.currentRecovery = null;
       this.retainedRecoveryAfterCrash = false;
+      this.retainedRecoveryGameId = null;
       const release = this.releaseRecoveryOwnership;
       this.releaseRecoveryOwnership = null;
       void clearForgeRecoverySave()
@@ -959,7 +964,10 @@ class WebGameApi implements IGameApi {
           console.warn("Could not release Forge recovery ownership:", error)); });
     });
     events.on("game:forced_end", () => {
-      if (this.currentRecovery) this.retainedRecoveryAfterCrash = true;
+      if (this.currentRecovery) {
+        this.retainedRecoveryAfterCrash = true;
+        this.retainedRecoveryGameId = this.currentRecovery.gameId;
+      }
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
       const release = this.releaseRecoveryOwnership;
@@ -1006,6 +1014,8 @@ class WebGameApi implements IGameApi {
         throw error;
       }
     }
+    this.retainedRecoveryAfterCrash = false;
+    this.retainedRecoveryGameId = null;
     const recoveryLaunch: ForgeRecoveryLaunch | null = durableRecovery ? {
       deck: params.deck,
       opponentDecks: params.opponentDecks ?? null,
@@ -1157,14 +1167,26 @@ class WebGameApi implements IGameApi {
   }
 
   async endGame(): Promise<void> {
-    const clearRecovery = this.currentRecovery !== null || this.retainedRecoveryAfterCrash;
+    const activeRecovery = this.currentRecovery !== null;
+    const crashed = this.retainedRecoveryAfterCrash;
+    const retainedGameId = crashed ? this.retainedRecoveryGameId : null;
     this.currentRecovery?.queue.dispose();
     this.currentRecovery = null;
     this.retainedRecoveryAfterCrash = false;
-    const release = this.releaseRecoveryOwnership;
+    this.retainedRecoveryGameId = null;
+    let release = this.releaseRecoveryOwnership;
     this.releaseRecoveryOwnership = null;
     try {
-      if (clearRecovery) await clearForgeRecoverySave();
+      if (activeRecovery && release) {
+        await clearForgeRecoverySave();
+      } else if (retainedGameId && !release) {
+        release = await acquireForgeRecoveryOwnership();
+        if (release) {
+          const savedRelease = await forgeRecoveryStoredReleaseId();
+          const saved = savedRelease ? await readForgeRecoverySave(savedRelease) : null;
+          if (saved?.gameId === retainedGameId) await clearForgeRecoverySave();
+        }
+      }
     } catch (error) {
       console.warn("Could not clear abandoned Forge recovery save:", error);
     } finally {
@@ -1173,7 +1195,7 @@ class WebGameApi implements IGameApi {
     this.isMultiplayer = false;
     this.isHost = false;
     this.myPlayerSlot = null;
-    if (this.bridge.gameBuffer) {
+    if (crashed || this.bridge.gameBuffer) {
       this.bridge.terminate();
       return;
     }

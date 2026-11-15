@@ -463,7 +463,11 @@ test("failed fresh Forge replay start resets its worker and releases tab ownersh
   assert.equal(released, 1, "exclusive tab ownership must be freed on startup failure");
   assert.equal(api.currentRecovery, null);
   assert.equal(api.releaseRecoveryOwnership, null);
+  api.retainedRecoveryAfterCrash = true;
+  api.retainedRecoveryGameId = "old-crashed-game";
   assert.equal(await api.startGame(params), "game-started");
+  assert.equal(api.retainedRecoveryAfterCrash, false);
+  assert.equal(api.retainedRecoveryGameId, null);
   assert.equal(invoked, 2);
   assert(api.currentRecovery);
   api.currentRecovery.queue.dispose();
@@ -556,6 +560,7 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   const source = `class RecoveryApi {
     currentRecovery = null;
     retainedRecoveryAfterCrash = false;
+    retainedRecoveryGameId = null;
     ${web.slice(constructorStart, constructorEnd)}
     ${web.slice(endGameStart, endGameEnd)}
   }
@@ -564,8 +569,13 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
     compilerOptions: { target: ScriptTarget.ES2022 },
   }).outputText;
   let cleared = 0;
+  let canAcquire = true;
+  let savedGameId = "recover-test";
   const ctx = vm.createContext({
     clearForgeRecoverySave: async () => { cleared++; },
+    acquireForgeRecoveryOwnership: async () => canAcquire ? async () => {} : null,
+    forgeRecoveryStoredReleaseId: async () => "a".repeat(20),
+    readForgeRecoverySave: async () => ({ gameId: savedGameId }),
     console: { warn() {} },
   });
   vm.runInContext(code, ctx);
@@ -579,7 +589,7 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
     };
     const api = new ctx.RecoveryApi(bridge, events);
     let disposed = 0;
-    api.currentRecovery = { queue: { dispose() { disposed++; } } };
+    api.currentRecovery = { gameId: "recover-test", queue: { dispose() { disposed++; } } };
     return { api, disposed: () => disposed, terminated: () => terminated };
   };
   const crash = makeApi();
@@ -616,6 +626,23 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   assert.equal(cleared, 3);
   await normal.api.endGame();
   assert.equal(cleared, 3);
+
+  const competingTab = makeApi();
+  competingTab.api.releaseRecoveryOwnership = async () => {};
+  handlers.get("game:forced_end")({});
+  canAcquire = false;
+  await competingTab.api.endGame();
+  assert.equal(cleared, 3, "a different tab's lock must prevent deletion");
+  canAcquire = true;
+
+  const changedSave = makeApi();
+  changedSave.api.releaseRecoveryOwnership = async () => {};
+  handlers.get("game:forced_end")({});
+  savedGameId = "another-tab-game";
+  await changedSave.api.endGame();
+  assert.equal(cleared, 3, "a changed game ID must prevent deletion");
+  savedGameId = "recover-test";
+
   const java = readFileSync(new URL("../../forge-harness/native/wasm-src/forge/harness/wasm/SabTransport.java", import.meta.url), "utf8");
   assert.match(java.slice(java.indexOf("public void publishGameOver")), /post\("forge:engine_crash", "\{\}"\)/);
 
