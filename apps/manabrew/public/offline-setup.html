@@ -744,7 +744,12 @@
       $("engine-probe").disabled = false;
       $("engine-result").textContent = "Offline-Paket bereit. Forge-KI auf diesem Gerät kann jetzt geprüft werden.";
       $("prepare").textContent = "Offline-Daten erneut prüfen";
-      if (desktopLauncher && personalReady) location.replace("/play/offline/constructed");
+      const standalone = window.navigator.standalone === true ||
+        window.matchMedia("(display-mode: standalone)").matches;
+      if ((standalone || desktopLauncher) && personalReady &&
+          !new URLSearchParams(location.search).has("setup")) {
+        location.replace("/play/offline/constructed");
+      }
     } catch (error) {
       report("Offline-Download unvollständig", (currentFile ? currentFile + " (" + currentStage + "): " : "") +
         String(error) + " · Erneut starten, bereits geladene Dateien bleiben erhalten.");
