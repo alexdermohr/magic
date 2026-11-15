@@ -65,6 +65,7 @@
   const fmt = (n) => (n / 1024 / 1024).toFixed(1) + " MiB";
   let manifest = null;
   let busy = false;
+  let currentReady = false;
   const linuxDesktop = /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent);
   const desktopLauncher = linuxDesktop && new URLSearchParams(location.search).get("desktop") === "1";
   if (linuxDesktop) {
@@ -550,8 +551,9 @@
       await navigator.serviceWorker.register("/offline-sw.js", { scope: "/" });
       await navigator.serviceWorker.ready;
       const mayResume = !forceVerification && !new URLSearchParams(location.search).has("setup");
-      const installedVersion = mayResume ? await installedReadyRelease() : null;
-      if (installedVersion && await hasMatchingForgeSave(installedVersion)) {
+      const installedVersion = await installedReadyRelease();
+      currentReady = false;
+      if (mayResume && installedVersion && await hasMatchingForgeSave(installedVersion)) {
         // Existing offline games always win over new server releases.
         location.replace("/play/offline/constructed");
         return;
@@ -582,9 +584,11 @@
         ? { ready: true, bytes: total }
         : await checkCached(cache, manifest.files, forceVerification);
       const ready = quickReady && prepared.ready;
+      const upgradeAvailable = !!installedVersion && installedVersion !== manifest.version;
+      currentReady = ready;
       $("progress").value = ready ? 100 : Math.round((100 * prepared.bytes) / total);
       $("prepare").disabled = false;
-      $("prepare").textContent = ready ? "Offline-Daten erneut prüfen" : "Offline-Daten herunterladen";
+      $("prepare").textContent = ready ? "Offline-Daten erneut prüfen" : upgradeAvailable ? "Update jetzt installieren" : "Offline-Daten herunterladen";
       if (ready) {
         report("Programmdateien vollständig offline gespeichert", fmt(total) + " in " + manifest.files.length + " Dateien. Dies bestätigt noch kein erfolgreiches Forge-Spiel auf iPadOS.");
         let personalReady = false;
@@ -605,6 +609,9 @@
           location.replace("/play/offline/constructed");
           return;
         }
+      } else if (upgradeAvailable) {
+        $("play").classList.remove("disabled");
+        report("Neue Version verfügbar", "Die installierte Version bleibt spielbar, bis das Update vollständig geladen und geprüft ist.");
       } else {
         report("Download erforderlich", manifest.files.length + " Dateien / " + fmt(total) + ". Bereits lokal: " + fmt(prepared.bytes) + ".");
       }
@@ -617,21 +624,21 @@
         $("prepare").disabled = true;
         $("play").classList.add("disabled");
         report("Lokales Forge auf diesem Browser noch nicht möglich", "Der Browser meldet keine Cross-Origin-Isolation/SharedArrayBuffer. Ein Download allein würde keine spielbare Offline-App ergeben.");
-      } else if (desktopLauncher && !ready && !forceVerification) {
-        // Only an explicit Linux desktop launch starts the large download.
-        // Safari/iPad setup and ordinary browser visits remain opt-in.
-        void prepare();
+      } else if (!ready && !forceVerification && !new URLSearchParams(location.search).has("setup") &&
+                 (desktopLauncher || (upgradeAvailable && navigator.onLine &&
+                  (window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches)))) {
+        void prepare(upgradeAvailable);
       }
     } catch (error) {
       report("Offline-Vorbereitung nicht verfügbar", String(error));
     }
   }
 
-  async function prepare() {
+  async function prepare(keepPlayable = false) {
     if (!manifest || busy) return;
     busy = true;
     $("prepare").disabled = true;
-    $("play").classList.add("disabled");
+    if (!keepPlayable) $("play").classList.add("disabled");
     const cacheName = prefix + manifest.version;
     const cache = await caches.open(cacheName);
     await cache.delete("/offline-ready.json");
@@ -695,11 +702,28 @@
       // still intact. If this fails, the old ready package remains available.
       currentStage = "vorhandene lokale Deckbilder erhalten";
       const preservedArt = await preserveSavedDeckArtwork(cache, reusable, manifest.files);
-      await cache.put("/offline-assets.json", new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
-      await cache.put("/offline-ready.json", new Response(manifest.version, { headers: { "Content-Type": "text/plain" } }));
-      refreshWorkerCache();
-      for (const old of await caches.keys()) {
-        if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
+      const activate = async () => {
+        const previousVersion = await installedReadyRelease();
+        if (previousVersion && previousVersion !== manifest.version && await hasMatchingForgeSave(previousVersion)) return false;
+        await cache.put("/offline-assets.json", new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
+        await cache.put("/offline-ready.json", new Response(manifest.version, { headers: { "Content-Type": "text/plain" } }));
+        currentReady = true;
+        refreshWorkerCache();
+        for (const old of await caches.keys()) {
+          if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
+        }
+        return true;
+      };
+      // This is the exact Forge game-owner lock in src/lib/forgeAutoResumeStore.ts.
+      const activated = navigator.locks
+        ? await navigator.locks.request("manabrew:forge-autoresume:v1:owner", { ifAvailable: true },
+            async (lock) => lock ? activate() : false)
+        : await activate();
+      if (!activated) {
+        report("Update vorgeladen; gespeicherte Partie geschützt",
+          "Die bisherige Version bleibt aktiv. Das Update wird nach Abschluss der Partie eingerichtet.");
+        $("play").classList.remove("disabled");
+        return;
       }
       let personalReady = false;
       try {
@@ -724,6 +748,7 @@
     } catch (error) {
       report("Offline-Download unvollständig", (currentFile ? currentFile + " (" + currentStage + "): " : "") +
         String(error) + " · Erneut starten, bereits geladene Dateien bleiben erhalten.");
+      if (keepPlayable) $("play").classList.remove("disabled");
     } finally {
       busy = false;
       $("prepare").disabled = false;
@@ -732,7 +757,7 @@
 
   $("engine-probe").addEventListener("click", () => void testForge());
   $("prepare").addEventListener("click", () => {
-    if (manifest && $("play").classList.contains("disabled")) void prepare();
+    if (manifest && !currentReady) void prepare();
     else void status(true);
   });
   void status();
