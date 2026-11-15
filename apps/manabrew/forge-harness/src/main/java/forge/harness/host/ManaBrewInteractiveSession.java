@@ -79,6 +79,9 @@ public final class ManaBrewInteractiveSession {
 
     private DecisionJournal decisionJournal;
     private DecisionHistory decisionHistory;
+    private boolean durableBrowserRecovery;
+    private boolean browserRecoveryStarted;
+    private int browserRecoveryDelivered;
     private volatile boolean replaying;
     private volatile boolean rewindPending;
     private Map<String, Object> restoredVote;
@@ -387,6 +390,29 @@ public final class ManaBrewInteractiveSession {
         if (replay != null && replay.has("restoreVote")) {
             restoredVote = GSON.fromJson(replay.get("restoreVote"), new com.google.gson.reflect.TypeToken<Map<String, Object>>() {}.getType());
         }
+    }
+
+    void enableBrowserRecovery() {
+        if (decisionJournal == null || decisionHistory == null) {
+            throw new IllegalArgumentException("browser recovery requires journal rewind");
+        }
+        durableBrowserRecovery = true;
+    }
+
+    /** Invoked exclusively from the active WebImage game thread at a prompt. */
+    public String browserRecoveryBoundary() {
+        if (!durableBrowserRecovery || decisionHistory == null || replaying ||
+                closed || game.isGameOver() || latestPromptJson == null) return "";
+        if (decisionHistory.unavailableReason() != null) return "";
+        final String result = decisionHistory.browserRecoveryDelta(
+                browserRecoveryDelivered, !browserRecoveryStarted,
+                getSessionId(), latestPromptJson, replayVerification());
+        // The initial boundary may have zero consumed actions. Track its
+        // delivery independently from the action cursor, or the next action
+        // would falsely include a second start manifest and break recovery.
+        browserRecoveryStarted = true;
+        browserRecoveryDelivered = decisionHistory.size();
+        return result;
     }
 
     public boolean isReplaying() {
@@ -2164,6 +2190,12 @@ public final class ManaBrewInteractiveSession {
                     publishCheckpointViews();
                     publishSnapshots();
                     replaying = false;
+                    // Restored prefix already exists in IndexedDB. Only emit
+                    // NEW decisions after the verified replay is promoted.
+                    if (durableBrowserRecovery) {
+                        browserRecoveryStarted = true;
+                        browserRecoveryDelivered = decisionHistory.size();
+                    }
                     if (bridge != null) bridge.replayReady();
                 }
             }

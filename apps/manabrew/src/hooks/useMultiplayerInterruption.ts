@@ -4,6 +4,7 @@ import { getPlatform } from "@/platform";
 import { useGameStore } from "@/stores/useGameStore";
 import { useServerStore } from "@/stores/useServerStore";
 import { DEFAULT_RECONNECT_TIMEOUT_S } from "@/types/server";
+import { resumeReconnectDeadline } from "@/lib/reconnectDeadline";
 // When it's our own connection that dropped (relay restart/deploy included),
 // give the full 120s the engine allows before auto-passing prompts, instead of
 // the room's opponent-facing reconnect window. The post-restart rejoin loop
@@ -75,10 +76,20 @@ export function useMultiplayerInterruption(): MultiplayerInterruption {
       return;
     }
     deadlineRef.current ??= Date.now() + timeoutS * 1000;
+    let hiddenSince: number | null = document.hidden ? Date.now() : null;
     const tick = () => {
+      const now = Date.now();
+      if (document.hidden) {
+        hiddenSince ??= now;
+        return;
+      }
+      if (hiddenSince !== null) {
+        deadlineRef.current = resumeReconnectDeadline(deadlineRef.current, hiddenSince, now);
+        hiddenSince = null;
+      }
       const deadline = deadlineRef.current;
       if (deadline === null) return;
-      const remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      const remaining = Math.max(0, Math.ceil((deadline - now) / 1000));
       setSecondsLeft(remaining);
       if (remaining <= 0 && !expiredRef.current) {
         expiredRef.current = true;
@@ -102,7 +113,11 @@ export function useMultiplayerInterruption(): MultiplayerInterruption {
     };
     tick();
     const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    document.addEventListener("visibilitychange", tick);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", tick);
+    };
   }, [waiting, timeoutS, selfDisconnected]);
   return {
     waiting,

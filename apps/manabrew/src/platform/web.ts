@@ -89,6 +89,7 @@ import forgeWorkerUrl from "@forge-wasm/forge-engine.worker.js?url";
 // The seat protocol lives with @manabrew/forge-wasm, which drives the same
 // worker, so there is one implementation rather than one per consumer.
 import {
+  acknowledgeSeatMessage,
   createDirectiveLane,
   createSeat,
   deliverSeatDirective,
@@ -99,7 +100,22 @@ import {
   type ForgeSeat,
 } from "@forge-wasm/seat.js";
 
+import { SEAT_READER_HEARTBEAT, seatReaderStalled } from "@/lib/seatReaderProtocol";
+import { noteOfflineResumeEvent } from "@/lib/offlineResumeDiagnostics";
+import {
+  acquireForgeRecoveryOwnership,
+  clearForgeRecoverySave,
+  commitForgeRecoveryDelta,
+  createForgeRecoveryCommitQueue,
+  forgeRecoveryReleaseId,
+  forgeRecoveryStoredReleaseId,
+  readForgeRecoverySave,
+  type ForgeRecoveryDelta,
+  type ForgeRecoveryLaunch,
+} from "@/lib/forgeAutoResumeStore";
+
 const DEBUG_TRANSPORT = false;
+const seatReaderLastSignalAt = new WeakMap<Worker, number>();
 
 let wasmReady: Promise<typeof import("@/wasm/wasm")> | null = null;
 
@@ -124,16 +140,25 @@ function readSeat<T>(
   seat: ForgeSeat,
   onMessage: (message: T, json: string, arrivedAt: number) => void,
   onError: (error: unknown, json: string) => void,
+  onWorkerError: (reason: string) => void,
 ): Worker {
   const worker = new Worker(new URL("../workers/seat-reader.worker.ts", import.meta.url), {
     type: "module",
   });
+  seatReaderLastSignalAt.set(worker, Date.now());
+  // The engine owns seat.signal; this control word belongs only to the
+  // reader/main-thread delivery handshake. A new reader gets a fresh one.
+  const delivery = new Int32Array(new SharedArrayBuffer(4));
   worker.onmessage = (event: MessageEvent<string>) => {
     if (seat.cancelled) return;
+    seatReaderLastSignalAt.set(worker, Date.now());
+    if (event.data === SEAT_READER_HEARTBEAT) return;
     const json = event.data;
-    // Before the parse, as on the relay socket: a state frame is tens of
-    // kilobytes and parsing it is this machine's work. Stamping after the
-    // parse put it in `replyWait`, which on this path has no wire in it.
+    // A worker cannot eat a frame while the page is suspended: delivery
+    // and acknowledgement occur on the same main-thread callback.
+    acknowledgeSeatMessage(seat);
+    Atomics.add(delivery, 0, 1);
+    Atomics.notify(delivery, 0);
     const arrivedAt = performance.now();
     try {
       const message = JSON.parse(json) as T;
@@ -143,7 +168,9 @@ function readSeat<T>(
       onError(error, json);
     }
   };
-  worker.postMessage({ buffer: seat.buffer });
+  worker.onerror = (event) => onWorkerError(event.message || "worker_error");
+  worker.onmessageerror = () => onWorkerError("message_error");
+  worker.postMessage({ buffer: seat.buffer, deliveryControl: delivery.buffer });
   return worker;
 }
 
@@ -255,6 +282,8 @@ class WorkerBridge {
   private fallbackWorker: Worker | null = null;
   private localSeat: ForgeSeat | null = null;
   private seatReaders = new Map<ForgeSeat, Worker>();
+  private seatReaderLaunchers = new Map<ForgeSeat, () => void>();
+  private resumeReaderCheck: ReturnType<typeof setTimeout> | null = null;
 
   private remoteSeats = new Map<string, ForgeSeat>();
   private remotePlayerSlots = new Map<string, string>();
@@ -277,18 +306,34 @@ class WorkerBridge {
   constructor(eventBus: WebEventBus) {
     this.eventBus = eventBus;
 
+    const checkReadersAfterForeground = () => {
+      if (this.resumeReaderCheck !== null) clearTimeout(this.resumeReaderCheck);
+      // Safari resumes the page before suspended workers can run. Give them
+      // time to send a heartbeat rather than restarting a healthy reader.
+      this.resumeReaderCheck = setTimeout(() => {
+        this.resumeReaderCheck = null;
+        if (document.hidden) return;
+        for (const [seat, reader] of this.seatReaders) {
+          if (seatReaderStalled(seatReaderLastSignalAt.get(reader), Date.now())) {
+            this.restartSeatReader(seat, "no_heartbeat_after_foreground");
+          }
+        }
+      }, 8_000);
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) checkReadersAfterForeground();
+    });
+    window.addEventListener("pageshow", checkReadersAfterForeground);
+
     eventBus.on<{ buffer: SharedArrayBuffer }>("game:sab", (payload) => {
       const seat = createSeat(payload.buffer);
       if (this.localSeat) this.dropSeat(this.localSeat);
       this.localSeat = seat;
       if (DEBUG_TRANSPORT) console.log("[WorkerBridge] Received local SAB, starting reader");
-      this.seatReaders.set(
+      this.attachSeatReader<EngineMessage>(
         seat,
-        readSeat<EngineMessage>(
-          seat,
-          (msg, _json, arrivedAt) => this.dispatchEngineMessage(msg, arrivedAt),
-          (error) => console.error("[WorkerBridge] Failed to read SAB message:", error),
-        ),
+        (msg, _json, arrivedAt) => this.dispatchEngineMessage(msg, arrivedAt),
+        (error) => console.error("[WorkerBridge] Failed to read SAB message:", error),
       );
     });
 
@@ -311,18 +356,15 @@ class WorkerBridge {
       this.remoteSeats.set(playerSlot, seat);
       if (DEBUG_TRANSPORT)
         console.log(`[WorkerBridge] Received remote SAB for ${playerSlot}, starting reader`);
-      this.seatReaders.set(
+      this.attachSeatReader<RelayMessage["msg"]>(
         seat,
-        readSeat<RelayMessage["msg"]>(
-          seat,
-          (msg, json) => {
-            if (DEBUG_TRANSPORT)
-              console.log(`[transport←sab/seat ${playerSlot}] engine emitted:`, json);
-            this.eventBus.emit("game:relay_message", { forPlayer: playerSlot, msg });
-          },
-          (error) =>
-            console.error(`[WorkerBridge] Failed to read SAB message for ${playerSlot}:`, error),
-        ),
+        (msg, json) => {
+          if (DEBUG_TRANSPORT)
+            console.log("[remote seat " + playerSlot + "] engine emitted:", json);
+          this.eventBus.emit("game:relay_message", { forPlayer: playerSlot, msg });
+        },
+        (error) =>
+          console.error("[WorkerBridge] Failed to read remote SAB message:", playerSlot, error),
       );
     });
 
@@ -416,7 +458,11 @@ class WorkerBridge {
       case "prompt": {
         const prompt = msg.prompt as Prompt;
         const input = prompt?.input;
-        if (this.workerIsForgeWasm && this.startingForgeGame && typeof prompt.promptId === "number") {
+        if (
+          this.workerIsForgeWasm &&
+          this.startingForgeGame &&
+          typeof prompt.promptId === "number"
+        ) {
           if (
             input?.type === "revealCards" &&
             input.presentation?.title?.startsWith("AI can't play these cards well")
@@ -465,10 +511,48 @@ class WorkerBridge {
     this.localBotSlots = new Set(slots);
   }
 
+  private attachSeatReader<T>(
+    seat: ForgeSeat,
+    onMessage: (message: T, json: string, arrivedAt: number) => void,
+    onError: (error: unknown, json: string) => void,
+  ): void {
+    const launch = () => {
+      const reader = readSeat<T>(seat, onMessage, onError, (reason) => {
+        if (seat.cancelled || this.seatReaders.get(seat) !== reader) return;
+        console.warn("[WorkerBridge] Seat reader failed:", reason);
+        this.restartSeatReader(seat, "worker_error");
+      });
+      this.seatReaders.set(seat, reader);
+    };
+    this.seatReaderLaunchers.set(seat, launch);
+    launch();
+  }
+
+  private restartSeatReader(seat: ForgeSeat, reason: string): void {
+    if (seat.cancelled) return;
+    const existing = this.seatReaders.get(seat);
+    if (!existing) return;
+    existing.onmessage = null;
+    existing.onerror = null;
+    existing.onmessageerror = null;
+    existing.terminate();
+    this.seatReaders.delete(seat);
+    console.warn("[WorkerBridge] Reattaching Forge seat reader:", reason);
+    noteOfflineResumeEvent("seat_reader_restarted", undefined, reason);
+    this.seatReaderLaunchers.get(seat)?.();
+  }
+
   private dropSeat(seat: ForgeSeat): void {
     seat.cancelled = true;
-    this.seatReaders.get(seat)?.terminate();
+    const reader = this.seatReaders.get(seat);
+    if (reader) {
+      reader.onmessage = null;
+      reader.onerror = null;
+      reader.onmessageerror = null;
+      reader.terminate();
+    }
     this.seatReaders.delete(seat);
+    this.seatReaderLaunchers.delete(seat);
   }
 
   private dropDirectiveLanes(): void {
@@ -654,6 +738,7 @@ class WorkerBridge {
         this.worker.onmessage = this.handleMessage.bind(this);
         this.worker.onerror = (e) => {
           console.error("[WorkerBridge] Worker error:", e);
+          noteOfflineResumeEvent("engine_worker_error", undefined, "worker_error");
           const error = new Error(`Worker error: ${e.message}`);
           reject(error);
           for (const pending of this.pendingRequests.values()) pending.reject(error);
@@ -829,9 +914,68 @@ class WebGameApi implements IGameApi {
   private isMultiplayer = false;
   private isHost = false;
   private myPlayerSlot: string | null = null;
+  private currentRecovery: {
+    releaseId: string;
+    launch: ForgeRecoveryLaunch;
+    gameId: string | null;
+    queue: ReturnType<typeof createForgeRecoveryCommitQueue>;
+  } | null = null;
+  private retainedRecoveryAfterCrash = false;
+  private retainedRecoveryGameId: string | null = null;
+  private releaseRecoveryOwnership: (() => Promise<void>) | null = null;
 
-  constructor(bridge: WorkerBridge) {
+  constructor(bridge: WorkerBridge, events: IEventBus) {
     this.bridge = bridge;
+    // Journal entries include hidden cards: no logging, relaying or analytics.
+    events.on<ForgeRecoveryDelta>("forge:recovery_checkpoint", (boundary) => {
+      const current = this.currentRecovery;
+      if (!current || !boundary || typeof boundary.gameId !== "string") return;
+      if (current.gameId !== null && current.gameId !== boundary.gameId) return;
+      if (current.gameId === null) current.gameId = boundary.gameId;
+      current.queue.enqueue(boundary);
+    });
+    events.on("forge:engine_crash", () => {
+      if (this.currentRecovery) {
+        this.retainedRecoveryAfterCrash = true;
+        this.retainedRecoveryGameId = this.currentRecovery.gameId;
+      }
+      this.currentRecovery?.queue.dispose();
+      this.currentRecovery = null;
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      void release?.().catch((error) =>
+        console.warn("Could not release Forge recovery ownership:", error));
+    });
+    events.on("game:over", () => {
+      if (this.retainedRecoveryAfterCrash) {
+        this.bridge.terminate();
+        return;
+      }
+      if (!this.currentRecovery) return;
+      this.currentRecovery.queue.dispose();
+      this.currentRecovery = null;
+      this.retainedRecoveryAfterCrash = false;
+      this.retainedRecoveryGameId = null;
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      void clearForgeRecoverySave()
+        .catch((error) => console.warn("Could not clear completed Forge recovery save:", error))
+        .finally(() => { void release?.().catch((error) =>
+          console.warn("Could not release Forge recovery ownership:", error)); });
+    });
+    events.on("game:forced_end", () => {
+      if (this.currentRecovery) {
+        this.retainedRecoveryAfterCrash = true;
+        this.retainedRecoveryGameId = this.currentRecovery.gameId;
+      }
+      this.currentRecovery?.queue.dispose();
+      this.currentRecovery = null;
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      this.bridge.terminate();
+      void release?.().catch((error) =>
+        console.warn("Could not release Forge recovery ownership:", error));
+    });
   }
 
   setServerApi(server: WebServerApi): void {
@@ -839,6 +983,58 @@ class WebGameApi implements IGameApi {
   }
 
   async startGame(params: StartGameParams): Promise<string> {
+    const internalForge = params.engine === "Forge" &&
+      params.aiController === "forge" && !this.isMultiplayer;
+    const releaseId = internalForge ? await forgeRecoveryReleaseId() : null;
+    if (params.recovery && (!internalForge || !releaseId)) {
+      throw new Error("The saved Forge game is incompatible with this local engine.");
+    }
+    const locksAvailable = typeof navigator !== "undefined" && !!navigator.locks;
+    const durableRecovery = internalForge && releaseId !== null && locksAvailable;
+    if (params.recovery && !durableRecovery) {
+      throw new Error("Cannot safely restore Forge without cross-tab ownership.");
+    }
+    if (durableRecovery) {
+      if (this.releaseRecoveryOwnership) throw new Error("Finish the current Forge game first.");
+      const release = await acquireForgeRecoveryOwnership();
+      if (!release) throw new Error("Another tab owns the active Forge game; return to that tab or close it.");
+      this.releaseRecoveryOwnership = release;
+    }
+    if (params.recovery) {
+      try {
+        const currentSave = await readForgeRecoverySave(releaseId!);
+        if (!currentSave || currentSave.gameId !== params.recovery.gameId) {
+          throw new Error("The saved Forge game has changed or ended in another tab.");
+        }
+        params = { ...params, recovery: currentSave };
+      } catch (error) {
+        const release = this.releaseRecoveryOwnership;
+        this.releaseRecoveryOwnership = null;
+        await release?.();
+        throw error;
+      }
+    }
+    this.retainedRecoveryAfterCrash = false;
+    this.retainedRecoveryGameId = null;
+    const recoveryLaunch: ForgeRecoveryLaunch | null = durableRecovery ? {
+      deck: params.deck,
+      opponentDecks: params.opponentDecks ?? null,
+      formatId: params.formatId ?? params.deck.format ?? "commander",
+      commanderName: params.commanderName,
+      gauntletId: params.recovery?.launch.gauntletId ?? params.gauntletId ?? null,
+      engine: "Forge",
+      aiController: "forge",
+    } : null;
+    this.currentRecovery?.queue.dispose();
+    this.currentRecovery = recoveryLaunch && releaseId ? {
+      releaseId,
+      launch: recoveryLaunch,
+      gameId: params.recovery?.gameId ?? null,
+      queue: createForgeRecoveryCommitQueue(
+        (packet) => commitForgeRecoveryDelta(packet, releaseId, recoveryLaunch),
+        (error) => console.warn("Forge recovery checkpoint was not saved:", error),
+      ),
+    } : null;
     this.bridge.setLocalBotSlots(
       params.engine === "Forge" && params.aiController !== "forge"
         ? (params.opponentDecks?.length ? params.opponentDecks : [params.deck]).map(
@@ -846,16 +1042,36 @@ class WebGameApi implements IGameApi {
           )
         : [],
     );
-    return this.bridge.invoke<string>("start_game", {
+    try {
+      return await this.bridge.invoke<string>("start_game", {
       deck: params.deck,
       startingLife: params.startingLife,
       commanderName: params.commanderName,
       opponentDecks: params.opponentDecks,
       engine: params.engine,
       forgeAi: params.aiController === "forge",
-      decisionJournal: params.engine === "Forge" && params.aiController !== "forge",
-      journalRewind: params.engine === "Forge" && params.aiController !== "forge",
+      decisionJournal: durableRecovery ||
+        (params.engine === "Forge" && params.aiController !== "forge"),
+      journalRewind: durableRecovery ||
+        (params.engine === "Forge" && params.aiController !== "forge"),
+      experimentalInternalAiReplay: durableRecovery,
+      durableBrowserResume: durableRecovery,
+      ...(params.recovery
+        ? { replaySnapshot: params.recovery.replaySnapshot, gameId: params.recovery.gameId }
+        : {}),
     });
+    } catch (error) {
+      this.currentRecovery?.queue.dispose();
+      this.currentRecovery = null;
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      if (release) {
+        await forgeRecoveryStoredReleaseId().catch(() => null);
+        await release();
+      }
+      if (durableRecovery) this.bridge.terminate();
+      throw error;
+    }
   }
 
   async startMultiplayerGame(params: StartMultiplayerGameParams): Promise<void> {
@@ -951,10 +1167,35 @@ class WebGameApi implements IGameApi {
   }
 
   async endGame(): Promise<void> {
+    const activeRecovery = this.currentRecovery !== null;
+    const crashed = this.retainedRecoveryAfterCrash;
+    const retainedGameId = crashed ? this.retainedRecoveryGameId : null;
+    this.currentRecovery?.queue.dispose();
+    this.currentRecovery = null;
+    this.retainedRecoveryAfterCrash = false;
+    this.retainedRecoveryGameId = null;
+    let release = this.releaseRecoveryOwnership;
+    this.releaseRecoveryOwnership = null;
+    try {
+      if (activeRecovery && release) {
+        await clearForgeRecoverySave();
+      } else if (retainedGameId && !release) {
+        release = await acquireForgeRecoveryOwnership();
+        if (release) {
+          const savedRelease = await forgeRecoveryStoredReleaseId();
+          const saved = savedRelease ? await readForgeRecoverySave(savedRelease) : null;
+          if (saved?.gameId === retainedGameId) await clearForgeRecoverySave();
+        }
+      }
+    } catch (error) {
+      console.warn("Could not clear abandoned Forge recovery save:", error);
+    } finally {
+      await release?.();
+    }
     this.isMultiplayer = false;
     this.isHost = false;
     this.myPlayerSlot = null;
-    if (this.bridge.gameBuffer) {
+    if (crashed || this.bridge.gameBuffer) {
       this.bridge.terminate();
       return;
     }
@@ -2214,7 +2455,7 @@ export class WebPlatform implements IPlatformApi {
     this.storage = new WebStorageApi();
     this.bridge = new WorkerBridge(this.events);
     const serverApi = new WebServerApi(this.events);
-    const gameApi = new WebGameApi(this.bridge);
+    const gameApi = new WebGameApi(this.bridge, this.events);
     gameApi.setServerApi(serverApi);
     this.game = gameApi;
     this.server = serverApi;

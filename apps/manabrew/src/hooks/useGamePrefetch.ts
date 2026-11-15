@@ -6,7 +6,14 @@ import type { ClientGameView } from "@/stores/gameStore.types";
 import type { Deck, DeckCard } from "@/protocol/deck";
 import { renderCard } from "@/lib/cardRenderer";
 import { releaseCardRaster } from "@/lib/cardRenderTypes";
-import { libraryTopRendered, manabrewRenderVariants, warmDeckFaces } from "@/lib/cardFaceWarmup";
+import {
+  cancelDeckFaceWarmup,
+  indexDeckFaces,
+  libraryTopRendered,
+  manabrewRenderVariants,
+  warmDeckFaces,
+} from "@/lib/cardFaceWarmup";
+import { isAppleMobileDevice } from "@/lib/cardWorkerBudget";
 import { isForgeWasmActive } from "@/lib/forgeWasm";
 import { usePreferencesStore } from "@/stores/usePreferencesStore";
 import { gameCardFaceIndex } from "@/lib/gameCard";
@@ -118,10 +125,19 @@ function renderDeckPools(): void {
 }
 
 export function useGamePrefetch(mode: GamePrefetchMode): void {
-  const gameView = useGameStore((s) => s.gameView);
+  const hasGameView = useGameStore((s) => s.gameView !== null);
   const isPrefetchingCards = useGameStore((s) => s.isPrefetchingCards);
   const startedRef = useRef(false);
   const loadingSinceRef = useRef(0);
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      cancelDeckFaceWarmup();
+    };
+  }, []);
 
   useEffect(() => {
     if (!isPrefetchingCards) {
@@ -130,17 +146,30 @@ export function useGamePrefetch(mode: GamePrefetchMode): void {
       return;
     }
     loadingSinceRef.current ||= performance.now();
-    if (!gameView || startedRef.current) return;
+    if (!hasGameView || startedRef.current) return;
+    const gameView = useGameStore.getState().gameView;
+    if (!gameView) return;
     startedRef.current = true;
 
     const decks = useGameStore.getState().gameDecks;
+    const ownDecks = Object.entries(decks)
+      .filter(([slot]) => slot === useGameStore.getState().myPlayerSlot)
+      .map(([, deck]) => deck);
+    const otherDecks = Object.entries(decks)
+      .filter(([slot]) => slot !== useGameStore.getState().myPlayerSlot)
+      .map(([, deck]) => deck);
+    // Library-top events can precede the first completed preload.
+    indexDeckFaces(ownDecks, otherDecks);
+    const appleMobile = isAppleMobileDevice(navigator);
     const likelyCards = cardsToPrefetchNext(gameView, decks);
     let cancelled = false;
     let cancelIdle = () => {};
     const deckCards = Object.values(decks).flatMap(getDeckCardPool);
     const visibleCards = cardsToPrefetchImmediately(gameView, decks);
     const waitForDeck =
-      navigator.onLine && mode === "full" &&
+      !appleMobile &&
+      navigator.onLine &&
+      mode === "full" &&
       usePreferencesStore.getState().battlefieldCardStyle !== "frame";
     const ready = Promise.all([
       prefetchCards(visibleCards).then(renderOpeningCards),
@@ -149,12 +178,15 @@ export function useGamePrefetch(mode: GamePrefetchMode): void {
     ]);
     const cap = new Promise<void>((resolve) => setTimeout(resolve, GAME_LOADING_CAP_MS));
     void Promise.race([ready, cap]).finally(() => {
+      if (!mountedRef.current) return;
       useGameStore.setState({ isPrefetchingCards: false });
-      renderDeckPools();
+      // Full-deck image + generated-face warm-up can evict Forge's WASM on iPad.
+      // On iOS only visible cards and the local library top are rendered on demand.
+      if (!appleMobile) renderDeckPools();
     });
     if (waitForDeck) return;
     void prefetchCards(likelyCards).then(() => {
-      if (cancelled) return;
+      if (cancelled || appleMobile) return;
       cancelIdle = scheduleIdle(() => {
         void prefetchCards(deckCards).then(() => {
           if (cancelled) return;
@@ -166,5 +198,5 @@ export function useGamePrefetch(mode: GamePrefetchMode): void {
       cancelled = true;
       cancelIdle();
     };
-  }, [gameView, isPrefetchingCards, mode]);
+  }, [hasGameView, isPrefetchingCards, mode]);
 }

@@ -9,6 +9,7 @@ import {
 import { isFeatureEnabled } from "@/featureFlags";
 import { IRONSMITH_WASM_AVAILABLE } from "@/game/ironsmithWasmAvailable";
 import { relayUsername } from "@/lib/relayUsername";
+import { offlineResumeDiagnosticReport } from "@/lib/offlineResumeDiagnostics";
 import { BattlefieldStylePreview } from "@/components/game/BattlefieldStylePreview";
 import { SoundControls } from "@/components/SoundControls";
 import {
@@ -504,6 +505,22 @@ export default function Settings() {
               <SoundControls />
             </PreferenceCard>
             <LanguagePreferenceCard />
+            <PreferenceCard
+              title="Offline game interruption diagnostics"
+              description="Locally records app backgrounding, page reloads, and worker failures without card or account data."
+            >
+              <Button
+                variant="outline"
+                onClick={() => {
+                  void navigator.clipboard.writeText(offlineResumeDiagnosticReport()).then(
+                    () => toast.success("Interruption diagnostics copied."),
+                    () => toast.error("Could not copy diagnostics."),
+                  );
+                }}
+              >
+                Copy interruption diagnostics
+              </Button>
+            </PreferenceCard>
             <PreferenceCard
               title={`Default Playmat`}
               description={`Used in games when the deck you're playing has no custom playmat of its own.`}

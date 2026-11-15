@@ -115,6 +115,16 @@ function warmOrder(own: readonly Deck[], others: readonly Deck[]): DeckCard[] {
   return [...ranked.values()].sort((a, b) => a.rank - b.rank).map(({ deckCard }) => deckCard);
 }
 
+export function indexDeckFaces(own: readonly Deck[], others: readonly Deck[] = []): void {
+  knownDeckCards.clear();
+  warmOrder(own, others);
+}
+
+export function cancelDeckFaceWarmup(): void {
+  ++warmGeneration;
+  knownDeckCards.clear();
+}
+
 export async function warmDeckFaces(
   own: readonly Deck[],
   others: readonly Deck[] = [],

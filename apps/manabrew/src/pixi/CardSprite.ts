@@ -42,6 +42,7 @@ import { battlefieldKeywords } from "@/lib/battlefieldKeywords";
 import { applyManaSymbol, parseManaCost } from "./manaSymbols";
 import { asGameDeckCard } from "@/lib/decks";
 import { cardRenderInputKey, renderCard } from "@/lib/cardRenderer";
+import { cardRenderPixelDensity } from "@/lib/cardWorkerBudget";
 import {
   releaseCardRaster,
   selectCardRenderTier,
@@ -816,7 +817,7 @@ export class CardSprite extends Container {
     return selectCardRenderTier(
       this.cw * scale,
       this.ch * scale,
-      Math.min(2, window.devicePixelRatio || 1),
+      cardRenderPixelDensity(navigator, window.devicePixelRatio || 1),
       this.renderTier,
       this.previewFlipPhase !== "idle",
     );

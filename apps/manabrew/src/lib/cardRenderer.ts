@@ -1,4 +1,5 @@
 import type { ScryfallLanguage } from "@/i18n/locales";
+import { cardMemoryBudget } from "@/lib/cardWorkerBudget";
 import { useScryfallStore } from "@/stores/useScryfallStore";
 import { getTheme } from "@/hooks/useTheme";
 import { captureCardInput, prepareCard } from "@/lib/cardRenderSnapshot";
@@ -55,8 +56,9 @@ export interface CardRenderOptions {
   tier?: CardRenderTier;
 }
 
-const MAX_FINISHED_CARDS = 1024;
-const MAX_FINISHED_BYTES = 256 * 1024 * 1024;
+const { finishedCards: MAX_FINISHED_CARDS, finishedBytes: MAX_FINISHED_BYTES } = cardMemoryBudget(
+  typeof navigator === "undefined" ? undefined : navigator,
+);
 const finished = new Map<string, { raster: CardRaster; bytes: number; release(): void }>();
 const decisions = new WeakMap<CardRaster, CardRenderDecision>();
 const restoring = new Map<string, Promise<void>>();

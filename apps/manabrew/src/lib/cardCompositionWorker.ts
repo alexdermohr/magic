@@ -3,6 +3,7 @@ import type { CardCompositionInput, CardCompositionResult } from "@/lib/cardComp
 import { resolveCardGlintAsset, ensureCardGlintFonts } from "@/lib/cardGlintAssets";
 import { loadCanvasImages } from "card-glint/magic/presentation";
 import { decodeCanvasImage } from "card-glint/canvas";
+import { cardWorkerCount } from "@/lib/cardWorkerBudget";
 
 interface WorkerStats {
   artworkBytes: number;
@@ -49,10 +50,7 @@ const EMPTY_WORKER_STATS: WorkerStats = {
   peakScratchBytes: 0,
   scratchCanvases: 0,
 };
-export const CARD_WORKER_COUNT = Math.max(
-  1,
-  Math.min(3, (globalThis.navigator?.hardwareConcurrency || 2) - 1),
-);
+export const CARD_WORKER_COUNT = cardWorkerCount(globalThis.navigator);
 const slots: WorkerSlot[] = Array.from({ length: CARD_WORKER_COUNT }, () => ({
   pending: new Map(),
   assets: new Map(),
@@ -129,7 +127,6 @@ function startWorker(slot: WorkerSlot): Promise<boolean> {
       name: "card-render",
     });
     slot.worker = instance;
-    window.addEventListener("pagehide", terminateCardRenderWorker, { once: true });
     instance.onerror = (event) => {
       if (slot.worker !== instance) return;
       const error = new Error(event.message || "Card rendering worker failed");

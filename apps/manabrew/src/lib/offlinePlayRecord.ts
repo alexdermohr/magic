@@ -16,6 +16,9 @@ import type { Deck } from "@/protocol";
 const MAX_PENDING = 100;
 const MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const MAX_PER_FLUSH = 20;
+const STAGED_PAGEHIDE_KEY = `${STORAGE_KEYS.OFFLINE_PLAY_RECORDS}:pagehide`;
+const PAGEHIDE_SESSION_KEY = `${STORAGE_KEYS.OFFLINE_PLAY_RECORDS}:pagehide-session`;
+const stagedPagehideKey = (ownerSessionId: string) => `${STAGED_PAGEHIDE_KEY}:${ownerSessionId}`;
 /** Keep in sync with the hub's own cap in `telemetry.rs`. */
 const MAX_CARDS_PER_SEAT = 400;
 
@@ -61,6 +64,10 @@ interface PendingRecord {
   queuedAt: number;
 }
 
+interface StagedPagehideRecord extends PendingRecord {
+  ownerSessionId: string;
+}
+
 interface OpenGame {
   /**
    * Minted at launch rather than at game over, because it is the game's id and
@@ -103,6 +110,7 @@ export async function beginOfflineGame(meta: {
   decks: Record<string, Deck>;
   publishedDeckIds?: Record<string, string>;
 }): Promise<void> {
+  recoverStagedPagehide();
   const decks = new Map<string, Omit<OfflinePlaySeat, "username" | "isBot">>();
   open = {
     reportId: crypto.randomUUID(),
@@ -134,6 +142,7 @@ export async function beginOfflineGame(meta: {
 
 /** Forget the open game without reporting it. */
 export function abandonOfflineGame(): void {
+  cancelOfflinePagehide();
   open = null;
 }
 
@@ -176,8 +185,94 @@ function savePending(records: PendingRecord[]): void {
   }
 }
 
+
+function currentPagehideSessionId(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    let id = window.sessionStorage.getItem(PAGEHIDE_SESSION_KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      window.sessionStorage.setItem(PAGEHIDE_SESSION_KEY, id);
+    }
+    return id;
+  } catch {
+    return null;
+  }
+}
+
+function loadStagedPagehide(): StagedPagehideRecord | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const ownerSessionId = currentPagehideSessionId();
+    if (!ownerSessionId) return null;
+    const raw = window.localStorage.getItem(stagedPagehideKey(ownerSessionId)) ??
+      window.localStorage.getItem(STAGED_PAGEHIDE_KEY);
+    if (!raw) return null;
+    const candidate: unknown = JSON.parse(raw);
+    if (
+      typeof candidate === "object" &&
+      candidate !== null &&
+      "game" in candidate &&
+      typeof candidate.game === "object" &&
+      candidate.game !== null &&
+      "reportId" in candidate.game &&
+      typeof candidate.game.reportId === "string" &&
+      "queuedAt" in candidate &&
+      typeof candidate.queuedAt === "number" &&
+      "ownerSessionId" in candidate &&
+      candidate.ownerSessionId === ownerSessionId
+    ) {
+      return candidate as StagedPagehideRecord;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function removeStagedPagehide(staged: StagedPagehideRecord): void {
+  window.localStorage.removeItem(stagedPagehideKey(staged.ownerSessionId));
+  const legacy = window.localStorage.getItem(STAGED_PAGEHIDE_KEY);
+  if (!legacy) return;
+  try {
+    const old = JSON.parse(legacy) as StagedPagehideRecord;
+    if (old.ownerSessionId === staged.ownerSessionId &&
+        old.game?.reportId === staged.game.reportId) {
+      window.localStorage.removeItem(STAGED_PAGEHIDE_KEY);
+    }
+  } catch {
+    return;
+  }
+}
+
+export function cancelOfflinePagehide(): void {
+  const staged = loadStagedPagehide();
+  if (!open || staged?.game.reportId !== open.reportId) return;
+  try {
+    removeStagedPagehide(staged);
+  } catch {
+    return;
+  }
+}
+
+function recoverStagedPagehide(): void {
+  if (open || typeof window === "undefined") return;
+  const staged = loadStagedPagehide();
+  if (!staged) return;
+  const pending = loadPending();
+  if (!pending.some((item) => item.game.reportId === staged.game.reportId)) {
+    savePending([...pending, staged].slice(-MAX_PENDING));
+  }
+  try {
+    removeStagedPagehide(staged);
+  } catch {
+    return;
+  }
+}
+
 /** Send what is queued. Stops at the first network failure and keeps the rest. */
 export async function flushOfflinePlayRecords(): Promise<void> {
+  recoverStagedPagehide();
   if (flushing) return flushing;
   flushing = (async () => {
     const cutoff = Date.now() - MAX_AGE_MS;
@@ -216,41 +311,64 @@ export interface OfflineSeatOutcome {
  * Draining `open` is what makes it safe to call twice, which game over and
  * teardown both do.
  */
-export function reportOfflineGame(meta: {
+type OfflineGameReportMeta = {
   gameOver: boolean;
   winner: string | null;
   seats: OfflineSeatOutcome[];
   engineError?: string | null;
-}): void {
+};
+
+function buildOfflineGameReport(game: OpenGame, meta: OfflineGameReportMeta): OfflinePlayGame {
+  const endedAtMs = Date.now();
+  return {
+    reportId: game.reportId,
+    startedAt: new Date(game.startedAtMs).toISOString(),
+    endedAt: new Date(endedAtMs).toISOString(),
+    durationS: Math.round((endedAtMs - game.startedAtMs) / 1000),
+    format: game.format ?? undefined,
+    engine: game.engine,
+    startingLife: game.startingLife,
+    endReason: meta.engineError ? "engine_error" : meta.gameOver ? "game_over" : "abandoned",
+    gameOver: meta.gameOver && !meta.engineError,
+    winner: meta.winner ?? undefined,
+    engineError: meta.engineError ?? undefined,
+    conceded: meta.seats.filter((seat) => seat.conceded).map((seat) => seat.username),
+    clientVersion: APP_VERSION,
+    platform: getPlatform().type,
+    players: meta.seats.map((seat) => ({
+      username: seat.username,
+      isBot: seat.isBot,
+      sideboardCount: 0,
+      cards: [],
+      ...game.decks.get(seat.seatId),
+    })),
+  };
+}
+
+export function stageOfflineGameOnPagehide(seats: OfflineSeatOutcome[]): void {
+  if (!open || seats.length === 0 || typeof window === "undefined") return;
+  const ownerSessionId = currentPagehideSessionId();
+  if (!ownerSessionId) return;
+  try {
+    const staged: StagedPagehideRecord = {
+      ownerSessionId,
+      game: buildOfflineGameReport(open, { gameOver: false, winner: null, seats }),
+      queuedAt: Date.now(),
+    };
+    window.localStorage.setItem(stagedPagehideKey(ownerSessionId), JSON.stringify(staged));
+  } catch {
+    return;
+  }
+}
+
+export function reportOfflineGame(meta: OfflineGameReportMeta): void {
   const game = open;
   if (!game) return;
+  cancelOfflinePagehide();
   open = null;
   if (meta.seats.length === 0) return;
   try {
-    const endedAtMs = Date.now();
-    const record: OfflinePlayGame = {
-      reportId: game.reportId,
-      startedAt: new Date(game.startedAtMs).toISOString(),
-      endedAt: new Date(endedAtMs).toISOString(),
-      durationS: Math.round((endedAtMs - game.startedAtMs) / 1000),
-      format: game.format ?? undefined,
-      engine: game.engine,
-      startingLife: game.startingLife,
-      endReason: meta.engineError ? "engine_error" : meta.gameOver ? "game_over" : "abandoned",
-      gameOver: meta.gameOver && !meta.engineError,
-      winner: meta.winner ?? undefined,
-      engineError: meta.engineError ?? undefined,
-      conceded: meta.seats.filter((seat) => seat.conceded).map((seat) => seat.username),
-      clientVersion: APP_VERSION,
-      platform: getPlatform().type,
-      players: meta.seats.map((seat) => ({
-        username: seat.username,
-        isBot: seat.isBot,
-        sideboardCount: 0,
-        cards: [],
-        ...game.decks.get(seat.seatId),
-      })),
-    };
+    const record = buildOfflineGameReport(game, meta);
     const pending = [...loadPending(), { game: record, queuedAt: Date.now() }].slice(-MAX_PENDING);
     savePending(pending);
     void flushOfflinePlayRecords();

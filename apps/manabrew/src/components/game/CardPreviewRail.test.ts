@@ -8,6 +8,11 @@ import type { CardPreviewController } from "@/hooks/useCardPreview";
 import { CardPreviewMachine, type PreviewCard } from "@/lib/cardPreview";
 import { GAME_CARD_DEFAULTS } from "@/lib/gameCard";
 
+vi.mock("@/stores/usePreferencesStore", () => ({
+  usePreferencesStore: (selector: (state: { inGameCardPreviewSize: "medium" }) => unknown) =>
+    selector({ inGameCardPreviewSize: "medium" }),
+}));
+
 vi.mock("./HoverCardPreview", () => ({ HoverCardPreview: () => null }));
 
 import { CardPreviewRail } from "./CardPreviewRail";

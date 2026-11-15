@@ -10,7 +10,9 @@ import {
   abandonOfflineGame,
   beginOfflineGame,
   currentOfflineGameId,
+  reportOfflineGame,
 } from "@/lib/offlinePlayRecord";
+import { offlineSeats } from "@/lib/offlineSeats";
 import { announceLocalGame, clearLocalGame } from "@/lib/localGamePresence";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -54,6 +56,7 @@ import type { ClientCardDto, ClientGameView, GameState } from "./gameStore.types
 import type { DirectiveInput, Prompt, PromptOutput } from "@/protocol";
 import type { Deck, DeckCard } from "@/protocol/deck";
 import type { EngineKind } from "@/types/server";
+import type { ForgeRecoverySave } from "@/lib/forgeAutoResumeStore";
 import { GAME_CARD_DEFAULTS } from "@/lib/gameCard";
 import { normalizeCardCosmetics } from "@/lib/cardCosmetics";
 import type { GameRuntime, ManualTabletopApi } from "@/game";
@@ -139,6 +142,7 @@ async function initializeGame({
   get,
   commanderName,
   engine,
+  recovery,
   isLaunchCurrent,
 }: {
   deck: Deck;
@@ -146,6 +150,7 @@ async function initializeGame({
   formatId?: string;
   commanderName?: string;
   engine?: EngineKind;
+  recovery?: ForgeRecoverySave;
   set: (partial: Partial<GameState>) => void;
   get: () => GameState;
   isLaunchCurrent: () => boolean;
@@ -159,6 +164,9 @@ async function initializeGame({
   const useHostedForge =
     (platformType === "tauri" && !tauriForgeRoomAvailable) ||
     (platformType === "web" && !isForgeWasmSupported() && isHostedEngineAvailable());
+  if (recovery && (platformType !== "web" || engine !== "Forge" || useHostedForge)) {
+    throw new Error("Saved Forge game requires this browser's offline WebAssembly engine.");
+  }
   if (engine === "Forge" && opponentDecks?.length && (tauriForgeRoomAvailable || useHostedForge)) {
     const launchForge = tauriForgeRoomAvailable ? startTauriForgeAiGame : startHostedAiGame;
     set({
@@ -289,7 +297,8 @@ async function initializeGame({
     startingLife,
     decks: gameDecks,
   });
-  const firstForgeStart = engine === "Forge" && platformType === "web" && !hasForgeWasmVerdict();
+  const firstForgeStart = !recovery && engine === "Forge" &&
+    platformType === "web" && !hasForgeWasmVerdict();
   if (firstForgeStart) beginForgeWasmTrial();
   try {
     const start = runtime.api.startGame({
@@ -298,7 +307,10 @@ async function initializeGame({
       commanderName: commanderName ?? null,
       opponentDecks: opponentDecks ?? null,
       engine,
-      aiController: usePreferencesStore.getState().aiController,
+      aiController: recovery ? "forge" : usePreferencesStore.getState().aiController,
+      formatId: selectedFormatId,
+      gauntletId: get().gauntletId,
+      recovery,
     });
     const result = await (firstForgeStart ? withForgeStartTimeout(start) : start);
     if (!isLaunchCurrent()) {
@@ -381,7 +393,7 @@ export const useGameStore = create<GameState>()(
       updateGameView: (view) => set({ gameView: view }),
       setGameConfig: (config) => set({ gameConfig: config }),
       dismissIronsmithDeckError: () => set({ ironsmithDeckError: null }),
-      startGame: async (deck, formatId, commanderName, opponentDecks, engine, gauntletId) => {
+      startGame: async (deck, formatId, commanderName, opponentDecks, engine, gauntletId, recovery) => {
         if (get().isGameActive) return false;
         if (gameLaunchInFlight !== null) {
           toast.info(`The previous game is still closing. Try again in a moment.`);
@@ -397,6 +409,7 @@ export const useGameStore = create<GameState>()(
             formatId,
             commanderName,
             engine,
+            recovery,
             set,
             get,
             isLaunchCurrent: () => launchGeneration === gameLaunchGeneration,
@@ -717,6 +730,7 @@ export const useGameStore = create<GameState>()(
         clearActiveGameSession();
         const runtime = getSelectedGameRuntime();
         const wasMultiplayer = get().isMultiplayer;
+        const offlineGameId = currentOfflineGameId();
         if (peekGauntletMatch() && !get().gameView?.gameOver) await clearGauntletMatch();
         // Before the state is cleared: how the engine performed. A game the
         // relay knows about is reported to it; anything else goes to the hub.
@@ -729,7 +743,7 @@ export const useGameStore = create<GameState>()(
           gameId: engineReportGameId(
             wasMultiplayer,
             useServerStore.getState().gameId,
-            currentOfflineGameId(),
+            offlineGameId,
           ),
           send: wasMultiplayer
             ? async (stats, gameId) => {
@@ -737,6 +751,19 @@ export const useGameStore = create<GameState>()(
               }
             : undefined,
         });
+        if (!wasMultiplayer) {
+          const state = get();
+          const seats = offlineSeats(state.gameView);
+          reportOfflineGame({
+            gameOver:
+              (state.gameView?.gameOver ?? false) || state.currentPrompt?.input.type === "gameOver",
+            winner:
+              seats.find((seat) => seat.seatId === state.gameView?.winnerId)?.username ?? null,
+            seats,
+            engineError: state.engineCrash,
+          });
+          clearLocalGame();
+        }
         set({
           isGameActive: false,
           activeEngine: null,

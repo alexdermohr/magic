@@ -57,6 +57,32 @@ final class DecisionHistory {
         bytes += size;
     }
 
+
+    /**
+     * Incremental private journal plus an authentic terminal state/RNG
+     * witness captured ON the game thread before the next user input.
+     */
+    String browserRecoveryDelta(final int delivered, final boolean includeStartRequest,
+            final String gameId, final String prompt, final JsonObject verification) {
+        if (unavailableReason != null) return "";
+        if (delivered < 0 || delivered > entries.size()) {
+            throw new IllegalArgumentException("invalid recovery journal cursor");
+        }
+        final JsonObject packet = new JsonObject();
+        packet.addProperty("version", 1);
+        packet.addProperty("gameId", gameId);
+        packet.addProperty("nextSequence", entries.size() + 1);
+        if (includeStartRequest) packet.addProperty("startRequest", startRequest);
+        final JsonArray added = new JsonArray();
+        for (int index = delivered; index < entries.size(); index++) {
+            added.add(entries.get(index).deepCopy());
+        }
+        packet.add("entries", added);
+        packet.add("prompt", JsonParser.parseString(prompt));
+        packet.add("verification", verification);
+        return packet.toString();
+    }
+
     int size() {
         return entries.size();
     }

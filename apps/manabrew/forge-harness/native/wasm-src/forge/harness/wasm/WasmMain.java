@@ -113,7 +113,8 @@ public final class WasmMain {
                         viewer -> adapter.getSnapshot(gameId, viewer), botSeats(start),
                         () -> adapter.drainCheckpointMetrics(gameId),
                         () -> adapter.drainDecisionJournal(gameId),
-                        (seat, count) -> adapter.getLibraryTop(gameId, seat, count));
+                        (seat, count) -> adapter.getLibraryTop(gameId, seat, count),
+                        () -> adapter.browserRecoveryBoundary(gameId));
                 ManaBrewInteractiveSession.setBridge(transport);
                 final String result = adapter.startGameJson(start.toString());
                 // startGameJson blocks for the whole game, so reaching this
