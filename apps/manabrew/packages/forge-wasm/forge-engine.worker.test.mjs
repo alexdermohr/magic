@@ -470,6 +470,79 @@ test("failed fresh Forge replay start resets its worker and releases tab ownersh
   await api.releaseRecoveryOwnership();
 });
 
+test("cold recovery reads the current checkpoint only after acquiring the tab lock", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
+  const cls = web.indexOf("class WebGameApi implements IGameApi");
+  const start = web.indexOf("  async startGame(params: StartGameParams)", cls);
+  const end = web.indexOf("\n  async startMultiplayerGame(", start);
+  assert(cls >= 0 && start > cls && end > start);
+  const source = `class TestRecoveryApi {
+    currentRecovery = null;
+    releaseRecoveryOwnership = null;
+    isMultiplayer = false;
+    constructor(bridge) { this.bridge = bridge; }
+    ${web.slice(start, end)}
+  }
+  globalThis.TestRecoveryApi = TestRecoveryApi;`;
+  const code = transpileModule(source, {
+    compilerOptions: { target: ScriptTarget.ES2022 },
+  }).outputText;
+  const ordering = [];
+  let released = 0;
+  let saved = {
+    gameId: "recover-game-1",
+    launch: { gauntletId: null },
+    replaySnapshot: { nextSequence: 8 },
+  };
+  const ctx = vm.createContext({
+    navigator: { locks: {} },
+    forgeRecoveryReleaseId: async () => "a".repeat(20),
+    acquireForgeRecoveryOwnership: async () => {
+      ordering.push("lock");
+      return async () => { released++; };
+    },
+    readForgeRecoverySave: async () => {
+      ordering.push("read");
+      return saved;
+    },
+    createForgeRecoveryCommitQueue: () => ({
+      enqueue() {}, flush: async () => {}, dispose() {},
+    }),
+    forgeRecoveryStoredReleaseId: async () => null,
+  });
+  vm.runInContext(code, ctx);
+  const commands = [];
+  const bridge = {
+    setLocalBotSlots() {}, terminate() {},
+    async invoke(command, args) {
+      commands.push({ command, args });
+      return "game-started";
+    },
+  };
+  const stale = {
+    gameId: "recover-game-1",
+    replaySnapshot: { nextSequence: 3 },
+    launch: { gauntletId: null },
+  };
+  const params = {
+    deck: { format: "commander" }, engine: "Forge", aiController: "forge",
+    opponentDecks: [], startingLife: 40, commanderName: null, formatId: "commander",
+    recovery: stale,
+  };
+  const api = new ctx.TestRecoveryApi(bridge);
+  assert.equal(await api.startGame(params), "game-started");
+  assert.deepEqual(ordering, ["lock", "read"]);
+  assert.equal(commands[0].args.replaySnapshot.nextSequence, 8);
+  await api.releaseRecoveryOwnership();
+  saved = null;
+  const afterExit = new ctx.TestRecoveryApi(bridge);
+  await assert.rejects(afterExit.startGame(params), /changed or ended/);
+  assert.equal(commands.length, 1);
+  assert.equal(released, 2);
+  assert.equal(afterExit.releaseRecoveryOwnership, null);
+});
+
 test("an engine crash keeps a recovery checkpoint while a normal finish clears it", async () => {
   const { transpileModule, ScriptTarget } = await import("typescript");
   const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
@@ -499,10 +572,15 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   const handlers = new Map();
   const events = { on: (name, handler) => handlers.set(name, handler) };
   const makeApi = () => {
-    const api = new ctx.RecoveryApi({ gameBuffer: null, invoke: async () => null }, events);
+    let terminated = 0;
+    const bridge = {
+      gameBuffer: null, invoke: async () => null,
+      terminate() { terminated++; },
+    };
+    const api = new ctx.RecoveryApi(bridge, events);
     let disposed = 0;
     api.currentRecovery = { queue: { dispose() { disposed++; } } };
-    return { api, disposed: () => disposed };
+    return { api, disposed: () => disposed, terminated: () => terminated };
   };
   const crash = makeApi();
   handlers.get("forge:engine_crash")({});
@@ -515,8 +593,13 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   assert.equal(cleared, 1);
 
   const forcedEnd = makeApi();
+  let released = 0;
+  forcedEnd.api.releaseRecoveryOwnership = async () => { released++; };
   handlers.get("game:forced_end")({});
   assert.equal(forcedEnd.disposed(), 1);
+  assert.equal(forcedEnd.terminated(), 1);
+  assert.equal(released, 1);
+  assert.equal(forcedEnd.api.releaseRecoveryOwnership, null);
   assert.equal(cleared, 1);
   await forcedEnd.api.endGame();
   assert.equal(cleared, 2);

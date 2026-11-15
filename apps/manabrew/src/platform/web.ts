@@ -109,6 +109,7 @@ import {
   createForgeRecoveryCommitQueue,
   forgeRecoveryReleaseId,
   forgeRecoveryStoredReleaseId,
+  readForgeRecoverySave,
   type ForgeRecoveryDelta,
   type ForgeRecoveryLaunch,
 } from "@/lib/forgeAutoResumeStore";
@@ -953,6 +954,11 @@ class WebGameApi implements IGameApi {
       if (this.currentRecovery) this.retainedRecoveryAfterCrash = true;
       this.currentRecovery?.queue.dispose();
       this.currentRecovery = null;
+      const release = this.releaseRecoveryOwnership;
+      this.releaseRecoveryOwnership = null;
+      this.bridge.terminate();
+      void release?.().catch((error) =>
+        console.warn("Could not release Forge recovery ownership:", error));
     });
   }
 
@@ -977,6 +983,20 @@ class WebGameApi implements IGameApi {
       const release = await acquireForgeRecoveryOwnership();
       if (!release) throw new Error("Another tab owns the active Forge game; return to that tab or close it.");
       this.releaseRecoveryOwnership = release;
+    }
+    if (params.recovery) {
+      try {
+        const currentSave = await readForgeRecoverySave(releaseId!);
+        if (!currentSave || currentSave.gameId !== params.recovery.gameId) {
+          throw new Error("The saved Forge game has changed or ended in another tab.");
+        }
+        params = { ...params, recovery: currentSave };
+      } catch (error) {
+        const release = this.releaseRecoveryOwnership;
+        this.releaseRecoveryOwnership = null;
+        await release?.();
+        throw error;
+      }
     }
     const recoveryLaunch: ForgeRecoveryLaunch | null = durableRecovery ? {
       deck: params.deck,
