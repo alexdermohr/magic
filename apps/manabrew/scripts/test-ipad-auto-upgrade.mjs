@@ -7,12 +7,20 @@ const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright")
 const html = await readFile(new URL("../public/offline-setup.html", import.meta.url), "utf8");
 const oldVersion = "11111111111111111111";
 const newVersion = "22222222222222222222";
+const laterVersion = "33333333333333333333";
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const shared = {
   "/index.html": "<!doctype html><title>offline app</title>",
   "/offline-setup.html": html,
   "/offline-sw.js": "self.addEventListener('install',e=>e.waitUntil(self.skipWaiting()));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));",
-  "/personal-decks.json": JSON.stringify({ decks: [] }),
+  "/personal-decks.json": JSON.stringify({
+    decks: [{
+      id: "github:alexdermohr/magic:fixture",
+      slug: "fixture",
+      sourceHash: "fixture-revision",
+      deck: { name: "Fixture", format: "commander", cards: [], commanders: [] },
+    }],
+  }),
   "/wasm/cardset.manifest.json": "{}",
 };
 let version = oldVersion;
@@ -177,13 +185,24 @@ try {
     db.close();
   });
   await page.locator("#prepare").click();
-  await page.waitForFunction(() =>
-    document.querySelector("#state")?.textContent?.includes("Offline-Dateien vollständig gespeichert"));
+  await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
   assert.equal(await hasReady(newVersion), true);
   assert.equal(await page.evaluate(async (release) =>
     (await caches.keys()).includes("manabrew-ipad-offline-" + release), oldVersion), false);
+
+  version = laterVersion;
+  await page.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
+  await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
+  assert.equal(await hasReady(laterVersion), true);
+  assert.equal(await page.evaluate(async (release) =>
+    (await caches.keys()).includes("manabrew-ipad-offline-" + release), newVersion), false);
   console.log("IPAD_AUTO_UPGRADE_PASS", JSON.stringify({
-    previous: oldVersion, current: newVersion, savedGameProtected: true, previousVersionPlayable: true,
+    previous: oldVersion,
+    current: laterVersion,
+    savedGameProtected: true,
+    previousVersionPlayable: true,
+    manualUpgradeRoutedToGame: true,
+    unattendedUpgradeRoutedToGame: true,
   }));
   await context.close();
 } finally {
