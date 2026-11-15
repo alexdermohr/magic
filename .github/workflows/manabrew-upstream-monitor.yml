@@ -1,0 +1,56 @@
+name: Manabrew upstream monitor
+
+on:
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check upstream version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          current="$(node -p 'require("./apps/manabrew/package.json").version')"
+          latest_tag="$(gh api repos/witchesofthehill/manabrew/releases/latest --jq .tag_name)"
+          latest="${latest_tag#v}"
+          marker='<!-- manabrew-upstream-update -->'
+          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 --json number,body \
+            --jq '.[] | select(.body | contains("<!-- manabrew-upstream-update -->")) | .number' | head -n 1)"
+          if [[ "$current" == "$latest" || "$(printf '%s\n' "$current" "$latest" | sort -V | tail -n 1)" != "$latest" ]]; then
+            if [[ -n "$existing" ]]; then
+              gh issue close "$existing" --repo "$GITHUB_REPOSITORY" --comment "Der versionierte Manabrew-Stand ist nicht mehr hinter dem neuesten stabilen Upstream-Release."
+            fi
+            exit 0
+          fi
+          title="Manabrew upstream v${latest} integrieren (lokal v${current})"
+          cat > "$RUNNER_TEMP/manabrew-upstream-update.md" <<EOF
+          $marker
+
+          **Upstream:** https://github.com/witchesofthehill/manabrew/releases/tag/${latest_tag}
+          **Lokaler Quellstand:** v${current}
+          **Änderungen:** https://github.com/witchesofthehill/manabrew/compare/v${current}...${latest_tag}
+
+          Magic betreibt einen angepassten Offline-Build mit eigenem Forge-WebImage und IndexedDB-Spielwiederherstellung.
+          Kein bloßer Versionsbump: sinnvolle Upstream-Änderungen selektiv übernehmen, lokal veränderte Spiel- und Deckdaten erhalten,
+          Forge-WASM neu bauen und die Offline-/Wiederherstellungsregressionen testen. Erst danach getrennten Release ausliefern.
+          EOF
+          if [[ -z "$existing" ]]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" \
+              --body-file "$RUNNER_TEMP/manabrew-upstream-update.md"
+          else
+            old_title="$(gh issue view "$existing" --repo "$GITHUB_REPOSITORY" --json title --jq .title)"
+            if [[ "$old_title" != "$title" ]]; then
+              gh issue edit "$existing" --repo "$GITHUB_REPOSITORY" --title "$title" \
+                --body-file "$RUNNER_TEMP/manabrew-upstream-update.md"
+            fi
+          fi
