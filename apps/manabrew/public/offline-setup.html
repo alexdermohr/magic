@@ -702,19 +702,28 @@
       // still intact. If this fails, the old ready package remains available.
       currentStage = "vorhandene lokale Deckbilder erhalten";
       const preservedArt = await preserveSavedDeckArtwork(cache, reusable, manifest.files);
-      const previousVersion = await installedReadyRelease();
-      if (previousVersion && previousVersion !== manifest.version && await hasMatchingForgeSave(previousVersion)) {
+      const activate = async () => {
+        const previousVersion = await installedReadyRelease();
+        if (previousVersion && previousVersion !== manifest.version && await hasMatchingForgeSave(previousVersion)) return false;
+        await cache.put("/offline-assets.json", new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
+        await cache.put("/offline-ready.json", new Response(manifest.version, { headers: { "Content-Type": "text/plain" } }));
+        currentReady = true;
+        refreshWorkerCache();
+        for (const old of await caches.keys()) {
+          if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
+        }
+        return true;
+      };
+      // This is the exact Forge game-owner lock in src/lib/forgeAutoResumeStore.ts.
+      const activated = navigator.locks
+        ? await navigator.locks.request("manabrew:forge-autoresume:v1:owner", { ifAvailable: true },
+            async (lock) => lock ? activate() : false)
+        : await activate();
+      if (!activated) {
         report("Update vorgeladen; gespeicherte Partie geschützt",
           "Die bisherige Version bleibt aktiv. Das Update wird nach Abschluss der Partie eingerichtet.");
         $("play").classList.remove("disabled");
         return;
-      }
-      await cache.put("/offline-assets.json", new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
-      await cache.put("/offline-ready.json", new Response(manifest.version, { headers: { "Content-Type": "text/plain" } }));
-      currentReady = true;
-      refreshWorkerCache();
-      for (const old of await caches.keys()) {
-        if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
       }
       let personalReady = false;
       try {

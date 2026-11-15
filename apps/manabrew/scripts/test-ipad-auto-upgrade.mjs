@@ -125,6 +125,25 @@ try {
   assert.equal(await hasReady(oldVersion), true);
   assert.equal(await hasReady(newVersion), false);
 
+  const gameTab = await context.newPage();
+  await gameTab.goto(origin + "/play/offline/constructed");
+  await gameTab.evaluate(() => {
+    const held = new Promise((resolve) => { window.__finishGame = resolve; });
+    void navigator.locks.request("manabrew:forge-autoresume:v1:owner", async (lock) => {
+      window.__gameLockOwned = !!lock;
+      await held;
+    });
+  });
+  await gameTab.waitForFunction(() => window.__gameLockOwned === true);
+  holdNewAsset = false;
+  for (const release of blocked.splice(0)) release();
+  await page.waitForFunction(() =>
+    document.querySelector("#state")?.textContent?.includes("Update vorgeladen; gespeicherte Partie geschützt"));
+  assert.equal(await hasReady(oldVersion), true);
+  assert.equal(await hasReady(newVersion), false);
+  await gameTab.evaluate(() => window.__finishGame());
+  await gameTab.close();
+
   await page.evaluate(async (release) => {
     const db = await new Promise((resolve, reject) => {
       const request = indexedDB.open("manabrew-forge-autoresume-v1", 1);
@@ -139,10 +158,8 @@ try {
     });
     db.close();
   }, oldVersion);
-  holdNewAsset = false;
-  for (const release of blocked.splice(0)) release();
-  await page.waitForFunction(() =>
-    document.querySelector("#state")?.textContent?.includes("Update vorgeladen; gespeicherte Partie geschützt"));
+  await page.locator("#prepare").click();
+  await page.waitForFunction(() => document.querySelector("#prepare")?.disabled === false);
   assert.equal(await hasReady(oldVersion), true);
   assert.equal(await hasReady(newVersion), false);
   await page.evaluate(async () => {
