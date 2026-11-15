@@ -1,10 +1,44 @@
 # Rendmaw — Erweiterte Kartenbasis und Tauschhistorie
 
-Stand: 2026-11-14 · **Keine zweite Deckliste.** Ausschließlich [current.txt](current.txt) ist aktiv. Der Stand vor dem Trigger-Dichte-Umbau bleibt in Git-Historie / PR #100 nachvollziehbar.
+Stand: **2026-11-15** · **Keine zweite Deckliste.** Ausschließlich [current.txt](current.txt) ist aktiv. Der Stand vom 14.11. vor dem Vier-Spieler-Umbau steht in [versions/2026-11-15-before-four-player.txt](versions/2026-11-15-before-four-player.txt); der erste Stand in der Git-Historie / PR #100.
+
+## Umbau auf Viererrunden am 15.11.2026 (13 direkte Tausche)
+
+**43** direkte Mehrfachtyp-Auslöser (vorher **47**), weiterhin **100 Karten mit 37 Ländern**. Die Unterschiede sind beabsichtigt: zusätzliche direkte Tischschadens-Payoffs, bessere eigene Vögel, mehr verlässlicher Kartennachschub und ein über Survival of the Fittest suchbarer Abschluss.
+
+| Entfernte Karte | Neue aktive Karte | Entscheidung / möglicher Wiedereinbau |
+| --- | --- | --- |
+| Grim Guardian | Throne of the God-Pharaoh | Throne verwertet unsere bereits getappt erzeugten Vögel am Endsegment. Guardian nur bei extremem Fokus auf Enchantress/Constellation. |
+| Weaver of Harmony | Metallic Mimic | Direkte Verstärkung späterer eigener Vögel; Harmony kopiert nicht einfach Rendmaws Artefaktkreaturen-Fähigkeit. |
+| Solemn Simulacrum | Summon: Fenrir | Frühere Landrampe, weiterhin Doppeltyp. Simulacrum bei besonderem Artefakt-/Friedhofsbedarf. |
+| Nyx Weaver | Springheart Nantuko | Günstiger Doppeltyp und Landfall-Token. Nyx Weaver nur bei höherem Wert auf Friedhofsrecycling. |
+| Bow of Nylea | Adaptive Automaton | Vorhandene eigene Vögel sofort +1/+1; Bow als flexible Verteidigung möglich. |
+| Nylea, Keen-Eyed | Firdoch Core | Dreimana-Kindred-Artefakt, Mana jeder Farbe, Rendmaw-Auslöser. Nylea gegen sehr hohe Kreaturenkurve. |
+| Enduring Tenacity | Blood Seeker | Unmittelbarer Lebensverlust bei jedem gegnerischen Vogel-Eintritt; Tenacity setzt Lebensgewinn voraus. |
+| Marionette Apprentice | Species Specialist | Auf Bird eingestellt: jede Sterbesituation am gesamten Vierertisch kann Karten ziehen. Apprentice besser in einem reinen Opfer-/Drain-Deck. |
+| Noxious Gearhulk | The Warring Triad | Dreimana-Manaquelle und Doppeltyp statt sechsmana Removal; Gearhulk wenn große Kreaturen regelmäßig sofort weg müssen. |
+| Erebos, Bleak-Hearted | Diabolic Intent | Siegkarte, Antwort oder Engine gezielt für 2 Mana finden. Erebos in langen Grindspielen wieder testbar. |
+| Overwhelming Stampede | Craterhoof Behemoth | Kreaturentutorbarer Abschluss; Stampede weiterhin attraktiver, wenn acht Mana zu langsam sind. |
+| Power Depot | Plaza of Heroes | Bessere Commander-Mana- und Schutzfunktion; dafür weniger Mehrfachtyp-Landauslöser. |
+| Woodland Chasm | Wooded Foothills | Sofortige Dual-/Basic-Farben über Fetch und höhere Frühphasengeschwindigkeit statt getapptem Dual. |
+
+## Kandidaten für eine nächste gezielte Optimierung (nicht in der Liste)
+
+| Kandidat | Bewertung speziell für vier Spieler | Voraussetzung |
+| --- | --- | --- |
+| **Glissa, the Traitor** | Hoch: Gegnerische Goad-Vögel sterben häufig; Glissa gibt Artefakte aus unserem Friedhof auf die Hand, die wir erneut *wirken* können. | Wenn mindestens ein Mehrfachtyp-Auslöser entfernt werden darf; zuerst gegen Gloomshrieker prüfen. |
+| **Reap** | Hoch: Schwarze gegnerische Bird-Permanents lassen die Zweimana-Rekursion häufig mehrere Karten zurückholen. | Falls mehrere gute Ziele im Friedhof liegen; zuerst gegen Lignify vergleichen. |
+| **Doubling Season** | Hoch, aber fünf Mana: weiterer asymmetrischer Token-Verdoppler neben Parallel Lives, mit Markensynergie. | Nur wenn fünf Mana nach Rendmaw noch ausreichend Anschlusszüge lassen. |
+| **Delighted Halfling** | Hoch in removal- und counterlastigen Gruppen: 1-Mana-Ramp, legendären Rendmaw schwerer zu neutralisieren. | Gegen einen 2-Mana-Myr prüfen, falls Tempo wichtiger als zusätzlicher Rendmaw-Trigger ist. |
+| **Birds of Paradise** | Früheste Farbfixierung/Ramp, aber kein Auslöser ohne Biotransference. | Frühe Hände und Commander-Runden gegen die Myr-Optionen messen. |
+| **Toski, Bearer of Secrets** | Viele Birds können bei Gegnern Karten ziehen, aber selbst kein Doppeltyp. | Wenn Vogel-Kampfschaden bei vier Spielern tatsächlich zuverlässig durchkommt. |
+| **Triumph of the Hordes** | Sehr manaeffizienter Abschluss, der Kreaturen-Infect erzeugt. | Gegen Craterhoof vergleichen, wenn acht Mana oft unerreichbar sind. |
+| **Raking Canopy** | Wirkt stark erst, wenn fremde Goad-Vögel uns angreifen dürfen; im langen Duell ein Sicherheitsventil. | Nur bei wiederkehrenden Problemen im Zweispieler-Endspiel. |
+| **Bower Passage** | Von gegnerischen Birds getappten Verteidigern ist meist wenig Blockade zu erwarten; selbst kein Trigger. | Nur wenn andere Flieger unsere Vögel regelmäßig blockieren. |
 
 ## Aus dem ersten Entwurf herausgenommen
 
-Die Entscheidung war, Rendmaw nicht mit etlichen einzelnen Opfer- und Friedhofskarten zu verwässern. Nach der Überarbeitung: **47** direkte Mehrfachtyp-Auslöser statt **31**.
+Die Entscheidung war, Rendmaw nicht mit etlichen einzelnen Opfer- und Friedhofskarten zu verwässern. Nach der ersten Überarbeitung am 14.11.: **47** direkte Mehrfachtyp-Auslöser statt **31**; nach der Vier-Spieler-Optimierung am 15.11.: **43**.
 
 | Karte | Warum derzeit draußen? | Wiedereinbau-Bedingung |
 | --- | --- | --- |
@@ -52,4 +86,4 @@ Die Entscheidung war, Rendmaw nicht mit etlichen einzelnen Opfer- und Friedhofsk
 | Pitiless Plunderer | Schätze beim Tod eigener Kreaturen. | Bewusst ausgeschlossen: mit Chatterfang und Ashnod's Altar ermöglicht er eine Ressourcenschleife. |
 | Exquisite Blood | Lebenspunkte bei gegnerischem Lebensverlust. | Bewusst ausgeschlossen: mit Enduring Tenacity entsteht eine Zweikarten-Endlosschleife. |
 
-Die gegenwärtig größte offene Frage ist **nicht die Token-Menge allein**, sondern die tatsächliche Stärke im Duell. Bei ersten Partien erfassen: Rendmaw-Runde, durchschnittliche weitere zwei-Typ-Karten nach Rendmaw, Kartenfluss, Farbprobleme durch Power Depot und ob Whip/Parallel Lives/Renata einen echten Boardvorteil erzeugen.
+**Aktuelle Gegenproben für Viererrunden:** Rendmaw-Runde, weitere verfügbare Doppeltypen nach seinem Eintritt, eigene vs. fremde Vögel, Throne-/Blood-Seeker-Schaden, gezogene Karten durch Species Specialist, Manafarbentwicklung mit Plaza of Heroes, Schutz vor gegnerischem Removal und tatsächlicher Zeitpunkt des Abschlusses durch Craterhoof / Massacre Wurm.
