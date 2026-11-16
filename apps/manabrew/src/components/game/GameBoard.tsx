@@ -1619,7 +1619,7 @@ export function GameBoard({
     const opponentPlaymat = (op: ClientPlayerDto) => {
       const deck = gameDecks[op.id];
       const hasOwn = !!deck?.playmatUrl || !!deck?.playmatSettings?.color;
-      return hasOwn || op.isHuman
+      return hasOwn || !isBotSeat(op, currentRoom?.players)
         ? { playmat: deck?.playmatUrl, playmatSettings: deck?.playmatSettings }
         : { playmat: myPlaymat, playmatSettings: myPlaymatSettings };
     };
@@ -1666,6 +1666,7 @@ export function GameBoard({
     selectableBattlefieldCardIds,
     hostileTargeting,
     gameDecks,
+    currentRoom?.players,
     hiddenPlaymats,
     defaultPlaymat,
     defaultPlaymatSettings,
