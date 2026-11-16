@@ -243,8 +243,8 @@ try {
     if (Date.now() - idleSince >= 45_000 && !terminal) {
       throw new Error("No game state progress for 45s: " + JSON.stringify(updated));
     }
-    if (Date.now() - start > 720000)
-      throw new Error("Twelve-minute four-player full-game limit: " + JSON.stringify(current));
+    if (Date.now() - start > Number(process.env.MANABREW_FULLGAME_LIMIT_MS ?? 720000))
+      throw new Error("Four-player full-game time limit: " + JSON.stringify(current));
     if (index === 1199)
       throw new Error("Four-player action limit reached: " + JSON.stringify(current));
   }
