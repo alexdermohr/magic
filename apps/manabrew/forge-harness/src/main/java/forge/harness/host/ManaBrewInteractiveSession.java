@@ -95,6 +95,9 @@ public final class ManaBrewInteractiveSession {
     private long promptSeq;
     private volatile boolean closed;
     private volatile Thread gameThread;
+    // Forge 62aec wraps the seeded Random in MyRandom.CountingRandom; keep the
+    // actual delegate so replay verification still observes its exact draw trace.
+    private volatile ReplayRandom replayRandom;
     private static volatile InteractiveBridge bridge;
     private volatile SpellAbility castingAbility;
     private volatile String engineError;
@@ -215,6 +218,7 @@ public final class ManaBrewInteractiveSession {
     public void start(final Random rng) {
         requireAttached();
         Objects.requireNonNull(rng, "rng");
+        this.replayRandom = rng instanceof ReplayRandom ? (ReplayRandom) rng : null;
         if (bridge != null) {
             forge.util.MyRandom.setRandom(rng);
             try {
@@ -465,7 +469,11 @@ public final class ManaBrewInteractiveSession {
     }
 
     JsonObject replayVerification() {
-        return GameCheckpoint.verification(this, (ReplayRandom) forge.util.MyRandom.getRandom());
+        final ReplayRandom rng = replayRandom;
+        if (rng == null) {
+            throw new IllegalStateException("Replay verification requires a journal-backed RNG");
+        }
+        return GameCheckpoint.verification(this, rng);
     }
 
     public String readDecisionJournal() {

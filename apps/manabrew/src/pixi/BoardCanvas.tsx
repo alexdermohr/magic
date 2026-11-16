@@ -50,7 +50,6 @@ import type {
   PlayZoneRect,
   ScreenBounds,
 } from "./types";
-import type { PhaseStripCallbacks, PhaseStripState } from "./PhaseStripLayer";
 
 export interface BoardCanvasRegion {
   playerId: string;
@@ -90,8 +89,6 @@ export interface BoardCanvasProps {
    *  `chooseAttackers` prompt, and per-attacker validity. */
   attackTargets?: AttackTargetDto[];
   attackerOptions?: { attackerId: string; validTargetIds: string[] }[];
-  phaseStrip: PhaseStripState;
-  phaseStripCallbacks?: PhaseStripCallbacks;
 
   opponentLayout?: "focused" | "overview";
   focusLocked?: boolean;
@@ -141,8 +138,6 @@ export function BoardCanvasSurface({
   declareAttackers,
   attackTargets,
   attackerOptions,
-  phaseStrip,
-  phaseStripCallbacks,
   layoutPolicy,
   syncScenePresentation,
   opponentLayout = "focused",
@@ -265,9 +260,11 @@ export function BoardCanvasSurface({
 
     void (async () => {
       try {
+        if (import.meta.env.DEV) Object.assign(window, { __mbBoardApp: app });
         await app.init({
           canvas,
           preference: "webgl",
+          gcActive: false,
           backgroundAlpha: 0,
           antialias: true,
           autoDensity: true,
@@ -408,9 +405,8 @@ export function BoardCanvasSurface({
       handViewportScale,
     });
     const { layout } = result;
-    s.setPhaseDividerVisible(layoutPolicy.showPhaseDivider);
     s.setFocusLocked(focusLocked);
-    s.configure(players, layout, result.scales, result.combatRowReserved);
+    s.configure(players, layout, result.scales);
     s.setHandScale(result.handScale);
     const next: BoardCanvasLayout = {
       self: layout.self,
@@ -548,14 +544,6 @@ export function BoardCanvasSurface({
   }, [scene, combatBlocks, regions]);
 
   useEffect(() => {
-    scene?.setPhaseStripState(phaseStrip);
-  }, [scene, phaseStrip]);
-
-  useEffect(() => {
-    if (phaseStripCallbacks) scene?.setPhaseStripCallbacks(phaseStripCallbacks);
-  }, [scene, phaseStripCallbacks]);
-
-  useEffect(() => {
     scene?.setDropActive(isDropActive ?? false);
   }, [scene, isDropActive]);
 
@@ -623,6 +611,12 @@ export function BoardCanvasSurface({
   useEffect(() => {
     scene?.setPlayerPanelBoundsDebug(showPlayerPanelBounds);
   }, [scene, showPlayerPanelBounds]);
+
+  const squareAvatars = useGameDevStore((s) => s.squareAvatars);
+
+  useEffect(() => {
+    scene?.setSquareAvatars(squareAvatars);
+  }, [scene, squareAvatars]);
 
   const showGridSkeleton = useGameDevStore((s) => s.showGridSkeleton);
 

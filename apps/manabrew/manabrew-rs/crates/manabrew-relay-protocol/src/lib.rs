@@ -182,6 +182,11 @@ pub const PLANE_OUTCOMES: &[&str] = &[
     PLANE_OUTCOME_TIMEOUT,
 ];
 
+pub const ACQUISITION_SOURCES: &[&str] = &[
+    "direct", "landing", "reddit", "discord", "search", "ai", "youtube", "social", "github",
+    "other",
+];
+
 /// Longest `candidate_pair` the relay records.
 pub const MAX_CANDIDATE_PAIR_BYTES: usize = 64;
 
@@ -227,6 +232,9 @@ pub enum ClientMessage {
         client_version: Option<String>,
         #[serde(default)]
         engine_gate: EngineGate,
+        // One of `ACQUISITION_SOURCES`; the relay records anything else as `other`.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        acquisition_source: Option<String>,
     },
 
     Ping,
@@ -708,6 +716,7 @@ pub const FEATURE_PLANE_QUALITY: &str = "plane_quality";
 
 pub const FEATURE_CARD_COSMETICS: &str = "card_cosmetics";
 pub const FEATURE_CARD_COSMETICS_V2: &str = "card_cosmetics_v2";
+pub const FEATURE_CARD_COSMETICS_V3: &str = "card_cosmetics_v3";
 
 pub const FEATURES: &[&str] = &[
     FEATURE_LOCAL_GAME,
@@ -719,6 +728,7 @@ pub const FEATURES: &[&str] = &[
     FEATURE_GAME_OUTCOME,
     FEATURE_CARD_COSMETICS,
     FEATURE_CARD_COSMETICS_V2,
+    FEATURE_CARD_COSMETICS_V3,
     FEATURE_LIMITED_SESSIONS,
     FEATURE_LIMITED_DRAFT_CLOCKS,
     FEATURE_LIMITED_SESSION_RECOVERY,

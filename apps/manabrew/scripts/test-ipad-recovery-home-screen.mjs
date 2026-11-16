@@ -124,7 +124,7 @@ try {
   });
   await page.reload({ waitUntil: "domcontentloaded" });
   await page.waitForFunction(
-    () => document.getElementById("state")?.textContent?.includes("Download erforderlich"),
+    () => document.getElementById("state")?.textContent?.includes("Neue Version verfügbar"),
     null,
     { timeout: 60000 },
   );

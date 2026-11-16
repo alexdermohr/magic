@@ -34,6 +34,7 @@ import forge.game.ability.AbilityUtils;
 import forge.game.ability.ApiType;
 import forge.game.ability.effects.RollDiceEffect;
 import forge.game.card.*;
+import forge.game.card.sticker.Sticker;
 import forge.game.combat.Combat;
 import forge.game.combat.CombatUtil;
 import forge.game.cost.*;
@@ -101,6 +102,38 @@ public final class ManaBrewInteractiveController extends PlayerController implem
         this.costPlumbing = new HarnessCostPlumbing(this, this, player, true);
         this.autoPay = new AutoPay(player, costPlumbing, true);
         this.playPlumbing = new HarnessPlayPlumbing(this, player, costPlumbing, true);
+    }
+
+    @Override
+    public Card chooseCardToKeepStickers(final CardCollectionView options) {
+        return chooseSingleEntityForEffect(options, null, null,
+                "Choose card to keep stickers", false, null, null);
+    }
+
+    @Override
+    public Sticker chooseSticker(final List<Sticker> options, final Card target,
+            final SpellAbility sa, final boolean isOptional) {
+        if (options == null || options.isEmpty()) {
+            return null;
+        }
+        if (options.size() == 1 && !isOptional) {
+            return options.get(0);
+        }
+        // The optional last choice means declining the sticker entirely.
+        final int skip = options.size();
+        final int index = session.awaitNumberChoice(me(), 0, isOptional ? skip : skip - 1,
+                sourceCardId(sa), "Choose sticker (0-" + (skip - 1)
+                + (isOptional ? ", " + skip + " to skip)" : ")"));
+        return isOptional && index == skip ? null : options.get(index);
+    }
+
+    @Override
+    public int chooseStickerNamePosition(final Sticker sticker, final Card target) {
+        if (target == null || target.getName() == null ||
+                target.getName().isBlank() || target.stickerWouldFillBlank()) {
+            return 0;
+        }
+        return chooseNumber(null, "Choose sticker name position", 0, target.getName().split(" ").length);
     }
 
     private int me() {

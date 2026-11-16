@@ -23,6 +23,7 @@ use manabrew_agent_interface::protocol::{
 use manabrew_protocol::deck_dto::Deck;
 use manabrew_protocol::game::{GameViewDto, PlayerStatus};
 use manabrew_protocol::transport::{DirectiveInput, EngineDirective, StateUpdate};
+use rand::Rng;
 use serde::Deserialize;
 use serde_json::{json, Value};
 use tokio::net::TcpStream;
@@ -508,7 +509,6 @@ async fn host_one_room(
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     if let Some(label) = &label {
         config.username = format!("{}-{label}", config.username);
-        config.bot_username = format!("{}-{label}", config.bot_username);
         config.room_name = format!("{} ({label})", config.room_name);
     }
 
@@ -1045,11 +1045,8 @@ fn spawn_bots(config: &Config, decks: &[DeckSelection], room_id: &str, bot_state
     };
     let open_seats = config.max_players.saturating_sub(1) as usize;
     for (index, deck) in decks.iter().take(open_seats).enumerate() {
-        let username = if index == 0 {
-            config.bot_username.clone()
-        } else {
-            format!("{} {}", config.bot_username, index + 1)
-        };
+        let tag = rand::thread_rng().gen_range(1000..10000);
+        let username = format!("{}{}@{tag}", config.bot_username, index + 1);
         let relay_url = config.relay_url.clone();
         let bot_config = BotConfig {
             username,
@@ -1581,6 +1578,7 @@ fn is_commander_variant(format: GameFormat) -> bool {
     match format {
         GameFormat::Any
         | GameFormat::Commander
+        | GameFormat::DuelCommander
         | GameFormat::PauperCommander
         | GameFormat::Brawl
         | GameFormat::Oathbreaker => true,
@@ -1601,7 +1599,7 @@ fn is_commander_variant(format: GameFormat) -> bool {
 fn java_game_variant(format: GameFormat) -> &'static str {
     match format {
         GameFormat::Any => "",
-        GameFormat::Commander => "Commander",
+        GameFormat::Commander | GameFormat::DuelCommander => "Commander",
         GameFormat::PauperCommander => "PauperCommander",
         GameFormat::Brawl => "Brawl",
         GameFormat::Oathbreaker => "Oathbreaker",
@@ -2750,6 +2748,7 @@ impl RelayClient {
                 client_platform: ClientPlatform::Unknown,
                 client_version: None,
                 engine_gate: EngineGate::Unknown,
+                acquisition_source: None,
             })
             .await?;
         client.wait_for_auth().await?;

@@ -40,6 +40,7 @@ import forge.deck.Deck;
 import forge.deck.DeckSection;
 import forge.game.*;
 import forge.game.card.*;
+import forge.game.card.sticker.Sticker;
 import forge.game.combat.Combat;
 import forge.game.combat.CombatUtil;
 import forge.game.mana.Mana;
@@ -107,6 +108,22 @@ public class DeterministicController extends PlayerController implements Harness
         this.costPlumbing = new HarnessCostPlumbing(this, this, this.player, false);
         this.autoPay = new AutoPay(this.player, this.costPlumbing);
         this.playPlumbing = new HarnessPlayPlumbing(this, this.player, this.costPlumbing, false);
+    }
+
+    @Override
+    public Card chooseCardToKeepStickers(final CardCollectionView options) {
+        return options.isEmpty() ? null : options.get(0);
+    }
+
+    @Override
+    public Sticker chooseSticker(final List<Sticker> options, final Card target,
+            final SpellAbility sa, final boolean isOptional) {
+        return options == null || options.isEmpty() ? null : options.get(0);
+    }
+
+    @Override
+    public int chooseStickerNamePosition(final Sticker sticker, final Card target) {
+        return 0;
     }
 
     public int getCurrentTurn() {

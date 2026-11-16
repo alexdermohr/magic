@@ -34,13 +34,13 @@ const state = () =>
   page.evaluate(() => {
     const body = document.body.innerText;
     const decisions = window.__engineDecisions ?? [];
-    const life = [...body.matchAll(/Inspect (you|Forge bot(?: \d+)?), (-?\d+) life/g)].map((m) => ({
+    const life = [...body.matchAll(/Inspect (you|Forge AI|Forge bot(?: \d+)?|Brewy bot(?: \d+)?), (-?\d+) life/g)].map((m) => ({
       name: m[1] === "you" ? "You" : m[1],
       amount: Number(m[2]),
       eliminated: false,
     }));
     // A player can lose to commander damage or poison despite positive life.
-    for (const row of body.matchAll(/\b(You|Forge bot(?: \d+)?): (-?\d+) life \(eliminated\)/g)) {
+    for (const row of body.matchAll(/\b(You|Forge AI|Forge bot(?: \d+)?|Brewy bot(?: \d+)?): (-?\d+) life \(eliminated\)/g)) {
       const existing = life.find((seat) => seat.name === row[1]);
       if (existing) existing.eliminated = true;
       else life.push({ name: row[1], amount: Number(row[2]), eliminated: true });
@@ -75,10 +75,16 @@ try {
     .getByRole("button", { name: new RegExp("^" + player.split(",")[0]) })
     .first()
     .click();
+  await page.getByRole("button", { name: /^Choose deck for Bot 1$/ }).click();
   await page
     .getByRole("button", { name: new RegExp("^" + opponent.split(",")[0]) })
     .first()
     .click();
+  // Since 3.80, a Commander pod is configured in the roster, not after Fight.
+  await page.getByRole("button", { name: /^Add bot$/ }).click();
+  await page.getByRole("button", { name: /^Gahiji, Honored One/ }).first().click();
+  await page.getByRole("button", { name: /^Add bot$/ }).click();
+  await page.getByRole("button", { name: /^Anowon, the Ruin Thief/ }).first().click();
   await page
     .getByRole("button", { name: /^Fight!?$/ })
     .first()
@@ -87,12 +93,15 @@ try {
     .getByRole("dialog")
     .getByRole("button", { name: /^Fight!?$/ })
     .click();
-  await page
-    .getByRole("dialog")
-    .getByRole("button", { name: /4-player pod/ })
-    .click();
-  await page.getByRole("button", { name: /^KEEP$/ }).waitFor({ timeout: 150000 });
-  await page.getByRole("button", { name: /^KEEP$/ }).click();
+  // 3.81's Keep/Mulligan buttons are native Pixi controls, not old DOM
+  // uppercase KEEP. Space is the real configured confirm keyboard action.
+  await page.waitForFunction(
+    () => document.body.innerText.includes("Game board controls") &&
+      (window.__engineDecisions ?? []).some((entry) => entry.type === "mulligan"),
+    null,
+    { timeout: 180000 },
+  );
+  await page.keyboard.press("Space");
   await page.waitForFunction(
     () => (window.__engineDecisions ?? []).some((decision) => decision.type === "chooseAction"),
     null,

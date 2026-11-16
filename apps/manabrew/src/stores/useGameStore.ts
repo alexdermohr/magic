@@ -1,4 +1,5 @@
 import { beginGame, noteAnswerSent } from "@/lib/engineTelemetry";
+import { setErrorReportingEngine } from "@/lib/errorReporting";
 import {
   engineReportGameId,
   forgeHostLabel,
@@ -44,7 +45,11 @@ import {
   isForgeWasmSupported,
   recordForgeWasmVerdict,
 } from "@/lib/forgeWasm";
-import { FORGE_START_TIMEOUT_MESSAGE, withForgeStartTimeout } from "@/game/forgeWasmValidation";
+import {
+  FORGE_START_TIMEOUT_MESSAGE,
+  firstGameSignal,
+  withForgeStartTimeout,
+} from "@/game/forgeWasmValidation";
 import { getPlatform } from "@/platform";
 import { peek as peekGauntletMatch, clear as clearGauntletMatch } from "@/lib/gauntletReturn";
 import { applyPrompt } from "./gameStore.constants";
@@ -167,6 +172,7 @@ async function initializeGame({
   if (recovery && (platformType !== "web" || engine !== "Forge" || useHostedForge)) {
     throw new Error("Saved Forge game requires this browser's offline WebAssembly engine.");
   }
+  setErrorReportingEngine(null);
   if (engine === "Forge" && opponentDecks?.length && (tauriForgeRoomAvailable || useHostedForge)) {
     const launchForge = tauriForgeRoomAvailable ? startTauriForgeAiGame : startHostedAiGame;
     set({
@@ -221,6 +227,14 @@ async function initializeGame({
       hostedLaunch.playerOrder.forEach((_, index) => {
         hostedDecks[`player-${index}`] = hostedLaunch.decks[index];
       });
+      if (tauriForgeRoomAvailable) {
+        void beginOfflineGame({
+          engine: forgeHostLabel(true),
+          format: selectedFormatId,
+          startingLife: hostedLaunch.startingLife,
+          decks: hostedDecks,
+        });
+      }
       set({
         isMultiplayer: true,
         isHost: false,
@@ -232,6 +246,7 @@ async function initializeGame({
       // this tab, and never under a "forge" runtime, so the launch is the only
       // place that can name it.
       beginGame(forgeHostLabel(tauriForgeRoomAvailable));
+      setErrorReportingEngine(forgeHostLabel(tauriForgeRoomAvailable));
       await hostedRuntime.api.startMultiplayerGame({
         playerNames: hostedLaunch.playerOrder,
         decks: hostedLaunch.decks,
@@ -248,6 +263,7 @@ async function initializeGame({
       return;
     } catch (error) {
       if (hosted) {
+        abandonOfflineGame();
         clearActiveGameSession();
         await useServerStore.getState().leaveRoom();
         if (hosted.relay) await stopLocalHostedAiRelay();
@@ -297,8 +313,10 @@ async function initializeGame({
     startingLife,
     decks: gameDecks,
   });
+  setErrorReportingEngine(engineLabel);
   const firstForgeStart = !recovery && engine === "Forge" &&
     platformType === "web" && !hasForgeWasmVerdict();
+  const firstPrompt = firstForgeStart ? firstGameSignal(true) : null;
   if (firstForgeStart) beginForgeWasmTrial();
   try {
     const start = runtime.api.startGame({
@@ -312,7 +330,9 @@ async function initializeGame({
       gauntletId: get().gauntletId,
       recovery,
     });
-    const result = await (firstForgeStart ? withForgeStartTimeout(start) : start);
+    const result = await (firstPrompt
+      ? withForgeStartTimeout(start.then((started) => firstPrompt.signal.then(() => started)))
+      : start);
     if (!isLaunchCurrent()) {
       await runtime.api.endGame();
       throw new GameLaunchCancelledError();
@@ -320,6 +340,9 @@ async function initializeGame({
     set({ debugInfo: `Game started: ${result}.` });
     if (firstForgeStart) recordForgeWasmVerdict(true);
   } catch (error) {
+    if (!isLaunchCurrent() && !(error instanceof GameLaunchCancelledError)) {
+      throw new GameLaunchCancelledError();
+    }
     // A launch that never became a game must not be reported as the next one.
     abandonOfflineGame();
     clearLocalGame();
@@ -346,6 +369,8 @@ async function initializeGame({
       });
     }
     throw error;
+  } finally {
+    firstPrompt?.stop();
   }
 }
 async function sendRepeatDirective(directive: DirectiveInput): Promise<void> {
@@ -390,6 +415,14 @@ export const useGameStore = create<GameState>()(
           else next.add(playerId);
           return { hiddenPlaymats: next };
         }),
+      ignoredCardIds: new Set<string>(),
+      toggleCardIgnored: (cardId) =>
+        set((state) => {
+          const next = new Set(state.ignoredCardIds);
+          if (next.has(cardId)) next.delete(cardId);
+          else next.add(cardId);
+          return { ignoredCardIds: next };
+        }),
       updateGameView: (view) => set({ gameView: view }),
       setGameConfig: (config) => set({ gameConfig: config }),
       dismissIronsmithDeckError: () => set({ ironsmithDeckError: null }),
@@ -417,6 +450,7 @@ export const useGameStore = create<GameState>()(
           return true;
         } catch (e) {
           if (e instanceof GameLaunchCancelledError) return false;
+          setErrorReportingEngine(null);
           set({
             isGameActive: false,
             activeEngine: null,
@@ -606,14 +640,15 @@ export const useGameStore = create<GameState>()(
           const runtime =
             engine === "Ironsmith" ? selectGameRuntime("ironsmith") : resetSelectedGameRuntime();
           set({ debugInfo: "Starting engine..." });
-          beginGame(
-            roomEngineLabel(
-              engine,
-              localIsHost,
-              getPlatform().type,
-              useServerStore.getState().currentRoom?.hosted ?? false,
-            ),
+          const serverState = useServerStore.getState();
+          const engineLabel = roomEngineLabel(
+            engine,
+            localIsHost || serverState.hostingForgeRoom,
+            getPlatform().type,
+            !!serverState.currentRoom?.hosted && !!serverState.currentRoom?.official,
           );
+          beginGame(engineLabel);
+          setErrorReportingEngine(engineLabel);
           await runtime.api.startMultiplayerGame({
             playerNames,
             decks,
@@ -634,6 +669,7 @@ export const useGameStore = create<GameState>()(
           return true;
         } catch (e) {
           if (launchGeneration !== gameLaunchGeneration) return false;
+          setErrorReportingEngine(null);
           set({
             isGameActive: false,
             activeEngine: null,
@@ -741,7 +777,7 @@ export const useGameStore = create<GameState>()(
           format: get().gameConfig?.formatId ?? null,
           endReason: get().engineCrash ? "error" : get().gameView?.gameOver ? "gameOver" : "left",
           gameId: engineReportGameId(
-            wasMultiplayer,
+            wasMultiplayer && !activeSession?.relayHost,
             useServerStore.getState().gameId,
             offlineGameId,
           ),
@@ -764,6 +800,7 @@ export const useGameStore = create<GameState>()(
           });
           clearLocalGame();
         }
+        setErrorReportingEngine(null);
         set({
           isGameActive: false,
           activeEngine: null,
@@ -785,6 +822,7 @@ export const useGameStore = create<GameState>()(
           myPlayerSlot: null,
           gameDecks: {},
           hiddenPlaymats: new Set<string>(),
+          ignoredCardIds: new Set<string>(),
         });
         stopActiveManualRoomSync();
         resetSelectedGameRuntime();

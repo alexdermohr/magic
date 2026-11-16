@@ -100,6 +100,7 @@ public final class HarnessPlayPlumbing {
     }
 
     boolean playStack(SpellAbility sa, final Player ai, final Game game) {
+        final int waitingMark = game.getTriggerHandler().getWaitingTriggerCount();
         sa.setActivatingPlayer(ai);
         clearPaymentState(sa);
         if (!ComputerUtilCost.canPayCost(sa, ai, false) && !canPayCostWithLifeFallback(sa, ai, false)) {
@@ -128,11 +129,12 @@ public final class HarnessPlayPlumbing {
             game.getStack().add(sa);
             return true;
         }
-        GameActionUtil.rollbackAbility(sa, sa.isSpell() ? fromZone : null, zonePosition, pay, source);
+        GameActionUtil.rollbackAbility(sa, sa.isSpell() ? fromZone : null, zonePosition, pay, source, waitingMark);
         return false;
     }
 
     public boolean handlePlayingSpellAbility(final Player ai, SpellAbility sa, final Game game) {
+        final int waitingMark = game.getTriggerHandler().getWaitingTriggerCount();
         sa = chooseOptionalAdditionalCosts(ai, sa);
         if (sa == null) {
             return false;
@@ -197,7 +199,7 @@ public final class HarnessPlayPlumbing {
         if (!announceType(sa) || !announceValuesLikeX(sa) || !sa.checkRestrictions(ai)
                 || !sa.setupTargets() || !sa.isLegalAfterStack()) {
             if (sa.isSpell() && !source.isCopiedSpell() && hz != null) {
-                GameActionUtil.rollbackAbility(sa, hz, zonePosition, pay, host);
+                GameActionUtil.rollbackAbility(sa, hz, zonePosition, pay, host, waitingMark);
             } else if (sa.isActivatedAbility()) {
                 sa.setXManaCostPaid(null);
             }
@@ -240,7 +242,7 @@ public final class HarnessPlayPlumbing {
         System.out.println("[" + sa.getActivatingPlayer() + "] AI failed to play "
                 + sa.getHostCard() + " [" + sa.getHostCard().getZone() + "]");
         sa.setSkip(true);
-        GameActionUtil.rollbackAbility(sa, sa.isSpell() ? hz : null, zonePosition, pay, host);
+        GameActionUtil.rollbackAbility(sa, sa.isSpell() ? hz : null, zonePosition, pay, host, waitingMark);
         if (host != null && hz != null) {
             final Card rolledBackHost = sa.getHostCard();
             if (rolledBackHost != null) {

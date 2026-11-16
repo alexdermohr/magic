@@ -2,12 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 import { test } from "node:test";
-import {
-  createDirectiveLane,
-  writeDirectiveLane,
-  createSeat,
-  writeSeatMessage,
-} from "./seat.js";
+import { createDirectiveLane, writeDirectiveLane, createSeat, writeSeatMessage } from "./seat.js";
 
 const source = readFileSync(
   new URL("./forge-engine.worker.js", import.meta.url),
@@ -35,6 +30,12 @@ function fixture(started = true, args = {}) {
     }
     response(requestId, payload) {
       this.onmessage({ data: { type: "response", requestId, payload } });
+    }
+    error(message) {
+      const event = new Event("error", { cancelable: true });
+      Object.assign(event, { message });
+      this.onerror(event);
+      return event;
     }
   }
   const self = { location: { href: "worker.js" }, postMessage: (data) => output.push(data) };
@@ -110,7 +111,7 @@ test("failed candidate and timeout resume original and answer commands", () => {
     const f = fixture();
     const candidate = f.rewind();
     f.command("get_prompt", "pending");
-    if (failure === "error") candidate.onerror({ message: "crash" });
+    if (failure === "error") assert(candidate.error("crash").defaultPrevented);
     if (failure === "exit") candidate.event("game:over", {});
     if (failure === "timeout") [...f.timers.values()][0]();
     assert(candidate.terminated);
@@ -131,7 +132,7 @@ test("termination or original failure cancels candidate and ignores late promoti
     const f = fixture();
     const candidate = f.rewind();
     if (failure === "end") f.command("end_game");
-    if (failure === "error") f.active.onerror({ message: "source crash" });
+    if (failure === "error") assert(f.active.error("source crash").defaultPrevented);
     if (["forced_end", "over"].includes(failure)) f.active.event(`game:${failure}`, {});
     const events = f.output.length;
     candidate.event("forge:replay_ready");
@@ -662,7 +663,7 @@ test("failed cold restore never publishes game board or double-settles", () => {
   for (const failure of ["engine-error", "game-over", "timeout"]) {
     const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
     f.active.event("game:sab", { buffer: new SharedArrayBuffer(256 * 1024) });
-    if (failure === "engine-error") f.active.onerror({ message: "witness divergence" });
+    if (failure === "engine-error") f.active.onerror({ message: "witness divergence", preventDefault() {} });
     if (failure === "game-over") f.active.event("game:over", {});
     if (failure === "timeout") [...f.timers.values()][0]();
     assert(f.active.terminated);
