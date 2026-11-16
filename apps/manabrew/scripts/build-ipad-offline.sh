@@ -52,6 +52,12 @@ mkdir -p "$art_cache"
 if [[ -d dist/a ]]; then
   cp -a -n dist/a/. "$art_cache/"
 fi
+# Artwork copied with cp -a may preserve read-only directory modes. Vite must
+# be able to remove generated dist contents on the next build; never change
+# permissions on the original artwork or any persistent user data.
+if [[ -d dist ]]; then
+  find dist -type d ! -perm -u+w -exec chmod u+w {} +
+fi
 VITE_SCRYFALL_ASSET_BASE=/ node node_modules/vite/bin/vite.js build
 node scripts/prepare-ipad-dist.mjs dist
 scryfall_cache="${MANABREW_SCRYFALL_CACHE:-$HOME/.cache/manabrew-ipad-scryfall-cards.json}"

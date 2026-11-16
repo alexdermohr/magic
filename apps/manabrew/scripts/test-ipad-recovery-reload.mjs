@@ -41,7 +41,7 @@ const snapshot = () => page.evaluate(() => {
     offline: !navigator.onLine,
     turn: (body.match(/current step ([^\n]+)/) ?? [])[1] ?? null,
     hand: Number((body.match(/Your hand, ([0-9]+) cards?/) ?? [])[1] ?? 0),
-    life: [...body.matchAll(/Inspect (you|Forge AI), (-?\d+) life/g)].map((m) => [m[1], +m[2]]),
+    life: [...body.matchAll(/Inspect (you|Forge AI|Brewy bot(?: \d+)?), (-?\d+) life/g)].map((m) => [m[1], +m[2]]),
   };
 });
 const savedBoundary = () => page.evaluate(async () => {
@@ -105,13 +105,31 @@ try {
   // The service worker should already have installed all offline assets.
   await context.setOffline(true);
   await page.goto(origin + "/play/offline/constructed", { waitUntil: "domcontentloaded" });
+  // On a cold start the 3.81 app may render deck buttons under AppInitGate
+  // before the full-screen loading curtain has finished. Don't click through
+  // the curtain or falsely interpret an ordinary slow boot as a game failure.
+  await page.getByRole("button", { name: /^Anowon, the Ruin Thief/ })
+    .first().waitFor({ state: "visible", timeout: 180000 });
+  await page.waitForFunction(
+    () => ![...document.querySelectorAll("div.fixed.inset-0.z-50")]
+      .some((node) => node.textContent?.toLowerCase().includes("welcome to")),
+    null,
+    { timeout: 180000 },
+  );
   await page.getByRole("button", { name: /^Anowon, the Ruin Thief/ }).first().click();
+  await page.getByRole("button", { name: /^Choose deck for Bot 1$/ }).click();
   await page.getByRole("button", { name: /^Gahiji, Honored One/ }).first().click();
   await page.getByRole("button", { name: /^Fight!?$/ }).first().click();
   await page.getByRole("dialog").getByRole("button", { name: /^Fight!?$/ }).click();
-  await page.getByRole("dialog").getByRole("button", { name: /1v1/ }).click();
-  await page.getByRole("button", { name: /^KEEP$/ }).waitFor({ timeout: 180000 });
-  await page.getByRole("button", { name: /^KEEP$/ }).click();
+  // Since 3.80 the Mulligan decision is a Pixi control, not an HTML KEEP
+  // button. Space is the real configured "Pass priority / confirm" input.
+  await page.waitForFunction(
+    () => document.body.innerText.includes("Game board controls") &&
+      (window.__engineDecisions ?? []).some((entry) => entry.type === "mulligan"),
+    null,
+    { timeout: 180000 },
+  );
+  await page.keyboard.press("Space");
   await page.waitForFunction(
     () => (window.__engineDecisions ?? []).some((d) => d.type === "chooseAction"),
     null,

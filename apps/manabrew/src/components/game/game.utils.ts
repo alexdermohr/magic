@@ -11,6 +11,7 @@ import type { ClientCardDto } from "@/stores/gameStore.types";
 import type { ManaAbilityActionInfo } from "@/components/game/manaUtils";
 import { GAME_CARD_DEFAULTS } from "@/lib/gameCard";
 import {
+  BREWY_BOT_AVATARS,
   CARD_H,
   CARD_W,
   GAME_CARD_SIZES,
@@ -92,6 +93,31 @@ export function manaAbilityInfos(
       : [],
   );
 }
+export function relayAvatarUrl(
+  name: string,
+  players: readonly { username: string; avatar_url?: string | null }[],
+  decks: readonly { username: string; avatar_url?: string | null }[],
+): string | null {
+  return (
+    players.find((player) => player.username === name)?.avatar_url ??
+    decks.find((deck) => deck.username === name)?.avatar_url ??
+    null
+  );
+}
+
+export function isBotSeat(
+  player: { name: string; isHuman: boolean },
+  roomPlayers: readonly { username: string; is_bot?: boolean }[] | undefined,
+): boolean {
+  if (player.isHuman) return false;
+  const seat = roomPlayers?.find((roomPlayer) => roomPlayer.username === player.name);
+  return seat ? seat.is_bot === true : true;
+}
+
+export function botAvatarUrl(playerId: string, bots: readonly { id: string }[]): string {
+  return BREWY_BOT_AVATARS[bots.findIndex((bot) => bot.id === playerId) % BREWY_BOT_AVATARS.length];
+}
+
 export function getInitials(name: string): string {
   return name
     .split(" ")
@@ -237,4 +263,25 @@ export function checkpointLabel(checkpoint: CheckpointDto): string {
     return `decision #${checkpoint.checkpointId}, ${checkpoint.decision.toLowerCase()} (turn ${checkpoint.turn}, ${stepLabel(checkpoint.step)})`;
   }
   return `turn ${checkpoint.turn}, ${stepLabel(checkpoint.step)}`;
+}
+
+export function opponentsInTurnOrder<T extends { id: string }>(
+  players: readonly T[],
+  localPlayerId: string,
+): T[] {
+  const index = players.findIndex((player) => player.id === localPlayerId);
+  return [...players.slice(index + 1), ...players.slice(0, Math.max(0, index))];
+}
+
+export function gameRound(turn: number, playerCount: number): number {
+  return Math.ceil(turn / playerCount);
+}
+
+export function togglePhaseStops(
+  steps: readonly string[],
+  stops: ReadonlySet<string> | undefined,
+  toggle: (step: string) => void,
+): void {
+  const on = steps.some((step) => stops?.has(step));
+  for (const step of steps) if (!!stops?.has(step) === on) toggle(step);
 }

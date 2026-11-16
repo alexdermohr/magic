@@ -18,6 +18,7 @@ import { offlineSeats } from "@/lib/offlineSeats";
 import { resumeReconnectDeadline } from "@/lib/reconnectDeadline";
 import { clearLocalGame } from "@/lib/localGamePresence";
 import { noteOfflineResumeEvent } from "@/lib/offlineResumeDiagnostics";
+import { reportClientError, setErrorReportingEngine } from "@/lib/errorReporting";
 import { useGameStore } from "@/stores/useGameStore";
 import type { GameState } from "@/stores/useGameStore";
 import { useServerStore } from "@/stores/useServerStore";
@@ -194,9 +195,10 @@ function reportEngineGame(): void {
   // Read before the offline record is closed: reporting the game clears it, and
   // the engine report below needs the same id to file itself against.
   const offlineGameId = currentOfflineGameId();
+  const localRelayGame = !!peekActiveGameSession()?.relayHost;
   if (state.isMultiplayer) reportHostOutcome(state);
-  if (!state.isMultiplayer) {
-    clearLocalGame();
+  if (!state.isMultiplayer) clearLocalGame();
+  if (!state.isMultiplayer || localRelayGame) {
     const seats = offlineSeats(state.gameView);
     const winnerId = state.gameView?.winnerId ?? null;
     reportOfflineGame({
@@ -215,7 +217,7 @@ function reportEngineGame(): void {
     // reading the flag alone filed finished games as quits.
     endReason: state.engineCrash ? "error" : isOver(state) ? "gameOver" : "left",
     gameId: engineReportGameId(
-      state.isMultiplayer,
+      state.isMultiplayer && !localRelayGame,
       useServerStore.getState().gameId,
       offlineGameId,
     ),
@@ -330,6 +332,9 @@ export function useGameEventListeners() {
         platform.events.on<{
           message: string;
         }>("game:fatal", (payload) => {
+          const error = new Error(payload?.message || "Remote engine failed");
+          error.stack = "";
+          reportClientError(error, "remote-engine");
           setState({
             fatalError: payload?.message || "The game failed to start.",
             isPrefetchingCards: false,
@@ -368,6 +373,11 @@ export function useGameEventListeners() {
       };
       const handleProtocolError = (error: ProtocolError | undefined, source: string) => {
         if ((error?.code as string) === ENGINE_CRASH_CODE) {
+          const failure = new Error(error?.message || "Engine crashed");
+          failure.stack = "";
+          reportClientError(failure, source === "Remote" ? "remote-engine" : "engine-worker", {
+            operation: "engine-crash",
+          });
           setState({ engineCrash: error?.message || "Engine crashed" });
           return;
         }
@@ -511,6 +521,7 @@ export function useGameEventListeners() {
           const { isMultiplayer, isHost } = getState();
           const activeSession = peekActiveGameSession();
           clearActiveGameSession();
+          setErrorReportingEngine(null);
           setState({
             isGameActive: false,
             activeEngine: null,

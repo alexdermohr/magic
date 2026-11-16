@@ -34,13 +34,13 @@ const state = () =>
   page.evaluate(() => {
     const body = document.body.innerText;
     const decisions = window.__engineDecisions ?? [];
-    const life = [...body.matchAll(/Inspect (you|Forge bot(?: \d+)?), (-?\d+) life/g)].map((m) => ({
+    const life = [...body.matchAll(/Inspect (you|Forge AI|Forge bot(?: \d+)?|Brewy bot(?: \d+)?), (-?\d+) life/g)].map((m) => ({
       name: m[1] === "you" ? "You" : m[1],
       amount: Number(m[2]),
       eliminated: false,
     }));
     // A player can lose to commander damage or poison despite positive life.
-    for (const row of body.matchAll(/\b(You|Forge bot(?: \d+)?): (-?\d+) life \(eliminated\)/g)) {
+    for (const row of body.matchAll(/\b(You|Forge AI|Forge bot(?: \d+)?|Brewy bot(?: \d+)?): (-?\d+) life \(eliminated\)/g)) {
       const existing = life.find((seat) => seat.name === row[1]);
       if (existing) existing.eliminated = true;
       else life.push({ name: row[1], amount: Number(row[2]), eliminated: true });
@@ -75,10 +75,16 @@ try {
     .getByRole("button", { name: new RegExp("^" + player.split(",")[0]) })
     .first()
     .click();
+  await page.getByRole("button", { name: /^Choose deck for Bot 1$/ }).click();
   await page
     .getByRole("button", { name: new RegExp("^" + opponent.split(",")[0]) })
     .first()
     .click();
+  // Since 3.80, a Commander pod is configured in the roster, not after Fight.
+  await page.getByRole("button", { name: /^Add bot$/ }).click();
+  await page.getByRole("button", { name: /^Gahiji, Honored One/ }).first().click();
+  await page.getByRole("button", { name: /^Add bot$/ }).click();
+  await page.getByRole("button", { name: /^Anowon, the Ruin Thief/ }).first().click();
   await page
     .getByRole("button", { name: /^Fight!?$/ })
     .first()
@@ -87,12 +93,15 @@ try {
     .getByRole("dialog")
     .getByRole("button", { name: /^Fight!?$/ })
     .click();
-  await page
-    .getByRole("dialog")
-    .getByRole("button", { name: /4-player pod/ })
-    .click();
-  await page.getByRole("button", { name: /^KEEP$/ }).waitFor({ timeout: 150000 });
-  await page.getByRole("button", { name: /^KEEP$/ }).click();
+  // 3.81's Keep/Mulligan buttons are native Pixi controls, not old DOM
+  // uppercase KEEP. Space is the real configured confirm keyboard action.
+  await page.waitForFunction(
+    () => document.body.innerText.includes("Game board controls") &&
+      (window.__engineDecisions ?? []).some((entry) => entry.type === "mulligan"),
+    null,
+    { timeout: 180000 },
+  );
+  await page.keyboard.press("Space");
   await page.waitForFunction(
     () => (window.__engineDecisions ?? []).some((decision) => decision.type === "chooseAction"),
     null,
@@ -151,12 +160,25 @@ try {
     if (!current.playing) {
       throw new Error("Returned to game menu without a terminal life total");
     } else if (current.type === "chooseCards" && current.step === "Cleanup" && current.hand > 7) {
+      // The current 3.81 Pixi card modal displays three columns at this
+      // 1180x820 viewport; its first tile is centred at (330, 270).
+      // A real touch followed by the user-facing Enter confirmation was
+      // verified to advance the offline Forge decision journal.
+      await page.waitForFunction(
+        () => [...document.querySelectorAll("canvas")].some(
+          (canvas) => canvas.width === 1180 && canvas.height === 820,
+        ),
+        null,
+        { timeout: 15000 },
+      );
+      await page.waitForTimeout(450);
       const excess = current.hand - 7;
+      if (excess > 6) throw new Error("Cleanup needs more selections than visible cards");
       for (let selected = 0; selected < excess; selected++) {
-        await touch([175, 465, 753, 1037][selected % 4], selected < 4 ? 235 : 525);
-        await page.waitForTimeout(70);
+        await touch([330, 590, 850][selected % 3], selected < 3 ? 270 : 610);
+        await page.waitForTimeout(200);
       }
-      await touch(495, 783);
+      await page.keyboard.press("Enter");
       discards++;
     } else if (current.type === "chooseCards") {
       // A game effect can ask the human to choose cards outside the cleanup
@@ -221,8 +243,8 @@ try {
     if (Date.now() - idleSince >= 45_000 && !terminal) {
       throw new Error("No game state progress for 45s: " + JSON.stringify(updated));
     }
-    if (Date.now() - start > 720000)
-      throw new Error("Twelve-minute four-player full-game limit: " + JSON.stringify(current));
+    if (Date.now() - start > Number(process.env.MANABREW_FULLGAME_LIMIT_MS ?? 720000))
+      throw new Error("Four-player full-game time limit: " + JSON.stringify(current));
     if (index === 1199)
       throw new Error("Four-player action limit reached: " + JSON.stringify(current));
   }

@@ -13,6 +13,7 @@ import {
   Rectangle,
 } from "pixi.js";
 import { OPPONENT_SEATS } from "@/components/game/game.types";
+import { opponentsInTurnOrder } from "@/components/game/game.utils";
 import { hexToNum } from "@/pixi/colorUtils";
 import { CardSprite } from "@/pixi/CardSprite";
 import { loadManaSymbolTexture } from "@/pixi/manaSymbolCache";
@@ -1486,8 +1487,35 @@ export abstract class PromptModalLayer extends PromptLayerBase {
           : "Activate to select this card"
         : "Focus or hover, then change view or flip face";
     tile.tabIndex = disabled ? -1 : 0;
+    // Generated/rules faces are asynchronous. During the group hold, the
+    // CardSprite itself is non-renderable; keep the choice labelled and
+    // tappable instead of showing an empty modal with invisible hit areas.
+    const fallback = new Container();
+    fallback.eventMode = "none";
+    const fallbackFrame = new Graphics()
+      .roundRect(0, 0, width, height, radius)
+      .fill({ color: hexToNum(this.theme.appTheme.card), alpha: 0.96 })
+      .stroke({ color: hexToNum(this.theme.appTheme.border), width: 1.5 });
+    fallbackFrame.eventMode = "none";
+    const fallbackName = promptText(
+      card.identity.name,
+      Math.min(16, Math.max(12, width / 10)),
+      this.theme.appTheme.foreground,
+      { width: Math.max(1, width - 24), weight: "700", align: "center" },
+    );
+    fallbackName.eventMode = "none";
+    fallbackName.position.set(12, Math.max(12, (height - fallbackName.height) / 2));
+    fallback.addChild(fallbackFrame, fallbackName);
+    tile.addChild(fallback);
+
     const sprite = new CardSprite(card, "hand");
     this.configurePromptCardSprite(sprite, card);
+    const syncFallback = () => {
+      fallback.visible = !sprite.renderable;
+      this.callbacks.onRenderRequested?.();
+    };
+    sprite.onVisualChange = syncFallback;
+    fallback.visible = !sprite.renderable;
     const placeSprite = () => {
       const rotated = sprite.horizontalFrame && !this.promptCardState(card).horizontalFlipped;
       sprite.rotation = rotated ? -Math.PI / 2 : 0;
@@ -3762,9 +3790,9 @@ export abstract class PromptModalLayer extends PromptLayerBase {
     const colors = this.theme.gameTheme.playerColors;
     if (!playerId || playerId === this.spec?.localPlayerId) return colors.self;
     const opponentIndex = this.spec
-      ? this.spec.gameView.players
-          .filter((player) => player.id !== this.spec!.localPlayerId)
-          .findIndex((player) => player.id === playerId)
+      ? opponentsInTurnOrder(this.spec.gameView.players, this.spec.localPlayerId).findIndex(
+          (player) => player.id === playerId,
+        )
       : 0;
     const seat = OPPONENT_SEATS[Math.max(0, Math.min(OPPONENT_SEATS.length - 1, opponentIndex))]!;
     return colors[seat];

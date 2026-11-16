@@ -3,7 +3,7 @@ set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 forge="$root/forge"
-pin="be9e0c8a5b561ae3e909c2f9a8bdac0a7fa2b097"
+pin="62aec217f311b54bf93ef6d6cc455d7c85c29950"
 url="https://github.com/witchesofthehill/forge.git"
 
 if [[ "${1:-}" == "--print-pin" ]]; then
