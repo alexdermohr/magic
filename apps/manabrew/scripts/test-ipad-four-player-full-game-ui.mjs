@@ -160,12 +160,25 @@ try {
     if (!current.playing) {
       throw new Error("Returned to game menu without a terminal life total");
     } else if (current.type === "chooseCards" && current.step === "Cleanup" && current.hand > 7) {
+      // The current 3.81 Pixi card modal displays three columns at this
+      // 1180x820 viewport; its first tile is centred at (330, 270).
+      // A real touch followed by the user-facing Enter confirmation was
+      // verified to advance the offline Forge decision journal.
+      await page.waitForFunction(
+        () => [...document.querySelectorAll("canvas")].some(
+          (canvas) => canvas.width === 1180 && canvas.height === 820,
+        ),
+        null,
+        { timeout: 15000 },
+      );
+      await page.waitForTimeout(450);
       const excess = current.hand - 7;
+      if (excess > 6) throw new Error("Cleanup needs more selections than visible cards");
       for (let selected = 0; selected < excess; selected++) {
-        await touch([175, 465, 753, 1037][selected % 4], selected < 4 ? 235 : 525);
-        await page.waitForTimeout(70);
+        await touch([330, 590, 850][selected % 3], selected < 3 ? 270 : 610);
+        await page.waitForTimeout(200);
       }
-      await touch(495, 783);
+      await page.keyboard.press("Enter");
       discards++;
     } else if (current.type === "chooseCards") {
       // A game effect can ask the human to choose cards outside the cleanup
