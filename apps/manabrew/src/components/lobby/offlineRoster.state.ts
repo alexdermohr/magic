@@ -49,9 +49,20 @@ export function offlineRosterReducer(
     case "assign": {
       const target = state.seats.find((seat) => seat.id === action.seatId);
       if (!target) return state;
-      const seats = state.seats.map((seat) =>
-        seat.id === action.seatId ? { ...seat, deck: action.deck, touched: true } : seat,
-      );
+      const seats = state.seats.map((seat) => {
+        if (seat.id === action.seatId) return { ...seat, deck: action.deck, touched: true };
+        if (
+          action.seatId === PLAYER_SEAT_ID &&
+          seat.id === FIRST_BOT_SEAT_ID &&
+          !seat.touched &&
+          seat.deck &&
+          action.deck.formatId &&
+          seat.deck.formatId !== action.deck.formatId
+        ) {
+          return { ...seat, deck: null };
+        }
+        return seat;
+      });
       return {
         ...state,
         seats,
