@@ -72,6 +72,32 @@ assert.equal(
 );
 memory.delete("another");
 
+const cleared = JSON.stringify({
+  state: {
+    savedDecks: [],
+    currentDeck: {
+      name: "",
+      format: "commander",
+      cards: [],
+      commanders: [],
+      description: "A".repeat(150),
+    },
+  },
+  version: 8,
+});
+writeDeckStorage("manabrew-deck-storage", cleared);
+assert.equal(
+  localStorage.getItem("manabrew-deck-storage"),
+  cleared,
+  "Clearing a compressed collection must persist its smaller plain snapshot",
+);
+const afterClear = JSON.stringify({
+  state: { savedDecks: [], currentDeck: { name: "Fresh editor", cards: [] } },
+  version: 8,
+});
+writeDeckStorage("manabrew-deck-storage", afterClear);
+assert.equal(readDeckStorage("manabrew-deck-storage"), afterClear);
+
 memory.set("manabrew-deck-storage", "~manabrew-decks:lzw24:v1~broken");
 assert.throws(() => readDeckStorage("manabrew-deck-storage"), /envelope|code/i);
 assert.equal(
