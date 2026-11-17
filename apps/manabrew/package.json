@@ -109,6 +109,7 @@
     "test:ipad-art-crop": "python3 scripts/test-ipad-art-crop.py",
     "test:ipad-art-upgrade": "node scripts/test-ipad-preserve-local-art.mjs",
     "test:ipad-offline-hash": "node scripts/test-ipad-offline-hash.mjs",
+    "test:ipad-deck-storage-quota": "node --experimental-strip-types scripts/test-ipad-deck-storage-quota.mjs",
     "test:ipad-auto-upgrade": "node scripts/test-ipad-auto-upgrade.mjs",
     "test:ipad-forge-selftest": "node scripts/test-ipad-forge-selftest.mjs",
     "test:linux-offline-first-run": "node scripts/test-linux-offline-first-run.mjs"

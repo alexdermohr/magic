@@ -107,7 +107,6 @@ function isQuotaExceeded(error: unknown): boolean {
       );
 }
 
-/** Returns the original persisted Zustand JSON, or null if absent. */
 export function readDeckStorage(name: string): string | null {
   const raw = localStorage.getItem(name);
   return raw?.startsWith(PREFIX) ? decode(raw) : raw;
