@@ -58,7 +58,8 @@
     <p class="muted">Der Offline-Cache gehört zu diesem Chrome-Profil. Falls die gespeicherten Dateien gelöscht wurden, werden sie beim nächsten Start erneut eingerichtet. Die bisherige Online-/Relay-Version bleibt getrennt verfügbar.</p>
   </section>
 </main>
-<script>
+<script type="module">
+import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
 (() => {
   const $ = (id) => document.getElementById(id);
   const prefix = "manabrew-ipad-offline-";
@@ -258,7 +259,7 @@
       throw new Error("Persönliche Deckdatei ist leer oder fehlerhaft");
     }
     const key = "manabrew-deck-storage";
-    const raw = localStorage.getItem(key);
+    const raw = readDeckStorage(key);
     const persisted = raw ? JSON.parse(raw) : { state: {}, version: 8 };
     if (!persisted || typeof persisted !== "object" ||
         !persisted.state || typeof persisted.state !== "object") {
@@ -323,7 +324,7 @@
           savedDecks: [...saved.map((entry) => replacements.get(entry.id) ?? entry), ...additions],
         },
       };
-      localStorage.setItem(key, JSON.stringify(next));
+      writeDeckStorage(key, JSON.stringify(next));
     }
     localStorage.setItem(baselineKey, JSON.stringify(baselines));
     const installed = saved.length + additions.length;
@@ -338,7 +339,7 @@
   // caches; blindly deleting the caches makes retained cards lose their art.
   async function preserveSavedDeckArtwork(cache, previousCaches, files) {
     if (previousCaches.length === 0) return { copied: 0, missing: 0 };
-    const raw = localStorage.getItem("manabrew-deck-storage");
+    const raw = readDeckStorage("manabrew-deck-storage");
     if (!raw) return { copied: 0, missing: 0 };
     const saved = JSON.parse(raw)?.state?.savedDecks;
     if (!Array.isArray(saved)) throw new Error("Bestehende Deckdaten für die Bildmigration ungültig.");
