@@ -16,16 +16,70 @@ const browser = await chromium.launch({
 });
 const page = await browser.newPage({ serviceWorkers: "allow" });
 const pageErrors = [];
+let lastProgressAt = Date.now();
+let lastStep = null;
+let progressTimedOut = false;
+let watchdog;
+const progressTimeoutMs = Number(process.env.MANABREW_MATRIX_PROGRESS_TIMEOUT_MS ?? 75_000);
+let rejectOnCrash;
+const pageCrashed = new Promise((_, reject) => {
+  rejectOnCrash = reject;
+});
+page.on("crash", () => {
+  console.error("DECK_START_RENDERER_CRASH " + JSON.stringify({ lastStep }));
+  rejectOnCrash(new Error("Browser renderer crashed during Forge matrix"));
+});
 page.on("pageerror", (error) => pageErrors.push(error.message));
 page.on("console", (message) => {
-  if (message.text().startsWith("DECK_START_PROGRESS ")) console.log(message.text());
+  const text = message.text();
+  if (/^DECK_START_(BEGIN|STAGE|PROGRESS) /.test(text)) {
+    lastProgressAt = Date.now();
+    lastStep = JSON.parse(text.slice(text.indexOf(" ") + 1));
+    console.log(text);
+  }
 });
+
+function boundedProbe(promise, ms = 3000) {
+  return Promise.race([
+    promise.then(
+      () => "responsive",
+      (error) => "error:" + String(error).slice(0, 120),
+    ),
+    new Promise((resolve) => setTimeout(() => resolve("timeout"), ms)),
+  ]);
+}
 
 try {
   await page.goto(origin + "/offline-setup.html?setup=1", {
     waitUntil: "domcontentloaded",
   });
-  const results = await page.evaluate(
+  const timedOut = new Promise((_, reject) => {
+    watchdog = setInterval(() => {
+      if (progressTimedOut || Date.now() - lastProgressAt < progressTimeoutMs) return;
+      progressTimedOut = true;
+      void (async () => {
+        const renderer = await boundedProbe(page.evaluate(() => Date.now()));
+        const browserState = await boundedProbe(
+          browser.newBrowserCDPSession().then(async (session) => {
+            try {
+              return await session.send("Browser.getVersion");
+            } finally {
+              await session.detach();
+            }
+          }),
+        );
+        const diagnostic = {
+          lastStep,
+          idleMs: Date.now() - lastProgressAt,
+          renderer,
+          browser: browserState,
+        };
+        console.error("DECK_START_STALLED " + JSON.stringify(diagnostic));
+        reject(new Error("Forge matrix stopped making progress: " + JSON.stringify(diagnostic)));
+      })();
+    }, 1000);
+  });
+  const evaluation = page.evaluate(
     async ({ limit, offset }) => {
       const manifest = await (await fetch("/offline-assets.json")).json();
       const collection = await (await fetch("/personal-decks.json")).json();
@@ -46,19 +100,25 @@ try {
         collection.decks.find((entry) => entry.deck.name === "Gahiji, Honored One")?.deck ??
         collection.decks[0].deck;
 
-      async function run(deck) {
+      async function run(deck, index) {
         const startedAt = Date.now();
+        const stage = (value) =>
+          console.log("DECK_START_STAGE " + JSON.stringify({ index, stage: value }));
         return new Promise((resolve) => {
           const worker = new Worker(workerUrl);
           let timer;
           let reader;
           let complete = false;
+          let ending = false;
+          let endTimer;
+          const endRequestId = "matrix-end-" + index;
           const logs = [];
           const done = (error) => {
             if (complete) return;
             complete = true;
             clearInterval(reader);
             clearTimeout(timer);
+            clearTimeout(endTimer);
             worker.terminate();
             resolve({
               status: error ? "FAIL" : "PASS",
@@ -69,6 +129,11 @@ try {
           };
           worker.onerror = (event) => done(event.message || "Forge Worker crashed before mulligan");
           worker.onmessage = ({ data }) => {
+            if (data?.type === "response" && data.requestId === endRequestId) {
+              stage("end-acknowledged");
+              done(data.error ?? null);
+              return;
+            }
             if (data?.event === "forge:log") {
               if (data.payload?.level === "error") logs.push(data.payload.text);
               return;
@@ -77,6 +142,7 @@ try {
               if (data.payload?.stage === "error") {
                 done(data.payload?.message ?? "Forge Worker could not initialize");
               } else if (data.payload?.stage === "ready") {
+                stage("worker-ready");
                 worker.postMessage({
                   type: "command",
                   command: "start_game",
@@ -97,6 +163,7 @@ try {
                 });
               }
             } else if (data?.type === "event" && data.event === "game:sab") {
+              stage("seat-ready");
               const signal = new Int32Array(data.payload.buffer, 0, 2);
               const body = new Uint8Array(data.payload.buffer, 8);
               const decoder = new TextDecoder();
@@ -113,7 +180,19 @@ try {
                   const prompt = message.kind === "prompt" ? message.prompt : null;
                   const input = prompt?.input;
                   if (input?.type === "mulligan") {
-                    done(null);
+                    if (!ending) {
+                      ending = true;
+                      stage("mulligan");
+                      worker.postMessage({
+                        type: "command",
+                        command: "end_game",
+                        requestId: endRequestId,
+                      });
+                      endTimer = setTimeout(
+                        () => done("Forge end_game was not acknowledged"),
+                        10_000,
+                      );
+                    }
                     return;
                   }
                   // These are informational reveal/roll dialogs. They need a
@@ -163,7 +242,9 @@ try {
       }
       const results = [];
       for (const entry of collection.decks.slice(offset, offset + limit)) {
-        const result = await run(entry.deck);
+        const index = offset + results.length + 1;
+        console.log("DECK_START_BEGIN " + JSON.stringify({ index, id: entry.id }));
+        const result = await run(entry.deck, index);
         results.push({ id: entry.id, name: entry.deck.name, ...result });
         console.log(
           "DECK_START_PROGRESS " +
@@ -180,6 +261,7 @@ try {
     },
     { limit, offset },
   );
+  const results = await Promise.race([timedOut, pageCrashed, evaluation]);
   console.log(
     "FORGE_PERSONAL_START_MATRIX",
     JSON.stringify({
@@ -193,5 +275,6 @@ try {
   );
   if (results.failed.length || pageErrors.length) process.exitCode = 1;
 } finally {
+  clearInterval(watchdog);
   await browser.close();
 }
