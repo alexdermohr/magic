@@ -43,6 +43,11 @@ export function OwnedDeckShelf({
     <DeckShelfRow label={`My decks`}>
       {decks.map((deck) => {
         const presetKey = presetKeyByDeckId[deck.id];
+        const sameNamedDecks = decks.filter((item) => item.deck.name === deck.deck.name);
+        const variantLabel =
+          sameNamedDecks.length > 1
+            ? `Different list ${sameNamedDecks.findIndex((item) => item.id === deck.id) + 1}/${sameNamedDecks.length}`
+            : undefined;
         return (
           <div key={deck.id} className={cn(DECK_SHELF_CARD_CLASS, "relative")}>
             {deck.id === lastPlayedDeckId && (
@@ -55,7 +60,7 @@ export function OwnedDeckShelf({
               onOpen={() => onOpenDeck(deck)}
               onPlay={() => onPlayDeck(deck)}
               onViewInHub={presetKey ? () => onViewPreset(presetKey) : undefined}
-              badge={presetKey ? "Preset copy" : undefined}
+              badge={variantLabel ?? (presetKey ? "Preset copy" : undefined)}
               playing={pendingDeckId === deck.id}
               playDisabled={pendingDeckId !== null}
               readOnly

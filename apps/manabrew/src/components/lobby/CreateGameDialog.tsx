@@ -20,7 +20,7 @@ import { PartnerBadge } from "@/components/deck/PartnerBadge";
 import { FormatBadge } from "@/components/game/FormatBadge";
 import { DeckSelectionCard } from "./DeckSelectionCard";
 import { useIsShortScreen, useIsTouch } from "@/hooks/useBreakpoints";
-import { useOwnedDecks } from "@/hooks/useOwnedDecks";
+import { uniqueOwnedDecks, useOwnedDecks } from "@/hooks/useOwnedDecks";
 import { resolveCoverCard } from "@/components/deck/deckCover.utils";
 import { savePresetToAccountOnUse } from "@/lib/presetDeckAccount";
 import {
@@ -156,7 +156,14 @@ export function CreateGameDialog({
     selectedFormat.name,
   ]);
   const currentDeckFingerprint = getDeckFingerprint(currentDeck);
-  const distinctSavedDecks = ownedDecks.filter(
+  const distinctSavedDecks = uniqueOwnedDecks(
+    preSelectedDeckId
+      ? [
+          ...ownedDecks.filter((saved) => saved.id === preSelectedDeckId),
+          ...ownedDecks.filter((saved) => saved.id !== preSelectedDeckId),
+        ]
+      : ownedDecks,
+  ).filter(
     (saved) =>
       saved.id === preSelectedDeckId || getDeckFingerprint(saved.deck) !== currentDeckFingerprint,
   );
@@ -640,6 +647,13 @@ export function CreateGameDialog({
                     )}
                   >
                     {filteredUserDecks.map((d) => {
+                      const sameNamedDecks = filteredUserDecks.filter(
+                        (other) => other.name === d.name,
+                      );
+                      const variantLabel =
+                        sameNamedDecks.length > 1
+                          ? `Different list ${sameNamedDecks.findIndex((other) => other.id === d.id) + 1}/${sameNamedDecks.length}`
+                          : undefined;
                       const validation = validateDeckSections(
                         userDeckValidationInput(d),
                         selectedFormat,
@@ -649,7 +663,7 @@ export function CreateGameDialog({
                         <DeckSelectionCard
                           key={d.id}
                           name={d.name}
-                          badge={d.badge}
+                          badge={d.badge ?? variantLabel}
                           labels={d.labels}
                           cards={d.cards}
                           cover={d.cover}

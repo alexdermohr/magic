@@ -19,7 +19,7 @@ import { resolveOfflineEngine } from "@/lib/offlineEngine";
 import { hubEntryEngines, supportsEngine } from "@/lib/engines";
 import { savePresetToAccountOnUse } from "@/lib/presetDeckAccount";
 import { useAccountDecks } from "@/hooks/useAccountDecks";
-import { useOwnedDecks } from "@/hooks/useOwnedDecks";
+import { uniqueOwnedDecks, useOwnedDecks } from "@/hooks/useOwnedDecks";
 import { useDeckStore } from "@/stores/useDeckStore";
 import { usePreferencesStore } from "@/stores/usePreferencesStore";
 import type { Deck } from "@/protocol/deck";
@@ -116,6 +116,43 @@ export function DeckVsSelector({
   const [selectedFormat, setSelectedFormat] = useState<PlayFormatId | null>(
     preSelectedDeckEntry?.formatId ?? rememberedFormatId,
   );
+  const pendingPreselectionRef = useRef(preSelectedDeckEntry ? null : preSelectedDeckId);
+  const playerSeat = roster.seats[0];
+  useEffect(() => {
+    if (
+      preSelectedDeck ||
+      !preSelectedDeckId ||
+      pendingPreselectionRef.current !== preSelectedDeckId ||
+      !preSelectedSavedDeck ||
+      playerSeat.deck ||
+      playerSeat.touched
+    )
+      return;
+    const formatId = preSelectedSavedDeck.deck.format ?? "standard";
+    if (!getFormat(formatId)) return;
+    pendingPreselectionRef.current = null;
+    dispatchRoster({
+      type: "assign",
+      seatId: PLAYER_SEAT_ID,
+      deck: {
+        id: `local:${preSelectedSavedDeck.id}`,
+        sourceId: preSelectedSavedDeck.id,
+        name: preSelectedSavedDeck.deck.name,
+        sourceDeck: preSelectedSavedDeck.deck,
+        source: "local",
+        formatId,
+        commanderName: preSelectedSavedDeck.deck.commanders?.[0]?.identity.name,
+      },
+    });
+    setSelectedFormat(formatId);
+  }, [
+    preSelectedDeck,
+    preSelectedDeckId,
+    preSelectedSavedDeck,
+    playerSeat.deck,
+    playerSeat.touched,
+  ]);
+
   const deckFormat =
     selectedFormat === null ? null : (getFormat(selectedFormat)?.deckFormat ?? selectedFormat);
   const [deckSearch, setDeckSearch] = useState("");
@@ -208,7 +245,11 @@ export function DeckVsSelector({
       )
     : formatFilteredPresets;
   const currentDeckFingerprint = getDeckFingerprint(currentDeck);
-  const distinctSavedDecks = savedDecks.filter(
+  const distinctSavedDecks = uniqueOwnedDecks(
+    preSelectedSavedDeck
+      ? [preSelectedSavedDeck, ...savedDecks.filter((saved) => saved.id !== preSelectedDeckId)]
+      : savedDecks,
+  ).filter(
     (saved) =>
       saved.id === preSelectedDeckId || getDeckFingerprint(saved.deck) !== currentDeckFingerprint,
   );
@@ -307,6 +348,7 @@ export function DeckVsSelector({
   }
   function changeFormat(formatId: PlayFormatId | null) {
     if (formatId === selectedFormat) return;
+    pendingPreselectionRef.current = null;
     invalidateHubSelection();
     dispatchRoster({ type: "reset" });
     setSelectedFormat(formatId);
@@ -560,6 +602,13 @@ export function DeckVsSelector({
                   ...(entry.sourceDeck?.commanders ?? []),
                 ];
                 const cover = entry.sourceDeck ? resolveCoverCard(entry.sourceDeck) : undefined;
+                const sameNamedDecks = filteredUserDecks.filter(
+                  (candidate) => candidate.name === entry.name,
+                );
+                const variantLabel =
+                  sameNamedDecks.length > 1
+                    ? `Different list ${sameNamedDecks.findIndex((candidate) => candidate.id === entry.id) + 1}/${sameNamedDecks.length}`
+                    : undefined;
                 const validation = deckValidations.get(entry.id) ?? {
                   legal: true,
                   errors: [] as string[],
@@ -569,7 +618,7 @@ export function DeckVsSelector({
                     key={entry.id}
                     name={entry.name}
                     color={entry.color}
-                    badge={entry.sourceDeck?.draft ? "draft" : undefined}
+                    badge={entry.sourceDeck?.draft ? "draft" : variantLabel}
                     cards={displayCards}
                     cover={cover}
                     isLegal={validation.legal}
