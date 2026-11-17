@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import { stripTypeScriptTypes } from "node:module";
 import { readFile } from "node:fs/promises";
 import { createServer } from "node:http";
 
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright");
 const html = await readFile(new URL("../public/offline-setup.html", import.meta.url), "utf8");
+const deckCodec = stripTypeScriptTypes(
+  await readFile(new URL("../src/lib/deckStorageCodec.ts", import.meta.url), "utf8"),
+);
 const oldVersion = "11111111111111111111";
 const newVersion = "22222222222222222222";
 const laterVersion = "33333333333333333333";
@@ -12,14 +16,18 @@ const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const shared = {
   "/index.html": "<!doctype html><title>offline app</title>",
   "/offline-setup.html": html,
-  "/offline-sw.js": "self.addEventListener('install',e=>e.waitUntil(self.skipWaiting()));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));",
+  "/deck-storage-codec.js": deckCodec,
+  "/offline-sw.js":
+    "self.addEventListener('install',e=>e.waitUntil(self.skipWaiting()));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));",
   "/personal-decks.json": JSON.stringify({
-    decks: [{
-      id: "github:alexdermohr/magic:fixture",
-      slug: "fixture",
-      sourceHash: "fixture-revision",
-      deck: { name: "Fixture", format: "commander", cards: [], commanders: [] },
-    }],
+    decks: [
+      {
+        id: "github:alexdermohr/magic:fixture",
+        slug: "fixture",
+        sourceHash: "fixture-revision",
+        deck: { name: "Fixture", format: "commander", cards: [], commanders: [] },
+      },
+    ],
   }),
   "/wasm/cardset.manifest.json": "{}",
 };
@@ -37,13 +45,17 @@ const server = createServer((request, response) => {
   if (pathname === "/offline-assets.json") {
     response.setHeader("Content-Type", "application/json");
     const entries = Object.entries(files).map(([url, body]) => ({
-      url, bytes: Buffer.byteLength(body), sha256: hash(body),
+      url,
+      bytes: Buffer.byteLength(body),
+      sha256: hash(body),
     }));
-    response.end(JSON.stringify({
-      version,
-      totalBytes: entries.reduce((sum, file) => sum + file.bytes, 0),
-      files: entries,
-    }));
+    response.end(
+      JSON.stringify({
+        version,
+        totalBytes: entries.reduce((sum, file) => sum + file.bytes, 0),
+        files: entries,
+      }),
+    );
   } else if (pathname === "/probe.bin" && version === newVersion && holdNewAsset) {
     blocked.push(() => response.end(asset));
   } else if (pathname in files) {
@@ -75,14 +87,20 @@ try {
   const page = await context.newPage();
   const origin = "http://127.0.0.1:" + server.address().port;
   await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
-  await page.waitForFunction(() => document.querySelector("#state")?.textContent?.includes("Download erforderlich"));
+  await page.waitForFunction(() =>
+    document.querySelector("#state")?.textContent?.includes("Download erforderlich"),
+  );
   await page.locator("#prepare").click();
   await page.waitForFunction(() =>
-    document.querySelector("#state")?.textContent?.includes("Offline-Dateien vollständig gespeichert"));
-  const hasReady = async (release) => page.evaluate(async (release) => {
-    const cache = await caches.open("manabrew-ipad-offline-" + release);
-    return (await (await cache.match("/offline-ready.json"))?.text()) === release;
-  }, release);
+    document
+      .querySelector("#state")
+      ?.textContent?.includes("Offline-Dateien vollständig gespeichert"),
+  );
+  const hasReady = async (release) =>
+    page.evaluate(async (release) => {
+      const cache = await caches.open("manabrew-ipad-offline-" + release);
+      return (await (await cache.match("/offline-ready.json"))?.text()) === release;
+    }, release);
   assert.equal(await hasReady(oldVersion), true);
 
   await page.evaluate(async (release) => {
@@ -122,8 +140,11 @@ try {
     db.close();
   });
   await page.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
-  await page.waitForFunction(() =>
-    document.querySelector("#play") && !document.querySelector("#play").classList.contains("disabled"));
+  await page.waitForFunction(
+    () =>
+      document.querySelector("#play") &&
+      !document.querySelector("#play").classList.contains("disabled"),
+  );
   await page.waitForFunction(() => document.querySelector("#prepare")?.disabled);
   for (let i = 0; i < 100 && blocked.length === 0; i++) {
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -136,7 +157,9 @@ try {
   const gameTab = await context.newPage();
   await gameTab.goto(origin + "/play/offline/constructed");
   await gameTab.evaluate(() => {
-    const held = new Promise((resolve) => { window.__finishGame = resolve; });
+    const held = new Promise((resolve) => {
+      window.__finishGame = resolve;
+    });
     void navigator.locks.request("manabrew:forge-autoresume:v1:owner", async (lock) => {
       window.__gameLockOwned = !!lock;
       await held;
@@ -146,7 +169,10 @@ try {
   holdNewAsset = false;
   for (const release of blocked.splice(0)) release();
   await page.waitForFunction(() =>
-    document.querySelector("#state")?.textContent?.includes("Update vorgeladen; gespeicherte Partie geschützt"));
+    document
+      .querySelector("#state")
+      ?.textContent?.includes("Update vorgeladen; gespeicherte Partie geschützt"),
+  );
   assert.equal(await hasReady(oldVersion), true);
   assert.equal(await hasReady(newVersion), false);
   await gameTab.evaluate(() => window.__finishGame());
@@ -187,23 +213,36 @@ try {
   await page.locator("#prepare").click();
   await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
   assert.equal(await hasReady(newVersion), true);
-  assert.equal(await page.evaluate(async (release) =>
-    (await caches.keys()).includes("manabrew-ipad-offline-" + release), oldVersion), false);
+  assert.equal(
+    await page.evaluate(
+      async (release) => (await caches.keys()).includes("manabrew-ipad-offline-" + release),
+      oldVersion,
+    ),
+    false,
+  );
 
   version = laterVersion;
   await page.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
   await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
   assert.equal(await hasReady(laterVersion), true);
-  assert.equal(await page.evaluate(async (release) =>
-    (await caches.keys()).includes("manabrew-ipad-offline-" + release), newVersion), false);
-  console.log("IPAD_AUTO_UPGRADE_PASS", JSON.stringify({
-    previous: oldVersion,
-    current: laterVersion,
-    savedGameProtected: true,
-    previousVersionPlayable: true,
-    manualUpgradeRoutedToGame: true,
-    unattendedUpgradeRoutedToGame: true,
-  }));
+  assert.equal(
+    await page.evaluate(
+      async (release) => (await caches.keys()).includes("manabrew-ipad-offline-" + release),
+      newVersion,
+    ),
+    false,
+  );
+  console.log(
+    "IPAD_AUTO_UPGRADE_PASS",
+    JSON.stringify({
+      previous: oldVersion,
+      current: laterVersion,
+      savedGameProtected: true,
+      previousVersionPlayable: true,
+      manualUpgradeRoutedToGame: true,
+      unattendedUpgradeRoutedToGame: true,
+    }),
+  );
   await context.close();
 } finally {
   for (const release of blocked.splice(0)) release();
