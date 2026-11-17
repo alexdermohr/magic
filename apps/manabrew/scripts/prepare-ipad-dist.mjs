@@ -1,10 +1,22 @@
 import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
+import { transform } from "esbuild";
 
 const root = resolve(process.argv[2] ?? "dist");
-for (const file of ["offline-sw.js", "offline-setup.html", "manifest.webmanifest", "forge-legacy-bridge.worker.js"]) {
+for (const file of [
+  "offline-sw.js",
+  "offline-setup.html",
+  "manifest.webmanifest",
+  "forge-legacy-bridge.worker.js",
+]) {
   await copyFile(join("public", file), join(root, file));
 }
+// Keep the installed PWA bootstrap and the React Zustand store on the exact
+// same lossless deck storage encoding, including Safari quota fallbacks.
+const codecSource = await readFile("src/lib/deckStorageCodec.ts", "utf8");
+const codec = await transform(codecSource, { loader: "ts", format: "esm", target: "es2022" });
+await writeFile(join(root, "deck-storage-codec.js"), codec.code);
+
 // Standard web builds must open the app; only this prepared offline PWA opens
 // the installer from the Home-Screen icon until the local cache is ready.
 const manifestPath = join(root, "manifest.webmanifest");
@@ -28,14 +40,21 @@ if (existingWorker.startsWith("// Compatibility worker for the last published"))
   console.log("Fresh source-built Forge worker retained");
 }
 
-const cardsetManifest = JSON.parse(await readFile(join(root, "wasm/cardset.manifest.json"), "utf8"));
+const cardsetManifest = JSON.parse(
+  await readFile(join(root, "wasm/cardset.manifest.json"), "utf8"),
+);
 const cardset = await readFile(join(root, "wasm", cardsetManifest.archive));
 const aliases = Object.fromEntries(
-  [...cardset.toString("utf8").matchAll(/Name:([^\r\n]+)\nVariant:UniversesWithin:FlavorName:([^\r\n]+)/g)]
-    .map((match) => [match[2], match[1]]),
+  [
+    ...cardset
+      .toString("utf8")
+      .matchAll(/Name:([^\r\n]+)\nVariant:UniversesWithin:FlavorName:([^\r\n]+)/g),
+  ].map((match) => [match[2], match[1]]),
 );
-if (aliases["Wernog, Rider's Chaplain"] !== "Will the Wise" ||
-    aliases["Greymond, Avacyn's Stalwart"] !== "Rick, Steadfast Leader") {
+if (
+  aliases["Wernog, Rider's Chaplain"] !== "Will the Wise" ||
+  aliases["Greymond, Avacyn's Stalwart"] !== "Rick, Steadfast Leader"
+) {
   throw new Error("Forge Universes Within aliases missing from the selected cardset");
 }
 await mkdir(join(root, "legacy"), { recursive: true });
@@ -49,8 +68,11 @@ const scripts = [
 ];
 let newIndex = oldIndex;
 for (const script of scripts) {
-  if (script.includes('serviceWorker.register("/offline-sw.js"') &&
-      newIndex.includes('serviceWorker.register("/offline-sw.js"')) continue;
+  if (
+    script.includes('serviceWorker.register("/offline-sw.js"') &&
+    newIndex.includes('serviceWorker.register("/offline-sw.js"')
+  )
+    continue;
   if (!newIndex.includes(script)) {
     if (!newIndex.includes("</body>")) throw new Error("Expected closing body tag in built index");
     newIndex = newIndex.replace("</body>", "    " + script + "\n  </body>");
@@ -65,7 +87,8 @@ let config = await readFile(configPath, "utf8");
 if (/relay:\s*\{\s*host:\s*["']localhost["']/.test(config)) {
   config = config.replace(/relay:\s*\{[^}]*\},\s*/, "");
 }
-const enableForge = '\nwindow.__MANABREW_RUNTIME__.featureFlags = { ...window.__MANABREW_RUNTIME__.featureFlags, forgeWasm: true };\n';
+const enableForge =
+  "\nwindow.__MANABREW_RUNTIME__.featureFlags = { ...window.__MANABREW_RUNTIME__.featureFlags, forgeWasm: true };\n";
 if (!config.includes("forgeWasm: true")) config += enableForge;
 // The offline package has its own same-origin /api proxy. Without this
 // runtime override, accounts request the official Hub cross-origin and

@@ -11,7 +11,7 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
       const setup = await caches.open(SETUP_CACHE);
-      await setup.addAll(["/offline-setup.html", "/offline-sw.js"]);
+      await setup.addAll(["/offline-setup.html", "/offline-sw.js", "/deck-storage-codec.js"]);
       await self.skipWaiting();
     })(),
   );
@@ -39,7 +39,11 @@ function isolatedNavigation(response) {
   headers.set("Cross-Origin-Opener-Policy", "same-origin");
   headers.set("Cross-Origin-Embedder-Policy", "require-corp");
   headers.set("Cross-Origin-Resource-Policy", "same-origin");
-  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 self.addEventListener("fetch", (event) => {
@@ -47,7 +51,12 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin || url.searchParams.has("__offline_fetch")) return;
-  if (/^\/(?:api|auth|hub-api|spellbook-api|cubecobra-download|scryfall-symbols)(?:\/|$)/.test(url.pathname)) return;
+  if (
+    /^\/(?:api|auth|hub-api|spellbook-api|cubecobra-download|scryfall-symbols)(?:\/|$)/.test(
+      url.pathname,
+    )
+  )
+    return;
 
   event.respondWith(
     (async () => {
@@ -80,7 +89,8 @@ self.addEventListener("fetch", (event) => {
         } catch {
           // The bundled installer still opens while disconnected.
         }
-        const setup = (cache && (await cache.match("/offline-setup.html"))) ||
+        const setup =
+          (cache && (await cache.match("/offline-setup.html"))) ||
           (await (await caches.open(SETUP_CACHE)).match("/offline-setup.html"));
         if (setup) return isolatedNavigation(setup);
       }
@@ -88,6 +98,10 @@ self.addEventListener("fetch", (event) => {
       if (cache) {
         const hit = await cache.match(navigating ? "/index.html" : path, { ignoreSearch: true });
         if (hit) return navigating ? isolatedNavigation(hit) : hit;
+      }
+      if (path === "/deck-storage-codec.js") {
+        const bootstrap = await (await caches.open(SETUP_CACHE)).match(path);
+        if (bootstrap) return bootstrap;
       }
 
       try {

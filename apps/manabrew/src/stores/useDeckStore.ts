@@ -6,6 +6,7 @@ import type { PlaymatSettings } from "@/protocol/game";
 import type { DeckEditorMetadata, EditorDeck } from "@/types/manabrew";
 import type { ScryfallCard } from "@/types/scryfall";
 import { STORAGE_KEYS, DEFAULT_DECK_NAME, DEFAULT_IMPORT_NAME } from "@/lib/constants";
+import { readDeckStorage, writeDeckStorage } from "@/lib/deckStorageCodec";
 import { hasPendingEditorPublication } from "@/lib/authReturn";
 import { migrateDeck, completeDeckMigrations } from "@/migrations/deck";
 import {
@@ -357,11 +358,11 @@ function dropInlinePlaymat<T extends object>(deck: T): T {
 // stored decks — writes are dropped and the on-disk data survives untouched.
 let deckPersistReady = false;
 const deckStorage = createJSONStorage(() => ({
-  getItem: (name) => localStorage.getItem(name),
+  getItem: (name) => readDeckStorage(name),
   setItem: (name, value) => {
     if (!deckPersistReady) return;
     try {
-      localStorage.setItem(name, value);
+      writeDeckStorage(name, value);
     } catch {
       toast.error(
         `Seems like you reached the limit of your browser storage \u2014 contact us on Discord for more info.`,

@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import { stripTypeScriptTypes } from "node:module";
 import { readFile } from "node:fs/promises";
 import { createServer } from "node:http";
 
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright");
 const html = await readFile(new URL("../public/offline-setup.html", import.meta.url), "utf8");
+const deckCodec = stripTypeScriptTypes(
+  await readFile(new URL("../src/lib/deckStorageCodec.ts", import.meta.url), "utf8"),
+);
 const oldBytes = Buffer.from("OLD-AAAA");
 const newBytes = Buffer.from("NEW-CCCC");
 const wrongBytes = Buffer.from("BAD-BBBB");
@@ -22,20 +26,33 @@ const server = createServer((request, response) => {
   response.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
   response.setHeader("Cross-Origin-Resource-Policy", "same-origin");
   response.setHeader("Cache-Control", "no-store");
-  if (pathname === "/offline-setup.html") {
+  if (pathname === "/deck-storage-codec.js") {
+    response.setHeader("Content-Type", "application/javascript");
+    response.end(deckCodec);
+  } else if (pathname === "/offline-setup.html") {
     response.setHeader("Content-Type", "text/html; charset=utf-8");
     response.end(html);
   } else if (pathname === "/offline-sw.js") {
     response.setHeader("Content-Type", "application/javascript");
-    response.end("self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));" +
-      "self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));");
+    response.end(
+      "self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));" +
+        "self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));",
+    );
   } else if (pathname === "/offline-assets.json") {
     response.setHeader("Content-Type", "application/json");
-    response.end(JSON.stringify({
-      version, totalBytes: newBytes.length,
-      files: [{ url: "/probe.bin", bytes: newBytes.length,
-        sha256: version === "fixture-old" ? hash(oldBytes) : hash(newBytes) }],
-    }));
+    response.end(
+      JSON.stringify({
+        version,
+        totalBytes: newBytes.length,
+        files: [
+          {
+            url: "/probe.bin",
+            bytes: newBytes.length,
+            sha256: version === "fixture-old" ? hash(oldBytes) : hash(newBytes),
+          },
+        ],
+      }),
+    );
   } else if (pathname === "/probe.bin") {
     response.setHeader("Content-Type", "application/octet-stream");
     response.end(assetBytes);
@@ -58,21 +75,25 @@ try {
   const page = await browser.newPage({ serviceWorkers: "allow" });
   const openInstaller = async () => {
     await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
-    await page.waitForFunction(() =>
-      document.querySelector("#state")?.textContent?.includes("Download erforderlich"),
-      null, { timeout: 30000 });
+    await page.waitForFunction(
+      () => document.querySelector("#state")?.textContent?.includes("Download erforderlich"),
+      null,
+      { timeout: 30000 },
+    );
   };
   const runPreparation = async (expected) => {
     await page.locator("#prepare").click();
-    await page.waitForFunction((text) =>
-      document.querySelector("#state")?.textContent?.includes(text),
-      expected, { timeout: 30000 });
+    await page.waitForFunction(
+      (text) => document.querySelector("#state")?.textContent?.includes(text),
+      expected,
+      { timeout: 30000 },
+    );
   };
   await openInstaller();
   await runPreparation("Offline-Dateien vollständig gespeichert");
   const oldReady = await page.evaluate(async () => {
     const cache = await caches.open("manabrew-ipad-offline-fixture-old");
-    return (await (await cache.match("/offline-ready.json")).text());
+    return await (await cache.match("/offline-ready.json")).text();
   });
   assert.equal(oldReady, "fixture-old");
 
@@ -129,8 +150,12 @@ try {
     waitUntil: "domcontentloaded",
   });
   await unsupportedPage.waitForFunction(
-    () => document.querySelector("#state")?.textContent?.includes("Offline-Vorbereitung nicht verfügbar"),
-    null, { timeout: 15000 },
+    () =>
+      document
+        .querySelector("#state")
+        ?.textContent?.includes("Offline-Vorbereitung nicht verfügbar"),
+    null,
+    { timeout: 15000 },
   );
   const unsupported = await unsupportedPage.locator("#detail").innerText();
   assert.match(unsupported, /Service Worker\/Cache API/);
