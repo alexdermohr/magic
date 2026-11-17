@@ -128,6 +128,10 @@ export function writeDeckStorage(name: string, json: string): void {
   }
   const compact = encode(json);
   if (compact.length >= json.length) {
+    if (alreadyCompact) {
+      localStorage.setItem(name, json);
+      return;
+    }
     throw new Error("Deck storage cannot be compacted enough for available space");
   }
   localStorage.setItem(name, compact);
