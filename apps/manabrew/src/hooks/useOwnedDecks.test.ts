@@ -49,7 +49,6 @@ describe("uniqueOwnedDecks", () => {
     expect(visible).toHaveLength(44);
     expect(visible.map((entry) => entry.id)).toEqual(locals.map((entry) => entry.id));
     expect([...locals, ...accounts].map((entry) => entry.id)).toEqual(originalIds);
-    // The two different Sisay lists have the same commander name, not the same deck.
     expect(
       visible.filter((entry) => entry.deck.name === "Sisay, Weatherlight Captain"),
     ).toHaveLength(2);

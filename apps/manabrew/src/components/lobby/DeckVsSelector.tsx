@@ -116,14 +116,13 @@ export function DeckVsSelector({
   const [selectedFormat, setSelectedFormat] = useState<PlayFormatId | null>(
     preSelectedDeckEntry?.formatId ?? rememberedFormatId,
   );
-  // A deck-detail deep link can reach this selector before the account deck
-  // collection finishes loading. The reducer initializer runs only once;
-  // complete the requested preselection when it becomes available.
+  const pendingPreselectionRef = useRef(preSelectedDeckEntry ? null : preSelectedDeckId);
   const playerSeat = roster.seats[0];
   useEffect(() => {
     if (
       preSelectedDeck ||
       !preSelectedDeckId ||
+      pendingPreselectionRef.current !== preSelectedDeckId ||
       !preSelectedSavedDeck ||
       playerSeat.deck ||
       playerSeat.touched
@@ -131,6 +130,7 @@ export function DeckVsSelector({
       return;
     const formatId = preSelectedSavedDeck.deck.format ?? "standard";
     if (!getFormat(formatId)) return;
+    pendingPreselectionRef.current = null;
     dispatchRoster({
       type: "assign",
       seatId: PLAYER_SEAT_ID,
@@ -348,6 +348,7 @@ export function DeckVsSelector({
   }
   function changeFormat(formatId: PlayFormatId | null) {
     if (formatId === selectedFormat) return;
+    pendingPreselectionRef.current = null;
     invalidateHubSelection();
     dispatchRoster({ type: "reset" });
     setSelectedFormat(formatId);
