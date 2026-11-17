@@ -10,7 +10,7 @@ import { PresetDeckShelf } from "@/components/play/PresetDeckShelf";
 import { Button } from "@/components/ui/button";
 import { isFeatureEnabled } from "@/featureFlags";
 import { useAccountDecks } from "@/hooks/useAccountDecks";
-import { useOwnedDecks } from "@/hooks/useOwnedDecks";
+import { uniqueOwnedDecks, useOwnedDecks } from "@/hooks/useOwnedDecks";
 import { DEFAULT_DECK_NAME, ROUTES } from "@/lib/constants";
 import { availableEngines } from "@/lib/engines";
 import { presetSupportsEngine, type PresetDeck } from "@/lib/presetDecks";
@@ -31,7 +31,7 @@ export function PlayDeckShelf({
   pendingDeckId,
 }: PlayDeckShelfProps) {
   const navigate = useNavigate();
-  const allOwnedDecks = useOwnedDecks();
+  const allOwnedDecks = uniqueOwnedDecks(useOwnedDecks());
   const loadAccountDeck = useDeckStore((state) => state.loadAccountDeck);
   const lastPlayedDeckId = usePreferencesStore((state) => state.lastPlayedDeckId);
   const lastPlayedAtByDeck = usePreferencesStore((state) => state.lastPlayedAtByDeck);
