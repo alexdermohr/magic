@@ -1015,6 +1015,32 @@ class WebGameApi implements IGameApi {
   private retainedRecoveryAfterCrash = false;
   private retainedRecoveryGameId: string | null = null;
   private releaseRecoveryOwnership: (() => Promise<void>) | null = null;
+  private recoveryDrain: Promise<void> | null = null;
+
+  /** Unexpected engine termination must not discard a queued durable checkpoint. */
+  private retainRecoveryAfterUnexpectedEnd(): void {
+    const current = this.currentRecovery;
+    const release = this.releaseRecoveryOwnership;
+    if (!current && !release) return;
+    if (current) {
+      this.retainedRecoveryAfterCrash = true;
+      this.retainedRecoveryGameId = current.gameId;
+    }
+    this.currentRecovery = null;
+    this.releaseRecoveryOwnership = null;
+    const drain = (async () => {
+      try {
+        await current?.queue.flush();
+      } finally {
+        current?.queue.dispose();
+        await release?.();
+      }
+    })();
+    this.recoveryDrain = drain;
+    void drain.catch((error) =>
+      console.warn("Could not finish Forge recovery checkpoint after engine exit:", error))
+      .finally(() => { if (this.recoveryDrain === drain) this.recoveryDrain = null; });
+  }
 
   constructor(bridge: WorkerBridge, events: IEventBus) {
     this.bridge = bridge;
@@ -1026,18 +1052,7 @@ class WebGameApi implements IGameApi {
       if (current.gameId === null) current.gameId = boundary.gameId;
       current.queue.enqueue(boundary);
     });
-    events.on("forge:engine_crash", () => {
-      if (this.currentRecovery) {
-        this.retainedRecoveryAfterCrash = true;
-        this.retainedRecoveryGameId = this.currentRecovery.gameId;
-      }
-      this.currentRecovery?.queue.dispose();
-      this.currentRecovery = null;
-      const release = this.releaseRecoveryOwnership;
-      this.releaseRecoveryOwnership = null;
-      void release?.().catch((error) =>
-        console.warn("Could not release Forge recovery ownership:", error));
-    });
+    events.on("forge:engine_crash", () => this.retainRecoveryAfterUnexpectedEnd());
     events.on("game:over", () => {
       if (this.retainedRecoveryAfterCrash) {
         this.bridge.terminate();
@@ -1056,17 +1071,8 @@ class WebGameApi implements IGameApi {
           console.warn("Could not release Forge recovery ownership:", error)); });
     });
     events.on("game:forced_end", () => {
-      if (this.currentRecovery) {
-        this.retainedRecoveryAfterCrash = true;
-        this.retainedRecoveryGameId = this.currentRecovery.gameId;
-      }
-      this.currentRecovery?.queue.dispose();
-      this.currentRecovery = null;
-      const release = this.releaseRecoveryOwnership;
-      this.releaseRecoveryOwnership = null;
+      this.retainRecoveryAfterUnexpectedEnd();
       this.bridge.terminate();
-      void release?.().catch((error) =>
-        console.warn("Could not release Forge recovery ownership:", error));
     });
   }
 
@@ -1262,6 +1268,10 @@ class WebGameApi implements IGameApi {
     const activeRecovery = this.currentRecovery !== null;
     const crashed = this.retainedRecoveryAfterCrash;
     const retainedGameId = crashed ? this.retainedRecoveryGameId : null;
+    // Explicit leave waits for an in-flight crash checkpoint to finish before
+    // reacquiring ownership and clearing that same game's recovery record.
+    await this.recoveryDrain?.catch((error) =>
+      console.warn("Forge recovery drain did not complete:", error));
     this.currentRecovery?.queue.dispose();
     this.currentRecovery = null;
     this.retainedRecoveryAfterCrash = false;

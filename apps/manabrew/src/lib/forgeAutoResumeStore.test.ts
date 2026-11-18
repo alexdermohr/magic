@@ -415,6 +415,34 @@ describe("Forge recovery durable checkpoint cursor", () => {
     queue.dispose();
   });
 
+  it("preserves pending checkpoints when an engine exit drains before releasing ownership", async () => {
+    let releaseInitialCommit: (() => void) | undefined;
+    const initialCommit = new Promise<void>((resolve) => { releaseInitialCommit = resolve; });
+    let first = true;
+    let ownershipReleased = false;
+    const committed: number[] = [];
+    const queue = createForgeRecoveryCommitQueue(async (packet) => {
+      if (first) { first = false; await initialCommit; }
+      expect(ownershipReleased).toBe(false);
+      committed.push(packet.nextSequence);
+    }, () => { throw new Error("Unexpected IndexedDB failure"); });
+
+    queue.enqueue(boundary());
+    // This second checkpoint arrived while the first IndexedDB transaction
+    // was still pending. Dispose before flush would silently lose it.
+    queue.enqueue({ ...boundary(), startRequest: undefined,
+      nextSequence: 2, entries: [action(1)] });
+    const shutdown = queue.flush().finally(() => {
+      queue.dispose();
+      ownershipReleased = true;
+    });
+    expect(ownershipReleased).toBe(false);
+    releaseInitialCommit!();
+    await shutdown;
+    expect(committed).toEqual([1, 2]);
+    expect(ownershipReleased).toBe(true);
+  });
+
   it("retransmits a failed middle journal entry with the next decision, without rewriting a committed prefix", async () => {
     let committed = false;
     let count = 0;
