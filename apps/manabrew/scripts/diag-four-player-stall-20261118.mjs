@@ -151,9 +151,19 @@ let reveals = 0;
 let modalConfirms = 0;
 let terminal = null;
 let idleSince = Date.now();
+const observedBlockerPrompts = new Set();
 
 try {
   await context.setOffline(true);
+  const resumeExisting = process.env.MANABREW_DIAG_RESUME_EXISTING === "1";
+  if (resumeExisting) {
+    await page.goto(origin + "/", { waitUntil: "domcontentloaded" });
+    await page.waitForFunction(() => document.body.innerText.includes("Game board controls") &&
+      location.pathname === "/play/offline/constructed", null, { timeout: 240000 });
+    const prior = await recoveryMeta();
+    if (prior?.status !== "present") throw Error("The resumed four-player checkpoint is missing");
+    console.log("FOUR_PLAYER_RESUME_EXISTING", JSON.stringify({ saved: prior, ui: await state() }));
+  } else {
   await page.goto(origin + "/play/offline/constructed", { waitUntil: "domcontentloaded" });
   // The startup curtain can briefly obscure already visible deck buttons.
   // Don't count that ordinary initialization as a Forge input deadlock.
@@ -198,6 +208,7 @@ try {
     null,
     { timeout: 110000 },
   );
+  }
   for (let index = 0; index < 1200; index++) {
     const current = await state();
     if (!current.offline) throw new Error("Browser connected during offline game");
@@ -235,6 +246,7 @@ try {
           eliminated: terminal.eliminated,
           actions,
           passes,
+          realBlockerChoices: observedBlockerPrompts.size,
           discards,
           reveals,
           modalConfirms,
@@ -305,7 +317,18 @@ try {
     } else if (["chooseAction", "chooseBlockers", "chooseAttackers"].includes(current.type)) {
       // A blocker declaration is a different Pixi control from PASS priority.
       // Use the real confirm key instead of a stale fixed PASS coordinate.
-      if (current.type === "chooseBlockers") await page.keyboard.press("Enter");
+      if (current.type === "chooseBlockers") {
+        if (Number.isSafeInteger(current.currentPrompt?.promptId) &&
+            !observedBlockerPrompts.has(current.currentPrompt.promptId)) {
+          observedBlockerPrompts.add(current.currentPrompt.promptId);
+          console.log("FOUR_PLAYER_REAL_BLOCKER_PROMPT", JSON.stringify({
+            promptId: current.currentPrompt.promptId,
+            step: current.step, decisionCount: current.count,
+            checkpoint: await recoveryMeta(),
+          }));
+        }
+        await page.keyboard.press("Enter");
+      }
       else await touch(1032, 765);
       passes++;
     } else {
@@ -320,6 +343,7 @@ try {
         "FOUR_PLAYER_PROGRESS",
         JSON.stringify({
           actions,
+          realBlockerChoices: observedBlockerPrompts.size,
           elapsedSeconds: Math.round((Date.now() - start) / 1000),
           decisionCount: updated.count,
           prompt: updated.currentPrompt,

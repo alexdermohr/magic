@@ -1017,7 +1017,6 @@ class WebGameApi implements IGameApi {
   private releaseRecoveryOwnership: (() => Promise<void>) | null = null;
   private recoveryDrain: Promise<void> | null = null;
 
-  /** Unexpected engine termination must not discard a queued durable checkpoint. */
   private retainRecoveryAfterUnexpectedEnd(): void {
     const current = this.currentRecovery;
     const release = this.releaseRecoveryOwnership;
