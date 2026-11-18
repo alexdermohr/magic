@@ -12,7 +12,13 @@ const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE;
 const browser = await chromium.launch({
   headless: true,
   ...(executablePath ? { executablePath } : {}),
-  args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  args: [
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
+    ...(process.env.MANABREW_TEST_V8_FLAGS
+      ? ["--js-flags=" + process.env.MANABREW_TEST_V8_FLAGS]
+      : []),
+  ],
 });
 const page = await browser.newPage({ serviceWorkers: "allow" });
 const pageErrors = [];
