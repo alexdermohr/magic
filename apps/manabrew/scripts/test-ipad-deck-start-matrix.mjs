@@ -31,6 +31,9 @@ let rejectOnCrash;
 const pageCrashed = new Promise((_, reject) => {
   rejectOnCrash = reject;
 });
+// A renderer can crash during page.goto(), before Promise.race() is attached.
+// Observe early rejections; the original promise still rejects in the later race.
+void pageCrashed.catch(() => {});
 page.on("crash", () => {
   console.error("DECK_START_RENDERER_CRASH " + JSON.stringify({ lastStep }));
   rejectOnCrash(new Error("Browser renderer crashed during Forge matrix"));
