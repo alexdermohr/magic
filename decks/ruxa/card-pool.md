@@ -9,7 +9,7 @@ Kandidaten und Entscheidungen, **nicht** Teil der 100 Karten von `current.txt`, 
 | Quakestrider Ceratops | Fünf Mana für Vanilla-Körper; Elder Gargaroth liefert mehr Verteidigung und Token | Wenn Ruxa-Rekursion mit >3 Vanilla-Zielen zu selten greift |
 | Ghalta, Primal Hunger | Einzelner großer Angreifer ohne eigene Tokenproduktion | Wenn günstiges 12/12 für Greater Good bzw. Druck wichtiger als die Landfall-Engine wird |
 | Fungal Sprouting | Einmalig, abhängig von höchster Stärke | Wenn in 4p zuverlässig viele große Vanilla-Kreaturen liegen |
-| Nature's Will | Gegnerische Länder tappen statt nachhaltige Tokenproduktion | Wenn Kampfschadens-Manaentwicklung als Engpass nachgewiesen wird und der Effekt zum Tisch passt |
+| Nature's Will | In v5 für Verdant Force ersetzt; Rückstufung kritisch: Ruxas fähigkeitslose Angreifer können mehreren Gegnern auch bei Block Kampfschaden zufügen und so **mehrere getrennte Nature's-Will-Trigger** erzeugen. Jeder enttappt alle eigenen Länder; zwischen den Triggern lässt sich Mana ausgeben | **Hohe Priorität für Wiedereinbau** bei Mana-/Tempoengpässen; Stärke im Vier-Spieler-Spiel erneut gegen Verdant Force abwägen. Gegnerische Länder werden nur vorübergehend getappt |
 | Life's Legacy | Einmalige Opferrampe/Kartenzug statt wiederholbarem Greater Good | Wenn zusätzliche günstige, direkte Kartenziehaktionen fehlen |
 | Up the Beanstalk | Löst meist erst bei teuren Sprüchen aus | Wenn sich im längeren Vier-Spieler-Spiel genügend 5+-Manasprüche häufen |
 | Emerald Medallion | Gut, aber gegenüber Idol ein Slot für wiederkehrenden Kartenvorteil | Wenn sich Top-End-Karten nachweislich zu langsam ausspielen lassen |
@@ -27,6 +27,7 @@ Kandidaten und Entscheidungen, **nicht** Teil der 100 Karten von `current.txt`, 
 
 ## Weitere Testkandidaten (noch nicht aufgenommen)
 
+- **Elemental Bond (hohe Priorität):** Für nur drei Mana zieht jede unter eigener Kontrolle ins Spiel kommende Kreatur mit Stärke mindestens 3 eine Karte – insbesondere Gargaroths/Garruks 3/3-Bestien, Rampaging Baloths' 4/4-Bestien, Fresh Meat und Ezuri's Predation. Ruxa plus Muraganda Petroglyphs bzw. Beastmaster Ascension können auch kleinere Vanilla-Spielsteine über diese Schwelle bringen, ohne Fähigkeiten zu verleihen. In v4 mangels ausreichend großer Token entfernt; **mit v5 erneut sehr stark**, denkbarer Tausch gegen das teure Verdant Force. Vor Aufnahme Verhältnis Tokenproduktion/Kartenziehen in echten Vier-Spieler-Partien prüfen.
 - **Sandwurm Convergence:** Unterbindet Angriffe fliegender Gegner und erzeugt regelmäßig fähigkeitslose 5/5-Würmer; acht Mana und nur ein Token je eigener Runde.
 - **Wrap in Vigor:** Zwei-Mana-Instantschutz durch Regeneration gegen zerstörende Boardwipes, aber nicht Exil oder -X/-X; Option bei wipe-lastigen Gruppen.
 - **Garruk Wildspeaker:** Mehrfachnutzen durch Land-Enttappen und 3/3-Vanilla-Bestien; exponierter Planeswalker.
