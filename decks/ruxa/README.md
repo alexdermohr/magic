@@ -9,7 +9,7 @@ Die aktive v6-Liste setzt die Vier-Spieler-Optimierung fort: Nature's Will liefe
 ## Aktive Version
 
 - `current.txt` = `versions/2026-11-19-upper-b3-four-player-v6.txt`
-- 100 Karten / 35 reine Länder + 1 modale Land-/Zauberkarte / 17 Kreaturen einschließlich Ruxa / 3 echte Vanilla-Kreaturenkarten / drei Game Changer
+- 100 Karten / 35 reine Länder + 1 modale Land-/Zauberkarte / 18 Kreaturen einschließlich Ruxa / 3 echte Vanilla-Kreaturenkarten / drei Game Changer
 - **Verifikation:** v5 wurde am 2026-11-19 vollständig über Scryfall geprüft (73 Kartennamen, Commander-legal, mono-grün, drei Game Changer). Die zwei v6-Neuzugänge sind Commander-legal und mono-grün; **erneuter Gesamt-/CI-Abgleich für v6 folgt auf den PR-Commit**. Kein Spielstärkenachweis aus bloßen Strukturtests.
 - Bracket-3-Eignung nach veröffentlichten Wizards-Kriterien geprüft; keine tatsächliche Gewinnrate oder manabrew.app-Umsetzung gemessen.
 
