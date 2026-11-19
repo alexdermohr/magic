@@ -109,7 +109,6 @@ try {
     errors,
   }));
   assert.deepEqual(errors, []);
-  // The historical desktop URL still enters solo play.
   await page.goto(origin + "/offline-setup.html?desktop=1", {
     waitUntil: "domcontentloaded",
   });

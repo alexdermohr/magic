@@ -62,7 +62,6 @@ await writeFile(join(root, "legacy/forge-aliases.json"), JSON.stringify(aliases)
 
 const indexPath = join(root, "index.html");
 const oldIndex = await readFile(indexPath, "utf8");
-// /play is the shared singleplayer/multiplayer chooser; redirect only root.
 const scripts = [
   '<script>if (location.pathname === "/") location.replace("/offline-setup.html");</script>',
   '<script>if ("serviceWorker" in navigator && !("__TAURI_INTERNALS__" in window)) navigator.serviceWorker.register("/offline-sw.js", { scope: "/" }).catch(console.error);</script>',

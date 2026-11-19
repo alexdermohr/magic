@@ -58,6 +58,14 @@ Ein gespeichertes Forge-Spiel wird beim Start vorrangig wieder aufgenommen.
     rm -f ~/.local/share/applications/manabrew-local.desktop
     rm -f ~/.local/share/applications/manabrew-account-login.desktop
 
+Der **eine** Hauptstarter enthält zwei Desktop-Aktionen im Kontextmenü:
+**Bisheriger Online-Client (Konto-Sitzung)** öffnet die bisherige Origin 8087
+unverändert, **Konto anmelden (bisheriger Zugang)** öffnet deren bisherigen
+OAuth-Einstieg. Kein zweiter Menüeintrag, kein Kopieren von Refresh-Tokens.
+8087 und 8088 sind verschiedene Browser-Origins; ein gespeicherter
+8087-Login ist auf 8088 nicht automatisch verfügbar. Dort bei Bedarf
+regulär erneut anmelden. Der alte Zugang bleibt über die Aktionen erreichbar.
+
 **Nur nach** erfolgreichem neuen Desktop-/Offline- und Online-Test ausführen.
 Bestehende Browserprofile, Offline-Caches, IndexedDB-Saves, Decks,
 Accountdaten und Relay-Schlüssel bleiben unverändert. Der alte Webclient auf

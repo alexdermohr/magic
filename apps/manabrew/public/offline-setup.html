@@ -70,8 +70,6 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   const linuxDesktop = /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent);
   const startParams = new URLSearchParams(location.search);
   const desktopLauncher = linuxDesktop && startParams.get("desktop") === "1";
-  // The single Linux launcher opens the existing mode chooser after the
-  // offline-first setup. Explicit legacy and iPad launch paths are unchanged.
   const modeChooserEntry = desktopLauncher && startParams.get("entry") === "play";
   const readyRoute = modeChooserEntry ? "/play" : "/play/offline/constructed";
   if (modeChooserEntry) {

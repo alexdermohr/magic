@@ -9,3 +9,12 @@ Icon=applications-games
 Terminal=false
 Categories=Game;CardGame;
 StartupNotify=true
+Actions=LegacyOnline;LegacyAccount;
+
+[Desktop Action LegacyOnline]
+Name=Bisheriger Online-Client (Konto-Sitzung)
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable --app=http://127.0.0.1:8087/
+
+[Desktop Action LegacyAccount]
+Name=Konto anmelden (bisheriger Zugang)
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable --app=http://127.0.0.1:8087/local-account.html

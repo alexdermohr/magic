@@ -67,6 +67,16 @@ nicht die produktive Engine. **Nicht nachgewiesen** sind eine regulär zu
 Ende gespielte Zweimenschen-Partie und ein vollständiger OAuth-Login.
 Der alte Webdienst auf Port 8087 bleibt als Rückfall erhalten.
 
+**Konto-Origin beim Wechsel:** 8087 und 8088 besitzen getrennten Browser-
+Storage; die vorhandene 8087-Kontositzung kann nicht automatisch auf
+8088 übernommen werden. Der eine Linux-Starter bietet deshalb die
+Desktop-Aktionen **Bisheriger Online-Client (Konto-Sitzung)** und
+**Konto anmelden (bisheriger Zugang)** für die ursprüngliche Origin.
+So bleibt die gespeicherte Anmeldung erreichbar; die neue 8088-Origin
+erfordert eine reguläre erneute Anmeldung. Es werden keine Tokens kopiert
+oder Kontodaten verändert. Der vollständige 8088-OAuth-Rücksprung ist
+noch nicht physisch mit einem fremden Kontozugriff abgenommen.
+
 **Rückfall:** Die gesicherte PWA-Dropin-Datei an die ursprüngliche Stelle
 `~/.config/systemd/user/manabrew-ipad-pwa.service.d/10-magic-release.conf`
 zurückkopieren, `systemctl --user daemon-reload` und
