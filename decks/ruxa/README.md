@@ -4,13 +4,13 @@
 
 **Ab jetzt für vier Spieler (Multiplayer Commander)** optimieren: maximale tatsächliche Stärke am oberen Rand von **Commander Bracket 3**, ohne Einschränkung der Pilotenkomplexität. 1v1 ist nicht länger die maßgebliche Zielumgebung. Ruxa verstärkt fähigkeitslose Kreaturentoken; große Vanilla-Kreaturen bleiben für Ruxas Friedhofs-Rückholung. Langfristig zählen Durchhaltevermögen, wiederholbarer Kartenvorteil, Wiederaufbau nach Boardwipes und verlässliche Abschlüsse gegen mehrere Gegner.
 
-Die aktive v6-Liste setzt die Vier-Spieler-Optimierung fort: Nature's Will liefert mit Ruxas Kampfschaden Land-Enttappung, Elemental Bond kontinuierlichen Kartenvorteil. Der isolierte Manabrew-Deckgenerator-Import wurde für v5 bestätigt; für v6 sind frische Import-/Spieltests separat zu bewerten. Echte Vier-Spieler-Partien mit v6 sind nicht empirisch bestätigt.
+Die aktive v6-Liste setzt die Vier-Spieler-Optimierung fort: Nature's Will liefert mit Ruxas Kampfschaden Land-Enttappung, Elemental Bond kontinuierlichen Kartenvorteil. Der isolierte Manabrew-Deckgenerator-Import ist **auch für v6 bestanden**; ein echter Forge-Spielstart, iPad-Safari-E2E und Vier-Spieler-Testpartien mit v6 sind weiterhin nicht bestätigt.
 
 ## Aktive Version
 
 - `current.txt` = `versions/2026-11-19-upper-b3-four-player-v6.txt`
 - 100 Karten / 35 reine Länder + 1 modale Land-/Zauberkarte / 18 Kreaturen einschließlich Ruxa / 3 echte Vanilla-Kreaturenkarten / drei Game Changer
-- **Verifikation:** v5 wurde am 2026-11-19 vollständig über Scryfall geprüft (73 Kartennamen, Commander-legal, mono-grün, drei Game Changer). Die zwei v6-Neuzugänge sind Commander-legal und mono-grün; **erneuter Gesamt-/CI-Abgleich für v6 folgt auf den PR-Commit**. Kein Spielstärkenachweis aus bloßen Strukturtests.
+- **V6-Verifikation (19.11.2026):** alle 73 unterschiedlichen Kartennamen über Scryfall gefunden, 0 Commander-illegale Karten, 0 Farbidentitätsfehler, genau drei Game Changer (Ancient Tomb, Gaea's Cradle, Natural Order), 18 Kreaturen einschließlich Ruxa. Ein isolierter Durchlauf des **echten Manabrew-iPad-Deckgenerators** mit v6 bestand (99 Hauptkarten + Commander, eindeutige Karten-IDs, MDFC-Rückseite korrekt erkannt; Grabowski-Job `a89538ea2de4`). Deckstruktur-CI und echtes Forge-/Vier-Spieler-Spiel sind getrennt zu bewerten.
 - Bracket-3-Eignung nach veröffentlichten Wizards-Kriterien geprüft; keine tatsächliche Gewinnrate oder manabrew.app-Umsetzung gemessen.
 
 ## Historische Versionen
