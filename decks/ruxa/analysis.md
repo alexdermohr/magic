@@ -1,8 +1,8 @@
 # Ruxa – Bracket 3 Multiplayer Token-Value v5
 
-**Stand:** 2026-11-19  
-**Aktive Liste:** [current.txt](current.txt)  
-**Snapshot:** [versions/2026-11-19-upper-b3-four-player-v5.txt](versions/2026-11-19-upper-b3-four-player-v5.txt)  
+**Stand:** 2026-11-19
+**Aktive Liste:** [current.txt](current.txt)
+**Snapshot:** [versions/2026-11-19-upper-b3-four-player-v5.txt](versions/2026-11-19-upper-b3-four-player-v5.txt)
 **Vorige Liste:** [versions/2026-10-11-upper-b3-v4.txt](versions/2026-10-11-upper-b3-v4.txt)
 
 ## Ziel und Verifikationsgrenze
