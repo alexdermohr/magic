@@ -1,104 +1,54 @@
-# Ruxa – Bracket 3 Token-Value v4
+# Ruxa – Bracket 3 Multiplayer Token-Value v5
 
-**Stand:** 2026-10-11  
+**Stand:** 2026-11-19  
 **Aktive Liste:** [current.txt](current.txt)  
-**Vorige Version:** [versions/2026-10-08-upper-b3-v3.txt](versions/2026-10-08-upper-b3-v3.txt)
+**Snapshot:** [versions/2026-11-19-upper-b3-four-player-v5.txt](versions/2026-11-19-upper-b3-four-player-v5.txt)  
+**Vorige Liste:** [versions/2026-10-11-upper-b3-v4.txt](versions/2026-10-11-upper-b3-v4.txt)
 
-## Ergebnis / Verifikationsstand
+## Ziel und Verifikationsgrenze
 
-- 100 Karten, 36 Länder, 64 Nichtländer
-- 19 Kreaturen inklusive Ruxa; 4 tatsächlich fähigkeitslose Kreaturenkarten: Gigantosaurus, Leatherback Baloth, Quakestrider Ceratops, Terrian, World Tyrant
-- drei Game Changer: Ancient Tomb, Gaea's Cradle, Natural Order
-- 72 eindeutige Kartennamen, alle in Scryfall am 2026-10-11 gefunden, Commander-legal und mit mono-grüner Farbidentität vereinbar
-- Durchschnitt Mana Value der Nichtländer: **3.27** (X=0 und inklusive Commander)
-- Mana-Kurve ohne Länder: 1=12, 2=16, 3=9, 4=13, 5=8, 6=2, 7=2, 8=1, 12=1
-- Weder Gewinnratenverbesserung noch manabrew.app-Kompatibilität sind experimentell bewiesen.
+Ruxa wird auf **vier Spieler**, nicht mehr auf 1v1 ausgerichtet. Ziel ist der obere Rand des regulären **Commander Bracket 3**: längere Partien überstehen, drei Gegner kontrollieren bzw. überrennen können, nach Removal wieder aufbauen und die fähigkeitslosen Token als Druckmittel nutzen.
 
-## Neubewertung des Bauprinzips
+- **100 Karten** inklusive Commander; **35 reine Länder** (28 Snow-Covered Forest + 7 andere Länder) und **1 modale Land-/Zauberkarte** (Bala Ged Recovery // Bala Ged Sanctuary, effektiv 36 spielbare Landkarten).
+- **19 Kreaturen inkl. Ruxa**, davon **3 gedruckt fähigkeitslose Kreaturen**: Leatherback Baloth, Terrian, World Tyrant, Gigantosaurus.
+- Weiterhin genau **3 bekannte Game Changer**: Ancient Tomb, Gaea's Cradle, Natural Order (Wizards-Listenstand Oktober 2025 und Update Februar 2026). Keine frühen zweikartenbasierenden Infinite-Kombos angestrebt, keine Extrazüge und keine Mass-Landverweigerung.
+- **Validierungsstatus:** Deckstruktur und Kartenzahl lokal bei der Änderung vorab geprüft; der bestehende CI-Check `validate-decks` ist zusätzlich erforderlich. Neue Karten wurden gegen öffentlich verfügbare Oracle-/Legalitätsinformationen recherchiert; ein vollständiger erneuter Scryfall-Collection-Abgleich aller 100 Kartennamen und tatsächliche Vier-Spieler-Testpartien sind **nicht** durchgeführt. Kein Spielstärke- oder Manabrew-Nachweis aus einem grünen CI-Check ableiten.
 
-Die alten billigen Vanilla-Kreaturen waren mit Ruxa brauchbare Angreifer, aber meist nur **ein Körper pro Karte**. Ruxa arbeitet mit fähigkeitslosen 1/1-/2/2-/0/1-Token mindestens ebenso gut, während Token-Erzeuger pro Karte mehrere Angreifer, Cradle-Manaquellen und Craterhoof-Beiträge liefern. Neue Token-Multiplikatoren und wiederkehrender Draw sind stärker als eine enge Beschränkung der Pilotenkomplexität. Vier große Vanillas bleiben als Ruxas über seinen ETB-/Angriffstrigger wiederholbar zurückholbare Schadensquellen.
+## Änderungen v4 → v5 (11 gleichzahlige Ersetzungen)
 
-## Entfernte 13 günstige/mittelgroße Vanilla-Karten
+| Entfernt | Neu | Ziel in Vier-Spieler-Partien |
+| --- | --- | --- |
+| Quakestrider Ceratops | Elder Gargaroth | Wiederholbare 3/3-Vanilla-Bestien, Kartenziehen bzw. Leben sowie Reichweite zur Verteidigung statt mittelgroßem Vanilla-Slot |
+| Ghalta, Primal Hunger | Rampaging Baloths | Wiederkehrende 4/4-Vanilla-Bestien durch Landfall statt alleinstehendem großen Angreifer |
+| Fungal Sprouting | Garruk, Primal Hunter | Wiederholt 3/3-Vanilla-Token oder großen Kartenzug statt einmaliger situativer Tokenwelle |
+| Nature's Will | Verdant Force | Token in **jedem** Upkeep (vier pro vollständiger Runde) statt gegnerisches Mana zu tappen/selbst Länder zu enttappen |
+| Life's Legacy | Greater Good | Reaktive, wiederholbare Kartenauswahl und Opferoption bei Removal statt einmaliger Hexerei |
+| Up the Beanstalk | Mask of Memory | Wiederholbarer Kartenvorteil bei Ruxa-Kampfschaden; Equipment verleiht keine Fähigkeit |
+| Emerald Medallion | Idol of Oblivion | Einmal pro Runde Karten nach Tokenproduktion; optionale 10/10-Vanilla-Eldrazi |
+| Hard-Hitting Question | Ezuri's Predation | Mehrspieler-Sweeper mit vielen 4/4-Vanilla-Bestien gegen gegnerische Kreaturen |
+| Tamiyo's Safekeeping | Fresh Meat | Nach gegnerischem Massen-Zerstören sofort viele 3/3-Vanilla-Bestien statt einzelner Schutzaktion |
+| Regrowth | Sword of the Animist | Wiederholbares Grundland-Ramp durch Angriffe; die einmalige Kartenrückholung wird durch Bala Ged Recovery ersetzt |
+| 1 Snow-Covered Forest | Bala Ged Recovery // Bala Ged Sanctuary | Als Land spielbar oder wichtige Karte aus Friedhof zurückholen, ohne die effektive Anzahl spielbarer Länder zu reduzieren |
 
-- Memnite
-- Icehide Golem
-- Norwood Ranger
-- Jibbirik Omnivore
-- Terrain Elemental
-- Kalonian Tusker
-- Swordwise Centaur
-- Elvish Warrior
-- Orazca Frillback
-- Alpine Grizzly
-- Elvish Ranger
-- Garruk's Gorehorn
-- Vorstclaw
+## Kernmechanik und Mehrspieler-Taktik
 
-## 11 weitere ersetzte Karten
+1. **Tischbreite erzeugen.** Tendershoot Dryad und Verdant Force arbeiten mit vier Upkeeps pro Runde; Rampaging Baloths und Scute Swarm mit Landfall, Deep Forest Hermit und Avenger of Zendikar füllen das Feld einmalig. Parallel Lives/Doubling Season verdoppeln Tokens; Garruk, Primal Hunter erzeugt 3/3-Bestien ohne Fähigkeiten.
+2. **Ruxa lohnt sich mit Vanilla-Tokens.** Der eigene +1/+1-Bonus und die Wahl, bei geblockten Vanilla-Angreifern Schaden dem verteidigenden Spieler zuzuweisen, bleiben verfügbar. Beastmaster Ascension und Muraganda Petroglyphs erhöhen nur Stärke/Widerstandskraft, ohne Fähigkeiten zu verleihen. **Garruk's Uprising bleibt ausgeschlossen**, weil dauerhaft verliehener Trampelschaden beide Ruxa-Vorteile bei betroffenen Kreaturen abschaltet.
+3. **Karten nachziehen.** Toski, Bearer of Secrets nutzt durchgeschlagenen Schaden bei mehreren Gegnern; Mask of Memory löst auch bei geblockten Angreifern aus, wenn deren Ruxa-Schaden einem Spieler zugewiesen wird. Idol of Oblivion zieht nach Token-Erzeugung einmal pro eigenem Tap, nicht viermal pro Runde. Greater Good dient mit großen Kreaturen und Ruxa-Rekursion als Schutz vor gezieltem Removal und als Filter.
+4. **Massenremoval überstehen.** Heroic Intervention schützt viele Kreaturen in einem Zug; Fresh Meat nach einem gegnerischen Zerstörungs-Boardwipe verwandelt eigene gestorbene Token in 3/3-Bestien. Gegen Exil, Bounce oder -X/-X helfen beide Strategien nicht zuverlässig. Bala Ged Recovery, Regrowth-Ersatz, stellt Schlüsselkarte(n) wieder auf die Hand.
+5. **Drei Gegner abschließen.** Ein großes Tokenboard mit Craterhoof Behemoth, Finale of Devastation oder Triumph of the Hordes kann mehreren Gegnern zugleich gefährlich werden. Ezuri's Predation wirkt besonders stark, wenn mehrere Gegner Kreaturen angesammelt haben. Mit Ruxa über blockende Gegner hindurch Schaden verteilen, aber bei durch Craterhoof/Finale/Triumph verliehenem Trampelschaden/anderen Fähigkeiten den Ruxa-Bonus nicht mitrechnen.
 
-- Beast Whisperer
-- Harmonize
-- Last March of the Ents
-- One Dozen Eyes
-- Spore Swarm
-- Tail Swipe
-- Elemental Bond
-- Howl of the Night Pack
-- Overwhelming Stampede
-- Lignify
-- Skyshroud Claim
+## Risiko, Alternativen, offene Gegenproben
 
-Diese Slots waren entweder auf viele normale Kreaturensprüche, Einzelkreaturen-Kampfstärke oder auf weniger effiziente einmalige Token-/Removal-Effekte ausgelegt. **Gegenargument:** Ohne Skyshroud Claim und mit wenigen echten Vanillas ist der Wiederaufbau nach Massenremoval abhängiger von günstigen Ramp-Karten und Token-Engines; ohne den leichten Vanilla-Druck ist zudem die erste Angriffsphase manchmal später.
+- Höhere Top-End-Dichte (Verdant Force und Ezuri's Predation kosten je acht Mana) bringt mehr Reichweite, kann aber einzelne Starthände verlangsamen. Die Beschleunigung durch Earthcraft, Gaea's Cradle, Growing Rites of Itlimoc, Circle of Dreams Druid und die günstigen Landramp-Sprüche bleibt daher unangetastet.
+- Weniger gedruckte Vanilla-Kreaturen reduzieren die Ziele für Ruxas Friedhofsrückholung auf drei; diese bleiben bewusst groß. Die meisten Tokens selbst werden nicht von Ruxa aus dem Friedhof zurückgebracht.
+- Fresh Meat ersetzt nur gestorbene Kreaturen (inkl. Token), nicht exilierte oder auf die Hand zurückgeschickte. Verdant Force kostet acht Mana und ist besonders anfällig, wenn die Runde unmittelbar danach einen Boardwipe auslöst.
+- **Kein** Moldervine Reclamation: enthält ein schwarzes Manasymbol (Golgari-Farbidentität) und ist daher in Ruxa unzulässig. **Kein** Garruk's Uprising wegen Antisynergie. **Kein** Worldly Tutor oder Seedborn Muse, weil die vorhandenen drei Game-Changer-Slots belegt sind.
+- **Ausstehend:** offizieller voller Oracle-/Farblisten-Abgleich auf alle 100 Karten, tatsächlicher Manabrew-Import und reproduzierbare Vier-Spieler-Testspiele inklusive Gegenproben gegen frühe Boardwipes, Flying-Decks und Removal-lastige Gruppen. Erfolgsbewertung: mehrere echte Partien mit stabilem Nachzug und Gewinnwegen gegen drei Gegner.
 
-## 24 Neuzugänge
+## Belege für Neueinbauten und Brackets
 
-- Tendershoot Dryad
-- Avenger of Zendikar
-- Deep Forest Hermit
-- Scute Swarm
-- Esika's Chariot
-- Toski, Bearer of Secrets
-- Tribute to the World Tree
-- Parallel Lives
-- Doubling Season
-- Second Harvest
-- Beastmaster Ascension
-- Sylvan Library
-- Skullclamp
-- Evolutionary Leap
-- Earthcraft
-- Circle of Dreams Druid
-- Growing Rites of Itlimoc
-- Finale of Devastation
-- Chord of Calling
-- Sprout Swarm
-- Saproling Symbiosis
-- Force of Vigor
-- Regal Force
-- Nature's Will
-
-### Kernsynergien
-
-- **Ruxa + Token:** Beacon of Creation, Fungal Sprouting, Saproling Migration, Tendershoot Dryad, Deep Forest Hermit, Avenger of Zendikar, Esika's Chariot und Saproling Symbiosis erzeugen fähigkeitslose Angreifer. Ein gewöhnlicher Saproling greift mit Ruxa als 2/2 an und kann Kampfschaden auch bei Block zuweisen, als wäre er ungeblockt.
-- **Verdoppler:** Parallel Lives, Doubling Season und Second Harvest erhöhen die Körperzahl; Doubling Season verdoppelt auch über Tribute/Avenger erhaltene +1/+1-Marken. Kopierte Plant-Token kopieren nicht automatisch die +1/+1-Counter des Originals.
-- **Abschluss:** Beastmaster Ascension liefert +5/+5 ohne Fähigkeitserteilung; Craterhoof via Natural Order, Chord oder Finale und Triumph bleiben alternative Kill-Pläne. Bei Triumph/Craterhoof verlieren Vanilla-Angreifer durch verliehene Fähigkeiten im Finish-Zug ihre Ruxa-Vorteile.
-- **Kartenvorteil:** Toski zieht für jede Kreatur mit Spielerschaden, einschließlich Ruxa-kompatibler geblockter Angreifer. Tribute stärkt kleine Token mit zwei Countern; Skullclamp + Evolutionary Leap verwandeln Token in Karten; Regal Force und Shamanic Revelation ziehen für die Anzahl grüner bzw. sämtlicher Kreaturen.
-- **Mana:** Earthcraft enttappt mit untappten Token die 29 Snow-Covered Forests (sie sind Basic Lands); Growing Rites of Itlimoc und Circle of Dreams Druid vervielfachen die Cradle-Linie. Nature's Will enttappt nach Spielerschaden alle eigenen Länder, ohne permanente Landsperre aufzubauen.
-- **Scute-Sonderfall:** ab sechs Ländern kopiert Scute Swarm sich selbst mit Landfall-Fähigkeit statt neue Vanilla-Insekten zu erzeugen. Das hilft vor allem Cradle/Craterhoof, nicht Ruxas statischem Bonus.
-- **Sprout Swarm:** Convoke plus Buyback kann auch längerfristig Token erzeugen. Es ist ohne weitere unendliche Mana-/Enttappschleife nicht automatisch infinite.
-
-## Bracket-Einordnung / Risiken
-
-Wizards erlaubt in Bracket 3 maximal drei Game Changer und erwartet hochqualitative Synergien und normalerweise Spiele über mindestens sechs Züge. Seit 2025 gibt es keine feste Tutorzahl-Beschränkung mehr. Der vorliegende Aufbau verwendet keinen Mass-Land-Denial-Plan, keine Extra-Turn-Kette und keine absichtlich früh gewinnende Zwei-Karten-Infinite-Kombination. Insbesondere sind **Squirrel Nest** und **Staff of Domination** nicht enthalten, um bekannte Earthcraft-/Circle-Mana-Schleifen zu vermeiden.
-
-Eine häufige Gewinnserie vor Zug 6 würde die **tatsächliche** Bracket-Einordnung infrage stellen, selbst bei nur drei Game Changern. Vor allem Natural Order in ein großes Tokenboard und Triumph können explosiv abschließen. Gleichzeitig erhöht die Token-Fokussierung die Anfälligkeit gegen Mass-Exil, ehe man neu aufgebaut hat; Schutz durch Heroic Intervention bleibt wichtig.
-
-## Spielpraxis / weitere Prüfung
-
-Bei der Starthand 2–3 Manaquellen mit frühem Ramp und einem günstigen Token- oder Kartenvorteilspaket bevorzugen. Nach dem ersten Boardaufbau mittels Tribute/Sylvan/Toski nachziehen und mit Earthcraft/Cradle/Itlimoc beschleunigen. Ruxa erst dann spielen, wenn seine globale Wirkung relevanten Schaden bringt; der Tokenplan ist selbständig. Vor Chord-Convoke für Craterhoof bedenken, dass getappte Angreifer dann nicht mehr angreifen.
-
-**Noch offen:** Tatsächliche Import- und Regeltests auf manabrew.app, Messung realer 1v1-Gewinnraten sowie eventuelle Anpassungen an das Gegnerdeck.
-
-## Quellen
-
-Oracle- und Legality-Daten: Scryfall Cards Collection API am 2026-10-11. Offizieller Bracket- und Bannlistenrahmen: https://magic.wizards.com/en/formats/commander ; https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025 ; https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026 ; https://magic.wizards.com/en/banned-restricted-list
+- Wizards Commander-Format und Brackets: https://magic.wizards.com/en/formats/commander
+- Offizielle Game Changers, Oktober 2025: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
+- Bracket-Update Februar 2026: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026
+- Oracle-/Legalitätsbeispiele: https://mtg.wtf/card/m21/179/Elder-Gargaroth ; https://mtg.wtf/card/40k/243/Mask-of-Memory ; https://mtg.wtf/card/c19/55/Idol-of-Oblivion ; https://mtg.wtf/card/nph/109/Fresh-Meat ; https://mtg.wtf/card/c15/207/Verdant-Force
