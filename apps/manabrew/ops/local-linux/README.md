@@ -1,8 +1,8 @@
 # Linux-Client, Relay und Kontoanmeldung
 
 Dies sind die **bereinigten Vorlagen** der am 3. November 2026 auf dem Heim-PC
-laufenden lokalen Web- und Relay-Container, des Caddy-Proxys und der drei
-Desktopstarter. Ihre Funktionsweise ist derzeit nachweislich mit HTTP 200
+laufenden lokalen Web- und Relay-Container, des Caddy-Proxys und des gemeinsamen
+Desktopstarters. Ihre Funktionsweise ist derzeit nachweislich mit HTTP 200
 auf dem Webclient-Port 8087 erreichbar.
 
 Die tatsächlich verwendeten Relay-Schlüssel bleiben ausschließlich außerhalb
@@ -20,8 +20,7 @@ und mit Backup der bisherigen User-Quadlets übernehmen:
     install -m 644 manabrew-local-relay.container ~/.config/containers/systemd/
     install -m 644 Caddyfile ~/.config/manabrew/Caddyfile
     install -m 644 local-account.html ~/.config/manabrew/local-account.html
-    install -m 644 manabrew-local.desktop ~/.local/share/applications/
-    install -m 644 manabrew-account-login.desktop ~/.local/share/applications/
+    install -m 644 manabrew.desktop ~/.local/share/applications/
 
 Vor dem Start unter ~/.config/manabrew/relay.env die Variablen
 RELAY_PASSWORD und MANABREW_SERVER_KEY auf **denselben eigenen Schlüssel**
@@ -44,34 +43,34 @@ Version. Für eine spätere Umstellung auf aus magic gebaute Images sind
 Build-ID/Digest, Updatepfad, E2E und Rückfallstand vorher nachzuweisen.
 
 
-## Magic-Offlineclient parallel zum bisherigen Linux-Client
+## Gemeinsamer Manabrew-Client für Linux
 
-Der auf dem Heim-PC bereits laufende `manabrew-ipad-pwa.service` stellt **denselben
-aus alexdermohr/magic gebauten Offline-Client** auch für Linux bereit:
-`http://127.0.0.1:8088/play/offline/constructed`. Dieser Browser-Client
-braucht während einer Partie kein Internet und keinen externen Relay.
-Auf diesem Linux-Rechner läuft weiterhin der lokale Webserver auf Port 8088;
-auf anderen Rechnern ist diese Loopback-Adresse nicht erreichbar.
+Der aus alexdermohr/magic gebaute und über manabrew-ipad-pwa.service
+ausgelieferte Client auf http://127.0.0.1:8088 enthält beide Spielwege:
+**Singleplayer** gegen Forge-KI/ManaBot und **Multiplayer** über einen Relay.
+Ein einziger Desktopstarter manabrew.desktop öffnet zunächst
+/offline-setup.html?desktop=1&entry=play und zeigt nach der vollständigen,
+automatischen Offline-Vorbereitung die bestehende Spielmoduswahl unter /play.
+Ein gespeichertes Forge-Spiel wird beim Start vorrangig wieder aufgenommen.
 
-Der zusätzliche Menüeintrag lässt sich ohne Austausch des bisherigen Clients
-und ohne Änderungen an Relay-Schlüsseln installieren:
+    install -m 644 manabrew.desktop ~/.local/share/applications/
+    rm -f ~/.local/share/applications/manabrew-magic-offline.desktop
+    rm -f ~/.local/share/applications/manabrew-local.desktop
+    rm -f ~/.local/share/applications/manabrew-account-login.desktop
 
-    install -m 644 manabrew-magic-offline.desktop ~/.local/share/applications/
+**Nur nach** erfolgreichem neuen Desktop-/Offline- und Online-Test ausführen.
+Bestehende Browserprofile, Offline-Caches, IndexedDB-Saves, Decks,
+Accountdaten und Relay-Schlüssel bleiben unverändert. Der alte Webclient auf
+Port 8087 und der Relay auf 9443/9444 können als Rückfall zunächst weiterlaufen;
+sie sind **keine weiteren Desktopstarter**. Die laufende PWA auf 8088 bietet
+den vorhandenen same-origin-Hub-API-Proxy (/api/*); Onlinepartien benötigen
+Netzwerk und eine erreichbare Relay-Instanz, vollständiger OAuth und
+Mehrspieler-E2E sind gesondert nachzuweisen.
 
-Der Eintrag **Manabrew (Magic offline)** öffnet die Offline-Vorbereitung
-im Chrome-Appfenster mit `?desktop=1`. Beim ersten Start werden die vollständigen
-Offline-Dateien **automatisch** geladen und alle persönlichen Commander-Decks
-installiert; danach öffnet sich die Deckauswahl ohne zusätzlichen Klick.
-Weitere Starts mit fertigem Cache wechseln ebenfalls direkt zur Deckauswahl,
-auch ohne Internet. Der lokale PWA-Dienst auf Port 8088 muss für den
-Menüeintrag erreichbar sein. Die Spieldateien bleiben im lokalen Chrome-Profil.
-
-Der bisherige Eintrag heißt jetzt **Manabrew (Online / Konto)** und verweist
-unverändert auf Port 8087. Er dient der normalen Manabrew-Anmeldung,
-Community und Relay. Der getrennte Starter **Manabrew – Konto anmelden** kann
-weiterhin für den Einmalcode-OAuth-Weg genutzt werden. Keine alten Profile,
-Accounts, Decks oder Schlüssel wurden durch die Umbenennung verändert.
-Die Starter benutzen den vorhandenen Chrome aus dem Nix-Profil.
+Der vorhandene direkte Pfad ?desktop=1 ohne entry=play bleibt
+für ältere Links und Tests erhalten und führt weiter direkt zu
+/play/offline/constructed; iPad-Home-Screen-Auto-Resume bleibt unverändert.
+Ein nativer Tauri-Build wird dadurch nicht behauptet.
 
 **Login-DNS-Reparatur, 4. November 2026:** Die Authentifizierungsanbieter ließen
 sich im Offline-PWA-Dienst auf Port 8088 nicht laden (HTTP 502). Das Caddy-Journal

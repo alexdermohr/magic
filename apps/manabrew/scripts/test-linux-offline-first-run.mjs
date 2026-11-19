@@ -30,10 +30,12 @@ page.on("pageerror", (error) => errors.push(error.message));
 try {
   // A completely new Linux desktop profile must install automatically.
   // The ordinary iPad/Safari installer still requires a deliberate click.
-  await page.goto(origin + "/offline-setup.html?desktop=1", {
+  await page.goto(origin + "/offline-setup.html?desktop=1&entry=play", {
     waitUntil: "domcontentloaded",
   });
-  await page.waitForURL(/\/play\/offline\/constructed$/, { timeout: 600000 });
+  await page.waitForURL(/\/play$/, { timeout: 600000 });
+  await page.getByRole("link", { name: /^Singleplayer/ }).waitFor();
+  await page.getByRole("link", { name: /^Multiplayer/ }).waitFor();
   await page.waitForFunction(
     () => document.body.innerText.includes("Anowon, the Ruin Thief"),
     null, { timeout: 90000 },
@@ -58,7 +60,7 @@ try {
     };
   });
   console.log("LINUX_AUTO_FIRST_RUN", JSON.stringify(online));
-  assert.equal(online.path, "/play/offline/constructed");
+  assert.equal(online.path, "/play");
   assert.ok(online.decks > 0);
   assert.equal(online.decks, online.expectedDecks);
   assert.ok(online.baselines >= online.decks);
@@ -98,15 +100,21 @@ try {
 
   // A subsequent launch with the completed cache goes directly to the deck
   // picker, including when the network has been disabled.
-  await page.goto(origin + "/offline-setup.html?desktop=1", {
+  await page.goto(origin + "/offline-setup.html?desktop=1&entry=play", {
     waitUntil: "domcontentloaded",
   });
-  await page.waitForURL(/\/play\/offline\/constructed$/, { timeout: 90000 });
+  await page.waitForURL(/\/play$/, { timeout: 90000 });
   console.log("LINUX_FAST_OFFLINE_REOPEN", JSON.stringify({
     path: new URL(page.url()).pathname,
     errors,
   }));
   assert.deepEqual(errors, []);
+  // The historical desktop URL still enters solo play.
+  await page.goto(origin + "/offline-setup.html?desktop=1", {
+    waitUntil: "domcontentloaded",
+  });
+  await page.waitForURL(/\/play\/offline\/constructed$/, { timeout: 90000 });
+  console.log("LINUX_LEGACY_SOLO_ENTRY", new URL(page.url()).pathname);
 } finally {
   await context.close();
   if (ownedProfile) rmSync(profile, { recursive: true, force: true });

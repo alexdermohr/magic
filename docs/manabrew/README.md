@@ -1,5 +1,37 @@
 # Manabrew für iPad/iOS und Linux
 
+## Gemeinsame Linux-App (19. November 2026, getesteter Kandidat)
+
+Der aktuelle Magic-Client auf Port 8088 bietet bereits die Spielmodi
+**Singleplayer** (lokale Forge-/ManaBot-KI) und **Multiplayer** (Online-Lobby).
+Der bisherige Desktop-Starter führte immer nach
+`/play/offline/constructed` und verdeckte dadurch den vorhandenen Mehrspielerweg.
+Die neue Vorlage `apps/manabrew/ops/local-linux/manabrew.desktop` zeigt
+**einen** Menüeintrag *Manabrew* und öffnet über
+`/offline-setup.html?desktop=1&entry=play` nach der vorhandenen
+Offline-Vorbereitung die gemeinsame Auswahl auf `/play`.
+Gespeicherte Forge-Spiele werden weiterhin vorrangig wiederaufgenommen;
+`?desktop=1` ohne `entry=play` und iPad-Home-Screen-Starts bleiben kompatibel.
+Der Offline-Paketbuilder leitet nur noch `/`, nicht mehr `/play`, zum
+Installer um. Die alten Desktop-Vorlagen werden im Repository ersetzt,
+die bisherigen Online-Web-/Relay-Dienste bleiben zunächst als Rückfall
+aktiv. Bestehende Decks, Browserprofile, Konten und Spielstände bleiben erhalten.
+
+**Isolierte Abnahme auf Heim-PC:** Aus der am 19.11.2026 aktiven, unveränderten
+Forge-Recovery-Engine und nur zwei aktualisierten Bootstrap-Dateien wurde
+der Kandidat Manifest `a7022ecc24e0eb1281aa` mit 3790
+SHA-256-erfassten Dateien erstellt. Ein neues Chromium-Profil erreichte
+nach automatischer Installation die echte `/play`-Moduswahl,
+importierte **44/44 persönliche Commander-Decks** mit 44 Baselines,
+bestand den Offline-Kaltstart, den wiederholten Einstieg und den
+Legacy-Solo-Einstieg; **0 JavaScript-Seitenfehler**.
+Separat öffnete Chromium per Multiplayer-Link die echte `/lobby`-Route,
+meldete eine Verbindung zum öffentlichen Relay und zeigte die Live-Spielerliste;
+der Kandidaten-Proxy für `/api/auth/providers` antwortete mit HTTP 200.
+Diese Belege sind kein vollständiger OAuth-Login oder eine Zwei-Menschen-Partie.
+Ein produktiver Rollout muss zusätzlich gegen die aktive Origin geprüft
+werden; die bisherige Version und ihre Konfiguration bleiben für den Rückfall erhalten.
+
 **KI-Entwicklungsfahrplan:** [Forge zuerst verbessern, ManaBot gezielt stärken und lokal lernen](AI_ROADMAP.md). Ziele, Arbeitsreihenfolge, messbare Erfolgskriterien und Voraussetzungen für einen produktiven KI-Wechsel sind dort festgelegt.
 
 ## iPad-Deckimport: Safari-Quota-Reparatur (17. November 2026, Kandidat)
