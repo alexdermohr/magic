@@ -1,8 +1,10 @@
 # Ruxa, Patient Professor
 
-## Spielplan
+## Spielplan (Zielwechsel am 2026-11-19)
 
-Maximale tatsächliche Stärke innerhalb regulärem **Commander Bracket 3** (insbesondere 1v1), ohne Einschränkung der Pilotenkomplexität. Ruxa verstärkt fähigkeitslose Kreaturentoken; große Vanilla-Kreaturen bleiben für Ruxas Friedhofs-Rückholung.
+**Ab jetzt für vier Spieler (Multiplayer Commander)** optimieren: maximale tatsächliche Stärke am oberen Rand von **Commander Bracket 3**, ohne Einschränkung der Pilotenkomplexität. 1v1 ist nicht länger die maßgebliche Zielumgebung. Ruxa verstärkt fähigkeitslose Kreaturentoken; große Vanilla-Kreaturen bleiben für Ruxas Friedhofs-Rückholung. Langfristig zählen Durchhaltevermögen, wiederholbarer Kartenvorteil, Wiederaufbau nach Boardwipes und verlässliche Abschlüsse gegen mehrere Gegner.
+
+Die aktive Liste v4 stammt noch aus der vorherigen, auf 1v1 priorisierten Optimierung. Eine Neubewertung und Erprobung für Vier-Spieler-Partien steht aus; die Zieländerung allein ist kein Nachweis einer bereits optimierten Liste.
 
 ## Aktive Version
 
