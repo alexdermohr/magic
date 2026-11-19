@@ -12,7 +12,7 @@ Ruxa wird auf **vier Spieler**, nicht mehr auf 1v1 ausgerichtet. Ziel ist der ob
 - **100 Karten** inklusive Commander; **35 reine Länder** (28 Snow-Covered Forest + 7 andere Länder) und **1 modale Land-/Zauberkarte** (Bala Ged Recovery // Bala Ged Sanctuary, effektiv 36 spielbare Landkarten).
 - **19 Kreaturen inkl. Ruxa**, davon **3 gedruckt fähigkeitslose Kreaturen**: Leatherback Baloth, Terrian, World Tyrant, Gigantosaurus.
 - Weiterhin genau **3 bekannte Game Changer**: Ancient Tomb, Gaea's Cradle, Natural Order (Wizards-Listenstand Oktober 2025 und Update Februar 2026). Keine frühen zweikartenbasierenden Infinite-Kombos angestrebt, keine Extrazüge und keine Mass-Landverweigerung.
-- **Validierungsstatus:** Deckstruktur und Kartenzahl lokal bei der Änderung vorab geprüft; der bestehende CI-Check `validate-decks` ist zusätzlich erforderlich. Neue Karten wurden gegen öffentlich verfügbare Oracle-/Legalitätsinformationen recherchiert; ein vollständiger erneuter Scryfall-Collection-Abgleich aller 100 Kartennamen und tatsächliche Vier-Spieler-Testpartien sind **nicht** durchgeführt. Kein Spielstärke- oder Manabrew-Nachweis aus einem grünen CI-Check ableiten.
+- **Validierungsstatus (2026-11-19):** Der aktuelle v5-Commit `b533657eb1a91bc0b2d281e6c98a8cc1fa7880f7` wurde über die Scryfall Cards Collection API mit **73 eindeutigen Kartennamen/100 Gesamtkarten** vollständig geprüft. 73/73 Kartennamen gefunden, 0 Commander-illegale Karten, 0 Farbidentitätsfehler und genau 3 als Game Changer markierte Karten: Ancient Tomb, Gaea's Cradle, Natural Order. Bei der modalen Karte wurde für die Scryfall-Abfrage der Vorderseitenname `Bala Ged Recovery` verwendet; die API lieferte `Bala Ged Recovery // Bala Ged Sanctuary` (Sorcery // Land) zurück. Der GitHub-CI-Check `validate-decks` für diesen Commit war erfolgreich. **Nicht** nachgewiesen sind tatsächliche Vier-Spieler-Partien und Manabrew-Import/Spielbarkeit. Ein grüner CI-Check und korrekte Kartendaten beweisen keine reale Gewinnstärke.
 
 ## Änderungen v4 → v5 (11 gleichzahlige Ersetzungen)
 
@@ -44,10 +44,11 @@ Ruxa wird auf **vier Spieler**, nicht mehr auf 1v1 ausgerichtet. Ziel ist der ob
 - Weniger gedruckte Vanilla-Kreaturen reduzieren die Ziele für Ruxas Friedhofsrückholung auf drei; diese bleiben bewusst groß. Die meisten Tokens selbst werden nicht von Ruxa aus dem Friedhof zurückgebracht.
 - Fresh Meat zählt alle Kreaturen, die in diesem Zug vom Spielfeld in den eigenen Friedhof gelangt sind (inkl. Token, auch durch -X/-X). Gegen Exil und Bounce hilft es nicht. Verdant Force kostet acht Mana und ist besonders anfällig, wenn die Runde unmittelbar danach einen Boardwipe auslöst.
 - **Kein** Moldervine Reclamation: enthält ein schwarzes Manasymbol (Golgari-Farbidentität) und ist daher in Ruxa unzulässig. **Kein** Garruk's Uprising wegen Antisynergie. **Kein** Worldly Tutor oder Seedborn Muse, weil die vorhandenen drei Game-Changer-Slots belegt sind.
-- **Ausstehend:** offizieller voller Oracle-/Farblisten-Abgleich auf alle 100 Karten, tatsächlicher Manabrew-Import und reproduzierbare Vier-Spieler-Testspiele inklusive Gegenproben gegen frühe Boardwipes, Flying-Decks und Removal-lastige Gruppen. Erfolgsbewertung: mehrere echte Partien mit stabilem Nachzug und Gewinnwegen gegen drei Gegner.
+- **Ausstehend:** tatsächlicher Manabrew-Import und reproduzierbare Vier-Spieler-Testspiele inklusive Gegenproben gegen frühe Boardwipes, Flying-Decks und Removal-lastige Gruppen. Ein zusätzlicher Abgleich gegen Wizards Gatherer kann bei strittigen Einzelfällen sinnvoll sein; die komplette Scryfall-Legalitäts-/Farbidentitätsprüfung wurde bereits durchgeführt. Erfolgsbewertung: mehrere echte Partien mit stabilem Nachzug und Gewinnwegen gegen drei Gegner.
 
 ## Belege für Neueinbauten und Brackets
 
+- Scryfall Cards Collection API (gesamter v5-Snapshot am 2026-11-19 abgefragt): https://scryfall.com/docs/api/cards/collection
 - Wizards Commander-Format und Brackets: https://magic.wizards.com/en/formats/commander
 - Offizielle Game Changers, Oktober 2025: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-october-21-2025
 - Bracket-Update Februar 2026: https://magic.wizards.com/en/news/announcements/commander-brackets-beta-update-february-9-2026
