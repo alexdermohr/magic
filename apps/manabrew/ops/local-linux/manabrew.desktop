@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Manabrew
+Comment=Commander gegen lokale KI oder online gegen Mitspieler
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--js-flags=--liftoff-only" "--app=http://127.0.0.1:8088/offline-setup.html?desktop=1&entry=play"
+TryExec=/home/alex/.nix-profile/bin/google-chrome-stable
+Icon=applications-games
+Terminal=false
+Categories=Game;CardGame;
+StartupNotify=true
+Actions=LegacyOnline;LegacyAccount;
+
+[Desktop Action LegacyOnline]
+Name=Bisheriger Online-Client (Konto-Sitzung)
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable --app=http://127.0.0.1:8087/
+
+[Desktop Action LegacyAccount]
+Name=Konto anmelden (bisheriger Zugang)
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable --app=http://127.0.0.1:8087/local-account.html

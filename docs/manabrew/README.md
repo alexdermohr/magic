@@ -1,5 +1,90 @@
 # Manabrew für iPad/iOS und Linux
 
+## Gemeinsame Linux-App (19. November 2026, getesteter Kandidat)
+
+Der aktuelle Magic-Client auf Port 8088 bietet bereits die Spielmodi
+**Singleplayer** (lokale Forge-/ManaBot-KI) und **Multiplayer** (Online-Lobby).
+Der bisherige Desktop-Starter führte immer nach
+`/play/offline/constructed` und verdeckte dadurch den vorhandenen Mehrspielerweg.
+Die neue Vorlage `apps/manabrew/ops/local-linux/manabrew.desktop` zeigt
+**einen** Menüeintrag *Manabrew* und öffnet über
+`/offline-setup.html?desktop=1&entry=play` nach der vorhandenen
+Offline-Vorbereitung die gemeinsame Auswahl auf `/play`.
+Gespeicherte Forge-Spiele werden weiterhin vorrangig wiederaufgenommen;
+`?desktop=1` ohne `entry=play` und iPad-Home-Screen-Starts bleiben kompatibel.
+Der Offline-Paketbuilder leitet nur noch `/`, nicht mehr `/play`, zum
+Installer um. Die alten Desktop-Vorlagen werden im Repository ersetzt,
+die bisherigen Online-Web-/Relay-Dienste bleiben zunächst als Rückfall
+aktiv. Bestehende Decks, Browserprofile, Konten und Spielstände bleiben erhalten.
+
+**Isolierte Abnahme auf Heim-PC:** Aus der am 19.11.2026 aktiven, unveränderten
+Forge-Recovery-Engine und nur zwei aktualisierten Bootstrap-Dateien wurde
+der Kandidat Manifest `a7022ecc24e0eb1281aa` mit 3790
+SHA-256-erfassten Dateien erstellt. Ein neues Chromium-Profil erreichte
+nach automatischer Installation die echte `/play`-Moduswahl,
+importierte **44/44 persönliche Commander-Decks** mit 44 Baselines,
+bestand den Offline-Kaltstart, den wiederholten Einstieg und den
+Legacy-Solo-Einstieg; **0 JavaScript-Seitenfehler**.
+Separat öffnete Chromium per Multiplayer-Link die echte `/lobby`-Route,
+meldete eine Verbindung zum öffentlichen Relay und zeigte die Live-Spielerliste;
+der Kandidaten-Proxy für `/api/auth/providers` antwortete mit HTTP 200.
+Diese Belege sind kein vollständiger OAuth-Login oder eine Zwei-Menschen-Partie.
+
+**Produktiv-Rollout und Nachprüfung (19. November 2026):** Das lokal
+ausgelieferte Release liegt unter
+`~/.local/share/manabrew-ipad-magic-0d2ff8a25a7a91fa4598b70fb4e943ad757277dc-20261119`.
+Nach Umschalten ausschließlich der beiden schreibgeschützten PWA-Mounts
+meldete die aktive HTTP-Origin Port 8088 Manifest
+`a7022ecc24e0eb1281aa`, 3790 Dateien. Die alte Releasekopie auf
+Commit `993d295d440499864f405dbca5d1c3c6112b2375` bleibt bestehen.
+Die vorherige PWA-Dropin-Konfiguration liegt bytegenau unter
+`~/.local/state/manabrew-release-backup/20261119-before-manabrew-unified.conf`
+(SHA-256 `71b21d94d682d0399d0029544a0ccc506d217522aa201c2b9bd62c5744a8f433`).
+Auch der alte Desktopstarter ist unter
+`~/.local/state/manabrew-release-backup/20261119-before-manabrew-unified.desktop`
+gesichert. Im Linux-App-Menü bleibt genau ein Starter:
+`~/.local/share/applications/manabrew.desktop`.
+
+Ein **neues** Chromium-Profil auf dem aktiven Port 8088 bestand den
+Erstimport 44/44 mit 44 Baselines, Offline-Kaltstart, erneuten Einstieg
+und historischen Solo-Einstieg ohne JavaScript-Seitenfehler. Ein weiterer
+frischer Browser öffnete die Multiplayer-Lobby über den Moduslink,
+meldete eine aktive Relay-Verbindung und ein verfügbares `Set up a table`.
+Der echte Forge-WASM-Selbsttest im produktiven Offline-Cache erreichte
+ohne Internet eine Commander-Mulligan-Entscheidung, mit
+`SharedArrayBuffer` und ohne JavaScript-Seitenfehler.
+Ein zusätzlicher, isolierter **Zwei-Browser-Forge-Commander-Test** auf exakt
+der produktiven Port-8088-Version meldete zwei getrennte Benutzer am privaten
+Loopback-Relay, Host- und Gastdeck Ashling, 2/2 Spieler bereit, Start game
+und anschließend **beide echte Spielerbretter** mit 40 Lebenspunkten,
+99 Kartenbibliotheken und je korrekter gegnerischer Sitzansicht
+(Grabowski-Task 2dfa5c83f47b4b3a90083a07, Exit 0, 0 JS-Seitenfehler).
+Der aktualisierte, versionierte Zwei-Client-Test aus dem Repository bestand
+danach dieselbe Forge-Commander-Strecke auf der aktiven Version nochmals
+(Grabowski-Task d0e03e4c343b404eabf4be35, Exit 0, echte Host-/Gastbretter).
+Die Relay-E2E-Reparaturen betrafen nur veraltete Playwright-Selektoren,
+nicht die produktive Engine. **Nicht nachgewiesen** sind eine regulär zu
+Ende gespielte Zweimenschen-Partie und ein vollständiger OAuth-Login.
+Der alte Webdienst auf Port 8087 bleibt als Rückfall erhalten.
+
+**Konto-Origin beim Wechsel:** 8087 und 8088 besitzen getrennten Browser-
+Storage; die vorhandene 8087-Kontositzung kann nicht automatisch auf
+8088 übernommen werden. Der eine Linux-Starter bietet deshalb die
+Desktop-Aktionen **Bisheriger Online-Client (Konto-Sitzung)** und
+**Konto anmelden (bisheriger Zugang)** für die ursprüngliche Origin.
+So bleibt die gespeicherte Anmeldung erreichbar; die neue 8088-Origin
+erfordert eine reguläre erneute Anmeldung. Es werden keine Tokens kopiert
+oder Kontodaten verändert. Der vollständige 8088-OAuth-Rücksprung ist
+noch nicht physisch mit einem fremden Kontozugriff abgenommen.
+
+**Rückfall:** Die gesicherte PWA-Dropin-Datei an die ursprüngliche Stelle
+`~/.config/systemd/user/manabrew-ipad-pwa.service.d/10-magic-release.conf`
+zurückkopieren, `systemctl --user daemon-reload` und
+`systemctl --user restart manabrew-ipad-pwa.service` ausführen, danach
+das vorherige Releasemanifest prüfen. Den alten Desktopstarter aus
+seinem Backup unter `manabrew-magic-offline.desktop` wiederherstellen
+und `manabrew.desktop` entfernen. Keine Browserdaten oder Decks löschen.
+
 **KI-Entwicklungsfahrplan:** [Forge zuerst verbessern, ManaBot gezielt stärken und lokal lernen](AI_ROADMAP.md). Ziele, Arbeitsreihenfolge, messbare Erfolgskriterien und Voraussetzungen für einen produktiven KI-Wechsel sind dort festgelegt.
 
 ## iPad-Deckimport: Safari-Quota-Reparatur (17. November 2026, Kandidat)
