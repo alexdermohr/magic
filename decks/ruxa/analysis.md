@@ -20,6 +20,17 @@ Der echte Generator `apps/manabrew/scripts/generate-ipad-personal-decks.py` wurd
 
 **Geltungsgrenze:** Das beweist den **Manabrew-Deckgenerator-Import**, nicht den Start einer Forge-Partie mit dieser Liste, nicht die Browser- oder iPad-Oberfläche und keine Vier-Spieler-Gewinnrate.
 
+### Aktueller v6-Nachweis (19.11.2026)
+
+Der exakte PR-Quellstand `974fe540ecb7e8088ae22c50dd9542fac32c4523` (Ruxa-`current.txt` SHA-256 `486145e9b6f459a3c0729a258f2165ad6d606b13808db4b01433df2fd9a1d3b5`) wurde **isoliert in einem temporären Git-Checkout** mit frischem Scryfall-Cache und dem tatsächlichen Manabrew-Skript `apps/manabrew/scripts/generate-ipad-personal-decks.py` geprüft. Grabowski-Job `grabowski-job-a89538ea2de4`, terminal `succeeded`:
+
+- **100 Karten, 73 Kartennamen**; `current.txt` ist bytegleich zum v6-Snapshot; keine Singleton-Verletzung.
+- **Scryfall Cards Collection API:** 73/73 Namen gefunden (für `Bala Ged Recovery // Bala Ged Sanctuary` Vorderseitenname abgefragt), 0 Commander-illegale Karten, 0 unzulässige Farbidentitäten, **18 Kreaturen inklusive Ruxa**.
+- **Game Changer:** exakt 3 – Ancient Tomb, Gaea's Cradle, Natural Order; Nature's Will und Elemental Bond zählen nicht dazu.
+- **Manabrew-Personal-Deckgenerator:** Exitcode 0, 1 gültiger Ruxa-Deckdatensatz, 99 Hauptkarten + 1 Commander, 100 eindeutige Karten-IDs, beide v6-Neukarten vorhanden, Bala Ged Recovery samt Land-Rückseite vorhanden (89.486 Bytes Paket-JSON).
+
+**Grenze:** Der echte Generator-Import ist bestanden, aber ein echter Forge-Spielstart, die Browser-/iPad-Oberfläche und vollständige Vier-Spieler-Partien wurden für v6 nicht nachgewiesen. Die Tests änderten keine bestehenden Decks, Spielstände oder Produktionsartefakte.
+
 ## Änderungen v5 → v6 (2 gleichzahlige Ersetzungen)
 
 **Korrektur der früheren Kreaturenzählung:** v5 hatte tatsächlich 20 Kreaturen, nicht die damals in der README angegebenen 19. Nach Entfernung von Verdant Force und Regal Force enthält v6 18 Kreaturen einschließlich Ruxa. Die neue Zählung ergibt sich aus den Kartentypen des vollständigen Scryfall-Abgleichs (73/73 Namen, keine Farb- oder Legalitätsfehler).
@@ -63,7 +74,7 @@ Der echte Generator `apps/manabrew/scripts/generate-ipad-personal-decks.py` wurd
 - Weniger gedruckte Vanilla-Kreaturen reduzieren die Ziele für Ruxas Friedhofsrückholung auf drei; diese bleiben bewusst groß. Die meisten Tokens selbst werden nicht von Ruxa aus dem Friedhof zurückgebracht.
 - Fresh Meat zählt alle Kreaturen, die in diesem Zug vom Spielfeld in den eigenen Friedhof gelangt sind (inkl. Token, auch durch -X/-X). Gegen Exil und Bounce hilft es nicht.
 - **Kein** Moldervine Reclamation: enthält ein schwarzes Manasymbol (Golgari-Farbidentität) und ist daher in Ruxa unzulässig. **Kein** Garruk's Uprising wegen Antisynergie. **Kein** Worldly Tutor oder Seedborn Muse, weil die vorhandenen drei Game-Changer-Slots belegt sind.
-- **Ausstehend:** isolierter Manabrew-Import für **v6** und reproduzierbare echte Vier-Spieler-Testspiele inklusive Gegenproben gegen frühe Boardwipes, Flying-Decks und Removal-lastige Gruppen. Der v5-Importgenerator-Test ist oben belegt; ein nachfolgender älterer Node-Forge-Vier-Spieler-Test erreichte innerhalb des Timeouts keine nachgewiesene Spielentscheidung, was keine Diagnose der Kartenliste erlaubt. Ein zusätzlicher Abgleich gegen Wizards Gatherer kann bei strittigen Einzelfällen sinnvoll sein; die komplette Scryfall-Legalitäts-/Farbidentitätsprüfung wurde bereits durchgeführt. Erfolgsbewertung: mehrere echte Partien mit stabilem Nachzug und Gewinnwegen gegen drei Gegner.
+- **Ausstehend:** reproduzierbare echte Vier-Spieler-Testspiele auf v6 inklusive Gegenproben gegen frühe Boardwipes, Flying-Decks und Removal-lastige Gruppen. Der v6-Importgenerator-Test ist oben bestanden; ein früherer Test mit altem Node-Forge-Paket (v5) erreichte innerhalb des Timeouts keine nachgewiesene Spielentscheidung und ist kein Nachweis eines Deckfehlers. Ein zusätzlicher Abgleich gegen Wizards Gatherer kann bei strittigen Einzelfällen sinnvoll sein; die komplette Scryfall-Legalitäts-/Farbidentitätsprüfung wurde bereits durchgeführt. Erfolgsbewertung: mehrere echte Partien mit stabilem Nachzug und Gewinnwegen gegen drei Gegner.
 
 ## Belege für Neueinbauten und Brackets
 
