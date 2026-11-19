@@ -10,7 +10,7 @@ Die aktive v5-Liste wurde gegenüber der 1v1-orientierten v4 gezielt für länge
 
 - `current.txt` = `versions/2026-11-19-upper-b3-four-player-v5.txt`
 - 100 Karten / 35 reine Länder + 1 modale Land-/Zauberkarte / 19 Kreaturen einschließlich Ruxa / 3 echte Vanilla-Kreaturenkarten / drei Game Changer
-- Struktur-/Singleton-Validierung für v5 vorgesehen; neu aufgenommene Karten auf Commander-Legalität und mono-grüne Farbidentität anhand Kartenquellen geprüft. Der frühere Scryfall-Gesamtabgleich betraf v4 (2026-10-11).
+- **Scryfall-Gesamtabgleich am 2026-11-19:** alle 73 eindeutigen Kartennamen der v5 gefunden, alle Commander-legal und mono-grün; genau drei von Scryfall als Game Changer markierte Karten. Die modale Karte `Bala Ged Recovery // Bala Ged Sanctuary` wurde über ihren Vorderseitennamen abgefragt. Die GitHub-Deckstrukturprüfung `validate-decks` ist bestanden; Spieltests sind dadurch nicht belegt.
 - Bracket-3-Eignung nach veröffentlichten Wizards-Kriterien geprüft; keine tatsächliche Gewinnrate oder manabrew.app-Umsetzung gemessen.
 
 ## Historische Versionen
