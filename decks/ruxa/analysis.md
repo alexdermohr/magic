@@ -10,7 +10,7 @@
 Ruxa wird auf **vier Spieler**, nicht mehr auf 1v1 ausgerichtet. Ziel ist der obere Rand des regulären **Commander Bracket 3**: längere Partien überstehen, drei Gegner kontrollieren bzw. überrennen können, nach Removal wieder aufbauen und die fähigkeitslosen Token als Druckmittel nutzen.
 
 - **100 Karten** inklusive Commander; **35 reine Länder** (28 Snow-Covered Forest + 7 andere Länder) und **1 modale Land-/Zauberkarte** (Bala Ged Recovery // Bala Ged Sanctuary, effektiv 36 spielbare Landkarten).
-- **17 Kreaturen inkl. Ruxa**, davon **3 gedruckt fähigkeitslose Kreaturen**: Leatherback Baloth, Terrian, World Tyrant, Gigantosaurus.
+- **18 Kreaturen inkl. Ruxa**, davon **3 gedruckt fähigkeitslose Kreaturen**: Leatherback Baloth, Terrian, World Tyrant, Gigantosaurus.
 - Weiterhin genau **3 bekannte Game Changer**: Ancient Tomb, Gaea's Cradle, Natural Order (Wizards-Listenstand Oktober 2025 und Update Februar 2026). Keine frühen zweikartenbasierenden Infinite-Kombos angestrebt, keine Extrazüge und keine Mass-Landverweigerung.
 - **Historischer v5-Verifikationsstand (2026-11-19):** Der damalige v5-Commit `b533657eb1a91bc0b2d281e6c98a8cc1fa7880f7` wurde über die Scryfall Cards Collection API mit **73 eindeutigen Kartennamen/100 Gesamtkarten** vollständig geprüft. 73/73 Kartennamen gefunden, 0 Commander-illegale Karten, 0 Farbidentitätsfehler und genau 3 als Game Changer markierte Karten: Ancient Tomb, Gaea's Cradle, Natural Order. Bei der modalen Karte wurde für die Scryfall-Abfrage der Vorderseitenname `Bala Ged Recovery` verwendet; die API lieferte `Bala Ged Recovery // Bala Ged Sanctuary` (Sorcery // Land) zurück. Der GitHub-CI-Check `validate-decks` für diesen Commit war erfolgreich. **Nicht** nachgewiesen waren damit tatsächliche Vier-Spieler-Partien und Manabrew-Import/Spielbarkeit; der getrennte v5-Deckgenerator-Test steht unmittelbar darunter. Ein grüner CI-Check und korrekte Kartendaten beweisen keine reale Gewinnstärke.
 
@@ -21,6 +21,9 @@ Der echte Generator `apps/manabrew/scripts/generate-ipad-personal-decks.py` wurd
 **Geltungsgrenze:** Das beweist den **Manabrew-Deckgenerator-Import**, nicht den Start einer Forge-Partie mit dieser Liste, nicht die Browser- oder iPad-Oberfläche und keine Vier-Spieler-Gewinnrate.
 
 ## Änderungen v5 → v6 (2 gleichzahlige Ersetzungen)
+
+**Korrektur der früheren Kreaturenzählung:** v5 hatte tatsächlich 20 Kreaturen, nicht die damals in der README angegebenen 19. Nach Entfernung von Verdant Force und Regal Force enthält v6 18 Kreaturen einschließlich Ruxa. Die neue Zählung ergibt sich aus den Kartentypen des vollständigen Scryfall-Abgleichs (73/73 Namen, keine Farb- oder Legalitätsfehler).
+
 
 | Entfernt | Neu | Warum für vier Spieler? |
 | --- | --- | --- |
