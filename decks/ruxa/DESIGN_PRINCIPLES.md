@@ -1,8 +1,17 @@
-# Ruxa – gültige Designprinzipien (2026-10-11, v4)
+# Ruxa – gültige Designprinzipien (2026-11-19: Vier-Spieler-Ziel, v4 als Ausgangsliste)
 
 ## Ziel
 
-**Maximale reale Gewinnstärke innerhalb von Commander Bracket 3**, vorrangig im 1v1. Die frühere harte Vorgabe einer einfachen Bedienung und eines Komplexitätswerts von 3/10 ist **aufgehoben**. Anspruchsvolle Zugfolgen, wiederkehrende Trigger, Boardzustände, Card-Draw-Engines und Tutorentscheidungen sind zulässig, wenn sie die Deckleistung steigern.
+**Maximale reale Gewinnstärke innerhalb von Commander Bracket 3 in Vier-Spieler-Partien (Multiplayer Commander)**. 1v1 ist nicht mehr der Optimierungsmaßstab. Die frühere harte Vorgabe einer einfachen Bedienung und eines Komplexitätswerts von 3/10 ist **aufgehoben**. Anspruchsvolle Zugfolgen, wiederkehrende Trigger, Boardzustände, Card-Draw-Engines und Tutorentscheidungen sind zulässig, wenn sie die Deckleistung steigern.
+
+Die bisherige v4-Kartenliste ist noch nicht nach diesem neuen Maßstab neu optimiert oder experimentell abgenommen. Alte Aussagen zu 1v1 in historischen Analysen sind keine aktuelle Zielvorgabe.
+
+## Prioritäten für vier Spieler
+
+- **Ausdauer statt einmaliger Explosivität:** regelmäßige Token- und Kartenproduktion, belastbare Manaentwicklung und Wiederaufbau nach mehreren gegnerischen Interaktionen bzw. Boardwipes.
+- **Mehrere Gegner statt ein Duell:** ausreichende Verteidigung, gutes Ressourcenmanagement über längere Runden sowie Abschlüsse, die nicht nur einen einzelnen Spieler ausschalten.
+- **Ruxa-Synergie erhalten:** dauerhafte Effekte, die unseren fähigkeitslosen Kreaturen Fähigkeiten verleihen, kritisch bis ablehnend bewerten. Insbesondere **Garruk's Uprising / Garruks Aufstand nicht aufnehmen**: Das globale Trampelschaden-Verleihen gibt allen eigenen Kreaturen eine Fähigkeit und deaktiviert damit sowohl Ruxas +1/+1-Bonus als auch seine besondere Kampfschadenszuweisung für diese Kreaturen. Der Kartenzieheffekt wiegt das in diesem Deck typischerweise nicht auf.
+- **Bewertungsmaßstab:** neue Karten nach tatsächlichem Nutzen in einem Vier-Spieler-Spiel prüfen, nicht nur nach maximalem Schadenspotenzial in 1v1.
 
 ## Grenzen
 
