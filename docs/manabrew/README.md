@@ -29,8 +29,51 @@ Separat öffnete Chromium per Multiplayer-Link die echte `/lobby`-Route,
 meldete eine Verbindung zum öffentlichen Relay und zeigte die Live-Spielerliste;
 der Kandidaten-Proxy für `/api/auth/providers` antwortete mit HTTP 200.
 Diese Belege sind kein vollständiger OAuth-Login oder eine Zwei-Menschen-Partie.
-Ein produktiver Rollout muss zusätzlich gegen die aktive Origin geprüft
-werden; die bisherige Version und ihre Konfiguration bleiben für den Rückfall erhalten.
+
+**Produktiv-Rollout und Nachprüfung (19. November 2026):** Das lokal
+ausgelieferte Release liegt unter
+`~/.local/share/manabrew-ipad-magic-0d2ff8a25a7a91fa4598b70fb4e943ad757277dc-20261119`.
+Nach Umschalten ausschließlich der beiden schreibgeschützten PWA-Mounts
+meldete die aktive HTTP-Origin Port 8088 Manifest
+`a7022ecc24e0eb1281aa`, 3790 Dateien. Die alte Releasekopie auf
+Commit `993d295d440499864f405dbca5d1c3c6112b2375` bleibt bestehen.
+Die vorherige PWA-Dropin-Konfiguration liegt bytegenau unter
+`~/.local/state/manabrew-release-backup/20261119-before-manabrew-unified.conf`
+(SHA-256 `71b21d94d682d0399d0029544a0ccc506d217522aa201c2b9bd62c5744a8f433`).
+Auch der alte Desktopstarter ist unter
+`~/.local/state/manabrew-release-backup/20261119-before-manabrew-unified.desktop`
+gesichert. Im Linux-App-Menü bleibt genau ein Starter:
+`~/.local/share/applications/manabrew.desktop`.
+
+Ein **neues** Chromium-Profil auf dem aktiven Port 8088 bestand den
+Erstimport 44/44 mit 44 Baselines, Offline-Kaltstart, erneuten Einstieg
+und historischen Solo-Einstieg ohne JavaScript-Seitenfehler. Ein weiterer
+frischer Browser öffnete die Multiplayer-Lobby über den Moduslink,
+meldete eine aktive Relay-Verbindung und ein verfügbares `Set up a table`.
+Der echte Forge-WASM-Selbsttest im produktiven Offline-Cache erreichte
+ohne Internet eine Commander-Mulligan-Entscheidung, mit
+`SharedArrayBuffer` und ohne JavaScript-Seitenfehler.
+Ein zusätzlicher, isolierter **Zwei-Browser-Forge-Commander-Test** auf exakt
+der produktiven Port-8088-Version meldete zwei getrennte Benutzer am privaten
+Loopback-Relay, Host- und Gastdeck Ashling, 2/2 Spieler bereit, Start game
+und anschließend **beide echte Spielerbretter** mit 40 Lebenspunkten,
+99 Kartenbibliotheken und je korrekter gegnerischer Sitzansicht
+(Grabowski-Task 2dfa5c83f47b4b3a90083a07, Exit 0, 0 JS-Seitenfehler).
+Der aktualisierte, versionierte Zwei-Client-Test aus dem Repository bestand
+danach dieselbe Forge-Commander-Strecke auf der aktiven Version nochmals
+(Grabowski-Task d0e03e4c343b404eabf4be35, Exit 0, echte Host-/Gastbretter).
+Die Relay-E2E-Reparaturen betrafen nur veraltete Playwright-Selektoren,
+nicht die produktive Engine. **Nicht nachgewiesen** sind eine regulär zu
+Ende gespielte Zweimenschen-Partie und ein vollständiger OAuth-Login.
+Der alte Webdienst auf Port 8087 bleibt als Rückfall erhalten.
+
+**Rückfall:** Die gesicherte PWA-Dropin-Datei an die ursprüngliche Stelle
+`~/.config/systemd/user/manabrew-ipad-pwa.service.d/10-magic-release.conf`
+zurückkopieren, `systemctl --user daemon-reload` und
+`systemctl --user restart manabrew-ipad-pwa.service` ausführen, danach
+das vorherige Releasemanifest prüfen. Den alten Desktopstarter aus
+seinem Backup unter `manabrew-magic-offline.desktop` wiederherstellen
+und `manabrew.desktop` entfernen. Keine Browserdaten oder Decks löschen.
 
 **KI-Entwicklungsfahrplan:** [Forge zuerst verbessern, ManaBot gezielt stärken und lokal lernen](AI_ROADMAP.md). Ziele, Arbeitsreihenfolge, messbare Erfolgskriterien und Voraussetzungen für einen produktiven KI-Wechsel sind dort festgelegt.
 

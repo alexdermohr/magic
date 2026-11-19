@@ -12,7 +12,12 @@
 const BASE = () => process.env.BASE || "http://localhost:1420";
 
 export function launchOpts() {
-  return { channel: "chrome", headless: process.env.HEADED !== "1" };
+  return {
+    ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
+      ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE, args: ["--no-sandbox", "--disable-dev-shm-usage", "--js-flags=--liftoff-only"] }
+      : { channel: "chrome" }),
+    headless: process.env.HEADED !== "1",
+  };
 }
 
 /** A short unique player name so reruns never collide with a relay's preserved seats. */
@@ -46,7 +51,7 @@ export async function controls(page) {
 
 /** Set the guest nickname from the Play home nudge. Idempotent. */
 export async function onboard(page, nickname) {
-  await page.goto(BASE() + "/", { waitUntil: "networkidle" });
+  await page.goto(BASE() + (process.env.ONBOARD_PATH || "/"), { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
   const rename = page.getByRole("button", { name: /Change name/i }).first();
   if (await rename.count()) {
@@ -85,7 +90,7 @@ export async function connectLocal(page, username) {
 /** Create a Match room on the given engine + format, waiting for the relay to be connected first. */
 export async function createRoom(page, { name, engine = "Ironsmith", format } = {}) {
   await page.goto(BASE() + "/lobby", { waitUntil: "networkidle" });
-  const setUp = page.getByRole("button", { name: /Set up a table/i });
+  const setUp = page.getByRole("button", { name: /Set up a table/i }).first();
   for (let i = 0; i < 30 && (await setUp.isDisabled().catch(() => true)); i++) {
     await page.waitForTimeout(500);
   }
@@ -128,7 +133,7 @@ export function deckButton(page) {
 /** Open the deck dialog opened by `opener` and pick a preset by (partial) name. */
 export async function pickPreset(page, opener, preset) {
   await opener();
-  const dlg = page.locator("[role=dialog]");
+  const dlg = page.locator("[role=dialog][data-state=open]").last();
   await dlg.waitFor({ timeout: 5000 });
   // The tiles load after the dialog opens.
   const tile = dlg.getByRole("button", { name: new RegExp(preset, "i") }).first();
@@ -147,7 +152,7 @@ export async function pickPreset(page, opener, preset) {
 /** List the preset decks the picker currently offers (format-filtered). */
 export async function listPresets(page) {
   await deckButton(page).click();
-  const dlg = page.locator("[role=dialog]");
+  const dlg = page.locator("[role=dialog][data-state=open]").last();
   await dlg.waitFor();
   const names = (
     await dlg

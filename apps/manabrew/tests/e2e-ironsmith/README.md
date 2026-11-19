@@ -46,10 +46,30 @@ node tests/e2e-ironsmith/ironsmith-two-clients.mjs
 
 Each prints `PASS: …` and exits 0 on success, or `FAIL: …` and exits non-zero.
 
+### Unsere zusammengeführte Magic-PWA (Forge, zwei menschliche Spieler)
+
+Das gleiche Zwei-Client-Skript kann ohne experimentelles Ironsmith direkt
+gegen den ausgelieferten Magic-Client getestet werden. **Nur einen separaten
+lokalen Testrelay mit eigenem Dummy-Schlüssel verwenden**, nie den öffentlichen
+Relay mit Testpartien belegen. Beispiel für einen bereits unter 19543 laufenden
+Testrelay und einen Linux-Chromium-PWA-Client unter 8088:
+
+    BASE=http://127.0.0.1:8088 RELAY_HOST=127.0.0.1 RELAY_PORT=19543 \
+      ONBOARD_PATH=/play ENGINE=Forge FORMAT=Commander \
+      PLAYWRIGHT_CHROMIUM_EXECUTABLE=/home/alex/.nix-profile/bin/google-chrome-stable \
+      node tests/e2e-ironsmith/ironsmith-two-clients.mjs
+
+Die beiden Browserkontexte benutzen getrennte lokale Profile. Die Tests
+prüfen echte Sitzbelegung und Spielbretter nach dem Hoststart, nicht
+automatisch eine vollständig beendete Commander-Partie oder OAuth.
+
 ### Env knobs
 
 | Var          | Default                 | Meaning                                     |
 | ------------ | ----------------------- | ------------------------------------------- |
+| `ENGINE`     | `Ironsmith`             | Ironsmith oder Forge                       |
+| `ONBOARD_PATH` | `/`                  | `/play` für vorbereitete Offline-PWA       |
+| `PLAYWRIGHT_CHROMIUM_EXECUTABLE` | _(off)_ | System-Chromium auf NixOS             |
 | `BASE`       | `http://localhost:1420` | web client URL (e.g. `:4173` for preview)   |
 | `RELAY_HOST` | `localhost`             | relay host the client is pointed at         |
 | `RELAY_PORT` | `9443`                  | relay port                                  |

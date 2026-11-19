@@ -64,8 +64,9 @@ Accountdaten und Relay-Schlüssel bleiben unverändert. Der alte Webclient auf
 Port 8087 und der Relay auf 9443/9444 können als Rückfall zunächst weiterlaufen;
 sie sind **keine weiteren Desktopstarter**. Die laufende PWA auf 8088 bietet
 den vorhandenen same-origin-Hub-API-Proxy (/api/*); Onlinepartien benötigen
-Netzwerk und eine erreichbare Relay-Instanz, vollständiger OAuth und
-Mehrspieler-E2E sind gesondert nachzuweisen.
+Netzwerk und eine erreichbare Relay-Instanz. Ein echter Forge-Zweiclient-Test
+bis zum Spielbrett wurde auf der aktiven PWA mit getrenntem Testrelay bestätigt;
+OAuth-Anmeldung und vollständiges Spielende bleiben gesondert zu verifizieren.
 
 Der vorhandene direkte Pfad ?desktop=1 ohne entry=play bleibt
 für ältere Links und Tests erhalten und führt weiter direkt zu
