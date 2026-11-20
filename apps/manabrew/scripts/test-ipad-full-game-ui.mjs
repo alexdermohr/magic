@@ -3,6 +3,8 @@ const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright")
 const origin = process.argv[2] ?? "http://127.0.0.1:8088";
 const player = process.argv[3] ?? "Anowon, the Ruin Thief";
 const opponent = process.argv[4] ?? "Gahiji, Honored One";
+const limitMs = Number(process.env.MANABREW_FULLGAME_LIMIT_MS ?? 720000);
+if (!Number.isFinite(limitMs) || limitMs <= 0) throw new Error("Invalid full-game time limit");
 const context = await chromium.launchPersistentContext(
   process.env.MANABREW_TEST_PROFILE ?? "/tmp/manabrew-ipad-fullgame-ui",
   {
@@ -34,13 +36,13 @@ const state = () =>
   page.evaluate(() => {
     const body = document.body.innerText;
     const decisions = window.__engineDecisions ?? [];
-    const life = [...body.matchAll(/Inspect (you|Forge AI), (-?\d+) life/g)].map((m) => ({
-      name: m[1],
+    const life = [...body.matchAll(/Inspect (you|Forge bot|Brewy bot), (-?\d+) life/g)].map((m) => ({
+      name: m[1] === "you" ? "You" : m[1],
       amount: Number(m[2]),
     }));
     // Commander damage or poison may eliminate a player above zero life.
-    for (const eliminated of body.matchAll(/\b(You|Forge bot): (-?\d+) life \(eliminated\)/g)) {
-      const name = eliminated[1] === "You" ? "you" : "Forge AI";
+    for (const eliminated of body.matchAll(/\b(You|Forge bot|Brewy bot): (-?\d+) life \(eliminated\)/g)) {
+      const name = eliminated[1];
       const existing = life.find((seat) => seat.name === name);
       if (existing) existing.eliminated = true;
       else life.push({ name, amount: Number(eliminated[2]), eliminated: true });
@@ -66,7 +68,7 @@ let passes = 0;
 let reveals = 0;
 let reorders = 0;
 let terminal = null;
-let idle = 0;
+let idleSince = Date.now();
 
 try {
   await context.setOffline(true);
@@ -75,6 +77,7 @@ try {
     .getByRole("button", { name: new RegExp("^" + player.split(",")[0]) })
     .first()
     .click();
+  await page.getByRole("button", { name: /^Choose deck for Bot 1$/ }).click();
   await page
     .getByRole("button", { name: new RegExp("^" + opponent.split(",")[0]) })
     .first()
@@ -87,15 +90,20 @@ try {
     .getByRole("dialog")
     .getByRole("button", { name: /^Fight!?$/ })
     .click();
-  await page.getByRole("dialog").getByRole("button", { name: /1v1/ }).click();
-  await page.getByRole("button", { name: /^KEEP$/ }).waitFor({ timeout: 150000 });
-  await page.getByRole("button", { name: /^KEEP$/ }).click();
+  await page.waitForFunction(
+    () => document.body.innerText.includes("Game board controls") &&
+      (window.__engineDecisions ?? []).some((entry) => entry.type === "mulligan"),
+    null,
+    { timeout: 180000 },
+  );
+  await page.keyboard.press("Space");
   await page.waitForFunction(
     () => (window.__engineDecisions ?? []).some((decision) => decision.type === "chooseAction"),
     null,
     { timeout: 110000 },
   );
-  for (let index = 0; index < 380; index++) {
+  idleSince = Date.now();
+  while (Date.now() - start <= limitMs) {
     const current = await state();
     if (!current.offline) throw new Error("Browser connected during offline game");
     const defeated = current.life.find((seat) => seat.amount <= 0 || seat.eliminated);
@@ -109,11 +117,10 @@ try {
       if (process.env.MANABREW_FULLGAME_SCREENSHOT) {
         await page.screenshot({ path: process.env.MANABREW_FULLGAME_SCREENSHOT });
       }
-      // The Pixi game-over modal changes height with the number of players.
-      // Enter invokes its visible RETURN TO MENU action for both 1v1 and pods.
       await page.keyboard.press("Enter");
       await page.waitForFunction(
-        () => !document.body.innerText.includes("Game board controls"),
+        () => location.pathname === "/play" &&
+          !document.body.innerText.includes("Game board controls") && !navigator.onLine,
         null,
         { timeout: 12000 },
       );
@@ -141,12 +148,21 @@ try {
     if (!current.playing) {
       throw new Error("Returned to game menu without a terminal life total");
     } else if (current.type === "chooseCards" && current.step === "Cleanup" && current.hand > 7) {
+      await page.waitForFunction(
+        () => [...document.querySelectorAll("canvas")].some(
+          (canvas) => canvas.width === 1180 && canvas.height === 820,
+        ),
+        null,
+        { timeout: 15000 },
+      );
+      await page.waitForTimeout(450);
       const excess = current.hand - 7;
+      if (excess > 6) throw new Error("Cleanup needs more selections than visible cards");
       for (let selected = 0; selected < excess; selected++) {
-        await touch([175, 465, 753, 1037][selected % 4], selected < 4 ? 235 : 525);
-        await page.waitForTimeout(70);
+        await touch([330, 590, 850][selected % 3], selected < 3 ? 270 : 610);
+        await page.waitForTimeout(200);
       }
-      await touch(495, 783);
+      await page.keyboard.press("Enter");
       discards++;
     } else if (current.type === "revealCards") {
       // The CONTINUE button moves with the reveal dialog width; the fixed
@@ -168,20 +184,17 @@ try {
     actions++;
     await page.waitForTimeout(190);
     const updated = await state();
-    idle =
-      updated.count === current.count &&
-      updated.step === current.step &&
-      updated.life.map((seat) => seat.amount).join() ===
-        current.life.map((seat) => seat.amount).join()
-        ? idle + 1
-        : 0;
-    if (idle >= 18 && !terminal) {
-      throw new Error("Pixi input stalled: " + JSON.stringify(updated));
+    const advanced =
+      updated.count !== current.count ||
+      updated.step !== current.step ||
+      updated.life.map((seat) => `${seat.name}:${seat.amount}:${seat.eliminated}`).join() !==
+        current.life.map((seat) => `${seat.name}:${seat.amount}:${seat.eliminated}`).join();
+    if (advanced) idleSince = Date.now();
+    if (Date.now() - idleSince >= 45_000) {
+      throw new Error("No game state progress for 45s: " + JSON.stringify(updated));
     }
-    if (Date.now() - start > 360000) throw new Error("Six-minute full-game limit");
-    if (index === 379) throw new Error("Full-game action limit reached");
   }
-  if (!terminal) throw new Error("No natural Commander game conclusion");
+  if (!terminal) throw new Error("Full-game time limit without a natural Commander conclusion");
 } finally {
   await context.close();
 }
