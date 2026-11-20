@@ -9,7 +9,7 @@
 // Usage: node tests/e2e-ironsmith/ironsmith-two-clients.mjs
 //        DECK="Mono Red Prison" FORMAT=Vintage SHOT=/tmp/shots node .../ironsmith-two-clients.mjs
 
-import { chromium } from "playwright";
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright");
 import {
   launchOpts,
   uniqueName,
@@ -20,8 +20,9 @@ import {
   deckButton,
 } from "./lib.mjs";
 
-const DECK = process.env.DECK || "Mono Red Prison";
-const FORMAT = process.env.FORMAT || "Vintage";
+const ENGINE = process.env.ENGINE || "Ironsmith";
+const DECK = process.env.DECK || (ENGINE === "Forge" ? "Ashling, the Limitless" : "Mono Red Prison");
+const FORMAT = process.env.FORMAT || (ENGINE === "Forge" ? "Commander" : "Vintage");
 const SHOT = process.env.SHOT || null;
 const ROOM = "IronsmithPair" + Date.now().toString(36).slice(-4);
 
@@ -41,7 +42,7 @@ try {
 
   await onboard(host, hostName);
   await connectLocal(host, hostName);
-  await createRoom(host, { name: ROOM, engine: "Ironsmith", format: FORMAT });
+  await createRoom(host, { name: ROOM, engine: ENGINE, format: ENGINE === "Forge" && FORMAT === "Commander" ? undefined : FORMAT });
   await pickPreset(host, () => deckButton(host).click(), DECK);
 
   // Guest joins the room from the lobby.
@@ -61,15 +62,17 @@ try {
   await pickPreset(guest, () => deckButton(guest).click(), DECK);
 
   // Guest marks ready — the host's Start button is gated on it.
-  const ready = guest.getByRole("button", { name: /^Ready$/ });
+  const ready = guest.getByRole("button", { name: /^Ready(?: up)?$/i });
   if (await ready.count()) await ready.click();
   await guest.waitForTimeout(1000);
 
   // Host starts once both seats are decked and the guest is ready.
   await host.waitForTimeout(1000);
-  await host.getByRole("button", { name: /Start (Game|Table)/i }).click();
-  await host.waitForTimeout(10000);
-  await guest.waitForTimeout(4000);
+  await host.getByRole("button", { name: /^Start\b/i }).first().click();
+  await Promise.all([
+    host.waitForFunction(() => document.body.innerText.includes("Game board controls"), null, { timeout: 180000 }),
+    guest.waitForFunction(() => document.body.innerText.includes("Game board controls"), null, { timeout: 180000 }),
+  ]);
 
   if (SHOT) {
     await host.screenshot({ path: `${SHOT}/two-host.png`, fullPage: true });
@@ -80,7 +83,7 @@ try {
   const guestOk = await onBoard(guest);
   if (hostOk && guestOk) {
     console.log(
-      "PASS: both host and guest reached a live Ironsmith board (encrypted relay path OK)",
+      `PASS: both host and guest reached a live ${ENGINE} board (encrypted relay path OK)`,
     );
   } else {
     console.error(`FAIL: host board=${hostOk} guest board=${guestOk} (guest url=${guest.url()})`);
