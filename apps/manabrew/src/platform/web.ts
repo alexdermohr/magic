@@ -293,6 +293,7 @@ class WorkerBridge {
   >();
   private eventBus: WebEventBus;
   private initPromise: Promise<void> | null = null;
+  private forgeTelemetryUnsubscribe: Array<() => void> = [];
 
   workerIsForgeWasm = false;
   // Before the first playable prompt, Forge may require acknowledgments for
@@ -719,14 +720,16 @@ class WorkerBridge {
    * Initialize the worker lazily.
    */
   async init(forgeWasm = isForgeWasmHostingEnabled()): Promise<void> {
+    if (this.initPromise) return this.initPromise;
     if (this.worker) return;
-
-    if (this.initPromise) {
-      return this.initPromise;
+    const pending = this.doInit(forgeWasm);
+    this.initPromise = pending;
+    try {
+      await pending;
+    } catch (error) {
+      if (this.initPromise === pending) this.terminate();
+      throw error;
     }
-
-    this.initPromise = this.doInit(forgeWasm);
-    return this.initPromise;
   }
 
   private async doInit(forgeWasm: boolean): Promise<void> {
@@ -755,25 +758,27 @@ class WorkerBridge {
             bot?: number;
             checkpointMs?: number;
           };
-          this.eventBus.on<Array<[number, number]>>("forge:checkpoints", (samples) => {
-            if (samples) noteCheckpointTimings(samples);
-          });
+          this.forgeTelemetryUnsubscribe.push(
+            this.eventBus.on<Array<[number, number]>>("forge:checkpoints", (samples) => {
+              if (samples) noteCheckpointTimings(samples);
+            }),
+          );
           const dec = window as unknown as { __engineDecisions?: Decision[] };
           dec.__engineDecisions = dec.__engineDecisions ?? [];
-          this.eventBus.on<Decision>("forge:decision", (p) => {
+          this.forgeTelemetryUnsubscribe.push(this.eventBus.on<Decision>("forge:decision", (p) => {
             if (!p) return;
             if (dec.__engineDecisions) ringPush(dec.__engineDecisions, p);
             // The engine's own measure of itself, which no other engine
             // reports: the interval from the answer landing to the next
             // prompt being ready, with no client polling in it.
             noteEngineThinkTime(p.ms, p.turns ?? 0, p.bot, p.checkpointMs);
-          });
+          }));
           // Forge prints Java stack traces a line at a time, which is hundreds
           // of console entries for one message. Every line is kept for the
           // tests; the console gets the message and a count of the frames
           // under it.
           let frames = 0;
-          this.eventBus.on<{ level?: string; text?: string }>("forge:log", (p) => {
+          this.forgeTelemetryUnsubscribe.push(this.eventBus.on<{ level?: string; text?: string }>("forge:log", (p) => {
             const text = p?.text ?? "";
             if (w.__forgeLog) ringPush(w.__forgeLog, text);
             if (/^\s*(at\s|@)/.test(text)) {
@@ -785,43 +790,76 @@ class WorkerBridge {
               frames = 0;
             }
             console.log("[forge]", text);
-          });
+          }));
         }
 
-        this.worker.onmessage = this.handleMessage.bind(this);
-        this.worker.onerror = (e) => {
-          e.preventDefault();
-          console.error("[WorkerBridge] Worker error:", e);
-          noteOfflineResumeEvent("engine_worker_error", undefined, "worker_error");
-          const error = workerError(e);
-          reportClientError(error, "engine-worker");
-          reject(error);
-          for (const pending of this.pendingRequests.values()) pending.reject(error);
-          this.pendingRequests.clear();
+        const worker = this.worker;
+        let ready = false;
+        let unsubscribeInit: (() => void) | null = null;
+        const failWorker = (error: Error) => {
+          if (this.worker !== worker) return;
+          unsubscribeInit?.();
+          unsubscribeInit = null;
+          const gameActive = this.localSeat !== null ||
+            this.remoteSeats.size > 0 ||
+            [...this.pendingRequests.values()].some((pending) =>
+              pending.worker === worker &&
+              (pending.command === "start_game" || pending.command === "start_multiplayer_game"));
+          for (const [requestId, pending] of this.pendingRequests) {
+            if (pending.worker !== worker) continue;
+            this.pendingRequests.delete(requestId);
+            pending.reject(error);
+          }
+          if (!ready) {
+            reject(error);
+          } else if (gameActive) {
+            if (this.workerIsForgeWasm) this.eventBus.emit("forge:engine_crash", {});
+            this.eventBus.emit("game:forced_end", {
+              reason: "worker_error",
+              message: error.message,
+              name: error.name,
+              stack: error.stack,
+            });
+          }
+          if (this.worker === worker) this.terminate();
         };
-        this.worker.onmessageerror = () =>
-          reportClientError(
-            new Error("Engine worker message could not be decoded"),
-            "engine-worker",
-          );
+        worker.onmessage = (event) => {
+          if (this.worker === worker) this.handleMessage(event);
+        };
+        worker.onerror = (event) => {
+          if (this.worker !== worker) return;
+          event.preventDefault();
+          console.error("[WorkerBridge] Worker error:", event);
+          noteOfflineResumeEvent("engine_worker_error", undefined, "worker_error");
+          const error = workerError(event);
+          reportClientError(error, "engine-worker");
+          failWorker(error);
+        };
+        worker.onmessageerror = () => {
+          const error = new Error("Engine worker message could not be decoded");
+          reportClientError(error, "engine-worker");
+          failWorker(error);
+        };
 
-        const unsubscribe = this.eventBus.on<{
+        unsubscribeInit = this.eventBus.on<{
           stage?: string;
           message?: string;
           name?: string;
           stack?: string;
         }>("worker:init", (payload) => {
+          if (this.worker !== worker) return;
           if (payload?.stage === "ready") {
-            unsubscribe();
+            ready = true;
+            unsubscribeInit?.();
+            unsubscribeInit = null;
             if (DEBUG_TRANSPORT) console.log("[WorkerBridge] Worker reported ready");
             resolve();
           } else if (payload?.stage === "error") {
-            unsubscribe();
             const error = new Error(payload.message ?? "Worker init failed");
             error.name = payload.name ?? "Error";
             error.stack = payload.stack ?? "";
             reportClientError(error, "engine-worker", { operation: "initialize" });
-            reject(error);
+            failWorker(error);
           }
         });
       } catch (error) {
@@ -994,6 +1032,8 @@ class WorkerBridge {
       }
     }
     this.initPromise = null;
+    for (const unsubscribe of this.forgeTelemetryUnsubscribe) unsubscribe();
+    this.forgeTelemetryUnsubscribe = [];
     setForgeWasmActive(false);
   }
 }
