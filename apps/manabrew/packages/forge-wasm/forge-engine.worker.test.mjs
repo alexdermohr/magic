@@ -910,3 +910,25 @@ test("one outer worker crash produces exactly one client report while preserving
     "different engine failure",
   ], "ordinary engine failures still reach the existing reporter");
 });
+test("terminating a pending Forge initialization rejects waiters and releases its ready listener", async () => {
+  const { bridge, bus, workers, events } = await browserBridgeFixture();
+  const first = bridge.init(true);
+  let firstOutcome = "pending";
+  void first.then(
+    () => { firstOutcome = "resolved"; },
+    (error) => { firstOutcome = "rejected:" + error.message; },
+  );
+  assert.equal(bus.listenerCount("worker:init"), 1);
+  bridge.terminate();
+  assert.equal(workers[0].terminated, true);
+  const next = bridge.init(true);
+  assert.equal(workers.length, 2);
+  workers[1].event("worker:init", { stage: "ready" });
+  await next;
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.match(firstOutcome, /^rejected:Worker initialization cancelled$/);
+  assert.equal(bus.listenerCount("worker:init"), 0);
+  assert.deepEqual(events.filter((event) =>
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(event.name)), []);
+  bridge.terminate();
+});

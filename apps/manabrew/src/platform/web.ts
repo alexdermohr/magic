@@ -293,6 +293,7 @@ class WorkerBridge {
   >();
   private eventBus: WebEventBus;
   private initPromise: Promise<void> | null = null;
+  private cancelPendingInit: (() => void) | null = null;
   private forgeTelemetryUnsubscribe: Array<() => void> = [];
 
   workerIsForgeWasm = false;
@@ -796,10 +797,16 @@ class WorkerBridge {
         const worker = this.worker;
         let ready = false;
         let unsubscribeInit: (() => void) | null = null;
+        this.cancelPendingInit = () => {
+          unsubscribeInit?.();
+          unsubscribeInit = null;
+          reject(new Error("Worker initialization cancelled"));
+        };
         const failWorker = (error: Error) => {
           if (this.worker !== worker) return;
           unsubscribeInit?.();
           unsubscribeInit = null;
+          this.cancelPendingInit = null;
           const gameActive = this.localSeat !== null ||
             this.remoteSeats.size > 0 ||
             [...this.pendingRequests.values()].some((pending) =>
@@ -852,6 +859,7 @@ class WorkerBridge {
           if (this.worker !== worker) return;
           if (payload?.stage === "ready") {
             ready = true;
+            this.cancelPendingInit = null;
             unsubscribeInit?.();
             unsubscribeInit = null;
             if (DEBUG_TRANSPORT) console.log("[WorkerBridge] Worker reported ready");
@@ -865,6 +873,7 @@ class WorkerBridge {
           }
         });
       } catch (error) {
+        this.cancelPendingInit = null;
         reportClientError(error, "engine-worker", { operation: "initialize" });
         reject(error);
       }
@@ -1014,6 +1023,10 @@ class WorkerBridge {
    * Terminate the worker.
    */
   terminate(): void {
+    // Do not strand an awaiter or the old worker:init subscription on dispose.
+    const cancel = this.cancelPendingInit;
+    this.cancelPendingInit = null;
+    cancel?.();
     if (this.worker) {
       this.worker.terminate();
       this.worker = null;
