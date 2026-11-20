@@ -429,10 +429,10 @@ class WorkerBridge {
       }
     });
 
-    eventBus.on<{ reason?: string; message?: string; name?: string; stack?: string }>(
+    eventBus.on<{ reason?: string; message?: string; name?: string; stack?: string; clientReported?: boolean }>(
       "game:forced_end",
       (payload) => {
-        if (payload?.reason !== "worker_error") return;
+        if (payload?.reason !== "worker_error" || payload.clientReported) return;
         const error = new Error(payload.message ?? "Engine worker failed");
         error.name = payload.name ?? "Error";
         error.stack = payload.stack ?? "";
@@ -814,12 +814,13 @@ class WorkerBridge {
             reject(error);
           } else if (gameActive) {
             if (this.workerIsForgeWasm) this.eventBus.emit("forge:engine_crash", {});
-            this.eventBus.emit("game:error", { code: "engineCrash", message: error.message });
+            this.eventBus.emit("game:error", { code: "engineCrash", message: error.message, clientReported: true });
             this.eventBus.emit("game:forced_end", {
               reason: "worker_error",
               message: error.message,
               name: error.name,
               stack: error.stack,
+              clientReported: true,
             });
           }
           if (this.worker === worker) this.terminate();

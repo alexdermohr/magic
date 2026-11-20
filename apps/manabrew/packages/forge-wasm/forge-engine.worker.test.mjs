@@ -693,6 +693,7 @@ async function browserBridgeFixture() {
   ).outputText;
   const workers = [];
   const events = [];
+  const reports = [];
   const subscribers = new Map();
   const bus = {
     on(name, fn) {
@@ -733,12 +734,12 @@ async function browserBridgeFixture() {
     noteOfflineResumeEvent() {},
     noteCheckpointTimings() {},
     noteEngineThinkTime() {},
-    reportClientError() {},
+    reportClientError: (error, source) => reports.push({ message: error.message, source }),
     workerError: (event) => new Error(event.message ?? "worker crashed"),
     ringPush(ring, value) { ring.push(value); },
   });
   vm.runInContext(js, ctx);
-  return { bridge: new ctx.BrowserBridge(bus), bus, events, workers };
+  return { bridge: new ctx.BrowserBridge(bus), bus, events, workers, reports, ctx };
 }
 
 test("concurrent Forge bridge initialization waits for the real worker ready event", async () => {
@@ -879,4 +880,33 @@ test("idle initialized Forge worker failure does not invent a game end", async (
   workers[1].event("worker:init", { stage: "ready" });
   await retry;
   bridge.terminate();
+});
+
+test("one outer worker crash produces exactly one client report while preserving crash UI state", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const hook = readFileSync(new URL("../../src/hooks/useGameEventListeners.ts", import.meta.url), "utf8");
+  const start = hook.indexOf("      const handleProtocolError = (");
+  const end = hook.indexOf("      unsubscribers.push(", start);
+  assert(start > 0 && end > start);
+  const code = transpileModule(
+    hook.slice(start, end) + "\nglobalThis.handleProtocolError = handleProtocolError;",
+    { compilerOptions: { target: ScriptTarget.ES2022 } },
+  ).outputText;
+  const { bridge, bus, workers, reports, ctx } = await browserBridgeFixture();
+  ctx.ENGINE_CRASH_CODE = "engineCrash";
+  ctx.setState = (state) => { ctx.crashState = state.engineCrash; };
+  vm.runInContext(code, ctx);
+  bus.on("game:error", (payload) => ctx.handleProtocolError(payload, "Event"));
+  const initialized = bridge.init(true);
+  workers[0].event("worker:init", { stage: "ready" });
+  await initialized;
+  bridge.localSeat = { cancelled: false };
+  assert.equal(workers[0].error("outer worker died"), true);
+  assert.equal(ctx.crashState, "outer worker died");
+  assert.deepEqual(reports.map((record) => record.message), ["outer worker died"]);
+  bus.emit("game:error", { code: "engineCrash", message: "different engine failure" });
+  assert.deepEqual(reports.map((record) => record.message), [
+    "outer worker died",
+    "different engine failure",
+  ], "ordinary engine failures still reach the existing reporter");
 });
