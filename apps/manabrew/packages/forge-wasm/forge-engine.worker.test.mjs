@@ -552,16 +552,18 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   const { transpileModule, ScriptTarget } = await import("typescript");
   const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
   const classStart = web.indexOf("class WebGameApi implements IGameApi");
+  const retainStart = web.indexOf("  private retainRecoveryAfterUnexpectedEnd()", classStart);
   const constructorStart = web.indexOf("  constructor(bridge: WorkerBridge, events: IEventBus)", classStart);
   const constructorEnd = web.indexOf("\n  setServerApi(", constructorStart);
   const endGameStart = web.indexOf("  async endGame(): Promise<void>", classStart);
   const endGameEnd = web.indexOf("\n  async getPrompt()", endGameStart);
-  assert(classStart >= 0 && constructorStart > classStart && constructorEnd > constructorStart);
+  assert(classStart >= 0 && retainStart > classStart && constructorStart > retainStart && constructorEnd > constructorStart);
   assert(endGameStart > constructorEnd && endGameEnd > endGameStart);
   const source = `class RecoveryApi {
     currentRecovery = null;
     retainedRecoveryAfterCrash = false;
     retainedRecoveryGameId = null;
+    ${web.slice(retainStart, constructorStart)}
     ${web.slice(constructorStart, constructorEnd)}
     ${web.slice(endGameStart, endGameEnd)}
   }
@@ -590,13 +592,14 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
     };
     const api = new ctx.RecoveryApi(bridge, events);
     let disposed = 0;
-    api.currentRecovery = { gameId: "recover-test", queue: { dispose() { disposed++; } } };
+    api.currentRecovery = { gameId: "recover-test", queue: { flush: async () => {}, dispose() { disposed++; } } };
     return { api, disposed: () => disposed, terminated: () => terminated };
   };
   const crash = makeApi();
   let crashReleased = 0;
   crash.api.releaseRecoveryOwnership = async () => { crashReleased++; };
   handlers.get("forge:engine_crash")({});
+  await crash.api.recoveryDrain;
   assert.equal(crashReleased, 1, "a fatal engine error must release the tab lock");
   assert.equal(crash.api.releaseRecoveryOwnership, null);
   assert.equal(crash.terminated(), 0, "game-over delivery remains available");
@@ -613,6 +616,7 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   let released = 0;
   forcedEnd.api.releaseRecoveryOwnership = async () => { released++; };
   handlers.get("game:forced_end")({});
+  await forcedEnd.api.recoveryDrain;
   assert.equal(forcedEnd.disposed(), 1);
   assert.equal(forcedEnd.terminated(), 1);
   assert.equal(released, 1);

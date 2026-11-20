@@ -1,0 +1,38 @@
+name: Manabrew worker tests
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/manabrew-worker-tests.yml"
+      - "apps/manabrew/packages/forge-wasm/forge-engine.worker.js"
+      - "apps/manabrew/packages/forge-wasm/forge-engine.worker.test.mjs"
+      - "apps/manabrew/packages/forge-wasm/engine.js"
+      - "apps/manabrew/packages/forge-wasm/seat.js"
+      - "apps/manabrew/src/platform/web.ts"
+      - "apps/manabrew/src/workers/seat-reader.worker.ts"
+      - "apps/manabrew/src/lib/seatReaderProtocol.ts"
+      - "apps/manabrew/forge-harness/native/wasm-src/forge/harness/wasm/SabTransport.java"
+      - "apps/manabrew/scripts/test-seat-reader-resume.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  worker-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install TypeScript
+        run: |
+          npm install --prefix "$RUNNER_TEMP/manabrew-worker" --no-save --no-package-lock typescript@5.9.3
+          mkdir -p apps/manabrew/node_modules
+          ln -s "$RUNNER_TEMP/manabrew-worker/node_modules/typescript" apps/manabrew/node_modules/typescript
+      - name: Test supervisor and seat reader
+        run: |
+          node --test apps/manabrew/packages/forge-wasm/forge-engine.worker.test.mjs
+          node --test apps/manabrew/scripts/test-seat-reader-resume.mjs
