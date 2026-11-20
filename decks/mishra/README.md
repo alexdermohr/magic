@@ -14,7 +14,18 @@ Mishra hat genau **eine aktive Bracket-3-Deckliste** sowie eine separat gepflegt
 | **Manabrew-Funktionsprüfung / Testfälle** | [manabrew-tests.md](manabrew-tests.md) |
 | **Reproduzierbare Struktur-/Scryfall-Validierung** | [validate.py](validate.py) (`python3 decks/mishra/validate.py --oracle`) |
 
-## Aktuelle B3-Revision: Machine God's Effigy und Manifold Key (14.11.2026)
+## Aktuelle B3-Revision: Mana Vault und Manifold Key entfernt (20.11.2026)
+
+| Raus | Rein | Gewinn | Verzicht |
+|---|---|---|---|
+| **Mana Vault** | **Mystic Forge** | Wiederholbarer Zugriff auf Artefakte von der Bibliotheksoberseite; ein eigenes Mishra-Kopierziel. | {1} → drei farblose Mana, frühe Ramp-Warform und Saga-Suchziel; Forge kostet {4}, stockt auf Nichtartefakten. |
+| **Manifold Key** | **Whir of Invention** | Sofortiger Artefakt-Feldtutor mit Improvise für passende Kopierziele, Memory Jar oder Portal to Phyrexia. | Key enttappt Resonator/Effigy und kann eine Nautiloid-Warform unblockbar machen; Whir verlangt {U}{U}{U}. |
+
+**Bewertung:** Key hat ohne Vault weiterhin Nutzwert, aber keine ähnlich starke Hauptsynergie. Forge und Whir bevorzugen nachhaltigen Kartenzugriff statt kurzfristiger Manaspitzen. Mit Sensei's Divining Top und einem Artefakt-Kostenreduzierer kann Forge eine wiederholbare Drei-Karten-Draw-Linie bilden; vor dem Spiel ansprechen.
+
+**Struktur:** 100 Singleton-Karten, **35 Länder, 47 Artefaktkarten, 12 Mana-Artefakte, zwei Game Changer** (Demonic Tutor, Mishra's Workshop). **46 historische Cuts + 98 weitere Alternativen** sind im [Erweiterten Kreis](erweiterter-kreis.md) dokumentiert. Bracket-4-Liste unverändert; keine neuen Manabrew-Partietests oder Gewinnratenmessungen belegt.
+
+## Vorangegangene B3-Revision: Machine God's Effigy und Manifold Key (14.11.2026)
 
 **Verbindliche Änderung an [current.txt](current.txt):** Zwei Karten kommen hinzu, zwei gehen; die ursprünglich vorgeschlagene Aufnahme von Copy Artifact wurde **vor dem Merge verworfen**.
 
