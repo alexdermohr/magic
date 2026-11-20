@@ -1,6 +1,6 @@
 # Mishra, Eminent One — einzige gepflegte Bracket-3-Fassung
 
-**Stand:** 2026-11-14
+**Stand:** 2026-11-20
 
 **Verbindliche B3-Liste:** [current.txt](current.txt)
 
@@ -9,7 +9,21 @@
 **Separate B4-Liste:** [versions/2026-10-07-optimized-b4-v1.txt](versions/2026-10-07-optimized-b4-v1.txt)
 
 
-## Aktuelle Optimierung: Machine God's Effigy und Manifold Key (14.11.2026)
+## Aktuelle Optimierung: Mystic Forge und Whir of Invention (20.11.2026)
+
+**Verbindlicher Nutzerwunsch:** **Mana Vault → Mystic Forge**, **Manifold Key → Whir of Invention**. Beide abgegebenen Artefakte sind aus [current.txt](current.txt) entfernt. Die separate Bracket-4-Version bleibt unverändert; Lightning Greaves, Sensei's Divining Top, Sculpting Steel, Brudiclad, Ashnod's Altar, Nautiloid Ship und Spine of Ish Sah bleiben.
+
+**Warum Manifold Key geht:** Ohne Mana Vault entfällt seine stärkste Enttapp-Manaexplosion. **Key ist nicht funktionslos**: Er könnte weiterhin Sol Ring, Strionic Resonator oder Machine God's Effigy enttappen und eine Nautiloid-Warform für {3},{T} unblockbar machen. Diese verbleibenden situativen Anwendungen rechtfertigen den Slot gegenüber einem direkten Artefakttutor nicht.
+
+**Neue Karten:** **Mystic Forge** ({4}, Nichtkreatur-Artefakt) erlaubt das Wirken von Artefakt- und farblosen Zaubern von der Bibliotheksoberseite. Mit Sensei's Divining Top, Fetchlands und Artefakt-Kostenreduktion gewinnt es langfristig Nachschub, stockt aber bei Ländern bzw. farbigen Nichtartefakten; {T} plus 1 Leben exiliert die oberste Karte. Als Mishra-Kopierziel bleibt es auch während des Kampfes nutzbar, besitzt aber keinen unmittelbaren ETB-Draw. **Whir of Invention** ({X}{U}{U}{U}, Improvise) legt ein beliebiges Artefakt mit Manawert höchstens X direkt aus der Bibliothek ins Feld (etwa Memory Jar oder Portal to Phyrexia). Improvise deckt nur generische Mana-Kosten, nicht das dreifache Blau.
+
+**Kosten und Komborisiko:** Der frühe {1}→{C}{C}{C}-Impuls, Mishras Mana-Vault-Warforms und beide über Urza's Saga auffindbaren günstigen Artefakte entfallen. Die Starthände können langsamer sein; die neuen Karten stärken längere Partien. **Mystic Forge + Sensei's Divining Top + Etherium Sculptor** (alternativ Enthusiastic Mechanaut) kann Top durch Kostenreduktion auf null wiederholt vom Deck wirken und dabei Karten ziehen. Diese **Drei-Karten-Engine** sollte vor dem Spiel kommuniziert werden; eine verbesserte Siegquote oder korrekte Manabrew-Ausführung ist bislang nicht belegt.
+
+**Struktur:** 100 Singleton-Karten mit Mishra, 35 Länder, **47 Artefaktkarten**, **12 benannte Mana-Artefakte**, **zwei Game Changer** (Demonic Tutor und Mishra's Workshop; B3 erlaubt höchstens drei). Im Erweiterten Kreis sind **46 historische Cuts + 98 andere Alternativen = 144 derzeit ausgeschlossene Karten** dokumentiert. Alle historischen B3-Snapshots und die separate B4-Datei bleiben unverändert.
+
+---
+
+## Vorangegangene Optimierung: Machine God's Effigy und Manifold Key (14.11.2026)
 
 **Verbindliche B3-Änderung:** **Demonic Junker → Machine God's Effigy**, **Whir of Invention → Manifold Key**. Auf erneuten ausdrücklichen Nutzerwunsch bleiben **Lightning Greaves**, **Sensei's Divining Top** und **Sculpting Steel** vollständig erhalten. Die zwischenzeitlich im offenen PR vorgeschlagene Aufnahme von **Copy Artifact** ist vor dem Merge entfallen; die Karte wird unter den geprüften Alternativen (B) dokumentiert. Brudiclad, Ashnod's Altar, Scrap Trawler, Mishra, Tamer of Mak Fawa, Nautiloid Ship, Spine of Ish Sah und alle 35 Länder bleiben ebenfalls.
 

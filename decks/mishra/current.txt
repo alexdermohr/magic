@@ -39,17 +39,17 @@
 1 Mephitic Draught
 1 Panharmonicon
 1 Scrap Trawler
-1 Mana Vault
+1 Mystic Forge
 1 The Mightstone and Weakstone
 1 Sculpting Steel
 1 Nautiloid Ship
 1 Portal to Phyrexia
 1 Simulacrum Synthesizer
-1 Manifold Key
 1 Machine God's Effigy
 1 Sensei's Divining Top
 1 Determined Iteration
 1 Memory Jar
+1 Whir of Invention
 1 Mana Drain
 1 An Offer You Can't Refuse
 1 Chaos Warp
