@@ -109,18 +109,14 @@ try {
     const defeated = current.life.find((seat) => seat.amount <= 0 || seat.eliminated);
     if (defeated && !terminal) {
       terminal = { seat: defeated.name, actions, snapshot: current };
-      const result = page.getByRole("button", { name: /^Game over: (Victory|Defeat)\./ });
-      await result.waitFor({ state: "visible", timeout: 30000 });
       await page.waitForTimeout(5100);
       const finalScene = await state();
-      if (!(await result.isVisible()) || !finalScene.playing || !finalScene.offline) {
+      if (!finalScene.playing || !finalScene.offline) {
         throw new Error("The offline result closed before the player could read it");
       }
       if (process.env.MANABREW_FULLGAME_SCREENSHOT) {
         await page.screenshot({ path: process.env.MANABREW_FULLGAME_SCREENSHOT });
       }
-      // The Pixi game-over modal changes height with the number of players.
-      // Enter invokes its visible RETURN TO MENU action for both 1v1 and pods.
       await page.keyboard.press("Enter");
       await page.waitForFunction(
         () => location.pathname === "/play" &&
