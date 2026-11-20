@@ -814,6 +814,7 @@ class WorkerBridge {
             reject(error);
           } else if (gameActive) {
             if (this.workerIsForgeWasm) this.eventBus.emit("forge:engine_crash", {});
+            this.eventBus.emit("game:error", { code: "engineCrash", message: error.message });
             this.eventBus.emit("game:forced_end", {
               reason: "worker_error",
               message: error.message,

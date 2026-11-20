@@ -515,6 +515,9 @@ export function useGameEventListeners() {
           message: string;
         }>("game:forced_end", (payload) => {
           const message = payload?.message ?? `Forced game exit`;
+          if (payload?.reason === "worker_error" && getState().engineCrash) {
+            reportEngineGame();
+          }
           if (!getState().isMultiplayer) {
             noteOfflineResumeEvent("engine_forced_end", false, "worker_error");
           }

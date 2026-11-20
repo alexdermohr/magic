@@ -792,8 +792,11 @@ test("outer Forge worker failure preserves crash-before-end event order and reje
   });
   assert.equal(worker.error("outer worker died"), true);
   assert.deepEqual(events.filter((entry) =>
-    ["forge:engine_crash", "game:forced_end"].includes(entry.name)).map((entry) => entry.name),
-  ["forge:engine_crash", "game:forced_end"]);
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(entry.name)).map((entry) => entry.name),
+  ["forge:engine_crash", "game:error", "game:forced_end"]);
+  const protocolCrash = events.find((entry) => entry.name === "game:error")?.payload;
+  assert.equal(protocolCrash?.code, "engineCrash");
+  assert.equal(protocolCrash?.message, "outer worker died");
   assert.equal(rejected, 1);
   assert.equal(unrelatedRejected, 0);
   assert.equal(bridge.pendingRequests.has("query"), true);
@@ -836,7 +839,7 @@ test("outer Forge bootstrap failure releases the worker without false game-over 
   assert.equal(bridge.worker, null);
   assert.equal(workers[0].terminated, true);
   assert.deepEqual(events.filter((event) =>
-    ["forge:engine_crash", "game:forced_end"].includes(event.name)), []);
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(event.name)), []);
   const retry = bridge.init(true);
   workers[0].event("worker:init", { stage: "ready" });
   assert.equal(workers.length, 2);
@@ -853,8 +856,8 @@ test("unreadable outer worker message follows the same crash-before-forced-end r
   bridge.localSeat = { cancelled: false };
   workers[0].onmessageerror();
   assert.deepEqual(events.filter((event) =>
-    ["forge:engine_crash", "game:forced_end"].includes(event.name)).map((event) => event.name),
-  ["forge:engine_crash", "game:forced_end"]);
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(event.name)).map((event) => event.name),
+  ["forge:engine_crash", "game:error", "game:forced_end"]);
   assert.equal(bridge.worker, null);
   assert.equal(workers[0].terminated, true);
 });
@@ -868,7 +871,7 @@ test("idle initialized Forge worker failure does not invent a game end", async (
   assert.equal(bridge.worker, null);
   assert.equal(workers[0].terminated, true);
   assert.deepEqual(
-    events.filter(({ name }) => ["forge:engine_crash", "game:forced_end"].includes(name)),
+    events.filter(({ name }) => ["forge:engine_crash", "game:error", "game:forced_end"].includes(name)),
     [],
     "a worker without a running game must not force-close the UI or recovery",
   );
