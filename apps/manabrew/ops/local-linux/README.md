@@ -63,8 +63,13 @@ Der **eine** Hauptstarter enthält zwei Desktop-Aktionen im Kontextmenü:
 unverändert, **Konto anmelden (bisheriger Zugang)** öffnet deren bisherigen
 OAuth-Einstieg. Kein zweiter Menüeintrag, kein Kopieren von Refresh-Tokens.
 8087 und 8088 sind verschiedene Browser-Origins; ein gespeicherter
-8087-Login ist auf 8088 nicht automatisch verfügbar. Dort bei Bedarf
-regulär erneut anmelden. Der alte Zugang bleibt über die Aktionen erreichbar.
+8087-Login ist auf 8088 nicht automatisch verfügbar. Bei der Anmeldung
+über eine selbstgehostete PWA öffnet GitHub/Discord einen Browserlink und
+gibt nach der Anmeldung einen einmalig einlösbaren Code aus. Der Code wird
+in der ursprünglichen PWA-Origin eingegeben. Nach einer iPad-Hintergrund-
+Neuladung ist die Eingabe über „Enter an existing sign-in code“ erneut
+erreichbar. Es findet keine Tokenmigration zwischen Origins statt.
+Die alten Konto-Aktionen bleiben als Rückfall erhalten.
 
 **Nur nach** erfolgreichem neuen Desktop-/Offline- und Online-Test ausführen.
 Bestehende Browserprofile, Offline-Caches, IndexedDB-Saves, Decks,

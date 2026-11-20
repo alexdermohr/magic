@@ -52,6 +52,7 @@ export function SignInFlow({ prefill, deferHandleStep = false, onComplete }: Sig
   const [providers, setProviders] = useState<AuthProviders | null>(null);
   const [email, setEmail] = useState(prefill?.email ?? "");
   const [code, setCode] = useState(prefill?.code ?? "");
+  const [oauthUrl, setOauthUrl] = useState<string | null>(null);
   const [handle, setHandle] = useState("");
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -65,6 +66,8 @@ export function SignInFlow({ prefill, deferHandleStep = false, onComplete }: Sig
   }, []);
 
   const methodsReady = providers !== null && methodsHoldElapsed;
+  const selfHostedWeb =
+    getPlatformType() !== "tauri" && window.location.hostname !== "play.manabrew.app";
 
   function loadProviders() {
     setProviders(null);
@@ -108,9 +111,16 @@ export function SignInFlow({ prefill, deferHandleStep = false, onComplete }: Sig
   function handleOAuth(provider: OAuthProvider) {
     void run(async () => {
       const desktop = getPlatformType() === "tauri";
-      const url = await startOAuth(provider, "signin", desktop ? "desktop" : "web");
+      const url = await startOAuth(
+        provider,
+        "signin",
+        desktop || selfHostedWeb ? "desktop" : "web",
+      );
       if (desktop) {
         await openExternal(url);
+        setStep("desktop-code");
+      } else if (selfHostedWeb) {
+        setOauthUrl(url);
         setStep("desktop-code");
       } else {
         storeAuthReturnIntent(prefill ?? undefined);
@@ -229,6 +239,18 @@ export function SignInFlow({ prefill, deferHandleStep = false, onComplete }: Sig
                   </Button>
                 )}
               </div>
+              {selfHostedWeb && (
+                <Button
+                  variant="ghost"
+                  className="w-full"
+                  onClick={() => {
+                    setOauthUrl(null);
+                    setStep("desktop-code");
+                  }}
+                >
+                  Enter an existing sign-in code
+                </Button>
+              )}
               {isFeatureEnabled("emailSignIn") && providers.email !== false && (
                 <>
                   <div className="flex items-center gap-3">
@@ -307,6 +329,13 @@ export function SignInFlow({ prefill, deferHandleStep = false, onComplete }: Sig
           <p className="text-ui-body text-muted-foreground">
             Finish signing in with your browser, then enter the code it shows you.
           </p>
+          {oauthUrl && (
+            <Button asChild variant="outline" className="w-full">
+              <a href={oauthUrl} target="_blank" rel="noopener noreferrer">
+                Open sign-in page
+              </a>
+            </Button>
+          )}
           <Label htmlFor="desktop-code">Code</Label>
           <Input
             id="desktop-code"
