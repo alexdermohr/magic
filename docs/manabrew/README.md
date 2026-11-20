@@ -1,5 +1,50 @@
 # Manabrew für iPad/iOS und Linux
 
+## Lokale OAuth-Anmeldung auf selbstgehosteten Origins (20. November 2026)
+
+**Nachgewiesene Ursache:** Der Hub speichert bei `POST /api/auth/oauth/github/start`
+mit `client=web` als Rücksprung-URL immer seinen konfigurierten
+`auth.web_app_url`. Auf der öffentlich betriebenen Instanz ist das
+`play.manabrew.app` – nicht die lokale Magic-PWA auf `127.0.0.1:8088`
+oder deren iPad-Tailnet-HTTPS-Origin. Der bisherige Browser-OAuth-Flow
+führt damit von der selbstgehosteten App weg; die neue lokale Origin
+übernimmt weder Session noch Refresh-Token. Dies ist eine funktionale
+Origin-Grenze, kein Anlass für eine Tokenmigration.
+
+**Reparatur:** Außerhalb der offiziellen Web-Origin
+`play.manabrew.app` nutzt `SignInFlow` die bereits vorhandene Hub-Option
+`client=desktop`, bei der nach erfolgreicher GitHub-/Discord-Anmeldung
+ein Einmalcode angezeigt wird. Der Code wird im ursprünglichen
+Manabrew-Fenster über die vorhandene `exchangeCode`-API eingelöst. Ein
+expliziter Link **Open sign-in page** öffnet die Autorisierungsseite im
+zweiten Browser-Tab und umgeht asynchron blockierte Popups. Sollte
+iPadOS die PWA zwischenzeitlich neu laden, kann der bestehende Code über
+**Enter an existing sign-in code** eingegeben werden. Öffentliche
+`play.manabrew.app`-Logins und native Tauri-Desktop-Logins bleiben beim
+bisherigen Ablauf. Keine Passwörter, Refresh-Tokens oder Browserprofile
+werden kopiert.
+
+**Isolierte Kandidaten-Abnahme:** Der sourcegebaute PWA-Kandidat hatte
+Manifest `71bce4ae3e4395397391` und 3.790 SHA-256-erfasste Dateien.
+Forge WebImage, Rust-WASM und Cardset waren bitidentisch mit der
+produktiven Vorversion. Die App bestand TypeScript und Vite-Build, den
+Linux-Offline-Erststart mit 44/44 Commander-Decks und 44 Baselines,
+Offline-Kaltstart und historischen direkten Solo-Einstieg. Playwright
+bestand `scripts/test-local-oauth-code-flow.mjs` an Port 8140:
+OAuth-Start forderte `client=desktop` an, zeigte Link und Codefeld in
+der lokalen Origin; die Code-Eingabe war nach Neuladen erneut erreichbar.
+Ein absichtlich ungültiger Code wurde zurückgewiesen, ohne Originwechsel
+oder JavaScript-Seitenfehler. Die echten anonymen Hub-Startendpunkte für
+`client=web` und `client=desktop` lieferten jeweils HTTP 200 und einen
+GitHub-Providerlink.
+
+**Abnahmegrenze:** Ein tatsächlich abgeschlossener persönlicher
+GitHub-/Discord-Login einschließlich Ausstellen und Einlösen eines echten
+Einmalcodes ist ohne Anmeldung durch den Nutzer nicht nachgewiesen.
+Auch physische iPad-Safari-Home-Screen-Rückkehr und Decksynchronisation
+bleiben echte Gerätetests. Der bisherige 8087-Konto-Desktop-Aktionsweg
+bleibt bis dahin als Rückfall erhalten.
+
 ## Gemeinsame Linux-App (19. November 2026, getesteter Kandidat)
 
 Der aktuelle Magic-Client auf Port 8088 bietet bereits die Spielmodi
