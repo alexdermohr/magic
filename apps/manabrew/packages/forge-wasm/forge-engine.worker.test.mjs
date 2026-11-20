@@ -679,3 +679,256 @@ test("failed cold restore never publishes game board or double-settles", () => {
     assert.equal(f.timers.size, 0);
   }
 });
+
+async function browserBridgeFixture() {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
+  const start = web.indexOf("class WorkerBridge {");
+  const end = web.indexOf("\n// Web Game API (WASM-based)", start);
+  assert(start >= 0 && end > start, "WorkerBridge must be tested from production source");
+  const js = transpileModule(
+    web.slice(start, end).replaceAll("import.meta.url", JSON.stringify(import.meta.url)) +
+      "\nglobalThis.BrowserBridge = WorkerBridge;",
+    { compilerOptions: { target: ScriptTarget.ES2022 } },
+  ).outputText;
+  const workers = [];
+  const events = [];
+  const reports = [];
+  const subscribers = new Map();
+  const bus = {
+    on(name, fn) {
+      if (!subscribers.has(name)) subscribers.set(name, new Set());
+      subscribers.get(name).add(fn);
+      return () => subscribers.get(name).delete(fn);
+    },
+    emit(name, payload) {
+      events.push({ name, payload });
+      for (const handler of [...(subscribers.get(name) ?? [])]) handler(payload);
+    },
+    listenerCount(name) { return subscribers.get(name)?.size ?? 0; },
+  };
+  class BrowserWorker {
+    terminated = false;
+    constructor() { workers.push(this); }
+    postMessage(message) { this.lastMessage = message; }
+    terminate() { this.terminated = true; }
+    event(name, payload) {
+      this.onmessage({ data: { type: "event", event: name, payload } });
+    }
+    error(message) {
+      let prevented = false;
+      this.onerror({ message, preventDefault() { prevented = true; } });
+      return prevented;
+    }
+  }
+  const ctx = vm.createContext({
+    Worker: BrowserWorker,
+    console: { log() {}, warn() {}, error() {} },
+    window: { addEventListener() {} },
+    document: { addEventListener() {}, hidden: false },
+    setForgeWasmActive() {},
+    isForgeWasmHostingEnabled: () => true,
+    forgeWorkerUrl: "forge-worker-url",
+    DEBUG_TRANSPORT: false,
+    seatReaderLastSignalAt: new WeakMap(),
+    noteOfflineResumeEvent() {},
+    noteCheckpointTimings() {},
+    noteEngineThinkTime() {},
+    reportClientError: (error, source) => reports.push({ message: error.message, source }),
+    workerError: (event) => new Error(event.message ?? "worker crashed"),
+    ringPush(ring, value) { ring.push(value); },
+  });
+  vm.runInContext(js, ctx);
+  return { bridge: new ctx.BrowserBridge(bus), bus, events, workers, reports, ctx };
+}
+
+test("concurrent Forge bridge initialization waits for the real worker ready event", async () => {
+  const { bridge, workers } = await browserBridgeFixture();
+  const first = bridge.init(true);
+  const concurrent = bridge.init(true);
+  let resolved = false;
+  void concurrent.then(() => { resolved = true; });
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(workers.length, 1);
+  assert.equal(resolved, false, "second start cannot bypass pending worker initialization");
+  workers[0].event("worker:init", { stage: "ready" });
+  await Promise.all([first, concurrent]);
+  assert.equal(resolved, true);
+  bridge.terminate();
+});
+
+test("failed Forge bridge init releases its worker and allows a fresh retry", async () => {
+  const { bridge, workers } = await browserBridgeFixture();
+  const failed = bridge.init(true);
+  workers[0].event("worker:init", { stage: "error", message: "WASM bootstrap failed" });
+  await assert.rejects(failed, /WASM bootstrap failed/);
+  assert.equal(workers[0].terminated, true);
+  assert.equal(bridge.worker, null);
+  assert.equal(bridge.initPromise, null);
+  const retry = bridge.init(true);
+  assert.equal(workers.length, 2);
+  workers[1].event("worker:init", { stage: "ready" });
+  await retry;
+  bridge.terminate();
+});
+
+test("outer Forge worker failure preserves crash-before-end event order and rejects only its requests", async () => {
+  const { bridge, bus, events, workers } = await browserBridgeFixture();
+  const ready = bridge.init(true);
+  workers[0].event("worker:init", { stage: "ready" });
+  await ready;
+  const worker = workers[0];
+  const unrelated = new workers[0].constructor();
+  bridge.fallbackWorker = unrelated;
+  let rejected = 0;
+  let unrelatedRejected = 0;
+  bridge.pendingRequests.set("start", {
+    worker, command: "start_game", resolve() {},
+    reject(error) { assert.match(error.message, /outer worker died/); rejected++; },
+  });
+  bridge.pendingRequests.set("query", {
+    worker: unrelated, command: "card_roles", resolve() {},
+    reject() { unrelatedRejected++; },
+  });
+  assert.equal(worker.error("outer worker died"), true);
+  assert.deepEqual(events.filter((entry) =>
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(entry.name)).map((entry) => entry.name),
+  ["forge:engine_crash", "game:error", "game:forced_end"]);
+  const protocolCrash = events.find((entry) => entry.name === "game:error")?.payload;
+  assert.equal(protocolCrash?.code, "engineCrash");
+  assert.equal(protocolCrash?.message, "outer worker died");
+  assert.equal(rejected, 1);
+  assert.equal(unrelatedRejected, 0);
+  assert.equal(bridge.pendingRequests.has("query"), true);
+  assert.equal(bridge.pendingRequests.has("start"), false);
+  assert.equal(worker.terminated, true);
+  assert.equal(bridge.worker, null);
+  worker.error("old worker reported another failure");
+  assert.equal(rejected, 1);
+  bridge.pendingRequests.clear();
+});
+
+test("Forge bridge clears per-worker telemetry subscribers after termination and retry", async () => {
+  const { bridge, bus, workers } = await browserBridgeFixture();
+  const names = ["forge:decision", "forge:checkpoints", "forge:log"];
+  const baseline = new Map(names.map((name) => [name, bus.listenerCount(name)]));
+  const first = bridge.init(true);
+  workers[0].event("worker:init", { stage: "ready" });
+  await first;
+  for (const name of names) {
+    assert.equal(bus.listenerCount(name), baseline.get(name) + 1, name + " needs one per-game listener");
+  }
+  bridge.terminate();
+  for (const name of names) {
+    assert.equal(bus.listenerCount(name), baseline.get(name), name + " must restore its original listeners");
+  }
+  const second = bridge.init(true);
+  workers[1].event("worker:init", { stage: "ready" });
+  await second;
+  for (const name of names) {
+    assert.equal(bus.listenerCount(name), baseline.get(name) + 1, name + " must not accumulate across matches");
+  }
+  bridge.terminate();
+});
+
+test("outer Forge bootstrap failure releases the worker without false game-over events", async () => {
+  const { bridge, workers, events } = await browserBridgeFixture();
+  const startup = bridge.init(true);
+  assert.equal(workers[0].error("worker failed before ready"), true);
+  await assert.rejects(startup, /worker failed before ready/);
+  assert.equal(bridge.worker, null);
+  assert.equal(workers[0].terminated, true);
+  assert.deepEqual(events.filter((event) =>
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(event.name)), []);
+  const retry = bridge.init(true);
+  workers[0].event("worker:init", { stage: "ready" });
+  assert.equal(workers.length, 2);
+  workers[1].event("worker:init", { stage: "ready" });
+  await retry;
+  bridge.terminate();
+});
+
+test("unreadable outer worker message follows the same crash-before-forced-end recovery path", async () => {
+  const { bridge, workers, events } = await browserBridgeFixture();
+  const first = bridge.init(true);
+  workers[0].event("worker:init", { stage: "ready" });
+  await first;
+  bridge.localSeat = { cancelled: false };
+  workers[0].onmessageerror();
+  assert.deepEqual(events.filter((event) =>
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(event.name)).map((event) => event.name),
+  ["forge:engine_crash", "game:error", "game:forced_end"]);
+  assert.equal(bridge.worker, null);
+  assert.equal(workers[0].terminated, true);
+});
+
+test("idle initialized Forge worker failure does not invent a game end", async () => {
+  const { bridge, events, workers } = await browserBridgeFixture();
+  const initialized = bridge.init(true);
+  workers[0].event("worker:init", { stage: "ready" });
+  await initialized;
+  assert.equal(workers[0].error("worker died while idle"), true);
+  assert.equal(bridge.worker, null);
+  assert.equal(workers[0].terminated, true);
+  assert.deepEqual(
+    events.filter(({ name }) => ["forge:engine_crash", "game:error", "game:forced_end"].includes(name)),
+    [],
+    "a worker without a running game must not force-close the UI or recovery",
+  );
+  const retry = bridge.init(true);
+  workers[1].event("worker:init", { stage: "ready" });
+  await retry;
+  bridge.terminate();
+});
+
+test("one outer worker crash produces exactly one client report while preserving crash UI state", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const hook = readFileSync(new URL("../../src/hooks/useGameEventListeners.ts", import.meta.url), "utf8");
+  const start = hook.indexOf("      const handleProtocolError = (");
+  const end = hook.indexOf("      unsubscribers.push(", start);
+  assert(start > 0 && end > start);
+  const code = transpileModule(
+    hook.slice(start, end) + "\nglobalThis.handleProtocolError = handleProtocolError;",
+    { compilerOptions: { target: ScriptTarget.ES2022 } },
+  ).outputText;
+  const { bridge, bus, workers, reports, ctx } = await browserBridgeFixture();
+  ctx.ENGINE_CRASH_CODE = "engineCrash";
+  ctx.setState = (state) => { ctx.crashState = state.engineCrash; };
+  vm.runInContext(code, ctx);
+  bus.on("game:error", (payload) => ctx.handleProtocolError(payload, "Event"));
+  const initialized = bridge.init(true);
+  workers[0].event("worker:init", { stage: "ready" });
+  await initialized;
+  bridge.localSeat = { cancelled: false };
+  assert.equal(workers[0].error("outer worker died"), true);
+  assert.equal(ctx.crashState, "outer worker died");
+  assert.deepEqual(reports.map((record) => record.message), ["outer worker died"]);
+  bus.emit("game:error", { code: "engineCrash", message: "different engine failure" });
+  assert.deepEqual(reports.map((record) => record.message), [
+    "outer worker died",
+    "different engine failure",
+  ], "ordinary engine failures still reach the existing reporter");
+});
+test("terminating a pending Forge initialization rejects waiters and releases its ready listener", async () => {
+  const { bridge, bus, workers, events } = await browserBridgeFixture();
+  const first = bridge.init(true);
+  let firstOutcome = "pending";
+  void first.then(
+    () => { firstOutcome = "resolved"; },
+    (error) => { firstOutcome = "rejected:" + error.message; },
+  );
+  assert.equal(bus.listenerCount("worker:init"), 1);
+  bridge.terminate();
+  assert.equal(workers[0].terminated, true);
+  const next = bridge.init(true);
+  assert.equal(workers.length, 2);
+  workers[1].event("worker:init", { stage: "ready" });
+  await next;
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.match(firstOutcome, /^rejected:Worker initialization cancelled$/);
+  assert.equal(bus.listenerCount("worker:init"), 0);
+  assert.deepEqual(events.filter((event) =>
+    ["forge:engine_crash", "game:error", "game:forced_end"].includes(event.name)), []);
+  bridge.terminate();
+});

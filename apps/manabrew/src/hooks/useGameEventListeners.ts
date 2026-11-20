@@ -373,11 +373,13 @@ export function useGameEventListeners() {
       };
       const handleProtocolError = (error: ProtocolError | undefined, source: string) => {
         if ((error?.code as string) === ENGINE_CRASH_CODE) {
-          const failure = new Error(error?.message || "Engine crashed");
-          failure.stack = "";
-          reportClientError(failure, source === "Remote" ? "remote-engine" : "engine-worker", {
-            operation: "engine-crash",
-          });
+          if (!(error && "clientReported" in error && error.clientReported === true)) {
+            const failure = new Error(error?.message || "Engine crashed");
+            failure.stack = "";
+            reportClientError(failure, source === "Remote" ? "remote-engine" : "engine-worker", {
+              operation: "engine-crash",
+            });
+          }
           setState({ engineCrash: error?.message || "Engine crashed" });
           return;
         }
@@ -515,6 +517,9 @@ export function useGameEventListeners() {
           message: string;
         }>("game:forced_end", (payload) => {
           const message = payload?.message ?? `Forced game exit`;
+          if (payload?.reason === "worker_error" && getState().engineCrash) {
+            reportEngineGame();
+          }
           if (!getState().isMultiplayer) {
             noteOfflineResumeEvent("engine_forced_end", false, "worker_error");
           }
