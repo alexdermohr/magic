@@ -9,7 +9,11 @@ Icon=applications-games
 Terminal=false
 Categories=Game;CardGame;
 StartupNotify=true
-Actions=ExistingGames;LegacyOnline;LegacyAccount;
+Actions=RescuedGame;ExistingGames;LegacyOnline;LegacyAccount;
+
+[Desktop Action RescuedGame]
+Name=Gerettete Partie ab Entscheidung 195 (101 Aktionen zurück)
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--user-data-dir=/home/alex/.local/share/manabrew-chrome-recovery-195" "--js-flags=--liftoff-only" "--app=http://127.0.0.1:8088/"
 
 [Desktop Action ExistingGames]
 Name=Alte Spiele (bisheriges Chrome-Profil)

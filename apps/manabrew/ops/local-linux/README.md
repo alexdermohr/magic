@@ -69,7 +69,23 @@ eine verlustbehaftete automatische Migration findet nicht statt.
     rm -f ~/.local/share/applications/manabrew-local.desktop
     rm -f ~/.local/share/applications/manabrew-account-login.desktop
 
-Der **eine** Hauptstarter enthält drei Desktop-Aktionen im Kontextmenü:
+Der **eine** Hauptstarter enthält vier Desktop-Aktionen im Kontextmenü:
+**Gerettete Partie ab Entscheidung 195 (101 Aktionen zurück)** öffnet
+eine **separate** Kopie des historischen, sonst bei Entscheidung 196
+nichtdeterministisch abbrechenden Vier-Spieler-Forge-Spielstands. In dieser
+Kopie sind nur die 194 Entscheidungen vor der letzten erfolgreich
+wiederherstellbaren Grenze gespeichert (`nextSequence=195`). Das echte
+alte WebImage im eigenen Offline-Cache und der Fehlertransport aus PR #121
+erreichten auf der produktiven Origin mit Netzwerk nach 170 Sekunden
+fehlerfrei das Spielbrett; der eigens verwendete Chrome-Prozess lief mit
+Liftoff. Fortgesetzte Spielaktionen werden ausschließlich im
+Rettungsprofil `~/.local/share/manabrew-chrome-recovery-195` gespeichert.
+Der vollständige Originalstand mit 295 Entscheidungen (und sein Backup
+unter `~/.local/state/manabrew-recovery-backups/default-8088-replay-7bdec-20261121`)
+bleibt unverändert und ist davon getrennt. Die Rettung kann folglich
+**101 alte Entscheidungen nicht rekonstruieren**. Dies ist eine optionale
+Rückfallkopie und keine vollständige deterministische Reparatur (Issue #122).
+
 **Alte Spiele (bisheriges Chrome-Profil)** öffnet die ursprüngliche 8088-Origin im ursprünglichen Chrome-Profil.
 **Bisheriger Online-Client (Konto-Sitzung)** öffnet die bisherige Origin 8087
 unverändert, **Konto anmelden (bisheriger Zugang)** öffnet deren bisherigen
