@@ -11,7 +11,8 @@ const source = readFileSync(
 function fixture(started = true, args = {}) {
   const workers = [],
     output = [],
-    timers = new Map();
+    timers = new Map(),
+    timerDurations = new Map();
   let timerId = 0;
   class Worker {
     sent = [];
@@ -46,8 +47,9 @@ function fixture(started = true, args = {}) {
     Int32Array,
     Atomics,
     console: {},
-    setTimeout: (fn) => {
+    setTimeout: (fn, delay) => {
       timers.set(++timerId, fn);
+      timerDurations.set(timerId, delay);
       return timerId;
     },
     clearTimeout: (id) => timers.delete(id),
@@ -79,7 +81,7 @@ function fixture(started = true, args = {}) {
     self.onmessage({ data: { type: "command", command: name, requestId: id } });
   const responses = (id) =>
     output.filter((data) => data.type === "response" && data.requestId === id);
-  return { workers, output, timers, active, lanes, rewind, command, responses };
+  return { workers, output, timers, timerDurations, active, lanes, rewind, command, responses };
 }
 
 test("commands resolve before, during and after consecutive promotions", () => {
@@ -931,4 +933,51 @@ test("terminating a pending Forge initialization rejects waiters and releases it
   assert.deepEqual(events.filter((event) =>
     ["forge:engine_crash", "game:error", "game:forced_end"].includes(event.name)), []);
   bridge.terminate();
+});
+
+test("cold Forge replay budget scales for a durable 295-decision journal", () => {
+  const replaySnapshot = { journal: { entries: Array.from({ length: 295 }, () => ({})) } };
+  const f = fixture(false, { replaySnapshot, journalRewind: true });
+  assert.equal(f.timerDurations.size, 1, "a cold replay must have a bounded deadline");
+  const budget = [...f.timerDurations.values()][0];
+  assert(budget >= 3 * 60_000 && budget <= 15 * 60_000,
+    "a 295-decision game needs more than the former 120s hard stop");
+  f.command("end_game");
+  assert.equal(f.timers.size, 0, "teardown must cancel the recovery timeout");
+});
+
+test("cold Forge replay exposes the actual deterministic divergence instead of a generic game-ended error", () => {
+  const replaySnapshot = { journal: { entries: [{}] } };
+  const f = fixture(false, { replaySnapshot, journalRewind: true });
+  f.active.event("game:forced_end", {
+    reason: "worker_error",
+    message: "state/RNG divergence at decision 196 (state=different, rng=different)",
+  });
+  assert.equal(f.responses("start").length, 1);
+  assert.match(f.responses("start")[0].error,
+    /state\/RNG divergence at decision 196/);
+  assert.equal(f.timers.size, 0);
+  assert(f.active.terminated);
+});
+
+test("WebImage's non-JSON-safe Java exception preserves the actual replay error", () => {
+  const start = source.indexOf("function runGame(");
+  const end = source.indexOf("\nfunction boot()", start);
+  assert(start >= 0 && end > start);
+  const ctx = vm.createContext({
+    self: {
+      __forgeStartGame: () => [
+        '{"error":"java.lang.IllegalStateException: state/RNG divergence at decision 196',
+        '\tat forge.harness.host.DecisionHistory.replayAction"}',
+      ].join("\n"),
+    },
+  });
+  vm.runInContext(source.slice(start, end) + "\nglobalThis.runGame = runGame;", ctx);
+  assert.throws(() => ctx.runGame({}, {}), /state\/RNG divergence at decision 196/);
+  ctx.self.__forgeStartGame = () => '{"error":"A normal engine error"}';
+  assert.throws(() => ctx.runGame({}, {}), /A normal engine error/);
+  ctx.self.__forgeStartGame = () => "{}";
+  assert.doesNotThrow(() => ctx.runGame({}, {}));
+  ctx.self.__forgeStartGame = () => "<broken response>";
+  assert.throws(() => ctx.runGame({}, {}), /SyntaxError|JSON|Unexpected token/);
 });

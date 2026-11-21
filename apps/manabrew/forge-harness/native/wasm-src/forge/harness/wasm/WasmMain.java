@@ -132,7 +132,8 @@ public final class WasmMain {
             } catch (RuntimeException error) {
                 error.printStackTrace(System.err);
                 return org.graalvm.webimage.api.JSString.of(
-                        "{\"error\":\"" + String.valueOf(error.getMessage()).replace("\"", "'") + "\"}");
+                        new com.google.gson.Gson().toJson(
+                                java.util.Map.of("error", String.valueOf(error.getMessage()))));
             }
         });
         announceReady();
