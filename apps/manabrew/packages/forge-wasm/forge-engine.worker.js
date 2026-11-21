@@ -43,15 +43,17 @@ function supervise(command) {
   const coldReplay = command.args?.replaySnapshot ?? null;
   let coldVerified = coldReplay === null;
   let coldReply = null;
-  const stop = () => {
+  const stop = (failure = null) => {
     ended = true;
     clearTimeout(timer);
     candidate?.worker.terminate();
     active?.worker.terminate();
     candidate = active = null;
     if (!started) {
-      const error = new Error("Game ended before startup completed.");
-      error.name = "AbortError";
+      const error = failure === null
+        ? new Error("Game ended before startup completed.")
+        : new Error(String(failure).slice(0, 2048));
+      if (failure === null) error.name = "AbortError";
       postError(command.requestId, error);
     }
     started = true;
@@ -142,7 +144,7 @@ function supervise(command) {
           return;
         }
         if (data.error || data.event === "game:forced_end" || data.event === "game:over") {
-          stop();
+          stop(data.error || data.payload?.message || "Replay ended before its saved decision.");
         }
         return;
       }
@@ -209,10 +211,15 @@ function supervise(command) {
   try {
     launch(coldReplay, true);
     if (coldReplay) {
+      // Long decision journals can need many minutes to reconstruct on a
+      // baseline WASM compiler. Keep a bounded deadline, scaled by history size.
+      const decisions = Array.isArray(coldReplay.journal?.entries)
+        ? coldReplay.journal.entries.length : 0;
+      const replayTimeout = Math.min(900000, 120000 + decisions * 1500);
       timer = setTimeout(() => {
         if (ended || coldVerified) return;
-        stop();
-      }, 120000);
+        stop("Forge replay exceeded its verification deadline; the saved game was kept.");
+      }, replayTimeout);
     }
   } catch (error) {
     postError(command.requestId, error);
@@ -244,7 +251,19 @@ function runGame(request, args) {
     request.replaySnapshot = args.replaySnapshot;
   }
   const result = self.__forgeStartGame(JSON.stringify(request));
-  const error = result && JSON.parse(String(result)).error;
+  if (!result) return;
+  const response = String(result);
+  let error;
+  try {
+    error = JSON.parse(response).error;
+  } catch (decodeError) {
+    // Older native WebImages constructed their error JSON by concatenation,
+    // without escaping newlines in Java stack traces. Never turn that engine
+    // failure into an unrelated JSON SyntaxError. Accept only its error frame.
+    const prefix = '{"error":"';
+    if (!response.startsWith(prefix) || !response.endsWith('"}')) throw decodeError;
+    throw new Error(response.slice(prefix.length, -2));
+  }
   if (error) throw new Error(error);
 }
 
