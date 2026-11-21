@@ -51,14 +51,42 @@ ausgelieferte Client auf http://127.0.0.1:8088 enthält beide Spielwege:
 Ein einziger Desktopstarter manabrew.desktop öffnet zunächst
 /offline-setup.html?desktop=1&entry=play und zeigt nach der vollständigen,
 automatischen Offline-Vorbereitung die bestehende Spielmoduswahl unter /play.
-Ein gespeichertes Forge-Spiel wird beim Start vorrangig wieder aufgenommen.
+Ein gespeichertes Forge-Spiel wird beim Start **im jeweiligen Chrome-Profil**
+vorrangig wieder aufgenommen. Der Hauptstarter nutzt ausschließlich
+`~/.local/share/manabrew-chrome-liftoff` als eigenes Chrome-Datenverzeichnis,
+damit `--js-flags=--liftoff-only` auch bei bereits laufendem regulärem Chrome
+für seinen Browserprozess gilt. Dieses Profil wird bei der ersten Nutzung
+angelegt; **vorhandene** Daten des regulären Chrome-Profils werden weder
+automatisch kopiert noch gelöscht oder überschrieben. Sie bleiben über die
+Kontextaktion **Alte Spiele (bisheriges Chrome-Profil)** unter derselben
+Origin 8088 erreichbar. Diese Aktion verwendet bewusst den bisherigen
+Chrome-Hauptprozess und garantiert daher nicht den Liftoff-Schalter.
+Neues Spielgeschehen des Hauptstarters wird im eigenen Profil gespeichert;
+eine verlustbehaftete automatische Migration findet nicht statt.
 
     install -m 644 manabrew.desktop ~/.local/share/applications/
     rm -f ~/.local/share/applications/manabrew-magic-offline.desktop
     rm -f ~/.local/share/applications/manabrew-local.desktop
     rm -f ~/.local/share/applications/manabrew-account-login.desktop
 
-Der **eine** Hauptstarter enthält zwei Desktop-Aktionen im Kontextmenü:
+Der **eine** Hauptstarter enthält vier Desktop-Aktionen im Kontextmenü:
+**Gerettete Partie ab Entscheidung 195 (101 Aktionen zurück)** öffnet
+eine **separate** Kopie des historischen, sonst bei Entscheidung 196
+nichtdeterministisch abbrechenden Vier-Spieler-Forge-Spielstands. In dieser
+Kopie sind nur die 194 Entscheidungen vor der letzten erfolgreich
+wiederherstellbaren Grenze gespeichert (`nextSequence=195`). Das echte
+alte WebImage im eigenen Offline-Cache und der Fehlertransport aus PR #121
+erreichten auf der produktiven Origin mit Netzwerk nach 170 Sekunden
+fehlerfrei das Spielbrett; der eigens verwendete Chrome-Prozess lief mit
+Liftoff. Fortgesetzte Spielaktionen werden ausschließlich im
+Rettungsprofil `~/.local/share/manabrew-chrome-recovery-195` gespeichert.
+Der vollständige Originalstand mit 295 Entscheidungen (und sein Backup
+unter `~/.local/state/manabrew-recovery-backups/default-8088-replay-7bdec-20261121`)
+bleibt unverändert und ist davon getrennt. Die Rettung kann folglich
+**101 alte Entscheidungen nicht rekonstruieren**. Dies ist eine optionale
+Rückfallkopie und keine vollständige deterministische Reparatur (Issue #122).
+
+**Alte Spiele (bisheriges Chrome-Profil)** öffnet die ursprüngliche 8088-Origin im ursprünglichen Chrome-Profil.
 **Bisheriger Online-Client (Konto-Sitzung)** öffnet die bisherige Origin 8087
 unverändert, **Konto anmelden (bisheriger Zugang)** öffnet deren bisherigen
 OAuth-Einstieg. Kein zweiter Menüeintrag, kein Kopieren von Refresh-Tokens.
