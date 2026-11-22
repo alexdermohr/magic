@@ -414,6 +414,37 @@ function compare(snapshot) {
   return checks;
 }
 
+async function observeResume(page) {
+  let board = false;
+  let sawReplayAttempt = false;
+  let after;
+  const deadline = Date.now() + 240000;
+  while (Date.now() < deadline) {
+    after = await state(page);
+    if (after.board) {
+      assert.equal(after.seats, 4);
+      board = true;
+      break;
+    }
+    if (after.restoring) sawReplayAttempt = true;
+    if (after.signals.some((entry) => /state\/RNG divergence/i.test(entry))) break;
+    if (sawReplayAttempt && after.path === "/play" && !after.restoring) break;
+    await page.waitForTimeout(1000);
+  }
+  after = after ?? (await state(page));
+  const saved = await getJournal(page);
+  return {
+    board,
+    saved,
+    pageErrors: errors.length,
+    errorCategory: after.signals.some((msg) => /state\/RNG divergence/i.test(msg))
+      ? "state-rng-divergence"
+      : after.signals.length
+        ? "other-worker-error"
+        : "none",
+  };
+}
+
 try {
   await startWasmServer();
   cpSync(originalDefault, join(root, "Default"), {
@@ -442,77 +473,94 @@ try {
 
   page = await open(true);
   await page.goto(values.origin + "/", { waitUntil: "domcontentloaded", timeout: 60000 });
-  await waitForBoard(page, "first-load");
-  assert.equal((await getJournal(page)).cursor, nextSequence);
-  if (nextSequence < 296) {
-    const first = await advance(page, nextSequence + 2);
-    assert(first.releaseMatches);
-    const checks = compare(first);
-    assert(checks.length >= 2);
-    assert(
-      checks.every((e) => e.sameAction && e.sameState && e.samePrompt),
-      "Historical continuation must preserve actions, prompts and canonical state",
+  if (nextSequence === 296 && values.expect === "divergence") {
+    const outcome = await observeResume(page);
+    console.log(
+      "HISTORICAL_REPLAY_FULL_ATTEMPT",
+      JSON.stringify({
+        board: outcome.board,
+        cursor: outcome.saved.cursor,
+        errorCategory: outcome.errorCategory,
+        pageErrors: outcome.pageErrors,
+      }),
     );
-    assert(checks[0].sameRng, "First restored decision witness must remain exact");
+    assert(!outcome.board, "Original 295-entry cold replay unexpectedly succeeded");
+    assert.equal(outcome.saved.cursor, 296, "Full original history must remain intact");
+    assert.equal(
+      outcome.errorCategory,
+      "state-rng-divergence",
+      "The original historical replay must fail on the actual RNG witness",
+    );
+    console.log("HISTORICAL_FORGE_FULL_REPLAY_DIVERGENCE_REPRODUCED");
+  } else {
+    await waitForBoard(page, "first-load");
+    assert.equal((await getJournal(page)).cursor, nextSequence);
+    if (nextSequence < 296) {
+      const first = await advance(page, nextSequence + 2);
+      assert(first.releaseMatches);
+      const checks = compare(first);
+      assert(checks.length >= 2);
+      assert(
+        checks.every((e) => e.sameAction && e.sameState && e.samePrompt),
+        "Historical continuation must preserve actions, prompts and canonical state",
+      );
+      assert(checks[0].sameRng, "First restored decision witness must remain exact");
+      if (values.expect === "match") {
+        assert(
+          checks.every((e) => e.sameRng),
+          "Historical RNG diverged",
+        );
+      } else {
+        assert(
+          checks.some((e) => !e.sameRng),
+          "Expected historical RNG divergence did not reproduce",
+        );
+      }
+    } else {
+      const continued = await advance(page, 297);
+      assert(continued.releaseMatches);
+      assert(continued.cursor >= 297, "Full original replay must accept a new durable action");
+      console.log(
+        "HISTORICAL_REPLAY_FULL_CONTINUED",
+        JSON.stringify({
+          cursor: continued.cursor,
+          newHumanActionPersisted: true,
+        }),
+      );
+    }
+    await close();
+
+    page = await open(true);
+    await page.goto(values.origin + "/", { waitUntil: "domcontentloaded", timeout: 60000 });
+    const outcome = await observeResume(page);
+    console.log(
+      "HISTORICAL_REPLAY_RESTART",
+      JSON.stringify({
+        fullRestartBoard: outcome.board,
+        restoredCursor: outcome.saved.cursor,
+        errorCategory: outcome.errorCategory,
+        errors: outcome.pageErrors,
+      }),
+    );
     if (values.expect === "match") {
       assert(
-        checks.every((e) => e.sameRng),
-        "Historical RNG diverged",
+        outcome.board && outcome.saved.releaseMatches && outcome.pageErrors === 0,
+        "Full Chrome restart must restore a playable board without errors",
       );
-    } else {
       assert(
-        checks.some((e) => !e.sameRng),
-        "Expected historical RNG divergence did not reproduce",
+        outcome.saved.cursor >= nextSequence + 1,
+        "An original-game continuation must survive the full Chrome restart",
       );
+      console.log("HISTORICAL_FORGE_REPLAY_VERIFIED");
+    } else {
+      assert(!outcome.board, "Expected cold-replay failure but the board was restored");
+      assert.equal(
+        outcome.errorCategory,
+        "state-rng-divergence",
+        "Expected the specific historical state/RNG verification failure",
+      );
+      console.log("HISTORICAL_FORGE_REPLAY_DIVERGENCE_REPRODUCED");
     }
-  }
-  await close();
-
-  page = await open(true);
-  await page.goto(values.origin + "/", { waitUntil: "domcontentloaded", timeout: 60000 });
-  let finalBoard = false;
-  let sawReplayAttempt = false;
-  let after;
-  const deadline = Date.now() + 240000;
-  while (Date.now() < deadline) {
-    after = await state(page);
-    if (after.board) {
-      assert.equal(after.seats, 4);
-      finalBoard = true;
-      break;
-    }
-    if (after.restoring) sawReplayAttempt = true;
-    if (after.signals.some((entry) => /state\/RNG divergence/i.test(entry))) break;
-    if (sawReplayAttempt && after.path === "/play" && !after.restoring) break;
-    await page.waitForTimeout(1000);
-  }
-  after = after ?? (await state(page));
-  const saved = await getJournal(page);
-  const diagnostic = {
-    fullRestartBoard: finalBoard,
-    restoredCursor: saved.cursor,
-    errorCategory: after.signals.some((msg) => /state\/RNG divergence/i.test(msg))
-      ? "state-rng-divergence"
-      : after.signals.length
-        ? "other-worker-error"
-        : "none",
-    errors: errors.length,
-  };
-  console.log("HISTORICAL_REPLAY_RESTART", JSON.stringify(diagnostic));
-  if (values.expect === "match") {
-    assert(
-      finalBoard && saved.releaseMatches && errors.length === 0,
-      "Full Chrome restart must restore a playable board without errors",
-    );
-    console.log("HISTORICAL_FORGE_REPLAY_VERIFIED");
-  } else {
-    assert(!finalBoard, "Expected cold-replay failure but the board was restored");
-    assert.equal(
-      diagnostic.errorCategory,
-      "state-rng-divergence",
-      "Expected the specific historical state/RNG verification failure",
-    );
-    console.log("HISTORICAL_FORGE_REPLAY_DIVERGENCE_REPRODUCED");
   }
 } finally {
   await close();
