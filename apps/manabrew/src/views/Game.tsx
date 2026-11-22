@@ -914,7 +914,10 @@ export default function Game({ exitTo }: GameProps = {}) {
   const handleTapLand = (card: CardDto) => {
     const manaAbilities = manaAbilitiesByCardId.get(card.id) ?? [];
     const waterbend = waterbendActionIdByCardId.get(card.id);
-    if (manaAbilities.length + (waterbend ? 1 : 0) > 1) {
+    if (
+      manaAbilities.length + (waterbend ? 1 : 0) > 1 ||
+      (promptType === "chooseAction" && getBattlefieldAbilityOptions(card).length > 0)
+    ) {
       preview.showSticky(card);
       return;
     }
