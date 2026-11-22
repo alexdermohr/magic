@@ -408,7 +408,7 @@ export function GameBoard({
   const manaAbilityOptions = promptActions ? manaAbilityInfos(promptActions) : undefined;
   const chooseActionAbilityCardIds = chooseActionActions?.reduce<string[]>((cardIds, action) => {
     if (
-      action.type === "activateAbility" ||
+      (action.type === "activateAbility" && !action.isManaAbility) ||
       (action.type === "cast" && action.mode.type === "unlockDoor")
     )
       cardIds.push(action.cardId);
