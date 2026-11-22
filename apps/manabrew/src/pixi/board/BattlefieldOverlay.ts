@@ -107,7 +107,12 @@ export class BattlefieldOverlay {
     overlay.pivot.set(CARD_W / 2, this.cardHeight() / 2);
     overlay.removeChildren().forEach((c) => c.destroy({ children: true }));
 
-    if (kind.isTappable && expandedMana.length > 0 && this.host.usesManaGrid()) {
+    if (
+      kind.isTappable &&
+      expandedMana.length > 0 &&
+      this.host.usesManaGrid() &&
+      !kind.isSelectable
+    ) {
       this.drawManaGrid(overlay, card, state, expandedMana, kind);
     } else {
       this.drawSingleButton(overlay, card, state, kind);
