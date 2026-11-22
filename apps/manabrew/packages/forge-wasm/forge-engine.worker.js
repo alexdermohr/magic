@@ -134,7 +134,7 @@ function supervise(command) {
         }
         if (data.type === "response" && data.requestId === command.requestId) {
           if (data.error) {
-            stop();
+            stop(data.error);
           } else coldReply = data.payload;
           return;
         }

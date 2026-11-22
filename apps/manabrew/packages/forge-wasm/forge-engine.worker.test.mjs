@@ -294,6 +294,21 @@ test("normal game end delivers a late final SAB prompt before stopping its reade
   engine.dispose();
 });
 
+test("cold replay preserves the original leaf error rather than hiding it", () => {
+  const snapshot = {
+    version: 1, nextSequence: 256,
+    journal: { version: 2, startRequest: '{"gameId":"recover-test"}', entries: [{}] },
+    prompt: { promptId: 900 }, verification: { state: "a".repeat(64), rng: "9916:ff" },
+  };
+  const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true });
+  const failure = "java.lang.IllegalStateException: state/RNG divergence at decision 255 (state=equal, rng=different)";
+  f.active.onmessage({ data: { type: "response", requestId: "start", error: failure } });
+  assert.equal(f.responses("start").length, 1);
+  assert.equal(f.responses("start")[0].error, failure);
+  assert.equal(f.timers.size, 0);
+  assert(f.active.terminated);
+});
+
 test("cold restore conceals a dead worker until verified state and RNG", () => {
   const snapshot = {
     version: 1, nextSequence: 3,
