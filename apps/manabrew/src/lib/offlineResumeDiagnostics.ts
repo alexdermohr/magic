@@ -57,6 +57,7 @@ const SAFE_REASONS = new Set([
   "worker_error",
   "message_error",
   "no_heartbeat_after_foreground",
+  "no_heartbeat_while_visible",
   "bfcache",
   "navigation",
   "unknown",
