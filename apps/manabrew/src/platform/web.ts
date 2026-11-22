@@ -305,6 +305,7 @@ class WorkerBridge {
   private seatReaders = new Map<ForgeSeat, Worker>();
   private seatReaderLaunchers = new Map<ForgeSeat, () => void>();
   private resumeReaderCheck: ReturnType<typeof setTimeout> | null = null;
+  private readerHealthCheck: ReturnType<typeof setInterval> | null = null;
 
   private remoteSeats = new Map<string, ForgeSeat>();
   private remotePlayerSlots = new Map<string, string>();
@@ -334,11 +335,7 @@ class WorkerBridge {
       this.resumeReaderCheck = setTimeout(() => {
         this.resumeReaderCheck = null;
         if (document.hidden) return;
-        for (const [seat, reader] of this.seatReaders) {
-          if (seatReaderStalled(seatReaderLastSignalAt.get(reader), Date.now())) {
-            this.restartSeatReader(seat, "no_heartbeat_after_foreground");
-          }
-        }
+        this.checkSeatReaders("no_heartbeat_after_foreground");
       }, 8_000);
     };
     document.addEventListener("visibilitychange", () => {
@@ -566,6 +563,14 @@ class WorkerBridge {
     this.localBotSlots = new Set(slots);
   }
 
+  private checkSeatReaders(reason: string): void {
+    for (const [seat, reader] of [...this.seatReaders]) {
+      if (seatReaderStalled(seatReaderLastSignalAt.get(reader), Date.now())) {
+        this.restartSeatReader(seat, reason);
+      }
+    }
+  }
+
   private attachSeatReader<T>(
     seat: ForgeSeat,
     onMessage: (message: T, json: string, arrivedAt: number) => void,
@@ -581,6 +586,12 @@ class WorkerBridge {
     };
     this.seatReaderLaunchers.set(seat, launch);
     launch();
+    if (this.readerHealthCheck === null) {
+      this.readerHealthCheck = setInterval(() => {
+        if (document.hidden || this.resumeReaderCheck !== null) return;
+        this.checkSeatReaders("no_heartbeat_while_visible");
+      }, 3_000);
+    }
   }
 
   private restartSeatReader(seat: ForgeSeat, reason: string): void {
@@ -608,6 +619,10 @@ class WorkerBridge {
     }
     this.seatReaders.delete(seat);
     this.seatReaderLaunchers.delete(seat);
+    if (this.seatReaders.size === 0 && this.readerHealthCheck !== null) {
+      clearInterval(this.readerHealthCheck);
+      this.readerHealthCheck = null;
+    }
   }
 
   private dropDirectiveLanes(): void {
