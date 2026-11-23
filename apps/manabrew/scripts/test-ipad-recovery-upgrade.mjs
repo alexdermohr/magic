@@ -283,6 +283,81 @@ try {
     selected: newVersion,
     appRelease: newVersion,
   });
+
+  await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
+  await page.locator("#archived-list button").first().click();
+  await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
+  const rewoundMeta = { ...original, updatedAt: original.updatedAt + 1000 };
+  const rewoundJournal = journal.map((entry) => entry.sequence === 2 ?
+    { ...entry, action: { choice: 42 } } : entry);
+  await page.evaluate(async ({ rewoundMeta, rewoundJournal }) => {
+    const request = indexedDB.open("manabrew-forge-autoresume-v1", 1);
+    const db = await new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(["current", "entries"], "readwrite");
+      tx.objectStore("current").put(rewoundMeta, "active");
+      for (const entry of rewoundJournal) tx.objectStore("entries").put(entry, entry.sequence);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  }, { rewoundMeta, rewoundJournal });
+  await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
+  await page.locator("#recovery-options").waitFor({ state: "visible" });
+  await page.locator("#recover-new").click();
+  await page.waitForURL("**/play/offline/constructed", { timeout: 12000 });
+  assert.match(await page.locator("body").innerText(), /NEW_PLAYABLE_GAME/);
+  const divergentArchives = await page.evaluate(async () => {
+    const request = indexedDB.open("manabrew-forge-recovery-archives-v1", 1);
+    const db = await new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const saves = await new Promise((resolve, reject) => {
+      const request = db.transaction("saves", "readonly").objectStore("saves").getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    db.close();
+    return saves;
+  });
+  assert.equal(divergentArchives.length, 2,
+    "A rewind checkpoint at the same decision count must be a separate archive");
+  assert.ok(divergentArchives.some((saved) =>
+    JSON.stringify(saved.meta) === JSON.stringify(original) &&
+    JSON.stringify(saved.entries) === JSON.stringify(journal)));
+  assert.ok(divergentArchives.some((saved) =>
+    JSON.stringify(saved.meta) === JSON.stringify(rewoundMeta) &&
+    JSON.stringify(saved.entries) === JSON.stringify(rewoundJournal)));
+
+
+  const rewoundArchiveIndex = divergentArchives.findIndex((saved) =>
+    JSON.stringify(saved.meta) === JSON.stringify(rewoundMeta));
+  assert.ok(rewoundArchiveIndex >= 0);
+  await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
+  await page.locator("#archived-list button").nth(rewoundArchiveIndex).click();
+  await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
+  const rewoundRestored = await page.evaluate(async () => {
+    const request = indexedDB.open("manabrew-forge-autoresume-v1", 1);
+    const db = await new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const saved = await new Promise((resolve, reject) => {
+      const tx = db.transaction(["current", "entries"], "readonly");
+      const meta = tx.objectStore("current").get("active");
+      const entries = tx.objectStore("entries").getAll();
+      tx.oncomplete = () => resolve({ meta: meta.result, entries: entries.result });
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+    return saved;
+  });
+  assert.deepEqual(rewoundRestored, { meta: rewoundMeta, entries: rewoundJournal });
+
   assert.deepEqual(errors, []);
   console.log("SINGLEPLAYER_RECOVERY_ESCAPE_PASS", JSON.stringify({
     firstResumeProtected: true,

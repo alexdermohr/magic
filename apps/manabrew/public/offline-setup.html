@@ -254,8 +254,12 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
           snapshot.entries.some((entry, index) => entry.sequence !== index + 1)) {
         throw new Error("Der Spielstand hat sich geändert oder ist unvollständig");
       }
+      const checkpointBytes = new TextEncoder().encode(JSON.stringify(snapshot));
+      const digest = await crypto.subtle.digest("SHA-256", checkpointBytes);
+      const checkpointId = Array.from(new Uint8Array(digest),
+        (byte) => byte.toString(16).padStart(2, "0")).join("");
       const key = snapshot.meta.releaseId + ":" + snapshot.meta.gameId +
-        ":" + snapshot.meta.nextSequence;
+        ":" + snapshot.meta.nextSequence + ":" + checkpointId;
       const archive = { key, releaseId: snapshot.meta.releaseId,
         savedAt: snapshot.meta.updatedAt, meta: snapshot.meta, entries: snapshot.entries };
       const archives = await openArchiveDb();
