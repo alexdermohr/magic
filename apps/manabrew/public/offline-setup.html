@@ -833,6 +833,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       $("prepare").disabled = false;
       $("prepare").textContent = ready ? "Offline-Daten erneut prüfen" : upgradeAvailable ? "Update jetzt installieren" : "Offline-Daten herunterladen";
       if (ready) {
+        await selectRelease(manifest.version);
         report("Programmdateien vollständig offline gespeichert", fmt(total) + " in " + manifest.files.length + " Dateien. Dies bestätigt noch kein erfolgreiches Forge-Spiel auf iPadOS.");
         let personalReady = false;
         try {

@@ -265,6 +265,24 @@ try {
   await page.waitForURL("**/play", { timeout: 30000 });
   await assert.match(await page.locator("body").innerText(), /OLD_UNRECOVERABLE_GAME/);
   assert.equal(await isReady(oldVersion), true);
+
+  version = newVersion;
+  await page.goto(launcher, { waitUntil: "domcontentloaded" });
+  await page.waitForURL("**/play", { timeout: 30000 });
+  await assert.match(await page.locator("body").innerText(), /NEW_PLAYABLE_GAME/);
+  const currentRelease = await page.evaluate(async () => {
+    const selected = await (await caches.open("manabrew-ipad-selected-release-v1"))
+      .match("/selected-release");
+    const client = await import("/forge-recovery-runtime.js");
+    return {
+      selected: await selected?.text(),
+      appRelease: await client.installedForgeRecoveryReleaseId(),
+    };
+  });
+  assert.deepEqual(currentRelease, {
+    selected: newVersion,
+    appRelease: newVersion,
+  });
   assert.deepEqual(errors, []);
   console.log("SINGLEPLAYER_RECOVERY_ESCAPE_PASS", JSON.stringify({
     firstResumeProtected: true,
@@ -274,6 +292,7 @@ try {
     oldEngineRetained: true,
     archivedGameRestored: true,
     sameReleaseEscapeWithoutRedownload: true,
+    latestReleaseReactivatedAfterArchivedGame: true,
   }));
   await context.close();
 } finally {
