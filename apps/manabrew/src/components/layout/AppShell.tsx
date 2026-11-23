@@ -189,7 +189,11 @@ export function AppShell() {
         {forgeResume.phase !== "idle" && (
           <div
             className="fixed inset-0 z-[90] flex items-center justify-center bg-background px-6 py-8 text-foreground"
-            role={forgeResume.phase === "checking" || forgeResume.phase === "restoring" ? "status" : "alert"}
+            role={
+              forgeResume.phase === "checking" || forgeResume.phase === "restoring"
+                ? "status"
+                : "alert"
+            }
             aria-live="polite"
           >
             <div className="w-full max-w-md space-y-5 text-center">
@@ -216,14 +220,8 @@ export function AppShell() {
                   <Button variant="primary" onClick={forgeResume.retry}>
                     Retry saved game
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      forgeResume.dismiss();
-                      navigate(ROUTES.PLAY_OFFLINE_CONSTRUCTED, { replace: true });
-                    }}
-                  >
-                    Open deck selection
+                  <Button variant="outline" asChild>
+                    <a href="/offline-setup.html?setup=1">Save checkpoint or start new</a>
                   </Button>
                 </div>
               )}

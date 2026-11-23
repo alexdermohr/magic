@@ -368,7 +368,17 @@ export async function installedForgeRecoveryReleaseId(): Promise<string | null> 
   if (typeof caches === "undefined") return null;
   const prefix = "manabrew-ipad-offline-";
   try {
-    const names = (await caches.keys()).filter((name) => name.startsWith(prefix)).reverse();
+    const cacheNames = await caches.keys();
+    const selectedName = "manabrew-ipad-selected-release-v1";
+    const selectedResponse = cacheNames.includes(selectedName)
+      ? await (await caches.open(selectedName)).match("/selected-release")
+      : null;
+    const selectedVersion = await selectedResponse?.text();
+    const names = cacheNames.filter((name) => name.startsWith(prefix)).reverse();
+    if (selectedVersion && /^[a-f0-9]{20,64}$/.test(selectedVersion)) {
+      const index = names.indexOf(prefix + selectedVersion);
+      if (index >= 0) names.unshift(...names.splice(index, 1));
+    }
     for (const name of names) {
       const version = name.slice(prefix.length);
       if (!/^[a-f0-9]{20,64}$/.test(version)) continue;

@@ -131,3 +131,26 @@ abgeschlossener OAuth-Login oder eine Decksynchronisierung ist damit noch
 nicht nachgewiesen.
 
 Ein nativer Tauri-Build wird dadurch nicht behauptet.
+
+## Fehlgeschlagene Offline-Spielwiederherstellung
+
+Bei einer gespeicherten Forge-Partie versucht der Desktopstarter weiterhin zuerst
+die Wiederaufnahme mit der passenden Offline-Engine. Kehrt derselbe unveränderte
+Checkpoint beim nächsten Start zurück, bietet die Installationsseite über
+offline-setup.html?setup=1 auch **„Spielstand sichern und neu spielen“** an.
+Die Funktion kopiert Metadaten und das vollständige Entscheidungsjournal in die
+lokale IndexedDB manabrew-forge-recovery-archives-v1, liest die Kopie zur
+Bestätigung zurück und löst erst danach die aktive Wiederherstellung ab.
+Solange das Archiv existiert, wird die zugehörige alte Offline-Engine beim
+Update nicht gelöscht. Unter „Gesicherte frühere Partien“ lässt sich die
+Archivkopie mit der passenden Engine später erneut aktivieren, sofern deren
+Cache noch vorhanden ist. Der Installer verweigert die Ablage, solange eine
+andere Partie den Forge-Owner-Lock hält. Er löscht weder Browserprofildaten noch
+persönliche Decks.
+
+Auf dem Linux-PC wurde die einmalig betroffene historische Partie zusätzlich
+vor der Umstellung im **unveränderten** bisherigen Chrome-Profil und in einer
+separaten Profilsicherung erhalten. Diese externe Sicherung ist unabhängig
+vom neu eingeführten IndexedDB-Archiv und darf nicht stillschweigend entfernt
+werden. Ein vollständig deterministischer Replay der historischen Partie ist
+damit noch nicht nachgewiesen (siehe Magic-Issue #122).
