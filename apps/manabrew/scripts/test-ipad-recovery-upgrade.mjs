@@ -27,7 +27,9 @@ let version = oldVersion;
 const filesFor = (release) => ({
   "/index.html": "<!doctype html><body>" +
     (release === oldVersion ? "OLD_UNRECOVERABLE_GAME" : "NEW_PLAYABLE_GAME") + "</body>",
-  "/offline-setup.html": html,
+  "/offline-setup.html": release === oldVersion
+    ? html.replace("</main>", '<p id="legacy-installer-marker">Old installer</p></main>')
+    : html,
   "/offline-sw.js": worker,
   "/deck-storage-codec.js": codec,
   "/forge-recovery-runtime.js": recoveryRuntime,
@@ -136,24 +138,19 @@ try {
   }, { original, journal });
   version = newVersion;
 
-  // First launch must not silently discard or migrate an existing game.
   await page.goto(launcher, { waitUntil: "domcontentloaded" });
   await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
   await assert.match(await page.locator("body").innerText(), /OLD_UNRECOVERABLE_GAME/);
   assert.equal(await isReady(oldVersion), true);
   assert.equal(await isReady(newVersion), false);
 
-  // An unchanged failed replay on the next launch must reveal an escape.
   await page.goto(launcher, { waitUntil: "domcontentloaded" });
   await page.locator("#recovery-options").waitFor({ state: "visible", timeout: 25000 });
   assert.equal(await isReady(oldVersion), true);
 
-  // The failed-replay button links to ?setup=1; a completed rescue must still
-  // open the game rather than strand the player on an installer status page.
   await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
   await page.locator("#recovery-options").waitFor({ state: "visible" });
 
-  // Another tab genuinely playing must veto the archive-and-upgrade transition.
   const playingTab = await context.newPage();
   await playingTab.goto(origin + "/play/offline/constructed");
   await playingTab.evaluate(() => {
@@ -177,7 +174,11 @@ try {
   await page.waitForURL("**/play/offline/constructed", { timeout: 60000 });
   await assert.match(await page.locator("body").innerText(), /NEW_PLAYABLE_GAME/);
   assert.equal(await isReady(newVersion), true);
-  assert.equal(await isReady(oldVersion), true, "Old offline engine must remain available");
+  assert.equal(await isReady(oldVersion), false, "Only the active release may carry a READY marker");
+  const retainedOldVersion = await page.evaluate(async (version) =>
+    (await (await (await caches.open("manabrew-ipad-offline-" + version))
+      .match("/offline-retained.json"))?.text()) === version, oldVersion);
+  assert.equal(retainedOldVersion, true, "Old offline engine must remain available");
 
   const archived = await page.evaluate(async () => {
     const req = indexedDB.open("manabrew-forge-recovery-archives-v1", 1);
@@ -211,7 +212,6 @@ try {
   assert.deepEqual(archived.all[0].meta, original);
   assert.deepEqual(archived.all[0].entries, journal);
 
-  // The archived checkpoint is actually recoverable with its old engine.
   await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
   await page.locator("#archived-list button").first().click();
   await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
@@ -236,6 +236,32 @@ try {
     release: oldVersion, gameId: original.gameId,
     nextSequence: original.nextSequence, entries: journal.length,
   });
+  const legacyRelease = await page.evaluate(async () => {
+    const prefix = "manabrew-ipad-offline-";
+    const names = (await caches.keys()).filter((name) => name.startsWith(prefix)).reverse();
+    for (const name of names) {
+      const version = name.slice(prefix.length);
+      if (!/^[a-f0-9]{20,64}$/.test(version)) continue;
+      const cache = await caches.open(name);
+      const [marker, index, manifestResponse] = await Promise.all([
+        cache.match("/offline-ready.json"),
+        cache.match("/index.html"),
+        cache.match("/offline-assets.json"),
+      ]);
+      if (!marker || !index || !manifestResponse || await marker.text() !== version) continue;
+      const manifest = await manifestResponse.json();
+      if (manifest?.version === version && Array.isArray(manifest.files)) return version;
+    }
+    return null;
+  });
+  assert.equal(legacyRelease, oldVersion,
+    "Already cached clients without selected-release support must also see the active archived release");
+  await context.setOffline(true);
+  await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
+  await page.locator("#recovery-options").waitFor({ state: "visible" });
+  assert.equal(await page.locator("#legacy-installer-marker").count(), 0,
+    "The newest cached installer must remain available while an older engine is selected");
+  await context.setOffline(false);
   const restored = await page.evaluate(async () => {
     const req = indexedDB.open("manabrew-forge-autoresume-v1", 1);
     const db = await new Promise((resolve, reject) => {
@@ -255,7 +281,6 @@ try {
   assert.deepEqual(restored.meta, original);
   assert.deepEqual(restored.entries, journal);
 
-  // The same-release escape must not redownload a complete package.
   version = oldVersion;
   await page.goto(launcher, { waitUntil: "domcontentloaded" });
   await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
@@ -368,6 +393,8 @@ try {
     archivedGameRestored: true,
     sameReleaseEscapeWithoutRedownload: true,
     latestReleaseReactivatedAfterArchivedGame: true,
+    legacyClientArchiveSelection: true,
+    divergentCheckpointsRetained: true,
   }));
   await context.close();
 } finally {

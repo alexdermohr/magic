@@ -103,7 +103,30 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     navigator.serviceWorker?.controller?.postMessage({ type: "manabrew-cache-changed" });
   }
 
+  const READY_MARKER = "/offline-ready.json";
+  const RETAINED_MARKER = "/offline-retained.json";
+
+  async function completeMarker(cache) {
+    return await cache.match(READY_MARKER) || await cache.match(RETAINED_MARKER);
+  }
+
   async function selectRelease(version) {
+    const selected = await caches.open(prefix + version);
+    if (await (await completeMarker(selected))?.text() !== version) {
+      throw new Error("Die ausgewählte Offline-Version ist unvollständig");
+    }
+    await selected.put(READY_MARKER, new Response(version));
+    // Older installed clients identify their engine by the READY marker, not
+    // the selected-release pointer. Keep only the active release READY.
+    for (const name of await caches.keys()) {
+      if (!name.startsWith(prefix) || name === prefix + version) continue;
+      const other = await caches.open(name);
+      const otherVersion = name.slice(prefix.length);
+      if (await (await other.match(READY_MARKER))?.text() !== otherVersion) continue;
+      await other.put(RETAINED_MARKER, new Response(otherVersion));
+      await other.delete(READY_MARKER);
+    }
+    await selected.delete(RETAINED_MARKER);
     const cache = await caches.open(SELECTED_CACHE);
     await cache.put(SELECTED_PATH, new Response(version, { headers: { "Content-Type": "text/plain" } }));
     const worker = navigator.serviceWorker?.controller;
@@ -318,7 +341,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
         button.disabled = true;
         try {
           const oldCache = await caches.open(prefix + saved.releaseId);
-          if (await (await oldCache.match("/offline-ready.json"))?.text() !== saved.releaseId) {
+          if (await (await completeMarker(oldCache))?.text() !== saved.releaseId) {
             throw new Error("Die frühere Offline-Engine ist nicht mehr installiert");
           }
           await withGameOwnerLock(async () => {
@@ -815,7 +838,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       }
       const total = manifest.totalBytes;
       const cache = await caches.open(prefix + manifest.version);
-      const marker = await cache.match("/offline-ready.json");
+      const marker = await completeMarker(cache);
       let quickReady = !!marker && (await marker.text()) === manifest.version;
       if (quickReady) {
         for (const url of ["/index.html", "/offline-setup.html", "/personal-decks.json",
@@ -837,7 +860,21 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       $("prepare").disabled = false;
       $("prepare").textContent = ready ? "Offline-Daten erneut prüfen" : upgradeAvailable ? "Update jetzt installieren" : "Offline-Daten herunterladen";
       if (ready) {
-        await selectRelease(manifest.version);
+        const activateReady = async () => {
+          const active = await readForgeMeta();
+          if (active?.releaseId && active.releaseId !== manifest.version) return false;
+          await selectRelease(manifest.version);
+          return true;
+        };
+        const activated = navigator.locks
+          ? await navigator.locks.request("manabrew:forge-autoresume:v1:owner", { ifAvailable: true },
+              async (lock) => lock ? activateReady() : false)
+          : await activateReady();
+        if (!activated) {
+          report("Gespeicherte Partie geschützt", "Die aktuelle Version bleibt bis zum Abschluss der Partie aktiv.");
+          $("play").classList.remove("disabled");
+          return;
+        }
         report("Programmdateien vollständig offline gespeichert", fmt(total) + " in " + manifest.files.length + " Dateien. Dies bestätigt noch kein erfolgreiches Forge-Spiel auf iPadOS.");
         let personalReady = false;
         try {
@@ -889,13 +926,14 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     if (!keepPlayable) $("play").classList.add("disabled");
     const cacheName = prefix + manifest.version;
     const cache = await caches.open(cacheName);
-    await cache.delete("/offline-ready.json");
+    await cache.delete(READY_MARKER);
+    await cache.delete(RETAINED_MARKER);
     refreshWorkerCache();
     const reusable = [];
     for (const oldName of (await caches.keys()).filter((name) => name.startsWith(prefix) && name !== cacheName)) {
       const oldCache = await caches.open(oldName);
       const [marker, index] = await Promise.all([
-        oldCache.match("/offline-ready.json"),
+        completeMarker(oldCache),
         oldCache.match("/offline-assets.json"),
       ]);
       if (!marker || !index) continue;

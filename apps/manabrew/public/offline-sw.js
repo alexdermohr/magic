@@ -99,13 +99,18 @@ self.addEventListener("fetch", (event) => {
       if (navigating && (path === "/offline-setup.html" || (cache && url.pathname === "/"))) {
         try {
           const latest = await fetch("/offline-setup.html", { cache: "no-store" });
-          if (latest.ok) return isolatedNavigation(latest);
+          if (latest.ok) {
+            await caches.open(SETUP_CACHE)
+              .then((setup) => setup.put("/offline-setup.html", latest.clone()))
+              .catch(() => {});
+            return isolatedNavigation(latest);
+          }
         } catch {
           // The bundled installer still opens while disconnected.
         }
         const setup =
-          (cache && (await cache.match("/offline-setup.html"))) ||
-          (await (await caches.open(SETUP_CACHE)).match("/offline-setup.html"));
+          (await (await caches.open(SETUP_CACHE)).match("/offline-setup.html")) ||
+          (cache && (await cache.match("/offline-setup.html")));
         if (setup) return isolatedNavigation(setup);
       }
 
