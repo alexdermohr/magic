@@ -784,9 +784,6 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       const installedVersion = await installedReadyRelease();
       const activeSave = await readForgeMeta();
       currentReady = false;
-      // First opening always resumes the existing game. If the exact same
-      // checkpoint returns unchanged on the next launch, give the player an
-      // escape from an endless replay failure instead of forcing it again.
       if (mayResume && installedVersion && activeSave?.releaseId === installedVersion) {
         const identity = resumeIdentity(activeSave);
         let previous = null;
@@ -805,13 +802,10 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       if (!Array.isArray(manifest.files) || !manifest.version) throw new Error("Dateiliste ungültig.");
       await showArchives();
       if (mayResume && !installedVersion && activeSave?.releaseId === manifest.version) {
-        // A regular Safari tab may have a valid journal but no complete cache.
         location.replace("/play/offline/constructed");
         return;
       }
       if (activeSave?.releaseId && typeof activeSave.gameId === "string") {
-        // Even when the original engine cache is missing, archive the journal
-        // before allowing a replacement game to overwrite its active slot.
         showRescue(activeSave);
         return;
       }
@@ -1024,8 +1018,6 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       await showArchives();
       report("Gespeicherte Partie archiviert", "Die bisherige Version bleibt als Wiederherstellungskopie erhalten.");
       if (await installedReadyRelease() === manifest.version) {
-        // A corrupt save must not force a 400-MB recheck when the same
-        // offline engine is already installed and ready to start a new game.
         location.replace(readyRoute);
       } else {
         await prepare(true, true);

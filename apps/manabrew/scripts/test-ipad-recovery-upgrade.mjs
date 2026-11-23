@@ -10,6 +10,15 @@ const worker = await readFile(new URL("../public/offline-sw.js", import.meta.url
 const codec = stripTypeScriptTypes(
   await readFile(new URL("../src/lib/deckStorageCodec.ts", import.meta.url), "utf8"),
 );
+const recoverySource = await readFile(
+  new URL("../src/lib/forgeAutoResumeStore.ts", import.meta.url), "utf8",
+);
+const runtimeImport = 'import { FORGE_LAUNCHER_URL, FORGE_WASM_URL } from "@/lib/forgeWasm";';
+assert.ok(recoverySource.includes(runtimeImport));
+const recoveryRuntime = stripTypeScriptTypes(recoverySource.replace(
+  runtimeImport,
+  'const FORGE_LAUNCHER_URL = "/assets/test-forge-launcher"; const FORGE_WASM_URL = "/assets/test-forge.wasm";',
+));
 const oldVersion = "11111111111111111111";
 const newVersion = "22222222222222222222";
 const hash = (text) => createHash("sha256").update(text).digest("hex");
@@ -21,6 +30,7 @@ const filesFor = (release) => ({
   "/offline-setup.html": html,
   "/offline-sw.js": worker,
   "/deck-storage-codec.js": codec,
+  "/forge-recovery-runtime.js": recoveryRuntime,
   "/personal-decks.json": JSON.stringify({
     decks: [{
       id: "github:alexdermohr/magic:fixture",
@@ -206,6 +216,26 @@ try {
   await page.locator("#archived-list button").first().click();
   await page.waitForURL("**/play/offline/constructed", { timeout: 30000 });
   await assert.match(await page.locator("body").innerText(), /OLD_UNRECOVERABLE_GAME/);
+  const actualRecoveryRelease = await page.evaluate(async () =>
+    (await import("/forge-recovery-runtime.js")).installedForgeRecoveryReleaseId(),
+  );
+  assert.equal(actualRecoveryRelease, oldVersion,
+    "The actual Forge client must select the archived engine, not the newer ready cache");
+  const actualReplay = await page.evaluate(async () => {
+    const store = await import("/forge-recovery-runtime.js");
+    const release = await store.forgeRecoveryReleaseId();
+    const save = await store.readForgeRecoverySave(release);
+    return {
+      release,
+      gameId: save?.gameId,
+      nextSequence: save?.replaySnapshot.nextSequence,
+      entries: save?.replaySnapshot.journal.entries.length,
+    };
+  });
+  assert.deepEqual(actualReplay, {
+    release: oldVersion, gameId: original.gameId,
+    nextSequence: original.nextSequence, entries: journal.length,
+  });
   const restored = await page.evaluate(async () => {
     const req = indexedDB.open("manabrew-forge-autoresume-v1", 1);
     const db = await new Promise((resolve, reject) => {
