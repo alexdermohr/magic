@@ -45,6 +45,17 @@
     <button id="engine-probe" disabled>Forge-KI auf diesem iPad testen</button>
     <a id="play" class="action disabled" href="/play/offline/constructed">Manabrew öffnen</a>
   </section>
+  <section class="box" id="recovery-options" hidden>
+    <h2>Gespeicherte Partie</h2>
+    <p>Eine frühere Partie ist noch gespeichert. Falls ihre Wiederherstellung scheitert, kannst du den Spielstand separat sichern und eine neue Partie starten. Der alte Offline-Spielstand und seine Programmversion bleiben für eine spätere Wiederherstellung erhalten.</p>
+    <button id="recover-old">Gespeicherte Partie erneut versuchen</button>
+    <button id="recover-new">Spielstand sichern und neu spielen</button>
+  </section>
+  <section class="box" id="archived-games" hidden>
+    <h2>Gesicherte frühere Partien</h2>
+    <p class="muted">Zum Wiederherstellen muss die alte Offline-Engine noch in diesem Browser liegen. Ein aktuelles laufendes Spiel wird niemals überschrieben.</p>
+    <div id="archived-list"></div>
+  </section>
   <section class="box" id="ipad-install">
     <h2>Installation auf dem iPad</h2>
     <p>1. Diese Seite in Safari über HTTPS öffnen. 2. „Teilen“ → „Zum Home-Bildschirm“. 3. <strong>Manabrew vom Home-Bildschirm starten</strong>, dort „Offline-Daten herunterladen“ antippen und bis zur Erfolgsmeldung warten. 4. WLAN, Mobilfunk und VPN deaktivieren, die App vollständig schließen und über das Symbol neu starten.</p>
@@ -67,6 +78,11 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   let manifest = null;
   let busy = false;
   let currentReady = false;
+  const RESUME_ATTEMPT_KEY = "manabrew-ipad-resume-attempt-v1";
+  const ARCHIVE_DB = "manabrew-forge-recovery-archives-v1";
+  const SELECTED_CACHE = "manabrew-ipad-selected-release-v1";
+  const SELECTED_PATH = "/selected-release";
+  let rescueMeta = null;
   const linuxDesktop = /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent);
   const startParams = new URLSearchParams(location.search);
   const desktopLauncher = linuxDesktop && startParams.get("desktop") === "1";
@@ -87,10 +103,37 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     navigator.serviceWorker?.controller?.postMessage({ type: "manabrew-cache-changed" });
   }
 
+  async function selectRelease(version) {
+    const cache = await caches.open(SELECTED_CACHE);
+    await cache.put(SELECTED_PATH, new Response(version, { headers: { "Content-Type": "text/plain" } }));
+    const worker = navigator.serviceWorker?.controller;
+    if (!worker) return;
+    await new Promise((resolve) => {
+      const channel = new MessageChannel();
+      const timeout = setTimeout(resolve, 1500);
+      channel.port1.onmessage = () => { clearTimeout(timeout); resolve(); };
+      worker.postMessage({ type: "manabrew-cache-changed" }, [channel.port2]);
+    });
+  }
+
+  async function selectedReadyVersion() {
+    try {
+      const response = await (await caches.open(SELECTED_CACHE)).match(SELECTED_PATH);
+      const version = response && await response.text();
+      if (!version || !/^[a-f0-9]{20,64}$/.test(version)) return null;
+      const cache = await caches.open(prefix + version);
+      return await (await cache.match("/offline-ready.json"))?.text() === version ? version : null;
+    } catch {
+      return null;
+    }
+  }
+
   // Home Screen launches always start at this installer URL, even after
   // iPadOS kills WebKit. Re-enter the already installed app before asking
   // for a newer 400-MB package; the app verifies and replays its own save.
   async function installedReadyRelease() {
+    const selected = await selectedReadyVersion();
+    if (selected) return selected;
     try {
       const names = (await caches.keys()).filter((name) => name.startsWith(prefix)).reverse();
       for (const name of names) {
@@ -112,31 +155,210 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     return null;
   }
 
-  async function hasMatchingForgeSave(version) {
-    if (typeof indexedDB === "undefined") return false;
+  function openDb(name, version, onUpgrade) {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(name, version);
+      request.onupgradeneeded = () => {
+        if (onUpgrade) onUpgrade(request.result);
+        else request.transaction.abort();
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error("Speicher ist in einem anderen Tab belegt"));
+    });
+  }
+
+  function transaction(db, stores, mode, run) {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(stores, mode);
+      let result;
+      tx.oncomplete = () => resolve(result);
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error || new Error("Speicheraktion abgebrochen"));
+      run(tx, (value) => { result = value; });
+    });
+  }
+
+  async function readForgeMeta() {
+    if (typeof indexedDB === "undefined") return null;
+    let db;
     try {
-      const db = await new Promise((resolve, reject) => {
-        const request = indexedDB.open("manabrew-forge-autoresume-v1", 1);
-        request.onupgradeneeded = () => request.transaction.abort();
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-        request.onblocked = () => reject(new Error("Save database busy"));
+      db = await openDb("manabrew-forge-autoresume-v1", 1);
+      return await transaction(db, "current", "readonly", (tx, done) => {
+        const request = tx.objectStore("current").get("active");
+        request.onsuccess = () => done(request.result ?? null);
       });
-      try {
-        return await new Promise((resolve, reject) => {
-          const tx = db.transaction("current", "readonly");
-          const request = tx.objectStore("current").get("active");
-          request.onsuccess = () => resolve(
-            request.result?.releaseId === version && typeof request.result?.gameId === "string",
-          );
-          request.onerror = () => reject(request.error);
-        });
-      } finally {
-        db.close();
-      }
     } catch {
-      return false;
+      return null;
+    } finally {
+      db?.close();
     }
+  }
+
+  async function hasMatchingForgeSave(version) {
+    const meta = await readForgeMeta();
+    return meta?.releaseId === version && typeof meta.gameId === "string";
+  }
+
+  async function openArchiveDb() {
+    return openDb(ARCHIVE_DB, 1, (db) => db.createObjectStore("saves"));
+  }
+
+  async function archivedGames() {
+    let db;
+    try {
+      db = await openArchiveDb();
+      return await transaction(db, "saves", "readonly", (tx, done) => {
+        const request = tx.objectStore("saves").getAll();
+        request.onsuccess = () => done(request.result ?? []);
+      });
+    } finally {
+      db?.close();
+    }
+  }
+
+  async function withGameOwnerLock(run) {
+    if (!navigator.locks) throw new Error("Sicheres Sperren des laufenden Spiels nicht verfügbar");
+    return navigator.locks.request("manabrew:forge-autoresume:v1:owner",
+      { ifAvailable: true }, async (lock) => {
+        if (!lock) throw new Error("Eine Partie ist in einem anderen Fenster aktiv");
+        return run();
+      });
+  }
+
+  // Copy the complete old journal BEFORE clearing its active slot. The archive
+  // lives in a separate DB so a future game cannot erase it with entries.clear().
+  // Nothing is removed if an archive write or its readback fails.
+  async function archiveActiveGame(expected) {
+    const db = await openDb("manabrew-forge-autoresume-v1", 1);
+    let snapshot;
+    try {
+      if (!db.objectStoreNames.contains("entries")) {
+        throw new Error("Der alte Spielstand besitzt keine Journal-Datenbank");
+      }
+      snapshot = await transaction(db, ["current", "entries"], "readonly", (tx, done) => {
+        const a = tx.objectStore("current").get("active");
+        const b = tx.objectStore("entries").getAll();
+        const finish = () => {
+          if (a.readyState === "done" && b.readyState === "done") {
+            done({ meta: a.result, entries: b.result });
+          }
+        };
+        a.onsuccess = finish;
+        b.onsuccess = finish;
+      });
+      if (!snapshot?.meta || snapshot.meta.gameId !== expected.gameId ||
+          snapshot.meta.releaseId !== expected.releaseId ||
+          !Number.isSafeInteger(snapshot.meta.nextSequence) ||
+          snapshot.meta.nextSequence !== snapshot.entries.length + 1 ||
+          snapshot.entries.some((entry, index) => entry.sequence !== index + 1)) {
+        throw new Error("Der Spielstand hat sich geändert oder ist unvollständig");
+      }
+      const key = snapshot.meta.releaseId + ":" + snapshot.meta.gameId +
+        ":" + snapshot.meta.nextSequence;
+      const archive = { key, releaseId: snapshot.meta.releaseId,
+        savedAt: snapshot.meta.updatedAt, meta: snapshot.meta, entries: snapshot.entries };
+      const archives = await openArchiveDb();
+      try {
+        const existing = await transaction(archives, "saves", "readonly", (tx, done) => {
+          const request = tx.objectStore("saves").get(key);
+          request.onsuccess = () => done(request.result ?? null);
+        });
+        if (existing && JSON.stringify(existing) !== JSON.stringify(archive)) {
+          throw new Error("Eine abweichende Archivkopie existiert bereits");
+        }
+        if (!existing) {
+          await transaction(archives, "saves", "readwrite", (tx) => {
+            tx.objectStore("saves").put(archive, key);
+          });
+        }
+        const verified = await transaction(archives, "saves", "readonly", (tx, done) => {
+          const request = tx.objectStore("saves").get(key);
+          request.onsuccess = () => done(request.result);
+        });
+        if (JSON.stringify(verified) !== JSON.stringify(archive)) {
+          throw new Error("Die Archivkopie konnte nicht verifiziert werden");
+        }
+      } finally {
+        archives.close();
+      }
+      await transaction(db, ["current", "entries"], "readwrite", (tx) => {
+        const meta = tx.objectStore("current");
+        const request = meta.get("active");
+        request.onsuccess = () => {
+          const live = request.result;
+          if (JSON.stringify(live) !== JSON.stringify(snapshot.meta)) {
+            tx.abort();
+            return;
+          }
+          meta.delete("active");
+          tx.objectStore("entries").clear();
+        };
+      });
+      return key;
+    } finally {
+      db.close();
+    }
+  }
+
+  async function showArchives() {
+    const list = $("archived-list");
+    list.replaceChildren();
+    const saves = await archivedGames();
+    $("archived-games").hidden = saves.length === 0;
+    for (const saved of saves) {
+      const button = document.createElement("button");
+      button.textContent = "Partie von " + new Date(saved.savedAt || Date.now()).toLocaleString() +
+        " erneut öffnen";
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+        try {
+          const oldCache = await caches.open(prefix + saved.releaseId);
+          if (await (await oldCache.match("/offline-ready.json"))?.text() !== saved.releaseId) {
+            throw new Error("Die frühere Offline-Engine ist nicht mehr installiert");
+          }
+          await withGameOwnerLock(async () => {
+            const db = await openDb("manabrew-forge-autoresume-v1", 1);
+            try {
+              await transaction(db, ["current", "entries"], "readwrite", (tx) => {
+                const meta = tx.objectStore("current");
+                const req = meta.get("active");
+                req.onsuccess = () => {
+                  if (req.result) { tx.abort(); return; }
+                  const entries = tx.objectStore("entries");
+                  entries.clear();
+                  for (const entry of saved.entries) entries.put(entry, entry.sequence);
+                  meta.put(saved.meta, "active");
+                };
+              });
+            } finally {
+              db.close();
+            }
+            await selectRelease(saved.releaseId);
+          });
+          location.replace("/play/offline/constructed");
+        } catch (error) {
+          report("Wiederherstellung nicht möglich", String(error) +
+            " · Archiv und aktuelle Partie bleiben gespeichert.");
+          button.disabled = false;
+        }
+      });
+      list.append(button, " ");
+    }
+  }
+
+  function resumeIdentity(meta) {
+    return [meta.releaseId, meta.gameId, meta.nextSequence, meta.updatedAt].join(":");
+  }
+
+  function showRescue(meta) {
+    rescueMeta = meta;
+    $("recovery-options").hidden = false;
+    $("recover-old").disabled = false;
+    $("recover-new").disabled = false;
+    $("play").classList.remove("disabled");
+    report("Gespeicherte Partie gefunden",
+      "Du kannst die alte Partie erneut laden oder sie für ein neues Spiel verlustfrei archivieren.");
   }
 
   function report(state, detail = "") {
@@ -560,18 +782,37 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       await navigator.serviceWorker.ready;
       const mayResume = !forceVerification && !new URLSearchParams(location.search).has("setup");
       const installedVersion = await installedReadyRelease();
+      const activeSave = await readForgeMeta();
       currentReady = false;
-      if (mayResume && installedVersion && await hasMatchingForgeSave(installedVersion)) {
-        // Existing offline games always win over new server releases.
-        location.replace("/play/offline/constructed");
-        return;
+      // First opening always resumes the existing game. If the exact same
+      // checkpoint returns unchanged on the next launch, give the player an
+      // escape from an endless replay failure instead of forcing it again.
+      if (mayResume && installedVersion && activeSave?.releaseId === installedVersion) {
+        const identity = resumeIdentity(activeSave);
+        let previous = null;
+        try { previous = JSON.parse(localStorage.getItem(RESUME_ATTEMPT_KEY) || "null"); }
+        catch { /* An invalid hint must never hide a game. */ }
+        if (previous?.identity !== identity || !Number.isFinite(previous.at) ||
+            Date.now() - previous.at > 60 * 60 * 1000 || previous.at > Date.now()) {
+          try {
+            localStorage.setItem(RESUME_ATTEMPT_KEY, JSON.stringify({ identity, at: Date.now() }));
+          } catch { /* Storage errors must not prevent replaying the game. */ }
+          location.replace("/play/offline/constructed");
+          return;
+        }
       }
       manifest = await loadManifest();
       if (!Array.isArray(manifest.files) || !manifest.version) throw new Error("Dateiliste ungültig.");
-      if (mayResume && !installedVersion && await hasMatchingForgeSave(manifest.version)) {
-        // A regular online Safari tab has no fully installed offline cache,
-        // but its saved Forge decision journal still belongs to this release.
+      await showArchives();
+      if (mayResume && !installedVersion && activeSave?.releaseId === manifest.version) {
+        // A regular Safari tab may have a valid journal but no complete cache.
         location.replace("/play/offline/constructed");
+        return;
+      }
+      if (activeSave?.releaseId && typeof activeSave.gameId === "string") {
+        // Even when the original engine cache is missing, archive the journal
+        // before allowing a replacement game to overwrite its active slot.
+        showRescue(activeSave);
         return;
       }
       const total = manifest.totalBytes;
@@ -716,9 +957,11 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
         await cache.put("/offline-assets.json", new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
         await cache.put("/offline-ready.json", new Response(manifest.version, { headers: { "Content-Type": "text/plain" } }));
         currentReady = true;
-        refreshWorkerCache();
+        await selectRelease(manifest.version);
+        const archivedVersions = new Set((await archivedGames()).map((save) => save.releaseId));
         for (const old of await caches.keys()) {
-          if (old.startsWith(prefix) && old !== cacheName) await caches.delete(old);
+          if (old.startsWith(prefix) && old !== cacheName &&
+              !archivedVersions.has(old.slice(prefix.length))) await caches.delete(old);
         }
         return true;
       };
@@ -768,6 +1011,31 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     }
   }
 
+  $("recover-old").addEventListener("click", () => {
+    location.replace("/play/offline/constructed");
+  });
+  $("recover-new").addEventListener("click", async () => {
+    if (!rescueMeta || !manifest) return;
+    $("recover-new").disabled = true;
+    try {
+      await withGameOwnerLock(() => archiveActiveGame(rescueMeta));
+      localStorage.removeItem(RESUME_ATTEMPT_KEY);
+      $("recovery-options").hidden = true;
+      await showArchives();
+      report("Gespeicherte Partie archiviert", "Die bisherige Version bleibt als Wiederherstellungskopie erhalten.");
+      if (await installedReadyRelease() === manifest.version) {
+        // A corrupt save must not force a 400-MB recheck when the same
+        // offline engine is already installed and ready to start a new game.
+        location.replace(readyRoute);
+      } else {
+        await prepare(true);
+      }
+    } catch (error) {
+      report("Partie konnte nicht sicher abgelegt werden",
+        String(error) + " · Originalspielstand unverändert.");
+      $("recover-new").disabled = false;
+    }
+  });
   $("engine-probe").addEventListener("click", () => void testForge());
   $("prepare").addEventListener("click", () => {
     if (manifest && !currentReady) void prepare();

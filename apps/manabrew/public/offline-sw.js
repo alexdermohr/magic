@@ -1,10 +1,15 @@
 const OFFLINE_PREFIX = "manabrew-ipad-offline-";
 const SETUP_CACHE = "manabrew-ipad-setup-v1";
 const READY_MARKER = "/offline-ready.json";
+const SELECTED_CACHE = "manabrew-ipad-selected-release-v1";
+const SELECTED_PATH = "/selected-release";
 let readyCache = null;
 
 self.addEventListener("message", (event) => {
-  if (event.data?.type === "manabrew-cache-changed") readyCache = null;
+  if (event.data?.type === "manabrew-cache-changed") {
+    readyCache = null;
+    event.ports?.[0]?.postMessage({ ready: true });
+  }
 });
 
 self.addEventListener("install", (event) => {
@@ -23,6 +28,15 @@ self.addEventListener("activate", (event) => {
 
 async function preparedCache() {
   if (readyCache) return readyCache;
+  const selected = await (await caches.open(SELECTED_CACHE)).match(SELECTED_PATH);
+  const version = selected && await selected.text();
+  if (version && /^[a-f0-9]{20,64}$/.test(version)) {
+    const pinned = await caches.open(OFFLINE_PREFIX + version);
+    if (await (await pinned.match(READY_MARKER))?.text() === version) {
+      readyCache = pinned;
+      return pinned;
+    }
+  }
   const names = (await caches.keys()).filter((name) => name.startsWith(OFFLINE_PREFIX));
   for (const name of names.reverse()) {
     const cache = await caches.open(name);

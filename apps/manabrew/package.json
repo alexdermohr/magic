@@ -54,6 +54,7 @@
     "test:forge-rewind": "node scripts/forge-tests/rewind.mjs",
     "test:forge-ai-replay": "node scripts/forge-tests/internal-ai-replay.mjs",
     "test:forge-auto-resume-storage": "node scripts/test-ipad-recovery-storage.mjs",
+    "test:ipad-recovery-upgrade": "node scripts/test-ipad-recovery-upgrade.mjs",
     "test:forge-auto-resume": "node scripts/test-ipad-recovery-reload.mjs",
     "test:forge-auto-resume-home-screen": "node scripts/test-ipad-recovery-home-screen.mjs",
     "test:forge-auto-resume-visible-entry": "node scripts/test-ipad-recovery-visible-entry.mjs",
