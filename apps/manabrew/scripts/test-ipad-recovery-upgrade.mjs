@@ -138,6 +138,11 @@ try {
   await page.locator("#recovery-options").waitFor({ state: "visible", timeout: 25000 });
   assert.equal(await isReady(oldVersion), true);
 
+  // The failed-replay button links to ?setup=1; a completed rescue must still
+  // open the game rather than strand the player on an installer status page.
+  await page.goto(origin + "/offline-setup.html?setup=1", { waitUntil: "domcontentloaded" });
+  await page.locator("#recovery-options").waitFor({ state: "visible" });
+
   // Another tab genuinely playing must veto the archive-and-upgrade transition.
   const playingTab = await context.newPage();
   await playingTab.goto(origin + "/play/offline/constructed");
@@ -159,7 +164,7 @@ try {
   await playingTab.close();
 
   await page.locator("#recover-new").click();
-  await page.waitForURL("**/play", { timeout: 60000 });
+  await page.waitForURL("**/play/offline/constructed", { timeout: 60000 });
   await assert.match(await page.locator("body").innerText(), /NEW_PLAYABLE_GAME/);
   assert.equal(await isReady(newVersion), true);
   assert.equal(await isReady(oldVersion), true, "Old offline engine must remain available");

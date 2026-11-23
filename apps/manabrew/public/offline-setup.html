@@ -883,7 +883,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     }
   }
 
-  async function prepare(keepPlayable = false) {
+  async function prepare(keepPlayable = false, resumeNewGame = false) {
     if (!manifest || busy) return;
     busy = true;
     $("prepare").disabled = true;
@@ -997,8 +997,8 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       $("prepare").textContent = "Offline-Daten erneut prüfen";
       const standalone = window.navigator.standalone === true ||
         window.matchMedia("(display-mode: standalone)").matches;
-      if ((standalone || desktopLauncher) && personalReady &&
-          !new URLSearchParams(location.search).has("setup")) {
+      if ((standalone || desktopLauncher || resumeNewGame) && personalReady &&
+          (resumeNewGame || !new URLSearchParams(location.search).has("setup"))) {
         location.replace(readyRoute);
       }
     } catch (error) {
@@ -1028,7 +1028,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
         // offline engine is already installed and ready to start a new game.
         location.replace(readyRoute);
       } else {
-        await prepare(true);
+        await prepare(true, true);
       }
     } catch (error) {
       report("Partie konnte nicht sicher abgelegt werden",
