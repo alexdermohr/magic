@@ -496,10 +496,11 @@ try {
     await waitForBoard(page, "first-load");
     assert.equal((await getJournal(page)).cursor, nextSequence);
     if (nextSequence < 296) {
-      const first = await advance(page, nextSequence + 2);
+      const availableHistoricalChecks = Math.min(2, 296 - nextSequence);
+      const first = await advance(page, nextSequence + availableHistoricalChecks);
       assert(first.releaseMatches);
       const checks = compare(first);
-      assert(checks.length >= 2);
+      assert(checks.length >= availableHistoricalChecks);
       assert(
         checks.every((e) => e.sameAction && e.sameState && e.samePrompt),
         "Historical continuation must preserve actions, prompts and canonical state",
