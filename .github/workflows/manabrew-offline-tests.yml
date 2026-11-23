@@ -7,6 +7,7 @@ on:
       - "apps/manabrew/public/offline-setup.html"
       - "apps/manabrew/public/offline-sw.js"
       - "apps/manabrew/scripts/test-ipad-auto-upgrade.mjs"
+      - "apps/manabrew/scripts/test-ipad-recovery-upgrade.mjs"
       - "apps/manabrew/scripts/test-ipad-offline-hash.mjs"
   workflow_dispatch:
 
@@ -32,3 +33,4 @@ jobs:
         run: |
           node apps/manabrew/scripts/test-ipad-offline-hash.mjs
           node apps/manabrew/scripts/test-ipad-auto-upgrade.mjs
+          node apps/manabrew/scripts/test-ipad-recovery-upgrade.mjs
