@@ -222,7 +222,7 @@ public final class ManaBrewInteractiveSession {
         if (bridge != null) {
             forge.util.MyRandom.setRandom(rng);
             try {
-                match.startGame(game);
+                startMatchWithReplayClock(rng);
             } catch (RuntimeException | Error error) {
                 recordEngineError(error);
             }
@@ -235,7 +235,7 @@ public final class ManaBrewInteractiveSession {
                 if (decisionJournal != null) {
                     decisionJournal.awaitAcknowledgement();
                 }
-                match.startGame(game);
+                startMatchWithReplayClock(rng);
             } catch (RuntimeException | Error error) {
                 if (!closed) {
                     recordEngineError(error);
@@ -252,6 +252,20 @@ public final class ManaBrewInteractiveSession {
         }, (decisionJournal == null ? "mana-brew-forge-" : "Game-mana-brew-forge-") + sessionId);
         gameThread.setDaemon(true);
         gameThread.start();
+    }
+
+    private void startMatchWithReplayClock(final Random rng) {
+        final boolean journaled = rng instanceof ReplayRandom && forge.util.ThreadUtil.isSynchronous();
+        if (journaled) {
+            forge.harness.common.ReplayAiClock.begin();
+        }
+        try {
+            match.startGame(game);
+        } finally {
+            if (journaled) {
+                forge.harness.common.ReplayAiClock.end();
+            }
+        }
     }
 
     public void close() {

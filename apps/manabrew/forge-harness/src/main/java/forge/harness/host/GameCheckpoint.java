@@ -143,7 +143,11 @@ final class GameCheckpoint {
             requireEqual(snapshot.get("verification"), actual.get("verification"), "terminal state/RNG", history.getAsJsonArray("entries").size());
             return handle;
         } catch (RuntimeException error) {
-            adapter.endGame(sessionId);
+            try {
+                adapter.endGame(sessionId);
+            } catch (RuntimeException cleanup) {
+                error.addSuppressed(cleanup);
+            }
             throw error;
         }
     }
