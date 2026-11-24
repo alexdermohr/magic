@@ -34,6 +34,7 @@ async function launch(flags) {
   await context.addInitScript(() => {
     const NativeWorker = window.Worker;
     window.__forgePromptMeta = null;
+    window.__forgeSeatView = null;
     window.Worker = class extends NativeWorker {
       constructor(url, options) {
         super(url, options);
@@ -42,7 +43,9 @@ async function launch(flags) {
           if (typeof event.data !== "string" || !event.data.startsWith("{")) return;
           try {
             const message = JSON.parse(event.data);
-            if (message.kind === "prompt") {
+            if (message.kind === "state" && message.state?.gameView) {
+              window.__forgeSeatView = message.state.gameView;
+            } else if (message.kind === "prompt") {
               window.__forgePromptMeta = {
                 promptId: message.prompt?.promptId ?? null,
                 type: message.prompt?.input?.type ?? null,
@@ -118,6 +121,8 @@ async function witness(page, atCursor = null) {
       const digest = await crypto.subtle.digest("SHA-256", bytes);
       return {
         cursor,
+        promptId: terminal.prompt.promptId,
+        promptType: terminal.prompt.input?.type,
         entries: prefix.length,
         digest: Array.from(new Uint8Array(digest), (x) => x.toString(16).padStart(2, "0")).join(""),
       };
@@ -130,6 +135,14 @@ async function state(page) {
   return page.evaluate(() => {
     const body = document.body.innerText;
     const prompt = window.__forgePromptMeta;
+    const view = window.__forgeSeatView;
+    const steps = {
+      untap: "Untap", upkeep: "Upkeep", draw: "Draw", main1: "Main 1",
+      combatBegin: "Begin Combat", combatDeclareAttackers: "Attackers",
+      combatDeclareBlockers: "Blockers", combatFirstStrikeDamage: "1st Strike",
+      combatDamage: "Damage", combatEnd: "End Combat",
+      main2: "Main 2", endOfTurn: "End", cleanup: "Cleanup",
+    };
     return {
       board: body.includes("Game board controls"),
       playing: body.includes("Turn stops"),
@@ -137,12 +150,55 @@ async function state(page) {
       path: location.pathname,
       prompt: prompt?.type ?? null,
       promptId: prompt?.promptId ?? null,
+      engine: view ? {
+        step: steps[view.step] ?? view.step,
+        rawStep: view.step,
+        turn: view.turn,
+        hand: view.zones?.find((z) => z.zone === "hand" && z.ownerId === "player-0")?.count,
+        life: view.players?.map((p) => p.life),
+      } : null,
       step: (body.match(/current step ([^\n]+)/) ?? [])[1] ?? null,
       hand: Number((body.match(/Your hand, ([0-9]+) cards?/) ?? [])[1] ?? 0),
       life: [...body.matchAll(/Inspect (you|Forge AI|Brewy bot(?: \d+)?), (-?\d+) life/g)]
         .map((m) => [m[1], Number(m[2])]),
     };
   });
+}
+async function settledBoundary(page, atCursor = null) {
+  const until = Date.now() + 30000;
+  let stableSince = 0;
+  let key = "";
+  let last;
+  const observed = [];
+  while (Date.now() < until) {
+    const journal = await witness(page);
+    const ui = await state(page);
+    last = { journal, ui };
+    const sample = JSON.stringify({
+      cursor: journal.cursor, promptId: ui.promptId, step: ui.step, hand: ui.hand,
+      engine: ui.engine, aligned: journal.promptId === ui.promptId,
+    });
+    if (sample !== key) {
+      if (observed.length < 15) observed.push(JSON.parse(sample));
+      key = sample;
+      stableSince = Date.now();
+    }
+    // The board may still be presenting the previous turn while the journal and
+    // engine have reached the next prompt. Compare the same settled boundary.
+    const aligned = ui.board && ui.offline && ui.engine &&
+      journal.promptId === ui.promptId && journal.promptType === ui.prompt &&
+      ui.engine.step === ui.step && ui.engine.hand === ui.hand &&
+      (!atCursor || journal.cursor === atCursor);
+    if (aligned && Date.now() - stableSince >= 3500) {
+      console.log("FOUR_PLAYER_SETTLED_BOUNDARY", JSON.stringify({
+        cursor: journal.cursor, observations: observed,
+        prompt: ui.prompt, step: ui.step, hand: ui.hand,
+      }));
+      return { witness: journal, ui };
+    }
+    await page.waitForTimeout(250);
+  }
+  throw Error("UI never settled at the committed engine boundary: " + JSON.stringify({ atCursor, last, observed }));
 }
 async function act(page, current) {
   if (current.prompt === "chooseBlockers") {
@@ -229,11 +285,10 @@ try {
       }));
     }
   }
-  const beforeWitness = await witness(page);
+  const settledBefore = await settledBoundary(page);
   const before = {
-    saved: { ...baseline, nextSequence: beforeWitness.cursor },
-    ui: await state(page),
-    witness: beforeWitness,
+    saved: { ...baseline, nextSequence: settledBefore.witness.cursor },
+    ...settledBefore,
   };
   assert(before.saved.nextSequence > 4, "A real 4-seat game must have committed decisions");
   assert(before.ui.life.length === 4, "Must actually have four seats");
@@ -247,7 +302,8 @@ try {
   await page.goto(origin + "/", {waitUntil: "domcontentloaded"});
   await page.waitForFunction(() => document.body.innerText.includes("Game board controls") &&
     location.pathname === "/play/offline/constructed", null, {timeout: 240000});
-  const resumed = {saved: await save(page), ui: await state(page), witness: await witness(page, before.witness.cursor)};
+  const settledAfter = await settledBoundary(page, before.witness.cursor);
+  const resumed = {saved: await save(page), ...settledAfter};
   assert(resumed.ui.board && resumed.ui.offline);
   assert.equal(resumed.saved?.gameId, before.saved.gameId);
   assert.equal(resumed.saved?.releaseId, before.saved.releaseId);
@@ -256,6 +312,9 @@ try {
   assert.equal(resumed.ui.life.length, 4, "All 4 seats must be restored");
   if (resumed.saved.nextSequence === before.saved.nextSequence) {
     assert.deepEqual(resumed.ui.life, before.ui.life, "Unchanged journal must restore same life totals");
+    assert.deepEqual(resumed.ui.engine, before.ui.engine, "Same journal must restore the same engine view");
+    assert.equal(resumed.ui.step, before.ui.step, "Restored UI phase must agree");
+    assert.equal(resumed.ui.hand, before.ui.hand, "Restored UI hand must agree");
   }
   console.log("FOUR_PLAYER_AFTER_BROWSER_RESTART", JSON.stringify(resumed));
   const continued = await advance(page, resumed.saved);
