@@ -1,6 +1,3 @@
-/** Real WebImage/Node long-replay regression using four known Commander decks.
- * Separate processes deliberately alternate V8 modes. No user browser data.
- */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -105,7 +102,6 @@ function runMatrix() {
       }),
     );
   } finally {
-    // These are synthetic private test journals, never the user's game data.
     rmSync(directory, { recursive: true, force: true });
   }
 }
