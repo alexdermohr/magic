@@ -35,6 +35,7 @@ async function launch(flags) {
     const NativeWorker = window.Worker;
     window.__forgePromptMeta = null;
     window.__forgeSeatView = null;
+    window.__forgePromptFrames = new Map();
     window.Worker = class extends NativeWorker {
       constructor(url, options) {
         super(url, options);
@@ -50,6 +51,17 @@ async function launch(flags) {
                 promptId: message.prompt?.promptId ?? null,
                 type: message.prompt?.input?.type ?? null,
               };
+              const v = window.__forgeSeatView;
+              const id = message.prompt?.promptId;
+              if (v && id != null && !window.__forgePromptFrames.has(id)) {
+                window.__forgePromptFrames.set(id, {
+                  type: message.prompt?.input?.type,
+                  rawStep: v.step,
+                  turn: v.turn,
+                  hand: v.zones?.find((z) => z.zone === "hand" && z.ownerId === "player-0")?.count,
+                  life: v.players?.map((player) => player.life),
+                });
+              }
             }
           } catch {}
         });
@@ -164,7 +176,7 @@ async function state(page) {
     };
   });
 }
-async function settledBoundary(page, atCursor = null) {
+async function settledBoundary(page, minimumCursor = null) {
   const until = Date.now() + 30000;
   let stableSince = 0;
   let key = "";
@@ -188,7 +200,8 @@ async function settledBoundary(page, atCursor = null) {
     const aligned = ui.board && ui.offline && ui.engine &&
       journal.promptId === ui.promptId && journal.promptType === ui.prompt &&
       ui.engine.step === ui.step && ui.engine.hand === ui.hand &&
-      (!atCursor || journal.cursor === atCursor);
+      JSON.stringify(ui.engine.life) === JSON.stringify(ui.life.map(([, life]) => life)) &&
+      (!minimumCursor || journal.cursor >= minimumCursor);
     if (aligned && Date.now() - stableSince >= 3500) {
       console.log("FOUR_PLAYER_SETTLED_BOUNDARY", JSON.stringify({
         cursor: journal.cursor, observations: observed,
@@ -198,7 +211,7 @@ async function settledBoundary(page, atCursor = null) {
     }
     await page.waitForTimeout(250);
   }
-  throw Error("UI never settled at the committed engine boundary: " + JSON.stringify({ atCursor, last, observed }));
+  throw Error("UI never settled at the committed engine boundary: " + JSON.stringify({ minimumCursor, last, observed }));
 }
 async function act(page, current) {
   if (current.prompt === "chooseBlockers") {
@@ -304,11 +317,24 @@ try {
     location.pathname === "/play/offline/constructed", null, {timeout: 240000});
   const settledAfter = await settledBoundary(page, before.witness.cursor);
   const resumed = {saved: await save(page), ...settledAfter};
+  const originalWitness = await witness(page, before.witness.cursor);
+  const restoredFrame = await page.evaluate((id) => window.__forgePromptFrames.get(id) ?? null,
+    before.witness.promptId);
+  const { step: _label, ...originalFrame } = before.ui.engine;
+  assert.deepEqual(restoredFrame, { type: before.witness.promptType, ...originalFrame },
+    "The replay must deliver the exact original engine prompt and view before automatic progression");
+  assert.deepEqual(originalWitness, before.witness,
+    "The original committed prefix and terminal witness must survive automatic progression");
+  console.log("FOUR_PLAYER_ORIGINAL_RESTORED_BOUNDARY", JSON.stringify({
+    cursor: originalWitness.cursor,
+    restoredFrame,
+    automaticallyAdvanced: resumed.witness.cursor - originalWitness.cursor,
+  }));
   assert(resumed.ui.board && resumed.ui.offline);
   assert.equal(resumed.saved?.gameId, before.saved.gameId);
   assert.equal(resumed.saved?.releaseId, before.saved.releaseId);
-  assert.deepEqual(resumed.witness, before.witness, "Restart must preserve the exact journal and terminal witness");
   assert(resumed.saved?.nextSequence >= resumed.witness.cursor);
+  assert(resumed.witness.cursor >= before.witness.cursor);
   assert.equal(resumed.ui.life.length, 4, "All 4 seats must be restored");
   if (resumed.saved.nextSequence === before.saved.nextSequence) {
     assert.deepEqual(resumed.ui.life, before.ui.life, "Unchanged journal must restore same life totals");
