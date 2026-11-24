@@ -20,6 +20,13 @@ assert.equal(newBytes.length, wrongBytes.length);
 // fixture. A changing release must never mark a same-length wrong asset ready.
 let version = "fixture-old";
 let assetBytes = oldBytes;
+let probeRequests = 0;
+const bootstrap = new Map([
+  ["/index.html", Buffer.from("<!doctype html><title>Fixture</title>")],
+  ["/offline-setup.html", Buffer.from(html)],
+  ["/personal-decks.json", Buffer.from('{"decks":[]}')],
+  ["/wasm/cardset.manifest.json", Buffer.from("{}")],
+]);
 const server = createServer((request, response) => {
   const pathname = new URL(request.url, "http://localhost").pathname;
   response.setHeader("Cross-Origin-Opener-Policy", "same-origin");
@@ -43,19 +50,23 @@ const server = createServer((request, response) => {
     response.end(
       JSON.stringify({
         version,
-        totalBytes: newBytes.length,
+        totalBytes: newBytes.length + [...bootstrap.values()].reduce((n, bytes) => n + bytes.length, 0),
         files: [
           {
             url: "/probe.bin",
             bytes: newBytes.length,
             sha256: version === "fixture-old" ? hash(oldBytes) : hash(newBytes),
           },
+          ...[...bootstrap].map(([url, bytes]) => ({ url, bytes: bytes.length, sha256: hash(bytes) })),
         ],
       }),
     );
   } else if (pathname === "/probe.bin") {
+    probeRequests++;
     response.setHeader("Content-Type", "application/octet-stream");
     response.end(assetBytes);
+  } else if (bootstrap.has(pathname)) {
+    response.end(bootstrap.get(pathname));
   } else {
     response.statusCode = 404;
     response.end();
@@ -135,6 +146,55 @@ try {
   assert.equal(repaired.ready, true);
   assert.equal(repaired.bytes, newBytes.toString());
   console.log("IPAD_OFFLINE_SHA256_RELEASE_RACE_PASS", JSON.stringify({ failure, repaired }));
+
+  // First Home Screen launch and retry must work without a manual click.
+  const automaticPage = await browser.newPage({ serviceWorkers: "allow" });
+  await automaticPage.addInitScript(() => {
+    Object.defineProperty(navigator, "standalone", { configurable: true, value: true });
+  });
+  version = "fixture-new";
+  assetBytes = wrongBytes;
+  await automaticPage.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
+  await automaticPage.waitForFunction(
+    () => document.querySelector("#state")?.textContent?.includes("Offline-Download unvollständig"),
+    null, { timeout: 30000 },
+  );
+  assert.match(await automaticPage.locator("#detail").innerText(), /SHA-256 oder Dateigröße ungültig/);
+  assetBytes = newBytes;
+  await automaticPage.reload({ waitUntil: "domcontentloaded" });
+  await automaticPage.waitForFunction(
+    () => document.querySelector("#state")?.textContent?.includes("Offline-Dateien vollständig gespeichert"),
+    null, { timeout: 30000 },
+  );
+  assert.equal(await automaticPage.evaluate(async () => {
+    const cache = await caches.open("manabrew-ipad-offline-fixture-new");
+    return (await cache.match("/offline-ready.json"))?.text();
+  }), "fixture-new");
+  console.log("IPAD_AUTOMATIC_FIRST_INSTALL_RETRY_PASS");
+  // A complete package is not downloaded again at the next launch.
+  const before = probeRequests;
+  await automaticPage.reload({ waitUntil: "domcontentloaded" });
+  await automaticPage.waitForFunction(
+    () => document.querySelector("#state")?.textContent?.includes("vollständig offline gespeichert"),
+    null, { timeout: 30000 },
+  );
+  assert.equal(probeRequests, before);
+  console.log("IPAD_AUTOMATIC_COMPLETE_PACKAGE_REUSED_PASS");
+  // A missing non-bootstrap asset must be repaired even with a ready marker.
+  await automaticPage.evaluate(async () => {
+    await (await caches.open("manabrew-ipad-offline-fixture-new")).delete("/probe.bin");
+  });
+  await automaticPage.reload({ waitUntil: "domcontentloaded" });
+  await automaticPage.waitForFunction(
+    () => document.querySelector("#state")?.textContent?.includes("Offline-Dateien vollständig gespeichert"),
+    null, { timeout: 30000 },
+  );
+  assert.equal(await automaticPage.evaluate(async () => {
+    const cache = await caches.open("manabrew-ipad-offline-fixture-new");
+    return (await cache.match("/probe.bin"))?.text();
+  }), newBytes.toString());
+  console.log("IPAD_AUTOMATIC_MISSING_ASSET_REPAIR_PASS");
+  await automaticPage.close();
 
   // In iPad in-app WKWebViews without the required browser entitlement,
   // navigator.serviceWorker may be absent even though WebKit itself works.
