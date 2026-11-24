@@ -8,7 +8,7 @@ const source = readFileSync(
   new URL("./forge-engine.worker.js", import.meta.url),
   "utf8",
 );
-function fixture(started = true, args = {}) {
+function fixture(started = true, args = {}, workerHref = "worker.js") {
   const workers = [],
     output = [],
     timers = new Map(),
@@ -17,7 +17,8 @@ function fixture(started = true, args = {}) {
   class Worker {
     sent = [];
     terminated = false;
-    constructor() {
+    constructor(url) {
+      this.url = url;
       workers.push(this);
     }
     postMessage(data) {
@@ -39,10 +40,11 @@ function fixture(started = true, args = {}) {
       return event;
     }
   }
-  const self = { location: { href: "worker.js" }, postMessage: (data) => output.push(data) };
+  const self = { location: { href: workerHref }, postMessage: (data) => output.push(data) };
   const context = vm.createContext({
     self,
     Worker,
+    URL,
     SharedArrayBuffer,
     Int32Array,
     Atomics,
@@ -83,6 +85,35 @@ function fixture(started = true, args = {}) {
     output.filter((data) => data.type === "response" && data.requestId === id);
   return { workers, output, timers, timerDurations, active, lanes, rewind, command, responses };
 }
+
+test("offline download response URL never bypasses the cache for Forge leaves", () => {
+  const url = "https://test.invalid/assets/forge-engine.worker.js?revision=3&__offline_fetch=release&keep=yes";
+  const expected = "https://test.invalid/assets/forge-engine.worker.js?revision=3&keep=yes";
+  const f = fixture(true, {}, url);
+  assert.equal(f.active.url, expected);
+  const candidate = f.rewind();
+  assert.equal(candidate.url, expected);
+  candidate.event("forge:replay_ready");
+  f.command("end_game");
+  assert(f.workers.every((worker) => worker.terminated));
+  for (const normal of [
+    "worker.js",
+    "/tmp/forge-engine.worker.js",
+    "https://test.invalid/worker.js?revision=3",
+  ]) {
+    const plain = fixture(true, {}, normal);
+    assert.equal(plain.active.url, normal);
+    plain.command("end_game");
+  }
+});
+
+test("an empty child worker load error retains the real startup failure", () => {
+  const f = fixture(false);
+  f.active.error("");
+  assert.equal(f.responses("start").length, 1);
+  assert.equal(f.responses("start")[0].error, "Forge child worker could not be loaded.");
+  assert(f.active.terminated);
+});
 
 test("commands resolve before, during and after consecutive promotions", () => {
   const f = fixture();

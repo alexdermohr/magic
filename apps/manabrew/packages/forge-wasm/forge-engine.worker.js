@@ -29,6 +29,13 @@ const postError = (requestId, error) =>
     errorStack: error instanceof Error ? error.stack?.slice(0, 8192) : undefined,
   });
 
+function offlineChildUrl(href) {
+  // WebKit can inherit the installer download Response URL, which bypasses the offline service worker.
+  const url = new URL(href);
+  url.searchParams.delete("__offline_fetch");
+  return url.href;
+}
+
 function supervise(command) {
   supervised = true;
   let active;
@@ -74,18 +81,24 @@ function supervise(command) {
     const promptOffset = snapshot && !initial
       ? active.promptOffset + snapshot.lastPromptId + 1 - snapshot.prompt.promptId
       : 0;
-    const worker = new Worker(self.location.href);
+    const childUrl = self.location.href;
+    const worker = new Worker(
+      childUrl.includes("?__offline_fetch=") || childUrl.includes("&__offline_fetch=")
+        ? offlineChildUrl(childUrl)
+        : childUrl,
+    );
     const instance = { worker, control, buffered: [], promptOffset };
     if (snapshot && !initial) candidate = instance;
     else active = instance;
     worker.onerror = (event) => {
       event.preventDefault();
-      if (instance === candidate) fail(event.message);
+      const message = event.message || "Forge child worker could not be loaded.";
+      if (instance === candidate) fail(message);
       else if (instance === active) {
-        stop();
+        stop(message);
         postEvent("game:forced_end", {
           reason: "worker_error",
-          message: event.message,
+          message,
           name: event.error instanceof Error ? event.error.name : "Error",
           stack:
             event.error instanceof Error
