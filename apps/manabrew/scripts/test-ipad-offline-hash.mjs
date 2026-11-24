@@ -147,7 +147,6 @@ try {
   assert.equal(repaired.bytes, newBytes.toString());
   console.log("IPAD_OFFLINE_SHA256_RELEASE_RACE_PASS", JSON.stringify({ failure, repaired }));
 
-  // First Home Screen launch and retry must work without a manual click.
   const automaticPage = await browser.newPage({ serviceWorkers: "allow" });
   await automaticPage.addInitScript(() => {
     Object.defineProperty(navigator, "standalone", { configurable: true, value: true });
@@ -171,7 +170,6 @@ try {
     return (await cache.match("/offline-ready.json"))?.text();
   }), "fixture-new");
   console.log("IPAD_AUTOMATIC_FIRST_INSTALL_RETRY_PASS");
-  // A complete package is not downloaded again at the next launch.
   const before = probeRequests;
   await automaticPage.reload({ waitUntil: "domcontentloaded" });
   await automaticPage.waitForFunction(
@@ -180,7 +178,6 @@ try {
   );
   assert.equal(probeRequests, before);
   console.log("IPAD_AUTOMATIC_COMPLETE_PACKAGE_REUSED_PASS");
-  // A missing non-bootstrap asset must be repaired even with a ready marker.
   await automaticPage.evaluate(async () => {
     await (await caches.open("manabrew-ipad-offline-fixture-new")).delete("/probe.bin");
   });
