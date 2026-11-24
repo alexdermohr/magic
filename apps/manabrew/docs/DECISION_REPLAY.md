@@ -157,6 +157,24 @@ open**. Matching seeds are not a substitute for full engine state and
 RNG verification. Any replay mismatch must abort restoration.
 
 
+### Synchronous WebImage AI budgets
+
+The pinned WebImage build overlays AI deadline, candidate-scan and search-clock
+reads with the session-local `ReplayAiClock`. In a synchronous journaled game,
+each budget-clock read consumes one fixed work tick (one virtual millisecond).
+Existing deadline checks and bounded searches remain in force, rather than
+choosing different actions based on the speed of the device or JIT. Outside the
+journaled game thread the clock delegates to the original wall/monotonic clocks.
+The overlay is compiled into a copy of the harness jar; the Forge checkout is
+not modified. The build runs a probe of the actual cooperative timeout guard at
+two different real execution speeds.
+
+This does not migrate earlier saved games: their exact engine release remains
+pinned. Resource-pressure fallbacks and other nondeterministic engine behavior
+are not proven deterministic by this clock change. Full prompt, state and RNG
+verification and the worker replay deadline remain necessary; a failed replay
+must preserve the previous checkpoint.
+
 ## Automatic offline WebImage recovery (10 November 2026)
 
 **Scope:** Installed, version-pinned offline browser PWA, local Forge WebImage

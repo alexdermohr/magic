@@ -1,0 +1,411 @@
+diff --git a/forge-ai/src/main/java/forge/ai/AiController.java b/forge-ai/src/main/java/forge/ai/AiController.java
+index 6f02ff3..998377b 100644
+--- a/forge-ai/src/main/java/forge/ai/AiController.java
++++ b/forge-ai/src/main/java/forge/ai/AiController.java
+@@ -17,6 +17,7 @@
+  */
+ package forge.ai;
+ 
++import forge.harness.common.ReplayAiClock;
+ import com.google.common.collect.Lists;
+ import com.google.common.collect.Sets;
+ 
+@@ -108,7 +109,7 @@ public class AiController {
+     private volatile long combatDeadline = Long.MAX_VALUE;
+ 
+     public boolean evalDeadlinePassed() {
+-        final boolean passed = System.currentTimeMillis() > Math.min(evalDeadline, combatDeadline);
++        final boolean passed = ReplayAiClock.currentTimeMillis() > Math.min(evalDeadline, combatDeadline);
+         if (passed && TRACE_DEADLINE && !tracedPass) {
+             tracedPass = true;
+             System.err.println("[ai] budget passed for " + player + " eval=" + (evalDeadline == Long.MAX_VALUE ? "off" : "on") + " combat=" + (combatDeadline == Long.MAX_VALUE ? "off" : "on"));
+@@ -1527,7 +1528,7 @@ public class AiController {
+     // declares blockers for given defender in a given combat
+     public void declareBlockersFor(Player defender, Combat combat) {
+         final long outerCombatDeadline = combatDeadline;
+-        combatDeadline = Math.min(outerCombatDeadline, System.currentTimeMillis() + game.getAITimeout() * 1000L);
++        combatDeadline = Math.min(outerCombatDeadline, ReplayAiClock.currentTimeMillis() + game.getAITimeout() * 1000L);
+         final long id = AITimeoutTracker.key(game.getId(), player.getId());
+         final long timeoutNanos = TimeUnit.SECONDS.toNanos(game.getAITimeout());
+         AITimeoutTracker.begin(id, timeoutNanos);
+@@ -1618,7 +1619,7 @@ public class AiController {
+         }
+         // 12/2/10(sol) the decision making here has moved to getAttackers()
+         final long outerCombatDeadline = combatDeadline;
+-        combatDeadline = Math.min(outerCombatDeadline, System.currentTimeMillis() + game.getAITimeout() * 1000L);
++        combatDeadline = Math.min(outerCombatDeadline, ReplayAiClock.currentTimeMillis() + game.getAITimeout() * 1000L);
+         final long id = AITimeoutTracker.key(game.getId(), player.getId());
+         final long timeoutNanos = TimeUnit.SECONDS.toNanos(game.getAITimeout());
+         AITimeoutTracker.begin(id, timeoutNanos);
+@@ -2874,7 +2875,7 @@ public class AiController {
+         final long deadlineNanos = AITimeoutTracker.deadlineNanos(aiId, timeoutNanos);
+         timeoutReached = false;
+         final long outerEvalDeadline = evalDeadline;
+-        evalDeadline = Math.min(outerEvalDeadline, System.currentTimeMillis() + game.getAITimeout() * 1000L);
++        evalDeadline = Math.min(outerEvalDeadline, ReplayAiClock.currentTimeMillis() + game.getAITimeout() * 1000L);
+         final long evalStartedAt = System.currentTimeMillis();
+         FutureTask<List<SpellAbility>> future = new FutureTask<>(() -> {
+             final List<SpellAbility> approvedPlays = new ArrayList<>();
+@@ -2885,7 +2886,7 @@ public class AiController {
+                 final boolean isLifeInDanger = massReanimation && ComputerUtil.aiLifeInDanger(player, true, 0);
+                 for (final SpellAbility sa : ComputerUtilAbility.getOriginalAndAltCostAbilities(all, player)) {
+                     AITimeoutTracker.check();
+-                    if (timeoutReached || Thread.currentThread().isInterrupted() || System.currentTimeMillis() > evalDeadline) {
++                    if (timeoutReached || Thread.currentThread().isInterrupted() || ReplayAiClock.currentTimeMillis() > evalDeadline) {
+                         timeoutReached = false;
+                         break;
+                     }
+@@ -3007,7 +3008,7 @@ public class AiController {
+         t.start();
+         try {
+             // wait only for what is left of the shared deadline (not a fresh full timeout per call)
+-            return future.get(Math.max(0, deadlineNanos - System.nanoTime()), TimeUnit.NANOSECONDS);
++            return future.get(Math.max(0, deadlineNanos - ReplayAiClock.nanoTime()), TimeUnit.NANOSECONDS);
+         } catch (InterruptedException | ExecutionException | TimeoutException e) {
+             e.printStackTrace();
+             if (e instanceof TimeoutException) {
+diff --git a/forge-ai/src/main/java/forge/ai/AvailableActions.java b/forge-ai/src/main/java/forge/ai/AvailableActions.java
+index ecf09ec..c181a18 100644
+--- a/forge-ai/src/main/java/forge/ai/AvailableActions.java
++++ b/forge-ai/src/main/java/forge/ai/AvailableActions.java
+@@ -1,5 +1,6 @@
+ package forge.ai;
+ 
++import forge.harness.common.ReplayAiClock;
+ import forge.game.card.Card;
+ import forge.game.card.CardLists;
+ import forge.game.card.CardView;
+@@ -51,7 +52,7 @@ public final class AvailableActions {
+     }
+ 
+     private static Set<CardView> walk(Player player, long timeoutMs, boolean earlyExit) {
+-        long deadlineNanos = System.nanoTime() + timeoutMs * 1_000_000L;
++        long deadlineNanos = ReplayAiClock.nanoTime() + timeoutMs * 1_000_000L;
+         Set<CardView> actionable = new HashSet<>();
+         Set<CardView> visited = new HashSet<>();
+ 
+@@ -112,7 +113,7 @@ public final class AvailableActions {
+     }
+ 
+     private static boolean checkTimeout(long deadlineNanos, long timeoutMs) {
+-        if (System.nanoTime() < deadlineNanos) {
++        if (ReplayAiClock.nanoTime() < deadlineNanos) {
+             return false;
+         }
+         Logger.warn("AvailableActions: heuristic timed out after {}ms; returning true.", timeoutMs);
+diff --git a/forge-ai/src/main/java/forge/ai/simulation/FlatMonteCarloPicker.java b/forge-ai/src/main/java/forge/ai/simulation/FlatMonteCarloPicker.java
+index b568aa4..e08dec5 100644
+--- a/forge-ai/src/main/java/forge/ai/simulation/FlatMonteCarloPicker.java
++++ b/forge-ai/src/main/java/forge/ai/simulation/FlatMonteCarloPicker.java
+@@ -1,5 +1,6 @@
+ package forge.ai.simulation;
+ 
++import forge.harness.common.ReplayAiClock;
+ import forge.ai.AiController;
+ import forge.ai.AiProps;
+ import forge.ai.ComputerUtil;
+@@ -126,7 +127,7 @@ public final class FlatMonteCarloPicker {
+     }
+ 
+     private static void checkRolloutDeadline() {
+-        if (System.nanoTime() > rolloutDeadlineNanos) {
++        if (ReplayAiClock.nanoTime() > rolloutDeadlineNanos) {
+             throw new RolloutTooSlow();
+         }
+     }
+@@ -502,7 +503,7 @@ public final class FlatMonteCarloPicker {
+ 
+     public static Result choose(final Player player, final List<SpellAbility> approved, final List<SpellAbility> extras,
+                                 final Config cfg, final Predicate<SpellAbility> revalidate, final Mode mode) {
+-        final long start = System.nanoTime();
++        final long start = ReplayAiClock.nanoTime();
+         final SpellAbility heuristicChoice = approved.isEmpty() ? null : approved.get(0);
+         try {
+             final Result result = chooseImpl(player, approved, extras, cfg, revalidate, start, mode);
+@@ -511,12 +512,12 @@ public final class FlatMonteCarloPicker {
+             }
+             return result;
+         } catch (final AITimeoutTracker.Expired e) {
+-            return new Result(heuristicChoice, heuristicChoice == null, false, 0, 0, System.nanoTime() - start, "deadline");
++            return new Result(heuristicChoice, heuristicChoice == null, false, 0, 0, ReplayAiClock.nanoTime() - start, "deadline");
+         } catch (final RuntimeException e) {
+             // Rollouts only ever run on copies of the game, so whatever went wrong in there must not take the real
+             // game down: play what the heuristics wanted to play anyway.
+             reportFailure(e);
+-            return new Result(heuristicChoice, heuristicChoice == null, false, 0, 0, System.nanoTime() - start, "error");
++            return new Result(heuristicChoice, heuristicChoice == null, false, 0, 0, ReplayAiClock.nanoTime() - start, "error");
+         } finally {
+             rolloutDeadlineNanos = Long.MAX_VALUE;
+         }
+@@ -536,7 +537,7 @@ public final class FlatMonteCarloPicker {
+         // smaller margin than a play that has to beat the heuristics' own favourite.
+         final int bonus0 = approved.isEmpty() && prebuilt == null ? cfg.heuristicBonus / 4 : cfg.heuristicBonus;
+         final List<Candidate> cands = prebuilt != null ? prebuilt : buildCandidates(player, approved, extras, cfg, revalidate, mode);
+-        final long buildNanos = System.nanoTime() - start;
++        final long buildNanos = ReplayAiClock.nanoTime() - start;
+         if (cands.size() < 2) {
+             return Result.keepHeuristic(heuristicChoice, "single-candidate");
+         }
+@@ -587,7 +588,7 @@ public final class FlatMonteCarloPicker {
+                     break; // nothing left to compare
+                 }
+                 // Only start another round if all of it fits, so that every candidate gets the same samples.
+-                if (System.nanoTime() + maxRolloutNanos * racing > (r == 1 ? hardDeadline : softDeadline)) {
++                if (ReplayAiClock.nanoTime() + maxRolloutNanos * racing > (r == 1 ? hardDeadline : softDeadline)) {
+                     break;
+                 }
+             }
+@@ -599,7 +600,7 @@ public final class FlatMonteCarloPicker {
+                 if (rollouts > 0) {
+                     // The second candidate is what makes a comparison possible at all, so it may use the hard limit.
+                     final long limit = r == 0 && c == 1 || r == 1 ? hardDeadline : softDeadline;
+-                    if (System.nanoTime() + maxRolloutNanos > limit) {
++                    if (ReplayAiClock.nanoTime() + maxRolloutNanos > limit) {
+                         tooSlow = r == 0 && c < 2;
+                         break rounds;
+                     }
+@@ -608,15 +609,15 @@ public final class FlatMonteCarloPicker {
+                     tooSlow = r == 0 && c < 2;
+                     break rounds;
+                 }
+-                final long t0 = System.nanoTime();
++                final long t0 = ReplayAiClock.nanoTime();
+                 final Candidate cand = cands.get(c);
+                 final boolean stillWanted = cand.isHold() || cand.extra || revalidate == null || revalidate.test(cand.sa);
+                 final boolean aimed = stillWanted && (cand.target == null || applyTarget(cand.sa, cand.target));
+                 final Long value = !aimed ? null : rollout(player, cand, seed, rcfg, playoutPlays, mode);
+-                maxRolloutNanos = Math.max(maxRolloutNanos, System.nanoTime() - t0);
++                maxRolloutNanos = Math.max(maxRolloutNanos, ReplayAiClock.nanoTime() - t0);
+                 rollouts++;
+                 if (rollouts == 1 && value != null && cfg.scaleToDevice) {
+-                    limitN = Math.min(limitN, affordableLines(softDeadline - System.nanoTime(), maxRolloutNanos,
++                    limitN = Math.min(limitN, affordableLines(softDeadline - ReplayAiClock.nanoTime(), maxRolloutNanos,
+                             cfg.rolloutsPerCandidate, n));
+                 }
+                 if (value == null) {
+@@ -629,7 +630,7 @@ public final class FlatMonteCarloPicker {
+                     if (value == WIN_VALUE && !cand.isHold()) {
+                         // This line wins the game outright: nothing needs comparing, and waiting only wastes time.
+                         return new Result(cand.sa, false, true, Math.max(evaluated, c + 1), rollouts,
+-                                System.nanoTime() - start, "wins", prunedCount, cand.target);
++                                ReplayAiClock.nanoTime() - start, "wins", prunedCount, cand.target);
+                     }
+                 }
+                 if (r == 0) {
+@@ -641,7 +642,7 @@ public final class FlatMonteCarloPicker {
+             }
+         }
+ 
+-        final long elapsed = System.nanoTime() - start;
++        final long elapsed = ReplayAiClock.nanoTime() - start;
+         if (elapsed > SLOW_DECISION_NANOS) {
+             FlatMonteCarloStats.noteSlow(mode + " " + (elapsed / 1_000_000) + "ms: candidates=" + n + " evaluated=" + evaluated
+                     + " rollouts=" + rollouts + " build=" + (buildNanos / 1_000_000) + "ms longestRollout="
+@@ -1735,7 +1736,7 @@ public final class FlatMonteCarloPicker {
+      * @return the verdict; {@link Result#attackers} is the set to attack with when rollouts decided, otherwise null
+      */
+     public static Result chooseAttack(final Player player, final forge.game.combat.Combat combat, final Config cfg) {
+-        final long start = System.nanoTime();
++        final long start = ReplayAiClock.nanoTime();
+         try {
+             final List<Candidate> cands = buildAttackCandidates(player, combat);
+             if (cands.size() < 2) {
+@@ -1743,10 +1744,10 @@ public final class FlatMonteCarloPicker {
+             }
+             return chooseImpl(player, new ArrayList<>(), new ArrayList<>(), cfg, null, start, Mode.ATTACK, cands);
+         } catch (final AITimeoutTracker.Expired e) {
+-            return new Result(null, false, false, 0, 0, System.nanoTime() - start, "deadline");
++            return new Result(null, false, false, 0, 0, ReplayAiClock.nanoTime() - start, "deadline");
+         } catch (final RuntimeException e) {
+             reportFailure(e);
+-            return new Result(null, false, false, 0, 0, System.nanoTime() - start, "error");
++            return new Result(null, false, false, 0, 0, ReplayAiClock.nanoTime() - start, "error");
+         } finally {
+             rolloutDeadlineNanos = Long.MAX_VALUE;
+         }
+diff --git a/forge-ai/src/main/java/forge/ai/simulation/StormSolver.java b/forge-ai/src/main/java/forge/ai/simulation/StormSolver.java
+index d587f00..72cdc12 100644
+--- a/forge-ai/src/main/java/forge/ai/simulation/StormSolver.java
++++ b/forge-ai/src/main/java/forge/ai/simulation/StormSolver.java
+@@ -1,5 +1,6 @@
+ package forge.ai.simulation;
+ 
++import forge.harness.common.ReplayAiClock;
+ import java.util.*;
+ 
+ import forge.game.Game;
+@@ -389,22 +390,22 @@ public final class StormSolver {
+      * That is how a hand with Ad Nauseam plays: the cast is made when some order of the library wins, then it is re-solved.
+      */
+     public static Line solve(final Player ai, final ComboPlan combos, final int maxNodes, final long budgetNanos) {
+-        final long start = System.nanoTime();
++        final long start = ReplayAiClock.nanoTime();
+         final int shuffles = shuffles();
+         final long each = budgetNanos / shuffles;
+         Line found = null;
+         for (int i = 0; i < shuffles && found == null; i++) {
+-            final long left = budgetNanos - (System.nanoTime() - start);
++            final long left = budgetNanos - (ReplayAiClock.nanoTime() - start);
+             if (left <= 0) {
+                 break;
+             }
+             found = solveShuffle(ai, combos, maxNodes, Math.min(left, each), i);
+         }
+-        return found == null ? null : new Line(found.steps, found.nodes, System.nanoTime() - start);
++        return found == null ? null : new Line(found.steps, found.nodes, ReplayAiClock.nanoTime() - start);
+     }
+ 
+     private static Line solveShuffle(final Player ai, final ComboPlan combos, final int maxNodes, final long budgetNanos, final int variant) {
+-        final long start = System.nanoTime();
++        final long start = ReplayAiClock.nanoTime();
+         final Game game = ai.getGame();
+         final GameSimulator root = new GameSimulator(game, ai);
+         HiddenInfoShuffler.shuffle(root.getSimulatedGameState(), root.getGameCopier(), ai, new Random(game.getPhaseHandler().getTurn() + 7919L * variant),
+@@ -433,7 +434,7 @@ public final class StormSolver {
+         if (TRACE) {
+             trail.append(" | picker: ").append(new SpellAbilityPicker(ai).explainCandidates());
+         }
+-        while (!open.isEmpty() && nodes < maxNodes && System.nanoTime() - start < budgetNanos && !lowMemory()) {
++        while (!open.isEmpty() && nodes < maxNodes && ReplayAiClock.nanoTime() - start < budgetNanos && !lowMemory()) {
+             final Node node = open.poll();
+             final GameSimulator nodeSim = materialize(node, live, cap);
+             if (nodeSim == null) {
+@@ -453,7 +454,7 @@ public final class StormSolver {
+                 if (host != null && ComboPlan.isStormFinisher(host) && ComboPlan.stormIsLethal(simAi, host)) {
+                     final List<Step> steps = new ArrayList<>(node.steps);
+                     steps.add(new Step(sa));
+-                    return new Line(Collections.unmodifiableList(steps), nodes, System.nanoTime() - start);
++                    return new Line(Collections.unmodifiableList(steps), nodes, ReplayAiClock.nanoTime() - start);
+                 }
+             }
+             for (final SpellAbility sa : moves) {
+@@ -465,7 +466,7 @@ public final class StormSolver {
+                 if (fromGy && node.gyCast.contains(host.getId())) {
+                     continue; // Gaea's Will exiles it after the first cast
+                 }
+-                if (System.nanoTime() - start >= budgetNanos || lowMemory()) {
++                if (ReplayAiClock.nanoTime() - start >= budgetNanos || lowMemory()) {
+                     break;
+                 }
+                 final GameSimulator child = playOn(nodeSim, sa);
+@@ -512,7 +513,7 @@ public final class StormSolver {
+                 for (final SpellAbility sa : moves) {
+                     final Card host = sa.getHostCard();
+                     if (host == null || !sa.isSpell() || !ComboPlan.isHellbentTutor(host)
+-                            || System.nanoTime() - start >= budgetNanos || lowMemory()) {
++                            || ReplayAiClock.nanoTime() - start >= budgetNanos || lowMemory()) {
+                         continue;
+                     }
+                     final GameSimulator child = tutorWithDiscardMana(nodeSim, sa, discardMana);
+@@ -544,7 +545,7 @@ public final class StormSolver {
+         if (setupSteps != null && setupBest - setupStart >= SETUP_MIN_GAIN) {
+             lastSetup = Collections.unmodifiableList(setupSteps);
+         }
+-        lastDiagnostic = "start {" + startState + "} searched " + nodes + " states in " + (System.nanoTime() - start) / 1_000_000
++        lastDiagnostic = "start {" + startState + "} searched " + nodes + " states in " + (ReplayAiClock.nanoTime() - start) / 1_000_000
+                 + " ms (" + (open.isEmpty() ? "all explored" : nodes >= maxNodes ? "state limit" : lowMemory() ? "memory limit" : "time limit")
+                 + ", games kept " + cap + ", heap " + heap() + "); best score " + bestScore + " after " + bestSteps + " {" + bestState + "}" + trail;
+         return null;
+@@ -698,10 +699,10 @@ public final class StormSolver {
+         if (rt.totalMemory() - rt.freeMemory() <= rt.maxMemory() * MEMORY_LIMIT) {
+             return false;
+         }
+-        final long now = System.nanoTime();
++        final long now = ReplayAiClock.nanoTime();
+         if (now - lastGc > 1_000_000_000L) {
+             System.gc();
+-            lastGc = System.nanoTime();
++            lastGc = ReplayAiClock.nanoTime();
+         }
+         return rt.totalMemory() - rt.freeMemory() > rt.maxMemory() * MEMORY_LIMIT;
+     }
+diff --git a/forge-core/src/main/java/forge/util/AITimeoutTracker.java b/forge-core/src/main/java/forge/util/AITimeoutTracker.java
+index 91db58b..340833b 100644
+--- a/forge-core/src/main/java/forge/util/AITimeoutTracker.java
++++ b/forge-core/src/main/java/forge/util/AITimeoutTracker.java
+@@ -1,5 +1,6 @@
+ package forge.util;
+ 
++import forge.harness.common.ReplayAiClock;
+ import java.util.concurrent.ConcurrentHashMap;
+ import java.util.concurrent.TimeUnit;
+ 
+@@ -87,7 +88,7 @@ public final class AITimeoutTracker {
+                 if (s.removed) {
+                     continue; // purged between lookup and lock: fetch (or create) a live slot
+                 }
+-                final long now = System.nanoTime();
++                final long now = ReplayAiClock.nanoTime();
+                 if (isStale(s, now)) {
+                     s.depth = 0; // leaked session: start over
+                 }
+@@ -123,7 +124,7 @@ public final class AITimeoutTracker {
+         boolean barMayBeVisible = false;
+         synchronized (s) {
+             if (s.depth > 0 && --s.depth == 0) {
+-                barMayBeVisible = System.nanoTime() - s.startNanos >= SHOW_AFTER_NANOS;
++                barMayBeVisible = ReplayAiClock.nanoTime() - s.startNanos >= SHOW_AFTER_NANOS;
+             }
+         }
+         final Runnable hook = repaintHook;
+@@ -134,12 +135,12 @@ public final class AITimeoutTracker {
+ 
+     public static boolean isActive(final long key) {
+         final Slot s = SLOTS.get(key);
+-        return s != null && s.depth > 0 && !isStale(s, System.nanoTime());
++        return s != null && s.depth > 0 && !isStale(s, ReplayAiClock.nanoTime());
+     }
+ 
+-    /** Absolute System.nanoTime() deadline of the active session, or fallbackNanos from now when none is active. */
++    /** Absolute ReplayAiClock.nanoTime() deadline of the active session, or fallbackNanos from now when none is active. */
+     public static long deadlineNanos(final long key, final long fallbackTimeoutNanos) {
+-        final long now = System.nanoTime();
++        final long now = ReplayAiClock.nanoTime();
+         final Slot s = SLOTS.get(key);
+         if (s != null && s.depth > 0 && !isStale(s, now)) {
+             return s.startNanos + s.timeoutNanos;
+@@ -158,7 +159,7 @@ public final class AITimeoutTracker {
+         }
+         final long start = s.startNanos;
+         final long timeout = s.timeoutNanos;
+-        final long elapsed = System.nanoTime() - start;
++        final long elapsed = ReplayAiClock.nanoTime() - start;
+         final long window = timeout - SHOW_AFTER_NANOS;
+         if (window <= 0 || elapsed < SHOW_AFTER_NANOS || elapsed >= timeout) {
+             return -1f;
+@@ -183,7 +184,7 @@ public final class AITimeoutTracker {
+     private static final ThreadLocal<Limit> LIMIT = ThreadLocal.withInitial(Limit::new);
+ 
+     /**
+-     * Arms this thread with an absolute System.nanoTime() deadline; returns a token for {@link #disarm}.
++     * Arms this thread with an absolute ReplayAiClock.nanoTime() deadline; returns a token for {@link #disarm}.
+      * Nested arming can only tighten the deadline, never extend it.
+      * Always pair with disarm() in a finally block - also on pooled threads, or the next task inherits the limit.
+      * @param honourInterrupt also abort when the thread is interrupted (for worker threads that get cancel(true))
+@@ -210,7 +211,7 @@ public final class AITimeoutTracker {
+     /** Cheap: call it inside AI loops. Throws {@link Expired} once the armed deadline passed (no-op when not armed). */
+     public static void check() {
+         final Limit l = LIMIT.get();
+-        if (l.armed && (System.nanoTime() - l.deadlineNanos >= 0 || (l.honourInterrupt && Thread.currentThread().isInterrupted()))) {
++        if (l.armed && (ReplayAiClock.nanoTime() - l.deadlineNanos >= 0 || (l.honourInterrupt && Thread.currentThread().isInterrupted()))) {
+             throw new Expired();
+         }
+     }
+@@ -218,7 +219,7 @@ public final class AITimeoutTracker {
+     /** Nanoseconds left of this thread's armed deadline (Long.MAX_VALUE when not armed). */
+     public static long remainingNanos() {
+         final Limit l = LIMIT.get();
+-        return l.armed ? l.deadlineNanos - System.nanoTime() : Long.MAX_VALUE;
++        return l.armed ? l.deadlineNanos - ReplayAiClock.nanoTime() : Long.MAX_VALUE;
+     }
+ 
+     /**
+@@ -227,6 +228,6 @@ public final class AITimeoutTracker {
+      * Use this instead of {@link #remainingNanos()} for waits - an unarmed caller must not wait "forever".
+      */
+     public static long remainingNanos(final long key, final long fallbackTimeoutNanos) {
+-        return Math.min(remainingNanos(), deadlineNanos(key, fallbackTimeoutNanos) - System.nanoTime());
++        return Math.min(remainingNanos(), deadlineNanos(key, fallbackTimeoutNanos) - ReplayAiClock.nanoTime());
+     }
+ }
+\ No newline at end of file
