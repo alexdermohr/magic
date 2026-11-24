@@ -175,6 +175,24 @@ are not proven deterministic by this clock change. Full prompt, state and RNG
 verification and the worker replay deadline remain necessary; a failed replay
 must preserve the previous checkpoint.
 
+### Long WebImage replay regression
+
+With the current source-built Forge WASM and its generated personal-decks
+fixture, run `yarn test:forge-webimage-replay --personal-decks <file>`
+(optionally `--webimage-dir <directory>`). The same four-seat seeded
+Commander fixture records 310 decisions in a separate Liftoff process,
+reconstructs them in normal V8 and continues 35 decisions, then reconstructs
+the extended journal in a fresh Liftoff process and continues another 10.
+It checks the real terminal prompt, state/RNG witness, complete original
+journal prefix and normalized seat view on each reconstruction. Counts and seed
+are configurable; `--replay-heap-mib` optionally restricts V8's old-space
+heap in both restore processes for a separate stress probe. Small heap limits
+can make compilation or replay miss the deadline; they are not a recommended
+production configuration. It reports actual response latency and process
+RSS without printing private journal contents. Temporary synthetic journals
+are removed on completion or failure. This tests real WebImage engine behavior
+in Node, not physical Safari or the browser UI.
+
 ## Automatic offline WebImage recovery (10 November 2026)
 
 **Scope:** Installed, version-pinned offline browser PWA, local Forge WebImage
