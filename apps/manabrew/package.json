@@ -53,6 +53,7 @@
     "test:forge-commander-block": "node scripts/engine-bench/forge-commander-block-threat.mjs",
     "test:forge-rewind": "node scripts/forge-tests/rewind.mjs",
     "test:forge-ai-replay": "node scripts/forge-tests/internal-ai-replay.mjs",
+    "test:forge-webimage-replay": "node scripts/forge-tests/internal-ai-webimage-replay.mjs",
     "test:forge-auto-resume-storage": "node scripts/test-ipad-recovery-storage.mjs",
     "test:ipad-recovery-upgrade": "node scripts/test-ipad-recovery-upgrade.mjs",
     "test:forge-auto-resume": "node scripts/test-ipad-recovery-reload.mjs",
