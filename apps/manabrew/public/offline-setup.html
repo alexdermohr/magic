@@ -78,6 +78,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   let manifest = null;
   let busy = false;
   let checkingStatus = false;
+  let reconnectPending = false;
   let currentReady = false;
   const RESUME_ATTEMPT_KEY = "manabrew-ipad-resume-attempt-v1";
   const ARCHIVE_DB = "manabrew-forge-recovery-archives-v1";
@@ -801,6 +802,12 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     }
   }
 
+  function retryAfterReconnect() {
+    if (busy || checkingStatus || !reconnectPending) return;
+    reconnectPending = false;
+    if (automaticSetup && !currentReady && !rescueMeta) void status();
+  }
+
   async function status(forceVerification = false) {
     if (busy || checkingStatus) return;
     checkingStatus = true;
@@ -928,6 +935,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       }
     } finally {
       checkingStatus = false;
+      retryAfterReconnect();
     }
   }
 
@@ -1057,6 +1065,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     } finally {
       busy = false;
       $("prepare").disabled = false;
+      retryAfterReconnect();
     }
   }
 
@@ -1089,7 +1098,10 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     else void status(!!manifest);
   });
   window.addEventListener("online", () => {
-    if (automaticSetup && !currentReady && !rescueMeta) void status();
+    if (automaticSetup && !currentReady && !rescueMeta) {
+      reconnectPending = true;
+      retryAfterReconnect();
+    }
   });
   void status();
 })();

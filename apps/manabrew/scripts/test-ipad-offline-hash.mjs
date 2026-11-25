@@ -147,6 +147,30 @@ try {
   assert.equal(repaired.bytes, newBytes.toString());
   console.log("IPAD_OFFLINE_SHA256_RELEASE_RACE_PASS", JSON.stringify({ failure, repaired }));
 
+  const reconnectPage = await browser.newPage({ serviceWorkers: "allow" });
+  await reconnectPage.addInitScript(() => {
+    Object.defineProperty(navigator, "standalone", { configurable: true, value: true });
+    const fetchOriginal = window.fetch.bind(window);
+    let failed = false;
+    window.fetch = async (input, options) => {
+      if (!failed && String(input).includes("/probe.bin")) {
+        failed = true;
+        window.dispatchEvent(new Event("online"));
+        throw new TypeError("in-flight request failed during reconnect");
+      }
+      return fetchOriginal(input, options);
+    };
+  });
+  version = "fixture-new";
+  assetBytes = newBytes;
+  await reconnectPage.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
+  await reconnectPage.waitForFunction(
+    () => document.querySelector("#state")?.textContent?.includes("Offline-Dateien vollständig gespeichert"),
+    null, { timeout: 8000 },
+  );
+  console.log("IPAD_ONLINE_DURING_PREPARE_RETRY_PASS");
+  await reconnectPage.close();
+
   const automaticPage = await browser.newPage({ serviceWorkers: "allow" });
   await automaticPage.addInitScript(() => {
     Object.defineProperty(navigator, "standalone", { configurable: true, value: true });
