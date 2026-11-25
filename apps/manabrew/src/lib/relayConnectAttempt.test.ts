@@ -195,10 +195,31 @@ describe("relay connection ownership", () => {
     expect(MockSocket.sockets).toHaveLength(1);
     oldSocket.finishClose();
     await flush();
+    // Reset the displaced room/seat before the winner can authenticate.
+    expect(h.emit).toHaveBeenCalledExactlyOnceWith("server:disconnected", { terminal: true });
+    expect(h.send).toHaveBeenCalledTimes(1);
     expect(MockSocket.sockets).toHaveLength(2);
     MockSocket.sockets[1].open();
     await Promise.all([second, third]);
     expect(h.send.mock.calls.map((call) => call[0].username)).toEqual(["first", "third"]);
+  });
+
+  it("resets old room state once for a single replacement, before authentication", async () => {
+    const h = socketHarness(async (_previous, username) => identity(String(username)));
+    const first = h.api.connect({ username: "first" });
+    await flush();
+    MockSocket.sockets[0].open();
+    await first;
+    const next = h.api.connect({ username: "next" });
+    await flush();
+    expect(h.emit).not.toHaveBeenCalled();
+    MockSocket.sockets[0].finishClose();
+    await flush();
+    expect(h.emit).toHaveBeenCalledExactlyOnceWith("server:disconnected", { terminal: true });
+    expect(h.send).toHaveBeenCalledTimes(1);
+    MockSocket.sockets[1].open();
+    await next;
+    expect(h.emit).toHaveBeenCalledTimes(1);
   });
 
   it("settles a connection whose socket closes before it can open", async () => {

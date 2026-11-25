@@ -1770,7 +1770,7 @@ class WebServerApi implements IServerApi {
   }
 
   async disconnect(): Promise<void> {
-    const generation = ++this.connectionGeneration;
+    ++this.connectionGeneration;
     this.manualDisconnect = true;
     this.clearReconnectTimer();
     this.serverShutdownPending = null;
@@ -1798,19 +1798,18 @@ class WebServerApi implements IServerApi {
     const closing = new Promise<void>((resolve) => {
       const done = () => {
         ws.removeEventListener("close", done);
-        ws.removeEventListener("error", done);
         resolve();
       };
       ws.addEventListener("close", done);
-      ws.addEventListener("error", done);
       ws.close();
+    }).then(() => {
+      // The close belongs to the displaced socket, not a connect generation.
+      // All competing connects await this shared reset before opening a socket.
+      this.socketClosing = null;
+      this.eventBus.emit("server:disconnected", { terminal: true });
     });
     this.socketClosing = closing;
     await closing;
-    if (this.socketClosing === closing) this.socketClosing = null;
-    if (generation === this.connectionGeneration) {
-      this.eventBus.emit("server:disconnected", { terminal: true });
-    }
   }
 
   async listRooms(): Promise<void> {
