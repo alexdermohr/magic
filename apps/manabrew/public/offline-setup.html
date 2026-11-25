@@ -58,9 +58,9 @@
   </section>
   <section class="box" id="ipad-install">
     <h2>Installation auf dem iPad</h2>
-    <p>1. Diese Seite in Safari über HTTPS öffnen. 2. „Teilen“ → „Zum Home-Bildschirm“. 3. <strong>Manabrew vom Home-Bildschirm starten</strong>, dort „Offline-Daten herunterladen“ antippen und bis zur Erfolgsmeldung warten. 4. WLAN, Mobilfunk und VPN deaktivieren, die App vollständig schließen und über das Symbol neu starten.</p>
+    <p>1. Diese Seite in Safari über HTTPS öffnen. 2. „Teilen“ → „Zum Home-Bildschirm“. 3. <strong>Manabrew vom Home-Bildschirm starten</strong>, die Offline-Dateien werden automatisch heruntergeladen. Bis zur Erfolgsmeldung geöffnet lassen. 4. WLAN, Mobilfunk und VPN deaktivieren, die App vollständig schließen und über das Symbol neu starten.</p>
     <p class="muted">Safari und installierte Web-Apps können eigene Speicherbereiche haben. Deshalb ist ein abgeschlossener Download im Safari-Tab kein Nachweis für die installierte App.</p>
-    <p class="muted">iPadOS kann Web-App-Daten bei Speicherdruck löschen. Bei fehlenden Dateien die Vorbereitung nach Wiederherstellung der Internetverbindung erneut durchführen. Account-Anmeldung ist für lokales Spielen nicht erforderlich.</p>
+    <p class="muted">iPadOS kann Web-App-Daten bei Speicherdruck löschen. Fehlende Dateien werden beim nächsten Start mit Netzwerkverbindung automatisch ergänzt. Account-Anmeldung ist für lokales Spielen nicht erforderlich.</p>
   </section>
   <section class="box" id="linux-install" hidden>
     <h2>Linux-Desktop</h2>
@@ -77,6 +77,8 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   const fmt = (n) => (n / 1024 / 1024).toFixed(1) + " MiB";
   let manifest = null;
   let busy = false;
+  let checkingStatus = false;
+  let reconnectPending = false;
   let currentReady = false;
   const RESUME_ATTEMPT_KEY = "manabrew-ipad-resume-attempt-v1";
   const ARCHIVE_DB = "manabrew-forge-recovery-archives-v1";
@@ -86,6 +88,9 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   const linuxDesktop = /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent);
   const startParams = new URLSearchParams(location.search);
   const desktopLauncher = linuxDesktop && startParams.get("desktop") === "1";
+  const standalone = navigator.standalone === true ||
+    matchMedia("(display-mode: standalone)").matches;
+  const automaticSetup = !startParams.has("setup") && (desktopLauncher || standalone);
   const modeChooserEntry = desktopLauncher && startParams.get("entry") === "play";
   const readyRoute = modeChooserEntry ? "/play" : "/play/offline/constructed";
   if (modeChooserEntry) {
@@ -797,8 +802,15 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     }
   }
 
+  function retryAfterReconnect() {
+    if (busy || checkingStatus || !reconnectPending) return;
+    reconnectPending = false;
+    if (automaticSetup && !currentReady && !rescueMeta) void status();
+  }
+
   async function status(forceVerification = false) {
-    if (busy) return;
+    if (busy || checkingStatus) return;
+    checkingStatus = true;
     $("prepare").disabled = true;
     $("play").classList.add("disabled");
     try {
@@ -841,14 +853,15 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       const marker = await completeMarker(cache);
       let quickReady = !!marker && (await marker.text()) === manifest.version;
       if (quickReady) {
-        for (const url of ["/index.html", "/offline-setup.html", "/personal-decks.json",
-                           "/wasm/cardset.manifest.json", "/offline-assets.json"]) {
-          const entry = url === "/offline-assets.json" || manifest.files.some((file) => file.url === url);
-          if (!entry || !(await cache.match(url))) {
-            quickReady = false;
-            break;
-          }
-        }
+        // A ready marker can outlive individual assets after storage pressure.
+        // Check the complete URL inventory without re-reading or hashing 400 MB.
+        const stored = new Set((await cache.keys()).map((request) => request.url));
+        const required = ["/index.html", "/offline-setup.html", "/personal-decks.json",
+                          "/wasm/cardset.manifest.json"];
+        const listed = new Set(manifest.files.map((file) => file.url));
+        quickReady = required.every((url) => listed.has(url)) &&
+          stored.has(new URL("/offline-assets.json", location.origin).href) &&
+          manifest.files.every((file) => stored.has(new URL(file.url, location.origin).href));
       }
       const prepared = quickReady && !forceVerification
         ? { ready: true, bytes: total }
@@ -909,13 +922,20 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
         $("prepare").disabled = true;
         $("play").classList.add("disabled");
         report("Lokales Forge auf diesem Browser noch nicht möglich", "Der Browser meldet keine Cross-Origin-Isolation/SharedArrayBuffer. Ein Download allein würde keine spielbare Offline-App ergeben.");
-      } else if (!ready && !forceVerification && !new URLSearchParams(location.search).has("setup") &&
-                 (desktopLauncher || (upgradeAvailable && navigator.onLine &&
-                  (window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches)))) {
-        void prepare(upgradeAvailable);
+      } else if (!ready && !forceVerification && automaticSetup &&
+                 (desktopLauncher || navigator.onLine)) {
+        await prepare(upgradeAvailable);
       }
     } catch (error) {
       report("Offline-Vorbereitung nicht verfügbar", String(error));
+      if (navigator.serviceWorker && window.caches && crossOriginIsolated &&
+          typeof SharedArrayBuffer !== "undefined") {
+        $("prepare").disabled = false;
+        $("prepare").textContent = "Erneut versuchen";
+      }
+    } finally {
+      checkingStatus = false;
+      retryAfterReconnect();
     }
   }
 
@@ -924,27 +944,27 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     busy = true;
     $("prepare").disabled = true;
     if (!keepPlayable) $("play").classList.add("disabled");
-    const cacheName = prefix + manifest.version;
-    const cache = await caches.open(cacheName);
-    await cache.delete(READY_MARKER);
-    await cache.delete(RETAINED_MARKER);
-    refreshWorkerCache();
-    const reusable = [];
-    for (const oldName of (await caches.keys()).filter((name) => name.startsWith(prefix) && name !== cacheName)) {
-      const oldCache = await caches.open(oldName);
-      const [marker, index] = await Promise.all([
-        completeMarker(oldCache),
-        oldCache.match("/offline-assets.json"),
-      ]);
-      if (!marker || !index) continue;
-      const oldManifest = await index.json();
-      if (await marker.text() !== oldManifest.version || !Array.isArray(oldManifest.files)) continue;
-      reusable.push({ cache: oldCache, entries: new Map(oldManifest.files.map((entry) => [entry.url, entry])) });
-    }
     let downloaded = 0;
     let currentFile = "";
     let currentStage = "Vorbereitung";
     try {
+      const cacheName = prefix + manifest.version;
+      const cache = await caches.open(cacheName);
+      await cache.delete(READY_MARKER);
+      await cache.delete(RETAINED_MARKER);
+      refreshWorkerCache();
+      const reusable = [];
+      for (const oldName of (await caches.keys()).filter((name) => name.startsWith(prefix) && name !== cacheName)) {
+        const oldCache = await caches.open(oldName);
+        const [marker, index] = await Promise.all([
+          completeMarker(oldCache),
+          oldCache.match("/offline-assets.json"),
+        ]);
+        if (!marker || !index) continue;
+        const oldManifest = await index.json();
+        if (await marker.text() !== oldManifest.version || !Array.isArray(oldManifest.files)) continue;
+        reusable.push({ cache: oldCache, entries: new Map(oldManifest.files.map((entry) => [entry.url, entry])) });
+      }
       if (navigator.storage?.persist) await navigator.storage.persist().catch(() => false);
       for (const [index, file] of manifest.files.entries()) {
         currentFile = file.url;
@@ -1045,6 +1065,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
     } finally {
       busy = false;
       $("prepare").disabled = false;
+      retryAfterReconnect();
     }
   }
 
@@ -1073,8 +1094,14 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   });
   $("engine-probe").addEventListener("click", () => void testForge());
   $("prepare").addEventListener("click", () => {
-    if (manifest && !currentReady) void prepare();
-    else void status(true);
+    if (manifest && !currentReady) void prepare(!$("play").classList.contains("disabled"));
+    else void status(!!manifest);
+  });
+  window.addEventListener("online", () => {
+    if (automaticSetup && !currentReady && !rescueMeta) {
+      reconnectPending = true;
+      retryAfterReconnect();
+    }
   });
   void status();
 })();
