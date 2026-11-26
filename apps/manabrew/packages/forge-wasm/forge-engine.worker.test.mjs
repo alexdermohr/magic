@@ -623,6 +623,7 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   let canAcquire = true;
   let savedGameId = "recover-test";
   const ctx = vm.createContext({
+    setTimeout, clearTimeout,
     clearForgeRecoverySave: async () => { cleared++; },
     acquireForgeRecoveryOwnership: async () => canAcquire ? async () => {} : null,
     forgeRecoveryStoredReleaseId: async () => "a".repeat(20),
@@ -1056,10 +1057,16 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
     test(`replacement ${entry} launch during teardown: ${mode}`, async () => {
       const { transpileModule, ScriptTarget } = await import("typescript");
       const store = readFileSync(new URL("../../src/stores/useGameStore.ts", import.meta.url), "utf8");
-      const guard = store.slice(store.indexOf("let gameLaunchGeneration"), store.indexOf("function isManualTabletopApi")).replace("export function", "function");
-      const launch = store.slice(store.indexOf("      startGame: async"), store.indexOf("      startMultiplayerGame: async"));
-      const multiplayerLaunch = store.slice(store.indexOf("      startMultiplayerGame: async"), store.indexOf("      respond: async"));
-      const end = store.slice(store.indexOf("      endGame: async"), store.indexOf("      setMultiplayerState:"));
+      const section = (startMarker, endMarker) => {
+        const start = store.indexOf(startMarker);
+        const end = store.indexOf(endMarker, start + startMarker.length);
+        assert(start >= 0 && end > start, `missing source section: ${startMarker}`);
+        return store.slice(start, end);
+      };
+      const guard = section("let gameLaunchGeneration", "function isManualTabletopApi").replace("export function", "function");
+      const launch = section("      startGame: async", "      startMultiplayerGame: async");
+      const multiplayerLaunch = section("      startMultiplayerGame: async", "      respond: async");
+      const end = section("      endGame: async", "      setMultiplayerState:");
       assert(guard.includes("gameLaunchInFlight") && launch.includes("initializeGame") && end.includes("runtime.api.endGame"));
       const code = transpileModule(guard + "\n globalThis.createActions = (set, get) => ({" + launch + multiplayerLaunch + end + "});", {
         compilerOptions: { target: ScriptTarget.ES2022 },
@@ -1092,7 +1099,7 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
         setTimeout: (callback, delay) => { closingDeadlines.push(delay); return setTimeout(callback, mode === "timeout" ? 5 : delay); }, clearTimeout,
         useMultiplayerLimitedStore: { getState: () => ({}) },
         getPlatform: () => ({ type: "web" }), roomEngineLabel: () => "Forge", beginGame: noop,
-        toast: { info: noop, error: (message) => notices.push(message) },
+        toast: { info: (message) => notices.push(message), error: (message) => notices.push(message) },
         initializeGame: async ({ set }) => { events.push("new-start"); set({ isGameActive: true }); },
       });
       vm.runInContext(code, ctx);
@@ -1104,6 +1111,11 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
         assert.deepEqual(events, ["close-start"]);
         assert.equal(state.isGameActive, false);
         const duplicateEnd = actions.endGame();
+        if (entry === "manual-room" && mode === "normal") {
+          await actions.startManualRoomHost("player-0");
+          assert.match(notices.shift(), /previous game has closed/);
+          assert.deepEqual(events, ["close-start"], "host must not start during teardown");
+        }
         const deck = { format: "commander" };
         const manual = entry.startsWith("manual-");
         const fresh = entry === "multiplayer"
@@ -1147,7 +1159,7 @@ for (const forge of [false, true]) {
     const code = transpileModule("globalThis.close = async function " + web.slice(start, end).replace("async endGame()", "endGame()"), {
       compilerOptions: { target: ScriptTarget.ES2022 },
     }).outputText;
-    const context = vm.createContext({ console });
+    const context = vm.createContext({ console, setTimeout, clearTimeout });
     vm.runInContext(code, context);
     let terminated = 0;
     const runtime = {
@@ -1168,3 +1180,48 @@ for (const forge of [false, true]) {
     assert.equal(runtime.myPlayerSlot, null);
   });
 }
+
+test("stalled Forge save cleanup releases the runtime but retains old save ownership", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
+  const start = web.indexOf("  async endGame(): Promise<void> {");
+  const end = web.indexOf("  async getPrompt()", start);
+  assert(start >= 0 && end > start);
+  const code = transpileModule("globalThis.close = async function " + web.slice(start, end).replace("async endGame()", "endGame()"), {
+    compilerOptions: { target: ScriptTarget.ES2022 },
+  }).outputText;
+  let finishClear;
+  let released = 0;
+  let disposed = 0;
+  let terminated = 0;
+  const clear = new Promise((resolve) => { finishClear = resolve; });
+  const context = vm.createContext({
+    console: { warn() {} },
+    clearForgeRecoverySave: () => clear,
+    setTimeout: (callback, delay) => { assert.equal(delay, 2000); return setTimeout(callback, 5); },
+    clearTimeout,
+  });
+  vm.runInContext(code, context);
+  const runtime = {
+    currentRecovery: { queue: { dispose() { disposed++; } } },
+    retainedRecoveryAfterCrash: false,
+    releaseRecoveryOwnership: async () => { released++; },
+    bridge: { terminate() { terminated++; } },
+  };
+  await context.close.call(runtime);
+  assert.equal(terminated, 1, "old engine must be gone even while storage never replies");
+  assert.equal(disposed, 1);
+  assert.equal(released, 0, "old storage lock must not be released prematurely");
+  const replacement = { queue: { dispose() { throw new Error("new recovery was touched"); } } };
+  const replacementRelease = async () => { throw new Error("new ownership was released"); };
+  runtime.currentRecovery = replacement;
+  runtime.releaseRecoveryOwnership = replacementRelease;
+  runtime.isMultiplayer = true;
+  finishClear();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(released, 1);
+  assert.equal(terminated, 1, "late old cleanup must not stop the replacement worker");
+  assert.equal(runtime.currentRecovery, replacement);
+  assert.equal(runtime.releaseRecoveryOwnership, replacementRelease);
+  assert.equal(runtime.isMultiplayer, true);
+});

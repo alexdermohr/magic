@@ -540,7 +540,10 @@ export const useGameStore = create<GameState>()(
         }
       },
       startManualRoomHost: async (localPlayerSlot: string) => {
-        if (gameEndInFlight || !get().isGameActive) return;
+        if (gameEndInFlight || !get().isGameActive) {
+          toast.info("Start a manual table after the previous game has closed.");
+          return;
+        }
         const runtime = getSelectedGameRuntime();
         if (!isManualTabletopApi(runtime)) {
           throw new Error("Manual room host requires the manual tabletop runtime.");
