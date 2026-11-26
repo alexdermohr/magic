@@ -215,7 +215,12 @@ function supervise(command) {
         if (data.error) stop();
       }
       if (data.event === "game:directive_lanes") directiveLanes = data.payload;
-      if (data.event === "game:forced_end" || data.event === "game:over") stop();
+      if (data.event === "game:forced_end") {
+        stop(data.payload?.message || data.payload?.reason || "Forge stopped before its startup was acknowledged.");
+      }
+      if (data.event === "game:over") {
+        stop("Forge game finished before its startup was acknowledged.");
+      }
       if (data.event !== "forge:journal") self.postMessage(data);
     };
     return instance;

@@ -1027,3 +1027,89 @@ test("WebImage's non-JSON-safe Java exception preserves the actual replay error"
   ctx.self.__forgeStartGame = () => "<broken response>";
   assert.throws(() => ctx.runGame({}, {}), /SyntaxError|JSON|Unexpected token/);
 });
+
+test("fresh Forge startup preserves the child's terminal error and settles once", () => {
+  const f = fixture(false);
+  f.active.event("game:forced_end", {
+    reason: "worker_error",
+    message: "Forge initialization failed while loading card data",
+  });
+  assert.equal(f.responses("start").length, 1);
+  assert.match(f.responses("start")[0].error, /Forge initialization failed while loading card data/);
+  assert(f.active.terminated);
+  f.command("end_game");
+  assert.equal(f.responses("start").length, 1);
+});
+
+test("a natural early game over is distinct from explicit startup cancellation", () => {
+  const f = fixture(false);
+  f.active.event("game:over", {});
+  assert.match(f.responses("start")[0].error, /Forge game finished before its startup was acknowledged/);
+  assert.notEqual(f.responses("start")[0].errorName, "AbortError");
+  const cancelled = fixture(false);
+  cancelled.command("end_game");
+  assert.equal(cancelled.responses("start")[0].errorName, "AbortError");
+});
+
+for (const multiplayer of [false, true]) {
+  test(`a replacement ${multiplayer ? "multiplayer" : "local"} game waits for the previous engine teardown`, async () => {
+    const { transpileModule, ScriptTarget } = await import("typescript");
+    const store = readFileSync(new URL("../../src/stores/useGameStore.ts", import.meta.url), "utf8");
+    const guard = store.slice(store.indexOf("let gameLaunchGeneration"), store.indexOf("function isManualTabletopApi")).replace("export function", "function");
+    const launch = store.slice(store.indexOf("      startGame: async"), store.indexOf("      startManualTabletopGame:"));
+    const multiplayerLaunch = store.slice(store.indexOf("      startMultiplayerGame: async"), store.indexOf("      respond: async"));
+    const end = store.slice(store.indexOf("      endGame: async"), store.indexOf("      setMultiplayerState:"));
+    assert(guard.includes("gameLaunchInFlight") && launch.includes("initializeGame") && end.includes("runtime.api.endGame"));
+    const code = transpileModule(guard + "\n globalThis.createActions = (set, get) => ({" + launch + multiplayerLaunch + end + "});", {
+      compilerOptions: { target: ScriptTarget.ES2022 },
+    }).outputText;
+    const events = [];
+    let release;
+    const closing = new Promise((resolve) => { release = resolve; });
+    const runtime = { api: { async endGame() {
+      events.push("close-start");
+      await closing;
+      events.push("close-complete");
+    }, async startMultiplayerGame() { events.push("new-start"); } } };
+    const noop = () => {};
+    const closingDeadlines = [];
+    const ctx = vm.createContext({
+      peekActiveGameSession: () => null, clearActiveGameSession: noop,
+      getSelectedGameRuntime: () => runtime, currentOfflineGameId: () => null,
+      peekGauntletMatch: () => null, clearGauntletMatch: noop,
+      reportEngineStats: noop, engineReportGameId: noop,
+      useServerStore: { getState: () => ({}) },
+      offlineSeats: () => [], reportOfflineGame: noop, clearLocalGame: noop,
+      setErrorReportingEngine: noop, stopActiveManualRoomSync: noop,
+      resetSelectedGameRuntime: () => runtime, console,
+      setTimeout: (callback, delay) => { closingDeadlines.push(delay); return setTimeout(callback, delay); }, clearTimeout,
+      useMultiplayerLimitedStore: { getState: () => ({}) },
+      getPlatform: () => ({ type: "web" }), roomEngineLabel: () => "Forge", beginGame: noop,
+      toast: { info: noop, error: noop },
+      initializeGame: async ({ set }) => { events.push("new-start"); set({ isGameActive: true }); },
+    });
+    vm.runInContext(code, ctx);
+    let state = { isGameActive: true, isMultiplayer: false, gameDecks: {}, gameView: null };
+    const actions = ctx.createActions((patch) => { state = { ...state, ...patch }; }, () => state);
+    const old = actions.endGame();
+    try {
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.deepEqual(events, ["close-start"]);
+      assert.equal(state.isGameActive, false);
+      const duplicateEnd = actions.endGame();
+      const fresh = multiplayer
+        ? actions.startMultiplayerGame(["A", "B"], [{ format: "commander" }, { format: "commander" }], [], 0, true, 40, "Forge")
+        : actions.startGame({ format: "commander" }, "commander", undefined, [], "Forge");
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.deepEqual(events, ["close-start"], "new game must not use a worker the old close can still stop");
+      assert.deepEqual(closingDeadlines, [], "the old two-second timeout must not free a still-running engine");
+      release();
+      await Promise.all([old, duplicateEnd]);
+      assert.equal(await fresh, true);
+      assert.deepEqual(events, ["close-start", "close-complete", "new-start"]);
+    } finally {
+      release();
+      await old;
+    }
+  });
+}
