@@ -844,11 +844,10 @@ export const useGameStore = create<GameState>()(
         gameEndInFlight = Promise.resolve().then(async () => {
           clearActiveGameSession();
           if (peekGauntletMatch() && !get().gameView?.gameOver) {
-            try {
-              await clearGauntletMatch();
-            } catch (error) {
-              console.warn("Could not clear previous gauntlet match:", error);
-            }
+            // The local marker is removed synchronously. Its IndexedDB mirror
+            // is serialized with subsequent Limited writes, not engine starts.
+            void clearGauntletMatch().catch((error) =>
+              console.warn("Could not clear previous gauntlet match:", error));
           }
           // Before the state is cleared: how the engine performed. A game the
           // relay knows about is reported to it; anything else goes to the hub.
@@ -932,11 +931,10 @@ export const useGameStore = create<GameState>()(
             console.warn("runtime.endGame() failed:", e);
           }
           if (activeSession?.relayHost) {
-            try {
-              await stopLocalHostedAiRelay();
-            } catch (e) {
-              console.warn("stopLocalHostedAiRelay() failed:", e);
-            }
+            // The native relay stop is submitted before this barrier opens.
+            // Tauri serializes reuse of that relay independently of game starts.
+            void stopLocalHostedAiRelay().catch((e) =>
+              console.warn("stopLocalHostedAiRelay() failed:", e));
           }
         }).finally(() => {
           gameEndInFlight = null;

@@ -697,6 +697,25 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   assert.equal(cleared, 3, "a changed game ID must prevent deletion");
   savedGameId = "recover-test";
 
+  const draining = makeApi();
+  let finishDrain;
+  let drainReleased = 0;
+  draining.api.currentRecovery.queue.flush = () => new Promise((resolve) => { finishDrain = resolve; });
+  draining.api.releaseRecoveryOwnership = async () => { drainReleased++; };
+  handlers.get("forge:engine_crash")({});
+  const oldDrain = draining.api.recoveryDrain;
+  assert.equal(draining.api.currentRecovery, null, "crash drain owns a detached queue");
+  await draining.api.endGame();
+  assert.equal(draining.terminated(), 1);
+  assert.equal(draining.disposed(), 0, "ending a crashed game must not dispose its in-flight drain queue");
+  assert.equal(drainReleased, 0);
+  finishDrain();
+  await oldDrain;
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(draining.disposed(), 1);
+  assert.equal(drainReleased, 1);
+  assert.equal(cleared, 4);
+
   const java = readFileSync(new URL("../../forge-harness/native/wasm-src/forge/harness/wasm/SabTransport.java", import.meta.url), "utf8");
   assert.match(java.slice(java.indexOf("public void publishGameOver")), /post\("forge:engine_crash", "\{\}"\)/);
 
@@ -1053,7 +1072,7 @@ test("a natural early game over is distinct from explicit startup cancellation",
 });
 
 for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) {
-  for (const mode of ["normal", "cancel", "timeout"]) {
+  for (const mode of ["normal", "cancel", "timeout", "stalled-auxiliary"]) {
     test(`replacement ${entry} launch during teardown: ${mode}`, async () => {
       const { transpileModule, ScriptTarget } = await import("typescript");
       const store = readFileSync(new URL("../../src/stores/useGameStore.ts", import.meta.url), "utf8");
@@ -1083,9 +1102,12 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
       const closingDeadlines = [];
       const notices = [];
       const ctx = vm.createContext({
-        peekActiveGameSession: () => null, clearActiveGameSession: noop,
+        peekActiveGameSession: () => mode === "stalled-auxiliary" ? { relayHost: "127.0.0.1" } : null,
+        clearActiveGameSession: noop,
         getSelectedGameRuntime: () => runtime, currentOfflineGameId: () => null,
-        peekGauntletMatch: () => null, clearGauntletMatch: noop,
+        peekGauntletMatch: () => mode === "stalled-auxiliary" ? {} : null,
+        clearGauntletMatch: () => new Promise(() => {}),
+        stopLocalHostedAiRelay: () => new Promise(() => {}),
         reportEngineStats: noop, engineReportGameId: noop,
         useGameStore: { getState: () => actions },
         useServerStore: { getState: () => ({}) },
@@ -1137,8 +1159,8 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
         }
         release();
         await Promise.all([old, duplicateEnd]);
-        assert.equal(await fresh, manual ? undefined : mode === "normal");
-        assert.deepEqual(events, mode === "normal"
+        assert.equal(await fresh, manual ? undefined : (mode === "normal" || mode === "stalled-auxiliary"));
+        assert.deepEqual(events, (mode === "normal" || mode === "stalled-auxiliary")
           ? ["close-start", "close-complete", ...(manual ? ["select-manual"] : []), "new-start"]
           : ["close-start", "close-complete"]);
       } finally {
@@ -1224,4 +1246,58 @@ test("stalled Forge save cleanup releases the runtime but retains old save owner
   assert.equal(runtime.currentRecovery, replacement);
   assert.equal(runtime.releaseRecoveryOwnership, replacementRelease);
   assert.equal(runtime.isMultiplayer, true);
+});
+
+test("native relay replacement is fenced until the actual old stop settles", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const source = readFileSync(new URL("../../src/platform/tauri.ts", import.meta.url), "utf8");
+  const start = source.indexOf("  async invoke<T>(");
+  const end = source.indexOf("  isSupported(", start);
+  assert(start >= 0 && end > start);
+  const code = transpileModule("globalThis.Platform = class { localRelayStop = null; " + source.slice(start, end) + "};", {
+    compilerOptions: { target: ScriptTarget.ES2022 },
+  }).outputText;
+  let finishStop;
+  const stopping = new Promise((resolve) => { finishStop = resolve; });
+  const commands = [];
+  const ctx = vm.createContext({
+    invoke: (command) => {
+      commands.push(command);
+      return command === "stop_local_relay" ? stopping : Promise.resolve("started");
+    },
+    setTimeout: (callback, delay) => { assert.equal(delay, 2000); return setTimeout(callback, 5); },
+    clearTimeout,
+  });
+  vm.runInContext(code, ctx);
+  const platform = new ctx.Platform();
+  const old = platform.invoke("stop_local_relay");
+  const duplicate = platform.invoke("stop_local_relay");
+  await assert.rejects(platform.invoke("start_local_relay"), /still stopping/);
+  assert.deepEqual(commands, ["stop_local_relay"]);
+  finishStop();
+  await Promise.all([old, duplicate]);
+  assert.equal(await platform.invoke("start_local_relay"), "started");
+  assert.deepEqual(commands, ["stop_local_relay", "start_local_relay"]);
+});
+
+test("hosted relay stop is submitted even if the old socket never closes", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  const source = readFileSync(new URL("../../src/game/hostedAiPlay.ts", import.meta.url), "utf8");
+  const start = source.indexOf("export async function stopLocalHostedAiRelay");
+  const end = source.indexOf("async function joinHostedRoomAndPlay", start);
+  assert(start >= 0 && end > start);
+  const code = transpileModule(source.slice(start, end).replace("export async function", "globalThis.close = async function"), {
+    compilerOptions: { target: ScriptTarget.ES2022 },
+  }).outputText;
+  const calls = [];
+  const ctx = vm.createContext({
+    console: { warn() {} },
+    useServerStore: { getState: () => ({ disconnect: () => { calls.push("disconnect"); return new Promise(() => {}); } }) },
+    getPlatform: () => ({ invoke: (command) => { calls.push(command); return Promise.resolve(); } }),
+    setTimeout: (callback, delay) => { assert.equal(delay, 2000); return setTimeout(callback, 5); },
+    clearTimeout,
+  });
+  vm.runInContext(code, ctx);
+  await ctx.close();
+  assert.deepEqual(calls, ["disconnect", "stop_local_relay"]);
 });

@@ -113,15 +113,26 @@ export async function teardownForgeAiSession(
 }
 
 export async function stopLocalHostedAiRelay(): Promise<void> {
+  // Start both operations now. Waiting for the socket close before stopping
+  // its local server can deadlock, and a delayed stop must never be submitted
+  // after a replacement game has begun.
+  const disconnect = useServerStore.getState().disconnect().catch((error) =>
+    console.warn("[hostedAiPlay] failed to disconnect from the local relay:", error));
+  const stop = getPlatform().invoke("stop_local_relay").catch((error) =>
+    console.warn("[hostedAiPlay] failed to stop the local relay:", error));
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
-    await useServerStore.getState().disconnect();
-  } catch (error) {
-    console.warn("[hostedAiPlay] failed to disconnect from the local relay:", error);
-  }
-  try {
-    await getPlatform().invoke("stop_local_relay");
-  } catch (error) {
-    console.warn("[hostedAiPlay] failed to stop the local relay:", error);
+    await Promise.race([
+      Promise.all([disconnect, stop]),
+      new Promise<void>((resolve) => {
+        timer = setTimeout(() => {
+          console.warn("[hostedAiPlay] local relay shutdown still pending");
+          resolve();
+        }, 2000);
+      }),
+    ]);
+  } finally {
+    if (timer !== undefined) clearTimeout(timer);
   }
 }
 
