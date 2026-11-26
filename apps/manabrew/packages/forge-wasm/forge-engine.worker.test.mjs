@@ -1052,64 +1052,77 @@ test("a natural early game over is distinct from explicit startup cancellation",
 });
 
 for (const multiplayer of [false, true]) {
-  test(`a replacement ${multiplayer ? "multiplayer" : "local"} game waits for the previous engine teardown`, async () => {
-    const { transpileModule, ScriptTarget } = await import("typescript");
-    const store = readFileSync(new URL("../../src/stores/useGameStore.ts", import.meta.url), "utf8");
-    const guard = store.slice(store.indexOf("let gameLaunchGeneration"), store.indexOf("function isManualTabletopApi")).replace("export function", "function");
-    const launch = store.slice(store.indexOf("      startGame: async"), store.indexOf("      startManualTabletopGame:"));
-    const multiplayerLaunch = store.slice(store.indexOf("      startMultiplayerGame: async"), store.indexOf("      respond: async"));
-    const end = store.slice(store.indexOf("      endGame: async"), store.indexOf("      setMultiplayerState:"));
-    assert(guard.includes("gameLaunchInFlight") && launch.includes("initializeGame") && end.includes("runtime.api.endGame"));
-    const code = transpileModule(guard + "\n globalThis.createActions = (set, get) => ({" + launch + multiplayerLaunch + end + "});", {
-      compilerOptions: { target: ScriptTarget.ES2022 },
-    }).outputText;
-    const events = [];
-    let release;
-    const closing = new Promise((resolve) => { release = resolve; });
-    const runtime = { api: { async endGame() {
-      events.push("close-start");
-      await closing;
-      events.push("close-complete");
-    }, async startMultiplayerGame() { events.push("new-start"); } } };
-    const noop = () => {};
-    const closingDeadlines = [];
-    const ctx = vm.createContext({
-      peekActiveGameSession: () => null, clearActiveGameSession: noop,
-      getSelectedGameRuntime: () => runtime, currentOfflineGameId: () => null,
-      peekGauntletMatch: () => null, clearGauntletMatch: noop,
-      reportEngineStats: noop, engineReportGameId: noop,
-      useServerStore: { getState: () => ({}) },
-      offlineSeats: () => [], reportOfflineGame: noop, clearLocalGame: noop,
-      setErrorReportingEngine: noop, stopActiveManualRoomSync: noop,
-      resetSelectedGameRuntime: () => runtime, console,
-      setTimeout: (callback, delay) => { closingDeadlines.push(delay); return setTimeout(callback, delay); }, clearTimeout,
-      useMultiplayerLimitedStore: { getState: () => ({}) },
-      getPlatform: () => ({ type: "web" }), roomEngineLabel: () => "Forge", beginGame: noop,
-      toast: { info: noop, error: noop },
-      initializeGame: async ({ set }) => { events.push("new-start"); set({ isGameActive: true }); },
+  for (const mode of ["normal", "cancel", "timeout"]) {
+    test(`replacement ${multiplayer ? "multiplayer" : "local"} launch during teardown: ${mode}`, async () => {
+      const { transpileModule, ScriptTarget } = await import("typescript");
+      const store = readFileSync(new URL("../../src/stores/useGameStore.ts", import.meta.url), "utf8");
+      const guard = store.slice(store.indexOf("let gameLaunchGeneration"), store.indexOf("function isManualTabletopApi")).replace("export function", "function");
+      const launch = store.slice(store.indexOf("      startGame: async"), store.indexOf("      startManualTabletopGame:"));
+      const multiplayerLaunch = store.slice(store.indexOf("      startMultiplayerGame: async"), store.indexOf("      respond: async"));
+      const end = store.slice(store.indexOf("      endGame: async"), store.indexOf("      setMultiplayerState:"));
+      assert(guard.includes("gameLaunchInFlight") && launch.includes("initializeGame") && end.includes("runtime.api.endGame"));
+      const code = transpileModule(guard + "\n globalThis.createActions = (set, get) => ({" + launch + multiplayerLaunch + end + "});", {
+        compilerOptions: { target: ScriptTarget.ES2022 },
+      }).outputText;
+      const events = [];
+      let release;
+      const closing = new Promise((resolve) => { release = resolve; });
+      const runtime = { api: { async endGame() {
+        events.push("close-start");
+        await closing;
+        events.push("close-complete");
+      }, async startMultiplayerGame() { events.push("new-start"); } } };
+      const noop = () => {};
+      const closingDeadlines = [];
+      const notices = [];
+      const ctx = vm.createContext({
+        peekActiveGameSession: () => null, clearActiveGameSession: noop,
+        getSelectedGameRuntime: () => runtime, currentOfflineGameId: () => null,
+        peekGauntletMatch: () => null, clearGauntletMatch: noop,
+        reportEngineStats: noop, engineReportGameId: noop,
+        useGameStore: { getState: () => actions },
+        useServerStore: { getState: () => ({}) },
+        offlineSeats: () => [], reportOfflineGame: noop, clearLocalGame: noop,
+        setErrorReportingEngine: noop, stopActiveManualRoomSync: noop,
+        resetSelectedGameRuntime: () => runtime, console,
+        setTimeout: (callback, delay) => { closingDeadlines.push(delay); return setTimeout(callback, mode === "timeout" ? 5 : delay); }, clearTimeout,
+        useMultiplayerLimitedStore: { getState: () => ({}) },
+        getPlatform: () => ({ type: "web" }), roomEngineLabel: () => "Forge", beginGame: noop,
+        toast: { info: noop, error: (message) => notices.push(message) },
+        initializeGame: async ({ set }) => { events.push("new-start"); set({ isGameActive: true }); },
+      });
+      vm.runInContext(code, ctx);
+      let state = { isGameActive: true, isMultiplayer: false, gameDecks: {}, gameView: null };
+      const actions = ctx.createActions((patch) => { state = { ...state, ...patch }; }, () => state);
+      const old = actions.endGame();
+      try {
+        await new Promise((resolve) => setImmediate(resolve));
+        assert.deepEqual(events, ["close-start"]);
+        assert.equal(state.isGameActive, false);
+        const duplicateEnd = actions.endGame();
+        const fresh = multiplayer
+          ? actions.startMultiplayerGame(["A", "B"], [{ format: "commander" }, { format: "commander" }], [], 0, true, 40, "Forge")
+          : actions.startGame({ format: "commander" }, "commander", undefined, [], "Forge");
+        await new Promise((resolve) => setImmediate(resolve));
+        assert.deepEqual(events, ["close-start"], "new game must not use a worker the old close can still stop");
+        assert.deepEqual(closingDeadlines, [12000], "only the user's wait, not the teardown itself, is bounded");
+        if (mode === "cancel") {
+          ctx.cancelPendingGameLaunch();
+        } else if (mode === "timeout") {
+          assert.equal(await fresh, false);
+          assert.equal(notices.length, 1);
+          assert.deepEqual(events, ["close-start"], "a timeout must not release the runtime barrier");
+        }
+        release();
+        await Promise.all([old, duplicateEnd]);
+        assert.equal(await fresh, mode === "normal");
+        assert.deepEqual(events, mode === "normal"
+          ? ["close-start", "close-complete", "new-start"]
+          : ["close-start", "close-complete"]);
+      } finally {
+        release();
+        await old;
+      }
     });
-    vm.runInContext(code, ctx);
-    let state = { isGameActive: true, isMultiplayer: false, gameDecks: {}, gameView: null };
-    const actions = ctx.createActions((patch) => { state = { ...state, ...patch }; }, () => state);
-    const old = actions.endGame();
-    try {
-      await new Promise((resolve) => setImmediate(resolve));
-      assert.deepEqual(events, ["close-start"]);
-      assert.equal(state.isGameActive, false);
-      const duplicateEnd = actions.endGame();
-      const fresh = multiplayer
-        ? actions.startMultiplayerGame(["A", "B"], [{ format: "commander" }, { format: "commander" }], [], 0, true, 40, "Forge")
-        : actions.startGame({ format: "commander" }, "commander", undefined, [], "Forge");
-      await new Promise((resolve) => setImmediate(resolve));
-      assert.deepEqual(events, ["close-start"], "new game must not use a worker the old close can still stop");
-      assert.deepEqual(closingDeadlines, [], "the old two-second timeout must not free a still-running engine");
-      release();
-      await Promise.all([old, duplicateEnd]);
-      assert.equal(await fresh, true);
-      assert.deepEqual(events, ["close-start", "close-complete", "new-start"]);
-    } finally {
-      release();
-      await old;
-    }
-  });
+  }
 }

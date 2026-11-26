@@ -70,8 +70,35 @@ export type { GameConfig, GameState, DeferredSnapshot } from "./gameStore.types"
 let gameLaunchGeneration = 0;
 let gameLaunchInFlight: number | null = null;
 let gameEndInFlight: Promise<void> | null = null;
+let gameLaunchWaiting = 0;
+
+// Never let a slow teardown silently strand the user's next start. A timed-out
+// wait must NOT release the teardown barrier: the old runtime still owns it.
+async function waitForGameEnd(): Promise<boolean> {
+  const closing = gameEndInFlight;
+  if (!closing) return true;
+  const generation = gameLaunchGeneration;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    const finished = await Promise.race([
+      closing.then(() => true),
+      new Promise<false>((resolve) => {
+        timer = setTimeout(() => resolve(false), 12_000);
+      }),
+    ]);
+    if (generation !== gameLaunchGeneration) return false;
+    if (!finished) toast.error("The previous game is still closing. Please try again.");
+    return finished;
+  } catch (error) {
+    console.warn("Previous game teardown failed:", error);
+    if (generation === gameLaunchGeneration) toast.error("Could not finish closing the previous game.");
+    return false;
+  } finally {
+    if (timer !== undefined) clearTimeout(timer);
+  }
+}
 export function cancelPendingGameLaunch(): void {
-  if (gameLaunchInFlight !== null) void useGameStore.getState().endGame();
+  if (gameLaunchInFlight !== null || gameLaunchWaiting > 0) void useGameStore.getState().endGame();
 }
 class GameLaunchCancelledError extends Error {}
 function isManualTabletopApi(runtime: GameRuntime): runtime is GameRuntime & {
@@ -428,7 +455,17 @@ export const useGameStore = create<GameState>()(
       setGameConfig: (config) => set({ gameConfig: config }),
       dismissIronsmithDeckError: () => set({ ironsmithDeckError: null }),
       startGame: async (deck, formatId, commanderName, opponentDecks, engine, gauntletId, recovery) => {
-        if (gameEndInFlight) await gameEndInFlight;
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) {
+              return false;
+            }
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
         if (get().isGameActive) return false;
         if (gameLaunchInFlight !== null) {
           toast.info(`The previous game is still closing. Try again in a moment.`);
@@ -573,7 +610,17 @@ export const useGameStore = create<GameState>()(
         hostPlayerSlot,
         botPlayerSlots,
       ) => {
-        if (gameEndInFlight) await gameEndInFlight;
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) {
+              return false;
+            }
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
         // Guard against re-entry — a second start while one is already in
         // flight would tear down the first session's response channels in
         // the engine (game_manager.rs sees a takeover and drops the txs),
@@ -764,15 +811,21 @@ export const useGameStore = create<GameState>()(
         }
       },
       endGame: async () => {
-        if (gameEndInFlight) return gameEndInFlight;
         gameLaunchGeneration += 1;
+        if (gameEndInFlight) return gameEndInFlight;
         const activeSession = peekActiveGameSession();
         const runtime = getSelectedGameRuntime();
         const wasMultiplayer = get().isMultiplayer;
         const offlineGameId = currentOfflineGameId();
         gameEndInFlight = Promise.resolve().then(async () => {
           clearActiveGameSession();
-          if (peekGauntletMatch() && !get().gameView?.gameOver) await clearGauntletMatch();
+          if (peekGauntletMatch() && !get().gameView?.gameOver) {
+            try {
+              await clearGauntletMatch();
+            } catch (error) {
+              console.warn("Could not clear previous gauntlet match:", error);
+            }
+          }
           // Before the state is cleared: how the engine performed. A game the
           // relay knows about is reported to it; anything else goes to the hub.
           // Never throws, never blocks the teardown.

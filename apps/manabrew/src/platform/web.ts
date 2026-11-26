@@ -1366,11 +1366,19 @@ class WebGameApi implements IGameApi {
     this.isMultiplayer = false;
     this.isHost = false;
     this.myPlayerSlot = null;
-    if (crashed || this.bridge.gameBuffer) {
+    // Forge can be busy initializing before it exposes its first seat buffer.
+    // Terminate that worker as we already do after the buffer is available;
+    // waiting for an end_game reply from an unresponsive engine cannot close it.
+    if (crashed || this.bridge.workerIsForgeWasm || this.bridge.gameBuffer) {
       this.bridge.terminate();
       return;
     }
-    await this.bridge.invoke("end_game");
+    try {
+      await this.bridge.invoke("end_game");
+    } catch (error) {
+      this.bridge.terminate();
+      throw error;
+    }
   }
 
   async getPrompt(): Promise<Prompt | null> {
