@@ -198,7 +198,7 @@ export class TauriPlatform implements IPlatformApi {
       let timer: ReturnType<typeof setTimeout> | undefined;
       try {
         await Promise.race([
-          stopping,
+          stopping.catch(() => undefined),
           new Promise<never>((_, reject) => {
             timer = setTimeout(() => reject(new Error("The previous local relay is still stopping.")), 2000);
           }),

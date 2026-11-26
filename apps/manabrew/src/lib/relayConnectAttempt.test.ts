@@ -142,6 +142,34 @@ const flush = async () => {
 };
 
 describe("relay connection ownership", () => {
+  it("ignores late old store disconnect completion after a new connect generation", async () => {
+    const source = readFileSync(new URL("../stores/useServerStore.ts", import.meta.url), "utf8");
+    const method = section(source, "      async disconnect() {", "      async listRooms()");
+    const old = deferred<void>();
+    const set = vi.fn();
+    const adoptLanTarget = vi.fn();
+    const setRelayCacheBase = vi.fn();
+    const context = evaluate(
+      `let connectGeneration = 0, duplicateRejectionSince = null;
+       const store = { ${method} }; const nextConnect = () => ++connectGeneration;`,
+      {
+        getPlatform: () => ({ server: { disconnect: () => old.promise } }),
+        releaseTabSession: vi.fn(), teardownDraftHost: vi.fn(),
+        clearLimitedSession: vi.fn(), clearSealedStart: vi.fn(),
+        get: () => ({ adoptLanTarget }), setRelayCacheBase, set,
+        DEFAULT_STARTING_LIFE: 20,
+      },
+    );
+    const disconnect = runInContext("store.disconnect", context) as () => Promise<void>;
+    const pending = disconnect();
+    runInContext("nextConnect()", context);
+    old.resolve(undefined);
+    await pending;
+    expect(set).not.toHaveBeenCalled();
+    expect(adoptLanTarget).not.toHaveBeenCalled();
+    expect(setRelayCacheBase).not.toHaveBeenCalled();
+  });
+
   it("never opens a connection when the other tab refuses the claim", async () => {
     const h = storeHarness(async () => ({ outcome: "refused" }));
     await h.connect("relay", "443", "player");

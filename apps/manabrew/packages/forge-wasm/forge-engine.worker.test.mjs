@@ -1072,7 +1072,7 @@ test("a natural early game over is distinct from explicit startup cancellation",
 });
 
 for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) {
-  for (const mode of ["normal", "cancel", "timeout", "stalled-auxiliary"]) {
+  for (const mode of ["normal", "cancel", "timeout", "stalled-auxiliary", "runtime-timeout"]) {
     test(`replacement ${entry} launch during teardown: ${mode}`, async () => {
       const { transpileModule, ScriptTarget } = await import("typescript");
       const store = readFileSync(new URL("../../src/stores/useGameStore.ts", import.meta.url), "utf8");
@@ -1118,7 +1118,10 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
         isManualTabletopApi: () => entry === "manual-room",
         BroadcastRoomHost: class {},
         startManualRoomSync: () => events.push("new-start"),
-        setTimeout: (callback, delay) => { closingDeadlines.push(delay); return setTimeout(callback, mode === "timeout" ? 5 : delay); }, clearTimeout,
+        setTimeout: (callback, delay) => {
+          closingDeadlines.push(delay);
+          return setTimeout(callback, mode === "timeout" && delay === 12000 ? 5 : mode === "runtime-timeout" && delay === 4000 ? 20 : delay);
+        }, clearTimeout,
         useMultiplayerLimitedStore: { getState: () => ({}) },
         getPlatform: () => ({ type: "web" }), roomEngineLabel: () => "Forge", beginGame: noop,
         toast: { info: (message) => notices.push(message), error: (message) => notices.push(message) },
@@ -1149,13 +1152,22 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
               : actions.startGame(deck, "commander", undefined, [], "Forge");
         await new Promise((resolve) => setImmediate(resolve));
         assert.deepEqual(events, ["close-start"], "new game must not use a worker the old close can still stop");
-        assert.deepEqual(closingDeadlines, [12000], "only the user's wait, not the teardown itself, is bounded");
+        assert.deepEqual(closingDeadlines, [4000, 12000], "both detached bookkeeping and caller wait are bounded");
         if (mode === "cancel") {
           ctx.cancelPendingGameLaunch();
         } else if (mode === "timeout") {
           assert.equal(await fresh, manual ? undefined : false);
           assert.equal(notices.length, 1);
           assert.deepEqual(events, ["close-start"], "a timeout must not release the runtime barrier");
+        }
+        if (mode === "runtime-timeout") {
+          await Promise.all([old, duplicateEnd]);
+          assert.equal(await fresh, manual ? undefined : true);
+          assert.deepEqual(events, ["close-start", ...(manual ? ["select-manual"] : []), "new-start"]);
+          release();
+          await new Promise((resolve) => setImmediate(resolve));
+          assert.equal(state.isGameActive, true);
+          return;
         }
         release();
         await Promise.all([old, duplicateEnd]);
@@ -1258,7 +1270,8 @@ test("native relay replacement is fenced until the actual old stop settles", asy
     compilerOptions: { target: ScriptTarget.ES2022 },
   }).outputText;
   let finishStop;
-  const stopping = new Promise((resolve) => { finishStop = resolve; });
+  let failStop;
+  let stopping = new Promise((resolve, reject) => { finishStop = resolve; failStop = reject; });
   const commands = [];
   const ctx = vm.createContext({
     invoke: (command) => {
@@ -1278,6 +1291,13 @@ test("native relay replacement is fenced until the actual old stop settles", asy
   await Promise.all([old, duplicate]);
   assert.equal(await platform.invoke("start_local_relay"), "started");
   assert.deepEqual(commands, ["stop_local_relay", "start_local_relay"]);
+  stopping = new Promise((resolve, reject) => { finishStop = resolve; failStop = reject; });
+  const rejectedStop = platform.invoke("stop_local_relay");
+  const next = platform.invoke("start_local_relay");
+  failStop(new Error("stop already completed"));
+  await assert.rejects(rejectedStop, /already completed/);
+  assert.equal(await next, "started");
+  assert.deepEqual(commands, ["stop_local_relay", "start_local_relay", "stop_local_relay", "start_local_relay"]);
 });
 
 test("hosted relay stop is submitted even if the old socket never closes", async () => {
@@ -1300,4 +1320,35 @@ test("hosted relay stop is submitted even if the old socket never closes", async
   vm.runInContext(code, ctx);
   await ctx.close();
   assert.deepEqual(calls, ["disconnect", "stop_local_relay"]);
+});
+
+
+test("manual and Ironsmith runtime endings synchronously detach their local resources", async () => {
+  const { transpileModule, ScriptTarget } = await import("typescript");
+  for (const file of ["manualTabletopApi.ts", "ironsmithRuntime.ts"]) {
+    const source = readFileSync(new URL("../../src/game/" + file, import.meta.url), "utf8");
+    const start = source.indexOf("  async endGame(): Promise<void> {");
+    const end = source.indexOf("  async getPrompt()", start);
+    assert(start >= 0 && end > start);
+    const method = source.slice(start, end);
+    assert(!/\bawait\b|\bfetch\s*\(|\.invoke\s*\(/.test(method), file + " has an asynchronous teardown operation");
+    const code = transpileModule("globalThis.close = async function " + method.replace("async endGame()", "endGame()"), {
+      compilerOptions: { target: ScriptTarget.ES2022 },
+    }).outputText;
+    const context = vm.createContext({});
+    vm.runInContext(code, context);
+    const runtime = new Proxy({}, {
+      get(target, key) {
+        if (key in target) return target[key];
+        if (key === "game") return { free() {} };
+        if (key === "roomRelayUnsubscribe") return () => {};
+        return new Map();
+      },
+      set(target, key, value) { target[key] = value; return true; },
+    });
+    const close = context.close.call(runtime);
+    if (file === "ironsmithRuntime.ts") assert.equal(runtime.game, null);
+    else assert.equal(runtime.gameView, null);
+    await close;
+  }
 });

@@ -540,8 +540,12 @@ export const useGameStore = create<GameState>()(
         }
       },
       startManualRoomHost: async (localPlayerSlot: string) => {
-        if (gameEndInFlight || !get().isGameActive) {
+        if (gameEndInFlight) {
           toast.info("Start a manual table after the previous game has closed.");
+          return;
+        }
+        if (!get().isGameActive) {
+          toast.info("Start a manual table before hosting a room.");
           return;
         }
         const runtime = getSelectedGameRuntime();
@@ -907,13 +911,13 @@ export const useGameStore = create<GameState>()(
           });
           stopActiveManualRoomSync();
           resetSelectedGameRuntime();
-          const withTimeout = <T>(promise: Promise<T>, label: string): Promise<T | void> => {
+          const withTimeout = <T>(promise: Promise<T>, label: string, timeoutMs = 2000): Promise<T | void> => {
             let clearTimer: () => void = () => undefined;
             const timeout = new Promise<void>((resolve) => {
               const timer = setTimeout(() => {
-                console.warn(`${label} timed out after 2s`);
+                console.warn(`${label} timed out after ${timeoutMs}ms`);
                 resolve();
-              }, 2000);
+              }, timeoutMs);
               clearTimer = () => clearTimeout(timer);
             });
             return Promise.race([promise, timeout]).finally(clearTimer);
@@ -926,7 +930,10 @@ export const useGameStore = create<GameState>()(
             }
           }
           try {
-            await runtime.api.endGame();
+            // IGameApi.endGame detaches the actual old runtime synchronously.
+            // Only detached bookkeeping may remain pending, so a last-resort
+            // deadline cannot let an old worker stop a replacement.
+            await withTimeout(runtime.api.endGame(), "runtime.endGame()", 4000);
           } catch (e) {
             console.warn("runtime.endGame() failed:", e);
           }
