@@ -623,6 +623,7 @@ test("an engine crash keeps a recovery checkpoint while a normal finish clears i
   let canAcquire = true;
   let savedGameId = "recover-test";
   const ctx = vm.createContext({
+    setTimeout, clearTimeout,
     clearForgeRecoverySave: async () => { cleared++; },
     acquireForgeRecoveryOwnership: async () => canAcquire ? async () => {} : null,
     forgeRecoveryStoredReleaseId: async () => "a".repeat(20),

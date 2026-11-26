@@ -98,7 +98,11 @@ async function waitForGameEnd(): Promise<boolean> {
   }
 }
 export function cancelPendingGameLaunch(): void {
-  if (gameLaunchInFlight !== null || gameLaunchWaiting > 0) void useGameStore.getState().endGame();
+  if (gameLaunchInFlight !== null || gameLaunchWaiting > 0) {
+    if (gameEndInFlight) gameLaunchGeneration += 1;
+    void useGameStore.getState().endGame().catch((error) =>
+      console.warn("Could not cancel pending game launch:", error));
+  }
 }
 class GameLaunchCancelledError extends Error {}
 function isManualTabletopApi(runtime: GameRuntime): runtime is GameRuntime & {
@@ -839,8 +843,8 @@ export const useGameStore = create<GameState>()(
         }
       },
       endGame: async () => {
-        gameLaunchGeneration += 1;
         if (gameEndInFlight) return gameEndInFlight;
+        gameLaunchGeneration += 1;
         const activeSession = peekActiveGameSession();
         const runtime = getSelectedGameRuntime();
         const wasMultiplayer = get().isMultiplayer;
