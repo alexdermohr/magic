@@ -1366,19 +1366,11 @@ class WebGameApi implements IGameApi {
     this.isMultiplayer = false;
     this.isHost = false;
     this.myPlayerSlot = null;
-    // Forge can be busy initializing before it exposes its first seat buffer.
-    // Terminate that worker as we already do after the buffer is available;
-    // waiting for an end_game reply from an unresponsive engine cannot close it.
-    if (crashed || this.bridge.workerIsForgeWasm || this.bridge.gameBuffer) {
-      this.bridge.terminate();
-      return;
-    }
-    try {
-      await this.bridge.invoke("end_game");
-    } catch (error) {
-      this.bridge.terminate();
-      throw error;
-    }
+    // Both local engines run in disposable workers (also under Tauri).
+    // Terminate even before initialization or the first seat buffer: an RPC
+    // would otherwise wait for worker:init or for a busy engine to reply.
+    // A replacement worker is created lazily by the next launch.
+    this.bridge.terminate();
   }
 
   async getPrompt(): Promise<Prompt | null> {

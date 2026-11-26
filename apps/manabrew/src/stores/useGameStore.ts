@@ -87,7 +87,7 @@ async function waitForGameEnd(): Promise<boolean> {
       }),
     ]);
     if (generation !== gameLaunchGeneration) return false;
-    if (!finished) toast.error("The previous game is still closing. Please try again.");
+    if (!finished) toast.error("The previous game is still closing. If it does not finish, reopen Manabrew.");
     return finished;
   } catch (error) {
     console.warn("Previous game teardown failed:", error);
@@ -509,6 +509,16 @@ export const useGameStore = create<GameState>()(
         }
       },
       startManualTabletopGame: async (deck, formatId, commanderName) => {
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) return;
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
+        if (get().isGameActive || gameLaunchInFlight !== null) return;
         selectGameRuntime("manual-tabletop");
         const started = await get().startGame(
           deck,
@@ -530,6 +540,7 @@ export const useGameStore = create<GameState>()(
         }
       },
       startManualRoomHost: async (localPlayerSlot: string) => {
+        if (gameEndInFlight || !get().isGameActive) return;
         const runtime = getSelectedGameRuntime();
         if (!isManualTabletopApi(runtime)) {
           throw new Error("Manual room host requires the manual tabletop runtime.");
@@ -559,6 +570,16 @@ export const useGameStore = create<GameState>()(
         });
       },
       startManualRoomClient: async (localPlayerSlot: string, initialGameView?: ClientGameView) => {
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) return;
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
+        if (get().isGameActive || gameLaunchInFlight !== null) return;
         selectGameRuntime("manual-tabletop");
         const runtime = getSelectedGameRuntime();
         if (!isManualTabletopApi(runtime)) {

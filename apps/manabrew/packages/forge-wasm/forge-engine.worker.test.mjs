@@ -1051,13 +1051,13 @@ test("a natural early game over is distinct from explicit startup cancellation",
   assert.equal(cancelled.responses("start")[0].errorName, "AbortError");
 });
 
-for (const multiplayer of [false, true]) {
+for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) {
   for (const mode of ["normal", "cancel", "timeout"]) {
-    test(`replacement ${multiplayer ? "multiplayer" : "local"} launch during teardown: ${mode}`, async () => {
+    test(`replacement ${entry} launch during teardown: ${mode}`, async () => {
       const { transpileModule, ScriptTarget } = await import("typescript");
       const store = readFileSync(new URL("../../src/stores/useGameStore.ts", import.meta.url), "utf8");
       const guard = store.slice(store.indexOf("let gameLaunchGeneration"), store.indexOf("function isManualTabletopApi")).replace("export function", "function");
-      const launch = store.slice(store.indexOf("      startGame: async"), store.indexOf("      startManualTabletopGame:"));
+      const launch = store.slice(store.indexOf("      startGame: async"), store.indexOf("      startMultiplayerGame: async"));
       const multiplayerLaunch = store.slice(store.indexOf("      startMultiplayerGame: async"), store.indexOf("      respond: async"));
       const end = store.slice(store.indexOf("      endGame: async"), store.indexOf("      setMultiplayerState:"));
       assert(guard.includes("gameLaunchInFlight") && launch.includes("initializeGame") && end.includes("runtime.api.endGame"));
@@ -1085,6 +1085,10 @@ for (const multiplayer of [false, true]) {
         offlineSeats: () => [], reportOfflineGame: noop, clearLocalGame: noop,
         setErrorReportingEngine: noop, stopActiveManualRoomSync: noop,
         resetSelectedGameRuntime: () => runtime, console,
+        selectGameRuntime: () => { events.push("select-manual"); return runtime; },
+        isManualTabletopApi: () => entry === "manual-room",
+        BroadcastRoomHost: class {},
+        startManualRoomSync: () => events.push("new-start"),
         setTimeout: (callback, delay) => { closingDeadlines.push(delay); return setTimeout(callback, mode === "timeout" ? 5 : delay); }, clearTimeout,
         useMultiplayerLimitedStore: { getState: () => ({}) },
         getPlatform: () => ({ type: "web" }), roomEngineLabel: () => "Forge", beginGame: noop,
@@ -1093,31 +1097,37 @@ for (const multiplayer of [false, true]) {
       });
       vm.runInContext(code, ctx);
       let state = { isGameActive: true, isMultiplayer: false, gameDecks: {}, gameView: null };
-      const actions = ctx.createActions((patch) => { state = { ...state, ...patch }; }, () => state);
+      const actions = ctx.createActions((patch) => { state = { ...state, ...patch }; }, () => ({ ...state, ...actions }));
       const old = actions.endGame();
       try {
         await new Promise((resolve) => setImmediate(resolve));
         assert.deepEqual(events, ["close-start"]);
         assert.equal(state.isGameActive, false);
         const duplicateEnd = actions.endGame();
-        const fresh = multiplayer
-          ? actions.startMultiplayerGame(["A", "B"], [{ format: "commander" }, { format: "commander" }], [], 0, true, 40, "Forge")
-          : actions.startGame({ format: "commander" }, "commander", undefined, [], "Forge");
+        const deck = { format: "commander" };
+        const manual = entry.startsWith("manual-");
+        const fresh = entry === "multiplayer"
+          ? actions.startMultiplayerGame(["A", "B"], [deck, deck], [], 0, true, 40, "Forge")
+          : entry === "manual-tabletop"
+            ? actions.startManualTabletopGame(deck)
+            : entry === "manual-room"
+              ? actions.startManualRoomClient("player-0")
+              : actions.startGame(deck, "commander", undefined, [], "Forge");
         await new Promise((resolve) => setImmediate(resolve));
         assert.deepEqual(events, ["close-start"], "new game must not use a worker the old close can still stop");
         assert.deepEqual(closingDeadlines, [12000], "only the user's wait, not the teardown itself, is bounded");
         if (mode === "cancel") {
           ctx.cancelPendingGameLaunch();
         } else if (mode === "timeout") {
-          assert.equal(await fresh, false);
+          assert.equal(await fresh, manual ? undefined : false);
           assert.equal(notices.length, 1);
           assert.deepEqual(events, ["close-start"], "a timeout must not release the runtime barrier");
         }
         release();
         await Promise.all([old, duplicateEnd]);
-        assert.equal(await fresh, mode === "normal");
+        assert.equal(await fresh, manual ? undefined : mode === "normal");
         assert.deepEqual(events, mode === "normal"
-          ? ["close-start", "close-complete", "new-start"]
+          ? ["close-start", "close-complete", ...(manual ? ["select-manual"] : []), "new-start"]
           : ["close-start", "close-complete"]);
       } finally {
         release();
@@ -1125,4 +1135,36 @@ for (const multiplayer of [false, true]) {
       }
     });
   }
+}
+
+for (const forge of [false, true]) {
+  test(`ending a ${forge ? "Forge" : "Rust"} worker before its first seat never waits for a reply`, async () => {
+    const { transpileModule, ScriptTarget } = await import("typescript");
+    const web = readFileSync(new URL("../../src/platform/web.ts", import.meta.url), "utf8");
+    const start = web.indexOf("  async endGame(): Promise<void> {");
+    const end = web.indexOf("  async getPrompt()", start);
+    assert(start >= 0 && end > start);
+    const code = transpileModule("globalThis.close = async function " + web.slice(start, end).replace("async endGame()", "endGame()"), {
+      compilerOptions: { target: ScriptTarget.ES2022 },
+    }).outputText;
+    const context = vm.createContext({ console });
+    vm.runInContext(code, context);
+    let terminated = 0;
+    const runtime = {
+      currentRecovery: null,
+      retainedRecoveryAfterCrash: false,
+      releaseRecoveryOwnership: null,
+      bridge: {
+        workerIsForgeWasm: forge,
+        gameBuffer: null,
+        invoke() { throw new Error("end must not depend on a worker response"); },
+        terminate() { terminated++; },
+      },
+    };
+    await context.close.call(runtime);
+    assert.equal(terminated, 1);
+    assert.equal(runtime.isMultiplayer, false);
+    assert.equal(runtime.isHost, false);
+    assert.equal(runtime.myPlayerSlot, null);
+  });
 }
