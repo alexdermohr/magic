@@ -1101,9 +1101,10 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
       const noop = () => {};
       const closingDeadlines = [];
       const notices = [];
+      let activeSession = mode === "stalled-auxiliary" ? { relayHost: "127.0.0.1" } : null;
       const ctx = vm.createContext({
-        peekActiveGameSession: () => mode === "stalled-auxiliary" ? { relayHost: "127.0.0.1" } : null,
-        clearActiveGameSession: noop,
+        peekActiveGameSession: () => activeSession,
+        clearActiveGameSession: () => { activeSession = null; },
         getSelectedGameRuntime: () => runtime, currentOfflineGameId: () => null,
         peekGauntletMatch: () => mode === "stalled-auxiliary" ? {} : null,
         clearGauntletMatch: () => new Promise(() => {}),
@@ -1132,9 +1133,20 @@ for (const entry of ["local", "multiplayer", "manual-tabletop", "manual-room"]) 
       const actions = ctx.createActions((patch) => { state = { ...state, ...patch }; }, () => ({ ...state, ...actions }));
       const old = actions.endGame();
       try {
+        assert.equal(state.isGameActive, false, "store detach must happen before returning");
+        assert.deepEqual(events, ["close-start"], "old runtime detach must happen before returning");
+        // Real callers can write session/seat metadata without awaiting endGame.
+        const newSession = { roomId: "replacement-room" };
+        activeSession = newSession;
+        state = { ...state, myPlayerSlot: "player-new", isMultiplayer: true };
         await new Promise((resolve) => setImmediate(resolve));
         assert.deepEqual(events, ["close-start"]);
+        assert.equal(activeSession, newSession, "old microtask must not erase a replacement session");
+        assert.equal(state.myPlayerSlot, "player-new");
+        assert.equal(state.isMultiplayer, true);
         assert.equal(state.isGameActive, false);
+        activeSession = null;
+        state = { ...state, myPlayerSlot: null, isMultiplayer: false };
         const duplicateEnd = actions.endGame();
         if (entry === "manual-room" && mode === "normal") {
           await actions.startManualRoomHost("player-0");

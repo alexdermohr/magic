@@ -845,7 +845,16 @@ export const useGameStore = create<GameState>()(
         const runtime = getSelectedGameRuntime();
         const wasMultiplayer = get().isMultiplayer;
         const offlineGameId = currentOfflineGameId();
-        gameEndInFlight = Promise.resolve().then(async () => {
+        // Publish the barrier before synchronous detach, including reentrant
+        // store subscribers. Do not defer the detach to a later microtask.
+        let finish!: () => void;
+        let fail!: (error: unknown) => void;
+        const closing = new Promise<void>((resolve, reject) => {
+          finish = resolve;
+          fail = reject;
+        });
+        gameEndInFlight = closing;
+        void (async () => {
           clearActiveGameSession();
           if (peekGauntletMatch() && !get().gameView?.gameOver) {
             // The local marker is removed synchronously. Its IndexedDB mirror
@@ -922,6 +931,10 @@ export const useGameStore = create<GameState>()(
             });
             return Promise.race([promise, timeout]).finally(clearTimer);
           };
+          // Invoke the runtime before any network wait, so its synchronous
+          // detach cannot run after an unrelated same-tick state writer.
+          const runtimeEnd = withTimeout(runtime.api.endGame(), "runtime.endGame()", 4000)
+            .catch((e) => console.warn("runtime.endGame() failed:", e));
           if (wasMultiplayer && !useMultiplayerLimitedStore.getState().matchReturn) {
             try {
               await withTimeout(useServerStore.getState().leaveRoom(), "leaveRoom()");
@@ -929,24 +942,20 @@ export const useGameStore = create<GameState>()(
               console.warn("Failed to leave multiplayer room after game end:", e);
             }
           }
-          try {
-            // IGameApi.endGame detaches the actual old runtime synchronously.
-            // Only detached bookkeeping may remain pending, so a last-resort
-            // deadline cannot let an old worker stop a replacement.
-            await withTimeout(runtime.api.endGame(), "runtime.endGame()", 4000);
-          } catch (e) {
-            console.warn("runtime.endGame() failed:", e);
-          }
+          // IGameApi.endGame detaches synchronously; only old bookkeeping
+          // may remain pending after the deadline.
+          await runtimeEnd;
           if (activeSession?.relayHost) {
             // The native relay stop is submitted before this barrier opens.
             // Tauri serializes reuse of that relay independently of game starts.
             void stopLocalHostedAiRelay().catch((e) =>
               console.warn("stopLocalHostedAiRelay() failed:", e));
           }
-        }).finally(() => {
-          gameEndInFlight = null;
-        });
-        return gameEndInFlight;
+        })().then(
+          () => { gameEndInFlight = null; finish(); },
+          (error) => { gameEndInFlight = null; fail(error); },
+        );
+        return closing;
       },
       setMultiplayerState: (isMultiplayer, isHost, myPlayerSlot) => {
         set({
