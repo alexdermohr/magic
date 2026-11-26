@@ -8,9 +8,6 @@
  * with no network at all.
  */
 import { getPlatform } from "@/platform";
-import { probeTabSession } from "@/lib/tabSession";
-import { relayUsername } from "@/lib/relayUsername";
-import { usePreferencesStore } from "@/stores/usePreferencesStore";
 import { useServerStore } from "@/stores/useServerStore";
 import { RELAY_FEATURE, type LocalGameKind } from "@/types/server";
 
@@ -32,31 +29,14 @@ export function resendLocalGame(): void {
   if (announced !== null) void push();
 }
 
-/**
- * Only when nothing else holds the session: `useServerStore.connect` claims the
- * tab session, which disconnects whichever tab holds it, and announcing in the
- * background must never take the lobby away from a tab the player left open.
- */
-async function connectForPresence(): Promise<void> {
-  const username = relayUsername();
-  if (!username) return;
-  if ((await probeTabSession(username)) === "held") return;
-  const prefs = usePreferencesStore.getState();
-  await useServerStore
-    .getState()
-    .connect(prefs.serverHost, prefs.serverPort, username, prefs.serverPassword);
-}
-
 async function push(): Promise<void> {
   try {
     const server = getPlatform().server;
     if (!server) return;
-    if (!useServerStore.getState().connected) {
-      // Nothing to retract from a relay that never heard from us.
-      if (announced === null) return;
-      await connectForPresence();
-      if (!useServerStore.getState().connected) return;
-    }
+    // Presence is an optional notification, not permission to claim a seat.
+    // On the next independently authenticated connection, resendLocalGame()
+    // announces the game if it is still running.
+    if (!useServerStore.getState().connected) return;
     if (!useServerStore.getState().hasRelayFeature(RELAY_FEATURE.LocalGame)) return;
     await server.setLocalGame(announced);
   } catch {

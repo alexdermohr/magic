@@ -154,6 +154,7 @@ interface PendingJoin {
 }
 let pendingJoin: PendingJoin | null = null;
 let tabSession: TabSessionHolder | null = null;
+let connectGeneration = 0;
 function releaseTabSession() {
   tabSession?.release();
   tabSession = null;
@@ -165,15 +166,21 @@ function releaseTabSession() {
 const DUPLICATE_GIVE_UP_MS = 120000;
 let duplicateRejectionSince: number | null = null;
 async function stopReconnectAsDuplicate(error: string) {
+  const generation = ++connectGeneration;
   duplicateRejectionSince = null;
+  releaseTabSession();
   await getPlatform().server?.disconnect();
+  if (generation !== connectGeneration) return;
   useServerStore.setState({ connected: false, connecting: false, error });
   toast.info(error);
 }
 async function handleDuplicateRejection() {
+  const generation = connectGeneration;
   const username = useServerStore.getState().username;
   if (!username) return;
-  if ((await probeTabSession(username)) === "held") {
+  const claim = await probeTabSession(username);
+  if (generation !== connectGeneration || useServerStore.getState().connected) return;
+  if (claim === "held") {
     await stopReconnectAsDuplicate(
       `You are signed in in another tab of this browser. Close it, or connect here to take over.`,
     );
@@ -219,6 +226,7 @@ export const useServerStore = create<ServerState>()(
       playerDecks: [],
       startingLife: DEFAULT_STARTING_LIFE,
       async connect(host, port, username, password, lan) {
+        const generation = ++connectGeneration;
         const platform = getPlatform();
         if (!platform.server) {
           set({ connecting: false, error: "Multiplayer not supported on this platform" });
@@ -229,18 +237,22 @@ export const useServerStore = create<ServerState>()(
         duplicateRejectionSince = null;
         releaseTabSession();
         const claim = await claimTabSession(username);
+        if (generation !== connectGeneration) return;
         if (claim.outcome === "refused") {
           set({
             connecting: false,
             error: `You are hosting a game in another tab. Finish or close it first.`,
           });
+          return;
         }
         try {
           await platform.server.connect({ host, port, username, password, lan });
+          if (generation !== connectGeneration) return;
           tabSession = holdTabSession(username, {
             refusal: () =>
               get().gameStarted && get().currentRoom?.host === get().username ? "hosting" : null,
             onRelease: async () => {
+              if (generation !== connectGeneration) return;
               // The holder channel acks "released" after this resolves; null the
               // handle first so disconnect() doesn't close that channel mid-handover.
               tabSession = null;
@@ -249,6 +261,7 @@ export const useServerStore = create<ServerState>()(
             },
           });
         } catch (e) {
+          if (generation !== connectGeneration) return;
           set({ connecting: false, error: String(e) });
         }
       },
@@ -258,8 +271,10 @@ export const useServerStore = create<ServerState>()(
       // after that, when there was nothing left to decide.
       async connectPreferred(username) {
         if (get().connected || get().connecting || get().switchingRelay) return;
+        const generation = ++connectGeneration;
         set({ connecting: true, error: null });
         const found = await findLanRelay();
+        if (generation !== connectGeneration) return;
         const prefs = usePreferencesStore.getState();
         if (found) {
           await get().connect(found.host, found.port, username, found.password, true);
@@ -277,6 +292,7 @@ export const useServerStore = create<ServerState>()(
       },
 
       async disconnect() {
+        const generation = ++connectGeneration;
         duplicateRejectionSince = null;
         releaseTabSession();
         const platform = getPlatform();
@@ -285,6 +301,7 @@ export const useServerStore = create<ServerState>()(
         clearLimitedSession();
         clearSealedStart();
         await platform.server.disconnect();
+        if (generation !== connectGeneration) return;
         get().adoptLanTarget(null);
         setRelayCacheBase(null);
         set({

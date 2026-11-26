@@ -1458,6 +1458,8 @@ const ROOM_RECOVERY_STORAGE_ERROR = "room_recovery_storage_failed";
 
 class WebServerApi implements IServerApi {
   private ws: WebSocket | null = null;
+  private connectionGeneration = 0;
+  private socketClosing: Promise<void> | null = null;
   private eventBus: WebEventBus;
   private relayUrl: string | null = null;
   private serverPassword: string | null = null;
@@ -1562,20 +1564,24 @@ class WebServerApi implements IServerApi {
   }
 
   async connect(params: ServerConnectParams): Promise<void> {
-    await this.disconnect();
+    const closing = this.disconnect();
+    const generation = this.connectionGeneration;
+    await closing;
+    if (generation !== this.connectionGeneration) return;
     this.manualDisconnect = false;
     this.connectParams = params;
     this.reconnectAttempt = 0;
     this.sessionIdentity = null;
     this.sessionTokenRejected = false;
-    return this.openSocket(params);
+    return this.openSocket(params, generation);
   }
 
-  private async openSocket(params: ServerConnectParams): Promise<void> {
+  private async openSocket(params: ServerConnectParams, generation: number): Promise<void> {
     this.cardCosmeticsVersion = 0;
     const forceRemint = this.sessionTokenRejected;
     this.sessionTokenRejected = false;
     const identity = await resolveRelayIdentity(this.sessionIdentity, params.username, forceRemint);
+    if (generation !== this.connectionGeneration || this.manualDisconnect) return;
     this.sessionIdentity = identity;
     const { proof, username } = identity;
     this.authedUsername = username;
@@ -1588,7 +1594,11 @@ class WebServerApi implements IServerApi {
       this.ws = socket;
 
       socket.onopen = () => {
-        if (this.ws !== socket) return;
+        if (this.ws !== socket || generation !== this.connectionGeneration) {
+          socket.close();
+          reject(new Error("Relay connection superseded"));
+          return;
+        }
         this.connectedAt = Date.now();
         this.send({
           type: "Authenticate",
@@ -1609,6 +1619,9 @@ class WebServerApi implements IServerApi {
       };
 
       socket.onclose = (event) => {
+        // A socket can close before onopen (including an intentional replacement).
+        // Settling the pending connect prevents a superseded start from waiting forever.
+        reject(new Error(`Relay connection closed before opening (${event.code})`));
         if (this.ws !== socket) return;
         this.handleSocketClose(event);
       };
@@ -1697,11 +1710,14 @@ class WebServerApi implements IServerApi {
     if (params === null || this.manualDisconnect) {
       return;
     }
+    const generation = this.connectionGeneration;
     try {
-      await this.openSocket(params);
+      await this.openSocket(params, generation);
+      if (generation !== this.connectionGeneration || this.manualDisconnect) return;
       this.reconnectAttempt = 0;
       this.eventBus.emit("server:reconnecting", { phase: "idle" as const, attempt: 0 });
     } catch (e) {
+      if (generation !== this.connectionGeneration || this.manualDisconnect) return;
       console.warn("[relay-disconnect] reconnect attempt failed", e);
       this.scheduleReconnect("network", this.nextBackoffMs());
     }
@@ -1754,6 +1770,7 @@ class WebServerApi implements IServerApi {
   }
 
   async disconnect(): Promise<void> {
+    ++this.connectionGeneration;
     this.manualDisconnect = true;
     this.clearReconnectTimer();
     this.serverShutdownPending = null;
@@ -1769,23 +1786,30 @@ class WebServerApi implements IServerApi {
     this.relayUrl = null;
     this.serverPassword = null;
     this.connectedAt = null;
-    if (!ws || ws.readyState === WebSocket.CLOSED) return;
+    if (!ws || ws.readyState === WebSocket.CLOSED) {
+      await this.socketClosing;
+      return;
+    }
     // Wait for the actual close event before resolving. Resolving on
     // ws.close() alone races against the server still cleaning up the
     // session, so Settings "Save & Reconnect" (disconnect → connect)
     // would race the new authenticate against the previous session and
     // manabrew-server rejected it as a duplicate.
-    await new Promise<void>((resolve) => {
+    const closing = new Promise<void>((resolve) => {
       const done = () => {
         ws.removeEventListener("close", done);
-        ws.removeEventListener("error", done);
         resolve();
       };
       ws.addEventListener("close", done);
-      ws.addEventListener("error", done);
       ws.close();
+    }).then(() => {
+      // The close belongs to the displaced socket, not a connect generation.
+      // All competing connects await this shared reset before opening a socket.
+      this.socketClosing = null;
+      this.eventBus.emit("server:disconnected", { terminal: true });
     });
-    this.eventBus.emit("server:disconnected", { terminal: true });
+    this.socketClosing = closing;
+    await closing;
   }
 
   async listRooms(): Promise<void> {
