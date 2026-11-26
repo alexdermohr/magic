@@ -104,6 +104,7 @@
     "test:ipad-deck-start-matrix": "node scripts/test-ipad-deck-start-matrix.mjs",
     "test:ipad-background-game": "node scripts/test-ipad-background-game.mjs",
     "test:ipad-background-session": "node scripts/test-ipad-background-session.mjs",
+    "test:ipad-session-takeover": "node scripts/test-ipad-session-takeover.mjs",
     "test:ipad-four-player": "node scripts/test-ipad-four-player-full-game-ui.mjs",
     "test:ipad-four-player-stall": "node scripts/diag-four-player-stall-20261118.mjs",
     "test:ipad-four-player-recovery": "node scripts/test-four-player-recovery-restart.mjs",

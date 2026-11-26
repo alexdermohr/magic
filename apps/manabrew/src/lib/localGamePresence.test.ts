@@ -20,7 +20,6 @@ vi.mock("@/stores/useServerStore", () => ({
     }),
   },
 }));
-// The previous implementation actively claimed the relay from a local game.
 vi.mock("@/lib/tabSession", () => ({ probeTabSession: mock.probeTabSession }));
 vi.mock("@/lib/relayUsername", () => ({ relayUsername: () => "test-player" }));
 vi.mock("@/stores/usePreferencesStore", () => ({
