@@ -48,6 +48,27 @@ async function preparedCache() {
   return null;
 }
 
+async function newerReleaseAvailable(cache) {
+  const marker = await cache.match(READY_MARKER);
+  if (!marker) return false;
+  const installed = await marker.text();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 2500);
+  try {
+    const response = await fetch("/offline-assets.json?__offline_fetch=1", {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    if (!response.ok) return false;
+    const { version } = await response.json();
+    return typeof version === "string" && /^[a-f0-9]{20,64}$/.test(version) && version !== installed;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 function isolatedNavigation(response) {
   const headers = new Headers(response.headers);
   headers.set("Cross-Origin-Opener-Policy", "same-origin");
@@ -112,6 +133,10 @@ self.addEventListener("fetch", (event) => {
           (await (await caches.open(SETUP_CACHE)).match("/offline-setup.html")) ||
           (cache && (await cache.match("/offline-setup.html")));
         if (setup) return isolatedNavigation(setup);
+      }
+
+      if (cache && navigating && path === "/play" && !url.search && await newerReleaseAvailable(cache)) {
+        return Response.redirect(new URL("/offline-setup.html?update=1&entry=play", self.location.origin).href);
       }
 
       if (cache) {

@@ -12,13 +12,13 @@ const deckCodec = stripTypeScriptTypes(
 const oldVersion = "11111111111111111111";
 const newVersion = "22222222222222222222";
 const laterVersion = "33333333333333333333";
+const directVersion = "44444444444444444444";
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const shared = {
   "/index.html": "<!doctype html><title>offline app</title>",
   "/offline-setup.html": html,
   "/deck-storage-codec.js": deckCodec,
-  "/offline-sw.js":
-    "self.addEventListener('install',e=>e.waitUntil(self.skipWaiting()));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));",
+  "/offline-sw.js": await readFile(new URL("../public/offline-sw.js", import.meta.url), "utf8"),
   "/personal-decks.json": JSON.stringify({
     decks: [
       {
@@ -82,7 +82,9 @@ try {
   });
   const context = await browser.newContext({ serviceWorkers: "allow" });
   await context.addInitScript(() => {
-    Object.defineProperty(navigator, "standalone", { configurable: true, value: true });
+    Object.defineProperty(navigator, "standalone", {
+      configurable: true, value: sessionStorage.getItem("test-ordinary-browser") !== "1",
+    });
   });
   const page = await context.newPage();
   const origin = "http://127.0.0.1:" + server.address().port;
@@ -120,7 +122,7 @@ try {
   }, oldVersion);
   version = newVersion;
   holdNewAsset = true;
-  await page.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
+  await page.goto(origin + "/play", { waitUntil: "domcontentloaded" });
   await page.waitForURL("**/play/offline/constructed");
   assert.equal(await hasReady(oldVersion), true);
   assert.equal(blocked.length, 0);
@@ -232,11 +234,26 @@ try {
     ),
     false,
   );
+  await page.evaluate(() => sessionStorage.setItem("test-ordinary-browser", "1"));
+  version = directVersion;
+  await page.goto(origin + "/play", { waitUntil: "domcontentloaded" });
+  await page.waitForURL("**/play", { timeout: 30000 });
+  assert.equal(await page.evaluate(() => navigator.standalone), false);
+  assert.equal(await hasReady(directVersion), true);
+  console.log("DIRECT_PLAY_ENTRY_AUTO_UPGRADE_PASS", directVersion);
+  await page.goto(origin + "/play", { waitUntil: "domcontentloaded" });
+  assert.equal(page.url(), origin + "/play");
+  await context.setOffline(true);
+  await page.goto(origin + "/play", { waitUntil: "domcontentloaded" });
+  assert.equal(page.url(), origin + "/play");
+  assert.equal(await hasReady(directVersion), true);
+  await context.setOffline(false);
+
   console.log(
     "IPAD_AUTO_UPGRADE_PASS",
     JSON.stringify({
       previous: oldVersion,
-      current: laterVersion,
+      current: directVersion,
       savedGameProtected: true,
       previousVersionPlayable: true,
       manualUpgradeRoutedToGame: true,

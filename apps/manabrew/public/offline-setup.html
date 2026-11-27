@@ -90,8 +90,9 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   const desktopLauncher = linuxDesktop && startParams.get("desktop") === "1";
   const standalone = navigator.standalone === true ||
     matchMedia("(display-mode: standalone)").matches;
-  const automaticSetup = !startParams.has("setup") && (desktopLauncher || standalone);
-  const modeChooserEntry = desktopLauncher && startParams.get("entry") === "play";
+  const automaticUpdate = startParams.get("update") === "1";
+  const automaticSetup = !startParams.has("setup") && (desktopLauncher || standalone || automaticUpdate);
+  const modeChooserEntry = (desktopLauncher || automaticUpdate) && startParams.get("entry") === "play";
   const readyRoute = modeChooserEntry ? "/play" : "/play/offline/constructed";
   if (modeChooserEntry) {
     $("play").href = readyRoute;
@@ -901,9 +902,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
         $("engine-result").textContent = localStorage.getItem("manabrew-ipad-forge-verdict") === manifest.version
           ? "Forge-KI wurde in dieser Version auf diesem Gerät erfolgreich ausgeführt."
           : "Forge-KI wurde auf diesem Gerät noch nicht getestet.";
-        const standalone = window.navigator.standalone === true ||
-          window.matchMedia("(display-mode: standalone)").matches;
-        if ((standalone || desktopLauncher) && personalReady && !new URLSearchParams(location.search).has("setup")) {
+        if (automaticSetup && personalReady) {
           location.replace(readyRoute);
           return;
         }
@@ -1052,10 +1051,7 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
       $("engine-probe").disabled = false;
       $("engine-result").textContent = "Offline-Paket bereit. Forge-KI auf diesem Gerät kann jetzt geprüft werden.";
       $("prepare").textContent = "Offline-Daten erneut prüfen";
-      const standalone = window.navigator.standalone === true ||
-        window.matchMedia("(display-mode: standalone)").matches;
-      if ((standalone || desktopLauncher || resumeNewGame) && personalReady &&
-          (resumeNewGame || !new URLSearchParams(location.search).has("setup"))) {
+      if ((automaticSetup || resumeNewGame) && personalReady) {
         location.replace(readyRoute);
       }
     } catch (error) {
