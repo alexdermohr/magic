@@ -165,6 +165,7 @@ export class TauriPlatform implements IPlatformApi {
   readonly events: IEventBus;
 
   private readonly web: WebPlatform;
+  private localRelayStop: Promise<unknown> | null = null;
 
   constructor() {
     this.web = new WebPlatform();
@@ -179,6 +180,34 @@ export class TauriPlatform implements IPlatformApi {
   }
 
   async invoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
+    if (command === "stop_local_relay") {
+      // Keep the actual native operation, not a timed-out wrapper. Every
+      // caller (LAN or hosted AI) must see the same relay ownership boundary.
+      if (!this.localRelayStop) {
+        const stopping = invoke<T>(command, args);
+        this.localRelayStop = stopping;
+        const clear = () => {
+          if (this.localRelayStop === stopping) this.localRelayStop = null;
+        };
+        void stopping.then(clear, clear);
+      }
+      return this.localRelayStop as Promise<T>;
+    }
+    const stopping = this.localRelayStop;
+    if (command === "start_local_relay" && stopping) {
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      try {
+        await Promise.race([
+          stopping.catch(() => undefined),
+          new Promise<never>((_, reject) => {
+            timer = setTimeout(() => reject(new Error("The previous local relay is still stopping.")), 2000);
+          }),
+        ]);
+      } finally {
+        if (timer !== undefined) clearTimeout(timer);
+      }
+      if (this.localRelayStop) throw new Error("The previous local relay is still stopping.");
+    }
     return invoke<T>(command, args);
   }
 

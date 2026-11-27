@@ -1164,7 +1164,7 @@ class WebGameApi implements IGameApi {
     if (durableRecovery) {
       if (this.releaseRecoveryOwnership) throw new Error("Finish the current Forge game first.");
       const release = await acquireForgeRecoveryOwnership();
-      if (!release) throw new Error("Another tab owns the active Forge game; return to that tab or close it.");
+      if (!release) throw new Error("A previous game or another tab still owns the Forge save; finish closing it or reopen Manabrew.");
       this.releaseRecoveryOwnership = release;
     }
     if (params.recovery) {
@@ -1335,42 +1335,63 @@ class WebGameApi implements IGameApi {
 
   async endGame(): Promise<void> {
     const activeRecovery = this.currentRecovery !== null;
-    const crashed = this.retainedRecoveryAfterCrash;
-    const retainedGameId = crashed ? this.retainedRecoveryGameId : null;
-    // Explicit leave waits for an in-flight crash checkpoint to finish before
-    // reacquiring ownership and clearing that same game's recovery record.
-    await this.recoveryDrain?.catch((error) =>
-      console.warn("Forge recovery drain did not complete:", error));
+    const retainedGameId = this.retainedRecoveryAfterCrash ? this.retainedRecoveryGameId : null;
+    const drain = this.recoveryDrain;
+    let release = this.releaseRecoveryOwnership;
+    // Detach all game-specific state before awaiting storage. A delayed cleanup
+    // must never terminate a replacement worker or touch its recovery fields.
     this.currentRecovery?.queue.dispose();
     this.currentRecovery = null;
     this.retainedRecoveryAfterCrash = false;
     this.retainedRecoveryGameId = null;
-    let release = this.releaseRecoveryOwnership;
     this.releaseRecoveryOwnership = null;
-    try {
-      if (activeRecovery && release) {
-        await clearForgeRecoverySave();
-      } else if (retainedGameId && !release) {
-        release = await acquireForgeRecoveryOwnership();
-        if (release) {
-          const savedRelease = await forgeRecoveryStoredReleaseId();
-          const saved = savedRelease ? await readForgeRecoverySave(savedRelease) : null;
-          if (saved?.gameId === retainedGameId) await clearForgeRecoverySave();
-        }
-      }
-    } catch (error) {
-      console.warn("Could not clear abandoned Forge recovery save:", error);
-    } finally {
-      await release?.();
-    }
+    this.recoveryDrain = null;
     this.isMultiplayer = false;
     this.isHost = false;
     this.myPlayerSlot = null;
-    if (crashed || this.bridge.gameBuffer) {
-      this.bridge.terminate();
-      return;
+    // Both local engines run in disposable workers, including under Tauri.
+    this.bridge.terminate();
+
+    if (!drain && !release && !retainedGameId) return;
+    const cleanup = async () => {
+      try {
+        await drain?.catch((error) =>
+          console.warn("Forge recovery drain did not complete:", error));
+        if (activeRecovery && release) {
+          await clearForgeRecoverySave();
+        } else if (retainedGameId && !release) {
+          release = await acquireForgeRecoveryOwnership();
+          if (release) {
+            const savedRelease = await forgeRecoveryStoredReleaseId();
+            const saved = savedRelease ? await readForgeRecoverySave(savedRelease) : null;
+            if (saved?.gameId === retainedGameId) await clearForgeRecoverySave();
+          }
+        }
+      } catch (error) {
+        console.warn("Could not clear abandoned Forge recovery save:", error);
+      } finally {
+        await release?.();
+      }
+    };
+    // A broken browser storage operation must not hold the game runtime open.
+    // The detached cleanup retains its actual ownership lock until storage
+    // settles; a new durable Forge game cannot write over that old save.
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      await Promise.race([
+        cleanup(),
+        new Promise<void>((resolve) => {
+          timer = setTimeout(() => {
+            console.warn("Previous Forge save is still closing; its storage ownership is retained.");
+            resolve();
+          }, 2000);
+        }),
+      ]);
+    } catch (error) {
+      console.warn("Could not finish Forge recovery cleanup:", error);
+    } finally {
+      if (timer !== undefined) clearTimeout(timer);
     }
-    await this.bridge.invoke("end_game");
   }
 
   async getPrompt(): Promise<Prompt | null> {

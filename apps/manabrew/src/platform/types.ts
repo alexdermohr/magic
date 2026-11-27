@@ -137,6 +137,9 @@ export interface IGameApi {
   /** An instruction from the tab that runs the engine, such as snapshot recording. */
   sendHostDirective(directive: DirectiveInput): Promise<void>;
 
+  /** Detach the ending game's runtime resources before the first await.
+   * Any later asynchronous work must own only old-game references and must
+   * not mutate the active runtime, even if the caller's wait expires. */
   endGame(): Promise<void>;
 
   getPrompt(): Promise<Prompt | null>;

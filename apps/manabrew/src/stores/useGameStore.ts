@@ -69,8 +69,40 @@ import { withResolvedDeckName } from "@/lib/deckName";
 export type { GameConfig, GameState, DeferredSnapshot } from "./gameStore.types";
 let gameLaunchGeneration = 0;
 let gameLaunchInFlight: number | null = null;
+let gameEndInFlight: Promise<void> | null = null;
+let gameLaunchWaiting = 0;
+
+// Never let a slow teardown silently strand the user's next start. A timed-out
+// wait must NOT release the teardown barrier: the old runtime still owns it.
+async function waitForGameEnd(): Promise<boolean> {
+  const closing = gameEndInFlight;
+  if (!closing) return true;
+  const generation = gameLaunchGeneration;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    const finished = await Promise.race([
+      closing.then(() => true),
+      new Promise<false>((resolve) => {
+        timer = setTimeout(() => resolve(false), 12_000);
+      }),
+    ]);
+    if (generation !== gameLaunchGeneration) return false;
+    if (!finished) toast.error("The previous game is still closing. If it does not finish, reopen Manabrew.");
+    return finished;
+  } catch (error) {
+    console.warn("Previous game teardown failed:", error);
+    if (generation === gameLaunchGeneration) toast.error("Could not finish closing the previous game.");
+    return false;
+  } finally {
+    if (timer !== undefined) clearTimeout(timer);
+  }
+}
 export function cancelPendingGameLaunch(): void {
-  if (gameLaunchInFlight !== null) void useGameStore.getState().endGame();
+  if (gameLaunchInFlight !== null || gameLaunchWaiting > 0) {
+    if (gameEndInFlight) gameLaunchGeneration += 1;
+    void useGameStore.getState().endGame().catch((error) =>
+      console.warn("Could not cancel pending game launch:", error));
+  }
 }
 class GameLaunchCancelledError extends Error {}
 function isManualTabletopApi(runtime: GameRuntime): runtime is GameRuntime & {
@@ -427,6 +459,17 @@ export const useGameStore = create<GameState>()(
       setGameConfig: (config) => set({ gameConfig: config }),
       dismissIronsmithDeckError: () => set({ ironsmithDeckError: null }),
       startGame: async (deck, formatId, commanderName, opponentDecks, engine, gauntletId, recovery) => {
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) {
+              return false;
+            }
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
         if (get().isGameActive) return false;
         if (gameLaunchInFlight !== null) {
           toast.info(`The previous game is still closing. Try again in a moment.`);
@@ -470,6 +513,16 @@ export const useGameStore = create<GameState>()(
         }
       },
       startManualTabletopGame: async (deck, formatId, commanderName) => {
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) return;
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
+        if (get().isGameActive || gameLaunchInFlight !== null) return;
         selectGameRuntime("manual-tabletop");
         const started = await get().startGame(
           deck,
@@ -491,6 +544,14 @@ export const useGameStore = create<GameState>()(
         }
       },
       startManualRoomHost: async (localPlayerSlot: string) => {
+        if (gameEndInFlight) {
+          toast.info("Start a manual table after the previous game has closed.");
+          return;
+        }
+        if (!get().isGameActive) {
+          toast.info("Start a manual table before hosting a room.");
+          return;
+        }
         const runtime = getSelectedGameRuntime();
         if (!isManualTabletopApi(runtime)) {
           throw new Error("Manual room host requires the manual tabletop runtime.");
@@ -520,6 +581,16 @@ export const useGameStore = create<GameState>()(
         });
       },
       startManualRoomClient: async (localPlayerSlot: string, initialGameView?: ClientGameView) => {
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) return;
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
+        if (get().isGameActive || gameLaunchInFlight !== null) return;
         selectGameRuntime("manual-tabletop");
         const runtime = getSelectedGameRuntime();
         if (!isManualTabletopApi(runtime)) {
@@ -571,6 +642,17 @@ export const useGameStore = create<GameState>()(
         hostPlayerSlot,
         botPlayerSlots,
       ) => {
+        if (gameEndInFlight) {
+          const generation = gameLaunchGeneration;
+          gameLaunchWaiting += 1;
+          try {
+            if (!(await waitForGameEnd()) || generation !== gameLaunchGeneration) {
+              return false;
+            }
+          } finally {
+            gameLaunchWaiting -= 1;
+          }
+        }
         // Guard against re-entry — a second start while one is already in
         // flight would tear down the first session's response channels in
         // the engine (game_manager.rs sees a takeover and drops the txs),
@@ -761,101 +843,123 @@ export const useGameStore = create<GameState>()(
         }
       },
       endGame: async () => {
+        if (gameEndInFlight) return gameEndInFlight;
         gameLaunchGeneration += 1;
         const activeSession = peekActiveGameSession();
-        clearActiveGameSession();
         const runtime = getSelectedGameRuntime();
         const wasMultiplayer = get().isMultiplayer;
         const offlineGameId = currentOfflineGameId();
-        if (peekGauntletMatch() && !get().gameView?.gameOver) await clearGauntletMatch();
-        // Before the state is cleared: how the engine performed. A game the
-        // relay knows about is reported to it; anything else goes to the hub.
-        // Never throws, never blocks the teardown.
-        reportEngineStats({
-          multiplayer: wasMultiplayer,
-          seats: Object.keys(get().gameDecks).length || 2,
-          format: get().gameConfig?.formatId ?? null,
-          endReason: get().engineCrash ? "error" : get().gameView?.gameOver ? "gameOver" : "left",
-          gameId: engineReportGameId(
-            wasMultiplayer && !activeSession?.relayHost,
-            useServerStore.getState().gameId,
-            offlineGameId,
-          ),
-          send: wasMultiplayer
-            ? async (stats, gameId) => {
-                await getPlatform().server?.reportEngineStats(stats, gameId);
-              }
-            : undefined,
+        // Publish the barrier before synchronous detach, including reentrant
+        // store subscribers. Do not defer the detach to a later microtask.
+        let finish!: () => void;
+        let fail!: (error: unknown) => void;
+        const closing = new Promise<void>((resolve, reject) => {
+          finish = resolve;
+          fail = reject;
         });
-        if (!wasMultiplayer) {
-          const state = get();
-          const seats = offlineSeats(state.gameView);
-          reportOfflineGame({
-            gameOver:
-              (state.gameView?.gameOver ?? false) || state.currentPrompt?.input.type === "gameOver",
-            winner:
-              seats.find((seat) => seat.seatId === state.gameView?.winnerId)?.username ?? null,
-            seats,
-            engineError: state.engineCrash,
-          });
-          clearLocalGame();
-        }
-        setErrorReportingEngine(null);
-        set({
-          isGameActive: false,
-          activeEngine: null,
-          gauntletId: null,
-          gameView: null,
-          currentPrompt: null,
-          protocolError: null,
-          deferredQueue: [],
-          isFlashing: false,
-          isWaitingForResponse: false,
-          seatAddressedStates: false,
-          relinquishedPriority: false,
-          recording: { type: "off" },
-          repeatVote: null,
-          selfConceded: false,
-          engineCrash: null,
-          isMultiplayer: false,
-          isHost: false,
-          myPlayerSlot: null,
-          gameDecks: {},
-          hiddenPlaymats: new Set<string>(),
-          ignoredCardIds: new Set<string>(),
-        });
-        stopActiveManualRoomSync();
-        resetSelectedGameRuntime();
-        const withTimeout = <T>(promise: Promise<T>, label: string): Promise<T | void> => {
-          let clearTimer: () => void = () => undefined;
-          const timeout = new Promise<void>((resolve) => {
-            const timer = setTimeout(() => {
-              console.warn(`${label} timed out after 2s`);
-              resolve();
-            }, 2000);
-            clearTimer = () => clearTimeout(timer);
-          });
-          return Promise.race([promise, timeout]).finally(clearTimer);
-        };
-        if (wasMultiplayer && !useMultiplayerLimitedStore.getState().matchReturn) {
-          try {
-            await withTimeout(useServerStore.getState().leaveRoom(), "leaveRoom()");
-          } catch (e) {
-            console.warn("Failed to leave multiplayer room after game end:", e);
+        gameEndInFlight = closing;
+        void (async () => {
+          clearActiveGameSession();
+          if (peekGauntletMatch() && !get().gameView?.gameOver) {
+            // The local marker is removed synchronously. Its IndexedDB mirror
+            // is serialized with subsequent Limited writes, not engine starts.
+            void clearGauntletMatch().catch((error) =>
+              console.warn("Could not clear previous gauntlet match:", error));
           }
-        }
-        try {
-          await withTimeout(runtime.api.endGame(), "runtime.endGame()");
-        } catch (e) {
-          console.warn("runtime.endGame() failed:", e);
-        }
-        if (activeSession?.relayHost) {
-          try {
-            await stopLocalHostedAiRelay();
-          } catch (e) {
-            console.warn("stopLocalHostedAiRelay() failed:", e);
+          // Before the state is cleared: how the engine performed. A game the
+          // relay knows about is reported to it; anything else goes to the hub.
+          // Never throws, never blocks the teardown.
+          reportEngineStats({
+            multiplayer: wasMultiplayer,
+            seats: Object.keys(get().gameDecks).length || 2,
+            format: get().gameConfig?.formatId ?? null,
+            endReason: get().engineCrash ? "error" : get().gameView?.gameOver ? "gameOver" : "left",
+            gameId: engineReportGameId(
+              wasMultiplayer && !activeSession?.relayHost,
+              useServerStore.getState().gameId,
+              offlineGameId,
+            ),
+            send: wasMultiplayer
+              ? async (stats, gameId) => {
+                  await getPlatform().server?.reportEngineStats(stats, gameId);
+                }
+              : undefined,
+          });
+          if (!wasMultiplayer) {
+            const state = get();
+            const seats = offlineSeats(state.gameView);
+            reportOfflineGame({
+              gameOver:
+                (state.gameView?.gameOver ?? false) || state.currentPrompt?.input.type === "gameOver",
+              winner:
+                seats.find((seat) => seat.seatId === state.gameView?.winnerId)?.username ?? null,
+              seats,
+              engineError: state.engineCrash,
+            });
+            clearLocalGame();
           }
-        }
+          setErrorReportingEngine(null);
+          set({
+            isGameActive: false,
+            activeEngine: null,
+            gauntletId: null,
+            gameView: null,
+            currentPrompt: null,
+            protocolError: null,
+            deferredQueue: [],
+            isFlashing: false,
+            isWaitingForResponse: false,
+            seatAddressedStates: false,
+            relinquishedPriority: false,
+            recording: { type: "off" },
+            repeatVote: null,
+            selfConceded: false,
+            engineCrash: null,
+            isMultiplayer: false,
+            isHost: false,
+            myPlayerSlot: null,
+            gameDecks: {},
+            hiddenPlaymats: new Set<string>(),
+            ignoredCardIds: new Set<string>(),
+          });
+          stopActiveManualRoomSync();
+          resetSelectedGameRuntime();
+          const withTimeout = <T>(promise: Promise<T>, label: string, timeoutMs = 2000): Promise<T | void> => {
+            let clearTimer: () => void = () => undefined;
+            const timeout = new Promise<void>((resolve) => {
+              const timer = setTimeout(() => {
+                console.warn(`${label} timed out after ${timeoutMs}ms`);
+                resolve();
+              }, timeoutMs);
+              clearTimer = () => clearTimeout(timer);
+            });
+            return Promise.race([promise, timeout]).finally(clearTimer);
+          };
+          // Invoke the runtime before any network wait, so its synchronous
+          // detach cannot run after an unrelated same-tick state writer.
+          const runtimeEnd = withTimeout(runtime.api.endGame(), "runtime.endGame()", 4000)
+            .catch((e) => console.warn("runtime.endGame() failed:", e));
+          if (wasMultiplayer && !useMultiplayerLimitedStore.getState().matchReturn) {
+            try {
+              await withTimeout(useServerStore.getState().leaveRoom(), "leaveRoom()");
+            } catch (e) {
+              console.warn("Failed to leave multiplayer room after game end:", e);
+            }
+          }
+          // IGameApi.endGame detaches synchronously; only old bookkeeping
+          // may remain pending after the deadline.
+          await runtimeEnd;
+          if (activeSession?.relayHost) {
+            // The native relay stop is submitted before this barrier opens.
+            // Tauri serializes reuse of that relay independently of game starts.
+            void stopLocalHostedAiRelay().catch((e) =>
+              console.warn("stopLocalHostedAiRelay() failed:", e));
+          }
+        })().then(
+          () => { gameEndInFlight = null; finish(); },
+          (error) => { gameEndInFlight = null; fail(error); },
+        );
+        return closing;
       },
       setMultiplayerState: (isMultiplayer, isHost, myPlayerSlot) => {
         set({
