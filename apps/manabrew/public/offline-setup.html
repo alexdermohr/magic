@@ -95,7 +95,8 @@ import { readDeckStorage, writeDeckStorage } from "/deck-storage-codec.js";
   const modeChooserEntry = (desktopLauncher || automaticUpdate) && startParams.get("entry") === "play";
   const readyRoute = modeChooserEntry ? "/play" : "/play/offline/constructed";
   if (modeChooserEntry) {
-    $("play").href = readyRoute;
+    // Explicitly playing the installed release must not restart a pending update.
+    $("play").href = "/play?use-installed=1";
     $("play").textContent = "Spielmodus wählen";
   }
   if (linuxDesktop) {

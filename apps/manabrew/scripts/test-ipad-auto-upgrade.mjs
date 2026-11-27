@@ -141,7 +141,8 @@ try {
     });
     db.close();
   });
-  await page.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
+  await page.goto(origin + "/play", { waitUntil: "domcontentloaded" });
+  await page.waitForURL("**/offline-setup.html?update=1&entry=play");
   await page.waitForFunction(
     () =>
       document.querySelector("#play") &&
@@ -177,6 +178,15 @@ try {
   );
   assert.equal(await hasReady(oldVersion), true);
   assert.equal(await hasReady(newVersion), false);
+  await page.locator("#play").click();
+  await page.waitForURL((url) => url.pathname === "/play", { timeout: 5000 });
+  assert.equal(await hasReady(oldVersion), true);
+  assert.equal(await hasReady(newVersion), false);
+  console.log("DIRECT_UPDATE_FALLBACK_PLAY_PASS", oldVersion);
+  await page.goto(origin + "/offline-setup.html", { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() =>
+    document.querySelector("#state")?.textContent?.includes("Update vorgeladen; gespeicherte Partie geschützt"),
+  );
   await gameTab.evaluate(() => window.__finishGame());
   await gameTab.close();
 
