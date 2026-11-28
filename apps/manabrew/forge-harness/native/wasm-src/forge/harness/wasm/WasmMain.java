@@ -89,7 +89,7 @@ public final class WasmMain {
      * for the whole game: the bridge keeps the loop on this thread.
      */
     private static void serve() throws Exception {
-        forge.harness.host.ManaBrewEngineAdapter adapter = new forge.harness.host.ManaBrewEngineAdapter();
+        forge.harness.host.ManaBrewEngineAdapter adapter = new forge.harness.host.ManaBrewEngineAdapter(WasmWitnessDigest::sha256);
         adapter.initialize("/forge-gui/");
         System.out.println("[wasm] forge initialized, waiting for a game");
 
