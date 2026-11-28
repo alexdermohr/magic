@@ -142,15 +142,34 @@ describe("hidden guest room rejoin", () => {
     const old = h.run();
     h.replace("game-2");
     const replacement = h.run();
-    expect(joinRoom).toHaveBeenCalledTimes(2);
+    const callsBeforeSettlement = joinRoom.mock.calls.length;
     first.reject(new Error("game_already_started"));
     await old;
+    expect(callsBeforeSettlement).toBe(1);
+    expect(joinRoom).toHaveBeenCalledTimes(2);
     expect(h.phase()).toBe("reconnecting");
     expect(h.abort).not.toHaveBeenCalled();
     expect(h.listeners.size).toBe(1);
     second.resolve();
     await replacement;
     expect(h.resync).toHaveBeenCalledOnce();
+    expect(h.phase()).toBe("idle");
+    expect(h.listeners.size).toBe(0);
+  });
+
+  it("discards a queued rejoin if its replacement game is abandoned", async () => {
+    const first = deferred();
+    const joinRoom = vi.fn().mockReturnValueOnce(first.promise);
+    const h = harness(joinRoom);
+    const old = h.run();
+    h.replace("game-2");
+    const replacement = h.run();
+    h.replace(null);
+    first.reject(new Error("game_already_started"));
+    await Promise.all([old, replacement]);
+    expect(joinRoom).toHaveBeenCalledOnce();
+    expect(h.abort).not.toHaveBeenCalled();
+    expect(h.resync).not.toHaveBeenCalled();
     expect(h.phase()).toBe("idle");
     expect(h.listeners.size).toBe(0);
   });
