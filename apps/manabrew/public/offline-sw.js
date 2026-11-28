@@ -53,7 +53,7 @@ async function newerReleaseAvailable(cache) {
   if (!marker) return false;
   const installed = await marker.text();
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 2500);
+  const timeout = setTimeout(() => controller.abort(), 500);
   try {
     const response = await fetch("/offline-assets.json?__offline_fetch=1", {
       cache: "no-store",
