@@ -215,6 +215,28 @@ export function AppShell() {
                       ? "The checkpoint is still stored, but the matching offline engine is not installed. Do not clear this site's data or remove the original offline cache."
                       : "The checkpoint has been kept. You can retry without starting a replacement game."}
               </p>
+              {forgeResume.phase === "restoring" && forgeResume.progress && (
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  {forgeResume.progress.verified === null ? (
+                    <>
+                      <p>{forgeResume.progress.total} saved decisions to replay</p>
+                      <progress className="w-full" aria-label="Replay progress" />
+                    </>
+                  ) : (
+                    <>
+                      <p>
+                        {forgeResume.progress.verified} of {forgeResume.progress.total} decisions verified
+                        {forgeResume.progress.verified === forgeResume.progress.total
+                          ? " — preparing the board…" : ""}
+                      </p>
+                      {forgeResume.progress.total > 0 && (
+                        <progress className="w-full" aria-label="Verified replay decisions"
+                          value={forgeResume.progress.verified} max={forgeResume.progress.total} />
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
               {(forgeResume.phase === "failed" || forgeResume.phase === "different-release") && (
                 <div className="flex flex-wrap items-center justify-center gap-3">
                   <Button variant="primary" onClick={forgeResume.retry}>

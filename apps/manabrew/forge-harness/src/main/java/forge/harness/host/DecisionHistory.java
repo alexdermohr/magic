@@ -29,6 +29,10 @@ final class DecisionHistory {
         }
     }
 
+    int replayedActions() {
+        return replayIndex;
+    }
+
     JsonObject replayAction(final String prompt, final JsonObject verification) {
         final JsonArray prefix = replay.getAsJsonObject("journal").getAsJsonArray("entries");
         final JsonObject boundary = replayIndex < prefix.size()

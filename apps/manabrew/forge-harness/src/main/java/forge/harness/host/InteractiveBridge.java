@@ -34,6 +34,9 @@ public interface InteractiveBridge {
         throw new UnsupportedOperationException("journal rewind is unavailable on this transport");
     }
 
+    /** Number of replayed actions whose following boundary has been verified. */
+    default void replayProgress(int verified) {}
+
     default void replayReady() {
         throw new UnsupportedOperationException("journal rewind is unavailable on this transport");
     }

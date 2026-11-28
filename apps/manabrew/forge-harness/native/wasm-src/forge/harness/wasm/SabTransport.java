@@ -436,6 +436,11 @@ public final class SabTransport implements InteractiveBridge {
     private static native void waitForRewind(String snapshot);
 
     @Override
+    public void replayProgress(final int verified) {
+        post("forge:replay_progress", "{\"verified\":" + verified + "}");
+    }
+
+    @Override
     public void replayReady() {
         awaitReplayActivation();
     }
