@@ -1,5 +1,3 @@
-//! Loopback integration tests exercising the relay's actual WebSocket server,
-//! authentication, session ownership and room lifecycle together.
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -95,7 +93,6 @@ async fn concurrent_owner_authentications_share_one_session() {
         (&mut second, &mut first)
     };
     let _ = displaced.close(None).await;
-    // The older socket's close cannot clear the new generation.
     send(current, serde_json::json!({"type": "ListRooms"})).await;
     receive(current, "RoomList").await;
     assert!(state.players.get(id).unwrap().connected);
@@ -163,7 +160,6 @@ async fn displaced_socket_cannot_leave_reclaimed_room() {
         assert_eq!(owner.generation, 1);
     }
 
-    // Positive control: the replacement still has ordinary room authority.
     send(&mut current, serde_json::json!({"type": "LeaveRoom"})).await;
     tokio::time::timeout(Duration::from_secs(5), async {
         while state.rooms.contains_key(&room_id) {
