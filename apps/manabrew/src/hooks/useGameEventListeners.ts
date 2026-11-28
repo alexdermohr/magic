@@ -67,7 +67,12 @@ function normalizeEnginePrompt(prompt: unknown): Prompt | null {
 }
 const { setState, getState } = useGameStore;
 const REJOIN_RETRY_DELAY_MS = 2000;
-let rejoinInFlight = false;
+type GuestRejoinTarget = { roomId: string; gameId: string };
+type GuestRejoinAttempt = GuestRejoinTarget & {
+  settled: Promise<void>;
+  phase?: ReturnType<typeof useServerStore.getState>["reconnect"];
+};
+let rejoinInFlight: GuestRejoinAttempt | null = null;
 function setReconnectPhase(phase: "reconnecting" | "idle") {
   useServerStore.setState({
     reconnect:
@@ -77,20 +82,52 @@ function setReconnectPhase(phase: "reconnecting" | "idle") {
   });
 }
 async function rejoinAfterRelayRestart() {
-  // Hold the interruption overlay up until the seat is re-established — the
-  // socket being open again is not enough, and answering a stale prompt while
-  // seatless gets the client force-ended with `not_in_room`.
-  setReconnectPhase("reconnecting");
-  if (rejoinInFlight) return;
-  rejoinInFlight = true;
-  let onVisibilityChange: (() => void) | null = null;
-  try {
+  const readTarget = () => {
+    const game = getState();
+    if (!game.isGameActive || !game.isMultiplayer || game.isHost) return null;
     const server = useServerStore.getState();
-    const roomId = server.currentRoom?.room_id ?? peekActiveGameSession()?.roomId;
-    if (!roomId) {
-      setReconnectPhase("idle");
+    const session = peekActiveGameSession();
+    const roomId = server.currentRoom?.room_id ?? session?.roomId;
+    const gameId = server.gameId || session?.gameId;
+    if (!roomId || !gameId) return null;
+    // The local launch marker and relay state must not name different games.
+    if (session && (session.roomId !== roomId || session.gameId !== gameId)) return null;
+    return { roomId, gameId };
+  };
+  const sameTarget = (a: GuestRejoinTarget | null, b: GuestRejoinTarget | null) =>
+    a !== null && b !== null && a.roomId === b.roomId && a.gameId === b.gameId;
+  const target = readTarget();
+  if (!target) return;
+  // Hold the interruption overlay until the seat is re-established. A new
+  // game has its own attempt; a late completion must not affect that game.
+  const running = rejoinInFlight;
+  if (running) {
+    setReconnectPhase("reconnecting");
+    const phase = useServerStore.getState().reconnect;
+    if (sameTarget(running, target)) {
+      running.phase = phase;
       return;
     }
+    // The server store has one pending JoinRoom slot. Never supersede it
+    // with another hook-owned join before the previous attempt settles.
+    await running.settled;
+    if (sameTarget(target, readTarget())) return rejoinAfterRelayRestart();
+    if (!rejoinInFlight && useServerStore.getState().reconnect === phase) {
+      setReconnectPhase("idle");
+    }
+    return;
+  }
+  let settle!: () => void;
+  const attempt: GuestRejoinAttempt = {
+    ...target,
+    settled: new Promise<void>((resolve) => { settle = resolve; }),
+  };
+  rejoinInFlight = attempt;
+  const ownsGame = () => rejoinInFlight === attempt && sameTarget(attempt, readTarget());
+  let onVisibilityChange: (() => void) | null = null;
+  try {
+    setReconnectPhase("reconnecting");
+    attempt.phase = useServerStore.getState().reconnect;
     let deadline = Date.now() + SELF_RECONNECT_WINDOW_S * 1000;
     let hiddenSince: number | null = document.hidden ? Date.now() : null;
     onVisibilityChange = () => {
@@ -105,25 +142,22 @@ async function rejoinAfterRelayRestart() {
     document.addEventListener("visibilitychange", onVisibilityChange);
     while (Date.now() < deadline || document.hidden) {
       onVisibilityChange();
-      if (!getState().isGameActive) {
-        setReconnectPhase("idle");
-        return;
-      }
+      if (!ownsGame()) return;
       try {
         await useServerStore
           .getState()
-          .joinRoom(roomId, useServerStore.getState().roomPassword ?? undefined);
+          .joinRoom(target.roomId, useServerStore.getState().roomPassword ?? undefined);
+        if (!ownsGame()) return;
         void getPlatform().server?.requestResync();
         setReconnectPhase("idle");
         return;
       } catch (error) {
+        if (!ownsGame()) return;
         // game_already_started means the room is InGame with no disconnected
-        // seat left for this username — the grace timer forfeited it, and no
-        // retry can bring it back.
+        // seat left for this username — the grace timer forfeited it.
         if (
           error instanceof Error &&
-          error.message === SERVER_ERROR_CODE.GameAlreadyStarted &&
-          getState().isGameActive
+          error.message === SERVER_ERROR_CODE.GameAlreadyStarted
         ) {
           setReconnectPhase("idle");
           toast.error(`Your seat was forfeited while you were disconnected.`);
@@ -133,14 +167,22 @@ async function rejoinAfterRelayRestart() {
         await new Promise((resolve) => setTimeout(resolve, REJOIN_RETRY_DELAY_MS));
       }
     }
+    if (!ownsGame()) return;
     setReconnectPhase("idle");
-    if (getState().isGameActive) {
-      toast.error(`Game could not be resumed \u2014 the room did not come back.`);
-      void useGameStore.getState().endGame();
-    }
+    toast.error(`Game could not be resumed \u2014 the room did not come back.`);
+    void useGameStore.getState().endGame();
   } finally {
-    if (onVisibilityChange) document.removeEventListener("visibilitychange", onVisibilityChange);
-    rejoinInFlight = false;
+    try {
+      if (onVisibilityChange) document.removeEventListener("visibilitychange", onVisibilityChange);
+      if (rejoinInFlight === attempt) {
+        rejoinInFlight = null;
+        // Clear only the phase this attempt published, not a newer socket or
+        // replacement game's reconnect state.
+        if (useServerStore.getState().reconnect === attempt.phase) setReconnectPhase("idle");
+      }
+    } finally {
+      settle();
+    }
   }
 }
 function toastOpponentPublicAction(entry: GameLogEntry) {
