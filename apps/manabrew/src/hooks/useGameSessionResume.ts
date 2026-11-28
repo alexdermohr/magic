@@ -36,6 +36,16 @@ export function useGameSessionResume() {
   const resyncRequested = useRef(false);
   const respawnedBots = useRef(new Set<string>());
   const cancellationHandled = useRef(false);
+  // AppShell owns this subscription even before the game view mounts.
+  // Read live state synchronously: a late relay error must not terminate
+  // a local game, while an active multiplayer game still loses its room.
+  useEffect(() => {
+    const events = getPlatform().events;
+    return events.on<{ reason: string; message: string }>("server:room_lost", (payload) => {
+      const { isGameActive, isMultiplayer } = useGameStore.getState();
+      if (isGameActive && isMultiplayer) events.emit("game:forced_end", payload);
+    });
+  }, []);
   useEffect(() => {
     rlog("mount: session marker =", session);
   }, [session]);
