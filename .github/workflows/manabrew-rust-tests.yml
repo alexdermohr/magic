@@ -36,3 +36,5 @@ jobs:
         run: rustup show
       - name: Run ManaBot regression tests
         run: cargo test --locked -p manabot --lib --no-default-features
+      - name: Run relay regression tests
+        run: cargo test --locked -p manabrew-server

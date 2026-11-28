@@ -1109,10 +1109,20 @@ pub async fn handle_connection(
             }
         };
 
-        if let Some(mut player) = state.players.get_mut(&player_id) {
-            if player.generation == generation {
-                player.last_seen = Instant::now();
+        // The generation check and synchronous dispatch must be indivisible
+        // with respect to a new connection reclaiming this session. A close
+        // notice is advisory: the old socket may still have queued frames.
+        let _session_guard = state.lock_session(&username);
+        let current = state.players.get_mut(&player_id).is_some_and(|mut player| {
+            if player.generation != generation || !player.connected {
+                return false;
             }
+            player.last_seen = Instant::now();
+            true
+        });
+        if !current {
+            disconnect_reason = "session_superseded";
+            break;
         }
 
         metrics::record_socket_read(frame.len());
@@ -1278,6 +1288,10 @@ async fn authenticate(
                 return Err(ServerError::AuthFailed("Empty username".into()));
             }
 
+            // Identity resolution above may await network I/O; after it
+            // completes, serialize the entire lookup/reclaim or insertion
+            // with authenticated frames and disconnect for this username.
+            let _session_guard = state.lock_session(&username);
             if let Some(session) = state.session_by_username(&username) {
                 let claimed = identity::same_owner(&session.identity, &identities);
                 let displaces = name_verified && !session.name_verified;
