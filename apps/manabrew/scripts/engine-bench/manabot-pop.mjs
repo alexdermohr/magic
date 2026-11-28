@@ -21,12 +21,14 @@
  * each side.
  */
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
+const root = resolve(here, "..", "..");
 
 function option(name, fallback) {
   const at = process.argv.indexOf(`--${name}`);
@@ -125,11 +127,46 @@ function runOne(game) {
   });
 }
 
+function artifactHashes() {
+  const args = plan(0).args;
+  const argument = (name, fallback) => {
+    const at = args.indexOf(`--${name}`);
+    return at === -1 ? fallback : args[at + 1];
+  };
+  const forgeDir = resolve(argument("engine", engine));
+  const wasmDirs = argument("wasms", argument("wasm", join(root, "src", "wasm")))
+    .split(",").map((path) => resolve(path));
+  const selectedDecks = argument(
+    "decks",
+    "kaalia_regression_commander,starter_deck_animar,real_teval_commander,neheb_minotaur_commander",
+  ).split(",");
+  const paths = [
+    ...["manabot-pop.mjs", "manabot-game.mjs", "learned-policy.mjs", "forge-teacher-trace.mjs"]
+      .map((name) => join(here, name)),
+    ...readdirSync(forgeDir)
+      .filter((name) => /\.(?:[cm]?js|wasm)$/.test(name) || name === "package.json")
+      .map((name) => join(forgeDir, name)),
+    ...wasmDirs.flatMap((dir) => ["wasm.js", "wasm_bg.wasm"].map((name) => join(dir, name))),
+    ...selectedDecks.map((name) => name.startsWith("personal:")
+      ? resolve(argument("personal-decks", join(root, "dist", "personal-decks.json")))
+      : name.endsWith(".json") ? resolve(name) : join(root, "public", "preset_decks", `${name}.json`)),
+  ];
+  if (!paths.includes(join(forgeDir, "forgeharness.js.wasm"))) {
+    throw new Error(`${forgeDir} has no Forge WASM engine`);
+  }
+  const model = argument("learned-model", null);
+  if (model) paths.push(resolve(model));
+  return Object.fromEntries([...new Set(paths)].sort().map((path) => [
+    path, createHash("sha256").update(readFileSync(path)).digest("hex"),
+  ]));
+}
+
 async function runAll() {
   mkdirSync(out, { recursive: true });
   const manifestPath = join(out, "population-plan.json");
   const manifest = {
-    schemaVersion: 1, seedBase, games, seatCount, engine: resolve(engine),
+    schemaVersion: 2, seedBase, games, seatCount, engine: resolve(engine),
+    nodeVersion: process.version, jobs, artifacts: artifactHashes(),
     wasms: wasms.map((path) => resolve(path)),
     decks, personalDecks: personalDecks ? resolve(personalDecks) : null,
     timeout, extra, learnedModel: learnedModel ? resolve(learnedModel) : null,
@@ -190,6 +227,8 @@ function summarise() {
   const byDeck = {};
   const bySeat = SEATS.map(() => ({ A: 0, B: 0 }));
   let nonResults = 0;
+  const nonResultReasons = {};
+  const partialLatency = { games: 0, samples: 0, p50: [], p90: [], p99: [], max: 0, over1s: 0 };
   const latency = { p50: [], p90: [], p99: [], over1s: 0 };
   const bot = { p50: [], p99: [], totalMs: [], observeMs: [] };
   const turns = [];
@@ -199,6 +238,17 @@ function summarise() {
   for (const result of results) {
     if (result.outcome?.reason !== "game:over" || !result.winnerId) {
       nonResults += 1;
+      const reason = result.outcome?.reason === "game:over" ? "no_winner" : result.outcome?.reason ?? "unknown";
+      nonResultReasons[reason] = (nonResultReasons[reason] ?? 0) + 1;
+      if (result.latency?.samples > 0) {
+        partialLatency.games += 1;
+        partialLatency.samples += result.latency.samples;
+        partialLatency.p50.push(result.latency.p50);
+        partialLatency.p90.push(result.latency.p90);
+        partialLatency.p99.push(result.latency.p99);
+        partialLatency.max = Math.max(partialLatency.max, result.latency.max ?? 0);
+        partialLatency.over1s += result.latency.over1s ?? 0;
+      }
       continue;
     }
     const index = result.seed - seedBase;
@@ -228,7 +278,7 @@ function summarise() {
     bot.totalMs.push(result.bot?.totalMs);
     bot.observeMs.push(result.bot?.observeMs);
     (result.seats ?? []).forEach((seat, at) => {
-      if (!seat.prompts) return;
+      if (!seat.prompts || !result.agents?.[at] || result.agents[at] === "forge-ai") return;
       sides[a.includes(at) ? "A" : "B"].seats.push(seat);
     });
   }
@@ -254,6 +304,13 @@ function summarise() {
     games: results.length,
     decided: sides.A.wins + sides.B.wins,
     nonResults,
+    nonResultReasons,
+    partialLatency: {
+      ...partialLatency,
+      p50: median(partialLatency.p50),
+      p90: median(partialLatency.p90),
+      p99: median(partialLatency.p99),
+    },
     A: sides.A.wins,
     B: sides.B.wins,
     p: signTest(sides.A.wins, sides.B.wins).toFixed(3),
@@ -285,12 +342,18 @@ if (!summariseDir) await runAll();
 const summary = summarise();
 const line = (side) => {
   const seat = summary.perSeatGame[side];
-  return `${side}: ${summary[side]} wins | casts ${seat.casts} lands ${seat.lands} abilities ${seat.abilities} attackers ${seat.attackers} blocks ${seat.blocks} mulligans ${seat.mulligans} cancels ${seat.cancels}`;
+  return `${side}: ${summary[side]} wins | ${seat.games} measured external seats | casts ${seat.casts} lands ${seat.lands} abilities ${seat.abilities} attackers ${seat.attackers} blocks ${seat.blocks} mulligans ${seat.mulligans} cancels ${seat.cancels}`;
 };
 console.log(
   [
     `${summary.dir}: ${summary.games} games, ${summary.decided} decided, ${summary.nonResults} non-results`,
     `A ${summary.A} - B ${summary.B} (p=${summary.p}); median turn ${summary.medianTurn}, ${summary.medianDurationS}s; latency p50/p90/p99 ${summary.latency.p50}/${summary.latency.p90}/${summary.latency.p99} ms, ${summary.latency.over1s} over 1 s; bot decide p50/p99 ${summary.bot.p50}/${summary.bot.p99} ms, ${summary.bot.totalMs} ms decide + ${summary.bot.observeMs} ms observe per game`,
+    ...(summary.nonResults ? [
+      `  non-results: ${Object.entries(summary.nonResultReasons).map(([reason, count]) => `${reason}=${count}`).join(", ")}`,
+    ] : []),
+    ...(summary.partialLatency.games ? [
+      `  partial games: ${summary.partialLatency.games} measured, ${summary.partialLatency.samples} samples, p50/p90/p99 ${summary.partialLatency.p50}/${summary.partialLatency.p90}/${summary.partialLatency.p99} ms, max ${summary.partialLatency.max} ms, ${summary.partialLatency.over1s} over 1 s`,
+    ] : []),
     line("A"),
     line("B"),
     ...(summary.learned ? [`  learned eligible ${summary.learned.eligible}, overrides ${summary.learned.overrides}, fallback ${summary.learned.fallback}`] : []),

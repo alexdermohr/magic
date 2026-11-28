@@ -17,7 +17,7 @@ cd "$REPO_ROOT"
 
 # Keep the pinned Forge checkout clean. Compile the WebImage overlays into a
 # disposable copy of the harness jar.
-patch_kinds=(replay-clock)
+patch_kinds=(replay-clock forced-attacks)
 if [[ -n "${MANABREW_FORGE_AI_PATCH:-}" ]]; then
   case "$MANABREW_FORGE_AI_PATCH" in
     commander-pressure) patch_kinds+=(commander-pressure) ;;
@@ -58,6 +58,10 @@ for kind in "${patch_kinds[@]}"; do
       )
       patch="$REPO_ROOT/patches/forge-ai-replay-clock.patch"
       ;;
+    forced-attacks)
+      source_paths=(forge-ai/src/main/java/forge/ai/AiAttackController.java)
+      patch="$REPO_ROOT/patches/forge-ai-forced-attacks.patch"
+      ;;
     commander-pressure)
       source_paths=(forge-ai/src/main/java/forge/ai/AiAttackController.java)
       patch="$REPO_ROOT/patches/forge-ai-commander-pressure.patch"
@@ -68,9 +72,11 @@ for kind in "${patch_kinds[@]}"; do
       ;;
   esac
   for source_path in "${source_paths[@]}"; do
-    mkdir -p "$scratch/$(dirname "$source_path")"
-    cp "$forge/$source_path" "$scratch/$source_path"
-    patched_sources+=("$scratch/$source_path")
+    if [[ ! -f "$scratch/$source_path" ]]; then
+      mkdir -p "$scratch/$(dirname "$source_path")"
+      cp "$forge/$source_path" "$scratch/$source_path"
+      patched_sources+=("$scratch/$source_path")
+    fi
   done
   git -C "$scratch" apply --check "$patch"
   git -C "$scratch" apply "$patch"
@@ -81,8 +87,11 @@ cp "$original_jar" "$scratch/forge-harness-patched.jar"
 export HARNESS_JAR="$scratch/forge-harness-patched.jar"
 mkdir -p "$scratch/probe"
 "$JAVA_HOME/bin/javac" -cp "$HARNESS_JAR" -d "$scratch/probe" \
-  forge-harness/src/test/java/forge/harness/common/ReplayAiBudgetProbe.java
+  forge-harness/src/test/java/forge/harness/common/ReplayAiBudgetProbe.java \
+  forge-harness/src/test/java/forge/harness/common/ForcedAttackProbe.java
 "$JAVA_HOME/bin/java" -cp "$scratch/probe:$HARNESS_JAR" forge.harness.common.ReplayAiBudgetProbe
+(cd "$scratch"; "$JAVA_HOME/bin/java" -Duser.home="$scratch" -Dforge.synchronous=true \
+  -cp "$scratch/probe:$HARNESS_JAR" forge.harness.common.ForcedAttackProbe "$forge/forge-gui")
 echo "Forge AI patches isolated for WebImage: ${patch_kinds[*]} ($pin)"
 
 RES=forge/forge-gui/res

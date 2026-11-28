@@ -1,0 +1,90 @@
+diff --git a/forge-ai/src/main/java/forge/ai/AiAttackController.java b/forge-ai/src/main/java/forge/ai/AiAttackController.java
+--- a/forge-ai/src/main/java/forge/ai/AiAttackController.java
++++ b/forge-ai/src/main/java/forge/ai/AiAttackController.java
+@@ -820,8 +820,9 @@
+         if (trackTimer) {
+             AITimeoutTracker.begin(id, timeoutNanos);
+         }
+-        try {
+-            // something prevents attacking, try another
++        final boolean fullDeclaration = !nextTurn && combat == ai.getGame().getCombat();
++        try {
++            // something prevents attacking, try another
+             if (this.attackers.isEmpty() && ai.getOpponents().size() > 1) {
+                 final PlayerCollection opps = ai.getOpponents();
+                 opps.remove(defendingOpponent);
+@@ -850,18 +851,18 @@
+                 }
+                 refreshCombatants(defender);
+             }
+-            if (this.attackers.isEmpty()) {
+-                return aiAggression;
+-            }
++            if (!fullDeclaration && this.attackers.isEmpty()) {
++                return aiAggression;
++            }
+ 
+             GlobalAttackRestrictions restrict = combat.getAttackConstraints().getGlobalRestrictions();
+             // check with the local limitations vs. the chosen defender
+             // could still be null
+             Integer attackMax = ObjectUtils.firstNonNull(restrict.getMax(), restrict.getDefenderMax().get(defender));
+-            if (attackMax != null && attackMax == 0) {
+-                // can't attack anymore
+-                return aiAggression;
+-            }
++            if (attackMax != null && attackMax == 0
++                    && (!fullDeclaration || Integer.valueOf(0).equals(restrict.getMax()))) {
++                return aiAggression;
++            }
+ 
+             // Aggro options
+             boolean playAggro = false;
+@@ -900,16 +901,25 @@
+                 final long deadline = AITimeoutTracker.deadlineNanos(id, timeoutNanos);
+                 final AtomicBoolean combatClosed = new AtomicBoolean(false);
+ 
+-                for (final Card attacker : this.attackers) {
+-                    final GameEntity finalDefender = defender;
+-                    tasks.add(withDeadline(deadline, () -> {
+-                        GameEntity mustAttackDef = null;
+-                        if (attacker.getSVar("MustAttack").equals("True")) {
+-                            mustAttackDef = finalDefender;
+-                        } else if (attacker.hasSVar("EndOfTurnLeavePlay")
+-                                && isEffectiveAttacker(ai, attacker, combat, finalDefender)) {
+-                            mustAttackDef = finalDefender;
+-                        } else if (seasonOfTheWitch) {
++                final List<Card> forcedCandidates = new ArrayList<>(this.attackers);
++                if (fullDeclaration) {
++                    for (final Card candidate : myList) {
++                        final var requirement = combat.getAttackConstraints().getRequirements().get(candidate);
++                        if (!forcedCandidates.contains(candidate) && requirement != null && requirement.hasRequirement()) {
++                            forcedCandidates.add(candidate);
++                        }
++                    }
++                }
++                for (final Card attacker : forcedCandidates) {
++                    final GameEntity finalDefender = defender;
++                    tasks.add(withDeadline(deadline, () -> {
++                        GameEntity mustAttackDef = null;
++                        if (this.attackers.contains(attacker) && attacker.getSVar("MustAttack").equals("True")) {
++                            mustAttackDef = finalDefender;
++                        } else if (this.attackers.contains(attacker) && attacker.hasSVar("EndOfTurnLeavePlay")
++                                && isEffectiveAttacker(ai, attacker, combat, finalDefender)) {
++                            mustAttackDef = finalDefender;
++                        } else if (this.attackers.contains(attacker) && seasonOfTheWitch) {
+                             //TODO: if there are other ways to tap this creature (like mana creature), then don't need to attack
+                             mustAttackDef = finalDefender;
+                         } else {
+@@ -994,9 +1004,9 @@
+                     }
+                 }
+ 
+-                if (attackersLeft.isEmpty()) {
+-                    return aiAggression;
+-                }
++                if (attackersLeft.isEmpty() || (attackMax != null && attackMax == 0)) {
++                    return aiAggression;
++                }
+             }
+ 
+             // Lightmine Field: make sure the AI doesn't wipe out its own creatures

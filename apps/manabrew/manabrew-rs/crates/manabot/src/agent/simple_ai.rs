@@ -42,6 +42,7 @@ pub struct SimpleAi {
     attempted_actions: HashSet<String>,
     payment_attempt: Option<String>,
     payment_manual_attempt: Option<String>,
+    payment_life_sources: HashSet<String>,
     has_command_cards: bool,
 }
 
@@ -141,6 +142,23 @@ impl SimpleAi {
         &mut self,
         input: &manabrew_protocol::prompts::pay_mana_cost::PayManaCostInput,
     ) -> PayManaCostOutput {
+        self.payment_life_sources = input
+            .actions
+            .iter()
+            .filter_map(|action| match &action.kind {
+                manabrew_protocol::prompts::common::PaymentActionKind::ActivateManaAbility(
+                    info,
+                ) if info.is_mana_ability
+                    && info.cost.as_deref().is_some_and(|cost| {
+                        cost.split(',')
+                            .any(|part| part.trim().eq_ignore_ascii_case("Pay 1 life"))
+                    }) =>
+                {
+                    Some(info.card_id.clone())
+                }
+                _ => None,
+            })
+            .collect();
         if input.can_confirm_from_pool {
             self.failed_attack_targets.clear();
             self.payment_attempt = None;
@@ -569,6 +587,21 @@ impl SimpleAi {
         }
         if (roles.contains(Roles::COUNTERSPELL) || text.starts_with("counter target"))
             && !foreign_stack
+        {
+            return false;
+        }
+        let redirect = "you may choose new targets for target spell or ability.";
+        let pure_redirect = text.lines().any(|line| line == redirect)
+            && text.lines().all(|line| {
+                line == redirect
+                    || line == "if you control a commander, you may cast this spell without paying its mana cost."
+                    || line.is_empty()
+            });
+        if pure_redirect
+            && !view
+                .stack
+                .iter()
+                .any(|item| !item.is_casting && !item.targets.is_empty())
         {
             return false;
         }
@@ -1760,12 +1793,20 @@ impl BotAgent for SimpleAi {
                 confirm_label,
                 deny_label,
             }) => {
-                let signature = format!(
+                let title = presentation.title.to_ascii_lowercase();
+                let mana_life_prompt = title == "pay 1 life"
+                    && self.payment_attempt.is_some()
+                    && self.payment_life_sources.contains(&prompt_source_id)
+                    && prompt.source_card.as_ref().is_some_and(|card|
+                        card.controller_id == deciding_player_id);
+                let mut signature = format!(
                     "bool:{prompt_source_id}|{}|{confirm_label}|{deny_label}",
                     presentation.title
                 );
+                if mana_life_prompt {
+                    signature.push_str(self.payment_attempt.as_deref().unwrap_or_default());
+                }
                 let repeated = self.looping_on(signature);
-                let title = presentation.title.to_ascii_lowercase();
                 let always_accept = title.contains("cancel search")
                     || title.starts_with("do you want to draw")
                     || (title.contains("commander")
@@ -1797,6 +1838,7 @@ impl BotAgent for SimpleAi {
                 let accept_once = title.contains("search your library?")
                     || (constructed_duel && duel_cost)
                     || own_activation_cost
+                    || (mana_life_prompt && life.is_some_and(|life| life > 1))
                     || untapped_land
                     || title.contains("sacrifice evolving wilds")
                     || title.contains("sacrifice bountiful landscape")
@@ -2294,7 +2336,7 @@ mod commander_pressure_tests {
 
 #[cfg(test)]
 mod learned_cast_attempt_tests {
-    use super::{AvailableAction, AvailableActionKind, SimpleAi};
+    use super::{AvailableAction, AvailableActionKind, BotAgent, SimpleAi};
     use manabrew_protocol::prompts::common::PlayCardMode;
 
     fn cast(id: &str, card: &str) -> AvailableAction {
@@ -2307,6 +2349,52 @@ mod learned_cast_attempt_tests {
                 face_index: None,
             },
         }
+    }
+
+    #[test]
+    fn pure_redirect_requires_a_stack_object_with_targets() {
+        use manabrew_protocol::game::{
+            CardDto, CardView, GameViewDto, StackObjectDto, ZoneDto, ZoneKind,
+        };
+        let action = cast("prompt-action-0", "redirect");
+        let card = CardDto {
+            id: "redirect".into(),
+            types: vec!["Instant".into()],
+            text: "If you control a commander, you may cast this spell without paying its mana cost.\nYou may choose new targets for target spell or ability.".into(),
+            ..Default::default()
+        };
+        let mut view = GameViewDto {
+            active_player_id: "player-0".into(),
+            zones: vec![ZoneDto {
+                zone: ZoneKind::Hand,
+                owner_id: "player-0".into(),
+                cards: vec![CardView::Visible(card)],
+                count: 1,
+            }],
+            stack: vec![StackObjectDto {
+                id: "draw".into(),
+                controller_id: "player-0".into(),
+                text: "Draw two cards.".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let mut ai = SimpleAi::new();
+        ai.observe(view.clone());
+        assert!(!ai.sane(&action, "player-0"));
+
+        view.stack[0].targets.push(
+            serde_json::from_value(serde_json::json!({
+                "kind": "card", "id": "creature"
+            }))
+            .expect("valid target"),
+        );
+        view.stack[0].is_casting = true;
+        ai.observe(view.clone());
+        assert!(!ai.sane(&action, "player-0"));
+        view.stack[0].is_casting = false;
+        ai.observe(view);
+        assert!(ai.sane(&action, "player-0"));
     }
 
     #[test]
@@ -2473,6 +2561,81 @@ mod color_choice_tests {
                 }),
             }],
         }
+    }
+
+    #[test]
+    fn one_life_mana_cost_requires_an_offered_own_source_and_active_payment() {
+        use super::{BotAgent, CardDto, GameViewDto};
+        use manabrew_agent_interface::prompt::{
+            AgentPrompt, ChooseBooleanOutput, PromptInput, PromptOutput,
+        };
+        use manabrew_protocol::game::PlayerDto;
+        use manabrew_protocol::prompts::choose_boolean::ChooseBooleanInput;
+        use manabrew_protocol::prompts::common::{PaymentActionKind, PromptPresentation};
+
+        let mut input = expensive_payment_input();
+        let PaymentActionKind::ActivateManaAbility(info) = &mut input.actions[0].kind else {
+            panic!("expected mana ability");
+        };
+        info.cost = Some("{T}, Pay 1 life".into());
+        let source_id = info.card_id.clone();
+
+        let view = |life| GameViewDto {
+            players: vec![serde_json::from_value::<PlayerDto>(serde_json::json!({
+                "id": "player-0", "name": "player-0", "status": "playing",
+                "isHuman": false, "life": life, "counters": {}, "manaPool": {},
+                "commanderDamage": {}, "hasCityBlessing": false,
+                "hasEnduringStory": false, "ringLevel": 0, "speed": 0
+            }))
+            .expect("player view")],
+            ..Default::default()
+        };
+        let prompt = |source: &str, owner: &str| AgentPrompt {
+            prompt_id: 1,
+            deciding_player_id: "player-0".into(),
+            source_card: Some(CardDto {
+                id: source.into(),
+                controller_id: owner.into(),
+                ..Default::default()
+            }),
+            source_ability_text: None,
+            input: PromptInput::ChooseBoolean(ChooseBooleanInput {
+                presentation: PromptPresentation {
+                    title: "Pay 1 life".into(),
+                    description: None,
+                    text: None,
+                    targets: Vec::new(),
+                },
+                confirm_label: "Accept".into(),
+                deny_label: "Decline".into(),
+            }),
+        };
+        let accept = |bot: &mut SimpleAi, source: &str, owner: &str| {
+            matches!(
+                bot.decide(prompt(source, owner)),
+                Some(PromptOutput::ChooseBoolean(ChooseBooleanOutput::Decision {
+                    value: true
+                }))
+            )
+        };
+        let mut bot = SimpleAi::new();
+        bot.observe(view(28));
+        assert!(!accept(&mut bot, &source_id, "player-0"));
+        bot.pay_mana_cost(&input);
+        assert!(!accept(&mut bot, "unoffered", "player-0"));
+        assert!(!accept(&mut bot, &source_id, "player-1"));
+        assert!(accept(&mut bot, &source_id, "player-0"));
+        assert!(!accept(&mut bot, &source_id, "player-0"));
+        input.can_confirm_from_pool = true;
+        bot.pay_mana_cost(&input);
+        input.can_confirm_from_pool = false;
+        input.card_id = "another-spell".into();
+        bot.pay_mana_cost(&input);
+        assert!(accept(&mut bot, &source_id, "player-0"));
+        let mut near_death = SimpleAi::new();
+        near_death.observe(view(1));
+        near_death.pay_mana_cost(&input);
+        assert!(!accept(&mut near_death, &source_id, "player-0"));
     }
 
     #[test]

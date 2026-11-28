@@ -71,7 +71,19 @@ both sides. Without `--wasms` side B is Forge's AI; with two builds it is the
 second one on the same seeds. The summary counts wins per side, deck and seat
 with a sign test, play counts per seat-game, response latency and the bot's own
 `decide`/`observe` time. A finished game is never replayed, so a stopped run
-resumes. `--seats 2 --decks a,b` plays duels, side A alternating seats.
+resumes only when its configuration and input SHA-256 hashes still match.
+The population manifest binds the Forge runtime, ManaBot WASM, selected deck
+files (including the personal deck export), benchmark scripts, optional model,
+Node version and job count. Use a fresh `--out` directory when any input changes.
+Older manifests can still be summarised but cannot be resumed as verified runs.
+Timeouts, crashes and other non-results are counted by reason, separately from
+wins. `partialLatency` reports completed prompt intervals from non-results,
+including the sample count and maximum observed delay; it cannot measure an
+unfinished final interval. Completed-game latency statistics remain separate.
+Action counts describe external bot seats with observed prompts only. Internal
+Forge AI actions are not fully instrumented here, so their counts are omitted
+rather than reported as zero. Win counts still include every seat.
+`--seats 2 --decks a,b` plays duels, side A alternating seats.
 `manabot-game.mjs --trace chooseBlockers,chooseAttackers` writes each such
 prompt with the seat's view and the decision as one JSON line on stderr; a
 game the engine ends with an exception reports `outcome.reason` `engine_error`.
