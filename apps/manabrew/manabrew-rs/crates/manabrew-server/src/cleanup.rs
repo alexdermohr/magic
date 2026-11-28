@@ -348,10 +348,8 @@ pub fn mark_disconnected(state: &Arc<ServerState>, player_id: &str, our_generati
     // Drop the map guard before acquiring the session gate, just as the
     // receive/auth paths do. Otherwise old teardown can mark the replacement's
     // room disconnected after reclaim has already installed its new owner.
-    let Some(username) = state.players.get(player_id).map(|p| p.username.clone()) else {
-        return;
-    };
-    {
+    let username = state.players.get(player_id).map(|p| p.username.clone());
+    if let Some(username) = username {
         let _session_guard = state.lock_session(&username);
         mark_disconnected_inner(state, player_id, our_generation);
     }
