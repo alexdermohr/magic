@@ -1,5 +1,7 @@
 use dashmap::DashMap;
-use std::sync::Mutex;
+use std::collections::hash_map::RandomState;
+use std::hash::BuildHasher;
+use std::sync::{Mutex, MutexGuard};
 use std::time::Instant;
 use tokio::sync::mpsc;
 use tokio_tungstenite::tungstenite::Message;
@@ -75,7 +77,14 @@ impl From<&ConnectedPlayer> for UsernameSession {
     }
 }
 
+// Fixed-size striping bounds memory independently of transient usernames.
+// Unrelated sessions normally proceed independently. Every path acquires at
+// most one gate, before taking any player/room map guards.
+const SESSION_GATE_SHARDS: usize = 256;
+
 pub struct ServerState {
+    session_gates: [Mutex<()>; SESSION_GATE_SHARDS],
+    session_gate_hash: RandomState,
     pub players: DashMap<String, ConnectedPlayer>,
     pub rooms: DashMap<String, Room>,
     pub server_key: String,
@@ -103,6 +112,8 @@ impl ServerState {
         seal: Option<MessageSealer>,
     ) -> Self {
         ServerState {
+            session_gates: std::array::from_fn(|_| Mutex::new(())),
+            session_gate_hash: RandomState::new(),
             players: DashMap::new(),
             rooms: DashMap::new(),
             server_key,
@@ -134,6 +145,18 @@ impl ServerState {
     pub fn with_art_base_url(mut self, url: Option<String>) -> Self {
         self.art_base_url = url;
         self
+    }
+
+    /// Serialize ownership transfer, authenticated frame dispatch and disconnect
+    /// for the same username. These are synchronous operations: never retain
+    /// this guard across an await or acquire it while holding a map guard.
+    pub(crate) fn lock_session(&self, username: &str) -> MutexGuard<'_, ()> {
+        let shard = (self.session_gate_hash.hash_one(username) as usize) % SESSION_GATE_SHARDS;
+        // The mutex owns no application data. A panicking connection must not
+        // permanently block unrelated users sharing this shard.
+        self.session_gates[shard]
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
     }
 
     pub fn session_by_username(&self, username: &str) -> Option<UsernameSession> {
