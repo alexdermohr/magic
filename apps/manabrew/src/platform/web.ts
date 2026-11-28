@@ -2492,7 +2492,10 @@ class WebServerApi implements IServerApi {
     }
 
     if (type === "Error" && msg.code === SERVER_ERROR_CODE.NotInRoom) {
-      this.eventBus.emit("game:forced_end", {
+      // Room membership belongs to the relay, not to an arbitrary running
+      // local engine. The app-level session owner decides whether this
+      // room loss ends a game; normal server:error handling still follows.
+      this.eventBus.emit("server:room_lost", {
         reason: SERVER_ERROR_CODE.NotInRoom,
         message: msg.message,
       });
