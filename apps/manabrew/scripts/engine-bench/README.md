@@ -82,7 +82,8 @@ including the sample count and maximum observed delay; it cannot measure an
 unfinished final interval. Completed-game latency statistics remain separate.
 Action counts describe external bot seats with observed prompts only. Internal
 Forge AI actions are not fully instrumented here, so their counts are omitted
-rather than reported as zero. Win counts still include every seat.
+rather than reported as zero. Legacy results without agent metadata are
+explicitly counted as unavailable for action statistics. Win counts still include every seat.
 `--seats 2 --decks a,b` plays duels, side A alternating seats.
 `manabot-game.mjs --trace chooseBlockers,chooseAttackers` writes each such
 prompt with the seat's view and the decision as one JSON line on stderr; a

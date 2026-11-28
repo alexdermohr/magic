@@ -29,6 +29,8 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..", "..");
+const defaultDecks = "kaalia_regression_commander,starter_deck_animar,real_teval_commander,neheb_minotaur_commander";
+const defaultWasm = join(root, "src", "wasm");
 
 function option(name, fallback) {
   const at = process.argv.indexOf(`--${name}`);
@@ -79,13 +81,13 @@ function plan(index) {
   const a = PAIRS[index % PAIRS.length];
   const b = SEATS.filter((seat) => !a.includes(seat));
   const args = ["--engine", engine, "--seed", String(seed), "--timeout", timeout, ...extra];
-  if (decks) args.push("--decks", decks);
+  args.push("--decks", decks ?? defaultDecks);
   if (personalDecks) args.push("--personal-decks", personalDecks);
   if (wasms.length === 2) {
     const perSeat = SEATS.map((seat) => (a.includes(seat) ? wasms[0] : wasms[1]));
     args.push("--wasms", perSeat.join(","));
   } else {
-    if (wasms.length === 1) args.push("--wasm", wasms[0]);
+    args.push("--wasm", wasms[0] ?? defaultWasm);
     args.push("--forge-ai-seats", b.join(","));
   }
   if (learnedModel) args.push("--learned-model", learnedModel, "--learned-seats", a.join(","));
@@ -134,12 +136,9 @@ function artifactHashes() {
     return at === -1 ? fallback : args[at + 1];
   };
   const forgeDir = resolve(argument("engine", engine));
-  const wasmDirs = argument("wasms", argument("wasm", join(root, "src", "wasm")))
+  const wasmDirs = argument("wasms", argument("wasm", null))
     .split(",").map((path) => resolve(path));
-  const selectedDecks = argument(
-    "decks",
-    "kaalia_regression_commander,starter_deck_animar,real_teval_commander,neheb_minotaur_commander",
-  ).split(",");
+  const selectedDecks = argument("decks", null).split(",");
   const paths = [
     ...["manabot-pop.mjs", "manabot-game.mjs", "learned-policy.mjs", "forge-teacher-trace.mjs"]
       .map((name) => join(here, name)),
@@ -227,6 +226,7 @@ function summarise() {
   const byDeck = {};
   const bySeat = SEATS.map(() => ({ A: 0, B: 0 }));
   let nonResults = 0;
+  let legacyActionDataGames = 0;
   const nonResultReasons = {};
   const partialLatency = { games: 0, samples: 0, p50: [], p90: [], p99: [], max: 0, over1s: 0 };
   const latency = { p50: [], p90: [], p99: [], over1s: 0 };
@@ -277,6 +277,7 @@ function summarise() {
     bot.p99.push(result.bot?.p99);
     bot.totalMs.push(result.bot?.totalMs);
     bot.observeMs.push(result.bot?.observeMs);
+    if (!Array.isArray(result.agents)) legacyActionDataGames += 1;
     (result.seats ?? []).forEach((seat, at) => {
       if (!seat.prompts || !result.agents?.[at] || result.agents[at] === "forge-ai") return;
       sides[a.includes(at) ? "A" : "B"].seats.push(seat);
@@ -305,6 +306,7 @@ function summarise() {
     decided: sides.A.wins + sides.B.wins,
     nonResults,
     nonResultReasons,
+    legacyActionDataGames,
     partialLatency: {
       ...partialLatency,
       p50: median(partialLatency.p50),
@@ -353,6 +355,9 @@ console.log(
     ] : []),
     ...(summary.partialLatency.games ? [
       `  partial games: ${summary.partialLatency.games} measured, ${summary.partialLatency.samples} samples, p50/p90/p99 ${summary.partialLatency.p50}/${summary.partialLatency.p90}/${summary.partialLatency.p99} ms, max ${summary.partialLatency.max} ms, ${summary.partialLatency.over1s} over 1 s`,
+    ] : []),
+    ...(summary.legacyActionDataGames ? [
+      `  legacy games without agent metadata: ${summary.legacyActionDataGames}; action counts unavailable for those games`,
     ] : []),
     line("A"),
     line("B"),

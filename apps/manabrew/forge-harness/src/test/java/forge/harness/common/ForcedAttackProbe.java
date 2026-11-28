@@ -62,8 +62,21 @@ public final class ForcedAttackProbe {
         if (tapped) bird.setTapped(true);
         if (limited) load("Silent Arbiter", preferred, game);
 
+        if (label.equals("defender-zero")) {
+            Card restriction = load("Crawlspace", preferred, game);
+            restriction.addStaticAbility("Mode$ AttackRestrict | MaxAttackers$ 0 | ValidDefender$ You");
+            ordinary.setSVar("MustAttack", "True");
+        }
         Combat combat = new Combat(attacker);
         game.getPhaseHandler().setCombat(combat);
+        if (label.equals("defender-zero")) {
+            var restrictions = combat.getAttackConstraints().getGlobalRestrictions();
+            if (!Integer.valueOf(0).equals(restrictions.getDefenderMax().get(preferred))
+                    || restrictions.getMax() != null
+                    || AiAttackController.choosePreferredDefenderPlayer(attacker) != preferred) {
+                throw new AssertionError("Defender-zero fixture invalid");
+            }
+        }
         new AiAttackController(attacker).declareAttackers(combat);
         boolean valid = CombatUtil.validateAttackers(combat);
         boolean ordinaryAttacks = ordinary != null && combat.isAttacking(ordinary);
@@ -93,6 +106,7 @@ public final class ForcedAttackProbe {
             prefs.setPref(FPref.UI_LANGUAGE, "en-US");
             return null;
         });
+        run("defender-zero", 4, true, true, false, false, false, false, true);
         run("split", 4, true, true, false, false, false, true, true);
         run("ordinary", 4, true, false, false, false, false, true, true);
         run("tapped", 4, true, true, false, true, false, true, false);
@@ -101,7 +115,7 @@ public final class ForcedAttackProbe {
         for (int i = 0; i < 8; i++) {
             run("only-" + i, 4, false, true, true, false, false, false, true);
         }
-        System.out.println("FORCED_ATTACK_PROBE 13/13");
+        System.out.println("FORCED_ATTACK_PROBE 14/14");
         System.exit(0);
     }
 }
