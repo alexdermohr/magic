@@ -1,0 +1,82 @@
+diff --git a/forge-ai/src/main/java/forge/ai/AiAttackController.java b/forge-ai/src/main/java/forge/ai/AiAttackController.java
+--- a/forge-ai/src/main/java/forge/ai/AiAttackController.java
++++ b/forge-ai/src/main/java/forge/ai/AiAttackController.java
+@@ -820,6 +820,7 @@
+         if (trackTimer) {
+             AITimeoutTracker.begin(id, timeoutNanos);
+         }
++        final boolean fullDeclaration = !nextTurn && combat == ai.getGame().getCombat();
+         try {
+             // something prevents attacking, try another
+             if (this.attackers.isEmpty() && ai.getOpponents().size() > 1) {
+@@ -850,7 +851,7 @@
+                 }
+                 refreshCombatants(defender);
+             }
+-            if (this.attackers.isEmpty()) {
++            if (!fullDeclaration && this.attackers.isEmpty()) {
+                 return aiAggression;
+             }
+ 
+@@ -858,8 +859,10 @@
+             // check with the local limitations vs. the chosen defender
+             // could still be null
+             Integer attackMax = ObjectUtils.firstNonNull(restrict.getMax(), restrict.getDefenderMax().get(defender));
+-            if (attackMax != null && attackMax == 0) {
+-                // can't attack anymore
++            final boolean preferredDefenderAvailable = !fullDeclaration
++                    || !Integer.valueOf(0).equals(restrict.getDefenderMax().get(defender));
++            if (attackMax != null && attackMax == 0
++                    && (!fullDeclaration || Integer.valueOf(0).equals(restrict.getMax()))) {
+                 return aiAggression;
+             }
+ 
+@@ -900,16 +903,25 @@
+                 final long deadline = AITimeoutTracker.deadlineNanos(id, timeoutNanos);
+                 final AtomicBoolean combatClosed = new AtomicBoolean(false);
+ 
+-                for (final Card attacker : this.attackers) {
++                final List<Card> forcedCandidates = new ArrayList<>(this.attackers);
++                if (fullDeclaration) {
++                    for (final Card candidate : myList) {
++                        final var requirement = combat.getAttackConstraints().getRequirements().get(candidate);
++                        if (!forcedCandidates.contains(candidate) && requirement != null && requirement.hasRequirement()) {
++                            forcedCandidates.add(candidate);
++                        }
++                    }
++                }
++                for (final Card attacker : forcedCandidates) {
+                     final GameEntity finalDefender = defender;
+                     tasks.add(withDeadline(deadline, () -> {
+                         GameEntity mustAttackDef = null;
+-                        if (attacker.getSVar("MustAttack").equals("True")) {
++                        if (preferredDefenderAvailable && this.attackers.contains(attacker) && attacker.getSVar("MustAttack").equals("True")) {
+                             mustAttackDef = finalDefender;
+-                        } else if (attacker.hasSVar("EndOfTurnLeavePlay")
++                        } else if (preferredDefenderAvailable && this.attackers.contains(attacker) && attacker.hasSVar("EndOfTurnLeavePlay")
+                                 && isEffectiveAttacker(ai, attacker, combat, finalDefender)) {
+                             mustAttackDef = finalDefender;
+-                        } else if (seasonOfTheWitch) {
++                        } else if (preferredDefenderAvailable && this.attackers.contains(attacker) && seasonOfTheWitch) {
+                             //TODO: if there are other ways to tap this creature (like mana creature), then don't need to attack
+                             mustAttackDef = finalDefender;
+                         } else {
+@@ -943,6 +955,9 @@
+                             for (Pair<GameEntity, Integer> e : reqs) {
+                                 if (e.getRight() == 0) continue;
+                                 GameEntity mustAttackDefMaybe = e.getLeft();
++                                if (fullDeclaration && Integer.valueOf(0).equals(restrict.getDefenderMax().get(mustAttackDefMaybe))) {
++                                    continue;
++                                }
+                                 if (canAttackWrapper(attacker, mustAttackDefMaybe) && CombatUtil.getAttackCost(ai.getGame(), attacker, mustAttackDefMaybe) == null) {
+                                     mustAttackDef = mustAttackDefMaybe;
+                                     break;
+@@ -994,7 +1009,7 @@
+                     }
+                 }
+ 
+-                if (attackersLeft.isEmpty()) {
++                if (attackersLeft.isEmpty() || !preferredDefenderAvailable || (attackMax != null && attackMax == 0)) {
+                     return aiAggression;
+                 }
+             }
