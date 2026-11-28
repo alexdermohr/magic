@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPlatformType } from "@/platform";
+import { getEventBus, getPlatformType } from "@/platform";
 import { peekActiveGameSession } from "@/lib/activeGameSession";
 import { ROUTES } from "@/lib/constants";
 import {
@@ -27,11 +27,13 @@ export type ForgeResumePhase =
  */
 export function useForgeAutoResume(): {
   phase: ForgeResumePhase;
+  progress: { total: number; verified: number | null } | null;
   retry: () => void;
   dismiss: () => void;
 } {
   const navigate = useNavigate();
   const [attempt, setAttempt] = useState(0);
+  const [progress, setProgress] = useState<{ total: number; verified: number | null } | null>(null);
   const [phase, setPhase] = useState<ForgeResumePhase>(() =>
     getPlatformType() === "web" && !peekActiveGameSession() ? "checking" : "idle",
   );
@@ -42,6 +44,8 @@ export function useForgeAutoResume(): {
       return;
     }
     let cancelled = false;
+    let unsubscribe: (() => void) | undefined;
+    setProgress(null);
     void (async () => {
       // No committed Forge game: normal navigation must work immediately.
       // A nonmatching release is different from an absent game; do not
@@ -69,6 +73,24 @@ export function useForgeAutoResume(): {
         return;
       }
 
+      setProgress({ total: save.replaySnapshot.journal.entries.length, verified: null });
+      // Subscribe before starting the worker. The platform may re-read a
+      // newer same-game checkpoint under ownership, so the first valid event
+      // supplies the authoritative total for this attempt.
+      unsubscribe = getEventBus().on<{
+        gameId?: string; verified?: number; total?: number;
+      }>("forge:replay_progress", (event) => {
+        if (cancelled || event?.gameId !== save.gameId) return;
+        const { verified, total } = event;
+        if (typeof verified !== "number" || typeof total !== "number" ||
+            !Number.isSafeInteger(verified) || !Number.isSafeInteger(total) ||
+            verified < 0 || total < verified) return;
+        setProgress(previous => {
+          if (!previous || (previous.verified !== null &&
+              (previous.total !== total || previous.verified >= verified))) return previous;
+          return { total, verified };
+        });
+      });
       setPhase("restoring");
       const { launch } = save;
       const gauntletId = typeof launch.gauntletId === "string" && launch.gauntletId
@@ -91,8 +113,11 @@ export function useForgeAutoResume(): {
       if (cancelled) return;
       console.warn("Forge auto-restore unavailable:", error);
       setPhase("failed");
+    }).finally(() => {
+      unsubscribe?.();
+      unsubscribe = undefined;
     });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; unsubscribe?.(); unsubscribe = undefined; };
   }, [attempt, navigate]);
 
   const retry = useCallback(() => {
@@ -100,5 +125,5 @@ export function useForgeAutoResume(): {
     setAttempt((value) => value + 1);
   }, []);
   const dismiss = useCallback(() => setPhase("idle"), []);
-  return { phase, retry, dismiss };
+  return { phase, progress, retry, dismiss };
 }

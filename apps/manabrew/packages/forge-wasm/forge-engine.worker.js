@@ -50,6 +50,9 @@ function supervise(command) {
   const coldReplay = command.args?.replaySnapshot ?? null;
   let coldVerified = coldReplay === null;
   let coldReply = null;
+  let coldProgress = -1;
+  const coldTotal = Array.isArray(coldReplay?.journal?.entries)
+    ? coldReplay.journal.entries.length : 0;
   const stop = (failure = null) => {
     ended = true;
     clearTimeout(timer);
@@ -123,6 +126,23 @@ function supervise(command) {
             rewindDirectiveLanes: snapshot ? directiveLanes : undefined,
           },
         });
+        return;
+      }
+      // Only expose bounded scalar progress from the initial cold replay.
+      // Never forward candidate/late events, unverified state or arbitrary data.
+      if (data.type === "event" && data.event === "forge:replay_progress") {
+        if (initial && coldReplay && !coldVerified) {
+          const verified = data.payload?.verified;
+          if (Number.isSafeInteger(verified) && verified > coldProgress &&
+              verified >= 0 && verified <= coldTotal) {
+            coldProgress = verified;
+            postEvent("forge:replay_progress", {
+              gameId: command.args.gameId,
+              verified,
+              total: coldTotal,
+            });
+          }
+        }
         return;
       }
       if (initial && coldReplay && !coldVerified) {
@@ -231,9 +251,7 @@ function supervise(command) {
     if (coldReplay) {
       // Long decision journals can need many minutes to reconstruct on a
       // baseline WASM compiler. Keep a bounded deadline, scaled by history size.
-      const decisions = Array.isArray(coldReplay.journal?.entries)
-        ? coldReplay.journal.entries.length : 0;
-      const replayTimeout = Math.min(900000, 120000 + decisions * 1500);
+      const replayTimeout = Math.min(900000, 120000 + coldTotal * 1500);
       timer = setTimeout(() => {
         if (ended || coldVerified) return;
         stop("Forge replay exceeded its verification deadline; the saved game was kept.");

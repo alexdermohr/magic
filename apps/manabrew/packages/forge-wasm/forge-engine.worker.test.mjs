@@ -340,6 +340,46 @@ test("cold replay preserves the original leaf error rather than hiding it", () =
   assert(f.active.terminated);
 });
 
+test("cold replay forwards only bounded monotonic verified progress", () => {
+  const snapshot = {
+    version: 1, nextSequence: 4,
+    journal: { version: 2, startRequest: '{"gameId":"recover-test"}', entries: [{}, {}, {}] },
+    prompt: { promptId: 22 }, verification: { state: "a".repeat(64), rng: "1:2" },
+  };
+  const f = fixture(false, { replaySnapshot: snapshot, journalRewind: true, gameId: "recover-test" });
+  const progress = () => f.output.filter(entry => entry.event === "forge:replay_progress")
+    .map(entry => JSON.parse(JSON.stringify(entry.payload)));
+  f.active.event("game:sab", { buffer: new SharedArrayBuffer(256 * 1024) });
+  f.active.response("start", "game-started");
+  f.active.event("forge:replay_progress", { verified: 0, hidden: "must-not-leak", gameId: "wrong" });
+  for (const verified of [-1, 0, 0.5, 4, "1", null, 2, 1, 2, 3]) {
+    f.active.event("forge:replay_progress", { verified, hidden: "must-not-leak" });
+  }
+  assert.deepEqual(progress(), [0, 2, 3].map(verified => ({ gameId: "recover-test", verified, total: 3 })));
+  assert.equal(f.responses("start").length, 0);
+  assert(!f.output.some(entry => entry.event === "game:sab"));
+  assert.equal(f.timers.size, 1, "progress must not extend or clear the hard verification deadline");
+  f.active.event("forge:replay_ready");
+  assert.equal(f.responses("start").length, 1);
+  f.active.event("forge:replay_progress", { verified: 3 });
+  const candidate = f.rewind();
+  candidate.event("forge:replay_progress", { verified: 1 });
+  assert.equal(progress().length, 3);
+  f.command("end_game");
+});
+
+test("cold replay ignores progress after a verification error", () => {
+  const snapshot = {
+    journal: { entries: [{}, {}] },
+  };
+  const f = fixture(false, { replaySnapshot: snapshot, gameId: "recover-test" });
+  f.active.event("forge:replay_progress", { verified: 1 });
+  f.active.onmessage({ data: { type: "response", requestId: "start", error: "divergence" } });
+  f.active.event("forge:replay_progress", { verified: 2 });
+  assert.equal(f.responses("start")[0].error, "divergence");
+  assert.equal(f.output.filter(entry => entry.event === "forge:replay_progress").length, 1);
+});
+
 test("cold restore conceals a dead worker until verified state and RNG", () => {
   const snapshot = {
     version: 1, nextSequence: 3,

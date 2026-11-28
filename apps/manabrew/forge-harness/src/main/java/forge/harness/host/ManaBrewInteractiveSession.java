@@ -2203,7 +2203,14 @@ public final class ManaBrewInteractiveSession {
             JsonObject verified = null;
             if (replaying && actions.isEmpty()) {
                 verified = replayVerification();
+                final int replayed = decisionHistory.replayedActions();
                 final JsonObject action = decisionHistory.replayAction(latestPromptJson, verified);
+                // Only report the preceding actions after their following prompt
+                // AND state/RNG boundary matched. No hidden game state is sent.
+                // Coalesce events so a long replay does not flood the UI.
+                if (bridge != null && (replayed % 10 == 0 || action == null)) {
+                    bridge.replayProgress(replayed);
+                }
                 if (action != null) {
                     submitAction(action.toString());
                 } else {

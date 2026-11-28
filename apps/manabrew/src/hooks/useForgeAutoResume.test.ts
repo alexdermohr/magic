@@ -11,10 +11,11 @@ const mocks = vi.hoisted(() => ({
   release: vi.fn(),
   storedRelease: vi.fn(),
   readSave: vi.fn(),
+  on: vi.fn(),
 }));
 
 vi.mock("react-router-dom", () => ({ useNavigate: () => mocks.navigate }));
-vi.mock("@/platform", () => ({ getPlatformType: () => "web" }));
+vi.mock("@/platform", () => ({ getPlatformType: () => "web", getEventBus: () => ({ on: mocks.on }) }));
 vi.mock("@/lib/activeGameSession", () => ({ peekActiveGameSession: () => null }));
 vi.mock("@/lib/constants", () => ({
   ROUTES: { PLAY: "/play", PLAY_OFFLINE_CONSTRUCTED: "/play/offline/constructed" },
@@ -31,8 +32,10 @@ vi.mock("@/stores/useGameStore", () => ({
 import { useForgeAutoResume } from "./useForgeAutoResume";
 
 let phase = "";
+let progress: ReturnType<typeof useForgeAutoResume>["progress"];
+let retry: () => void;
 function Harness() {
-  phase = useForgeAutoResume().phase;
+  ({ phase, progress, retry } = useForgeAutoResume());
   return null;
 }
 
@@ -63,6 +66,7 @@ describe("automatic Forge resume navigation", () => {
     mocks.release.mockReset().mockResolvedValue("a".repeat(20));
     mocks.storedRelease.mockReset().mockResolvedValue("a".repeat(20));
     mocks.readSave.mockReset();
+    mocks.on.mockReset().mockReturnValue(() => {});
     container = document.createElement("div");
     document.body.append(container);
     root = createRoot(container);
@@ -86,6 +90,47 @@ describe("automatic Forge resume navigation", () => {
       "Forge", "gauntlet-resume-proof", saved,
     );
     expect(phase).toBe("idle");
+  });
+
+  it("shows only verified monotonic progress for the active attempt and clears the listener", async () => {
+    const saved = save(null);
+    const entries = Array.from({ length: 3 }, () => ({}));
+    saved.replaySnapshot.journal.entries = entries as typeof saved.replaySnapshot.journal.entries;
+    mocks.readSave.mockResolvedValue(saved);
+    let resolve!: (ok: boolean) => void;
+    mocks.startGame.mockReturnValue(new Promise<boolean>(done => { resolve = done; }));
+    const unsubscribe = vi.fn();
+    mocks.on.mockReturnValue(unsubscribe);
+    await act(async () => { root.render(createElement(Harness)); });
+    expect(phase).toBe("restoring");
+    expect(progress).toEqual({ total: 3, verified: null });
+    expect(mocks.on).toHaveBeenCalledWith("forge:replay_progress", expect.any(Function));
+    const emit = mocks.on.mock.calls[0][1] as (event: unknown) => void;
+    await act(async () => {
+      emit({ gameId: "other-game", verified: 3, total: 3 });
+      emit({ gameId: saved.gameId, verified: 4, total: 3 });
+      emit({ gameId: saved.gameId, verified: 0.5, total: 3 });
+    });
+    expect(progress).toEqual({ total: 3, verified: null });
+    await act(async () => {
+      emit({ gameId: saved.gameId, verified: 0, total: 4 });
+      emit({ gameId: saved.gameId, verified: 2, total: 4 });
+      emit({ gameId: saved.gameId, verified: 1, total: 4 });
+      emit({ gameId: saved.gameId, verified: 3, total: 5 });
+    });
+    expect(progress).toEqual({ total: 4, verified: 2 });
+    await act(async () => {
+      emit({ gameId: saved.gameId, verified: 4, total: 4 });
+    });
+    expect(progress).toEqual({ total: 4, verified: 4 });
+    expect(phase).toBe("restoring");
+    await act(async () => resolve(false));
+    expect(phase).toBe("failed");
+    expect(unsubscribe).toHaveBeenCalledTimes(1);
+    mocks.startGame.mockResolvedValue(true);
+    await act(async () => retry());
+    expect(phase).toBe("idle");
+    expect(progress).toEqual({ total: 3, verified: null });
   });
 
   it("keeps ordinary games on the offline board without a Gauntlet", async () => {
