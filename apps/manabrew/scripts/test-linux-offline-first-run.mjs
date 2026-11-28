@@ -15,21 +15,36 @@ const chromeOptions = {
     : {}),
   args: [
     "--no-sandbox", "--disable-dev-shm-usage",
+    ...(process.env.MANABREW_TEST_V8_FLAGS
+      ? ["--js-flags=" + process.env.MANABREW_TEST_V8_FLAGS]
+      : []),
     ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
       ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
       : []),
   ],
 };
-const context = await chromium.launchPersistentContext(profile, {
-  ...chromeOptions,
-  serviceWorkers: "allow",
-});
-const page = context.pages()[0] ?? await context.newPage();
+let context;
+let page;
 const errors = [];
-page.on("pageerror", (error) => errors.push(error.message));
+async function openProfile() {
+  context = await chromium.launchPersistentContext(profile, {
+    ...chromeOptions,
+    serviceWorkers: "allow",
+  });
+  page = context.pages()[0] ?? await context.newPage();
+  page.on("pageerror", (error) => errors.push(error.message));
+}
+async function personalDeckIds() {
+  return page.evaluate(async () => {
+    const { readDeckStorage } = await import("/deck-storage-codec.js");
+    const saved = JSON.parse(readDeckStorage("manabrew-deck-storage") ?? "{}").state?.savedDecks ?? [];
+    return saved.filter(entry => entry.id?.startsWith("github:alexdermohr/magic:"))
+      .map(entry => entry.id).sort();
+  });
+}
 try {
+  await openProfile();
   // A completely new Linux desktop profile must install automatically.
-  // The ordinary iPad/Safari installer still requires a deliberate click.
   await page.goto(origin + "/offline-setup.html?desktop=1&entry=play", {
     waitUntil: "domcontentloaded",
   });
@@ -41,16 +56,13 @@ try {
     null, { timeout: 90000 },
   );
   const online = await page.evaluate(async () => {
-    const data = JSON.parse(localStorage.getItem("manabrew-deck-storage") ?? "{}");
-    const saved = data.state?.savedDecks ?? [];
     const baselines = JSON.parse(localStorage.getItem("manabrew-github-deck-baselines-v2") ?? "{}");
     const manifest = await (await fetch("/offline-assets.json")).json();
     const personal = await (await fetch("/personal-decks.json")).json();
     const cache = await caches.open("manabrew-ipad-offline-" + manifest.version);
     return {
       path: location.pathname,
-      decks: saved.filter(entry => entry.id?.startsWith("github:alexdermohr/magic:")).length,
-      expectedDecks: personal.decks.length,
+      expectedDecks: personal.decks.map(entry => entry.id).sort(),
       baselines: Object.keys(baselines).length,
       version: manifest.version,
       files: manifest.files.length,
@@ -59,19 +71,26 @@ try {
       engineWorker: typeof Worker !== "undefined",
     };
   });
-  console.log("LINUX_AUTO_FIRST_RUN", JSON.stringify(online));
+  const { expectedDecks, ...onlineProof } = online;
+  const installedDecks = await personalDeckIds();
+  console.log("LINUX_AUTO_FIRST_RUN", JSON.stringify({
+    ...onlineProof, decks: installedDecks.length, expectedDecks: expectedDecks.length,
+  }));
   assert.equal(online.path, "/play");
-  assert.ok(online.decks > 0);
-  assert.equal(online.decks, online.expectedDecks);
-  assert.ok(online.baselines >= online.decks);
+  assert.ok(installedDecks.length > 0);
+  assert.deepEqual(installedDecks, expectedDecks);
+  assert.ok(online.baselines >= installedDecks.length);
   assert.ok(online.files >= 1000);
   assert.equal(online.ready, true);
   assert.equal(online.isolated, true);
   assert.equal(online.engineWorker, true);
 
-  // No network (neither an external API nor the local PWA service).
+  // A completed cache does not prove that the deck store survived browser exit.
+  await context.close();
+  context = null;
+  await openProfile();
   await context.setOffline(true);
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.goto(origin + "/play", { waitUntil: "domcontentloaded" });
   await page.waitForFunction(
     () => document.body.innerText.includes("Anowon, the Ruin Thief"),
     null, { timeout: 90000 },
@@ -81,8 +100,12 @@ try {
     isolated: crossOriginIsolated,
     deck: document.body.innerText.includes("Ardenn, Intrepid Archaeologist"),
   }));
-  console.log("LINUX_OFFLINE_COLD_START", JSON.stringify(offline));
+  const restartedDecks = await personalDeckIds();
+  console.log("LINUX_OFFLINE_COLD_START", JSON.stringify({
+    ...offline, decks: restartedDecks.length, browserRestarted: true,
+  }));
   assert.deepEqual(offline, { offline: true, isolated: true, deck: true });
+  assert.deepEqual(restartedDecks, installedDecks);
 
   // Linux-specific copy is shown when explicitly revisiting the installer.
   await page.goto(origin + "/offline-setup.html?setup=1", {
@@ -115,6 +138,6 @@ try {
   await page.waitForURL(/\/play\/offline\/constructed$/, { timeout: 90000 });
   console.log("LINUX_LEGACY_SOLO_ENTRY", new URL(page.url()).pathname);
 } finally {
-  await context.close();
+  await context?.close();
   if (ownedProfile) rmSync(profile, { recursive: true, force: true });
 }
