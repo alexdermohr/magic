@@ -19,6 +19,9 @@ const context = await chromium.launchPersistentContext(
     args: [
       "--no-sandbox",
       "--disable-dev-shm-usage",
+      ...(process.env.MANABREW_TEST_V8_FLAGS
+        ? ["--js-flags=" + process.env.MANABREW_TEST_V8_FLAGS]
+        : []),
       ...(process.env.MANABREW_TEST_HOST_RESOLVER_RULES
         ? ["--host-resolver-rules=" + process.env.MANABREW_TEST_HOST_RESOLVER_RULES]
         : []),
@@ -26,6 +29,30 @@ const context = await chromium.launchPersistentContext(
     serviceWorkers: "allow",
   },
 );
+// The telemetry ring records the last answered decision, not the current
+// prompt. Observe the actual read-only seat frames used by the board.
+await context.addInitScript(() => {
+  const NativeWorker = window.Worker;
+  window.__fourPlayerPrompt = null;
+  window.Worker = class extends NativeWorker {
+    constructor(url, options) {
+      super(url, options);
+      if (!String(url).includes("seat-reader")) return;
+      this.addEventListener("message", (event) => {
+        if (typeof event.data !== "string" || !event.data.startsWith("{")) return;
+        try {
+          const message = JSON.parse(event.data);
+          if (message.kind === "prompt") {
+            window.__fourPlayerPrompt = {
+              id: message.prompt?.promptId ?? null,
+              type: message.prompt?.input?.type ?? null,
+            };
+          }
+        } catch { /* not a seat prompt */ }
+      });
+    }
+  };
+});
 const page = context.pages()[0] ?? (await context.newPage());
 const errors = [];
 page.on("pageerror", (error) => errors.push(error.message));
@@ -33,7 +60,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 const state = () =>
   page.evaluate(() => {
     const body = document.body.innerText;
-    const decisions = window.__engineDecisions ?? [];
+    const prompt = window.__fourPlayerPrompt;
     const life = [...body.matchAll(/Inspect (you|Forge AI|Forge bot(?: \d+)?|Brewy bot(?: \d+)?), (-?\d+) life/g)].map((m) => ({
       name: m[1] === "you" ? "You" : m[1],
       amount: Number(m[2]),
@@ -49,8 +76,8 @@ const state = () =>
       playing: body.includes("Game board controls"),
       offline: !navigator.onLine,
       path: location.pathname,
-      type: decisions.at(-1)?.type ?? null,
-      count: decisions.length,
+      type: prompt?.type ?? null,
+      promptId: prompt?.id ?? null,
       hand: Number((body.match(/Your hand, (\d+) cards?/) ?? [])[1] ?? 0),
       step: (body.match(/current step ([^\n]+)/) ?? [])[1] ?? null,
       life,
@@ -97,13 +124,13 @@ try {
   // uppercase KEEP. Space is the real configured confirm keyboard action.
   await page.waitForFunction(
     () => document.body.innerText.includes("Game board controls") &&
-      (window.__engineDecisions ?? []).some((entry) => entry.type === "mulligan"),
+      window.__fourPlayerPrompt?.type === "mulligan",
     null,
     { timeout: 180000 },
   );
   await page.keyboard.press("Space");
   await page.waitForFunction(
-    () => (window.__engineDecisions ?? []).some((decision) => decision.type === "chooseAction"),
+    () => window.__fourPlayerPrompt?.type === "chooseAction",
     null,
     { timeout: 110000 },
   );
@@ -211,9 +238,30 @@ try {
       await page.keyboard.press("Enter");
       if (current.type === "revealCards") reveals++;
       modalConfirms++;
-    } else if (["chooseAction", "chooseBlockers", "chooseAttackers"].includes(current.type)) {
-      await touch(1032, 765);
+    } else if (current.type === "chooseAction" || current.type === "chooseBlockers") {
+      // The priority cluster moves as the board and viewport change. Space
+      // is the real pass-priority binding (also confirms empty blockers).
+      // A browsing dialog intentionally blocks it: report that distinctly
+      // from an engine stall instead of repeatedly tapping the board.
+      const dialog = page.getByRole("dialog").filter({ visible: true });
+      if (await dialog.count()) {
+        throw new Error("Unexpected dialog during priority/blockers: " +
+          (await dialog.first().innerText()).slice(0, 500));
+      }
+      await page.keyboard.press("Space");
       passes++;
+    } else if (current.type === "chooseAttackers") {
+      // Space does not confirm an empty attack assignment. Use the actual
+      // accessible Pass control exposed by PromptButton, not a fixed point.
+      const pass = page.getByRole("button", { name: /^Pass$/i }).filter({ visible: true });
+      if (await pass.count() === 1) {
+        await pass.click({ timeout: 5000 });
+        passes++;
+      } else {
+        // The previous prompt can remain visible during engine computation.
+        // Wait for the next observed frame/control, not an unrelated board tap.
+        await page.waitForTimeout(500);
+      }
     } else {
       throw new Error("Unhandled Pixi action " + current.type + ": " + current.tail);
     }
@@ -226,20 +274,20 @@ try {
         JSON.stringify({
           actions,
           elapsedSeconds: Math.round((Date.now() - start) / 1000),
-          decisionCount: updated.count,
+          promptId: updated.promptId,
           step: updated.step,
           life: updated.life,
         }),
       );
     }
     const advanced =
-      updated.count !== current.count ||
+      updated.promptId !== current.promptId ||
       updated.step !== current.step ||
       updated.life.map((seat) => seat.amount).join() !==
         current.life.map((seat) => seat.amount).join();
     if (advanced) idleSince = Date.now();
-    // The last human prompt remains in __engineDecisions while Forge AI
-    // computes three other seats. A 3-10s pause is not a frozen Pixi input.
+    // The last observed prompt may remain while Forge computes other seats.
+    // A 3-10s pause is not a frozen Pixi input.
     if (Date.now() - idleSince >= 45_000 && !terminal) {
       throw new Error("No game state progress for 45s: " + JSON.stringify(updated));
     }
