@@ -52,11 +52,23 @@ public final class ManaBrewEngineAdapter {
     private static final int PAUPER_COMMANDER_STARTING_LIFE = 30;
     private static final int PAUPER_COMMANDER_DAMAGE_TO_LOSE = 16;
     private final Map<String, ManaBrewInteractiveSession> sessions = new ConcurrentHashMap<>();
+    private final java.util.function.Function<byte[], byte[]> witnessHasher;
     private volatile boolean initialized;
     private String assetsDir;
     private String replayIdentity;
 
     public ManaBrewEngineAdapter() {
+        this(GameCheckpoint::sha256);
+    }
+
+    public ManaBrewEngineAdapter(final java.util.function.Function<byte[], byte[]> witnessHasher) {
+        this.witnessHasher = Objects.requireNonNull(witnessHasher, "witnessHasher");
+        if (!"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                .equals(GameCheckpoint.digest(new byte[0], witnessHasher))
+                || !"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+                .equals(GameCheckpoint.digest(new byte[] {97, 98, 99}, witnessHasher))) {
+            throw new IllegalStateException("invalid SHA-256 witness provider");
+        }
     }
 
     public synchronized void initialize(final String assetsDir) {
@@ -145,7 +157,7 @@ public final class ManaBrewEngineAdapter {
             forge.ImageKeys.clearCaches();
         }
         final ManaBrewInteractiveSession session =
-                new ManaBrewInteractiveSession(request.getGameId());
+                new ManaBrewInteractiveSession(request.getGameId(), witnessHasher);
         final List<RegisteredPlayer> registeredPlayers = new ArrayList<>();
         final List<List<CardCosmeticBindings.DeckEntry>> deckEntries = new ArrayList<>();
         final Set<Integer> botSeats = new HashSet<>();

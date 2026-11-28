@@ -22,7 +22,8 @@ final class GameCheckpoint {
 
     private GameCheckpoint() {}
 
-    static JsonObject verification(final ManaBrewInteractiveSession session, final ReplayRandom rng) {
+    static JsonObject verification(final ManaBrewInteractiveSession session, final ReplayRandom rng,
+            final java.util.function.Function<byte[], byte[]> witnessHasher) {
         final JsonObject state = new JsonObject();
         final JsonArray views = new JsonArray();
         for (int seat = -1; seat < session.getGame().getRegisteredPlayers().size(); seat++) {
@@ -54,13 +55,13 @@ final class GameCheckpoint {
         }
         state.add("zones", zones);
         final JsonObject verification = new JsonObject();
-        verification.addProperty("state", digest(canonical(state).toString().getBytes(StandardCharsets.UTF_8)));
+        verification.addProperty("state", digest(canonical(state).toString().getBytes(StandardCharsets.UTF_8), witnessHasher));
         if (Boolean.getBoolean("manabrew.replay.debugWitness")) {
             // Diagnostic digests only, never card names, hidden zones or RNG values.
             verification.addProperty("viewDigest",
-                    digest(canonical(views).toString().getBytes(StandardCharsets.UTF_8)));
+                    digest(canonical(views).toString().getBytes(StandardCharsets.UTF_8), witnessHasher));
             verification.addProperty("zoneDigest",
-                    digest(canonical(zones).toString().getBytes(StandardCharsets.UTF_8)));
+                    digest(canonical(zones).toString().getBytes(StandardCharsets.UTF_8), witnessHasher));
         }
         verification.addProperty("rng", rng.position());
         return verification;
@@ -277,9 +278,18 @@ final class GameCheckpoint {
         }
     }
 
-    private static String digest(final byte[] bytes) {
+    static String digest(final byte[] bytes,
+            final java.util.function.Function<byte[], byte[]> witnessHasher) {
+        final byte[] hash = witnessHasher.apply(bytes);
+        if (hash == null || hash.length != 32) {
+            throw new IllegalStateException("invalid SHA-256 witness digest length");
+        }
+        return HexFormat.of().formatHex(hash);
+    }
+
+    static byte[] sha256(final byte[] bytes) {
         try {
-            return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(bytes));
+            return MessageDigest.getInstance("SHA-256").digest(bytes);
         } catch (java.security.NoSuchAlgorithmException impossible) {
             throw new IllegalStateException(impossible);
         }

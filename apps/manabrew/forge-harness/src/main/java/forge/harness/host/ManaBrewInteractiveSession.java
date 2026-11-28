@@ -65,6 +65,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public final class ManaBrewInteractiveSession {
 
     private final String sessionId;
+    private final java.util.function.Function<byte[], byte[]> witnessHasher;
     private Match match;
     private Game game;
     private HandKnowledge handKnowledge;
@@ -178,8 +179,10 @@ public final class ManaBrewInteractiveSession {
         }
     }
 
-    ManaBrewInteractiveSession(final String sessionId) {
+    ManaBrewInteractiveSession(final String sessionId,
+            final java.util.function.Function<byte[], byte[]> witnessHasher) {
         this.sessionId = Objects.requireNonNull(sessionId, "sessionId");
+        this.witnessHasher = Objects.requireNonNull(witnessHasher, "witnessHasher");
     }
 
     void attach(final Match match, final Game game, final Set<Integer> botSeats, final boolean snapshotRecording) {
@@ -487,7 +490,7 @@ public final class ManaBrewInteractiveSession {
         if (rng == null) {
             throw new IllegalStateException("Replay verification requires a journal-backed RNG");
         }
-        return GameCheckpoint.verification(this, rng);
+        return GameCheckpoint.verification(this, rng, witnessHasher);
     }
 
     public String readDecisionJournal() {
