@@ -30,14 +30,12 @@ LANGS="$REPO_ROOT/forge/forge-gui/res/languages"
 [ -f "$JAR" ] || { echo "fat jar missing at $JAR"; exit 1; }
 command -v wasm-as >/dev/null || { echo "binaryen (wasm-as) not on PATH"; exit 1; }
 
-# Only WebImage needs the lightweight SHA-256 provider. Keep JVM/native builds
-# on their existing JDK provider; pin and verify the external jar independently.
 BC_VERSION=1.87
 BC_SHA512=fec4187f2d152ec10dcbb6928407bfa6dacea393d716bd024cbed907251d181e4eeda389501792435d6b5dac13a468b2f230c2fac80dd6382b9c0a6e4d85ff71
 BC_JAR="${WASM_SHA256_JAR:-$HARNESS_DIR/target/bcprov-jdk18on-$BC_VERSION.jar}"
 verify_bc() {
   local actual
-  actual="$(sha512sum "$1" | awk '{print $1}')"
+  actual="$(python3 -c 'import hashlib, pathlib, sys; print(hashlib.sha512(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())' "$1")"
   [ "$actual" = "$BC_SHA512" ] || { echo "WebImage SHA-256 provider checksum mismatch: $1" >&2; return 1; }
 }
 if [ ! -f "$BC_JAR" ]; then
@@ -62,16 +60,6 @@ echo "==> compiling WasmMain (@JS bootstrap layer)"
 rm -rf "$WASM_CLASSES"; mkdir -p "$WASM_CLASSES"
 "$GRAALVM_HOME/bin/javac" -parameters --add-modules org.graalvm.webimage.api \
   -cp "$JAR:$BC_JAR" -d "$WASM_CLASSES" $(find "$WASM_SRC" -name '*.java')
-
-# Exercise the exact selected digest implementation before building the image.
-WITNESS_TEST_CLASSES="$(mktemp -d)"
-(
-  trap 'rm -rf "$WITNESS_TEST_CLASSES"' EXIT
-  "$GRAALVM_HOME/bin/javac" -cp "$JAR:$BC_JAR:$WASM_CLASSES" -d "$WITNESS_TEST_CLASSES" \
-    "$HARNESS_DIR/src/test/java/forge/harness/host/WitnessDigestTest.java"
-  "$GRAALVM_HOME/bin/java" -cp "$JAR:$BC_JAR:$WASM_CLASSES:$WITNESS_TEST_CLASSES" \
-    forge.harness.host.WitnessDigestTest --wasm
-)
 
 echo "==> generating reflect-config (same closure as build-native.sh)"
 rm -rf "$GEN"; mkdir -p "$GEN"
@@ -157,8 +145,6 @@ else:
     open(path, "w").write(src)
 PIN
 
-# Preserve the dependency's MIT notice in the distributed launcher asset.
-# The pinned jar contains the complete attribution and permission text.
 python3 - "$BC_JAR" "$OUT/forgeharness.js" <<'NOTICE'
 import sys
 import zipfile

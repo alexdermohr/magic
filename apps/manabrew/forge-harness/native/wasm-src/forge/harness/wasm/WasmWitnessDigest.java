@@ -2,7 +2,6 @@ package forge.harness.wasm;
 
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
-/** Equivalent SHA-256 without the WebImage JDK provider's per-byte Unsafe emulation. */
 public final class WasmWitnessDigest {
     private WasmWitnessDigest() {}
 

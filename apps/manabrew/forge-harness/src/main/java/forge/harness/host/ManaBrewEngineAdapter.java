@@ -61,10 +61,8 @@ public final class ManaBrewEngineAdapter {
         this(GameCheckpoint::sha256);
     }
 
-    /** Platform-local SHA-256 implementation, selected once by the trusted engine entry point. */
     public ManaBrewEngineAdapter(final java.util.function.Function<byte[], byte[]> witnessHasher) {
         this.witnessHasher = Objects.requireNonNull(witnessHasher, "witnessHasher");
-        // Fail closed on accidental provider misconfiguration before any game.
         if (!"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
                 .equals(GameCheckpoint.digest(new byte[0], witnessHasher))
                 || !"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
