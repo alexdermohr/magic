@@ -53,10 +53,11 @@ Ein einziger Desktopstarter manabrew.desktop öffnet zunächst
 automatischen Offline-Vorbereitung die bestehende Spielmoduswahl unter /play.
 Ein gespeichertes Forge-Spiel wird beim Start **im jeweiligen Chrome-Profil**
 vorrangig wieder aufgenommen. Der Hauptstarter nutzt ausschließlich
-`~/.local/share/manabrew-chrome-liftoff` als eigenes Chrome-Datenverzeichnis,
+`~/.local/share/manabrew-chrome-current` als eigenes Chrome-Datenverzeichnis,
 damit `--js-flags=--liftoff-only` auch bei bereits laufendem regulärem Chrome
-für seinen Browserprozess gilt. Dieses Profil wird bei der ersten Nutzung
-angelegt; **vorhandene** Daten des regulären Chrome-Profils werden weder
+für seinen Browserprozess gilt. Dieses Profil ist der am 23. November 2026 verifizierte Nachfolger des
+früheren Liftoff-Profils (Issue #129). **Vorhandene** Daten des regulären
+Chrome-Profils werden weder
 automatisch kopiert noch gelöscht oder überschrieben. Sie bleiben über die
 Kontextaktion **Alte Spiele (bisheriges Chrome-Profil)** unter derselben
 Origin 8088 erreichbar. Diese Aktion verwendet bewusst den bisherigen
@@ -69,7 +70,15 @@ eine verlustbehaftete automatische Migration findet nicht statt.
     rm -f ~/.local/share/applications/manabrew-local.desktop
     rm -f ~/.local/share/applications/manabrew-account-login.desktop
 
-Der **eine** Hauptstarter enthält vier Desktop-Aktionen im Kontextmenü:
+Der **eine** Hauptstarter enthält sechs Desktop-Aktionen im Kontextmenü:
+**Gerettete Originalpartie (295 Entscheidungen)** öffnet das separate,
+verifizierte Rettungsprofil `~/.local/share/manabrew-chrome-recovery-295`.
+Alle 295 ursprünglichen Prompt-/State-/RNG-Witnesses wurden exakt
+rekonstruiert; eine weitere Aktion und ein vollständiger Browserneustart
+wurden erfolgreich getestet (Issue #122). Das Originalprofil und sein
+Backup bleiben unangetastet. Dieser journalspezifische Rettungspfad ist
+keine allgemeine Garantie für die Wiederherstellung beliebiger alter Spiele.
+
 **Gerettete Partie ab Entscheidung 195 (101 Aktionen zurück)** öffnet
 eine **separate** Kopie des historischen, sonst bei Entscheidung 196
 nichtdeterministisch abbrechenden Vier-Spieler-Forge-Spielstands. In dieser
@@ -86,6 +95,9 @@ bleibt unverändert und ist davon getrennt. Die Rettung kann folglich
 **101 alte Entscheidungen nicht rekonstruieren**. Dies ist eine optionale
 Rückfallkopie und keine vollständige deterministische Reparatur (Issue #122).
 
+**Früheres Liftoff-Profil (alte Spielstände)** öffnet das erhaltene
+`~/.local/share/manabrew-chrome-liftoff` mit dessen eigenem Spielstand und
+Liftoff-Schalter. Es wird nicht automatisch in das Hauptprofil migriert.
 **Alte Spiele (bisheriges Chrome-Profil)** öffnet die ursprüngliche 8088-Origin im ursprünglichen Chrome-Profil.
 **Bisheriger Online-Client (Konto-Sitzung)** öffnet die bisherige Origin 8087
 unverändert, **Konto anmelden (bisheriger Zugang)** öffnet deren bisherigen
@@ -152,5 +164,6 @@ Auf dem Linux-PC wurde die einmalig betroffene historische Partie zusätzlich
 vor der Umstellung im **unveränderten** bisherigen Chrome-Profil und in einer
 separaten Profilsicherung erhalten. Diese externe Sicherung ist unabhängig
 vom neu eingeführten IndexedDB-Archiv und darf nicht stillschweigend entfernt
-werden. Ein vollständig deterministischer Replay der historischen Partie ist
-damit noch nicht nachgewiesen (siehe Magic-Issue #122).
+werden. Der separate 295er-Rettungspfad wurde später vollständig mit unveränderten
+Witnesses verifiziert (Magic-Issue #122); das Original und alle älteren
+Rückfallprofile bleiben erhalten.

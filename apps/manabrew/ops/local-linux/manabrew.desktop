@@ -3,17 +3,25 @@ Version=1.0
 Type=Application
 Name=Manabrew
 Comment=Commander gegen lokale KI oder online gegen Mitspieler
-Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--user-data-dir=/home/alex/.local/share/manabrew-chrome-liftoff" "--js-flags=--liftoff-only" "--app=http://127.0.0.1:8088/offline-setup.html?desktop=1&entry=play"
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--user-data-dir=/home/alex/.local/share/manabrew-chrome-current" "--js-flags=--liftoff-only" "--app=http://127.0.0.1:8088/offline-setup.html?desktop=1&entry=play"
 TryExec=/home/alex/.nix-profile/bin/google-chrome-stable
 Icon=applications-games
 Terminal=false
 Categories=Game;CardGame;
 StartupNotify=true
-Actions=RescuedGame;ExistingGames;LegacyOnline;LegacyAccount;
+Actions=RescuedGameFull;RescuedGame;PreviousLiftoff;ExistingGames;LegacyOnline;LegacyAccount;
+
+[Desktop Action RescuedGameFull]
+Name=Gerettete Originalpartie (295 Entscheidungen)
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--user-data-dir=/home/alex/.local/share/manabrew-chrome-recovery-295" "--app=http://127.0.0.1:8088/play/offline/constructed"
 
 [Desktop Action RescuedGame]
 Name=Gerettete Partie ab Entscheidung 195 (101 Aktionen zurück)
 Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--user-data-dir=/home/alex/.local/share/manabrew-chrome-recovery-195" "--js-flags=--liftoff-only" "--app=http://127.0.0.1:8088/"
+
+[Desktop Action PreviousLiftoff]
+Name=Früheres Liftoff-Profil (alte Spielstände)
+Exec=/home/alex/.nix-profile/bin/google-chrome-stable "--user-data-dir=/home/alex/.local/share/manabrew-chrome-liftoff" "--js-flags=--liftoff-only" "--app=http://127.0.0.1:8088/offline-setup.html?desktop=1&entry=play"
 
 [Desktop Action ExistingGames]
 Name=Alte Spiele (bisheriges Chrome-Profil)
